@@ -1,2 +1,3 @@
 # coolshell.cn
-in memory of @haoel
+
+陈皓（@haoel）大佬作为技术圈里知名的引路人，他的博客coolshell.cn也是学习路上的重要指引。这里做一个备份，以免无人维护，文章丢失。以此纪念已故的陈皓大佬。

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>正则表达式 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 26 Jul 2010 07:35:50 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>检查素数的正则表达式</title>
+		<link>https://coolshell.cn/articles/2704.html</link>
+					<comments>https://coolshell.cn/articles/2704.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 23 Jul 2010 00:22:27 +0000</pubDate>
+				<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[正则表达式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2704</guid>
+
+					<description><![CDATA[<p>一般来说，我们会使用正规表达式来做字符串匹配，今天在网上浏览的时候，看到了有人用正则表达式来检查一个数字是否为素数（质数），让我非常感兴趣，这个正则表达式如入所...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2704.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2704.html">检查素数的正则表达式</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>一般来说，我们会使用正规表达式来做字符串匹配，今天在网上浏览的时候，看到了有人用正则表达式来检查一个数字是否为素数（质数），让我非常感兴趣，这个正则表达式如入所示：</p>
+<figure id="attachment_2705" aria-describedby="caption-attachment-2705" style="width: 450px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-2705" title="检查素数的正则表达式" src="https://coolshell.cn/wp-content/uploads/2010/07/regexpr-for-prime-number.jpg" alt="" width="450" height="45" srcset="https://coolshell.cn/wp-content/uploads/2010/07/regexpr-for-prime-number.jpg 450w, https://coolshell.cn/wp-content/uploads/2010/07/regexpr-for-prime-number-300x30.jpg 300w" sizes="(max-width: 450px) 100vw, 450px" /><figcaption id="caption-attachment-2705" class="wp-caption-text">检查素数与否的正则表达式 </figcaption></figure>
+<p>要使用这个正规则表达式，你需要把自然数转成多个1的字符串，如：2 要写成 “11”， 3 要写成 “111”, 17 要写成“11111111111111111”，这种工作使用一些脚本语言可以轻松的完成。</p>
+<p>一开始我对这个表达式持怀疑态度，但仔细研究了一下这个表达式，发现是非常合理的，下面，让我带你来细细剖析一下是这个表达式的工作原理。</p>
+<p>首先，我们看到这个表达式中有“|”，也就是说这个表达式可以分成两个部分：/^1?$/ 和 /^(11+?)\1+$/</p>
+<ul>
+<li><strong>第一部分：/^1?$/</strong>， 这个部分相信不用我多说了，其表示匹配“空串”以及字串中只有一个“1”的字符串。</li>
+<li><strong>第二部分：/^(11+?)\1+$/</strong>，这个部分是整个表达式的关键部分。其可以分成两个部分，<strong>(11+?)</strong> 和<strong>\1+$</strong>，前半部很简单了，匹配以“11”开头的并重复0或n个1的字符串，后面的部分意思是把前半部分作为一个字串去匹配还剩下的字符串1次或多次（这句话的意思是——<span style="color: #008000;">剩余的字串的1的个数要是前面字串1个数的整数倍</span>）。</li>
+</ul>
+<p>可见这个正规则表达式是取非素数，要得到素数还得要对整个表达式求反。通过上面的分析，我们知道，第二部分是最重要的，对于第二部分，举几个例子，</p>
+<p><span id="more-2704"></span></p>
+<p><strong>示例一：判断自然数8</strong>。我们可以知道，8转成我们的格式就是“11111111”，对于<strong>(11+?)</strong>，其匹配了“11”，于是还剩下“111111”，而<strong>\1+$</strong>正好匹配了剩下的“111111”，因为，“11”这个模式在“111111”出现了三次，符合模式匹配，返回true。所以，匹配成功，于是这个数不是质数。</p>
+<p><strong>示例二：判断自然数11</strong>。转成我们需要的格式是“11111111111”（十一个1），对于<strong>(11+?)</strong>，其匹配了“11”（前两个1），还剩下“111111111”（九个1），而<strong>\1+$</strong>无法为“11”匹配那“九个1”，因为“11”这个模式并没有在“九个1”这个串中正好出现N次。于是，我们的正则表达式引擎会尝试下一种方法，先匹配“111”（前三个1），然后把“111”作为模式去匹配剩下的“11111111”（八个1），很明显，那“八个1”并没有匹配“三个1”多次。所以，引擎会继续向下尝试……直至尝试所有可能都无法匹配成功。所以11是素数。</p>
+<p>通过示例二，我们可以得到这样的等价数算算法，正则表达式会匹配这若干个1中有没有出现“二个1”的整数倍，“三个1”的整数倍，“四个1”的整数倍……，而，这正好是我们需要的算素数的算法。现在大家明白了吧。</p>
+<p>下面，我们用perl来使用这个正规则表达式不停地输出素数：（关于perl的语法我就不多说了，请注意表达式前的取反操作符）</p>
+<p>[perl]perl -e&#8217;$|++;(1 x$_)!~/^1?$|^(11+?)\1+$/&amp;&amp;print&quot;$_ &quot;while ++$_'[/perl]</p>
+<p>另外，让我们来举一反三，根据上述的这种方法，我们甚至可以用正则表达式来求证某方式是否有解，如：</p>
+<ul>
+<li><strong>二元方程</strong>：17x + 12y = 51   判断其是否有解的正则表达式是：<strong>^</strong><strong>(</strong><strong>.*</strong><strong>)</strong><strong>\1{16}</strong><strong>(</strong><strong>.*</strong><strong>)</strong><strong>\2{11}$</strong></li>
+<li><strong>三元方程</strong>：11x + 2y + 5z = 115 判断其是否有解的正则表达式是：<strong>^</strong><strong>(</strong><strong>.*</strong><strong>)</strong><strong>\1{10}</strong><strong>(</strong><strong>.*</strong><strong>)</strong><strong>\2{1}</strong><strong>(</strong><strong>.*</strong><strong>)</strong><strong>\3{4}$</strong></li>
+</ul>
+<p>大家不妨自己做做练习，为什么上述的两个正则表达式可以判断方程是否有解。如果无法参透其中的奥妙的话，你可以读读这篇<a href="http://blog.stevenlevithan.com/archives/algebra-with-regexes" target="_blank">英文文章</a>。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="浏览器正则表达式检查插件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_title">浏览器正则表达式检查插件</a></li><li ><a href="https://coolshell.cn/articles/1830.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="正则表达式生成器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1830.html" class="wp_rp_title">正则表达式生成器</a></li><li ><a href="https://coolshell.cn/articles/1387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="十个Web开发文章和教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1387.html" class="wp_rp_title">十个Web开发文章和教程</a></li><li ><a href="https://coolshell.cn/articles/4119.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/4.jpg" alt="如何学好C++语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4119.html" class="wp_rp_title">如何学好C++语言</a></li><li ><a href="https://coolshell.cn/articles/1973.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一个“精湛”的JS程序" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1973.html" class="wp_rp_title">一个“精湛”的JS程序</a></li><li ><a href="https://coolshell.cn/articles/8489.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/google-go-language-150x150.jpg" alt="Go 语言简介（下）— 特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8489.html" class="wp_rp_title">Go 语言简介（下）— 特性</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2704.html">检查素数的正则表达式</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2704.html/feed</wfw:commentRss>
+			<slash:comments>55</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>浏览器正则表达式检查插件</title>
+		<link>https://coolshell.cn/articles/2667.html</link>
+					<comments>https://coolshell.cn/articles/2667.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 20 Jul 2010 00:10:40 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Chrome]]></category>
+		<category><![CDATA[Firefox]]></category>
+		<category><![CDATA[正则表达式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2667</guid>
+
+					<description><![CDATA[<p>以前本站介绍过一个在线的《正则表达式生成器》，下面是两个在浏览器中检查正则表达式的插件，Firefox的和Chrome的，希望对你有用。 1）Firefox：R...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2667.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2667.html">浏览器正则表达式检查插件</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前本站介绍过一个在线的《<a rel="bookmark" href="https://coolshell.cn/articles/1830.html" target="_blank">正则表达式生成器</a>》，下面是两个在浏览器中检查正则表达式的插件，Firefox的和Chrome的，希望对你有用。</p>
+<h3>1）Firefox：<a href="https://addons.mozilla.org/en-US/firefox/addon/2077/" target="_blank">Regular Expressions Tester</a></h3>
+<figure style="width: 448px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" title="Firefox正规则表达式检查插件Regular Expressions Tester" src="http://sebastianzartner.de/new/resources/images/RExT/main.png" alt="" width="448" height="489" /><figcaption class="wp-caption-text">Firefox正规则表达式检查插件Regular Expressions Tester</figcaption></figure>
+<h3></h3>
+<h3>2）Chrome：<a href="https://chrome.google.com/extensions/detail/pgnkpcgniljiolidjmodgfljeomjjiha" target="_blank">Regular Expression Checker</a></h3>
+<p><span id="more-2667"></span></p>
+<p><figure style="width: 544px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" title="Chrome正规则表达式检查插件Regular Expression Checker" src="https://chrome.google.com/extensions/img/pgnkpcgniljiolidjmodgfljeomjjiha/1264182031.53/screenshot_big/2001" alt="" width="544" height="580" /><figcaption class="wp-caption-text">Chrome正规则表达式检查插件Regular Expression Checker</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-150x150.jpg" alt="Mozilla的一个BUG" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_title">Mozilla的一个BUG</a></li><li ><a href="https://coolshell.cn/articles/2704.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="检查素数的正则表达式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2704.html" class="wp_rp_title">检查素数的正则表达式</a></li><li ><a href="https://coolshell.cn/articles/2367.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/URL-BAR-150x150.png" alt="谷歌Chrome取消&#8221;http://&#8221;" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2367.html" class="wp_rp_title">谷歌Chrome取消&#8221;http://&#8221;</a></li><li ><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/01/browser_history-150x150.jpg" alt="一个浏览器市场占有量的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_title">一个浏览器市场占有量的图</a></li><li ><a href="https://coolshell.cn/articles/1830.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="正则表达式生成器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1830.html" class="wp_rp_title">正则表达式生成器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2667.html">浏览器正则表达式检查插件</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2667.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>正则表达式生成器</title>
+		<link>https://coolshell.cn/articles/1830.html</link>
+					<comments>https://coolshell.cn/articles/1830.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 20 Nov 2009 01:12:17 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[txt2re]]></category>
+		<category><![CDATA[正则表达式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1830</guid>
+
+					<description><![CDATA[<p> 对正则表达式很头疼，是不是？每次看到都觉得像看天书似的，别说让人自己整一个出来了。下面这个网站可以帮你生成正则表达式，而且还可以根据不同的语言生成不同的代码示...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1830.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1830.html">正则表达式生成器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://www.txt2re.com/index.php3" target="_blank"></a> 对正则表达式很头疼，是不是？每次看到都觉得像看天书似的，别说让人自己整一个出来了。下面这个网站可以帮你生成正则表达式，而且还可以根据不同的语言生成不同的代码示例，很强大。</p>
+<p style="text-align: center;"><a href="http://www.txt2re.com/index.php3" target="_blank"><img decoding="async" loading="lazy" title="txt2re.com" src="https://coolshell.cn/wp-content/uploads/2009/11/txt2re.jpg" alt="txt2re.com" width="270" height="104" /></a></p>
+<p style="text-align: center;"><a href="http://www.txt2re.com/index.php3" target="_blank">http://www.txt2re.com/index.php3</a></p>
+<p style="text-align: left;">打开上面那个网页，你会看到有三步。</p>
+<ul>
+<li>
+<div style="text-align: left;">第一步，输出你想匹配的一个文本示例，然后点“Show Machted”，于是进入第二点。</div>
+</li>
+<li>
+<div style="text-align: left;">第二步，当你看到那花花绿绿的界面是不要头大（那个配色也太可怕了），那是这个会把你的这个字串每个字符都拆出来，并把单词分隔。于是，你可以点击那些花绿格子间的链接来组织你的正规表达式。，比如：c表示任意字符，还有什么int,day,string之流的东西。（相当ugly的界面）在这一步，你一点要点点什么，不然不会进入第三步。</div>
+</li>
+<li>
+<div style="text-align: left;">第三步，选择一个编程语言，然后你可以看到相关的代码示例。语言支持：Perl  PHP  Python  Java  Javascript  ColdFusion  C  C++  Ruby  VB  VBScript  J#.net  C#.net  C++.net  VB.net （这么多）</div>
+</li>
+</ul>
+<p style="text-align: left;">总之，这是一个很酷，但却界面很丑陋的在线的正则表达式生成工具。</p>
+<p style="text-align: left;"> </p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2704.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="检查素数的正则表达式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2704.html" class="wp_rp_title">检查素数的正则表达式</a></li><li ><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="浏览器正则表达式检查插件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_title">浏览器正则表达式检查插件</a></li><li ><a href="https://coolshell.cn/articles/1387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="十个Web开发文章和教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1387.html" class="wp_rp_title">十个Web开发文章和教程</a></li><li ><a href="https://coolshell.cn/articles/8309.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="C/C++语言中闭包的探究及比较" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8309.html" class="wp_rp_title">C/C++语言中闭包的探究及比较</a></li><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li><li ><a href="https://coolshell.cn/articles/3605.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="为什么中国的网页设计那么烂？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3605.html" class="wp_rp_title">为什么中国的网页设计那么烂？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1830.html">正则表达式生成器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1830.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>十个Web开发文章和教程</title>
+		<link>https://coolshell.cn/articles/1387.html</link>
+					<comments>https://coolshell.cn/articles/1387.html#respond</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 31 Aug 2009 09:18:41 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[CSS3]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Wordpress]]></category>
+		<category><![CDATA[正则表达式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1387</guid>
+
+					<description><![CDATA[<p>下面是十个在2009年8月份里出现的十个非常不错的Web开发方面的文章和教程。推荐给大家，当然，都是英文啦。如果你愿意，欢迎翻译后提交给酷壳。 1）一个简单的L...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1387.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1387.html">十个Web开发文章和教程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是十个在2009年8月份里出现的十个非常不错的Web开发方面的文章和教程。推荐给大家，当然，都是英文啦。如果你愿意，欢迎翻译后提交给<a href="https://coolshell.cn" target="_blank">酷壳</a>。</p>
+<p>1）<a href="http://www.queness.com/post/530/simple-lava-lamp-menu-tutorial-with-jquery" target="_blank">一个简单的Lava 灯式的菜单</a>（使用jQuery完成）</p>
+<p>2）<a href="http://www.jankoatwarpspeed.com/post/2009/08/20/Table-of-contents-using-jQuery.aspx" target="_blank">使用jQuery自动生成文章内容的目录</a>。就像是使用Word一样，设置一下标题，然后可以自动生成文章的目录。</p>
+<p>3）<a href="http://www.queness.com/post/484/create-a-thumbnail-gallery-with-slick-heading-and-caption-effect-with-jquery" target="_blank">使用jQuery为图片创建图片标题和描述</a>。这是一个超Cool的效果，当你的鼠标移到图片上的时候，图片的上下会出现遮覆，上面是标题，下面是描述，相当不错的用户体验，当鼠标移开后，遮覆消失。</p>
+<p><span id="more-1387"></span></p>
+<p>4）<a href="http://net.tutsplus.com/videos/screencasts/a-crash-course-in-advanced-css3-effects/" target="_blank">CSS3速成教程</a>。主要讨论了CSS3的这些特性：旋转和改变大小，动画，Photoshop风格的遮罩，图片倒影，色彩渐变，转换等。有一个不错的flash视频。</p>
+<p>5）<a href="http://www.hongkiat.com/blog/30-new-useful-wordpress-tricks-hacks/" target="_blank">30+相当有用的Wordpress的巧门</a>。相当相当不错的一些和Wordpress相关的插件和小巧门，非常非常地实用。</p>
+<p>6）<a href="http://www.noupe.com/php/htaccess-techniques.html" target="_blank">htaccess技术的权威性指南</a>。本文给出了12个非常有用的apache的设置，可以让你更容易设置你的站点，在这篇文章的最后，还列出了一些经验上的东西。另外，你可以参考本站的《<a rel="bookmark" href="https://coolshell.cn/articles/1035.html">16个简单实用的.htaccess小贴示</a>》。</p>
+<p>7）<a href="http://www.noupe.com/php/php-regular-expressions.html" target="_blank">PHP正则表达式入门</a>。一个相当不错的入门教程，写得简单易懂。</p>
+<p>8）<a href="http://net.tutsplus.com/tutorials/other/8-regular-expressions-you-should-know/" target="_blank">你需要知道的8个正则表达式</a>。正则表达式很有用，但是它具体用在什么地方呢？这篇文章给你了一票非常实用的示例。相当的不错。浏览这篇文章时别忘了看一下大家的回复，那里面也有很多不错的资源。</p>
+<p>9）<a href="http://speckyboy.com/2009/08/26/20-jquery-plugins-and-tutorials-to-enhance-forms/" target="_blank">20个可以改进表单的jQuery插件</a>。都是相当实用的插件，可以让你的Web表单相当的成熟和有很好的用户体验。</p>
+<p>10）<a href="http://css-tricks.com/inapproprite-uses/" target="_blank">数据库，HTML，CSS，JS不适应的用法</a>。很不错的文章，你需要记住下面的这个表格。</p>
+<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid">
+<div style="display: block; float: left; width: 200px; text-align: right;">Database</div>
+<div><em style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt">is for</em>content</div>
+</div>
+<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid">
+<div style="display: block; float: left; width: 200px; text-align: right;">HTML</div>
+<div><em style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt">is for</em>describing and displaying content</div>
+</div>
+<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid">
+<div style="display: block; float: left; width: 200px; text-align: right;">CSS</div>
+<div><em style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt">is for</em>design</div>
+</div>
+<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid">
+<div style="display: block; float: left; width: 200px; text-align: right;">JavaScript</div>
+<div><em style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt">is for</em>functionality</div>
+</div>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1387.html">十个Web开发文章和教程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1387.html/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,2946 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Python | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/category/proglanguage/pythondev/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 08 Jul 2020 09:38:17 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Python修饰器的函数式编程</title>
+		<link>https://coolshell.cn/articles/11265.html</link>
+					<comments>https://coolshell.cn/articles/11265.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 20 Mar 2014 01:50:34 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Decorator]]></category>
+		<category><![CDATA[functional]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[函数式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11265</guid>
+
+					<description><![CDATA[<p>Python的修饰器的英文名叫Decorator，当你看到这个英文名的时候，你可能会把其跟Design Pattern里的Decorator搞混了，其实这是完全...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11265.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11265.html">Python修饰器的函数式编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-11300" src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960.jpg" alt="" width="280" height="233" srcset="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960.jpg 350w, https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-300x249.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-325x270.jpg 325w" sizes="(max-width: 280px) 100vw, 280px" />Python的修饰器的英文名叫Decorator，当你看到这个英文名的时候，你可能会把其跟Design Pattern里的Decorator搞混了，其实这是完全不同的两个东西。虽然好像，他们要干的事都很相似——都是想要对一个已有的模块做一些“修饰工作”，所谓修饰工作就是想给现有的模块加上一些小装饰（一些小功能，这些小功能可能好多模块都会用到），但又不让这个小装饰（小功能）侵入到原有的模块中的代码里去。但是OO的Decorator简直就是一场恶梦，不信你就去看看wikipedia上的词条（<a href="http://en.wikipedia.org/wiki/Decorator_pattern" target="_blank" rel="noopener noreferrer">Decorator Pattern</a>）里的UML图和那些代码，这就是我在《 <a title="链接：从面向对象的设计模式看软件设计" href="https://coolshell.cn/articles/8961.html" rel="bookmark">从面向对象的设计模式看软件设计</a>》“餐后甜点”一节中说的，OO鼓励了——“厚重地胶合和复杂层次”，也是《 <a title="链接：如此理解面向对象编程" href="https://coolshell.cn/articles/8745.html" rel="bookmark">如此理解面向对象编程</a>》中所说的“OO的狂热者们非常害怕处理数据”，Decorator Pattern搞出来的代码简直就是OO的反面教程。</p>
+<p>Python 的 Decorator在使用上和Java/C#的Annotation很相似，就是在方法名前面加一个@XXX注解来为这个方法装饰一些东西。但是，Java/C#的Annotation也很让人望而却步，太TMD的复杂了，你要玩它，你需要了解一堆Annotation的类库文档，让人感觉就是在学另外一门语言。</p>
+<p>而Python使用了一种相对于Decorator Pattern和Annotation来说非常优雅的方法，这种方法不需要你去掌握什么复杂的OO模型或是Annotation的各种类库规定，完全就是语言层面的玩法：一种函数式编程的技巧。如果你看过本站的《<a href="https://coolshell.cn/articles/10822.html">函数式编程</a>》，你一定会为函数式编程的那种“描述你想干什么，而不是描述你要怎么去实现”的编程方式感到畅快。（如果你不了解函数式编程，那在读本文之前，还请你移步去看看《<a href="https://coolshell.cn/articles/10822.html">函数式编程</a>》） 好了，我们先来点感性认识，看一个Python修饰器的Hello World的代码。</p>
+<p><span id="more-11265"></span></p>
+<h4>Hello World</h4>
+<p>下面是代码（文件名：hello.py）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang" data-enlighter-highlight="1-6,8">def hello(fn):
+    def wrapper():
+        print "hello, %s" % fn.__name__
+        fn()
+        print "goodby, %s" % fn.__name__
+    return wrapper
+
+@hello
+def foo():
+    print "i am foo"
+
+foo()
+</pre>
+<p>当你运行代码，你会看到如下输出：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">[chenaho@chenhao-air]$ python hello.py
+hello, foo
+i am foo
+goodby, foo</pre>
+<p>你可以看到如下的东西：</p>
+<p style="padding-left: 30px;">1）函数foo前面有个@hello的“注解”，hello就是我们前面定义的函数hello</p>
+<p style="padding-left: 30px;">2）在hello函数中，其需要一个fn的参数（这就用来做回调的函数）</p>
+<p style="padding-left: 30px;">3）hello函数中返回了一个inner函数wrapper，这个wrapper函数回调了传进来的fn，并在回调前后加了两条语句。</p>
+<h4>Decorator 的本质</h4>
+<p>对于Python的这个@注解语法糖- Syntactic Sugar 来说，当你在用某个@decorator来修饰某个函数func时，如下所示:</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">@decorator
+def func():
+    pass
+</pre>
+<p>其解释器会解释成下面这样的语句：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">func = decorator(func)</pre>
+<p>尼玛，这不就是把一个函数当参数传到另一个函数中，然后再回调吗？是的，但是，我们需要注意，那里还有一个赋值语句，把decorator这个函数的返回值赋值回了原来的func。 根据《<a href="https://coolshell.cn/articles/10822.html" target="_blank" rel="noopener noreferrer">函数式编程</a>》中的<strong>first class functions</strong>中的定义的，你可以把函数当成变量来使用，所以，decorator必需得返回了一个函数出来给func，这就是所谓的<strong>higher order function </strong>高阶函数，不然，后面当func()调用的时候就会出错。 就我们上面那个hello.py里的例子来说，</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">@hello
+def foo():
+    print "i am foo"
+</pre>
+<p>被解释成了：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python"> foo = hello(foo)</pre>
+<p><strong>是的，这是一条语句，而且还被执行了。</strong>你如果不信的话，你可以写这样的程序来试试看：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def fuck(fn):
+    print "fuck %s!" % fn.__name__[::-1].upper()
+
+@fuck
+def wfg():
+    pass
+</pre>
+<p>没了，就上面这段代码，没有调用wfg()的语句，你会发现， fuck函数被调用了，而且还很NB地输出了我们每个人的心声！</p>
+<p>再回到我们hello.py的那个例子，我们可以看到，<strong>hello(foo)返回了wrapper()函数，所以，foo其实变成了wrapper的一个变量，而后面的foo()执行其实变成了wrapper()</strong>。</p>
+<p>知道这点本质，当你看到有多个decorator或是带参数的decorator，你也就不会害怕了。</p>
+<p>比如：多个decorator</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">@decorator_one
+@decorator_two
+def func():
+    pass</pre>
+<p>相当于：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">func = decorator_one(decorator_two(func))</pre>
+<p>比如：带参数的decorator：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">@decorator(arg1, arg2)
+def func():
+    pass</pre>
+<p>相当于：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">func = decorator(arg1,arg2)(func)</pre>
+<p>这意味着decorator(arg1, arg2)这个函数需要返回一个“真正的decorator”。</p>
+<h4>带参数及多个Decrorator</h4>
+<p>我们来看一个有点意义的例子（文件名：html.py）：</p>
+<p>在上面这个例子中，我们可以看到：makeHtmlTag有两个参数。所以，<strong>为了让 <span style="color: #000080;">hello = makeHtmlTag(arg1, arg2)(hello)</span> 成功，makeHtmlTag 必需返回一个decorator</strong>（这就是为什么我们在makeHtmlTag中加入了real_decorator()的原因）<strong>，这样一来，我们就可以进入到 decorator 的逻辑中去了</strong>—— decorator得返回一个wrapper，wrapper里回调hello。<strong>看似那个makeHtmlTag() 写得层层叠叠，但是，已经了解了本质的我们觉得写得很自然</strong>。 你看，Python的Decorator就是这么简单，没有什么复杂的东西，你也不需要了解过多的东西，使用起来就是那么自然、体贴、干爽、透气，独有的速效凹道和完美的吸收轨迹，让你再也不用为每个月的那几天感到焦虑和不安，再加上贴心的护翼设计，量多也不用当心。对不起，我调皮了。 什么，你觉得上面那个带参数的Decorator的函数嵌套太多了，你受不了。好吧，没事，我们看看下面的方法。</p>
+<h4>class式的 Decorator</h4>
+<p>首先，先得说一下，decorator的class方式，还是看个示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python" data-enlighter-highlight="3,7">class myDecorator(object):
+
+    def __init__(self, fn):
+        print "inside myDecorator.__init__()"
+        self.fn = fn
+
+    def __call__(self):
+        self.fn()
+        print "inside myDecorator.__call__()"
+
+@myDecorator
+def aFunction():
+    print "inside aFunction()"
+
+print "Finished decorating aFunction()"
+
+aFunction()
+
+# 输出：
+# inside myDecorator.__init__()
+# Finished decorating aFunction()
+# inside aFunction()
+# inside myDecorator.__call__()</pre>
+<p>上面这个示例展示了，用类的方式声明一个decorator。我们可以看到这个类中有两个成员：<br />
+1）一个是<strong>init</strong>()，这个方法是在我们给某个函数decorator时被调用，所以，需要有一个fn的参数，也就是被decorator的函数。<br />
+2）一个是<strong>call</strong>()，这个方法是在我们调用被decorator函数时被调用的。<br />
+上面输出可以看到整个程序的执行顺序。</p>
+<p>这看上去要比“函数式”的方式更易读一些。</p>
+<p>下面，我们来看看用类的方式来重写上面的html.py的代码（文件名：html.py）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">class makeHtmlTagClass(object):
+
+    def __init__(self, tag, css_class=""):
+        self._tag = tag
+        self._css_class = " class='{0}'".format(css_class) \
+                                       if css_class !="" else ""
+
+    def __call__(self, fn):
+        def wrapped(*args, **kwargs):
+            return "&lt;" + self._tag + self._css_class+"&gt;"  \
+                       + fn(*args, **kwargs) + "&lt;/" + self._tag + "&gt;"
+        return wrapped
+
+@makeHtmlTagClass(tag="b", css_class="bold_css")
+@makeHtmlTagClass(tag="i", css_class="italic_css")
+def hello(name):
+    return "Hello, {}".format(name)
+
+print hello("Hao Chen")
+</pre>
+<p>上面这段代码中，我们需要注意这几点：<br />
+1）如果decorator有参数的话，<strong>init</strong>() 成员就不能传入fn了，而fn是在<strong>call</strong>的时候传入的。<br />
+2）这段代码还展示了 wrapped(*args, **kwargs) 这种方式来传递被decorator函数的参数。（其中：args是一个参数列表，kwargs是参数dict，具体的细节，请参考Python的文档或是<a href="http://stackoverflow.com/questions/3394835/args-and-kwargs" target="_blank" rel="noopener noreferrer">StackOverflow的这个问题</a>，这里就不展开了）</p>
+<h4>用Decorator设置函数的调用参数</h4>
+<p>你有三种方法可以干这个事：</p>
+<p>第一种，通过 **kwargs，这种方法decorator会在kwargs中注入参数。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def decorate_A(function):
+    def wrap_function(*args, **kwargs):
+        kwargs['str'] = 'Hello!'
+        return function(*args, **kwargs)
+    return wrap_function
+
+@decorate_A
+def print_message_A(*args, **kwargs):
+    print(kwargs['str'])
+
+print_message_A()</pre>
+<p>第二种，约定好参数，直接修改参数</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def decorate_B(function):
+    def wrap_function(*args, **kwargs):
+        str = 'Hello!'
+        return function(str, *args, **kwargs)
+    return wrap_function
+
+@decorate_B
+def print_message_B(str, *args, **kwargs):
+    print(str)
+
+print_message_B()</pre>
+<p>第三种，通过 *args 注入</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def decorate_C(function):
+    def wrap_function(*args, **kwargs):
+        str = 'Hello!'
+        #args.insert(1, str)
+        args = args +(str,)
+        return function(*args, **kwargs)
+    return wrap_function
+
+class Printer:
+    @decorate_C
+    def print_message(self, str, *args, **kwargs):
+        print(str)
+
+p = Printer()
+p.print_message()</pre>
+<h4>Decorator的副作用</h4>
+<p>到这里，我相信你应该了解了整个Python的decorator的原理了。</p>
+<p>相信你也会发现，被decorator的函数其实已经是另外一个函数了，对于最前面那个hello.py的例子来说，如果你查询一下foo.<strong>name</strong>的话，你会发现其输出的是“wrapper”，而不是我们期望的“foo”，这会给我们的程序埋一些坑。所以，Python的functool包中提供了一个叫wrap的decorator来消除这样的副作用。下面是我们新版本的 hello.py。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python" data-enlighter-highlight="1,3">from functools import wraps
+def hello(fn):
+    @wraps(fn)
+    def wrapper():
+        print "hello, %s" % fn.__name__
+        fn()
+        print "goodby, %s" % fn.__name__
+    return wrapper
+
+@hello
+def foo():
+    '''foo help doc'''
+    print "i am foo"
+    pass
+
+foo()
+print foo.__name__ #输出 foo
+print foo.__doc__  #输出 foo help doc
+</pre>
+<p>当然，即使是你用了functools的wraps，也不能完全消除这样的副作用。</p>
+<p>来看下面这个示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from inspect import getmembers, getargspec
+from functools import wraps
+
+def wraps_decorator(f):
+    @wraps(f)
+    def wraps_wrapper(*args, **kwargs):
+        return f(*args, **kwargs)
+    return wraps_wrapper
+
+class SomeClass(object):
+    @wraps_decorator
+    def method(self, x, y):
+        pass
+
+obj = SomeClass()
+for name, func in getmembers(obj, predicate=inspect.ismethod):
+    print "Member Name: %s" % name
+    print "Func Name: %s" % func.func_name
+    print "Args: %s" % getargspec(func)[0]
+
+# 输出：
+# Member Name: method
+# Func Name: method
+# Args: []</pre>
+<p>你会发现，即使是你你用了functools的wraps，你在用getargspec时，参数也不见了。</p>
+<p>要修正这一问，我们还得用Python的反射来解决，下面是相关的代码：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def get_true_argspec(method):
+    argspec = inspect.getargspec(method)
+    args = argspec[0]
+    if args and args[0] == 'self':
+        return argspec
+    if hasattr(method, '__func__'):
+        method = method.__func__
+    if not hasattr(method, 'func_closure') or method.func_closure is None:
+        raise Exception("No closure for method.")
+
+    method = method.func_closure[0].cell_contents
+    return get_true_argspec(method)</pre>
+<p>当然，我相信大多数人的程序都不会去getargspec。所以，用functools的wraps应该够用了。</p>
+<h4>一些decorator的示例</h4>
+<p>好了，现在我们来看一下各种decorator的例子：</p>
+<h5>给函数调用做缓存</h5>
+<p>这个例实在是太经典了，整个网上都用这个例子做decorator的经典范例，因为太经典了，所以，我这篇文章也不能免俗。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from functools import wraps
+def memo(fn):
+    cache = {}
+    miss = object()
+
+    @wraps(fn)
+    def wrapper(*args):
+        result = cache.get(args, miss)
+        if result is miss:
+            result = fn(*args)
+            cache[args] = result
+        return result
+
+    return wrapper
+
+@memo
+def fib(n):
+    if n &lt; 2:
+        return n
+    return fib(n - 1) + fib(n - 2)
+</pre>
+<p>上面这个例子中，是一个斐波拉契数例的递归算法。我们知道，这个递归是相当没有效率的，因为会重复调用。比如：我们要计算fib(5)，于是其分解成fib(4) + fib(3)，而fib(4)分解成fib(3)+fib(2)，fib(3)又分解成fib(2)+fib(1)…… 你可看到，基本上来说，fib(3), fib(2), fib(1)在整个递归过程中被调用了两次。</p>
+<p>而我们用decorator，在调用函数前查询一下缓存，如果没有才调用了，有了就从缓存中返回值。一下子，这个递归从二叉树式的递归成了线性的递归。</p>
+<h5>Profiler的例子</h5>
+<p>这个例子没什么高深的，就是实用一些。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">import cProfile, pstats, StringIO
+
+def profiler(func):
+    def wrapper(*args, **kwargs):
+        datafn = func.__name__ + ".profile" # Name the data file
+        prof = cProfile.Profile()
+        retval = prof.runcall(func, *args, **kwargs)
+        #prof.dump_stats(datafn)
+        s = StringIO.StringIO()
+        sortby = 'cumulative'
+        ps = pstats.Stats(prof, stream=s).sort_stats(sortby)
+        ps.print_stats()
+        print s.getvalue()
+        return retval
+
+    return wrapper
+
+</pre>
+<h5>注册回调函数</h5>
+<p>下面这个示例展示了通过URL的路由来调用相关注册的函数示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">class MyApp():
+    def __init__(self):
+        self.func_map = {}
+
+    def register(self, name):
+        def func_wrapper(func):
+            self.func_map[name] = func
+            return func
+        return func_wrapper
+
+    def call_method(self, name=None):
+        func = self.func_map.get(name, None)
+        if func is None:
+            raise Exception("No function registered against - " + str(name))
+        return func()
+
+app = MyApp()
+
+@app.register('/')
+def main_page_func():
+    return "This is the main page."
+
+@app.register('/next_page')
+def next_page_func():
+    return "This is the next page."
+
+print app.call_method('/')
+print app.call_method('/next_page')
+</pre>
+<p>注意：<br />
+1）上面这个示例中，用类的实例来做decorator。<br />
+2）decorator类中没有<strong>call</strong>()，但是wrapper返回了原函数。所以，原函数没有发生任何变化。</p>
+<h5>给函数打日志</h5>
+<p>下面这个示例演示了一个logger的decorator，这个decorator输出了函数名，参数，返回值，和运行时间。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from functools import wraps
+def logger(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        ts = time.time()
+        result = fn(*args, **kwargs)
+        te = time.time()
+        print "function      = {0}".format(fn.__name__)
+        print "    arguments = {0} {1}".format(args, kwargs)
+        print "    return    = {0}".format(result)
+        print "    time      = %.6f sec" % (te-ts)
+        return result
+    return wrapper
+
+@logger
+def multipy(x, y):
+    return x * y
+
+@logger
+def sum_num(n):
+    s = 0
+    for i in xrange(n+1):
+        s += i
+    return s
+
+print multipy(2, 10)
+print sum_num(100)
+print sum_num(10000000)</pre>
+<p>上面那个打日志还是有点粗糙，让我们看一个更好一点的（带log level参数的）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">import inspect
+def get_line_number():
+    return inspect.currentframe().f_back.f_back.f_lineno
+
+def logger(loglevel):
+    def log_decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            ts = time.time()
+            result = fn(*args, **kwargs)
+            te = time.time()
+            print "function   = " + fn.__name__,
+            print "    arguments = {0} {1}".format(args, kwargs)
+            print "    return    = {0}".format(result)
+            print "    time      = %.6f sec" % (te-ts)
+            if (loglevel == 'debug'):
+                print "    called_from_line : " + str(get_line_number())
+            return result
+        return wrapper
+    return log_decorator</pre>
+<p>但是，上面这个带log level参数的有两具不好的地方，<br />
+1） loglevel不是debug的时候，还是要计算函数调用的时间。<br />
+2） 不同level的要写在一起，不易读。</p>
+<p>我们再接着改进：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">import inspect
+
+def advance_logger(loglevel):
+
+    def get_line_number():
+        return inspect.currentframe().f_back.f_back.f_lineno
+
+    def _basic_log(fn, result, *args, **kwargs):
+        print "function   = " + fn.__name__,
+        print "    arguments = {0} {1}".format(args, kwargs)
+        print "    return    = {0}".format(result)
+
+    def info_log_decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            result = fn(*args, **kwargs)
+            _basic_log(fn, result, args, kwargs)
+        return wrapper
+
+    def debug_log_decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            ts = time.time()
+            result = fn(*args, **kwargs)
+            te = time.time()
+            _basic_log(fn, result, args, kwargs)
+            print "    time      = %.6f sec" % (te-ts)
+            print "    called_from_line : " + str(get_line_number())
+        return wrapper
+
+    if loglevel is "debug":
+        return debug_log_decorator
+    else:
+        return info_log_decorator
+</pre>
+<p>你可以看到两点，<br />
+1）我们分了两个log level，一个是info的，一个是debug的，然后我们在外尾根据不同的参数返回不同的decorator。<br />
+2）我们把info和debug中的相同的代码抽到了一个叫_basic_log的函数里，DRY原则。</p>
+<h5>一个MySQL的Decorator</h5>
+<p>下面这个decorator是我在工作中用到的代码，我简化了一下，把DB连接池的代码去掉了，这样能简单点，方便阅读。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">import umysql
+from functools import wraps
+
+class Configuraion:
+    def __init__(self, env):
+        if env == "Prod":
+            self.host    = "coolshell.cn"
+            self.port    = 3306
+            self.db      = "coolshell"
+            self.user    = "coolshell"
+            self.passwd  = "fuckgfw"
+        elif env == "Test":
+            self.host   = 'localhost'
+            self.port   = 3300
+            self.user   = 'coolshell'
+            self.db     = 'coolshell'
+            self.passwd = 'fuckgfw'
+
+def mysql(sql):
+
+    _conf = Configuraion(env="Prod")
+
+    def on_sql_error(err):
+        print err
+        sys.exit(-1)
+
+    def handle_sql_result(rs):
+        if rs.rows &gt; 0:
+            fieldnames = [f[0] for f in rs.fields]
+            return [dict(zip(fieldnames, r)) for r in rs.rows]
+        else:
+            return []
+
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            mysqlconn = umysql.Connection()
+            mysqlconn.settimeout(5)
+            mysqlconn.connect(_conf.host, _conf.port, _conf.user, \
+                              _conf.passwd, _conf.db, True, 'utf8')
+            try:
+                rs = mysqlconn.query(sql, {})
+            except umysql.Error as e:
+                on_sql_error(e)
+
+            data = handle_sql_result(rs)
+            kwargs["data"] = data
+            result = fn(*args, **kwargs)
+            mysqlconn.close()
+            return result
+        return wrapper
+
+    return decorator
+
+@mysql(sql = "select * from coolshell" )
+def get_coolshell(data):
+    ... ...
+    ... ..
+</pre>
+<h5>线程异步</h5>
+<p>下面量个非常简单的异步执行的decorator，注意，异步处理并不简单，下面只是一个示例。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from threading import Thread
+from functools import wraps
+
+def async(func):
+    @wraps(func)
+    def async_func(*args, **kwargs):
+        func_hl = Thread(target = func, args = args, kwargs = kwargs)
+        func_hl.start()
+        return func_hl
+
+    return async_func
+
+if __name__ == '__main__':
+    from time import sleep
+
+    @async
+    def print_somedata():
+        print 'starting print_somedata'
+        sleep(2)
+        print 'print_somedata: 2 sec passed'
+        sleep(2)
+        print 'print_somedata: 2 sec passed'
+        sleep(2)
+        print 'finished print_somedata'
+
+    def main():
+        print_somedata()
+        print 'back in main'
+        print_somedata()
+        print 'back in main'
+
+    main()
+</pre>
+<h4>其它</h4>
+<p>关于更多的示例，你可以参看： <a href="https://wiki.python.org/moin/PythonDecoratorLibrary" target="_blank" rel="noopener noreferrer">Python Decorator Library</a></p>
+<p>关于Python Decroator的各种提案，可以参看：<a href="https://wiki.python.org/moin/PythonDecoratorProposals" target="_blank" rel="noopener noreferrer">Python Decorator Proposals</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat-150x150.png" alt="Go编程模式：修饰器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_title">Go编程模式：修饰器</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-150x150.png" alt="Go编程模式：Map-Reduce" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_title">Go编程模式：Map-Reduce</a></li><li ><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.options-150x150.png" alt="Go 编程模式：Functional Options" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_title">Go 编程模式：Functional Options</a></li><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11265.html">Python修饰器的函数式编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11265.html/feed</wfw:commentRss>
+			<slash:comments>84</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>函数式编程</title>
+		<link>https://coolshell.cn/articles/10822.html</link>
+					<comments>https://coolshell.cn/articles/10822.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 27 Dec 2013 00:11:03 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[functional]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[函数式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10822</guid>
+
+					<description><![CDATA[<p>当我们说起函数式编程来说，我们会看到如下函数式编程的长相： 函数式编程的三大特性： immutable data 不可变数据：像Clojure一样，默认上变量是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10822.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10822.html">函数式编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-10861" src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-204x300.png" alt="" width="204" height="300" />当我们说起函数式编程来说，我们会看到如下函数式编程的长相：</p>
+<ul>
+<li>函数式编程的三大特性：
+<ul>
+<li><strong>immutable data 不可变数据</strong>：像Clojure一样，默认上变量是不可变的，如果你要改变变量，你需要把变量copy出去修改。这样一来，可以让你的程序少很多Bug。因为，程序中的状态不好维护，在并发的时候更不好维护。（你可以试想一下如果你的程序有个复杂的状态，当以后别人改你代码的时候，是很容易出bug的，在并行中这样的问题就更多了）</li>
+<li><strong>first class functions</strong>：这个技术可以让你的函数就像变量一样来使用。也就是说，你的函数可以像变量一样被创建，修改，并当成变量一样传递，返回或是在函数中嵌套函数。这个有点像Javascript的Prototype（参看<a title="再谈javascript面向对象编程" href="https://coolshell.cn/articles/6668.html" target="_blank" rel="noopener noreferrer">Javascript的面向对象编程</a>）</li>
+<li><strong>尾递归优化</strong>：我们知道递归的害处，那就是如果递归很深的话，stack受不了，并会导致性能大幅度下降。所以，我们使用尾递归优化技术——每次递归时都会重用stack，这样一来能够提升性能，当然，这需要语言或编译器的支持。Python就不支持。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>函数式编程的几个技术
+<ul>
+<li><strong>map &amp; reduce</strong> ：这个技术不用多说了，函数式编程最常见的技术就是对一个集合做Map和Reduce操作。这比起过程式的语言来说，在代码上要更容易阅读。（传统过程式的语言需要使用for/while循环，然后在各种变量中把数据倒过来倒过去的）这个很像C++中的STL中的foreach，find_if，count_if之流的函数的玩法。</li>
+<li><strong>pipeline</strong>：这个技术的意思是，把函数实例成一个一个的action，然后，把一组action放到一个数组或是列表中，然后把数据传给这个action list，数据就像一个pipeline一样顺序地被各个函数所操作，最终得到我们想要的结果。</li>
+<li><strong>recursing 递归</strong> ：递归最大的好处就简化代码，他可以把一个复杂的问题用很简单的代码描述出来。注意：递归的精髓是描述问题，而这正是函数式编程的精髓。</li>
+<li><strong>currying</strong>：把一个函数的多个参数分解成多个函数， 然后把函数多层封装起来，每层函数都返回一个函数去接收下一个参数这样，可以简化函数的多个参数。在C++中，这个很像STL中的bind_1st或是bind2nd。</li>
+<li><strong>higher order function 高阶函数</strong>：所谓高阶函数就是函数当参数，把传入的函数做一个封装，然后返回这个封装函数。现象上就是函数传进传出，就像面向对象对象满天飞一样。</li>
+</ul>
+</li>
+</ul>
+<p><span id="more-10822"></span></p>
+<ul>
+<li>还有函数式的一些好处
+<ul>
+<li><strong>parallelization 并行：</strong>所谓并行的意思就是在并行环境下，各个线程之间不需要同步或互斥。</li>
+<li><strong>lazy evaluation 惰性求值</strong>：这个需要编译器的支持。表达式不在它被绑定到变量之后就立即求值，而是在该值被取用的时候求值，也就是说，语句如<i>x:=expression;</i> (把一个表达式的结果赋值给一个变量)明显的调用这个表达式被计算并把结果放置到 <i>x</i> 中，但是先不管实际在 <i>x</i> 中的是什么，直到通过后面的表达式中到 <i>x</i> 的引用而有了对它的值的需求的时候，而后面表达式自身的求值也可以被延迟，最终为了生成让外界看到的某个符号而计算这个快速增长的依赖树。</li>
+<li><strong>determinism 确定性</strong>：所谓确定性的意思就是像数学那样 f(x) = y ，这个函数无论在什么场景下，都会得到同样的结果，这个我们称之为函数的确定性。而不是像程序中的很多函数那样，同一个参数，却会在不同的场景下计算出不同的结果。所谓不同的场景的意思就是我们的函数会根据一些运行中的状态信息的不同而发生变化。</li>
+</ul>
+</li>
+</ul>
+<p>上面的那些东西太抽象了，还是让我们来循序渐近地看一些例子吧。</p>
+<p>我们先用一个最简单的例子来说明一下什么是函数式编程。</p>
+<p>先看一个非函数式的例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">int cnt;
+void increment(){
+    cnt++;
+}</pre>
+<p>&nbsp;</p>
+<p>那么，函数式的应该怎么写呢？</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">int increment(int cnt){
+    return cnt+1;
+}</pre>
+<p>你可能会觉得这个例子太普通了。是的，这个例子就是函数式编程的准则：<strong>不依赖于外部的数据，而且也不改变外部数据的值，而是返回一个新的值给你</strong>。</p>
+<p>我们再来看一个简单例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def inc(x):
+    def incx(y):
+        return x+y
+    return incx
+
+inc2 = inc(2)
+inc5 = inc(5)
+
+print inc2(5) # 输出 7
+print inc5(5) # 输出 10</pre>
+<p>我们可以看到上面那个例子inc()函数返回了另一个函数incx()，于是我们可以用inc()函数来构造各种版本的inc函数，比如：inc2()和inc5()。这个技术其实就是上面所说的Currying技术。从这个技术上，你可能体会到函数式编程的理念：<strong>把函数当成变量来用，关注于描述问题而不是怎么实现</strong>，这样可以让代码更易读。</p>
+<h4>Map &amp; Reduce</h4>
+<p>在函数式编程中，我们不应该用循环迭代的方式，我们应该用更为高级的方法，如下所示的Python代码</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">name_len = map(len, ["hao", "chen", "coolshell"])
+print name_len
+# 输出 [3, 4, 9]</pre>
+<p>你可以看到这样的代码很易读，因为，<strong>这样的代码是在描述要干什么，而不是怎么干</strong>。</p>
+<p>我们再来看一个Python代码的例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def toUpper(item):
+return item.upper()
+
+upper_name = map(toUpper, ["hao", "chen", "coolshell"])
+print upper_name
+# 输出 ['HAO', 'CHEN', 'COOLSHELL']</pre>
+<p>顺便说一下，上面的例子个是不是和我们的STL的transform有些像？</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="cpp">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string s="hello";
+    string out;
+    transform(s.begin(), s.end(), back_inserter(out), ::toupper);
+    cout &lt;&lt; out &lt;&lt; endl;
+    // 输出：HELLO
+}</pre>
+<p>在上面Python的那个例子中我们可以看到，我们写义了一个函数toUpper，这个函数没有改变传进来的值，只是把传进来的值做个简单的操作，然后返回。然后，我们把其用在map函数中，就可以很清楚地描述出我们想要干什么。而不会去理解一个在循环中的怎么实现的代码，最终在读了很多循环的逻辑后才发现原来是这个或那个意思。 下面，我们看看描述实现方法的过程式编程是怎么玩的（看上去是不是不如函数式的清晰？）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">upname =['HAO', 'CHEN', 'COOLSHELL']
+lowname =[]
+for i in range(len(upname)):
+lowname.append( upname[i].lower() )</pre>
+<p>对于map我们别忘了lambda表达式：你可以简单地理解为这是一个inline的匿名函数。下面的lambda表达式相当于：def func(x): return x*x</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">squares = map(lambda x: x * x, range(9))
+print squares
+# 输出 [0, 1, 4, 9, 16, 25, 36, 49, 64]</pre>
+<p>我们再来看看reduce怎么玩？（下面的lambda表达式中有两个参数，也就是说每次从列表中取两个值，计算结果后把这个值再放回去，下面的表达式相当于：<code>((((1+2)+3)+4)+5) ）</code></p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">print reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])
+# 输出 15</pre>
+<p>Python中的除了map和reduce外，还有一些别的如filter, find, all, any的函数做辅助（其它函数式的语言也有），可以让你的代码更简洁，更易读。 我们再来看一个比较复杂的例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python"># 计算数组中正数的平均值",
+num =[2, -5, 9, 7, -2, 5, 3, 1, 0, -3, 8]
+positive_num_cnt = 0
+positive_num_sum = 0
+for i in range(len(num)):
+    if num[i] &gt; 0:
+        positive_num_cnt += 1
+        positive_num_sum += num[i]
+
+if positive_num_cnt &gt; 0:
+    average = positive_num_sum / positive_num_cnt
+
+print average
+# 输出 5</pre>
+<p>如果用函数式编程，这个例子可以写成这样：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">positive_num = filter(lambda x: x&gt;0, num)
+average = reduce(lambda x,y: x+y, positive_num) / len( positive_num )</pre>
+<p>C++11玩的法：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+vector num {2, -5, 9, 7, -2, 5, 3, 1, 0, -3, 8};
+vector p_num;
+copy_if(num.begin(), num.end(), back_inserter(p_num), [](int i){ return (i&gt;0);} );
+int average = accumulate(p_num.begin(), p_num.end(), 0) / p_num.size();
+cout &lt;&lt; "averge: " &lt;&lt; average &lt;&lt; endl;</pre>
+<p>我们可以看到，函数式编程有如下好处：</p>
+<p style="padding-left: 30px;">1）代码更简单了。<br />
+2）数据集，操作，返回值都放到了一起。<br />
+3）你在读代码的时候，没有了循环体，于是就可以少了些临时变量，以及变量倒来倒去逻辑。<br />
+4）你的代码变成了在描述你要干什么，而不是怎么去干。</p>
+<p>最后，我们来看一下Map/Reduce这样的函数是怎么来实现的（下面是Javascript代码）</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">//map函数
+var map = function (mappingFunction, list) {
+    var result = [];
+    forEach(list, function (item) {
+        result.push(mappingFunction(item));
+    });
+    return result;
+};</pre>
+<p>下面是reduce函数的javascript实现（谢谢 <a href="http://weibo.com/u/1772898707" target="_blank" rel="noopener noreferrer">@下雨在家</a> 修正的我原来的简单版本）</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">//reduce函数
+function reduce(actionFunction, list, initial){
+    var accumulate;
+    var temp;
+    if(initial){
+        accumulate = initial;
+    }else{
+        accumulate = list.shfit();
+    }
+    temp = list.shift();
+    while(temp){
+        accumulate = actionFunction(accumulate,temp);
+        temp = list.shift();
+    }
+    return accumulate;
+};</pre>
+<h4>Declarative Programming vs Imperative Programming</h4>
+<p>前面提到过多次的函数式编程关注的是：describe what to do, rather than how to do it. 于是，我们把以前的过程式的编程范式叫做 <a href="http://en.wikipedia.org/wiki/Imperative_programming" target="_blank" rel="noopener noreferrer">Imperative Programming</a> &#8211; 指令式编程，而把函数式的这种范式叫做 <a href="http://en.wikipedia.org/wiki/Declarative_programming" target="_blank" rel="noopener noreferrer">Declarative Programming</a> &#8211; 声明式编程。</p>
+<p>下面我们看一下相关的示例（本示例来自<a href="http://maryrosecook.com/post/a-practical-introduction-to-functional-programming" target="_blank" rel="noopener noreferrer">这篇文章</a> ）。</p>
+<p>比如，我们有3辆车比赛，简单起见，我们分别给这3辆车有70%的概率可以往前走一步，一共有5次机会，我们打出每一次这3辆车的前行状态。</p>
+<p>对于Imperative Programming来说，代码如下（Python）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from random import random
+
+time = 5
+car_positions = [1, 1, 1]
+
+while time:
+    # decrease time
+    time -= 1
+
+    print ''
+    for i in range(len(car_positions)):
+        # move car
+        if random() &gt; 0.3:
+            car_positions[i] += 1
+
+        # draw car
+        print '-' * car_positions[i]</pre>
+<p>我们可以把这个两重循环变成一些函数模块，这样有利于我们更容易地阅读代码：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from random import random
+def move_cars():
+    for i, _ in enumerate(car_positions):
+        if random() &gt; 0.3:
+            car_positions[i] += 1
+def draw_car(car_position):
+    print '-' * car_position
+def run_step_of_race():
+    global time
+    time -= 1
+    move_cars()
+def draw():
+    print ''
+    for car_position in car_positions:
+        draw_car(car_position)
+time = 5
+car_positions = [1, 1, 1]
+while time:
+    run_step_of_race()
+    draw()</pre>
+<p>上面的代码，我们可以从主循环开始，我们可以很清楚地看到程序的主干，因为我们把程序的逻辑分成了几个函数，这样一来，我们的代码逻辑也会变得几个小碎片，于是我们读代码时要考虑的上下文就少了很多，阅读代码也会更容易。不像第一个示例，如果没有注释和说明，你还是需要花些时间理解一下。<strong>而把代码逻辑封装成了函数后，我们就相当于给每个相对独立的程序逻辑取了个名字，于是代码成了自解释的</strong>。</p>
+<p>但是，你会发现，封装成函数后，这些函数都会依赖于共享的变量来同步其状态。于是，我们在读代码的过程时，每当我们进入到函数里，一量读到访问了一个外部的变量，我们马上要去查看这个变量的上下文，然后还要在大脑里推演这个变量的状态， 我们才知道程序的真正逻辑。也就是说，<strong>这些函数间必需知道其它函数是怎么修改它们之间的共享变量的，所以，这些函数是有状态的</strong>。</p>
+<p>我们知道，有状态并不是一件很好的事情，无论是对代码重用，还是对代码的并行来说，都是有副作用的。因此，我们要想个方法把这些状态搞掉，于是出现了我们的 Functional Programming 的编程范式。下面，我们来看看函数式的方式应该怎么写？</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from random import random
+
+def move_cars(car_positions):
+    return map(lambda x: x + 1 if random() &gt; 0.3 else x,
+               car_positions)
+
+def output_car(car_position):
+    return '-' * car_position
+
+def run_step_of_race(state):
+    return {'time': state['time'] - 1,
+            'car_positions': move_cars(state['car_positions'])}
+
+def draw(state):
+    print ''
+    print '\n'.join(map(output_car, state['car_positions']))
+
+def race(state):
+    draw(state)
+    if state['time']:
+        race(run_step_of_race(state))
+
+race({'time': 5,
+      'car_positions': [1, 1, 1]})</pre>
+<p>上面的代码依然把程序的逻辑分成了函数，不过这些函数都是functional的。因为它们有三个症状：</p>
+<p style="padding-left: 30px;">1）它们之间没有共享的变量。<br />
+2）函数间通过参数和返回值来传递数据。<br />
+3）在函数里没有临时变量。</p>
+<p>我们还可以看到，for循环被递归取代了（见race函数）—— 递归是函数式编程中带用到的技术，正如前面所说的，递归的本质就是描述问题是什么。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10900" src="https://coolshell.cn/wp-content/uploads/2013/12/forrest-gump.jpg" alt="" width="490" height="382" srcset="https://coolshell.cn/wp-content/uploads/2013/12/forrest-gump.jpg 490w, https://coolshell.cn/wp-content/uploads/2013/12/forrest-gump-300x233.jpg 300w" sizes="(max-width: 490px) 100vw, 490px" /></p>
+<h4>Pipeline</h4>
+<p>pipeline 管道借鉴于Unix Shell的管道操作——把若干个命令串起来，前面命令的输出成为后面命令的输入，如此完成一个流式计算。（注：管道绝对是一个伟大的发明，他的设哲学就是KISS &#8211; 让每个功能就做一件事，并把这件事做到极致，软件或程序的拼装会变得更为简单和直观。这个设计理念影响非常深远，包括今天的Web Service，云计算，以及大数据的流式计算等等）</p>
+<p>比如，我们如下的shell命令：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">ps auwwx | awk '{print $2}' | sort -n | xargs echo</pre>
+<p>如果我们抽象成函数式的语言，就像下面这样：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">xargs( echo, sort(n, awk('print $2', ps(auwwx))) )</pre>
+<p>也可以类似下面这个样子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">pids = for_each(result, [ps_auwwx, awk_p2, sort_n, xargs_echo])</pre>
+<p>好了，让我们来看看函数式编程的Pipeline怎么玩？</p>
+<p>我们先来看一个如下的程序，这个程序的process()有三个步骤：</p>
+<p style="padding-left: 30px;">1）找出偶数。<br />
+2）乘以3<br />
+3）转成字符串返回</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def process(num):
+    # filter out non-evens
+    if num % 2 != 0:
+        return
+    num = num * 3
+    num = 'The Number: %s' % num
+    return num
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+for num in nums:
+    print process(num)
+
+# 输出：
+# None
+# The Number: 6
+# None
+# The Number: 12
+# None
+# The Number: 18
+# None
+# The Number: 24
+# None
+# The Number: 30</pre>
+<p>我们可以看到，输出的并不够完美，另外，代码阅读上如果没有注释，你也会比较晕。下面，我们来看看函数式的pipeline（第一种方式）应该怎么写？</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def even_filter(nums):
+    for num in nums:
+        if num % 2 == 0:
+            yield num
+def multiply_by_three(nums):
+    for num in nums:
+        yield num * 3
+def convert_to_string(nums):
+    for num in nums:
+        yield 'The Number: %s' % num
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pipeline = convert_to_string(multiply_by_three(even_filter(nums)))
+for num in pipeline:
+    print num
+# 输出：
+# The Number: 6
+# The Number: 12
+# The Number: 18
+# The Number: 24
+# The Number: 30</pre>
+<p>我们动用了Python的关键字 yield，这个关键字主要是返回一个Generator，yield 是一个类似 return 的关键字，只是这个函数返回的是个Generator-生成器。所谓生成器的意思是，yield返回的是一个可迭代的对象，并没有真正的执行函数。也就是说，只有其返回的迭代对象被真正迭代时，yield函数才会正真的运行，运行到yield语句时就会停住，然后等下一次的迭代。（这个是个比较诡异的关键字）这就是lazy evluation。</p>
+<p>好了，根据前面的原则——“<strong>使用Map &amp; Reduce，不要使用循环</strong>”，那我们用比较纯朴的Map &amp; Reduce吧。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def even_filter(nums):
+    return filter(lambda x: x%2==0, nums)
+
+def multiply_by_three(nums):
+    return map(lambda x: x*3, nums)
+
+def convert_to_string(nums):
+    return map(lambda x: 'The Number: %s' % x,  nums)
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pipeline = convert_to_string(
+               multiply_by_three(
+                   even_filter(nums)
+               )
+            )
+for num in pipeline:
+    print num</pre>
+<p>但是他们的代码需要嵌套使用函数，这个有点不爽，如果我们能像下面这个样子就好了（第二种方式）。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">pipeline_func(nums, [even_filter,
+                     multiply_by_three,
+                     convert_to_string])</pre>
+<p>那么，pipeline_func 实现如下：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def pipeline_func(data, fns):
+    return reduce(lambda a, x: x(a),
+                  fns,
+                  data)</pre>
+<p>好了，在读过这么多的程序后，你可以回头看一下这篇文章的开头对函数式编程的描述，可能你就更有感觉了。</p>
+<p>最后，<span style="color: #cc0000;"><strong>我希望这篇浅显易懂的文章能让你感受到函数式编程的思想，就像OO编程，泛型编程，过程式编程一样，我们不用太纠结是不是我们的程序就是OO，就是functional的，我们重要的品味其中的味道</strong></span>。</p>
+<h4>参考</h4>
+<ul>
+<li>Wikipedia: <a href="http://en.wikipedia.org/wiki/Functional_programming" target="_blank" rel="noopener noreferrer">Functional Programming</a></li>
+<li><a href="http://stackoverflow.com/questions/5226055/truly-understanding-the-difference-between-procedural-and-functional" target="_blank" rel="noopener noreferrer">truly understanding the difference between procedural and functional</a></li>
+<li><a style="line-height: 1.5em;" href="http://maryrosecook.com/post/a-practical-introduction-to-functional-programming" target="_blank" rel="bookmark noopener noreferrer">A practical introduction to functional programming</a></li>
+<li><a href="http://stackoverflow.com/q/23277/211232" target="_blank" rel="noopener noreferrer">What is the difference between procedural programming and functional programming?</a></li>
+<li><a href="http://stackoverflow.com/q/3249863/211232" target="_blank" rel="noopener noreferrer">Can someone give me examples of functional programming vs imperative/procedural programming?</a></li>
+<li><a href="http://stackoverflow.com/q/552336/211232" target="_blank" rel="noopener noreferrer">OOP vs Functional Programming vs Procedural</a></li>
+<li>Python &#8211; <a href="http://docs.python.org/2/howto/functional.html#" target="_blank" rel="noopener noreferrer">Functional Programming HOWTO</a></li>
+</ul>
+<p><strong>补充</strong>：评论中<a title="redraiment" href="http://weibo.com/redraiment">redraiment</a>的<a href="https://coolshell.cn/articles/10822.html#comment-1111518">这个评论</a>大家也可以读一读。</p>
+<p>感谢谢网友S142857 提供的shell风格的python pipeline：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">class Pipe(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __ror__(self, other):
+        def generator():
+            for obj in other:
+                if obj is not None:
+                    yield self.func(obj)
+        return generator()
+
+@Pipe
+def even_filter(num):
+    return num if num % 2 == 0 else None
+
+@Pipe
+def multiply_by_three(num):
+    return num*3
+
+@Pipe
+def convert_to_string(num):
+    return 'The Number: %s' % num
+
+@Pipe
+def echo(item):
+    print item
+    return item
+
+def force(sqs):
+    for item in sqs: pass
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+force(nums | even_filter | multiply_by_three | convert_to_string | echo)</pre>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-150x150.png" alt="Go编程模式：Map-Reduce" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_title">Go编程模式：Map-Reduce</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat-150x150.png" alt="Go编程模式：修饰器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_title">Go编程模式：修饰器</a></li><li ><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-150x150.jpg" alt="如何读懂并写出装逼的函数式代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_title">如何读懂并写出装逼的函数式代码</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10822.html">函数式编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10822.html/feed</wfw:commentRss>
+			<slash:comments>194</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>二叉树迭代器算法</title>
+		<link>https://coolshell.cn/articles/9886.html</link>
+					<comments>https://coolshell.cn/articles/9886.html#comments</comments>
+		
+		<dc:creator><![CDATA[Todd]]></dc:creator>
+		<pubDate>Sun, 14 Jul 2013 03:08:23 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[C++]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9886</guid>
+
+					<description><![CDATA[<p>（感谢 @文艺复兴记（todd） 投递此文） 二叉树(Binary Tree)的前序、中序和后续遍历是算法和数据结构中的基本问题，基于递归的二叉树遍历算法更是递...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9886.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9886.html">二叉树迭代器算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢 </strong><a href="http://weibo.com/weidagang" target="_blank">@文艺复兴记</a><strong>（todd） 投递此文）</strong></p>
+<p>二叉树(Binary Tree)的前序、中序和后续遍历是算法和数据结构中的基本问题，基于递归的二叉树遍历算法更是递归的经典应用。</p>
+<p>假设二叉树结点定义如下：</p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">
+// C++
+struct Node {
+    int value;
+    Node *left;
+    Node *right;
+}
+</pre>
+<p>中序递归遍历算法：</p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">
+// C++
+void inorder_traverse(Node *node) {
+    if (NULL != node-&gt;left) {
+        inorder_traverse(node-&gt;left);
+    }
+    do_something(node);
+    if (NULL != node-&gt;right) {
+        inorder_traverse(node-&gt;right);
+    }
+}
+</pre>
+<p>前序和后序遍历算法类似。</p>
+<p>但是，仅有遍历算法是不够的，在许多应用中，我们还需要对遍历本身进行抽象。假如有一个求和的函数sum，我们希望它能应用于链表，数组，二叉树等等不同的数据结构。这时，我们可以抽象出迭代器(Iterator)的概念，通过<strong>迭代器把算法和数据结构解耦了</strong>，使得通用算法能应用于不同类型的数据结构。我们可以把sum函数定义为：</p>
+<p><span id="more-9886"></span></p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">
+int sum(Iterator it)
+</pre>
+<p>链表作为一种线性结构，它的迭代器实现非常简单和直观，而二叉树的迭代器实现则不那么容易，我们不能直接将递归遍历转换为迭代器。究其原因，这是因为二叉树递归遍历过程是编译器在调用栈上自动进行的，程序员对这个过程缺乏足够的控制。既然如此，那么我们如果可以自己来控制整个调用栈的进栈和出栈不是就达到控制的目的了吗？我们先来看看二叉树遍历的非递归算法：</p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">
+// C++
+void inorder_traverse_nonrecursive(Node *node) {
+    Stack stack;
+    do {
+        // node代表当前准备处理的子树，层层向下把左孩子压栈，对应递归算法的左子树递归
+        while (NULL != node) {
+            stack.push(node);
+            node = node-&gt;left;
+        }
+        do {
+            Node *top = stack.top();
+            stack.pop(); //弹出栈顶，对应递归算法的函数返回
+            do_something(top);
+            if (NULL != top-&gt;right) {
+                node = top-&gt;right; //将当前子树置为刚刚遍历过的结点的右孩子，对应递归算法的右子树递归
+                break;
+            }
+        }
+        while (!stack.empty());
+    }
+    while (!stack.empty());
+}
+</pre>
+<p>通过基于栈的非递归算法我们获得了对于遍历过程的控制，下面我们考虑如何将其封装为迭代器呢？ 这里关键在于理解遍历的过程是由栈的状态来表示的，所以显然迭代器内部应该包含一个栈结构，每次迭代的过程就是对栈的操作。假设迭代器的接口为：</p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">
+// C++
+class Iterator {
+    public:
+        virtual Node* next() = 0;
+};
+</pre>
+<p>下面是一个二叉树中序遍历迭代器的实现：</p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">
+//C++
+class InorderIterator : public Iterator {
+    public:
+        InorderIterator(Node *node) {
+            Node *current = node;
+            while (NULL != current) {
+                mStack.push(current);
+                current = current-&gt;left;
+            }
+        }
+        virtual Node* next() {
+            if (mStack.empty()) {
+                return NULL;
+            }
+            Node *top = mStack.top();
+            mStack.pop();
+            if (NULL != top-&gt;right) {
+                Node *current = top-&gt;right;
+                while (NULL != current) {
+                    mStack.push(current);
+                    current = current-&gt;left;
+                }
+            }
+            return top;
+         }
+    private:
+        std::stack&lt;Node*&gt; mStack;
+};
+</pre>
+<p>下面我们再来考察一下这个迭代器实现的时间和空间复杂度。很显然，由于栈中最多需要保存所有的结点，所以其空间复杂度是O(n)的。那么时间复杂度呢？一次next()调用也最多会进行n次栈操作，而整个遍历过程需要调用n次next()，那么是不是整个迭代器的时间复杂度就是O(n^2)呢？答案是否定的！因为每个结点只会进栈和出栈一次，所以整个迭代过程的时间复杂度依然为O(n)。其实，这和递归遍历的时空复杂度完全一样。</p>
+<p>除了上面显式利用栈控制代码执行顺序外，在支持yield语义的语言（C#, Python等)中，还有更为直接的做法。下面基于yield的二叉树中序遍历的Python实现：</p>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">
+// Python
+def inorder(t):
+    if t:
+        for x in inorder(t.left):
+            yield x
+        yield t.label
+        for x in inorder(t.right):
+            yield x
+</pre>
+<p>yield与return区别的一种通俗解释是yield返回时系统会保留函数调用的状态，下次该函数被调用时会接着从上次的执行点继续执行，这是一种与栈语义所完全不同的流程控制语义。我们知道Python的解释器是C写的，但是C并不支持yield语义，那么解释器是如何做到对yield的支持的呢？ 有了上面把递归遍历变换为迭代遍历的经验，相信你已经猜到Python解释器一定是对yield代码进行了某种变换。如果你已经能够实现递归变非递归，不妨尝试一下能否写一段编译程序将yield代码变换为非yield代码。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9886.html">二叉树迭代器算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9886.html/feed</wfw:commentRss>
+			<slash:comments>54</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的算法代码</title>
+		<link>https://coolshell.cn/articles/6010.html</link>
+					<comments>https://coolshell.cn/articles/6010.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 29 Nov 2011 03:11:07 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6010</guid>
+
+					<description><![CDATA[<p>Keith Schwarz是一个斯坦福大学计算机科学系的讲师。他对编程充满了热情。他的主页上他自己正在实现各种各样的有意思的算法和数据结构，http://www...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6010.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6010.html">一些有意思的算法代码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Keith Schwarz是一个斯坦福大学计算机科学系的讲师。他对编程充满了热情。他的主页上他自己正在实现各种各样的有意思的算法和数据结构，<a href="http://www.keithschwarz.com/interesting/">http://www.keithschwarz.com/interesting/</a>， 目前这个网页上有88个（见下面的列表），但这位大哥要干135个，你可以看看他的<a href="http://www.keithschwarz.com/interesting/" target="_blank">To-Do List</a>。</p>
+<p>从这个列表上，我们可以看到，他从去年7月份就在自己实现这些东西了，我把他实现的这些算法转过来，</p>
+<ul>
+<li>一方面我们可以学习一下这些算法和代码，因为很多东西对我来说都比较新，我以前<a href="https://coolshell.cn/articles/2583.html" target="_blank">列举过一些经典的算法</a>，<a title="链接：算法和数据结构词典" href="https://coolshell.cn/articles/1499.html" rel="bookmark">算法和数据结构词典</a>，还有<a title="链接：可视化的数据结构和算法" href="https://coolshell.cn/articles/4671.html" rel="bookmark">可视化的数据结构和算法</a>， 不过感觉都没有这个全。</li>
+</ul>
+<ul>
+<li>另一方面我希望这个事可以影响到一些正在学习编程的人。看看别人是怎么学习编程的，希望对你有借鉴作用。</li>
+</ul>
+<table width="100%" border="0" cellspacing="0" cellpadding="6">
+<thead>
+<tr>
+<th>Name</th>
+<th>Link</th>
+<th>Date Added</th>
+<th>Language</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Binomial Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=binomial-heap">(link)</a></td>
+<td>7‑24‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Binomial_heap">binomial heap</a> data structure for use as a priority queue.</td>
+</tr>
+<tr>
+<td>Bounded Priority Queue</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=bounded-pqueue">(link)</a></td>
+<td>7‑24‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Priority_queue">priority queue</a> with a fixed upper limit to its size..</td>
+</tr>
+<tr>
+<td>Matrix</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=matrix">(link)</a></td>
+<td>7‑24‑2010</td>
+<td>C++</td>
+<td>A collection of classes for manipulating <a href="http://en.wikipedia.org/wiki/Matrix_%28mathematics%29">matrices</a>.</td>
+</tr>
+<tr>
+<td>VList</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=vlist">(link)</a></td>
+<td>8‑16‑2010</td>
+<td>Java</td>
+<td>An implementation of the <tt>List</tt> abstraction backed by a <a href="http://en.wikipedia.org/wiki/VList">VList</a>.</td>
+</tr>
+<tr>
+<td>Function Wrapper</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=function">(link)</a></td>
+<td>8‑16‑2010</td>
+<td>C++</td>
+<td>A C++ wrapper class around unary functions.</td>
+</tr>
+<tr>
+<td>String</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=string">(link)</a></td>
+<td>8‑17‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/String_(computer_science)">string</a> abstraction that uses the small string optimization.</td>
+</tr>
+</tbody>
+</table>
+<p><span id="more-6010"></span></p>
+<table>
+<tbody>
+<tr>
+<td>nstream</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=nstream">(link)</a></td>
+<td>8‑31‑2010</td>
+<td>C++</td>
+<td>An stream class that sends and receives data over a network.</td>
+</tr>
+<tr>
+<td>Snake</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=snake">(link)</a></td>
+<td>8‑31‑2010</td>
+<td>C++</td>
+<td>An implementation of the game <a href="http://en.wikipedia.org/wiki/Snake_(video_game)"><em>Snake</em></a> with a rudimentary AI.</td>
+</tr>
+<tr>
+<td>Mergesort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=mergesort">(link)</a></td>
+<td>9‑14‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Mergesort">mergesort</a> algorithm.</td>
+</tr>
+<tr>
+<td>Next Permutation</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=next-permutation">(link)</a></td>
+<td>10‑6‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://www.cplusplus.com/reference/algorithm/next_permutation/"><tt>next_permutation</tt></a> STL algorithm.</td>
+</tr>
+<tr>
+<td>Interval Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=interval-heap">(link)</a></td>
+<td>10‑17‑2010</td>
+<td>Java</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Double-ended_priority_queue">double-ended priority queue</a> using an <a href="http://www.mhhe.com/engcs/compsci/sahni/enrich/c9/interval.pdf">interval heap</a>.</td>
+</tr>
+<tr>
+<td>Linear-Time Selection</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=median-of-medians">(link)</a></td>
+<td>10‑18‑2010</td>
+<td>C++</td>
+<td>A deterministic, linear-time <a href="http://en.wikipedia.org/wiki/Selection_algorithm">selection algorithm</a> using the <a href="http://en.wikipedia.org/wiki/Selection_algorithm#Linear_general_selection_algorithm_-_Median_of_Medians_algorithm">median-of-medians</a> algorithm.</td>
+</tr>
+<tr>
+<td>Heapsort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=heapsort">(link)</a></td>
+<td>10‑18‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Heapsort">heapsort</a> algorithm.</td>
+</tr>
+<tr>
+<td>Union-Find</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=union-find">(link)</a></td>
+<td>10‑19‑2010</td>
+<td>Java</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Disjoint-set_data_structure">disjoint-set data structure</a> using a disjoint set forest.</td>
+</tr>
+<tr>
+<td>Radix Sort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=radix-sort">(link)</a></td>
+<td>10‑19‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Radix_sort">radix sort</a> algorithm.</td>
+</tr>
+<tr>
+<td>Rational</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=rational">(link)</a></td>
+<td>10‑23‑2010</td>
+<td>C++</td>
+<td>A data structure representing a <a href="http://en.wikipedia.org/wiki/Rational_number">rational number</a>.</td>
+</tr>
+<tr>
+<td>DPLL</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=dpll">(link)</a></td>
+<td>10‑23‑2010</td>
+<td>Haskell</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/DPLL_algorithm">DPLL algorithm</a> for solving <a href="http://en.wikipedia.org/wiki/Boolean_satisfiability_problem">CNF-SAT</a>.</td>
+</tr>
+<tr>
+<td>Smoothsort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=smoothsort">(link)</a></td>
+<td>10‑27‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://www.keithschwarz.com/smoothsort/">smoothsort algorithm</a>, an adaptive heapsort variant.</td>
+</tr>
+<tr>
+<td>Extendible Array</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=extendible-array">(link)</a></td>
+<td>10‑28‑2010</td>
+<td>Java</td>
+<td>A <a href="http://en.wikipedia.org/wiki/Dynamic_array">dynamic array</a> class with O(1) worst-case runtime lookup and append.</td>
+</tr>
+<tr>
+<td>In-Place Merge</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=inplace-merge">(link)</a></td>
+<td>10‑29‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Merge_algorithm">merge algorithm</a> that runs <a href="http://en.wikipedia.org/wiki/In-place_algorithm">in-place</a>.</td>
+</tr>
+<tr>
+<td>Random Shuffle</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=random-shuffle">(link)</a></td>
+<td>10‑29‑2010</td>
+<td>C++</td>
+<td>An algorithm for generating a <a href="http://en.wikipedia.org/wiki/Random_permutation">random permutation</a> of a set of elements.</td>
+</tr>
+<tr>
+<td>Random Sample</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=random-sample">(link)</a></td>
+<td>10‑29‑2010</td>
+<td>C++</td>
+<td>An O(n) time, O(1) space algorithm for randomly choosing k elements out of a stream with uniform probability.</td>
+</tr>
+<tr>
+<td>Natural Mergesort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=natural-mergesort">(link)</a></td>
+<td>10‑30‑2010</td>
+<td>C++</td>
+<td>An implementation of <a href="http://www.algorithmist.com/index.php/Merge_sort#Natural_mergesort">natural mergesort</a>, an <a href="http://en.wikipedia.org/wiki/Adaptive_sort">adaptive</a> variant of <a href="http://en.wikipedia.org/wiki/Merge_sort">mergesort</a>.</td>
+</tr>
+<tr>
+<td>Interpolation Search</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=interpolation-search">(link)</a></td>
+<td>10‑31‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Interpolation_search">interpolation search</a> algorithm.</td>
+</tr>
+<tr>
+<td>Introsort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=introsort">(link)</a></td>
+<td>10‑31‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Introsort">introsort</a> algorithm, a fast hybrid of <a href="http://en.wikipedia.org/wiki/Quicksort">quicksort</a>, <a href="http://en.wikipedia.org/wiki/Heapsort">heapsort</a>, and<a href="http://en.wikipedia.org/wiki/Insertion_sort">insertion sort</a>.</td>
+</tr>
+<tr>
+<td>Hashed Array Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=hashed-array-tree">(link)</a></td>
+<td>11‑3‑2010</td>
+<td>Java</td>
+<td>An implementation of a dynamic array backed by a <a href="http://en.wikipedia.org/wiki/Hashed_array_tree">hashed array tree</a>.</td>
+</tr>
+<tr>
+<td>Recurrence Solver</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=recurrence">(link)</a></td>
+<td>11‑13‑2010</td>
+<td>C++</td>
+<td>A fast algorithm for generating terms of a sequence defined by a <a href="http://en.wikipedia.org/wiki/Recurrence_relation#Linear_homogeneous_recurrence_relations_with_constant_coefficients">linear recurrence relation</a>.</td>
+</tr>
+<tr>
+<td>Fibonacci Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=fibonacci-heap">(link)</a></td>
+<td>11‑15‑2010</td>
+<td>Java</td>
+<td>An implementation of a priority queue backed by a <a href="http://en.wikipedia.org/wiki/Fibonacci_heap">Fibonacci heap</a>.</td>
+</tr>
+<tr>
+<td>Dijkstra&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=dijkstra">(link)</a></td>
+<td>11‑16‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra&#8217;s algorithm</a> for single-source shortest paths.</td>
+</tr>
+<tr>
+<td>Prim&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=prim">(link)</a></td>
+<td>11‑17‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Prim's_algorithm">Prim&#8217;s algorithm</a> for computing <a href="http://en.wikipedia.org/wiki/Minimum_spanning_tree">minimum spanning trees</a>.</td>
+</tr>
+<tr>
+<td>Kruskal&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=kruskal">(link)</a></td>
+<td>11‑17‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Kruskal's_algorithm">Kruskal&#8217;s algorithm</a> for computing <a href="http://en.wikipedia.org/wiki/Minimum_spanning_tree">minimum spanning trees</a>.</td>
+</tr>
+<tr>
+<td>Majority Element</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=majority-element">(link)</a></td>
+<td>11‑17‑2010</td>
+<td>C++</td>
+<td>A fast, linear-time algorithm for finding the <a href="http://www.cs.utexas.edu/~moore/best-ideas/mjrty/">majority element</a> of a data set.</td>
+</tr>
+<tr>
+<td>Haar Transform</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=haar">(link)</a></td>
+<td>11‑17‑2010</td>
+<td>C++</td>
+<td>A set of functions to decompose a sequence of values into a sum of <a href="http://en.wikipedia.org/wiki/Haar_wavelet">Haar wavelets</a>.</td>
+</tr>
+<tr>
+<td>Argmax</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=argmax">(link)</a></td>
+<td>11‑19‑2010</td>
+<td>C++</td>
+<td>A pair of functions to compute the <a href="http://en.wikipedia.org/wiki/Arg_max">arg min or max</a> of a function on some range.</td>
+</tr>
+<tr>
+<td>Derivative</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=derivative">(link)</a></td>
+<td>11‑19‑2010</td>
+<td>C++</td>
+<td>A <a href="http://en.wikipedia.org/wiki/Function_object">function object</a> that approximates the <a href="http://en.wikipedia.org/wiki/Derivative">derivative</a> of a function.</td>
+</tr>
+<tr>
+<td>Levenshtein Distance</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=levenshtein">(link)</a></td>
+<td>11‑19‑2010</td>
+<td>C++</td>
+<td>An algorithm for computing the <a href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance</a> between two sequences.</td>
+</tr>
+<tr>
+<td>Skiplist</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=skiplist">(link)</a></td>
+<td>11‑20‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Skip_list">skip list</a>, a randomized data structure for maintaining a sorted collection.</td>
+</tr>
+<tr>
+<td>van Emde Boas Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=van-emde-boas-tree">(link)</a></td>
+<td>11‑26‑2010</td>
+<td>C++</td>
+<td>An implementation of a sorted associative array backed by a <a href="http://en.wikipedia.org/wiki/Van_Emde_Boas_tree">van Emde Boas tree</a>.</td>
+</tr>
+<tr>
+<td>Cuckoo HashMap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=cuckoo-hashmap">(link)</a></td>
+<td>11‑27‑2010</td>
+<td>Java</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Hash_table">hash table</a> using <a href="http://en.wikipedia.org/wiki/Cuckoo_hashing">cuckoo hashing</a>.</td>
+</tr>
+<tr>
+<td>Needleman-Wunsch Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=needleman-wunsch">(link)</a></td>
+<td>11‑28‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm">Needleman-Wunsch</a> algorithm for optimal string alignment.</td>
+</tr>
+<tr>
+<td>Treap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=treap">(link)</a></td>
+<td>11‑28‑2010</td>
+<td>C++</td>
+<td>An implementation of a sorted associative array backed by a <a href="http://en.wikipedia.org/wiki/Treap">treap</a>.</td>
+</tr>
+<tr>
+<td>Floyd-Warshall Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=floyd-warshall">(link)</a></td>
+<td>12‑10‑2010</td>
+<td>Java</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Floyd-Warshall_algorithm">Floyd-Warshall algorithm</a> for all-pairs shortest paths in a graph.</td>
+</tr>
+<tr>
+<td>Power Iteration</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=power-iteration">(link)</a></td>
+<td>12‑10‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Power_iteration">power iteration</a> algorithm for finding dominant eigenvectors.</td>
+</tr>
+<tr>
+<td>Edmonds&#8217;s Matching Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=edmonds-matching">(link)</a></td>
+<td>12‑15‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Edmonds's_matching_algorithm">Edmonds&#8217;s matching algorithm</a> for finding <a href="http://en.wikipedia.org/wiki/Matching_(graph_theory)#Maximum_matchings">maximum matchings</a> in undirected graphs.</td>
+</tr>
+<tr>
+<td>Kosaraju&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=kosaraju">(link)</a></td>
+<td>12‑15‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Kosaraju's_algorithm">Kosaraju&#8217;s algorithm</a> algorithm for finding <a href="http://en.wikipedia.org/wiki/Strongly_connected_component">strongly connected components</a> of a directed graph.</td>
+</tr>
+<tr>
+<td>2-SAT</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=2sat">(link)</a></td>
+<td>12‑15‑2010</td>
+<td>Java</td>
+<td>A linear-time algorithm for solving <a href="http://en.wikipedia.org/wiki/2-satisfiability">2-SAT</a>.</td>
+</tr>
+<tr>
+<td>Bellman-Ford Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=bellman-ford">(link)</a></td>
+<td>12‑17‑2010</td>
+<td>Java</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm">Bellman-Ford</a> algorithm for single-source shortest paths.</td>
+</tr>
+<tr>
+<td>Topological Sort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=topological-sort">(link)</a></td>
+<td>12‑17‑2010</td>
+<td>Java</td>
+<td>An algorithm for computing a <a href="http://en.wikipedia.org/wiki/Topological_sorting">topological sort</a> of a directed acyclic graph.</td>
+</tr>
+<tr>
+<td>Graham Scan</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=graham-scan">(link)</a></td>
+<td>12‑19‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Graham_scan">Graham scan</a> for finding convex hulls in 2D space.</td>
+</tr>
+<tr>
+<td>Bipartite Testing</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=bipartite-verify">(link)</a></td>
+<td>12‑19‑2010</td>
+<td>Java</td>
+<td>A linear-time algorithm for checking whether a directed graph is <a href="http://en.wikipedia.org/wiki/Bipartite_graph">bipartite</a>.</td>
+</tr>
+<tr>
+<td>Johnson&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=johnson">(link)</a></td>
+<td>12‑19‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Johnson's_algorithm">Johnson&#8217;s algorithm</a> for all-pairs shortest paths.</td>
+</tr>
+<tr>
+<td>Strassen Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=strassen">(link)</a></td>
+<td>12‑20‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Strassen_algorithm">Strassen algorithm</a> for fast matrix multiplication.</td>
+</tr>
+<tr>
+<td>Cartesian Tree Sort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=cartesian-tree-sort">(link)</a></td>
+<td>12‑21‑2010</td>
+<td>C++</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Cartesian_tree#Application_in_sorting">Cartesian tree sort</a>, an adaptive, out-of-place heapsort variant.</td>
+</tr>
+<tr>
+<td>Ford-Fulkerson Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ford-fulkerson">(link)</a></td>
+<td>12‑21‑2010</td>
+<td>Java</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm">Ford-Fulkerson</a> maximum-flow algorithm.</td>
+</tr>
+<tr>
+<td>Scaling Ford-Fulkerson</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ford-fulkerson-scaling">(link)</a></td>
+<td>12‑22‑2010</td>
+<td>Java</td>
+<td>An modification of the <a href="http://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm">Ford-Fulkerson</a> maximum-flow algorithm that uses scaling to achieve polynomial time..</td>
+</tr>
+<tr>
+<td>Splay Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=splay-tree">(link)</a></td>
+<td>12‑27‑2010</td>
+<td>C++</td>
+<td>An implementation of a sorted associative array backed by a <a href="http://en.wikipedia.org/wiki/Splay_tree">splay tree</a>.</td>
+</tr>
+<tr>
+<td>Ternary Search Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ternary-search-tree">(link)</a></td>
+<td>12‑28‑2010</td>
+<td>C++</td>
+<td>An implementation of a sorted set of strings backed by a <a href="http://en.wikipedia.org/wiki/Ternary_search_tree">ternary search tree</a>.</td>
+</tr>
+<tr>
+<td>Ring Buffer</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ring-buffer">(link)</a></td>
+<td>12‑30‑2010</td>
+<td>Java</td>
+<td>An implementation of a FIFO queue using a <a href="http://en.wikipedia.org/wiki/Circular_buffer">ring buffer</a>.</td>
+</tr>
+<tr>
+<td>AVL Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=avl-tree">(link)</a></td>
+<td>12‑30‑2010</td>
+<td>C++</td>
+<td>A sorted associative container backed by an <a href="http://en.wikipedia.org/wiki/AVL_tree">AVL tree</a>.</td>
+</tr>
+<tr>
+<td>Rabin-Karp Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=rabin-karp">(link)</a></td>
+<td>1‑1‑2011</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_string_search_algorithm">Rabin-Karp algorithm</a> for string matching.</td>
+</tr>
+<tr>
+<td>RPN Evaluator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=rpn-evaluate">(link)</a></td>
+<td>1‑18‑2011</td>
+<td>C++ / strain</td>
+<td>A library to tokenize and evaluate simple arithmetic expressions in <a href="http://en.wikipedia.org/wiki/Reverse_Polish_notation">reverse Polish notation</a>.</td>
+</tr>
+<tr>
+<td>Shunting-Yard Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=shunting-yard">(link)</a></td>
+<td>1‑18‑2011</td>
+<td>C++ / strain</td>
+<td>An implementation of Dijkstra&#8217;s <a href="http://en.wikipedia.org/wiki/Shunting-yard_algorithm">shunting-yard algorithm</a> for converting infix expressions to reverse-Polish notation.</td>
+</tr>
+<tr>
+<td>Skew Binomial Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=skew-binomial-heap">(link)</a></td>
+<td>1‑20‑2011</td>
+<td>C++</td>
+<td>An implementation of a priority queue backed by a <a href="http://en.wikipedia.org/wiki/Skew_binomial_heap">skew binomial heap</a>.</td>
+</tr>
+<tr>
+<td>2/3 Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=two-three-heap">(link)</a></td>
+<td>3‑1‑2011</td>
+<td>C++</td>
+<td>An implementation of a priority queue whose branching factor alternates at different levels to maximize performance.</td>
+</tr>
+<tr>
+<td>Zeckendorf Logarithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=zeckendorf-logarithm">(link)</a></td>
+<td>3‑10‑2011</td>
+<td>C++</td>
+<td>An algorithm based on <a href="http://en.wikipedia.org/wiki/Zeckendorf's_theorem">Zeckendorf representations</a> that efficiently computes logarithms.</td>
+</tr>
+<tr>
+<td>Factoradic Permutations</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=factoradic-permutation">(link)</a></td>
+<td>3‑17‑2011</td>
+<td>C++</td>
+<td>A set of algorithms for generating <a href="http://en.wikipedia.org/wiki/Permutation">permutations</a> using the <a href="http://en.wikipedia.org/wiki/Factorial_number_system">factoradic number system</a>.</td>
+</tr>
+<tr>
+<td>Binary Cyclic Subsets</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=binary-subset">(link)</a></td>
+<td>3‑20‑2011</td>
+<td>C++</td>
+<td>A set of algorithms for generating <a href="http://en.wikipedia.org/wiki/Subset">subsets</a> in <a href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographical order</a> using <a href="http://www.keithschwarz.com/binary-subsets">binary numbers and cyclic shifts</a>.</td>
+</tr>
+<tr>
+<td>Fibonacci Iterator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=fibonacci-iterator">(link)</a></td>
+<td>3‑22‑2011</td>
+<td>C++</td>
+<td>An STL-style iterator for iterating over the <a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci numbers</a>.</td>
+</tr>
+<tr>
+<td>Fibonacci Search</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=fibonacci-search">(link)</a></td>
+<td>3‑22‑2011</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Fibonacci_search_technique">Fibonacci search</a> algorithm.</td>
+</tr>
+<tr>
+<td>Euclid&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=euclid">(link)</a></td>
+<td>4‑18‑2011</td>
+<td>Haskell</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Euclidean_algorithm">Euclid&#8217;s algorithm</a> and applications to <a href="http://en.wikipedia.org/wiki/Continued_fraction">continued fractions</a> and <a href="http://en.wikipedia.org/wiki/Extended_Euclidean_algorithm">the extended Euclidean algorithm</a>.</td>
+</tr>
+<tr>
+<td>Find Duplicate</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=find-duplicate">(link)</a></td>
+<td>4‑18‑2011</td>
+<td>Python</td>
+<td>An algorithm to find a repeated element in an array using <a href="http://en.wikipedia.org/wiki/Cycle_detection#Tortoise_and_hare">Floyd&#8217;s cycle-finding algorithm</a>.</td>
+</tr>
+<tr>
+<td>Permutation Generator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=permutation-generator">(link)</a></td>
+<td>4‑19‑2011</td>
+<td>Python</td>
+<td>A <a href="http://en.wikipedia.org/wiki/Generator_(computer_programming)">generator</a> for producing all <a href="http://en.wikipedia.org/wiki/Permutation">permutations</a> of a list of elements.</td>
+</tr>
+<tr>
+<td>Matrix Find</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=matrix-find">(link)</a></td>
+<td>4‑19‑2011</td>
+<td>Python</td>
+<td>A solution to the classic interview question of searching a sorted matrix for a particular value.</td>
+</tr>
+<tr>
+<td>Binary GCD</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=binary-gcd">(link)</a></td>
+<td>4‑23‑2011</td>
+<td>Scheme</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Binary_GCD_algorithm">binary GCD algorithm</a> for computing greatest common divisors of nonnegative integers.</td>
+</tr>
+<tr>
+<td>Knuth-Morris-Pratt Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=knuth-morris-pratt">(link)</a></td>
+<td>5‑3‑2011</td>
+<td>Python</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm">Knuth-Morris-Pratt algorithm</a> for fast string matching.</td>
+</tr>
+<tr>
+<td>Kadane&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=kadane">(link)</a></td>
+<td>5‑7‑2011</td>
+<td>C++</td>
+<td>An implementation of Kadane&#8217;s algorithm for solving the <a href="http://en.wikipedia.org/wiki/Maximum_subarray_problem">maximum-weight subarray problem</a>.</td>
+</tr>
+<tr>
+<td>Karatsuba&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=karatsuba">(link)</a></td>
+<td>8‑15‑2011</td>
+<td>Python</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Karatsuba_algorithm">Karatsuba&#8217;s algorithm</a> for fast integer multiplication.</td>
+</tr>
+<tr>
+<td>Min-Stack</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=min-stack">(link)</a></td>
+<td>8‑15‑2011</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Stack_(data_structure)">LIFO stack</a> that supports O(1) push, pop, and find-minimum.</td>
+</tr>
+<tr>
+<td>Random Bag</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=random-bag">(link)</a></td>
+<td>8‑15‑2011</td>
+<td>Python</td>
+<td>A data structure that supports insertion and removal of a uniformly-random element.</td>
+</tr>
+<tr>
+<td>Min-Queue</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=min-queue">(link)</a></td>
+<td>8‑15‑2011</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Queue_(data_structure)">FIFO queue</a> that supports O(1) push, pop, and find-minimum.</td>
+</tr>
+<tr>
+<td>Lights-Out Solver</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=lights-out">(link)</a></td>
+<td>8‑29‑2011</td>
+<td>C++</td>
+<td>A solver for the game <a href="http://en.wikipedia.org/wiki/Lights_Out_(game)">Lights Out</a> using <a href="http://en.wikipedia.org/wiki/Gaussian_elimination">Gaussian elimination</a> over <a href="http://en.wikipedia.org/wiki/GF(2)">GF(2)</a>.</td>
+</tr>
+<tr>
+<td>Maximum Single-Sell Profit</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=single-sell-profit">(link)</a></td>
+<td>11‑9‑2011</td>
+<td>Python</td>
+<td>Four algorithms for the <a href="http://stackoverflow.com/q/7086464/501557">maximum single-sell profit problem</a>, each showing off a different algorithmic technique.</td>
+</tr>
+<tr>
+<td>Generalized Kadane&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=generalized-kadane">(link)</a></td>
+<td>11‑10‑2011</td>
+<td>C++</td>
+<td>A generalization of <a href="http://en.wikipedia.org/wiki/Maximum_subarray_problem">Kadane&#8217;s algorithm</a> for solving the maximum subarray problem subject to a <a href="http://stackoverflow.com/q/7861387/501557">length restriction</a>.</td>
+</tr>
+<tr>
+<td>Longest Range</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=longest-range">(link)</a></td>
+<td>11‑19‑2011</td>
+<td>Java</td>
+<td>An algorithm for solving the <a href="http://stackoverflow.com/q/5415305/501557">longest contiguous range</a> problem.</td>
+</tr>
+<tr>
+<td>Egyptian Fractions</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=egyptian-fraction">(link)</a></td>
+<td>11‑20‑2011</td>
+<td>Python</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Greedy_algorithm_for_Egyptian_fractions">greedy algorithm</a> for finding <a href="http://en.wikipedia.org/wiki/Egyptian_fraction">Egyptian fractions</a>.</td>
+</tr>
+<tr>
+<td>LL(1) Parser Generator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ll1">(link)</a></td>
+<td>11‑21‑2011</td>
+<td>Java</td>
+<td>An <a href="http://en.wikipedia.org/wiki/LL_parser">LL(1) parser generator</a>.</td>
+</tr>
+<tr>
+<td>LR(0) Parser Generator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=lr0">(link)</a></td>
+<td>11‑23‑2011</td>
+<td>Java</td>
+<td>An <a href="http://en.wikipedia.org/wiki/LR_parser">LR(0) parser generator</a>.</td>
+</tr>
+<tr>
+<td>Word Ladders</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=word-ladder">(link)</a></td>
+<td>11‑27‑2011</td>
+<td>JavaScript</td>
+<td>A program for finding <a href="http://en.wikipedia.org/wiki/Word_ladder">word ladders</a> between two words.</td>
+</tr>
+</tbody>
+</table>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li><li ><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="可视化的数据结构和算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_title">可视化的数据结构和算法</a></li><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6010.html">一些有意思的算法代码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6010.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Python 和 PyGame 的一些示例</title>
+		<link>https://coolshell.cn/articles/4710.html</link>
+					<comments>https://coolshell.cn/articles/4710.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 18 May 2011 00:43:58 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[pygame]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4710</guid>
+
+					<description><![CDATA[<p>看到一个网页收集了很多使用Python和PyGame写游戏的示例，分享给大家。（注：我不知道用Python/PyGame写游戏其性能会怎么样，但是一些小游戏应该...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4710.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4710.html">Python 和 PyGame 的一些示例</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>看到<a href="http://cs.simpson.edu/?q=python_pygame_examples" target="_blank">一个网页</a>收集了很多使用Python和PyGame写游戏的示例，分享给大家。（注：我不知道用Python/PyGame写游戏其性能会怎么样，但是一些小游戏应该是没有问题的）</p>
+<p>这个网页同时给了一本<a href="http://cs.simpson.edu/files/CS_Intro_Book.pdf" target="_blank">介绍Python和PyGame的电子书</a>（PDF），下面的这些例子就是这本书的示例。所有的这些示例可以<a href="http://cs.simpson.edu/files/Python%20Examples.zip" target="_blank">打包下载</a>。</p>
+<h4>基础 Python 示例</h4>
+<ul>
+<li><a href="http://cs.simpson.edu/?q=if_statement_examples.py">if_statement_examples.py</a> &#8211; if 语句的一个简单示例</li>
+<li><a href="http://cs.simpson.edu/?q=for_loops_examples.py">for_loop_examples.py</a> &#8211; for 语句的一个简单示例.</li>
+<li><a href="http://cs.simpson.edu/?q=while_loop_examples.py">while_loop_examples.py</a> &#8211; while 语句的一个简单示例</li>
+</ul>
+<h4>Pygame 图形示例</h4>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=pygame_base_template.py">pygame_base_template.py</a> &#8211; 开启一个黑的 pygame 窗口。当你要写一个新的代码时，你可以使用这个示例的代码初始化你的程序。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/pygame_base_template.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/pygame_base_template_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=simple_graphics_demo.py">simple_graphics_demo.py</a> &#8211; 作图，画一些简单的图形。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/simple_graphics_demo.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/simple_graphics_demo_thumb.png" alt="simple_graphics_demo_thumb.png" /></a></td>
+</tr>
+</tbody>
+</table>
+<p><span id="more-4710"></span></p>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=functions_and_graphics.py">functions_and_graphics.py</a> &#8211; 图一些雪人。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/functions_and_graphics.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/functions_and_graphics_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=animating_snow.py">animating_snow.py</a> &#8211; 下雪动画。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/animating_snow.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/animating_snow_thumb.png" alt="Animating Snow" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=move_keyboard.py">move_keyboard.py</a> &#8211; 使用键盘移动一个图形</p>
+<p><a href="http://cs.simpson.edu/?q=move_mouse.py">move_mouse.py</a> &#8211; 使用鼠标移动一个图形</p>
+<p><a href="http://cs.simpson.edu/?q=move_game_controller.py">move_game_controller.py</a> &#8211; 使用游戏手柄移动一个图形</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/move_keyboard.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/move_keyboard_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=bitmapped_graphics.py">bitmapped_graphics.py</a> &#8211; 显示一些图片（png, jpb），并加入一些声音。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/bitmapped_graphics.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/bitmapped_graphics_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=array_backed_grid.py">array_backed_grid.py</a> &#8211; 一个网格，可以用来开发一些棋类的游戏。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/array_backed_grid.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/array_backed_grid_thumb.png" alt="" /></a></td>
+</tr>
+</tbody>
+</table>
+<h4>Pygame 示例</h4>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=sprite_collect_blocks.py">sprite_collect_blocks.py</a> &#8211; 使用鼠标移动一个小点</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_blocks.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_blocks_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=sprite_collect_circle.py">sprite_collect_circle.py</a> &#8211; 和上面的示例一样，只不过是圆点。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_circle.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_circle_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=sprite_collect_graphic.py">sprite_collect_graphic.py</a> &#8211; 和上面的示例一样，只不过是图片。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_graphic.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_graphic_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=move_sprite_mouse.py">move_sprite_mouse.py</a> &#8211; 用鼠标移动一个点</p>
+<p><a href="http://cs.simpson.edu/?q=move_sprite_keyboard_jump.py">move_sprite_keyboard_jump.py</a> &#8211; 用键盘移动一个点（跳动式的）</p>
+<p><a href="http://cs.simpson.edu/?q=move_sprite_keyboard_smooth.py">move_sprite_keyboard_smooth.py</a> &#8211; 用键盘移动一个点（平滑式的）.</p>
+<p><a href="http://cs.simpson.edu/?q=move_sprite_game_controller.py">move_sprite_game_controller.py</a> &#8211; 用游戏手柄移动一个点</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/move_sprite_mouse.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/move_sprite_mouse_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=move_with_walls_example.py">move_with_walls_example.py</a> &#8211; 移动一个点，但是会被墙阻止。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/move_with_walls_example.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/move_with_walls_example_thumb.png" alt="" /></a></td>
+</tr>
+</tbody>
+</table>
+<h4>游戏示例</h4>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=bounce_ball_with_paddle.py">bounce_ball_with_paddle.py</a> &#8211; 两个玩家玩对碰球游戏，需要两个手柄。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/bounce_ball_with_paddle.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/bounce_ball_with_paddle_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=breakout_simple.py">breakout_simple.py</a> &#8211; 一个简单的游戏，显示 &#8220;Game Over&#8221; 信息.</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/breakout_simple.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/breakout_simple_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td>一个学生的作业. <a href="http://cs.simpson.edu/?q=node/62">Spring 2011</a></td>
+<td><a href="http://cs.simpson.edu/?q=node/62"><img decoding="async" src="http://cs.simpson.edu/files/2011spring.png" alt="" /></a></td>
+</tr>
+<tr>
+<td>另一个学生的作业.<a href="http://cs.simpson.edu/21"> Fall 2010</a></p>
+<p><a href="http://cs.simpson.edu/?q=node/23">Download games</a> &#8211; .</td>
+<td><a href="http://cs.simpson.edu/?q=node/21"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/sample_games_vid.png" alt="" /></a></td>
+</tr>
+</tbody>
+</table>
+<h4>创建一个安装包</h4>
+<p><a href="http://cs.simpson.edu/?q=make_an_installer_for_your_python_program">Python Pygame 安装包教程 </a></p>
+<h4>搜索和排序示例</h4>
+<ul>
+<li><a href="http://cs.simpson.edu/files/example_sorted_names.txt">example_sorted_names.txt</a> &#8211; Sample file of names used in searching_example.py</li>
+<li><a href="http://cs.simpson.edu/?q=searching_example.py">searching_example.py</a> &#8211; Example linear and binary searches</li>
+<li><a href="http://cs.simpson.edu/files/AliceInWonderLand.txt">AliceInWonderLand.txt</a> &#8211; Text of Alice In Wonderland. Source: <a href="http://www.gutenberg.org/wiki/Main_Page">Project Gutenberg</a></li>
+<li><a href="http://cs.simpson.edu/files/AliceInWonderLand200.txt">AliceInWonderLand200.txt</a></li>
+<li><a href="http://cs.simpson.edu/files/dictionary.txt">dictionary.txt</a></li>
+<li><a href="http://cs.simpson.edu/?q=sorting_examples.py">sorting_examples.py</a> &#8211; Example code for the insertion and selection sorts.</li>
+</ul>
+<h4>文件示例</h4>
+<p><a href="http://cs.simpson.edu/?q=high_score.py">high_score.py</a> &#8211; Example that shows how to read and write a high score to the disk so that it persists between program runs.</p>
+<h4>其它信息</h4>
+<ul>
+<li><a href="http://www.pygame.org/">Pygame Website</a> &#8211; Pygame 主站</li>
+<li><a href="http://www.pygame.org/docs/">Pygame Documentation</a> &#8211; Pygame 文档</li>
+</ul>
+<p>（全文完）</p>
+<p>——————————</p>
+<p><strong><span style="color: #000000;">最后，不好意思很久没有更新酷壳，这段时间在国外出差，事多，5月31回国。大家见谅！</span></strong><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/1928.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/27.jpg" alt="如何使用Python操作摄像头" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1928.html" class="wp_rp_title">如何使用Python操作摄像头</a></li><li ><a href="https://coolshell.cn/articles/1157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="Python 自然语言处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1157.html" class="wp_rp_title">Python 自然语言处理</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4710.html">Python 和 PyGame 的一些示例</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4710.html/feed</wfw:commentRss>
+			<slash:comments>15</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>在Javascript里写Python</title>
+		<link>https://coolshell.cn/articles/2688.html</link>
+					<comments>https://coolshell.cn/articles/2688.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 21 Jul 2010 00:17:39 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[IronPython]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2688</guid>
+
+					<description><![CDATA[<p>以前，本站介绍过去一种写HTML和CSS的新方法，以一种杂交式的代码，昨天给大家介绍了.NET代码和Python及Ruby代码的互相转换工具，但是这个世界可能比...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2688.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2688.html">在Javascript里写Python</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前，本站介绍过去一种<a rel="bookmark" href="https://coolshell.cn/articles/2406.html" target="_blank">写HTML和CSS的新方法</a>，以<a href="https://coolshell.cn/articles/2529.html" target="_blank">一种杂交式的代码</a>，昨天给大家介绍了<a href="https://coolshell.cn/articles/2672.html" target="_blank">.NET代码和Python及Ruby代码的互相转换工具</a>，但是这个世界可能比我们想像的还疯狂。<a href="  http://ironpython.net/" target="_blank">IronPython</a> 是一个在.NET平台上运行Python的东西，就像那些在<a href="https://coolshell.cn/articles/2631.html" target="_blank">JVM上运行其它语言的东东</a>一样。当然，IronPython最邪恶的事情并不是在.NET上运行Python，而是在Javascript里写Python的语法。这个畸形混血儿的网址在<a href="http://ironpython.net/browser/" target="_blank">这里</a>（请注意翻墙）。</p>
+<p>使用这个玩意很简单，下面，让我们看看这个混血儿长啥样？</p>
+<p>首先，你需要链接一个js文件：</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+&lt;script src=&quot;http://gestalt.ironpython.net/dlr-latest.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;</pre>
+<p>然后，让我们看看如何写一个按钮事件：</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+&lt;input id=&quot;button&quot; type=&quot;button&quot; value=&quot;Say, Hello!&quot; /&gt;
+&lt;script type=&quot;text/python&quot;&gt;
+  def button_onclick(s, e):
+      window.Alert(&quot;Hello from Python!&quot;)
+  document.button.events.onclick += button_onclick
+&lt;/script&gt;
+</pre>
+<p>你对此事怎么看？欢迎留下你的看法。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-150x150.jpg" alt="如何读懂并写出装逼的函数式代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_title">如何读懂并写出装逼的函数式代码</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2688.html">在Javascript里写Python</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2688.html/feed</wfw:commentRss>
+			<slash:comments>14</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>五大基于JVM的脚本语言</title>
+		<link>https://coolshell.cn/articles/2631.html</link>
+					<comments>https://coolshell.cn/articles/2631.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 19 Jul 2010 11:40:42 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Clojure]]></category>
+		<category><![CDATA[Fantom]]></category>
+		<category><![CDATA[Groovy]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[JavaFX]]></category>
+		<category><![CDATA[JRuby]]></category>
+		<category><![CDATA[JVM]]></category>
+		<category><![CDATA[Jython]]></category>
+		<category><![CDATA[NetRexx]]></category>
+		<category><![CDATA[Scala]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2631</guid>
+
+					<description><![CDATA[<p>还记得以前本站的一篇文章《如何在Google App Engine上运行PHP》吗，其实那是借用 Quercus， 一个 100% 的用Java 实现的一个 P...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2631.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2631.html">五大基于JVM的脚本语言</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>还记得以前本站的一篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/531.html" target="_blank">如何在Google App Engine上运行PHP</a>》吗，其实那是借用 <a href="http://www.caucho.com/resin-3.0/quercus/">Quercus</a>， 一个 100% 的用Java 实现的一个 PHP 引擎。今天，这样的东西太多了，能运行在Java的虚拟机JVM上的程序意味着有天然的跨平台性，现在JVM并不单单只能运行Java程序，在JVM上出现了若干使用Java虚拟机运行的脚本程序，比如什么PHP, Python, Ruby等等，这里有一篇<a href="http://infoworld.com/d/developer-world/top-five-scripting-languages-the-jvm-855" target="_blank">文章</a>评论了在JVM上的可以运行的排名前五脚本语言。他们分别是：</p>
+<ol>
+<li><a href="http://groovy.codehaus.org/" target="_blank"> <strong>Groovy</strong></a>。构建在强大的Java语言之上 并添加了从Python，Ruby和Smalltalk等语言中学到的诸多特征，为Java开发者提供了现代最流行的编程语言特性，而且学习成本很低（几乎为零），在开发Web，GUI，数据库或控制台程序时， 通过减少框架性代码 大大提高了开发者的效率。支持单元测试和模拟（对象），可以简化测试。无缝集成 所有已经存在的 Java对象和类库。直接编译成Java字节码，这样可以在任何使用Java的地方 使用Groovy。</li>
+<li><a href="http://jruby.org/" target="_blank"><strong>JRuby</strong></a>。一个纯Java实现的Ruby解释器。通过JRuby，你可以在JVM上直接运行Ruby程序，调用Java的类库。很多Java编写的Ruby IDE都是使用JRuby来解释语法的。</li>
+<li><a href="http://www.scala-lang.org/" target="_blank"> <strong>Scala</strong></a>。一种多范式的编程语言，设计意图是要整合面向对象编程和函数式编程的各种特性。Scala编程语言近来抓住了很多开发者的眼球。它看起来像是一种纯粹的面向对象编程语言，而又无缝地结合了命令式和函数式的编程风格。Scala的名称表明，它还是一种高度可伸缩的语言。Scala的设计始终贯穿着一个理念：创造一种更好地支持组件的语言。</li>
+<li><a href="http://fantom.org/" target="_blank"><strong>Fantom </strong></a>。Fantom 前身是 (Fan) 是一个基于 Java 和 .NET 平台的编程脚本引擎，用来在运行时产生 JVM 和 .NET 平台的字节码，该语言是面向对象的，跟 Groovy 和 JRuby 有点类似，可通过特定的接口来集成 Java 的类库。</li>
+<li><a href="http://www.jython.org/" target="_blank"><strong>Jython</strong></a>。Jython由于继承了Java和Python二者的特性而显得很独特。其是一种完整的语言，而不是一个Java翻译器或仅仅是一个Python编译器，它是一个Python语言在Java中的完全实现。Jython也有很多从CPython中继承的模块库。最有趣的事情是Jython不像CPython或其他任何高级语言，它提供了对其实现语言的一切存取。所以Jython不仅给你提供了Python的库，同时也提供了所有的Java类。这使其有一个巨大的资源库。</li>
+</ol>
+<p><a href="http://www.infoworld.com/d/developer-world/top-five-scripting-languages-the-jvm-855?page=0,1#jvm1"></a></p>
+<p><a href="http://www.infoworld.com/d/developer-world/top-five-scripting-languages-the-jvm-855?page=0,3#jvm4"></a></p>
+<p>下面是一张表格比较了这五大JVM脚本语言：</p>
+<p><span id="more-2631"></span></p>
+<table border="0" align="center">
+<tbody>
+<tr>
+<th></th>
+<th><a href="http://groovy.codehaus.org/" target="_blank"><strong>Groovy</strong></a></th>
+<th><a href="http://jruby.org/" target="_blank"><strong>JRuby</strong></a></th>
+<th><a href="http://www.scala-lang.org/" target="_blank"><strong>Scala</strong></a></th>
+<th><a href="http://fantom.org/" target="_blank"><strong>Fantom</strong></a></th>
+<th><a href="http://www.jython.org/" target="_blank"><strong>Jython</strong></a></th>
+</tr>
+<tr>
+<td><strong>风格类型</strong></td>
+<td>OO / 动态</td>
+<td>OO / 动态</td>
+<td>OO, 过程/ 静态</td>
+<td>OO / 静态</td>
+<td>OO / 动态</td>
+</tr>
+<tr>
+<td><strong>源语言</strong></td>
+<td>Java</td>
+<td>Ruby</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><strong>运行</strong></td>
+<td>编译型</td>
+<td>编译型,<br />
+解释型</td>
+<td>编译型</td>
+<td>半编译型</td>
+<td>编译型</td>
+</tr>
+<tr>
+<td><strong>平台</strong></td>
+<td>JVM</td>
+<td>JVM</td>
+<td>JVM</td>
+<td>JVM, .Net CLR</td>
+<td>JVM</td>
+</tr>
+<tr>
+<td><strong>Java集成</strong></td>
+<td>极好</td>
+<td>极好</td>
+<td>极好</td>
+<td>好</td>
+<td>极好</td>
+</tr>
+<tr>
+<td><strong>运行速度</strong></td>
+<td>好</td>
+<td>好</td>
+<td>极好</td>
+<td>很好</td>
+<td>慢</td>
+</tr>
+<tr>
+<td><strong>工具支持</strong></td>
+<td>广泛</td>
+<td>还可以</td>
+<td>广泛</td>
+<td>几乎没有</td>
+<td>几乎没有</td>
+</tr>
+</tbody>
+</table>
+<p>其它一些JVM的脚本语言也我们可以关注一下，如：<a href="http://clojure.org/" target="_blank"><strong>Clojure</strong></a>, <a href="http://javafx.com/" target="_blank"><strong>JavaFX</strong></a>, 和IBM的 <a href="http://www.ibm.com/software/awdtools/netrexx/" target="_blank"><strong>NetRexx</strong></a>。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="面向GC的Java编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_title">面向GC的Java编程</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li ><a href="https://coolshell.cn/articles/11175.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2631.html">五大基于JVM的脚本语言</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2631.html/feed</wfw:commentRss>
+			<slash:comments>16</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Python处理encoding的小技巧</title>
+		<link>https://coolshell.cn/articles/2109.html</link>
+					<comments>https://coolshell.cn/articles/2109.html#comments</comments>
+		
+		<dc:creator><![CDATA[mailper]]></dc:creator>
+		<pubDate>Mon, 08 Feb 2010 14:06:00 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2109</guid>
+
+					<description><![CDATA[<p>用Python写过处理文本经常会遇到需要decoding或者encoding, 尤其是处理中文的时候。 encoding的问题处理起来是个脏活儿，报错不太容易看...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2109.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2109.html">Python处理encoding的小技巧</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>用Python写过处理文本经常会遇到需要decoding或者encoding, 尤其是处理中文的时候。</p>
+<p>encoding的问题处理起来是个脏活儿，报错不太容易看懂，网上相关资料不太好查。有同感？请继续读下去。</p>
+<p>常规做法是读取文件的时候立刻decode, 所有的处理工作都用unicode，写会文件的时候encode. 但是等到读取的时候在处理的代码读/写起来都很别扭，感觉像穿上鞋以后袜子滑下来了&#8230;<span style="color: #ff0000;">Python 3.1.1</span><span style="color: #ff0000;">以上</span>的版本解决了该问题。在Python 3.1.1中，打开文件可以加入encoding的参数：</p>
+<pre>file = open(filename, <span style="color: #0000ff;">encoding='xxx'</span>)</pre>
+<p>啊，这样看起来终于舒坦了。 不同写如下的code了</p>
+<pre>file = open(filename)
+for line in file:
+    <span style="color: #0000ff;">decoded_line = line.decode('xxx')</span>
+    do something else
+提倡使用<span style="color: #0000ff;">utf8</span></pre>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Quora使用到的技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_title">Quora使用到的技术</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2109.html">Python处理encoding的小技巧</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2109.html/feed</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Python程序员的进化</title>
+		<link>https://coolshell.cn/articles/2082.html</link>
+					<comments>https://coolshell.cn/articles/2082.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 01 Feb 2010 09:42:48 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2082</guid>
+
+					<description><![CDATA[<p>以前本站发布过一篇《程序员的进化》，以一种幽默的代码展现方式调侃了程序。下面这篇是关于Python程序员的。以阶乘为例，很有意思。 新手程序员 def fact...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2082.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2082.html">Python程序员的进化</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前本站发布过一篇《<a href="https://coolshell.cn/articles/172.html" target="_blank">程序员的进化</a>》，以一种幽默的代码展现方式调侃了程序。下面这篇是关于Python程序员的。以阶乘为例，很有意思。</p>
+<h4>新手程序员</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">def factorial(x):
+    if x == 0:
+        return 1
+    else:
+        return x * factorial(x - 1)
+print factorial(6)</pre>
+<h4>
+第一年的刚学完Pascal的新手</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">def factorial(x):
+    result = 1
+    i = 2
+    while i &lt;= x:
+        result = result * i
+        i = i + 1
+    return result
+print factorial(6)</pre>
+<h4><span id="more-2082"></span></h4>
+<h4>
+第一年的刚学完C语言的新手</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">def fact(x): #{
+    result = i = 1;
+    while (i &lt;= x): #{
+        result *= i;
+        i += 1;
+    #}
+    return result;
+#}
+print(fact(6))</pre>
+<h4>
+第一年刚学完SICP的新手</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">@tailcall
+def fact(x, acc=1):
+    if (x &gt; 1): return (fact((x - 1), (acc * x)))
+    else:       return acc
+print(fact(6))</pre>
+<h4>
+第一年刚学完Python的新手</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">def Factorial(x):
+    res = 1
+    for i in xrange(2, x + 1):
+        res *= i
+    return res
+print Factorial(6)</pre>
+<h4>
+爱偷懒的程序员</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">def fact(x):
+    return x &gt; 1 and x * fact(x - 1) or 1
+print fact(6)</pre>
+<h4>
+更懒的 Python 程序员</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">f = lambda x: x and x * f(x - 1) or 1
+print f(6)</pre>
+<h4>
+Python 专家</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">import operator as op
+import functional as f
+fact = lambda x: f.foldl(op.mul, 1, xrange(2, x + 1))
+print fact(6)</pre>
+<h4>Python 黑客</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">import sys
+@tailcall
+def fact(x, acc=1):
+    if x: return fact(x.__sub__(1), acc.__mul__(x))
+    return acc
+sys.stdout.write(str(fact(6)) + &#039;\n&#039;)</pre>
+<h4>
+专家级程序员</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">import c_math
+fact = c_math.fact
+print fact(6)</pre>
+<h4>
+英语系的专家级程序员</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">import c_maths
+fact = c_maths.fact
+print fact(6)</pre>
+<h4>
+Web 设计者</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">def factorial(x):
+    #-------------------------------------------------
+    #--- Code snippet from The Math Vault          ---
+    #--- Calculate factorial (C) Arthur Smith 1999 ---
+    #-------------------------------------------------
+    result = str(1)
+    i = 1 #Thanks Adam
+    while i &lt;= x:
+        #result = result * i  #It&#039;s faster to use *=
+        #result = str(result * result + i)
+           #result = int(result *= i) #??????
+        result str(int(result) * i)
+        #result = int(str(result) * i)
+        i = i + 1
+    return result
+print factorial(6)</pre>
+<h4>
+Unix 程序员</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">import os
+def fact(x):
+    os.system(&#039;factorial &#039; + str(x))
+fact(6)</pre>
+<h4>
+Windows 程序员</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">NULL = None
+def CalculateAndPrintFactorialEx(dwNumber,
+                                 hOutputDevice,
+                                 lpLparam,
+                                 lpWparam,
+                                 lpsscSecurity,
+                                 *dwReserved):
+    if lpsscSecurity != NULL:
+        return NULL #Not implemented
+    dwResult = dwCounter = 1
+    while dwCounter &lt;= dwNumber:
+        dwResult *= dwCounter
+        dwCounter += 1
+    hOutputDevice.write(str(dwResult))
+    hOutputDevice.write(&#039;\n&#039;)
+    return 1
+import sys
+CalculateAndPrintFactorialEx(6, sys.stdout, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)</pre>
+<h4>
+公司里的程序员</h4>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">def new(cls, *args, **kwargs):
+    return cls(*args, **kwargs)
+
+class Number(object):
+    pass
+
+class IntegralNumber(int, Number):
+    def toInt(self):
+        return new (int, self)
+
+class InternalBase(object):
+    def __init__(self, base):
+        self.base = base.toInt()
+
+    def getBase(self):
+        return new (IntegralNumber, self.base)
+
+class MathematicsSystem(object):
+    def __init__(self, ibase):
+        Abstract
+
+    @classmethod
+    def getInstance(cls, ibase):
+        try:
+            cls.__instance
+        except AttributeError:
+            cls.__instance = new (cls, ibase)
+        return cls.__instance
+
+class StandardMathematicsSystem(MathematicsSystem):
+    def __init__(self, ibase):
+        if ibase.getBase() != new (IntegralNumber, 2):
+            raise NotImplementedError
+        self.base = ibase.getBase()
+
+    def calculateFactorial(self, target):
+        result = new (IntegralNumber, 1)
+        i = new (IntegralNumber, 2)
+        while i &lt;= target:
+            result = result * i
+            i = i + new (IntegralNumber, 1)
+        return result
+
+print StandardMathematicsSystem.getInstance(new (InternalBase, new (IntegralNumber, 2))).calculateFactorial(new (IntegralNumber, 6))</pre>
+<p>摘自：<a href="http://gist.github.com/289467" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Quora使用到的技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_title">Quora使用到的技术</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2082.html">Python程序员的进化</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2082.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何使用Python操作摄像头</title>
+		<link>https://coolshell.cn/articles/1928.html</link>
+					<comments>https://coolshell.cn/articles/1928.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 11 Dec 2009 06:10:30 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[PIL]]></category>
+		<category><![CDATA[pygame]]></category>
+		<category><![CDATA[VideoCapture]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1928</guid>
+
+					<description><![CDATA[<p>用过USB摄像头的都知道，你需要使用鼠标来操作它，比如截个图，录个像什么的，要点N次鼠标，对于我们那些不喜欢多次点击鼠标的人来说，这是一件很boring的事情，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1928.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1928.html">如何使用Python操作摄像头</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>用过USB摄像头的都知道，你需要使用鼠标来操作它，比如截个图，录个像什么的，要点N次鼠标，对于我们那些不喜欢多次点击鼠标的人来说，这是一件很boring的事情，所以，本文将教你如何使用Python来操作摄像头。</p>
+<p>这里，我们需要三个Python库： <a href="http://videocapture.sourceforge.net/">VideoCapture</a>， <a href="http://www.pythonware.com/products/pil/">PIL</a>  和 <a href="http://www.pygame.org/">pygame</a>。使用这三个库你可以非常容易的编写一个摄像头程序。之所以使用pygame，其目的就是因为这个库可以处理视频帧（fps）。下面是代码：</p>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">from VideoCapture import Device
+import ImageDraw, sys, pygame, time
+from pygame.locals import *
+from PIL import ImageEnhance
+
+res = (640,480)
+pygame.init()
+cam = Device()
+cam.setResolution(res[0],res[1])
+screen = pygame.display.set_mode((640,480))
+pygame.display.set_caption(&#039;Webcam&#039;)
+pygame.font.init()
+font = pygame.font.SysFont(&quot;Courier&quot;,11)
+
+def disp(phrase,loc):
+    s = font.render(phrase, True, (200,200,200))
+    sh = font.render(phrase, True, (50,50,50))
+    screen.blit(sh, (loc[0]+1,loc[1]+1))
+    screen.blit(s, loc)
+
+brightness = 1.0
+contrast = 1.0
+shots = 0
+
+while 1:
+    camshot = ImageEnhance.Brightness(cam.getImage()).enhance(brightness)
+    camshot = ImageEnhance.Contrast(camshot).enhance(contrast)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: sys.exit()
+    keyinput = pygame.key.get_pressed()
+    if keyinput[K_1]: brightness -= .1
+    if keyinput[K_2]: brightness += .1
+    if keyinput[K_3]: contrast -= .1
+    if keyinput[K_4]: contrast += .1
+    if keyinput[K_q]: cam.displayCapturePinProperties()
+    if keyinput[K_w]: cam.displayCaptureFilterProperties()
+    if keyinput[K_s]:
+        filename = str(time.time()) + &quot;.jpg&quot;
+        cam.saveSnapshot(filename, quality=80, timestamp=0)
+        shots += 1
+    camshot = pygame.image.frombuffer(camshot.tostring(), res, &quot;RGB&quot;)
+    screen.blit(camshot, (0,0))
+    disp(&quot;S:&quot; + str(shots), (10,4))
+    disp(&quot;B:&quot; + str(brightness), (10,16))
+    disp(&quot;C:&quot; + str(contrast), (10,28))
+    pygame.display.flip()</pre>
+<p>这段代码中的一些要点的解释如下：</p>
+<p><span id="more-1928"></span></p>
+<ul>
+<li>第15行的那个函数是在视频上显示些信息。这个例子中，显示的是抓图的数量以及当前的亮度和对比度。这个函数先显示深灰色的文本，然后偏移几个像素，再显示浅灰色的，这样可以有阴影的效果。</li>
+<li>第26行是在调整亮度和对比度。30-33行是在设置数字键1-4用于调整亮度和对比度。</li>
+<li>34 和35行是在设置 &#8216;q&#8217; 和 &#8216;w&#8217; 来显示摄像头的对话框。在那里你可以调整分辨率和暴光度等等。</li>
+<li>36行及以下的代码，是在存一个抓图文件。文件名中使用了当前时间。.</li>
+</ul>
+<p>希望这个小程序能给你开启一个如何写摄像头的程序。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1928.html">如何使用Python操作摄像头</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1928.html/feed</wfw:commentRss>
+			<slash:comments>14</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>非常简单的Python HTTP服务</title>
+		<link>https://coolshell.cn/articles/1480.html</link>
+					<comments>https://coolshell.cn/articles/1480.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 27 Sep 2009 03:34:10 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1480</guid>
+
+					<description><![CDATA[<p>如果你急需一个简单的Web Server，但你又不想去下载并安装那些复杂的HTTP服务程序，比如：Apache，ISS等。那么， Python 可能帮助你。使用...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1480.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1480.html">非常简单的Python HTTP服务</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>如果你急需一个简单的Web Server，但你又不想去下载并安装那些复杂的HTTP服务程序，比如：Apache，ISS等。那么， <a href="http://www.python.org/">Python</a> 可能帮助你。使用Python可以完成一个简单的内建 HTTP 服务器。于是，你可以把你的目录和文件都以HTTP的方式展示出来。佻只需要干一件事情，那就是安装一个Python。</p>
+<p>实际上来说，这是一个可以用来共享文件的非常有用的方式。实现一个微型的HTTP服务程序来说是很简单的事情，在Python下，只需要一个命令行。下面是这个命令行：（假设我们需要共享我们的目录 <tt><span>/home/haoel</span></tt> 而IP地址是192.168.1.1）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ cd /home/haoel
+$ python -m SimpleHTTPServer
+</pre>
+<p><span id="more-1480"></span></p>
+<p>这就行了，而我们的HTTP服务在8000号端口上侦听。你会得到下面的信息：</p>
+<pre>Serving HTTP on 0.0.0.0 port 8000 ...</pre>
+<p>你可以打开你的浏览器（IE或Firefox），然后输入下面的URL：</p>
+<pre>http://192.168.1.1:8000</pre>
+<p>如果你的目录下有一个叫 index.html 的文件名的文件，那么这个文件就会成为一个默认页，如果没有这个文件，那么，目录列表就会显示出来。</p>
+<p>如果你想改变端口号，你可以使用如下的命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ python -m SimpleHTTPServer 8080
+</pre>
+<p>如果你只想让这个HTTP服务器服务于本地环境，那么，你需要定制一下你的Python的程序，下面是一个示例：</p>
+<p>[py]<br />
+import sys<br />
+import BaseHTTPServer<br />
+from SimpleHTTPServer import SimpleHTTPRequestHandler<br />
+HandlerClass = SimpleHTTPRequestHandler<br />
+ServerClass  = BaseHTTPServer.HTTPServer<br />
+Protocol     = &quot;HTTP/1.0&quot;</p>
+<p>if sys.argv[1:]:<br />
+    port = int(sys.argv[1])<br />
+else:<br />
+    port = 8000<br />
+server_address = (&#8216;127.0.0.1&#8217;, port)</p>
+<p>HandlerClass.protocol_version = Protocol<br />
+httpd = ServerClass(server_address, HandlerClass)</p>
+<p>sa = httpd.socket.getsockname()<br />
+print &quot;Serving HTTP on&quot;, sa[0], &quot;port&quot;, sa[1], &quot;&#8230;&quot;<br />
+httpd.serve_forever()<br />
+[/py]</p>
+<p>注意：所有的这些东西都可以在 Windows 或 <a href="http://www.cygwin.com/">Cygwin</a> 下工作。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1480.html">非常简单的Python HTTP服务</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1480.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Erlang和Python互通</title>
+		<link>https://coolshell.cn/articles/1313.html</link>
+					<comments>https://coolshell.cn/articles/1313.html#comments</comments>
+		
+		<dc:creator><![CDATA[free.wang]]></dc:creator>
+		<pubDate>Mon, 24 Aug 2009 14:30:49 +0000</pubDate>
+				<category><![CDATA[Erlang]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1313</guid>
+
+					<description><![CDATA[<p>最近开发 Erlang ,对其字符串处理能力无言至极,于是决定把它和python联合起来,打造一个强力的分布式系统,等将来需要系统级开发时,我再把 C++/C组...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1313.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1313.html">Erlang和Python互通</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>最近开发 Erlang ,对其字符串处理能力无言至极,于是决定把它和python联合起来,打造一个强力的分布式系统,等将来需要系统级开发时,我再把 C++/C组合进来.</p>
+<p>首先参考了 Erlang 官方文档和 <a href="http://www.zend2.com/DoIt.php?u=Oi8vd3d3LmJsb2dnZXIuY29tL2Jsb2cuZGV2ZWxvcGVycy5hcGkuc2luYS5jb20uY24vP3RhZz1lcmxhbmc%3D&amp;b=5">http://<cite>blog.developers.api.sina.com.cn/?tag=<strong>erlang</strong></cite></a> 以及<a href="http://www.zend2.com/DoIt.php?u=Oi8va2F6bWllci5uZXQvY29tcHV0ZXIvcG9ydC1ob3d0by8%3D&amp;b=5"> http://kazmier.net/computer/port-howto/</a> .</p>
+<p>研读了将近24个小时, 才终于完全把问题解决.  起名为town，town在英文里表示集市，也就是代表各种语言在这里的交流与互动。) )<br />
+<span id="more-1313"></span><br />
+[erl]-module(town).<br />
+-behaviour(gen_server).</p>
+<p>%% API<br />
+-export([start/0,combine/1]).</p>
+<p>%% gen_server callbacks<br />
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2,<br />
+terminate/2, code_change/3]).<br />
+-record(state, {port}).</p>
+<p>start() -&amp;gt;<br />
+  gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).<br />
+stop() -&amp;gt;<br />
+  gen_server:cast(?SERVER, stop).<br />
+init([]) -&amp;gt;<br />
+  process_flag(trap_exit, true),<br />
+  Port = open_port({spawn, &quot;python -u /home/freefis/Desktop/town.py&quot;},[stream,{line, 1024}]),<br />
+  {ok, #state{port = Port}}.</p>
+<p>handle_call({combine,String}, _From, #state{port = Port} = State) -&amp;gt;<br />
+  port_command(Port,String),<br />
+  receive<br />
+    {Port,{data,{_Flag,Data}}} -&amp;gt;<br />
+      io:format(&quot;receiving:~p~n&quot;,[Data]),<br />
+      sleep(2000),<br />
+      {reply, Data, Port}<br />
+  end.<br />
+handle_cast(stop, State) -&amp;gt;<br />
+  {stop, normal, State};<br />
+handle_cast(_Msg, State) -&amp;gt;<br />
+  {noreply, State}.</p>
+<p>handle_info(Info, State) -&amp;gt;<br />
+  {noreply,State}.</p>
+<p>terminate(_Reason, Port) -&amp;gt;<br />
+  ok.</p>
+<p>code_change(_OldVsn, State, _Extra) -&amp;gt;<br />
+  {ok, State}.</p>
+<p>%%&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;<br />
+%%% Internal &#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+combine(_String) -&amp;gt;<br />
+  start(),<br />
+  String = list_to_binary(&quot;combine|&quot;++_String++&quot;\n&quot;),<br />
+  gen_server:call(?SERVER,{combine,String},infinity),<br />
+  stop().[/erl]<br />
+这段是Python的脚本 当erlang中town:combine(&#8220;sentence1+sentence2&#8221;)执行时，会在后台启动python的脚本，处理完毕后返回给Erlang结果:sentence1sentence2，然后退出。 </p>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">
+import sys
+def handle(_string):
+    if _string.startswith(&quot;combine|&quot;):
+        string = &quot;&quot;.join( _string[8:].split(&quot;,&quot;))
+        return string
+
+&quot;&quot;&quot;waiting for input &quot;&quot;&quot;
+while 1:
+    # Recv. Binary Stream as Standard IN
+    _stream = sys.stdin.readline()
+
+if not _stream: break
+    # Scheme, Turn into  Formal String
+    inString  = _stream.strip(&quot;\r\n&quot;)
+    # handle String
+    outString = handle(inString)
+    # send to port as Standart OUT
+    sys.stdout.write(&quot;%s\n&quot; % (outString,))
+    sys.exit(0)</pre>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/oscar-meyer-wienermobile-150x150.jpg" alt="编程语言汽车" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_title">编程语言汽车</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1313.html">Erlang和Python互通</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1313.html/feed</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Python也Spring了</title>
+		<link>https://coolshell.cn/articles/1204.html</link>
+					<comments>https://coolshell.cn/articles/1204.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 30 Jul 2009 12:43:12 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Spring]]></category>
+		<category><![CDATA[SpringPython]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1204</guid>
+
+					<description><![CDATA[<p>没想到啊，Python也有Spring的框架了，看看SpringPython项目主页（http://springpython.webfactional.com/...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1204.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1204.html">Python也Spring了</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" src="http://springpython.webfactional.com/reference/html/images/spring_python_white.png" alt="" width="265" height="90" />没想到啊，Python也有Spring的框架了，看看SpringPython项目主页（<a href="http://springpython.webfactional.com/">http://springpython.webfactional.com/</a>）。这个项目的Leader是这样说的：Spring Python是基于Java的Spring框架（Spring Framework）和Spring安全（Spring Security）的一个分支，它以Python语言为目标。Spring提供了许多有用的特征功能，同样地这些特征功能在Python下也应当有效。&#8211; Greg Turnquist</p>
+<p><span id="more-1204"></span></p>
+<p>从这个项目的主页可以看到有下面这些Key features：</p>
+<ul>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/objects.html">反转控制IoC</a> </li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/aop.html">面向方面的编程(AOPAspect-oriented Programming)</a> </li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/dao.html">数据库访问 (Data Access)</a> </li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/transaction.html">事务管理 (Transaction Management)</a> </li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/security.html">安全性 (Security)</a> </li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/remoting.html">远程分布式 (Remoting)</a> </li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/plugins.html">插件/命令行工具 (Plug-ins/command-line tool)</a> </li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/samples.html">演示示例</a> 
+<ul>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/samples.html#samples-petclinic">PetClinic</a> &#8211; 一个怎样使用框架的例子.</li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/samples.html#samples-springwiki">Spring Wiki</a> &#8211; Wikis是存储和管理内容的有效方式!</li>
+<li><a href="https://coolshell.cn/wp-admin/reference/html/samples.html#samples-springbot">Spring Bot</a> &#8211; 使用框架建立管理IRC通道的例子。</li>
+</ul>
+</li>
+</ul>
+<p>看上去好像不错，不过细想一下，是不是有点多余，有点画蛇添足啊？反正我有一种比较怪怪的感觉。不过10年前有人问我搜索引擎怎么样？我当时也觉得那个东西很无聊，呵呵。让我们看看未来这个东西是否真的能够进入企业级的解决方案。不过目前我们的Python社区好像几乎没有什么反应。</p>
+<p>欢迎你留下你的看法。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Quora使用到的技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_title">Quora使用到的技术</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1204.html">Python也Spring了</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1204.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Python 自然语言处理</title>
+		<link>https://coolshell.cn/articles/1157.html</link>
+					<comments>https://coolshell.cn/articles/1157.html#comments</comments>
+		
+		<dc:creator><![CDATA[mailper]]></dc:creator>
+		<pubDate>Wed, 15 Jul 2009 14:41:56 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[nlp]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1157</guid>
+
+					<description><![CDATA[<p>推荐一本免费的在线电子书，《用Python进行自然语言处理》， 用NLP 工具包（开源免费，Python）来进行文本分析。特别适合初学计算语言学的学生。好像没有...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1157.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1157.html">Python 自然语言处理</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>推荐一本免费的在线电子书，《用Python进行自然语言处理》， 用<a href="http://www.google.com/search?hl=en&amp;q=nlp+toolkit+python">NLP 工具包</a>（开源免费，Python）来进行文本分析。特别适合初学计算语言学的学生。好像没有好的中文切词。当然，免不了需要提一下 Dan Jurafsky 教授，大家可以搜索一下，找找他的讲义。</p>
+<p>简要翻译一下提纲：</p>
+<p><span id="more-1157"></span></p>
+<p>（书的主站点：<a href="http://www.nltk.org/">http://www.nltk.org/</a>）</p>
+<ul>
+<li>序言</li>
+<li>用Python进行语言处理</li>
+<li>使用文本语料库和辞典资源</li>
+<li>处理原始文本</li>
+<li>结构化变成</li>
+<li>词语的分类和标签</li>
+<li>学习文本分类</li>
+<li>从文本中信息抽取</li>
+<li>分析句法结构</li>
+<li>创建基于特征的语法</li>
+<li>分析句子的意思</li>
+<li>管理语言学数据</li>
+<li>后记：直面语言带来的挑战</li>
+</ul>
+<p>Natural Language Processing with Python<span style="font-size: x-small;"><br />
+&#8212; Analyzing Text with the Natural Language Toolkit</span></p>
+<p><span style="font-size: x-small;">Steven Bird, Ewan Klein, and Edward Loper</span></p>
+<dl>
+<dd>0. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch00.html">Preface</a> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch00-extras.html">extras</a>) </dd>
+<dd>1. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch01.html">Language Processing and Python</a> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch01-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">2. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch02.html">Accessing Text Corpora and Lexical Resources</a></span></span> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch02-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">3. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch03.html">Processing Raw Text</a></span></span></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">4. </span></span><a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch04.html"><span style="font-size: 10px;"><span style="font-size: 12px;">Writing Structured Programs</span></span></a> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch04-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">5. </span></span><a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch05.html"><span style="font-size: 10px;"><span style="font-size: 12px;">Categorizing and Tagging Words</span></span></a></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">6. </span></span><a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch06.html"><span style="font-size: 10px;"><span style="font-size: 12px;">Learning to Classify Text</span></span></a> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch06-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">7. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch07.html">Extracting Information from Text</a></span></span></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">8. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch08.html">Analyzing Sentence Structure</a></span></span> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch08-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">9. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch09.html">Building Feature Based Grammars</a></span></span></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">10. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch10.html">Analyzing the Meaning of Sentences</a></span></span> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch10-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">11. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch11.html">Managing Linguistic Data</a></span></span></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">12. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch12.html">Afterword: Facing the Language Challenge</a></span></span></dd>
+</dl>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1157.html">Python 自然语言处理</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1157.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>用TCC可以干些什么？</title>
+		<link>https://coolshell.cn/articles/786.html</link>
+					<comments>https://coolshell.cn/articles/786.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 10 May 2009 07:22:15 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Cinpy]]></category>
+		<category><![CDATA[TCC]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=786</guid>
+
+					<description><![CDATA[<p>Tiny C Compiler 是一个微型的 C 语言编译器，支持 Windows 和 Linux 平台。其项目主页是： http://bellard.org/...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/786.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/786.html">用TCC可以干些什么？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Tiny C Compiler 是一个微型的 C 语言编译器，支持 Windows 和 Linux 平台。其项目主页是： <a href="http://bellard.org/tcc/" target="_blank">http://bellard.org/tcc/</a> 。你可以使用这个不到100K的编译器编译你的C文件，其支持C的预处理，编译，机器码汇编和链接。编译速度也超过了gcc，而且它支持ISO C99标准，并且，tcc还包括了一些内存和数组边界的检查。其还可以编译Linux的内核。</p>
+<p>不过，TCC 最有趣的特性是可以用 UNIX 系统上常见的 #!/usr/bin/tcc 的方式来执行 ANSI C 语言写就的源程序，省略掉了在命令行上进行编译和链接的步骤，而可以直接运行 C 语言写就的源程序。这样就能做到像任何一种其它的脚本语言比如 Perl 或者是 Python 一样，显著的加快开发步调。可以像编写 Shell 脚本一样的使用 C 语言，随便想一想都觉得是一件奇妙的事情。但是 TCC 还有一些其它的特性呢！</p>
+<p><span id="more-786"></span></p>
+<p>在TCC这个超小型的C语言编译器下，我们还可以干得更多，比如这个开源项目：C in Python，项目主页是：<a href="http://www.cs.tut.fi/~ask/cinpy/">http://www.cs.tut.fi/~ask/cinpy/</a>，这个项目主要是让你可以在Python中直接使用C的源码。呵呵。</p>
+<p>Cinpy 是一个Python的库，它可以让你在Python的模块中实现C的函数。在前些天，酷壳向大家介绍过《<a class="title" rel="bookmark" href="https://coolshell.cn/articles/671.html"><span style="color: #4c4c4c;">Python调用C语言函数</span></a>》——这主要是通过调用动态链接库的方式调用C的函数。而Cinpy则是直接在Python中写C语言。</p>
+<p>我们来看一个示例：（部分代码）</p>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">
+import ctypes
+import cinpy
+
+# Fibonacci in Python
+def fibpy(x):
+    if x&lt;=1: return 1
+    return fibpy(x-1)+fibpy(x-2)
+
+# Fibonacci in C
+fibc=cinpy.defc(&quot;fib&quot;,
+                ctypes.CFUNCTYPE(ctypes.c_long,ctypes.c_int),
+                &quot;&quot;&quot;
+                long fib(int x) {
+                    if (x&lt;=1) return 1;
+                    return fib(x-1)+fib(x-2);
+                }
+                &quot;&quot;&quot;)
+
+# ...and then just use them...
+# (there _is_ a difference in the performance)
+print fibpy(30)
+print fibc(30)
+</pre>
+<p>源代码这里下载：<a href="https://coolshell.cn/wp-admin/cinpy-0.10.tar.gz">cinpy-0.10.tar.gz</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Quora使用到的技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_title">Quora使用到的技术</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/786.html">用TCC可以干些什么？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/786.html/feed</wfw:commentRss>
+			<slash:comments>34</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

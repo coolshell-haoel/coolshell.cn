@@ -1,0 +1,2019 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>技术管理 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/category/%e6%8a%80%e6%9c%af%e7%ae%a1%e7%90%86/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sun, 13 Feb 2022 01:28:46 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>谈谈公司对员工的监控</title>
+		<link>https://coolshell.cn/articles/22157.html</link>
+					<comments>https://coolshell.cn/articles/22157.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 12 Feb 2022 07:50:06 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22157</guid>
+
+					<description><![CDATA[<p>今天看到微博上有一个热点事件， 是一个关于某公司做的一个监控员工离职倾向的软件，从截图中可以看到员工访问招聘网站的次数，还有投递的简历以及搜索的关建词等等信息，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22157.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22157.html">谈谈公司对员工的监控</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今天看到微博上有一个热点事件， 是一个关于某公司做的一个监控员工离职倾向的软件，从截图中可以看到员工访问招聘网站的次数，还有投递的简历以及搜索的关建词等等信息，通过这些信息分析员工的离职倾向。然后我发一个微博，说了一下，我以前工作过的公司无论外国公司还是中国公司都有这样的情况，收到一些人来问我相关的情况，所以，我想还是写篇文章详细地说一下，我对这种事情的看法。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2022/02/monitoring.jpeg"><img decoding="async" loading="lazy" class="aligncenter wp-image-22159 size-large" src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-1024x534.jpeg" alt="" width="640" height="334" srcset="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-1024x534.jpeg 1024w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring-300x156.jpeg 300w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring-768x400.jpeg 768w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring-1536x801.jpeg 1536w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring-518x270.jpeg 518w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring.jpeg 1920w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p>本文分成下面个部分：</p>
+<ul>
+<li>公司监控员工的技术手段有哪些？</li>
+<li>为什么要监控员工？</li>
+<li>外企和国企有什么不一样？</li>
+<li>我对此事的看法</li>
+</ul>
+<p><span id="more-22157"></span></p>
+<h4>技术手段</h4>
+<p>下面是我经历过的几个手段：</p>
+<p>1）<strong>通过网络嗅探的方式</strong>。也就是说，你只要上了公司的网络，你个人设备上的通讯信息就可以被人以网络抓包+分析的方式进行分析。当然，这样的手段已经不怎么好用了，因为现在的网络基本上都是HTTPS加密的，网络嗅探的方式只能知道你访问了什么IP，对于其中的数据是没有办法知道的。</p>
+<p>2）<strong>通过使用公司提供的软硬件工具</strong>。你使用公司的电子邮箱，浏览器（或是公司的代理服务器），通讯工具（包括语音电话），手机办公应用……等来处理你的个人事宜的时候，必然会被监控。这样，你只需要不要使用公司的软件来处理自己的私事就好了。</p>
+<p>3）<strong>通过安装一个监控程序</strong>。这个是最可怕的了，因为无论你加不加密都没用了。一般来说，你不安装这个程序，你就没有办法连上网络，包括公司内网和外网。这个监控程序，会收集你电脑或手机上能够收集的到的所有的信息，比如，你的网络信息，按键操作，录屏，软件数据……等等。</p>
+<p>4）<strong>办公区监控</strong>。我见过的还有使用摄像头，在会议室中安装声音和视频监控设备，对整个办公区内发生所有的事情进行监控。</p>
+<p><strong>5）通过爬虫。</strong>通过爬虫分析员工的社交平台上的各种言论，包括招聘网站。除了公司需要分布和自己相关的舆情，同样也开始监控员工的行为和价值观等。这已经不是监控隐私信息了……</p>
+<h4>公司监控的目的</h4>
+<p>公司监控的目的最早就是为了防止自己公司内的数据和信息外泄，所以，他们害怕自己的员工访问了什么不合适的网站，或是下载了什么有恶意的软件，或是不小心发错了邮件。另外一些公司也会使用外包人员，所以，对于外部编制的人员更需要有信息泄漏防范的安全需求。当然，也害怕有一些商业间谍或是自己的员工被收买了窃取公司内部的敏感信息。尤其是对于一些本身就是做数据的公司，如我以前呆过的Thomson Reuters，这家公司主要是卖金融数据的，所以，对信息泄漏是非常注重的，其就是需要在员工的电脑上安装监控软件。</p>
+<p>还有一些劳动密集型的工作，比如在Amazon里的仓库里工作的人，公司会监控员工的工作量，以此来评估员工的工作绩效。对于用监控软件来评估程序员的工作量，我到今天仅见过监控外包人员的，在中国，外包人员需要使用甲方的电脑进行签到和签退，以及相关的工作。除了上述的信息安全目前，还能够看到员工的工作时长的情况。</p>
+<p><strong>所以，一般来说，公司监控的目的主要是为了自己的信息安全，还有员工的工作量评估，一般来说，不会涉及员工的隐私</strong>。</p>
+<p>但是，随着收集的数据越来越多，有些公司发现还可以做更多的事，比如，上述的员工离职倾向的分析。<strong>还有一些公司还会收集员工在外网的数据，比如你在社交平台上的各种言论，来分析你对公司的忠诚度和你的价值观取向……</strong>我个人觉得这些已经令人不耻了。</p>
+<h4>外企与国企不同之处</h4>
+<p>我经历过的公司中，外国公司和中国公司都有监控的经历，这里说一下他们的不一样之处。<strong>最大的不一样的地方是，外国公司会让你有知情权，而中国公司则完全没有</strong>。</p>
+<p>我记得我进入Thomson Reuters 公司的时候，公司要求签署一份监控的知情的同意书，其中用中英文写的，就是说，你授权公司监控你的如下这些信息：1）上网记录，2）下载的软件，3）工作电脑，4）公司的座机电话，5）会议室和办公区的语音和视频监控……大概有两页A4纸，然后也说明了这些数据公司仅用于信息安全的风控，不用于个人隐私分析等等……并且会符合法律要求保护员工的这些数据不外泄……这些条款都经得起法律的推敲。这样的协议是需要员工签字的，并且对双方都有法律约束的。</p>
+<p>中国的公司则不会告诉你他们会监控你哪些数据，而这些数据拿来做什么。 我记得我在某公司工作的时候，就有员工发现自己访问自己的gmail的录屏被公司收集后的愤怒……</p>
+<h4>我对此事的看法</h4>
+<p>一方面，我对于公司通过使用监控软件监控员工的行为我是能够理解的，但是，<strong>应该让员工有知情权，并和员工明确一个监控的信息和范围，包括收集的数据的用途和安全措施，以及数据多长时间销毁的协议。</strong>如果没有这个协议的话，我觉得本质上就是一种流氓行为。</p>
+<p>另一方面，针对监控员离职的倾向来说，我实在不知道有什么意义？公司你知道了又能如何呢？你是要找员工作思想工作，还是要给员工更好的待遇，还是直接开掉？<strong>如果你对自己的企业有信心，你就不必担心员工会离开，如果你的企业有问题，你为什么不把心思花在建设自己的企业上来呢？安装这样的监控软件对于企业没有什么帮助，反而只会让你的企业的形象更low……</strong></p>
+<p>再仔细想想，<strong>员工有一万种方法泄漏你公司的信息，无论你怎么监控，只要他想，他总是能够找到方法的，不是么？如何让找到或是培养有职业操守的员工，如何管理自己企业的商业信息，如何建立一个更好的企业文化让员工更有归属感，成为企业的共同体，一同维护共同利益，为企业着想，这不才是公司真正应该干的事吗？！</strong>监控员工充分暴露了这样的企业没有一个好的企业文化，不懂得高级的管理，所以，只能靠监控这样的手段来管理企业了……这样的企业不去也罢了。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/12/open-your-creative-mind-150x150.jpg" alt="别让自己“墙”了自己" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_title">别让自己“墙”了自己</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22157.html">谈谈公司对员工的监控</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22157.html/feed</wfw:commentRss>
+			<slash:comments>26</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>MegaEase的远程工作文化</title>
+		<link>https://coolshell.cn/articles/20765.html</link>
+					<comments>https://coolshell.cn/articles/20765.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 31 Jan 2020 07:23:18 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[MegaEase]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[remote]]></category>
+		<category><![CDATA[Rework]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=20765</guid>
+
+					<description><![CDATA[<p>MegaEase 是我创业的公司，主要是想把云计算（PaaS/SaaS层）的那些高可用高并发的分布式技术普及到那需要对技术自主可控的公司，这样就不需要去使用不能...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/20765.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/20765.html">MegaEase的远程工作文化</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-20773" src="https://coolshell.cn/wp-content/uploads/2020/01/remote-300x177.jpg" alt="" width="300" height="177" srcset="https://coolshell.cn/wp-content/uploads/2020/01/remote-300x177.jpg 300w, https://coolshell.cn/wp-content/uploads/2020/01/remote-768x454.jpg 768w, https://coolshell.cn/wp-content/uploads/2020/01/remote-457x270.jpg 457w, https://coolshell.cn/wp-content/uploads/2020/01/remote.jpg 806w" sizes="(max-width: 300px) 100vw, 300px" /><a href="https://megaease.com/" target="_blank" rel="noopener noreferrer">MegaEase</a> 是我创业的公司，主要是想把云计算（PaaS/SaaS层）的那些高可用高并发的分布式技术普及到那需要对技术自主可控的公司，这样就不需要去使用不能自主可控的闭源系统或是大公司的云平台。我于2016年开始成立MegaEase，从早期8个人，直到今天有20来个人，我们从一开始到今天都是在远程工作的公司文化。因为我很喜欢《<a href="https://coolshell.cn/articles/9156.html" target="_blank" rel="noopener noreferrer">Rework</a>》这本书，写这本书的公司叫37signal（现名basecamp），这家公司在发《Rework》这本书的时候，整个公司只有16个人，分布在全世界8个城市，这种Geek的公司的文化很吸引我，所以，在我决定创业的时候，我就止不住地想成立这样能够远程工作的公司，于是，远程工作的团队文化就这样成为了MegaEase的基因。<strong>下面我会分享一下，我们公司的远程工作文化和其中的一些问题，最后还有一个工作协议</strong>。</p>
+<p>我们在早期的时候，8个员工来自5个城市，现在的20来个员工来自8个城市2个国家。虽然我们现在使用“共享办公室”，但是本质上，我们的整个文化是远程工作的文化。在2017-2018年度，我们公司产品商业化以来，公司早期的8个工程师在远程工作的状态下成功支持了得到的老罗的跨年演讲活动，以及其它几个客户，一方面验证了用户愿意付费购买我们的产品和服务之后，另一方面也有一些不错的收入，客单价都在百万左右。还记得当时，有几个投资人并不相信我们连个办公室都没有，而且8个人分布在5个城市，觉得我们是个骗子公司（哈哈）。在过去的一年，我们通过我们的产品和服务帮助银行电信互联网等公司进行了他们的系统架构的改造和升级，让复杂和高门槛的分布式技术和架构可以被更多的企业所掌握所应用。这说明，远程工作是没有什么问题的。实际上远程团队远程工作真的不新鲜，Github上有个Repo维护着一个<a href="https://github.com/remoteintech/remote-jobs" target="_blank" rel="noopener noreferrer">支持远程工作的公司列表</a>，还有一个<a href="https://github.com/lukasz-madon/awesome-remote-job" target="_blank" rel="noopener noreferrer">跟远程工作相关的Awesome索引</a>。</p>
+<p>当然，自从我创业以来，我身边就一直有好些不同的声音质疑远程工作。听过他们的理由后，我能够理解他们的疑虑和困惑，因为管理的确是一个很复杂的事，因为要面对的是极为复杂的人，所以，有这些疑虑也是正常的。下面是我的一些经验和分享。先说宏观管理，再说微观实践。</p>
+<p><span id="more-20765"></span></p>
+<h4>宏观管理</h4>
+<p>我发现很多人比较质疑远程工作的原因，更多的是表现在对宏观的管理上有问题。所以，我还是想先说一下宏观管理，这其实并不分远程办公还是集中式办公，<strong>如果能够解决好些这管理上的根本问题，其实，远程不远程都无所谓了。只不过，这些问题在“远程办室”的场景更更突显罢了</strong>。</p>
+<h5><strong>一、努力找到好的人</strong></h5>
+<p><strong>团队管理的头等大事是找人，没有之一。</strong>很多人都会跟我说，你的这种远程团队需要很好的人。是的，没错，人很关键。远程团队需要的人的一般需要有这些特质：</p>
+<ul>
+<li><strong>能独挡一面的人</strong>。这样交给他的事能独立完成，没有路能自己找路，这样可以省很多管理成本。</li>
+<li><strong>沟通能力很强的人</strong>。一方面，他们把模糊的事能变清楚，另一方面，他能有效地说服他人。不然就会非常扯皮和消耗时间。</li>
+<li><strong>能自管理和自驱动</strong>。不能自管理和自驱的人，会增加大量的管理和教育成本。能自驱动的人，都是对负责的事情有认同的人。</li>
+</ul>
+<p>如果你仔细思考一下，<strong>你会发现，这样的人是任何一家公司所渴望的人，和远不远程无关</strong>。只不过，如果是远程团队的话，你会被逼着要招到这样的人。</p>
+<p>招到这样的人，你团队的执行力会非常的强悍。招不到这样的人，你只能为他们不能自管理和自驱而招“经理”，不能写出好的代码而招“测试”，不能很好的沟通而招个“项目经理”，不能独档一面，而要把好的人安排给他们当“教练”，而好的人则会被累死……</p>
+<p>这个时候，<strong>你就需要计算一下了，是花时间精力在教育不好的人，还是花时间精力找好的人？无论远不远程，聪明的管理者都会选择后者</strong>。这也就是为什么Amazon的Bezos会说，“我宁愿面50个人一个人都招不到，我也不愿意降低我的面试标准”。</p>
+<h5><strong>二、设定共同的目标和使命</strong></h5>
+<p>对于远程团队来说因为见不到面，所以，缺乏交流和沟通。所以，需要团队里所有人能在同一篇上，能够对要做的事有一个统一标准的认识。也就是共同的目标和使命的认知。知道要要什么，不要什么。知道取舍，知道trade-off。这些东西都是需要团队一起达成的共识。如果没有这样的“Same Picture”的目标和使命，就会出现很多不必要的误解和冲突。另外，因为团队和业务也在迅速发展中，所以，也需要不断地调整和沟通。这都需要领导者花费时间统一目标和使命。</p>
+<p>老实说，无论远程不远程，一个团队也是需要有共同的目标和使命的。没有共同的目标，就算是集中在一起办公，也一样没有效率的。</p>
+<h5><strong>三、倾向使用小团队</strong></h5>
+<p>因为沟通成本的问题，远程团队更为倾向使用小团队，但并不是说小团队会限制整个公司的规模。《人月神话》说过，只有小团队才能驾驭复杂的系统。Amazon 的 Two Pizza Team的文化（团队的大小只能到两张披萨就能喂饱的大小），就是把整个系统拆成“微服务”架构，这样可以导致整体效率的巨大提升。表现在，可以并行开发，专注于一个功能更利于解决复杂问题，简单可以更容易的运维，可以更容易的规模化……</p>
+<p>我工作的这20多年来经历过很多公司，尤其是创业的这几年来，看过的公司更多了（50+以上了），我发现，人数越多的团队，基本上来说，就更偏劳动密集型。劳动密集型的一个特征就是，<strong>大家整天在想，得整点什么事给这么多人，好让他们忙起来。而人数少的团队，因为人不够，所以每天都在想，什么样的事更重要，什么样的事可以自动化，怎么做更有效率……</strong>小团队和大团队的关注点就这么不一样了，所以做出来的事也就不一样了……</p>
+<p>当然，并不是说劳动密集型有什么问题，就像《<a href="https://coolshell.cn/articles/4951.html" target="_blank" rel="noopener noreferrer">软件团队的两种管理方式</a>》一文所说的一样，远程团队工作更倾向于“电影工作组”式的每个人都是leader的知识密集型的团队。</p>
+<h4>微观实践</h4>
+<p>在远程工作中，我们需要有很多的微观操作来让大家能够更好的进行远程工作。因为远程工作也有一些问题（但是方法总比问题多，不是吗？）</p>
+<ul>
+<li><strong>文档驱动</strong>。首先，远程的问题就是沟通不方便了，集中化的办公一群人可以在白板上进行讨论，然后远程工作这个事就变成很复杂了。所以，当要讨论什么事的时候，需要发起人先写一个文档，然后大家在这个文档上进行讨论（我们通常使用Github的issue，Pull Request或Google Doc）。另外，写文档的好处太多了，除了给后人有一个可以追溯的东西，更重要的是，写作是一种深度思考，当你把你脑子里想的东西写下来的时候，你就会发现你的思考更多了。所以，文档驱动我们团队能力非常重要的事。</li>
+</ul>
+<ul>
+<li><strong>自动化和简化</strong>。自动化和简化是我平时追得最多的东西了，从软件的Unit Test, Functional Test, Performance Test 一直到用Kubernetes进行自动化部署，我要求的就是从一提交完代码后就自动化的上线。我们玩的是Amazon的“单分支”代码管理的玩法，一旦代码merge上master，就会直接上线（当然需要通过灰度）。因为远程团队如果没有自动化的工具，那么，就会导致整体效率的下降。</li>
+</ul>
+<ul>
+<li><strong>Owner文化</strong>。这个太重要的了，但是，这并不是在说，如果一个事没有owner，就会像“三个和尚”那样，事情就进了没人管的地步。这是因为很多人在工作中都是比较 nice 的，比较 nice 的人通常来说都不好意思跳出来对别人发号施令。所以，Owner 文化就是要求每件事都要定义一个Owner，而这个Owner是有权对其它人发号施令的，其他人也有义务要配合他。当然，Owner 的权利越大，责任也会越大！</li>
+</ul>
+<ul>
+<li><strong>Review文化</strong>。Review文档是一种把知识或是想法传递出去的方式。我们在实践过程中，需要大家把好的想法写下来，这需要包括问题背景、目标、可选的方案（这些方案需要有引用和数据，不能是拍脑袋）、还需要有Pros/Cons的比较。然后再发起讨论。这样，事情在一开始就做好，那么就可以让大家的讨论更加地有效率。<strong>很多人以为开会讨论有个议题就行了，其实不够，有效率的开会讨论需要的是议案，而且还是高质量的议案！</strong></li>
+</ul>
+<ul>
+<li><strong>目标承诺</strong>。我们需要每个人承诺自己的工作目标，这个完全由每个个体来发起、完成。一般来说，每个人自己给自己制定的计划最好是在1-2周内。</li>
+</ul>
+<ul>
+<li><strong>自我管理</strong>。我们的实践是没有审批制度，无论是，休假、报销、出差，完全是自己自由安排，但需要告诉团队（除非在一些关键时期没法休长假，需要整个团队全力以赴），但千万不要撒谎和作弊，一旦发现，直接开除就好了。这个是基于好人更多的原则制定的（没有必要为了少数的坏人一刀切后让所有人痛苦）</li>
+</ul>
+<ul>
+<li><strong>闲聊和自行见面</strong>。见面和不能见面是一件非常不一样的事，在一起工作时，人和人是会有感情的，因为会有闲聊。远程的时候，则只有工作了。所以，我们鼓励团队人员间的私聊，闲聊，互相对方讲讲自己的经历和过往，同时，也鼓励员工自行出差到对方的城市见见跟你一起工作的人，公司报销差旅费。</li>
+</ul>
+<ul>
+<li><strong>知识分享会</strong>。我们每周都有知识分享会，一次只讲半个小时，不贪多，就讲一个小的知识点。然后，团队中的一些人还主动使用Google Form来收集分享的反馈信息。</li>
+</ul>
+<ul>
+<li><strong>就地奖励文化</strong>。我们默认上是没有年终奖，只有就地奖励文化。也就是说，你做的事挣钱了，利润中有70%公司拿走，剩下的30%团队的人就地分掉。这样会让团队里的每个人都会想怎么挣钱，除了可以把精力放到那些能够让用户付费的地方上，更重要的是让团队成员了解一下业务和用户为什么要付费，这个是非常关键的。当然，如果公司没有挣钱，但是员工工作的不错，我们还是会给年终奖的。不挣钱的主要责任是我的，而挣钱的主要功劳是团队的。</li>
+</ul>
+<ul>
+<li><strong>外包支持性的工作</strong>。一些支持性的工作尽可能地使用外包，比如：HR、行政、发工资财务、员工持股、测试人员、定制化开发……这样可以让你的团队更小，更高内聚。更利于远程。</li>
+</ul>
+<ul>
+<li><strong>异步编程</strong>。如果一个项目是从零开始的，对于一个团队来说可能会是无从下手的，这需要有个人（owner）把代码的框架和结构给组织好。然后其他的人进入把坑填了，这样的效率会高很多。另外，不见面的结对编程，完全可以使用异步的方式进行，这其实就是多人干同一个pull request的方式。有Github这样的协议工作，远程编码变得很方便。</li>
+</ul>
+<p>关于我们的远程工具，我们主要是使用：</p>
+<ul>
+<li><strong>开发环境</strong>
+<ul>
+<li><strong>AWS</strong>，我们主要使用AWS，因为我希望团队在使用AWS的时候能够被潜移默化。</li>
+</ul>
+</li>
+<li><strong>协作工具</strong>
+<ul>
+<li><strong>Github</strong>。我们所有跟软件开发的工作都会在Github上，我们重度使用 Github 的 pull request 和 issue，也会使用 Github Project 里的看板和 Wiki。</li>
+<li><strong>Google全家桶</strong>。我们重度使用 Google，Google Group、Google Driver、Google Docs 主要是一些各式各样的文档。</li>
+</ul>
+</li>
+<li><strong>通讯工具</strong>
+<ul>
+<li><strong>语音沟通</strong>。主要是使用Zoom，因为Zoom不但可以支持几十人在线，还可以云录制。如果小范围交流的话，一般使用微信语音。</li>
+<li><strong>工作沟通</strong>。主要是使用Slack，Slack作为一个信息集散地，可以分频道，可以分thread讨论，微信注是个渣。</li>
+<li><strong>吹水群</strong>。我司的吹水群主要是Telegram，因为比微信好太多了……</li>
+</ul>
+</li>
+</ul>
+<p>你会发现，我们的工具有好些都是在墙外的，是的，因为墙内的同类的工作实在是太难用了，没办法不用。而且，<strong>我倾向于让大家用上最先进的工具，这样我们团队中的每个人的品味才会被这些好的工具潜移默化</strong>。</p>
+<h4>远程工作协议</h4>
+<p>下面是我们的远程工作协议（无删减），这是每一个远程工作人员需要同意并做到的协议（其中有 Amazon Leadership Principles 的影子），目前在 v1.3 版，未来还会更新，我现在把它晒出来，也希望得到更好的建议！</p>
+<p>&nbsp;</p>
+<h1>MegaEase 远程工作团队协作协议 v1.3</h1>
+<h2><a id="user-content-principles" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#principles" aria-hidden="true"></a>Principles</h2>
+<h3><a id="user-content-0ownership--leadership" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#0ownership--leadership" aria-hidden="true"></a>0）Ownership &amp; Leadership</h3>
+<p>每个人都是Owner，都是Leader， 如果看到团队或是项目有问题的时候，不要等，也不忍，请马上说出来，并给出相应的方案， <strong>自己跳出来召集开会，及时调整。不要闷在那里，自己憋！</strong></p>
+<h3><a id="user-content-1initiative" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#1initiative" aria-hidden="true"></a>1）Initiative</h3>
+<p>每人个都必需是主动的，都需要自己发起要做的事，或是自己要认领要做的事，如果发现自己没有事情了， <strong>需要学会主动发现问题，主动找到可以improve的地方，创新来源于此</strong>。没有路要学会自己造路！</p>
+<h3><a id="user-content-2objectives-oriented" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#2objectives-oriented" aria-hidden="true"></a>2）Objectives Oriented</h3>
+<p>每个人都是产品经理，也都是项目经理，每个人都必需把自己的工作和我们大的目标连接在一起，知道什么是重点，重点的东西就是两件事：一）从用户的角度出发，二）从产品的角度出发。 <strong>这意味着我们要随时观察整个产品的样子，而不只是自己这一块东西</strong> 。</p>
+<h3><a id="user-content-3insists-on-high-standard" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#3insists-on-high-standard" aria-hidden="true"></a>3）Insists on High Standard</h3>
+<p>举法其上，得乎其中，举法其中，得乎其下，举法其下，法不得也。我们要坚持用高的标准要求自己，对于高标准的目标不妥协，但是在实施路径和策略上可以妥协。</p>
+<h2><a id="user-content-practices" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#practices" aria-hidden="true"></a>Practices</h2>
+<h3><a id="user-content-0online" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#0online" aria-hidden="true"></a>0）Online</h3>
+<p>工作的时候必需在线。如果不在线了，需要说一下不在线的时长, 目前我们工作的事宜在通讯工具采用Slack， 如果需要请假的情况，如果不是紧急情况，需要<strong>提前一天</strong> 在MegaEase的Slack <em>#random</em> 频道中提前说明。如果是紧急情况，也需要提前在<em>random</em>频道中告知大家。</p>
+<h3><a id="user-content-1-documentation-driven" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#1-documentation-driven" aria-hidden="true"></a>1) Documentation Driven</h3>
+<p>面对面交谈、电话语音、微信、Slack虽然是比较实时的反馈工具，但是只有文档是可以把重要信息给结构化的，而且写文档其实是比起前面的方式来说是更为深度的思考，因为会让你自己审视自己的想法。所以，对于一些重要 “<strong>功能</strong>”、“<strong>流程</strong>”、“<strong>业务逻辑</strong>” 、“<strong>设计</strong>”、“<strong>问题</strong>”，以及“<strong>想法</strong>”，最好都以文档化的方式进行。请使用Github的 wiki、project、issue这些工具或是使用Google Doc.</p>
+<h3><a id="user-content-2design-review" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#2design-review" aria-hidden="true"></a>2）Design Review</h3>
+<p>对于一些重要的问题或是工作（每个人都能够判断什么是关键问题和工作）， <strong>需要先把自己的想法share出来，而不是先实现</strong> 。</p>
+<p>一个好的 Design 文档需要包括如下项：</p>
+<ul>
+<li><strong>Background</strong>。交待这个事的背景、需求和要解决问题。</li>
+<li><strong>Objectives</strong>。说明这个事的目标和意义。</li>
+<li><strong>Alternative Solutions</strong>。 给出多个解决方案，并能够进行 Pros/Cons 对比。
+<ul>
+<li><strong>Reference</strong>。方案需要有权威引用支持。</li>
+<li><strong>Data</strong>。方案需要有相关数据数据支持。</li>
+</ul>
+</li>
+<li><strong>Conclusion</strong>。结论是什么。</li>
+</ul>
+<h3><a id="user-content-3-simplication--automation" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#3-simplication--automation" aria-hidden="true"></a>3) Simplification &amp; Automation</h3>
+<p>简化和自动化是软件工程所追求的两大目标，简化不是简陋，简化是对事物一种抽象和归纳能力，其能够提升软件的复用能力和扩展性，自动化是工程能力的重要体现，一方面，远程工作中自动化的能力可以让整个团队更高效地协作，另一方面，自动化是规模化的提条件。所以，我们要无时无刻地思考如何简化和自动化现有的事情。</p>
+<h3><a id="user-content-4review--refactory" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#4review--refactory" aria-hidden="true"></a>4）Review &amp; Re-factory</h3>
+<p>无论是代码还是工作都是需要反思和重构的。反思是进步的源泉，项目告一段落时，出现问题时，都应该召集团队做集体反思，把好的东西坚持下去，把不好的东西优化掉。这样才能进步和改进。但是任何的优化措施是可执行的。</p>
+<h3><a id="user-content-5milestone-commitment" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#5milestone-commitment" aria-hidden="true"></a>5）Milestone Commitment</h3>
+<p>对于一个项目，每个人都需要有自己的 milestone 计划， <strong>这个计划最好是在2周以内，1周内是最好的。而且要承诺到</strong> 。</p>
+<h3><a id="user-content-6evidence-driven" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#6evidence-driven" aria-hidden="true"></a>6）Evidence Driven</h3>
+<p>任何讨论和分析都要基于权威的证据、数据或是引用。在我们做设计的时候，或是有争论的时候，说服对方最好的方式就是拿出证据、数据或是权威引用。比如：我的XX设计参考了TCP协议中的XX设计，我的XX观点是基于XX开源软件的实现……如果争论不休就停止争论，然后各自收集和调查自己观点的佐证。</p>
+<h3><a id="user-content-7demo-day" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#7demo-day" aria-hidden="true"></a>7）Demo Day</h3>
+<p>把自己做的东西跟团队做一次实时的演示。这样有助于开发人员从产品角度思考自己的工作。除了演示产品功能，还可以演示算法，设计，甚至代码。</p>
+<h3><a id="user-content-8-effective-meeting" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#8-effective-meeting" aria-hidden="true"></a>8) Effective Meeting</h3>
+<p>会议主要处理三件事：提出议案、发现问题、共识结论。</p>
+<ul>
+<li>会议不仅仅要有议题，最好还有议案。</li>
+<li>会议期间不解决问题，只发现问题，和跟踪问题。</li>
+<li>会议必需要有共识和结论，如果不能达到共识和结论，那就当成问题处理，由问题的负责人跟进问题。</li>
+</ul>
+<p>关于周会或是临时性的团队会议（私下讨论不属于会议），会议组织者需要在事前收集会议议题，其中包括如下分类：</p>
+<ul>
+<li><strong>项目类</strong>：需要事先有项目进度计划表（任何分项最好控制在1-2人周内）</li>
+<li><strong>方案类</strong>：需要事先写好相关的方案和设计才能讨论（参看 Design Review 章节）</li>
+<li><strong>问题类</strong>：需要事先写好相关的问题和解决提案（参看 Design Review 章节）</li>
+<li><strong>决策类</strong>：需要事先写好整事的前因后果以及利弊分析</li>
+<li><strong>信息类</strong>：需要事先写好相关的事宜说明</li>
+</ul>
+<p>组织者需要在周五的时候发出会议议题收集，其中包括：</p>
+<ul>
+<li>自己知道的项目的进度跟进（需要相相关的项目负责人准备相关的项目计划）</li>
+<li>方案和问题类的需要各个项目负责人提出来，并有相关的设计文档可供Review</li>
+<li>信息类和决策类的事宜可以写在Google Doc上，也可以写在 Team 的 Issue 里</li>
+</ul>
+<p>其它负责人可以在会议上加入自己团队的东西，或是要求其他团队提供更多的信息。</p>
+<h3><a id="user-content-91-2-3-escalation" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#91-2-3-escalation" aria-hidden="true"></a>9）1-2-3 Escalation</h3>
+<p>遇到问题的时候，自己一个人处理1小时内没有思路，请找他人小范围讨论，如果与他人2小时内没有结果，请上升到团队范围，如果在团队范围3小时内没有思路，我们就需要借助外部力量了。</p>
+<h3><a id="user-content-a3ps-update" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#a3ps-update" aria-hidden="true"></a>A）3PS Update</h3>
+<p>每个人更新进度的时候，不要只是一个check-in，而是需要更 meaningful 的说一下工作内容，在工作告一段落的时候，希望简单的说一下工作总结。这里的practice是： <strong>3PS &#8211; Plan，Proirity，Problem，Summary， &#8211; 你的计划是什么？优先级是什么？遇到了什么问题？当前的工作摘要</strong> 。</p>
+<h3><a id="user-content-b-disagree-and-commitment" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#b-disagree-and-commitment" aria-hidden="true"></a>B) Disagree and Commitment</h3>
+<p>在我们开发的时候，团队的成员都会有自己风格，必然会对同一个问题产生较大的争议（Disagree），我们鼓励有争议，但是是在团队的决议作出之前。一旦团队形成决议，团队的成员就必须支持这个决议，并在这个方向上做出贡献。</p>
+<p>但是关于决议的形成过程肯定充斥着各种的争论，对于这些争论，我们可以按照下面的Guidline 来处理争议：</p>
+<ul>
+<li>Owner要负责对重大的讨论推进，尽快形成结论。</li>
+<li>在决议过程中，要有纪要，要更新到 Github 相关项目的 Issue 或 Pull Request 里，并且要让整个团队知道，信息平等很重要。</li>
+<li>不要妥协，坚持高的标准。第一标准是工业标准，第二标准是国外的大公司标准（如：google, fb, github, aws…），第三标准才是国内的标准。</li>
+<li>那怕再复杂，只要是标准，就可以说服用户。用户再无理，也不可能反对工业级的标准。</li>
+<li>Release出去的东西，只要被用户用上了，要改就难了，所以要谨慎而果敢。</li>
+</ul>
+<h4>小结</h4>
+<p>远程工作并不是目的，但是远程工作会逼迫管理者面对管理的本质问题。远程工作趋向于找到优秀自驱的人才，守护团队的共同目标，并打造精悍高能的团队，并要求我们在需要沟通和协作的地方使用更为科学和有效的手段，在各个环节中提升工作效率，降低组织内耗……你的团队管理模型是否最优，在远程工作下就会一览无余！远程工作只是一个手段，提升管理水平才是真正的目的！</p>
+<p>（全文完）</p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li><li ><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/03/rework-150x150.jpg" alt="《Rework》摘录及感想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_title">《Rework》摘录及感想</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/20765.html">MegaEase的远程工作文化</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/20765.html/feed</wfw:commentRss>
+			<slash:comments>87</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“努力就会成功”</title>
+		<link>https://coolshell.cn/articles/19271.html</link>
+					<comments>https://coolshell.cn/articles/19271.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 17 Apr 2019 01:12:27 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=19271</guid>
+
+					<description><![CDATA[<p>那一年，我加入了某知名公司的某知名部门，在办公室中，我看到了到处都挂着——“努力就会成功”的条幅，这个部门中大多数员工的邮件签名都会有“努力就会成功”，我感到一...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/19271.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/19271.html">“努力就会成功”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright " src="https://coolshell.cn/wp-content/uploads/2019/04/busy.work_-300x166.jpg" alt="" width="300" height="166" /> 那一年，我加入了某知名公司的某知名部门，在办公室中，我看到了到处都挂着——“努力就会成功”的条幅，这个部门中大多数员工的邮件签名都会有“努力就会成功”，我感到一种热血沸腾的气氛，这是我在多年工作来都没有感受到的，当时挺高兴地能和这样一群人工作，也没多想。直到有一天，我看到这些高级的软件工程师们把自己关在又挤又吵的会议室中，拼命地加班，真是拼命，周一到周日，每天早上10点到凌晨3点甚至凌晨5点，连国庆节都来上班，就在这样的环境和状态下，连续干了三个多月……上线前，QA找到了1000多个bug（你没看错，就是一千多个），最后这个项目用了1年多的时间来返工，本来一个6-8个月的项目，团队被打了鸡血想在3个月内完成，最终却花了近两年的时间来返工……（要知道，我以前在外国公司工作，外国老板看到团队在长时间加班会感到焦虑的，因为加班通常代表着有不好的事情正在发生……）</p>
+<p>所以对此，我是有点看不懂的，看不懂的是，为什么这么一群聪明的人，放着明亮宽敞的办公桌不用，硬要挤在一个又窄又小又吵又热的小空间里工作，而且要这么透支地写那么重要的很关键的系统级的代码……这就好像，一架在一个小作坊里被人加班加点赶工出来的飞机，谁敢坐啊？！老实说，这群工程师真是很优秀的工程师，他们完全是可以做得更好的……但是却做出了如此蹩脚和糟糕的系统……他们说，这样坐在一起可以做到快速沟通，然而，我觉得这恰恰是一种没有章法的表现。</p>
+<p>也是在这家公司，在这个项目烂尾一年前，公司感到了危机，CEO号召全体996，举全公司之力从董事长到下面基层员工对抗外部所谓的威胁，有的部门为了表现，甚至997，然而，在一年后，做出了一个烂得不能再烂的软件，最终以失败告终，很多人包括CEO也因此下课……</p>
+<p><span id="more-19271"></span></p>
+<p>这是最让我看不懂的一个事了，为什么这么如此成功的公司的高级管理层会做出这样的事情，而且还制定这样的政策……把这么优秀的员工以及公司大把把数以亿计的钞票投入到这种错误的路线上来，而且还拼命地加班…… 他们脑子里在想什么呢？难道他们真的以为，有足够多的钱，足够多的人，然后拼命加班，就能打败对手吗？……</p>
+<h4>你喜欢这句话吗？</h4>
+<p>“努力就会成功”，“加班就会有成就”，“勤劳就会致富”……是这样吗？仔细思考一些，这些话存在严重的逻辑问题，我们在高中的时候学过“充分条件”，“必要条件”和“充要条件”！<strong>“努力就会成功”这句话，把“努力”说成了“成功”的充要条件，这不就是错的吗？努力只是成功的必要条件之一。</strong>你在错误的方向或是格局很小的方向上努力，能有用么？你努力地要饭，你努力地当搬运工，你努力地打骚扰电话销卖保险…… 在错误和小格局的方向上努力，你还觉得努力还有用吗？</p>
+<p>但是很多人是很喜欢“努力就会成功”这句话，这类人也很喜欢看很多小人物通过自己的努力变成成功人士的励志的故事，为什么这种故事会被很多人喜欢甚至感动。因为这很符合大众的心理诉求，这种诉求其实就是一种只要使力只要拼命了就可以成功的心理诉求，<strong>因为这类人基本上都是能力有限，不知道怎么提升自己的人，当他们看到只要拼命使力就可以成功的观点时，他们就会有共鸣，就会感到，不用学习那些晦涩难懂高级的知识，不用掌握和练习哪些高级技能，自己只需要在低级的事情上拼命和努力，加更多的班和干更多活，自己就会像电影中的那些小人物一样，总有一天会成功的</strong>……</p>
+<p><strong>“努力就会成功，勤劳就会致富”，不但符合那些低级管理者的利益诉求，同样符合那些能力不足不愿意学习和成长的人的诉求。因为，他们混淆了行动与进展，忙碌与多产，他们以为能靠蛮力可以弥补思维上的惰性，靠拼命可以弥补能力上的不足……</strong></p>
+<p>喜欢或认同这句话的人基本是能力上有问题的人，这类适合做劳动密集型的事。不信你可以试试看，当一件事的难度超过一定程度的时候，那些聪明的人会找到更省力的方法，而能力上有问题的，还是在那使蛮力。</p>
+<h4>我成长的过程</h4>
+<p>回想我的过去，我在2001年那年被外包到了某银行做开发，标准的9/10/6，封闭开发，就是用C语言在AIX系统里堆一些银行的交易逻辑，老实说，这个过程并没有让我学到什么东西，也没有什么成长，我每天想的就是我要离开这个地方，所以，我在晚上10点以后开始看书学习到11点半，并使用工作环境动手实践书上的代码，一年后，我精读了《TCP/IP详解》《Windows核心编程》《Java编程思想》等书。然后，我找到一份外企业的工作，月薪一下翻了三倍。</p>
+<p>在外企不加班，但是当时的外企压力也很大，对代码的质量要求的也很高，来的第二个月，就因为代码写的太差，差点被开掉，所以，为了能够达到更高的标准，我自然也是很努力的，在周末甚至黄金周节假日我哪里都不去，我就去公司，但我不是在公司上班，因为我没有自己的电脑，所以，我只能蹭公司的电脑，这导致办公楼的管理人员经常打电话给我让我帮他在周末的时候管理物业…… <strong>在这家公司是我成长最快的时候，然而，并不是因为我的努力，而是因为有很多比我牛逼的人在Code Review上给我大量的帮助，在项目上帮助我，我的努力学习虽然也有作用，但更多的是高手对我的帮助</strong>。</p>
+<p><strong>再回想一下我以前在职场上的很多关键点，不是因为我加班了，而是因为在某些关键问题上，我跳出来解决了其它人都解决不了的问题</strong>，我解决了一个网络通信莫名其妙的断掉的问题，我把性能优化了很多倍，我解决了一个不能重现的一个困扰团队3个星期的问题（其实就是大家没有认真读文档），我在入职一个公司的第一天里就为这个公司解决了一个历史遗留问题……在Platform，我每周解决了bug数是全公司的其它人的总和还要多（从不加班），在路透，我带团队优化的系统的性能是全球所有研发中心最高的，在亚马逊，两周打通美国和德国的订单和商品列表系统……我也有失败的时候，<strong>而我失败的时候，总是因为我搞不定事，即便是加班拼命努力也无济于事</strong>！是的，我的职业生涯的成长，最根本的不是你有多努力，有多勤奋，而是你能搞定很多人搞不定的事！</p>
+<p>你不信你可以看看你们公司那些不用加班，就算什么也不干，公司也要花钱养的技术人员，他们的成功一定不是努力和加班加出来的，<strong>你会发现这些人拼的不是谁干的多，而是谁解决的问题更有难</strong>。</p>
+<p><strong>我加班996的时候，从来都不是我成长最快的时候，而我和一群牛人在解决难题的时才是我成长最快的时候。</strong></p>
+<h4>Work Smart</h4>
+<p>2015年因为父亲病危要动手术，所以我不能工作在家照顾父亲。于是我就成为了一个自由职业者，帮很多公司解决一些技术问题，好多都是高并发和系统稳定性的问题，有一些是分布式架构的运维的问题，还有一些是工程管理和企业文化问题……有一些小公司的单体架构在业务上一推广就宕机了，于是把我叫过去，我在生产线上直接re-arch，用一些非常规的手段，1-2天就把性能救过来了…… 还有就是解决一些点状的技术问题，还帮用户做一些design/code review……，有70%工作是真正的按劳取酬，也就是先把问题解决了再谈要收多少钱，<strong>那段时间我出卖的不是我的劳动力，而是我的技能，所以，反而比打工挣得多多了，而且还比较轻闲</strong>……</p>
+<p>有时候，我还调侃到，你在大公司里一天写上万行代码，拼命地加班，你信不信，我只用写几百行代码就挣得比你多？<strong>同样是一个简单的 for-loop 语句，有人写的就值1万元一行，而你写的则一文不值。关键不在于谁写的代码多，关键在于我们解决了什么样的问题</strong>。你千万不要以为只要付你足够的钱，你就可以996，让你干什么都可以，然而当你自己把自己当成劳动力的时候，你也就只是一个像牲口一样的行事了！</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-large " src="https://coolshell.cn/wp-content/uploads/2019/04/hard.work_-1024x576.jpg" alt="" width="640" height="360" /></p>
+<p><strong>这就好像算法一样，你那个O(n^2)的递归穷举算法，再怎么样也干不过我的O(n)的动态规划的算法。</strong></p>
+<p>现在我拿了投资在创业，一开始帮助各大企业建高并发高可用云化架构的公司，现在还给企业提供金融和营销能力，我跟客户谈业务的时候，基本不是因为我有多加班多努力地做方案，而是我能一针见血地指出用户的问题，帮用户解决问题。我在很多地方都见到阿里、蚂蚁、华为、HP……，一个小创业公司跟他们竞争真的很难，但我知道，要能竞争过这些大公司，这根本就不是能够通过加班996或是拼命努力就能搞定的，我必需要使用更好的方式，所以，除了更好地站在用户的立场，能够给用户制定更符合用户的技术方案之外，我必需做到我的技术方案不比这些大公司的差，而这一点，完全不是加班、努力或是勤奋能出来的，这是需要靠自己的经验、学习能力、归纳思考、和与更多牛人交流才出的来的……当我给某银行CIO介绍完我的分布式系统的方案后，CIO给我微微鞠躬说：“过去一两年，我听过几乎所有国内外产商跟我讲的分布式的方案，你的是我听过的最好的方案！谢谢你！”，当我给某省电信行业公司讲了一下DevOps的方案后，老总对我说：“你们真的是做事的人！”，当用户来问我：“你们的API网关是怎么写的？为什么运行的这么稳定？”……这些话都是让我很心里很暖的话……<strong>当然，我也有被骂的时候，也有失败的时候，但基本上来说，我无法通过努力工作改善我思维的不足……</strong></p>
+<p><strong>我们学计算机当程序员最大的福气不是可以到大公司里加班和996，而是我们生活在了第三次工业革命的信息化时代，这才是最大的福气，所以，我们应该努力地提升自己，而不是把自己当劳动力一样的卖了！在这样的一个时代，你要做的不是通过加班和拼命来跪着挣钱，而是通过技能来躺着挣钱……</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/19271.html">“努力就会成功”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/19271.html/feed</wfw:commentRss>
+			<slash:comments>110</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>我看绩效考核</title>
+		<link>https://coolshell.cn/articles/17972.html</link>
+					<comments>https://coolshell.cn/articles/17972.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 09 Jul 2017 10:03:00 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[KPI]]></category>
+		<category><![CDATA[OKR]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17972</guid>
+
+					<description><![CDATA[<p>（本来，这篇文章应该在5月份完成，我拖延症让我今天才完成） 前些天，有几个网友找我谈绩效考核的事，都是在绩效上被差评的朋友。在大致了解情况后，我发现他们感到沮丧...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17972.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17972.html">我看绩效考核</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-sup_wechat_big wp-image-17977" src="https://coolshell.cn/wp-content/uploads/2017/07/performance_review-360x200.jpg" alt="" width="360" height="200" />（本来，这篇文章应该在5月份完成，我拖延症让我今天才完成）</p>
+<p>前些天，有几个网友找我谈绩效考核的事，都是在绩效上被差评的朋友。在大致了解情况后，我发现他们感到沮丧和郁闷的原因，不全是自己没有做好事情，他们对于自己没有做好公司交给的事，一方面，持一些疑义，因为我很明显地感到他们和公司对一件是否做好的标准定义有误差，另一方面，他们对于自己的工作上的问题也承认。不过，让他们更多感到沮丧的原因则是，公司、经理或HR和他们的谈话，让他们感觉整个人都被完全否定了，甚至有一种被批斗的感觉。这个感觉实在是太糟糕了。</p>
+<p>因为我也有相似的经历，所以，我想在这里写下一篇文章，谈谈自己的对一些绩效考核的感受。先放出我的两个观点：</p>
+<p style="padding-left: 30px;"><strong>1）制定目标和绩效，目的不是用来考核人的，而用来改善提高组织和人员业绩和效率的。</strong></p>
+<p style="padding-left: 30px;"><strong>2）人是复杂的，人是有状态波动的，任何时候都不应该轻易否定人，绩效考核应该考核的是事情，而不是人。</strong></p>
+<p>我个人比较坚持的认为——<strong>绩效分应该打给项目，打给产品，打给部门，打给代码，而不是打给人。</strong>然而现在的管理体制基本上都是打给人，而很多根本不擅长管理的经理和HR以及很多不会独立思考的吃瓜群众基本上都会把矛头指向个人，所以，当然会有开批斗会的感觉。</p>
+<p><span id="more-17972"></span></p>
+<p>&nbsp;</p>
+<h4>举几个例子</h4>
+<p>为了讲清楚我的上述观点，请让我先铺垫一下，先说几个例子吧，韩寒的例子我就不说了。</p>
+<p style="padding-left: 30px;">苏步青同学在小学时成绩很糟糕，全班倒数第一。</p>
+<p style="padding-left: 30px;">华罗庚同学上学时数学还考不及格，要不是王维克老师的鼓励并让他爱上了数学，他可能也就完全埋没了。</p>
+<p style="padding-left: 30px;">郑渊洁上学时，老师要求写《早起的鸟有虫子吃》，郑渊洁唱反调写《早起的虫子被鸟吃》，再加上数学老师发难，于是被开除了。从此郑渊洁没有上过一天学。</p>
+<p style="padding-left: 30px;">列夫尔斯泰大贵族出身，2岁丧母，9岁丧父，16岁上大学，大学三年级自动退学回家进行改革。在青年时期不好好读书，考试不及格，留级。他赌博、借债、鬼混……</p>
+<p>这个的例子太多了，我从另一个方面举几个体育运动相关的例子，可能年轻的朋友都不知道，可以问问你们的父母。</p>
+<p style="padding-left: 30px;">80年代，中国有一批非常优秀的体育运动员，比如：体操王子李宁，打破过世界跳高记录的朱建华，还有乒乓球世界冠军马文革，还有羽毛球世界冠军赵建华，记得有一年参加世界比赛，他们全输了，而输的还很惨。于是国内的一些媒体和民众开始骂他们，甚至说他们是民族的败类、耻辱，还有很多人找上门要教训他们……</p>
+<p>如果我们把绩效分比做在学校里的考试分，那么你是否会和我一样认为，考试的成绩只能代表这个人对这些知识点的掌握或理解，而且仅仅在这个时间点，根本不代表这个人根本就不行，更不代表他一直不行。因为挂科太多被学校开除的同学，并不见得这些人在社会上就无活生活下去，反而，他们中的有些人可能会考试成绩好的人还活得好。不是么？这样的例子在我们身边还少吗？</p>
+<p>所以，当我看到某HR说某老员工——“他今天要不自己离开，未来一年也一定会因为绩效问题而被公司开了的”，除了感到居然有人类可以预知他人未来的可笑之外，我感到是一种悲哀，一种管理体制上的悲哀，我感到了在这HR考评背后一股非常强的暗流和不可见的力量让她干出了这样一件匪夷所思的事。</p>
+<p>好些公司还考评价值观，价值观无可厚非，<strong>我觉得一个企业的价值观是非常必要的，但是考核价值观是件非常危险的事情。</strong>这个世界上和传统势力唱反调的人实在是太多了，而被定性为价值观有问题被迫害的人也是多了去了。被批斗被侮辱被毒打的老舍；因为同性恋问题，被迫害而自杀的图灵；因为不同意教会观点被监禁8年都不愿意放弃自己的信仰最终被烧死的布鲁诺，…… 这样的事情已经够多了，新的时代里不应该再发生这样的事了，无论大小。</p>
+<p>考核价值观最大的问题就是非常容易的上纲上线，也非常容易的被制造政治斗争，也非常容易的扼杀各种不同思想，老实说，这从很大程度上是一种洗脑的手段——通过对人制造一种紧张或恐惧而达到控制思想的目的。</p>
+<p>&nbsp;</p>
+<h4>对公司和管理者想说的话</h4>
+<p>下面我来谈谈绩效考核我的一些观点。在谈这个观点前，你可以移步看一下这篇新闻报道——《<a href="http://tech.qq.com/a/20120614/000196.htm" target="_blank" rel="noopener noreferrer">绩效主义毁了索尼</a>》。而近年来，“放弃绩效考核”的斗争已经从科技企业中的Adobe、戴尔、微软、亚马逊，席卷到德勤、埃森哲、普华永道等咨询服务类企业。甚至通用电气（GE）——曾经的绩效管理的鼻祖，也宣布抛弃正式的年度绩效考核。在刚过去的2016年，腾讯的张小龙对微信事业群发出“警惕KPI”的呼声；李彦宏在内部信中将百度的掉队归咎于“从管理层到员工对短期KPI的追逐”；雷军干脆宣布小米“继续坚持‘去KPI’的战略，放下包袱，解掉绳索，开开心心地做事。”；王石也在个人微博中感慨：“绩效主义像企业的脓包”。</p>
+<p>绩效考核在本质上就是像学校教育以分数论英雄，而忽略员工的成长和素质教育是一个道理。当学生和老师只关注考试分数时，而只有考试分数来评价老师和学生的优良中差时，老师和学生就会开始使用一些非常形式的方式来达到这个目标，比如：死记硬被，记套路，题海战术…… 而学习的能力的考评彻底地沦为了一种形式主义。反而，分数考的越高，脑子越死。（注：美国现行教育是不允许通过学生考试成绩来评价老师的能力的）</p>
+<p>近几年来，一些大公司开始使用 OKR &#8211; Objectives, Key Result ，但是在实践过程中，我发现好些公司用OKR，本质上还是KPI &#8211; Key Performance Indicator， 因为OKR里面有一个Key Result，用来衡量 Objectives 的结果指标。于是，使用者习惯性的设置上了KPI。<strong>我个人认为 OKR 有三个非常大的特性：0）由员工提出，1）以目标为导向。2）全员共享。</strong></p>
+<p>举个例子，OKR可能会是制定成下面这个样子的：</p>
+<p style="padding-left: 30px;">Objectives：增强用户体验，</p>
+<p style="padding-left: 30px;">Key Results：</p>
+<p style="padding-left: 60px;">1）用户操作步骤减少20%以上，</p>
+<p style="padding-left: 60px;">2）客服减少40%以上工单，</p>
+<p style="padding-left: 60px;">3）用户99.9%的系统操作的响应时间为100ms以下</p>
+<p style="padding-left: 30px;">然后，把这个目标分解给产品、用户体验、技术团队，形成子的Objectives并关连上相应的父级的Key Result，比如，产品部门定义的Objectives：1）优化注册流程，减少2个步骤，2）优化红包算法，让用户更容易理解，3）提高商品质量，减少用户投诉。后端技术团队定义的Objectives： 1）定义SLA以及相关监控指标，2）自动化运维，减少故障恢复时间，3）提高性能，吞吐量在xxxqps下的99.9%的响应时间为xxms ……</p>
+<p>这个Objective会从公司最高层一直分解到一线员工，信息完全透明，每个人都可以看到所有人被分解到目标，每个人都知道自己在为什么样的目标而奋头，而每个人也可以质疑，改进，建议调整最高层的目标和方向。而不是领到的是被层层消化过的变味的二手，三手甚至四五手的信息。</p>
+<p><strong>而 KPI 最大的问题就是用 OKR 里的 Key Results 拿来当目标，从而导致员工只知道要做什么，不知道为什么，不知道为什么，不能理解目标，工作也就成了实实在在的应付！</strong></p>
+<p>松下公司早在1933年，就召集168名员工，把松下未来250年的远景规划目标公布于众，从1956年开始，就定期宣布并解读自身的“五年计划”，帮助每位员工的目光从眼前的短期利益移开，树立自己的理想和目标，也促进了松下的可持续性发展。</p>
+<p>然而，今时不同往昔，随着产品周期的不断缩减、竞争对手的持续涌入、高新技术的频频迭代，企业的战略的变化与调整变得更加频繁，朝令夕改的经营策略已经成为兵家常态。 在这一过程中，有多少员工了解调整之后的战略呢？员工的绩效指标又根据战略调整多少次了呢？</p>
+<p><strong>KPI本身是一种被动的、后置的考察，在工作完成之后考察员工的行为是否符合标准。因此，员工对于公司的目标漠不关心，只关心自己的KPI，因为这才是自己的最大的利益，为了达到KPI，有的员工开始不思考，并使用一些简单粗暴的玩法，其实这样既害了公司，也害了自己。自己的成长和进步也因为强大的 KPI 而抛在了脑后。</strong></p>
+<p><strong>当然，KPI 绩效考核一般来说，不一定会毁掉公司的，相反，对于喜欢使用蛮力的劳动密集型的公司来说，可能还有所帮助，然而，KPI毁掉的一定是团队的文化和团队的挑战精神，以及创新和对事业的热情，甚至会让其中的人失去应有的正常的判断力（分不清充分和必要条件，分不清很多事的因果关系）。</strong></p>
+<p>&nbsp;</p>
+<h4>对职场人想说的话</h4>
+<p>那么，对于个人来说，如何面对公司给自己的绩效考核呢？如何面对他们的绩效考核呢？</p>
+<p>还是用学校考试分数来做对比，如果说，用考试分数论英雄，一个人考高分就是绩效上的人才，考不及格的人就是人渣，这对吗？当然不是。也许仅于对于考试来说可以把人分成三六九等，但是对于整个人生来说，考试成绩和一个人在这个社会里的的成就并没有非常直接的因果关系。面对现实的社会，最终很多成绩好的人为成绩差的人工作的例子也有很多很多了。</p>
+<p>我想说什么？我想说的是——<strong>用一颗平常心来面对公司给你打的分数，因为那并不代表你的整个人生。但是，你要用一颗非常严肃的心来面对自己的个人发展和成长，因为这才是真正需要认真对待的事。</strong></p>
+<p>换句话说，<strong>如果要给一个人打绩效分，那不是由一个公司在一个短期的时间时打出来，而是由这个人在一个长期的时间里所能达到的成就得出来的。</strong></p>
+<p>就像WhatsApp的联合创始人Brian Acton 在 2009年时面试Facebook时没有面试通过，然而在 5 年以后，他把自己创办的公司以190亿美元卖给了FaceBook。阿里巴巴的马云不也一样吗？找工作各种被拒，开办的第一个公司成绩也不好，20年前，一堆人都说马云这也不行那也不行，然而，后面呢？反过来说，也很多职业经理人在公司里绩效非常好，然后到了创业公司却搞得非常的糟糕，这又说明了什么呢？</p>
+<p>这就像动物一样，有的动物适合在水里生活，有的动物适合在陆地上，鱼在陆地上是无法生存的，你让老虎去完成游泳的工作，你让鱼去完成鸟类的工作，你能考核到什么呢？<strong>我们每个人都有适合自己的环境，找到适合自己的环境才是最关键的！与其去关注别人对自己的评价，不如去寻找适合自己的环境。</strong></p>
+<p>所以，<strong>一个特定环境下的绩效考核并不代表什么，而那些妄图用绩效考核去否定一个人的做法，或多或少就是“法西斯”或“红卫兵”的玩法</strong>。</p>
+<p>好了！让我们不要再说绩效考核了，让我们回到，真正让自己提高，让自己成长，让自己的强的话题上来吧。这里，我需要转引一篇文章《<a href="https://brendansterne.com/2013/07/11/do-the-right-thing-wait-to-get-fired/" target="_blank" rel="noopener noreferrer">Do the Right Thing, Wait to get fired</a>》，文中提到《 <a href="https://www.amazon.cn/gp/product/1449302440" target="_blank" rel="noopener noreferrer">Team Geek</a>》这本书中的一句话</p>
+<blockquote><p><strong>做正确的事情，等着被开除。</strong></p>
+<p>谷歌新员工(我们称做“Nooglers”)经常会问我是如何让自己做事这么高效的。我半开玩笑的告诉他们这很简单：<strong>我选择做正确的事情，为谷歌，为世界，然后回到座位上，等着被开除。如果没有被开除，那我就是做了正确的事情——为所有人。如果被开除了，那选错了老板。总之，两方面，我都是赢</strong>。这是我的职业发展策略。</p></blockquote>
+<p>注明一下，“做正确的事，等着被开除”并不是一句鸡汤，而是让你变强大的话。因为强者自强，只有强者才能追求真理，而不是委曲求全。</p>
+<p>嗯，<strong>考试分数不是关键，别人对你的评价也不是关键，自己有没有成长有没有提高有没有上一个台阶才是关键。KPI不是关键，OKR也不是关键，有没有在做正确的事，这才是关键！</strong>不是这样吗？</p>
+<h4>其它</h4>
+<p>我大学四年级时，觉得马上就要离开学校了，当时想干点以后再以没有机会干的事。想来想去，就是上学这么多年来，从来没有不及格过，于是我任性了一把，挂了一个科，去补考了一下。挂科的时候也收到一些同学的笑话，还有老师的批评，不过，这让我感觉我的学校经历更完整了。因为，这让我在22岁的时候，就经历并大概明白了一些人生的道理。</p>
+<p>从98年工作到2013年来，就像一个好学生一样，我从来没有出现过任何的工作绩效问题，反正还经常在工作中成为标杠型的人，然并卵，只有自己成长才是最真实的感觉。“做正确的事，等着被开除”，这可能是我迄今为止在职场里做的最疯狂也是最正确的事了。因为，这让我有更多的经历，让我从正确的事中得到提高，也让我内心变得越来越强大，也让我找到了更具挑战的事，更让我对自己有更清楚的认识。</p>
+<p>最后，我知道一定会有人来怼我，所以，最后我还想留段话，留给那些还是想通过绩效来否定人的人。</p>
+<p style="padding-left: 30px;">如果你对我的绩效或技术能力有怀疑，没问题，那么希望你能做到下述我已做到的事，再来喷我，谢谢！</p>
+<p style="padding-left: 30px;">“<strong>在你40岁，在父亲病重，孩子上学问题、房贷并未还清、你是全家唯一收入来源之类的中年危机的情况下，辞去你现在的工作，不加入任何一家公司，不用自己的任何一分钱积蓄，不要任何人的投资和帮助。只通过自己的技术能力，为别人解决相应的技术难题（不做任何无技术含量的外包项目），来生存养家，并除了能照顾好自己的家人没有降低自己的生活水平之外，还能再养活3个每人年薪36万元的工程师</strong>”</p>
+<p style="padding-left: 30px;">请问这样的绩效能打个几分呢？呵呵。</p>
+<p>当然，不管怎么说，我还有很多路要走，还有很多不足，我还要继续努力。所以，我挑了一条对我来说最难走的路，作死创业……</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17972.html">我看绩效考核</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17972.html/feed</wfw:commentRss>
+			<slash:comments>95</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>什么是工程师文化？</title>
+		<link>https://coolshell.cn/articles/17497.html</link>
+					<comments>https://coolshell.cn/articles/17497.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 18 Sep 2016 08:23:11 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17497</guid>
+
+					<description><![CDATA[<p>四年前，我在QCon上演讲了一个《建一支强大的小团队》（整理后的PPT分享于这里）提到了工程师文化，今天，我想在这里再写一篇关于工程师文化的文章，一方面是因为我...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17497.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17497.html">什么是工程师文化？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-17500" src="https://coolshell.cn/wp-content/uploads/2016/09/engineer.jpg" alt="engineer" width="300" height="203" /> 四年前，我在QCon上演讲了一个《<a href="http://www.infoq.com/cn/presentations/Form-powerful-team" target="_blank">建一支强大的小团队</a>》（整理后的<a href="http://vdisk.weibo.com/s/gN-sQ/1351485199">PPT分享于这里</a>）提到了工程师文化，今天，我想在这里再写一篇关于工程师文化的文章，一方面是因为我又有了一些想法和体会，另一方面，因为我也正走在创业的道路，毫无疑问，要建一个有浓重的工程师文化的团队或公司，所以有必要把自己的相关想法形有成白底黑字的“字据”，以供打自己的脸——“要是未来没有做到，这篇文章就打我未来的脸” || “这篇文章太幼稚了，未来的我会打我现在的脸”，当然，如果要打脸，我希望是前者。</p>
+<p>Again，<strong>这篇文章不是招人的贴子，因为我觉得，招聘第一重要的事，不是发招聘广告或是找猎头挖人，而是先得让自己变成一个能配得上真正工程师的公司，然后再谈吸引人的事</strong>。</p>
+<h4>为什么要工程师文化</h4>
+<p>看看最近二十年来社会的发展，计算机和互联网已经渗透到了这个社会的每一个角落，各式各样的计算机技术成为了整个世界发展的强大引擎，各式各样的创新，无论是业务创新还是技术创新，都是依托于技术的快速演进，技术成了解放生产力提高社会运作的效率的中坚力量。以美帝为首的技术创新公司着着实实的改变着这个世界和人类的生活和生产习惯。</p>
+<p><strong>今天，每个从事计算机行业的技术人员都应该感到幸运，因为，我们不但选对了行业，也出生在了正确的时代，可以感受到前所未有的刺激和变化，相比起我们的父辈，我们的人生，能经历这样的时代，实在是一种幸运。</strong>所以，选对了职业并出生在了正确的年代的我们，此时只需要思考的一个问题，那就是，我是否呆在了正确的地方用正确的方式做事？</p>
+<p><span id="more-17497"></span></p>
+<p>在我看来，这个世界上有三种商业公司，</p>
+<ul>
+<li><strong>运营或销售驱动型的公司</strong>。这类的公司以运营和营销见长，技术对于他们来说，更多的只是为了支持大规模的营销活动，以及成本上的控制，所以，基本上来说不太需要技术创新。这种公司最大的问题就是缺乏安全感。</li>
+</ul>
+<ul>
+<li><strong>产品驱动型的公司</strong>。这类公司以产品见长，通过创造能提升用户生活体验的产品见长，技术对于他们来说，除了支持大规模的在线用户之外，他们会更多的去寻找那些为了增强用户体验，提高整个业务流程效率的技术创新。比如：UI的交互方面的，整个业务流程方面的。这种公司最大的问题，就是容易被别人模仿和抄袭。</li>
+</ul>
+<ul>
+<li><strong>技术驱动型的公司</strong>。这类的公司相信技术能改变世界，他们更多的是用强大的工程技术来创造有颠覆性的东西，更多的是用各种自动化的技术取代人类。比如：近代的蒸汽机技术取代了大量的人工，数字技术取代了大量信息传递的人工，现代，这类公司还希望通过人工智能来取代愚蠢的人类来做决定。这种公司最大的问题就是可能做出叫好不叫座的东西。</li>
+</ul>
+<p>这三种公司都可能成功，也都有问题，但是，无一例外，他们都需要强大的技术支撑，只不过，他们把技术所放在的位置不一样。</p>
+<p>无论你有多么的看不起技术人员，你都无法否认，你今天的生活相当的依赖这帮工程师，没有他们，你恐怕都不知道怎么生活了。邓爷爷几十年前就说过——“科学技术是第一生产力” ，无论什么样的科学技术的理论要落地都会依赖于工程技术有多先进。</p>
+<p>所以，<strong>在今天，作为一个IT或互联网公司，“工程师文化”不是一个问题，而是一个常识</strong>！</p>
+<h4>工程师文化的特征</h4>
+<p>我下面罗列的这些特征，来源于：Google的《<a href="https://book.douban.com/subject/26582822/">重新定义公司</a>》，我在Amazon的工作经历，37Signals的《<a href="https://coolshell.cn/articles/9156.html" target="_blank">Rework</a>》，Quora上的 <a href="https://www.quora.com/What-makes-a-good-engineering-culture">What Makes Good Engineering Culture?</a>  Slideshare上的 <a href="http://www.slideshare.net/edmondlau/what-makes-a-great-engineering-culture">What Makes Good Engineering Culture</a>，以及我最近这半年来的一些实践。</p>
+<p>简单说来，<strong>我可以简单的把这多的工程师文化的总结成两大类：“自由” 和 “效率”</strong>。</p>
+<p>本来还应该有个“创新”，但我个人认为，<strong>创新的前提是——在自由的环境下对提高效率的痴迷，就一定会发生创新。</strong></p>
+<p>创新不是凭空出现新的东西，其实，<strong>观察一下人类的发展史，不难发现，几乎所有的创新基本上跳出原来的思维模式用新的思维模式对原有问题的效率进行质的提升</strong>。比如：通信、交通、医疗、教育、生活……几乎全都是在优化效率。</p>
+<p>所以，如果你的精神不自由，你很难跳出老的思维模式，你用老的思维模式你一定不会想到新的方法和方式，如果不是对效率的提升，这个创新可能会不接地气。</p>
+<p>因此，我认为，工程师文化就是自由加效率！</p>
+<h4>自由</h4>
+<p>首先，工程师文化意味的创新文化，工程师都是有创新冲动的人，因为手里有创造技能的人通常都会有想创造点什么的冲动。而创新的源泉水来源于精神的解放，精神自由才会引发各式各样的奇思怪想，才会有常人觉得不可能的疯狂想法和想像力，而这些想法和想像力导致了创新。</p>
+<p>精神上的自由具体表现在：</p>
+<ul>
+<li><strong>自我驱动</strong>。自己管理自己是最好的管理。最失败的管理就是家长和保姆式的管理。兴趣出发的工作才可能迸发出真正的动力。</li>
+</ul>
+<ul>
+<li><strong>灵活的工作时间和地点</strong>。工程师们更多的是脑力工作，而不是体力工作，工作上时间和地点的自由安排可以让工程师们的脑力工作更有效。Remote是一个很不错的工作方式，开源社区基本上都是这钟方式。和Remote有关的话题可参看37Signals的这本书《<a href="https://book.douban.com/subject/25861795/" target="_blank">Remote</a>》</li>
+</ul>
+<ul>
+<li><strong>信息平等</strong>。这意味着，全体员工得到的是原始信息，而不是被管理者们层层加工消化后的信息，信息的屏蔽很容易造成误解和完全错误的行为。信息的平等，大的包括战略、方向、目标、财务，小的包括文档、代码、和知识的共享等。同样，也表现在意见表达上，任何人都有可能表达自己的意见和建议的平等机会，这样才会激发出更多的思路和思辩，从而有不同的更好的思路出现。而不是，大家都看到了问题，而没有人敢说。在Google除了代码全员共享，还有Thanks God, It&#8217;s Friday的文化，每周五，高管们会出来，任员工提各种尖锐的问题，在Amazon，代码和文档基本上全员开放，包括财务报表也对员工开放，另外，除了所有的NB的Principle SDE隔三岔五都会有一个Principle Talk（有很多Talk相当令人开脑洞），还有Amazon内部的Up the River文化，每年会选出一批公司最聪明最有想法的人集思会，讨公司下一步的和战略，并可以把相应的KPI直接按给Senior VP。</li>
+</ul>
+<ul>
+<li><strong>不害怕错误</strong>。处理错误的正确的姿势是分析总结教训，而不是惩罚故障人。前者让人改善进步，后者让人萎缩不前。最大的错误就是不敢犯错，最大的问题就是不敢直面问题。</li>
+</ul>
+<ul>
+<li><strong>宽松的审批系统甚至没有审批系统</strong>。审批通常暗示着三件事，1）对人的不完全信任，2）繁琐的流程，3）思维上的束缚。这些都是创新和想像力的天敌。一个公司的监管、审批、流程越重，这个公司的活力也就越差。</li>
+</ul>
+<ul>
+<li><strong>20%的自由时间</strong>。这是Google公司提出来的，员工有20%自由的时间做自己想做的项目，Gmail就是这么出来的。</li>
+</ul>
+<h4>效率</h4>
+<p>工程师天生是追求效率的。有人说认为程序员花大量的时间做自动化的工具，还不如人肉的效率高，比如，写自动化的脚本花5个小时，而重复做这件事200次只花3个小时。有这样的理解的人根本不懂工程。</p>
+<p>一方面，这个工具可以共享重用，更多的人可以从中受益，这次我花5个小时开发这个工具，下次只用1小时改一下就可以用在别的地方，这是着眼于未来而不是眼下的成本。更重要的是，这是一种文化，一种提高效率的文化，他会鼓励和激发出更多的这样的事情发生。<strong>如果你因为一个程序员花大量的时间开发自动化的工具，而认为这个程序员没有效率，对之批评甚至惩罚的话，那么你就扼杀了提高效率的文化</strong>（关于效率，大家可以看看我的另一篇文章《<a href="https://coolshell.cn/articles/10217.html" target="_blank">关于加班和效率</a>》，你会真正了解什么是效率）</p>
+<p><strong>人类之所以比别的动物聪明就是会使用和发明工具</strong>，而古语也有云：“工欲善其事，必先利其器”，看看美军的装备你就知道战争工具的好坏有多重要了，<strong>一个公司的强大之处在执行力，而执行力的强大之处在于你有什么样的支持工具。这些，已经不是工程师文化，而是人类发展的文化</strong>。</p>
+<p>针对于工程师文化来说，尤其是软件工程，提升工程效率的具体表现如下：</p>
+<ul>
+<li><strong>简化</strong>。简化不是简陋，简单的东西通常意味着用户更好理解，也意味着更容易的维护和运维。就像阿里推行的“小而美”，就像乔布期推崇的“没有产品手册简单易用的产品”，就像Amazon推行的Working Backwards里说的那样，一个新的产品或功能，产品经理需要写三个文档：媒体公关文、用户手册、常见问题，三个文档总共加起来不超过两页A4纸，且不准用任何图片说明，目的就是为了让产品简化和容易使用。</li>
+</ul>
+<ul>
+<li><strong>残酷无情的推行自动化</strong>。编写程序的最本质的目的就是自动化，看看人类发展史上自动化了多少东西。<strong>对于自动化来说，不仅仅只是消除人肉的重复劳动，更重要的是，很多事情人完全干不过机器。</strong>比如：加一台机器，程序在秒级就可以完成，而人是永远不可能达到这样的速度的，再比如：电商中用程序管理数量巨大的订单的自动化系统，加再多的人都完成的不可能像机器那样完成的又好又快。自动化需要大力开发提高生产力的工具，比如：持续集成，持续部署，自动化运维，基础自动化运维，甚至自动化的运营工具。（Amazon的软件工程中对自动化和简代相当迷恋）</li>
+</ul>
+<ul>
+<li><strong>避免无效率的组织架构和无效率的管理</strong>。这体现在这些方面：1）扁平化的组织架构，2）努力用自动化工具取代支持型的工作，3）不超过10个人的全栈小团队，4）不按人员的技能分工而是按其负责的产品或功能分工（关于分工，请参看《<a href="https://coolshell.cn/articles/17295.html" target="_blank">让我们来谈谈分工</a>》），5）开会不是解决问题，开会是表决提案，6）通过产品的目标或信条Tenets来减少沟通和决策过程（Amazon里的每个部门，每个团队，每个产品都有自己的Tenets，这个Tenets标明了要什么不要什么，这样可以避免很多扯皮和难缠的trade-off的决择，比如：AWS的几个信条：运维是最高优级的——这意味着只要是会让运维变得复杂的需求都可能会工程团队被拒掉，Throughput &amp; Latency不能更差——这意味着，功能要为性能让路，因为性能变差了，用户就要买更多的资源）</li>
+</ul>
+<ul>
+<li><strong>正确的组件抽象</strong>。抽象是简化的一部份，一方面，抽象意味着重用和通用，另一方面抽象意味着强大的扩展性，以适配各种可能性。最重要的是，抽象意味着技术能力的输出，无论是内部的其它团队还外部的团队。比如：Google的MapReduce/BigTable/ProtoBuffer，FaceBook的Thrift，还有Amazon内部的WebService框架Coral Service、处理日志监控的Timber，以及全线AWS产品都用到的Amazon Lock Framework（一个分布式锁框架）……</li>
+</ul>
+<ul>
+<li><strong>开发高质量的产品</strong>。因为高质量的代码，不但可以容易的修改和维护，还可以因为少处理线上故障，从而有更多的时间去为未来做更多创造性的工作。这意味着需要有非常严谨的Design Review，Code Review，以及测试，关于Code Review，可以参看这篇文章《<a href="https://coolshell.cn/articles/11432.html" target="_blank">从Code Review 谈如何做技术</a>》，关于严谨的测试，可以参看这篇文章《<a href="https://coolshell.cn/articles/17381.html" target="_blank">如何做性能测试</a>》</li>
+</ul>
+<ul>
+<li><strong>不断的提高标准以及招聘最好的人</strong>。取法其上，得乎其中，取法其中，得乎其下，取法其下，法不得也。如果一个公司或一个团队想变得越来越好，越来越强大的话，就必需要不断的提高自己的工作标准，提高工作标准意味着要不断地培养和招聘更好的人。在Amazon和Google的招聘官中都有一个叫Bar Rasier的人，这个人就是为了提高招聘标准而设立的。</li>
+</ul>
+<ul>
+<li><strong>创建一个持续改善的文化</strong>。一个好的组织，一个好的团队，是需要不断反思前进的，这需要全体员工一起来的。微观层面上，在项目做完后需要有一个总结会分析项目中的得失，在故障出现后，需要有故障分析会，反思得失，在Amazon，严重的故障，需要写一个COE（Correction of Errors）的文档，其中有一节叫“Ask 5 Whys”，让你自己问自己至少5个为什么。在宏观层面，一个公司每年都应该做一定的工作数据分析或是员工调查，比如，是否招聘到了不错的人、工作的投入产出比，员工在哪些地方花时间了，等等，然后不断的用技术手段来改善。（Amazon每年的工程师员工调查表是我活那么大见过的最细最细的调查表了， 问题除了对公司、经理、文化的，还有从，日常工作、开发环境、持结集成，测试自动化、产品质量、软件架构、软件维护、线上问题处理、年度计划、数据仓库建设、通用工具投票……这个员工调查直接导致公司的对工程的投资方向）</li>
+</ul>
+<h4>工程师文化如何落地</h4>
+<p>如果你要让任何文化在公司内得到执行，你有下面几个手段可以选择：</p>
+<ul>
+<li><strong>通过政治手段：你需要把住三个地方——招聘、绩效考核 &amp; 升职</strong>。比如，你要落地工程师文化中的简化和自动化，那你你在招聘的时候，你需要把懂简化和喜欢自动化的人招进来，然后在绩效考核和升职的地方设置上一条硬性指标——你今年简化了什么？自动化了什么？如果没有，对不起不但不能升职，绩效可能还不达标。</li>
+</ul>
+<ul>
+<li><strong>通过经济手段：让不做这事的成本 &gt; 要做这个的成本。</strong>然后，正常的人类都会选择成本低的方案。比如，如果你要推行Design/Code Review/UT以提高质量，你就把QA和OPS团队全挪到一边去，让Dev团队自己测试，自己负责，这样等这些Dev重复多次手动测试，处理多次线上的弱智故障，他们就会自然而然的写自动化测试和做Code Review了，而QA和OPS团队只是帮Dev你做工具罢了，而测试和运维的事全是你DEV的Ownership，出了故障也是Dev自己负责，于是，他们就会发现，不做Code Review和UT的成本远远大于做C Code Review/UT的成本，他们就会去做成本低的事的。</li>
+</ul>
+<p>最后，工程师文化要落地，还有几个小条件，</p>
+<ul>
+<li><strong>第一，团队要小，Ownership很重要，Eat Your Own Dog Food。</strong> 没有人帮你擦屁股，自己的屎自己吃，没有痛苦，不会产生想进步的动力。</li>
+</ul>
+<ul>
+<li><strong>第二，热爱学习和尝试</strong>，学习尝试新的技术，开拓眼界，学习尝试新的思维方式，否则，呆在原地，原有的思维方式只会让你在原地打转转。</li>
+</ul>
+<ul>
+<li><strong>第三，老板更多的相信技术而不是管理</strong>。相信技术会用技术来解决问题，相信管理，那就只会有制度、流程和价值观来解决问题。</li>
+</ul>
+<h4>其它</h4>
+<p>说了这么多，时代还在发展，不过，这是我这么多年经历或看到的工程师文化的东西了。最后吐几个槽——</p>
+<p>对于996和加班这个事，对于工程师来说从来都不是问题，在解决技术问题或是创造的时候，工程师是个很自觉的群体，基本不需要有别人驱动，工程师是最乐意Work Hard的人了。我相信几乎所有走上编程这个职业的人来说，基本上都是兴趣所至，觉得编程很有趣，但却被各个公司996搞得对编程毫无兴趣。为什么，你们这些公司要向中国的教育学习呢？人家本来对这事有比较高的兴趣的，但就是要通过考试/KPI/996这些东西把人家的兴趣一点一点的磨灭掉，把人变成机器、奴隶、牲口，<strong>让人对学习和工作产生了厌倦和讨厌，会是你们这些管理者们所希望的？是不是只有把人变得不思进取了，你们才会管理？</strong>就像《<a href="https://coolshell.cn/articles/4951.html" target="_blank">软件开发中的两种管理方式</a>》中说的第一种人一样？</p>
+<p>另外，我不知道，为什么我一说这些东西，就会有很多人（包括程序员自己）来和我说我是个理想主义者，这些已经不是什么理想了，已被很多成功的公司用了很多很多年了。只是你没有见到过罢了。还有的人说，因为中国的国情不同。这更让我费解了。这让我想到了当年大清朝派了一堆人出国考察后回来后，说外国的那套共和的东西不符合中国国情，最终也在历史的潮流中被淹没掉了。另外，什么叫“中国的国情不同”？中国有全世界数一数二的互联网用户，也有全世界数一数二的市场，不再是以前那个一穷二白的年代了，中国的国情到底有哪些不同呢？</p>
+<p>我不知道各位工程师是为什么活的？但我觉得，<strong>我们选择了一个刺激的职业，也赶上了这个行业大发展的时代，我们不妨扪心自问一下，你是否愿意让自己的能力、青春和热情就这样被磨灭了？</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/9156.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/03/rework-150x150.jpg" alt="《Rework》摘录及感想" width="150" height="150" /></a><a href="http://coolshell.cn/articles/9156.html" class="wp_rp_title">《Rework》摘录及感想</a></li><li ><a href="http://coolshell.cn/articles/11432.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/04/code_review-150x150.jpg" alt="从Code Review 谈如何做技术" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11432.html" class="wp_rp_title">从Code Review 谈如何做技术</a></li><li ><a href="http://coolshell.cn/articles/5686.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="多些时间能少写些代码" width="150" height="150" /></a><a href="http://coolshell.cn/articles/5686.html" class="wp_rp_title">多些时间能少写些代码</a></li><li ><a href="http://coolshell.cn/articles/4951.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="软件公司的两种管理方式" width="150" height="150" /></a><a href="http://coolshell.cn/articles/4951.html" class="wp_rp_title">软件公司的两种管理方式</a></li><li ><a href="http://coolshell.cn/articles/11656.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/06/software_development-150x150.png" alt="开发团队的效率" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11656.html" class="wp_rp_title">开发团队的效率</a></li><li ><a href="http://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="http://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17497.html">什么是工程师文化？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17497.html/feed</wfw:commentRss>
+			<slash:comments>124</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>关于高可用的系统</title>
+		<link>https://coolshell.cn/articles/17459.html</link>
+					<comments>https://coolshell.cn/articles/17459.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 21 Aug 2016 04:34:53 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[High Availability]]></category>
+		<category><![CDATA[Paxos]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[分布式]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17459</guid>
+
+					<description><![CDATA[<p>在《这多年来我一直在钻研的技术》这篇文章中，我讲述了一下，我这么多年来一直在关注的技术领域，其中我多次提到了工业级的软件，我还以为有很多人会问我怎么定义工业级？...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17459.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17459.html">关于高可用的系统</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-17475" src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-300x300.png" alt="HighAvailability-BK" width="300" height="300" srcset="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-300x300.png 300w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-768x768.png 768w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-200x200.png 200w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-270x270.png 270w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK.png 1000w" sizes="(max-width: 300px) 100vw, 300px" />在《<a href="https://coolshell.cn/articles/17446.html" target="_blank">这多年来我一直在钻研的技术</a>》这篇文章中，我讲述了一下，我这么多年来一直在关注的技术领域，其中我多次提到了工业级的软件，我还以为有很多人会问我怎么定义工业级？以及一个高可用性的软件系统应该要怎么干出来？这样我也可以顺理成章的写下这篇文章，但是没有人问，那么，我只好厚颜无耻的自己写下这篇文章了。哈哈。</p>
+<p>另外，我在一些讨论高可用系统的地方看到大家只讨论各个公司的技术方案，<strong>其实，高可用的系统并不简单的是技术方案，一个高可用的系统其实还包括很多别的东西，所以，我觉得大家对高可用的系统了解的还不全面，为了让大家的认识更全面，所以，我写下这篇文章</strong>。</p>
+<h4>理解高可用系统</h4>
+<p>首先，我们需要理解什么是高可用，英文叫High Availability（<a href="https://en.wikipedia.org/wiki/High_availability">Wikipedia词条</a>），基本上来说，就是要让我们的计算环境（包括软硬件）做到full-time的可用性。在设计上一般来说，需要做好如下的设计：</p>
+<p><span id="more-17459"></span></p>
+<ol>
+<li>对软硬件的冗余，以消除单点故障。任何系统都会有一个或多个冗余系统做standby</li>
+<li>对故障的检测和恢复。检测故障以及用备份的结点接管故障点。这也就是failover</li>
+<li>需要很可靠的交汇点（CrossOver）。这是一些不容易冗余的结点，比如域名解析，负载均衡器等。</li>
+</ol>
+<p>听起似乎很简单吧，然而不是，细节之处全是魔鬼，冗余结点最大的难题就是对于有状态的结点的数据复制和数据一致性的保证（无状态结点的冗余相对比较简单）。冗余数据所带来的一致性问题是魔鬼中的魔鬼：</p>
+<ul>
+<li>如果系统的数据镜像到冗余结点是异步的，那么在failover的时候就会出现数据差异的情况。</li>
+</ul>
+<ul>
+<li>如果系统在数据镜像到冗余结点是同步的，那么就会导致冗余结点越多性能越慢。</li>
+</ul>
+<p>所以，很多高可用系统都是在做各种取舍，这需要比对着业务的特点来的，比如银行账号的余额是一个状态型的数据，那么，冗余时就必需做到强一致性，再比如说，订单记录属于追加性的数据，那么在failover的时候，就可以到备机上进行追加，这样就比较简单了（阿里目前所谓的异地双活其实根本做不到状态型数据的双活）。</p>
+<p>下面，总结一下高可用的设计原理：</p>
+<ul>
+<li>要做到数据不丢，就必需要持久化</li>
+<li>要做到服务高可用，就必需要有备用（复本），无论是应用结点还是数据结点</li>
+<li>要做到复制，就会有数据一致性的问题。</li>
+<li>我们不可能做到100%的高可用，也就是说，我们能做到几个9个的SLA。</li>
+</ul>
+<h4>高可用系统的技术解决方案</h4>
+<p>我在《<a href="https://coolshell.cn/articles/10910.html" target="_blank">分布式系统的事务处理</a>》中引用过下面这个图：这个图来自来自：Google App Engine的co-founder Ryan Barrett在2009年的Google I/O上的演讲《<a href="http://snarfed.org/transactions_across_datacenters_io.html" target="_blank">Transaction Across DataCenter</a>》（视频： <a title="阿里旺旺无法确定该链接的安全性" href="http://www.youtube.com/watch?v=srOgpXECblk" target="_blank">http://www.youtube.com/watch?v=srOgpXECblk</a>）</p>
+<p><img decoding="async" loading="lazy" class="size-full wp-image-10942 aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg" alt="Transaction Across DataCenter" width="566" height="255" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg 566w, https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter-300x135.jpg 300w" sizes="(max-width: 566px) 100vw, 566px" /></p>
+<p>这个图基本上来说是目前高可用系统中能看得到的所有的解决方案的基础了。M/S、MM实现起来不难，但是会有很多问题，2PC的问题就是性能不行，而Paxos的问题就是太复杂，实现难度太大。</p>
+<p>总结一下各个高可用方案的的问题：</p>
+<ul>
+<li>对于最终一致性来说，在宕机的情况下，会出现数据没有完全同步完成，会出现数据差异性。</li>
+<li>对于强一致性来说，要么使用性能比较慢的<a href="https://en.wikipedia.org/wiki/X/Open_XA">XA系</a>的两阶段提交的方案，要么使用性能比较好，但是实现比较复杂的Paxos协议。</li>
+</ul>
+<p>注：这是软件方面的方案。当然，也可以使用造价比较高的硬件解决方案，不过本文不涉及硬件解决方案。</p>
+<p>另外，现今开源软件中，很多缓存，消息中间件或数据库都有持久化和Replication的设计，从而也都有高可用解决方案，但是开源软件一般都没有比较高的SLA，所以，如果我们使用开源软件的话，需要注意这一点。</p>
+<h4>高可用技术方案的示例</h4>
+<p>下面，我们来看一下MySQL的高可用的方案的SLA（下图下面红色的标识表示了这个方案有几个9）：</p>
+<p><a href="http://www.slideshare.net/andrewjamesmorgan/mysql-high-availability-solutions-feb-2015-webinar"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17461" src="https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638.jpg" alt="mysql-high-availability-solutions-feb-2015-webinar-9-638" width="638" height="359" srcset="https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638.jpg 638w, https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638-300x169.jpg 300w" sizes="(max-width: 638px) 100vw, 638px" /></a></p>
+<p style="text-align: center;">图片来源：<a href="http://www.slideshare.net/andrewjamesmorgan/mysql-high-availability-solutions-feb-2015-webinar">MySQL High Availability Solutions</a></p>
+<p>简单解释一下MySQL的这几个方案（主要是想表达一个越多的9就越复杂）</p>
+<ul>
+<li>MySQL Repleaction就是传统的异步数据同步或是半同步Semi-Sync（只要有一个slave收到更新就返回成功）这个方式本质上不到2个9。</li>
+<li>MySQL Fabric简单来说就是数据分片下的M/S的读写分离模式。这个方案的的可用性可以达到99%</li>
+<li>DRBD通过底层的磁盘同步技术来解决数据同步的问题，就是RAID 1——把两台以上的主机的硬盘镜像成一个。这个方案不到3个9</li>
+<li>Solaris Clustering/Oracle VM ，这个机制监控了包括硬件、操作系统、网络和数据库。这个方案一般会伴随着节点间的“心跳机制”，而且还会动用到SAN（Storage Area Network）或是本地的分布式存储系统，还会动用虚拟化技术来做虚拟机的迁移以降低宕机时间的概率。这个解决方案完全就是一个“全栈式的解决方案”。这个方案接近4个9。</li>
+<li>MySQL Cluster是官方的一个开源方案，其把MySQL的集群分成SQL Node 和Data Node，Data Node是一个自动化sharing和复制的集群NDB，为了更高的可用性，MySQL Cluster采用了“完全同步”的数据复制的机制来冗余数据结点。这个方案接近5个9。</li>
+</ul>
+<p>那么，这些2个9，3个9，4个9，5个9是什么意思呢？又是怎么来的呢？请往下看。</p>
+<h4>高可用性的SLA的定义</h4>
+<p><strong>上面那些都不是本文的重点，本文的重点现在开始，如何测量系统的高可用性</strong>。当然是SLA，全称<a href="https://en.wikipedia.org/wiki/Service-level_agreement" target="_blank">Service Level Agrement</a>，也就是有几个9的高可用性。</p>
+<p>工业界有两种方法来测量SLA，</p>
+<ul>
+<li>一个是故障发生到恢复的时间</li>
+<li>另一个是两次故障间的时间</li>
+</ul>
+<p>但大多数都采用第一种方法，也就是故障发生到恢复的时间，也就是服务不可用的时间，如下表所示：</p>
+<table class="wikitable" align="center">
+<tbody>
+<tr>
+<th>系统可用性%</th>
+<th>宕机时间/年</th>
+<th>宕机时间/月</th>
+<th>宕机时间/周</th>
+<th>宕机时间/天</th>
+</tr>
+<tr>
+<td align="left">90% (1个9)</td>
+<td>36.5 天</td>
+<td>72 小时</td>
+<td>16.8 小时</td>
+<td>2.4 小时</td>
+</tr>
+<tr>
+<td align="left">99% (2个9)</td>
+<td>3.65 天</td>
+<td>7.20 小时</td>
+<td>1.68 小时</td>
+<td>14.4 分</td>
+</tr>
+<tr>
+<td align="left">99.9% (3个9)</td>
+<td>8.76 小时</td>
+<td>43.8 分</td>
+<td>10.1 分钟</td>
+<td>1.44 分</td>
+</tr>
+<tr>
+<td align="left">99.99% (4个9)</td>
+<td>52.56 分</td>
+<td>4.38 分</td>
+<td>1.01 分钟</td>
+<td>8.66 秒</td>
+</tr>
+<tr>
+<td align="left">99.999% (5个9)</td>
+<td>5.26 分</td>
+<td>25.9 秒</td>
+<td>6.05 秒</td>
+<td>0.87 秒</td>
+</tr>
+</tbody>
+</table>
+<p>比如，99.999%的可用性，一年只能有5分半钟的服务不可用。感觉很难做到吧。</p>
+<p><strong>就算是3个9的可用性，一个月的宕机时间也只有40多分钟，看看那些设计和编码不认真的团队，把所有的期望寄托在人肉处理故障的运维团队， 一个故障就能处理1个多小时甚至2-3个小时，连个自动化的工具都没有，还好意思在官网上声明自己的SLA是3个9或是5个9，这不是欺骗大众吗？</strong>。</p>
+<h4>影响高可用的因素</h4>
+<p>老实说，我们很难计算我们设计的系统有多少的可用性，因为影响一个系统的因素实在是太多了，除了软件设计，还有硬件，还有每三方的服务（如电信联通的宽带SLA），当然包括“建筑施工队的挖掘机”。所以，正如SLA的定义，<strong>这不仅仅只是一个技术指标，而是一种服务提供商和用户之间的contract或契约</strong>。<strong>这种工业级的玩法，就像飞机一样，并不是把飞机造出来就好了，还有大量的无比专业的配套设施、工具、流程、管理和运营</strong>。</p>
+<p>简而言之，SLA的几个9就是能持续提供可用服务的级别，不过，工业界中，会把服务不可用的因素分成两种：一种是有计划的，一种是无计划的。</p>
+<h5>无计划的宕机原因</h5>
+<p>下图来自Oracle的 《<a href="https://docs.oracle.com/cd/A91202_01/901_doc/rac.901/a89867/pshavdtl.htm">High Availability Concepts and Best Practices</a>》</p>
+<p>&nbsp;</p>
+<h5><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17467" src="https://coolshell.cn/wp-content/uploads/2016/08/unplaned_downtime.gif" alt="unplaned_downtime" width="600" height="602" />有计划的宕机原因</h5>
+<p>下图来自Oracle的 《<a href="https://docs.oracle.com/cd/A91202_01/901_doc/rac.901/a89867/pshavdtl.htm">High Availability Concepts and Best Practices</a>》</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17466" src="https://coolshell.cn/wp-content/uploads/2016/08/planned_downtime.gif" alt="planned_downtime" width="600" height="356" /></p>
+<p>&nbsp;</p>
+<p>我们可以看到，上面的宕机原因包括如下：</p>
+<p>无计划的</p>
+<ul>
+<li>系统级的故障 &#8211;  包括主机、操作系统、中间件、数据库、网络、电源以及外围设备</li>
+<li>数据和中介的故障 &#8211; 包括人员误操作、硬盘故障、数据乱了</li>
+<li>还有：自然灾害、人为破坏、以及供电问题。</li>
+</ul>
+<p>有计划的</p>
+<ul>
+<li>日常任务：备份，容量规划，用户和安全管理，后台批处理应用</li>
+<li>运维相关：数据库维护、应用维护、中间件维护、操作系统维护、网络维护</li>
+<li>升级相关：数据库、应用、中间件、操作系统、网络、包括硬件升级</li>
+</ul>
+<h4>真正决定高可用系统的本质原因</h4>
+<p>从上面这些会影响高可用的SLA的因素，你看到了什么？如果你还是只看到了技术方面或是软件设计的东西，那么你只看到了冰山一角。我们再仔细想一想，<strong>那个5个9的SLA在一年内只能是5分钟的不可用时间，5分钟啊，如果按一年只出1次故障，你也得在五分钟内恢复故障，让我们想想，这意味着什么？</strong></p>
+<p><strong>如果你没有一套科学的牛逼的软件工程的管理，没有牛逼先进的自动化的运维工具，没有技术能力很牛逼的工程师团队，怎么可能出现高可用的系统啊</strong>。</p>
+<p>是的，<strong>要干出高可用的系统，这TMD就是一套严谨科学的工程管理</strong>，其中包括但不限于了：</p>
+<ul>
+<li>软件的设计、编码、测试、上线和软件配置管理的水平</li>
+<li>工程师的人员技能水平</li>
+<li>运维的管理和技术水平</li>
+<li>数据中心的运营管理水平</li>
+<li>依赖于第三方服务的管理水平</li>
+</ul>
+<p>深层交的东西则是——对工程这门科学的尊重：</p>
+<ul>
+<li>对待技术的态度</li>
+<li>一个公司的工程文化</li>
+<li>领导者对工程的尊重</li>
+</ul>
+<p><strong>所以，以后有人在你面前提高可用，你要看的不是他的技术设计，而还要看看他们的工程能力，看看他们公司是否真正的尊重工程这门科学</strong>。</p>
+<h4>其它</h4>
+<p>有好些非技术甚至技术人员和我说过，做个APP做个网站，不就是找几个码农过来写写代码嘛。等系统不可用的时候，他们才会明白，要找技术能力比较强的人，但是，<strong>就算你和他们讲一万遍道理，他们也很难会明白写代码怎么就是一种工程了，而工程怎么就成了一门科学了。其实，很多做技术的人都不明白这个道理</strong>。</p>
+<p>包括很多技术人员也永远不会理解，为什么要做好多像Code Review、自动化运维、自动化测试、持续集成之类这样很无聊的东西。就像我在《<a href="https://coolshell.cn/articles/11432.html" target="_blank">从Code Review 谈如何做技术</a>》中提到的，阿里很多的工程师，架构师/专家，甚至资深架构师都没有这个意识，当然，这不怪他们，因为经历决定思维方式，他们的经历的是民用级的系统，做的都是堆功能的工作，的确不需要。</p>
+<p>看完这些，最后让我们都扪心自问一下，你还敢说你的系统是高可用的了么？ ;-)</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/01/trade-off-150x150.jpg" alt="分布式系统的事务处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_title">分布式系统的事务处理</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17459.html">关于高可用的系统</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17459.html/feed</wfw:commentRss>
+			<slash:comments>87</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>让我们来谈谈分工</title>
+		<link>https://coolshell.cn/articles/17295.html</link>
+					<comments>https://coolshell.cn/articles/17295.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 13 Dec 2015 04:55:52 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Division of Labour]]></category>
+		<category><![CDATA[manager]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17295</guid>
+
+					<description><![CDATA[<p>昨天，我看到一个新闻——雅虎取消了QA团队，工程师必须自己负责代码质量，并使用持续集成代替QA。 同时，也听到网友说，“听微软做数据库运维的工程师介绍，他们也是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17295.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17295.html">让我们来谈谈分工</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-17298" src="https://coolshell.cn/wp-content/uploads/2015/12/Division_of_Labour.jpeg" alt="Division of Labour" width="311" height="210" srcset="https://coolshell.cn/wp-content/uploads/2015/12/Division_of_Labour.jpeg 311w, https://coolshell.cn/wp-content/uploads/2015/12/Division_of_Labour-300x203.jpeg 300w" sizes="(max-width: 311px) 100vw, 311px" />昨天，我看到<a href="http://spectrum.ieee.org/view-from-the-valley/computing/software/yahoos-engineers-move-to-coding-without-a-net" target="_blank">一个新闻</a>——雅虎取消了QA团队，工程师必须自己负责代码质量，并使用持续集成代替QA。 同时，也听到网友说，“听微软做数据库运维的工程师介绍，他们也是把运维工程师和测试工程师取消了，由开发全部完成。每个人都是全栈工程师”。于是，我顺势引用了几年前写过一篇文章《<a href="https://coolshell.cn/articles/6994.html" target="_blank">我们需要专职的QA吗？</a>》，并且又鼓吹了一下全栈。当然，一如既往的得到了一些的争议和嘲弄;-)。</p>
+<p>有人认为取消QA基本上是公司没钱的象征，这个观点根本不值一驳，属于井底之蛙。有人认为，社会分工是大前提，并批评我说怎么不说把所有的事全干的，把我推向了另外一个极端。另外，你千万不要以为有了分工，QA的工作就保得住了。</p>
+<p>就像《乔布斯传》中乔布斯质疑财务制度的时候说的，有时候，很多人都不问为什么，觉得存在的东西都是理所应当的东西。让我们失去了独立思考的机会。分工也是一样。</p>
+<p>所以，为了说完整分工这个逻辑。请大家耐住性子，让我就先来谈谈“分工的优缺点”吧。</p>
+<p><span id="more-17295"></span></p>
+<h4>分工的优点和缺点</h4>
+<p>首先，分工（Division of Labour）应该是由 <a href="https://en.wikipedia.org/wiki/Adam_Smith" target="_blank">Adam Smith</a> 在1776年的《<a href="https://en.wikipedia.org/wiki/The_Wealth_of_Nations" target="_blank">国富论</a>》中提出来的，Adam在那时候就观察到分工对于手工业生产效率的提高。他将效率提高的原因归结于三点：</p>
+<ul>
+<li>熟练程度的增加。当一个工人单纯地重复同一道工序时，其对这道工序的熟练程度会大幅增加。<strong>表现为产量和质量的提高</strong>。</li>
+<li>如果没有分工，由一道工序转为另一道工序时会损失时间，而分工避免了这中间的损失。</li>
+<li>由于对于工序的了解和熟练度的增加，<strong>更有效率的机械和工具被发明出来，从而提高了产量</strong>。</li>
+</ul>
+<p>分工的确是提高生产力。我想到了福特公司一开始做出来的汽车几乎卖不出去，原因有两个，一个是成本太高，另外是生产太复杂，产能太低。于是福特公司开始把制造一辆汽车的工序分解开来，进行分工，分工给福特公司带来的好处是：</p>
+<ol>
+<li>很多工作可以并行了，而且<strong>因为事情变得简单后，执行力也变强了</strong></li>
+<li>一个非常复杂和高深的汽车制造因为分工后，<strong>很多工作不需要很NB的人来干了，只需要一般劳动者经过简单的培训就可以干了</strong>。而且，越干越熟练，越干越专业，最终可能让合适的人合适的事。</li>
+<li>分工后导致了很多重复劳动可以用技术来解决，于是福特公司出现生产流水线的技术（你是否还记得卓别林《摩登时代》里的工业生产流水线的场景，那取自福特公司）。</li>
+</ol>
+<p>于是，福特公司的生产效率大大提高，最终实现了让每个美国家庭都能买得起汽车的理想，同时让美国成为了轮子上的国家。</p>
+<p>不过，我们需要注意的是，在《国富论》中，Adam他同时也提到，分工如果过细，同样会带来问题——<strong>简单重复的劳动会让人变成一个不会思考的机器，从而越来越笨，进而变成平庸的无技能的人</strong>。自“分工”出现以后，争论就没有停止过。</p>
+<p>Karl Max同样认为<strong>分工越来越细，会导致人的技术越来越差，同时，大量的重复劳动也会导致人对工作的失出热情，产生厌倦和抵触心理，最终会导致生产力的下降</strong>。</p>
+<p>同时，还有一些经济学家也同样表明分工的一些缺点：</p>
+<ul>
+<li><strong>导致人只关注整个事情中的一小块，缺乏全局视角，导致视野受限，没有完全领会工作的意义和目标，从而导致各种返工</strong>。</li>
+</ul>
+<ul>
+<li><strong>对于组织而言，分工也会导致出现大量的沟通协同成本，并出现碎片的生产方式，以及组织的孤岛形式，并不利于提高生产力</strong>。</li>
+</ul>
+<p>当然，奥地利经济学家<a title="Ludwig von Mises" href="https://en.wikipedia.org/wiki/Ludwig_von_Mises">Ludwig von Mises</a> 并不这么认为，他认为，在分工所得到的好处面前，这些副作用不算什么。并且，他认为在资本主义的制度下，完全是可以平衡分工的各种优点和各种缺点，从而可以达到提高生产力和提高人员素质的双赢解的。</p>
+<p>比如说，<strong>分工中的各种沟通问题是可以通过一个标准协议来解的</strong>，造灯泡的，造开关的，造灯座的完全不知道对方的存在，他们只所以可以让做出来的东西拼在一起，完全是通过了一种标准协议完成的。<strong>这也是为什么这个世界上有各种各样的标准化的组织</strong>。</p>
+<p>还有很多经济学家对分工都有自己的见解和想法。不过基本上就是上面这些Pros和Cons了。下图是一个PPT的两个slids，可以点击看大图（<a href="http://www.slideshare.net/kamran121/lecture-5-10123392" target="_blank">来源</a>）</p>
+<table>
+<tbody>
+<tr>
+<td><a href="https://coolshell.cn/wp-content/uploads/2015/12/lecture-5-10-728.jpg" target="_blank"><img decoding="async" loading="lazy" class="aligncenter wp-image-17299" src="https://coolshell.cn/wp-content/uploads/2015/12/lecture-5-10-728.jpg" alt="lecture-5-10-728" width="391" height="293" srcset="https://coolshell.cn/wp-content/uploads/2015/12/lecture-5-10-728.jpg 728w, https://coolshell.cn/wp-content/uploads/2015/12/lecture-5-10-728-300x225.jpg 300w" sizes="(max-width: 391px) 100vw, 391px" /></a></td>
+<td><a href="https://coolshell.cn/wp-content/uploads/2015/12/lecture-5-11-728.jpg" target="_blank"><img decoding="async" loading="lazy" class="aligncenter wp-image-17300" src="https://coolshell.cn/wp-content/uploads/2015/12/lecture-5-11-728.jpg" alt="lecture-5-11-728" width="372" height="279" srcset="https://coolshell.cn/wp-content/uploads/2015/12/lecture-5-11-728.jpg 728w, https://coolshell.cn/wp-content/uploads/2015/12/lecture-5-11-728-300x225.jpg 300w" sizes="(max-width: 372px) 100vw, 372px" /></a></td>
+</tr>
+</tbody>
+</table>
+<h4>全球化下的分工</h4>
+<p>分工带来问题在全球化的浪潮下变得尤为突出。其委婉地被讲成是比较优势（<a title="Comparative advantage" href="https://en.wikipedia.org/wiki/Comparative_advantage">Comparative Advantage</a>）</p>
+<p><b>比较优势（</b>又叫<b>相对优势</b>）是经济学的概念，解释了为何在拥有相对的机会成本的优势下生产，贸易对双方都有利。当一方（一个人，一间公司，或一国）进行一项生产时所付出的机会成本比另一方低，这一方面拥有了进行这项生产的比较优势。于是，一个国家倘若专门生产自己相对优势较大的产品，并通过国际贸易换取自己不具有相对优势的产品就能获得利益。</p>
+<p>于是乎，分工本来想要的是——合适的人干合适的事，<strong>但是在比较优势的情况下，商业社会把分工变成了</strong>——<strong>不是选择合适的人、公司或国家，而是选择成本低的人、公司或国家</strong>。</p>
+<p>经济合作与发展组织<a class="mw-redirect" title="OECD" href="https://en.wikipedia.org/wiki/OECD">OECD</a>最近（2015年6月28日）对全球化这样建议的——</p>
+<blockquote><p>“有效率的政策的本质不是阻止失业而是鼓励就业，如果各个国家都在收获全球化的利益而不是开放贸易的话，那么一些地方就会失去工作机会，当然也伴随着在另一些地方出现新的工作机会，这是全球化进程不可避免的，而我们面对的挑战是怎么能流畅调整我们的流程，能为那些新出现的工作机会找到合适的技能匹配的工人”。</p></blockquote>
+<p>通过上面的说明，我想你可以知道，为什么中国成为了世界劳动力大国，而为什么当初美国科技公司进入中国的时候，首先把测试的工作放到了中国。这就是所谓的全球化分工。同时我们也可以看到，像我们中国这样技术能力的确非常不足的国家，的确是可以通过分工这种形式，让我们这些技能一般的技术人员参与一个复杂的有技术含量的项目当中。这其中就是分工的光明面和阴暗面。</p>
+<p>那么，我们想一想，<strong>随着中国的人力成本的越来越大，国际化的分工因为商业资本的因素，必然不会选择中国，只会选择人力成本更低的国家，比如印度、越南、甚至人力成本更低的国家</strong>。美国雅虎和Adobe不是离开中国了么？再看看中国因为人民币的汇率或是人力成本的上升，我们在早几年关了多少个Made in China的工厂，这就是全球化的分工，商业上来说，他不是找最合适的人，而是找成本最低的人。</p>
+<p>所以，<strong>你千万不要以为我一提倡全栈了，你QA的工作就保不住了，就算没有全栈，就算是你还在坚持的社会化的分工，也可能让你的QA的工作就保不住了，除非，你能提供更低的价格</strong>。（想想这其中的逻辑吧，人家美国人把一些技术工作（比如测试）外包到中国的原因不是因为中国人聪明，想得周全，适合干这个测试这个事，而是因为中国人廉价，所以，当中国不在廉价了，自然就会找更廉价的地方了）</p>
+<p>为什么国家要从Made in China转型？不就是因为中国早期拿到的国际化分工就是这些没有技术含量的支持性的分工么？也因此而造就了大量的技能很一般的工人。为了能在全球化分工中能拿到更有质量的工作，<strong>我们必然要从劳动密集型转向成知识密集型，必然要从支持性的工作转变为产出性的工作，必然需要单一技能型的技工转变为复合型的人才</strong>。</p>
+<h4>分工的温床和天敌</h4>
+<p><strong>分工的温床主要有两个</strong>，</p>
+<ul>
+<li><strong>一个是成本和效率</strong>，资本家或企业主或一个国家为了追求更快成本更底的生产方式，他们必然会进行大规模的分工，伴随着分工，他们也会把一些知识或技术密集型的工作生生地变成劳动密集型的工作。然后层层外包。</li>
+</ul>
+<ul>
+<li><strong>一个是组织的大小</strong>，当一个组织的人数不断的变大，那么，你只能把工作和任务分得更细。这是被人数逼的，而不是实际需要的。这就是为什么我们可以看到很多大公司里要么人浮于事，要么瞎忙。</li>
+</ul>
+<p><strong>分工的天敌主要有一个——那就是技术</strong>！</p>
+<p style="padding-left: 30px;">每当新技术出现的时候，一些复杂的工序会被一台机器或是一种高超的技术所取代，不管是被技术自动化，还是被技术所简化<strong>，</strong>总之，以前本来需要数十人或是数百人才能干的事，突然之间只需要一个人就可以干完了。生产力得到了巨大的释放。所以，你这就是我们常听的——<strong>科技是第一生产力！</strong></p>
+<p>说到这里，让我们再来看看雅虎的那条新闻——</p>
+<blockquote><p>在软件开发流程中去掉QA团队会发生什么？更少的代码错误，更快的开发周期。这是雅虎工程师过去一年的实验结果。<strong>雅虎的Warp Drive计划将程序开发从批发布转移了持续交付模式</strong>，工程师的代码不经过QA团队的人工检查而是直接发布。<strong>开发模式的转变导致了处理问题理念的根本性改变，迫使工程师开发自动检查工具去识别原来由人工检查发现的错误</strong>。雅虎的技术团队现在全部是工程师，而不再有QA团队容身之处。雅虎的首席架构师 Amotz Maimon说，他们本来预计可能会发生严重问题，结果出乎意料，每个曾经对此抱有怀疑态度的人都说新做法很有效。</p></blockquote>
+<p>所以，<strong>当你面对一些难题的时候，比如线上的故障，或是一个复杂的软件生产活动，你是要加更多的流程更多的人呢，还是要用技术解决问题呢？一边是温床，一边是天敌，你想好了吗？</strong></p>
+<h4>什么样分工才是好的</h4>
+<p>分工是必然的，因为很简单，你不可能一个人干完所有的事情，所以必需要分工，<strong>分工不是问题，而问题则变成了——什么样的分工是理想的，是优雅的，是有效率的？</strong></p>
+<figure id="attachment_17302" aria-describedby="caption-attachment-17302" style="width: 212px" class="wp-caption alignright"><img decoding="async" loading="lazy" class="wp-image-17302" src="https://coolshell.cn/wp-content/uploads/2015/12/hua_junwu_17.jpg" alt="华君武漫画《科学分工？》" width="212" height="312" srcset="https://coolshell.cn/wp-content/uploads/2015/12/hua_junwu_17.jpg 300w, https://coolshell.cn/wp-content/uploads/2015/12/hua_junwu_17-204x300.jpg 204w" sizes="(max-width: 212px) 100vw, 212px" /><figcaption id="caption-attachment-17302" class="wp-caption-text"><strong><a href="https://zh.wikipedia.org/zh/%E5%8D%8E%E5%90%9B%E6%AD%A6" target="_blank">华君武</a>漫画《科学分工？》</strong></figcaption></figure>
+<p>对于分工来说，一般来是一种组织和管理形为。就目前来说，现代的公司有两种分工模式，分别是<strong>Control</strong> 和 <strong>Commitment</strong> 这两种分工。</p>
+<ul>
+<li><strong>Control就是控制型的管理，它是一种是基于工作技能的分工，于是员工会被这种分工分配到一个比较窄的技能里去完成一个非常明确的工作</strong>。</li>
+</ul>
+<ul>
+<li><strong>而Commitment则是面向员工的责任心和所承担的目标来分工并完成工作的。相比起前者来说，这样的分工在完成工作时，需要的不仅仅是技能，还需要更多的责任感</strong>。</li>
+</ul>
+<p>这么说吧，</p>
+<ul>
+<li>对于基于工作技能的分工，你会看到，这样的公司会把技术人员按编程语言来分，比如：Java、PHP、C/C++，或是分成：Web端、iOS端、Android端、后端、算法、数据。或是分成：开发，测试，运维。</li>
+</ul>
+<ul>
+<li>对于基于Commitment的分工，你会看到他们这样分的，软件工程师（不分前后端，不分语言，不分运维，测试），因为这样的公司认为，他招的不是只有特定语言技能的Coder，而是而学多种语言多种技术能保证软件质量以及能对软件维护的软件工程师。这种公司的软件工程师是各种团队都可以去的，而他们的分工更多的是按软件的功能，软件的模块，或是软件的产品线来分工。</li>
+</ul>
+<p>基于技能的分工已是过去时，而基于 Commitment 的分工是更有效率的分工的未来。你可以参看McAlister-Kizzier, Donna. 的文献 &#8220;<a href="http://www.encyclopedia.com/topic/Division_of_labor.aspx#3" target="_blank">Division of Labor.</a>&#8221; 。</p>
+<h4>小结</h4>
+<p>我说了这么多，不知道你看懂了我想表达什么没有？我不强加我的价值观，只希望你自己问自己几个问题：</p>
+<p style="padding-left: 30px;">1）作为工作的人，在分工中你会怎样选择？是成为一颗棋子，一颗螺丝钉，还是成为一个多面手？</p>
+<p style="padding-left: 30px;">2）作为工作的人，当你选择工作或任务的时候，你是选择做支持性的工作，还是做产出性的工作？你是选择做劳动密集型重复工作，还是做知识密集型的创新性的工作？</p>
+<p style="padding-left: 30px;">3）作为老板，你是想要什么样的员工？听话的只会加班和干重复工作的劳动力，还是有责任心的为企业和产品负责的员工？</p>
+<p style="padding-left: 30px;">4）作为老板，你是想通过分工释放低端员工的生产力，还是通过科技或技术去创造更NB的生产力？</p>
+<p style="padding-left: 30px;">5）作为老板，分工中的问题，你找到比较优的解了吗？比如，对于不同团队间的协议，你找到了吗？</p>
+<p>可能，在不同的情况下你会有不同的答案。但是对我来说呢，无论是什么情况，我都只会有一个答案。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17295.html">让我们来谈谈分工</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17295.html/feed</wfw:commentRss>
+			<slash:comments>122</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>开发团队的效率</title>
+		<link>https://coolshell.cn/articles/11656.html</link>
+					<comments>https://coolshell.cn/articles/11656.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 09 Jun 2014 01:06:11 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Project]]></category>
+		<category><![CDATA[效率]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11656</guid>
+
+					<description><![CDATA[<p>我之前写过一篇叫《加班与效率》的文章，从概念上说了一些我对“效率”的认识，但是那篇文章趋于概念化，对于一些没有经历过这样的环境的同学来说，可能会觉得太抽象了。很...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11656.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11656.html">开发团队的效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-11700" src="https://coolshell.cn/wp-content/uploads/2014/06/software_development.png" alt="" width="230" height="231" srcset="https://coolshell.cn/wp-content/uploads/2014/06/software_development.png 230w, https://coolshell.cn/wp-content/uploads/2014/06/software_development-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2014/06/software_development-200x200.png 200w" sizes="(max-width: 230px) 100vw, 230px" />我之前写过一篇叫《<a title="加班与效率" href="https://coolshell.cn/articles/10217.html" target="_blank">加班与效率</a>》的文章，从概念上说了一些我对“效率”的认识，但是那篇文章趋于概念化，对于一些没有经历过这样的环境的同学来说，可能会觉得太抽象了。很早以前就想写一篇更具体一点的，可执行的文章与《<a title="加班与效率" href="https://coolshell.cn/articles/10217.html" target="_blank">加班与效率</a>》这篇文章相辉映，并再把我两年前在杭州QCon上的那个<a href="http://vdisk.weibo.com/s/gN-sQ/1351485199" target="_blank">“<strong>鼓吹工程师文化”的《建一支强大的小团队》</strong></a>（新浪微盘）的观点再加强一下。</p>
+<p><strong>但是我遇到了一些思维方式上的麻烦——我讲的总是从我的经历背景出发，没有从其它人的经历背景来讲</strong>。这就好像，我在酷壳里说了很多东西（比如：<a title="我们需要专职的QA吗？" href="https://coolshell.cn/articles/6994.html" target="_blank">专职的QA</a>，<a title="从Code Review 谈如何做技术" href="https://coolshell.cn/articles/11432.html" target="_blank">Code Review很重要</a>，<a title="编程能力与编程年龄" href="https://coolshell.cn/articles/10688.html" target="_blank">编程年龄</a>，<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html" target="_blank">创业的</a>，<a title="《Rework》摘录及感想" href="https://coolshell.cn/articles/9156.html" target="_blank">Rework</a>的……），有好些人觉得是不可能甚至太理想，其实我说的那些东西都是实实在在存在的，也是我所经历过的。于是，不同的经历，不同的环境，不同的眼界，造成了——有些人不理解我说的，而我也不能理解他们所说的。</p>
+<p>所以，过去的这段时间我一有机会就找一些人交流并观察一些身边的事情，并去试着跟从和理解那些我不能理解的东西。现在觉得差不多了，所以，写下了这篇文章。（但越是去理解对方，我就越坚持我的观点，所以这篇文章可能还是会出现鸡同鸭讲的情形，无所谓了）</p>
+<p>本文不讨论任何业务上的效率问题，只讨论软件开发或是软件工程中的效率问题。虽然产品和业务上的效率问题是根本，但是因为本文不是拉仇恨的，我也不想混在一起谈，所以请原谅我在这里先说开发团队的，以后重新开篇文章专门谈产品和业务的。</p>
+<p>我下面会罗列几个非常典型的开发方式——<strong>软件开发中的“锁”</strong>，<strong>接力棒式软件开发</strong>，<strong>保姆式软件开发</strong>，<strong>WatchDog软件开发</strong>，<strong>故障驱动式软件开发</strong>。</p>
+<p><span id="more-11656"></span></p>
+<h4>软件开发中的“锁”</h4>
+<p>如果你搞过并发编程，你一定知道什么是“锁”，锁就是用来同步和互斥。我发现有好些开发部门里的各个开发团队间存在很多锁。比如：</p>
+<ul>
+<li><strong>技术能力上的锁</strong>。有一个项目需要在不同的地方做开发，这些模块用到不同的技术，比如：Java, C/C++, Python，Javascript，但是，这个团队里的每一个开发人员就只懂一门语言，于是，需要配合，需要任务排期，同步互斥锁就很多，于是，一个本来只需要2个人干3周的的工作变成了8个人干两个月。</li>
+</ul>
+<ul>
+<li><strong>负责模块上的锁</strong>。同理，不同的人负责不同的模块，于是一个项目要动好多模块，那么你就需要把这些模块的人找过来，和上面一样。每个人都有自己的时间安排，人越多，锁越多。于是，一个来来只需要2个人干2两周的事，变成了7、8个人干一个多月。</li>
+</ul>
+<p>我上面并非瞎扯，这都是事实。我们可以看到，</p>
+<ul>
+<li><strong>时间锁、进度锁</strong>。这堆有不同技能或是负责不同模块的开发人员有锁，有锁你就要等，他们有自己的安排，所以，要协作起来，你就需要排期，去同步。而参与的人越多，你的锁就越多。你协调他们的时间就更复杂。</li>
+</ul>
+<ul>
+<li><strong>沟通锁、利益锁</strong>。而且，最恐怖的事情是，他们之间的沟通成本巨大。他们会花大量的时间在讨论，一个功能是实现在你那边，还是我这边，每个人都有自己的利益和算盘。无形中增加了很多推诿、官僚和政治上的东西。</li>
+</ul>
+<p>有时候，我们会觉得分工和分模块是产生效率的前提，但是实际情况并不是这样。我们也可以看到，<strong>所谓的“分工”被彻彻底底的滥用了</strong>。他们把“分工”当成了永远只干一件事的借口。</p>
+<h5>【解决方案】</h5>
+<p><strong>一个程序员应该能够掌握多个语言，也能够负责多个模块甚至不同的职责。如果一个程序员觉得多学习一门语言，多掌握一个模块是件很困难的事，那么这个程序员本质上是不合格的</strong>。</p>
+<h4>“接力棒式”软件开发</h4>
+<p><strong>在有各种“工作锁”的软件开发团队里，一般都无法避免“接力棒式”的开发</strong>。也就是说，底层的C程序员干完了，交给上层的Java程序员，然后再交给更上层的前端程序员，最后再交给运维人员。这就是接力棒式的开发。</p>
+<p>而且，更糟糕的是，如果在引入了软件流程下，这种“接力棒的方式”真是会把你搞崩溃的。比如下游团队开发一个月，交给QA测试一个月，再交给运维分步上线一个月，然后，上游团队拿到下游开发的API后开发一个月，再交给自己的QA测试一个月，然后再交给自己的运维上线一个月，于是，半年就这样过去了。<strong>这是一个由一个一个小瀑布叠出来的一个大瀑布</strong>。</p>
+<p>哦，你会说，这个好办啊，上下游不会先商定好接口么？然后做并行开发么？是的，这是其中的一个优化方式，但是需要很好的接口设计。但是，在实际过程中，你会发现（这时我并非信口开河，我说的都是事实），</p>
+<ul>
+<li>如果这两个上下游团队在一起还好办，要是不在一起，那么，实际情况是，后面的团队会等到前面的团队提测了，才开始开发，本质上就是串行开发的。</li>
+</ul>
+<ul>
+<li>如果有更多的团队呢？比如：A团队 -&gt; B团队 -&gt; C团队 -&gt;D团队呢。接口就变得非常地关键了。而在实际情况下，因为没有好的接口设计人员，所以，在开发过程经常性地修改接口，或者是因为接口不好用也只得忍着。</li>
+</ul>
+<h5>【解决方案】</h5>
+<p>我以前写过一篇叫《<a title="IoC/DIP其实是一种管理思想" href="https://coolshell.cn/articles/9949.html" target="_blank" rel="bookmark">IoC/DIP其实是一种管理思想</a>》，对于这种接力棒的方式，应该反过来，<strong>如果业务应用团队是A团队，那B/C/D团队应该把自己的做成一个开发框架也好，服务化也好，让应用团队自己来接入</strong>。比如：前端做好一个前端开发框架，PE做好一个运维开发框架、各种工具，共享模块团队做好开发框架，让应用团队自己来接入，而不是帮他做。<strong>你会发现，在这么多团队各自P2P勾兑出来的很随意的接口的所带来的成本已经远超过一个统一标准的协议</strong>。</p>
+<h4>“保姆式”软件开发</h4>
+<p>所谓“保姆式”软件开发就是——我只管吃饭，不管做菜洗碗，就像——衣来伸手，饭来张口的“小皇帝”一样，身边有一堆太监或宫女，不然生活不能自理。这种情况经常见于开发和测试，开发和运维间的关系。很多公司，测试和运维都成了开发的保姆。</p>
+<p>我就能看到，很多开发快速写完代码后基本上都不怎么测试就交给QA去测试了，QA一测，我草，各种问题，而只会做黑盒的QA并不能马上就能确定是代码的问题还是环境的问题，所以还要花大量时间排除不是环境问题，才给开发报BUG。很多问题，可能只需要做个Code Review，做个单测就可以发现了，硬要交给QA。运维也是一样的，开发出来的软件根本就没有考虑什么运维的东西，因为有运维人员，所以我才不考虑呢。</p>
+<p><strong>这和我们带孩子的道理是一样的，对于孩子来说，如果父母帮孩子做得越多，孩子就越觉得理所应当，就越不会去做</strong>。</p>
+<p><strong>“保姆式”开发一般会进化成“保安式”开发</strong>。</p>
+<ul>
+<li>因为你的团队开发人员的能力不行，设计不行，Code Reivew/UT不做，你就只能找堆QA看着他。</li>
+<li>因为Dev/QA只管功能不管运维，所以，还得找堆运维人员看着他们。</li>
+<li>因为你的技术人员不懂业务，不懂需求，需要再找个BA，找个产品经理来指挥他。</li>
+<li>因为你的技术人员不会管理项目，所以，再搞个项目经理，找个敏捷教练、以及SQA来管着他。</li>
+</ul>
+<p><strong>就这样，你不行，我找人来看着你，看你的人不行，我再找人来看着看你的人……层层保姆，层层保安。</strong>于是，你就会发现，团队或部门里的人员越来越多，你整天都在开会，整天都在互相解释，互相争吵，会扯淡的人越来越多。那还有个屁的效率。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11702" src="https://coolshell.cn/wp-content/uploads/2014/06/worker.jpg" alt="" width="523" height="499" srcset="https://coolshell.cn/wp-content/uploads/2014/06/worker.jpg 523w, https://coolshell.cn/wp-content/uploads/2014/06/worker-300x286.jpg 300w" sizes="(max-width: 523px) 100vw, 523px" />网络上一个非常经典的图片，来源不详，程序员在挖坑，其它人站在当监工</p>
+<h5>【解决方案】</h5>
+<p style="padding-left: 30px;">1）<strong>不要招只会写代码的“码农”，要招懂“需求”，注重“软件工程”和“软件质量”和“软件维护”的“工程师”</strong>。</p>
+<p style="padding-left: 30px;">2）<strong>最好的管理，不是找人来管人，而是自己管自己</strong>。</p>
+<p style="padding-left: 30px;">3）<strong>组织和团队中支持性工作的人越少越好，最好不要</strong>。</p>
+<p style="padding-left: 30px;">4）<strong>服务化。我服务于你并不代表我要帮你干活，而是代表——我要让你干活干得更爽</strong>。</p>
+<p>我在<a href="http://weibo.com/1401880315/B6hC7elDb" target="_blank">微博</a>上说过下面的话，（大家可以体会一下保姆和服务的差别）</p>
+<p style="padding-left: 30px;">运维要用“云服务”的思路去做。如果一个公司内的运维团队开发出一堆工具，让做应用开发团队可以很容易地申请机器、存储、网络、中间件、安全等资源，并很容易管理、监控和部署应用，并提供运维资询。而不是帮应用开发团队干活擦屁股当保姆。那么，这个公司就会不经意地做出一个云计算平台来了。</p>
+<p>&nbsp;</p>
+<h4>“WatchDog式”软件开发</h4>
+<p>什么是WatchDog？就是说——<strong>为了解决某个系统的问题，我要用一个新的系统去看着它</strong>。</p>
+<ul>
+<li>我的系统架构太复杂，出了问题不好查找。咋办？那就搞个专门的特殊的监控系统吧……</li>
+</ul>
+<ul>
+<li>我的系统配置太复杂，容易配错了。咋办？那就加一个配置校验系统吧……</li>
+</ul>
+<ul>
+<li>我的系统配置和真实的情况有时候可能会不一性。咋办？那就加一个巡检系统吧……</li>
+</ul>
+<ul>
+<li>我的系统测试环境和线上环境有时候会搞混了。咋办？那就为线上环境加一个权限控制系统吧……</li>
+</ul>
+<ul>
+<li>我的系统有单点，那就加个负载均衡器吧，负载均衡器的单点呢？那就再加个等价路由器吧……</li>
+</ul>
+<p><strong>做加法谁不会？就不想去简化一样系统吗？就不能不拆东墙补西墙么？</strong>这些了系统加的越来越多，我看你以后怎么运维。</p>
+<p>一开始没有想清楚就放到线上，然后，出了故障后，也无法重新设计和重新架构，只能以打补丁地方式往上打，这就好像一个本来就有缺陷的楼没有盖好，你要拆了重盖是不可能的，也只能不停地打补丁了。字是一只狗，越描越丑。</p>
+<h5>【解决方案】</h5>
+<p style="padding-left: 30px;"><strong>1）设计想好了再做，多评估几个设计没坏处，简化，简化，简化。</strong></p>
+<p style="padding-left: 30px;"><strong>2）残酷无情地还债，就算是CEO来了，也无法阻止我还债的脚步。</strong></p>
+<p>&nbsp;</p>
+<h4>“故障驱动式”软件开发</h4>
+<p>WatchDog式的软件开发通常来说都是“故障驱动式”软件开发的产物。这种开发方式其实就是在表明自己智力和能力的不足。以上线为目的，上了线再说，有什么问题出了再改。</p>
+<p>上面的老大或是业务方基本上会说，没关系，我们不一开始并不需要一个完美的系统，你先上了再说，先解业务的渴，我们后面有时间再重构再完善。而有的技术人员也会用“架构和设计是逐步演化出来的”这句话来证明“故障驱动”开发是值得的。</p>
+<p>我同意逐步迭代以及架构演化论，但是，我觉得<strong>“系统迭代说”和“架构演化论”被彻彻底底地成为那些能力有限甚至不学无术的人的超级借口</strong>。</p>
+<p>你们有没有搞错啊？你们知道什么叫迭代，什么叫演化吗？你们知道，要定位一个线上的故障需要花多大的力气吗？（<a href="http://blog.aliyun.com/341" target="_blank">看看这篇文章</a>你就知道了）你们知道，随随便便去应付局部上你会快，但总体上来说你会慢。</p>
+<p>虽然，我看到那些系统在一个又一个的故障后得到一点又一点的改善，但是我想说，为什么一开始不认真不严谨一点呢？我从来就没有见过一个精良的系统是靠一个一个的故障和失败案例给堆出来的，就算是Windows 95/98这样史上最烂的操作系统，如果没有设计精良Windows NT的补位，Windows也早玩完了（看看IE的下场就知道了）。</p>
+<h5>【解决方案】</h5>
+<p style="padding-left: 30px;"><strong>1）基础知识和理论知识非常重要</strong>。多多使用已有的成熟的方案是关键。</p>
+<p style="padding-left: 30px;"><strong>2）对技术要有一颗严谨和敬畏的心。想清楚了再干，坚持高标准，Design for failure! </strong>很多事情都急不得。</p>
+<p>&nbsp;</p>
+<h4>其它开发方式</h4>
+<p>其实，这样的事情还有很多。比如：</p>
+<p><strong>1）配置管理上的问题</strong>。对于源代码的配置管理，其实并不是一件简单的事情。配置管理和软件和团队的组构的结构非常有关系。我看到过两种非常没有效率的配置管理，一种是以开项目分支的方式来做项目，同时开很多分支，分支开的时间还很长，导致merge回主干要花大量的时间去解决各种冲突，另一种是N多的团队都在一个代码库中做修改，导致出现很多复杂的问题，比如某团队的改动出现了一个bug，要么所有的团队的功能都得等这个bug被修复才能被发布，要么就是把所有的改动回滚到上一个版本，包括其它团队开发的功能。很明显，软件模块的结构，软件的架构，以及团队的组织形式都会严重影响开发效率。</p>
+<p><strong>2）人肉式的软件开发</strong>。大多数的软件团队和主管都会用“人手不够”做为自己开发效率不够的借口，而大多数故障发生的时候，都会使用更重的“人肉流程”来弥补自己能力的不足。他们从来没有想过使用“技术”，使用更“聪明”的方式来解决问题。</p>
+<p><strong>3）会议驱动式开发</strong>。人多了，团队多了，想法也就多了，沟通也就多了，于是需要不停得开会开会开会。</p>
+<p>&nbsp;</p>
+<h4>总结一下</h4>
+<p>综上所述，我有如下总结：</p>
+<p style="padding-left: 30px;">1）<strong>软件工程师分工分得越细这个团队就越没效率，团队间的服务化是关键的关键</strong>。不管是从语言上还是从软件模块上的人员分工，越细越糟糕。服务化不是我要帮你做事，而是我让你做起事来更容易。</p>
+<p style="padding-left: 30px;">2）<strong>你总需要在一个环节上认真，这个环节越往前就越有效率，越往后你就越没效率</strong>。要么你设计和编码认真点，不然，你就得在测试上认真点。要是你设计、编码、测试都不认真，那你就得在运维上认真，就得在处理故障上认真。你总需要在一个地方认真。另外一篇文章你可以看一下——《<a title="多些时间能少写些代码" href="https://coolshell.cn/articles/5686.html" target="_blank">多些时间少写些代码</a>》</p>
+<p style="padding-left: 30px;">3）<strong>“小而精的团队”+“条件和资源受限”是效率的根本</strong>。只有团队小，内耗才会小，只有条件或资源受限，才会逼着你去用最经济的手段做最有价值的事，才会逼着你喜欢简单和简化。</p>
+<p style="padding-left: 30px;">4）<strong>技术债是不能欠的，要残酷无情地还债</strong>。很多事情，一开始不会有，那么就永远不会有。一旦一个事情烂了，后面只能跟着一起烂，烂得越多，就越没有人敢去还债。</p>
+<p style="padding-left: 30px;">5）<strong>软件架构上要松耦合，团队组织上要紧耦合</strong>。</p>
+<p style="padding-left: 30px;">6）<strong>工程师文化是关键，重视过程就是重视结果</strong>。只重视结果的KPI等同于“竭泽而渔”和“饮鸩止渴”。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/42-150x150.jpg" alt="如何用最有创造力的方式输出42" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11170.html" class="wp_rp_title">如何用最有创造力的方式输出42</a></li><li ><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li><li ><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-150x150.jpg" alt="Bret Victor &#8211; Learnable Programming" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_title">Bret Victor &#8211; Learnable Programming</a></li><li ><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="软件公司的两种管理方式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_title">软件公司的两种管理方式</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11656.html">开发团队的效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11656.html/feed</wfw:commentRss>
+			<slash:comments>153</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>从Code Review 谈如何做技术</title>
+		<link>https://coolshell.cn/articles/11432.html</link>
+					<comments>https://coolshell.cn/articles/11432.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 12 Apr 2014 08:28:01 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[Code Review]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11432</guid>
+
+					<description><![CDATA[<p>（这篇文章缘由我的微博，我想多说一些，有些杂乱，想到哪写到哪） 这两天，在微博上表达了一下Code Review的重要性。因为翻看了阿里内部的Review Bo...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11432.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11432.html">从Code Review 谈如何做技术</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-11440" alt="" src="https://coolshell.cn/wp-content/uploads/2014/04/code_review-225x300.jpg" width="225" height="300" srcset="https://coolshell.cn/wp-content/uploads/2014/04/code_review-225x300.jpg 225w, https://coolshell.cn/wp-content/uploads/2014/04/code_review-203x270.jpg 203w, https://coolshell.cn/wp-content/uploads/2014/04/code_review.jpg 358w" sizes="(max-width: 225px) 100vw, 225px" />（这篇文章缘由我的微博，我想多说一些，有些杂乱，想到哪写到哪）</p>
+<p>这两天，在微博上表达了一下Code Review的重要性。因为翻看了阿里内部的Review Board上的记录，从上面发现Code Review做得好的是一些比较偏技术的团队，而偏业务的技术团队基本上没有看到Code Review的记录。当然，这并不能说没有记录他们就没有做Code Review，于是，我就问了一下以前在业务团队做过的同事有没有Code Review，他告诉我不但没有Code Review，而且他认为Code Review没用，因为：</p>
+<p style="padding-left: 30px;">1）工期压得太紧，时间连coding都不够，以上线为目的，</p>
+<p style="padding-left: 30px;">2）需求老变，代码的生命周期太短。所以，写好的代码没有任何意义，烂就烂吧，反正与绩效无关。</p>
+<p>我心里非常不认同这样的观点，我觉得我是程序员，我是工程师，就像医生一样，不是把病人医好就好了，还要对病人的长期健康负责。对于常见病，要很快地医好病人很简单，下猛药，大量使用抗生素，好得飞快。但大家都知道，这明显是“饮鸩止渴”、“竭泽而渔”的做法。医生需要有责任心和医德，我也觉得程序员工程师也要有相应的责任心和相应的修养。东西交给我我必需要负责，我觉得这种负责和修养不是”做出来“就了事了，而是要到“做漂亮”这个级别，这就是“山寨”和“工业”的差别。而只以“做出来”为目的标准，我只能以为，这样的做法只不过是“按部就班”的堆砌代码罢了，和劳动密集型的“装配生产线”和“砌砖头”没有什么差别，在这种环境里呆着还不如离开。</p>
+<p>老实说，因为去年我在业务团队的时候，我的团队也没有做Code Review，原因是多样的。其中一个重要原因是，我刚来阿里，所以，需要做的是在适应阿里的文化，任何公司都有自己的风格和特点，任何公司的做法都有他的理由和成因，对于我这样的一个初来者，首要的是要适应和观察，不要对团队做太多的改动，跟从、理解和信任是融入的关键。（注：在建北京团队和不要专职的测试人员上我都受到了一些阻力），所以跟着团队走没有玩Code Review。干了一年后，觉得我妥协了很多我以前所坚持的东西，觉得自己的标准在降低，想一想后背拔凉拔凉的，所以我决定坚持，而且还要坚持高标准。</p>
+<p><span id="more-11432"></span></p>
+<p>对于Code Review很重要的这个观点，在微博上抛出来后，被一些阿里的工程师，架构师/专家，甚至资深架构师批评，我在和他们回复和讨论的过程中，居然发现有个“因为对方用户的设置”我无法回复了（我被拉黑了，还有一些直接就是冷讽和骂人了，微博中我就直接删除了）。这些批评我的阿里工程师/架构师的观点总结一下如下：（<strong>顺便说一下，阿里内还是有很多团队坚持做Code Review的</strong>）</p>
+<p style="padding-left: 30px;">1）到业务团队体会一下，倒逼工期的项目有多少？订好交付日期后再要求提前1个月的有多少？现在是做到已经不容易，更不谈做得漂亮！。</p>
+<p style="padding-left: 30px;">2）Code Review是一种教条，意义不大，有测试，只要不出错，就可以了。</p>
+<p style="padding-left: 30px;">3）目标都是改进质量，有限的投入总希望能有最大的产出，不同沉湎改进质量的方式不一样，业务应用开发忙的跟狗一样，而且业务逻辑变化快，通用性差，codereviw的成本要比底层高。</p>
+<p style="padding-left: 30px;"><span style="line-height: 1.5em;">4）现在的主要矛盾是倒排出来的工期和不靠谱的程序员之间的矛盾，我认为cr不是解决这个问题的银弹。不从实际情况出发光打正义的嘴炮实在太过于自慰了 。</span></p>
+<p><strong>我们可以看到，上面观点其实和Code Review没有太多关系，其实是在抱怨另外的问题</strong>。这些观点其实是技术团队和业务团队的矛盾，但不知道为什么强加给了我的“Code Review很重要”的这个观点，然后这些观点反过来冲击“Code Reivew”，并说“Code Review无用”。这种讨论问题的方式在很常见，你说A，我说B，本来A、B是两件事，但就是要混为一谈，然后似是而非的用B来证明你的A观点是错的。（也许，这些工程师/架构师心存怨气，需要一个发泄的通道）</p>
+<p><strong>我觉得，很多时候，人思考问题思考不清楚，很大一部分原因是因为把很多问题混为一谈</strong>，连我自己有些时候都会这样。引以为戒。</p>
+<p>即然被混为一谈，那我就来拆分一下，也是下面这三个问题：</p>
+<ul>
+<li>Code Review有没有用的问题。</li>
+<li>Code Review做不起来的问题。</li>
+<li>业务变化快，速度快的问题，技术疲于跟命。</li>
+</ul>
+<h4>Code Review</h4>
+<p>你Google一下Code Reivew这个关键词，你就会发现Code Review的好处基本上是不存在争议的，有很多很多的文章和博文都在说Code Review的重要性，怎么做会更好，而且很多公司在面试过程中会加入“Code Review”的问题。打开<a href="http://zh.wikipedia.org/wiki/%E4%BB%A3%E7%A0%81%E5%AE%A1%E6%9F%A5" target="_blank">Wikipedia的词条</a>你会看到这样的描述——</p>
+<blockquote><p>卡珀斯·琼斯（Capers Jones）分析了超过12,000个软件开发项目，其中使用正式代码审查的项目，发现潜在缺陷率约在60-65%之间，若是非正式的代码审查，发现潜在缺陷率不到50%。大部份的测试，发现的潜在缺陷率会在30%左右。</p>
+<p>对于一些关键的软件（例如安全关键系统的嵌入式软件），一般的代码审查速度约是一小时150行程序码，一小时审查数百行程序码的审查速度太快，可能无法找到程序中的问题。代码审查一般可以找到及移除约65%的错误，最高可以到85%。</p>
+<p>也有研究针对代码审查找到的缺陷类型进行分析。代码审查找到的缺陷中，有75%是和计算机安全隐患有关。对于产品生命周期很长的软件公司而言，代码审查是很有效的工具。</p></blockquote>
+<p><strong>Code Review的好处我觉得不用多说了，主要是让你的代码可以更好的组织起来，有更易读，有更高的维护性，同时可以达到知识共享，找到bug只是其中的副产品</strong>。这个东西已经不新鲜了，你上网可以找到很多文章，我就不多说了。就像你写程序要判断错误一样，Code Review也是最基本的常识性的东西。</p>
+<p>我从2002年开始就浸泡在严格的Code Review中，我的个人成长和Code Review有很大的关系，如果我的成长过程中没有经历过Code Review这个事，我完全不敢想像。</p>
+<p><strong>我个人认为代码有这几种级别：1）可编译，2）可运行，3）可测试，4）可读，5）可维护，6）可重用。通过自动化测试的代码只能达到第3）级，而通过Code Review的代码少会在第4）级甚至更高。</strong>关于Code Review，你可以参看本站的《<a title="Code Review中的几个提示" href="https://coolshell.cn/articles/1302.html" target="_blank">Code Review中的几个提示</a>》</p>
+<p>可见，Code Review直接关系到了你的工程能力！</p>
+<h4>Code Review 的问题</h4>
+<p>有下面几个情况会让你的Code Review没有效果。</p>
+<p>首当其冲的是——“<strong>人员能力不足</strong>”，我经历过这样的情况，Code Review的过程中，大家大眼瞪小眼，没有什么好的想法，不知道什么是好的代码，什么是不好的代码。导致Code Review大多数都在代码风格上。今天，我告诉你，代码风格这种事，是每个程序员自查的事情，不应该浪费大家的时间。对此，我有两个建议：1）你团队的人招错了，该换血了。2）让你团队的人花时候阅读一下《<a href="http://book.douban.com/subject/1477390/" target="_blank">代码大全</a>》这本书（当然，还要读很多基础知识的书）。</p>
+<p>次当其冲的是——“<strong>结果更重要</strong>”，也就是说，做出来更重要，做漂亮不重要。因为我的KPI和年终奖based on how many works I&#8217;ve done！而不是How perfect they are ! 这让我想到那些天天在用Spring MVC 做CRUD网页的工程师，我承认，他们很熟练。大量的重复劳动。其实，仔细想一下好多东西是可以框架化，模板化，或是自动生成的。所以，为了堆出这么多网页就停地去堆，做的东西是很多，但是没有任何成长。急功近利，也许，你做得多，拿到了不错的年终奖，但是你失去的也多，失去了成为一个卓越工程师的机会。你本来可以让你的月薪在1-2年后翻1-2倍的，但一年后你只拿到了为数不多的年终奖。</p>
+<p>然后是——“<strong>人员的态度问题</strong>”，一方面就是懒，不想精益求精，只要干完活交差了事。对此，你更要大力开展Code Review了，让这种人写出来的代码曝光在更多人面前，让他为质量不好的代码蒙羞。另一方面，有人会觉得那是别人的模块，我不懂，也没时间 去懂，不懂他的业务怎么做Code Review? 我只想说，如果你的团队里这样的“各个自扫门前雪”的事越多，那么这个团队也就越没主动性，没有主动性也就越不可能是个好团队，做的东西也不可能好。而对于个人来说，也就越不可能有成长。</p>
+<p>接下来是——“<strong>需求变化的问题</strong>”，有人认识，需求变得快，代码的生存周期比较短，不需要好的代码，反正过两天这些代码就会被废弃了。如果是一次性的东西，的确质量不需要太高，反正用了就扔。但是，我觉得多多少少要Review一下这个一次性的烂代码不会影响那些长期在用的代码吧，如果你的项目全部都是临时代码，那么你团队是不是也是一个临时团队？关于如果应对需求变化，你可以看看本站的《<a href="https://coolshell.cn/articles/6950.html" rel="bookmark">需求变化与IoC</a>》《<a href="https://coolshell.cn/articles/7236.html" target="_blank">Unix的设计思想来应对多变的需求</a>》的文章 ，从这些文章中，我相信你可以看到对于需求变化的代码质量需要的更高。</p>
+<p>最后是——“<strong>时间不够问题</strong>”，如果是业务逼得紧，让你疲于奔命，那么这不是Code Review好不好问题，这是需求管理和项目管理的问题以及别的非技术的问题。下面我会说。</p>
+<p>不管怎么样，上述Code Review的问题不应该成为“Code Review无意义”的理由或借口，这就好像“因噎废食”一样。干什么事都会有困难和问题的，有的人就这样退缩了，但有的人看得到利大于弊，还是去坚持，人与人的不同正在这个地方。这就是为什么运动会受伤，但还是会人去运动，而有人因为怕受伤就退缩了一样。</p>
+<h4>被业务逼得太紧</h4>
+<p>被业务逼得太紧，需求乱变，这其实和Code Review没有多大关系了。对此，我想先讲一个我的故事。</p>
+<p>我去年在阿里的聚石塔，刚去的时候，聚石塔正在做一个很大的重构——对架构的大调整。因此压了很多业务需求，等这个项目花了2-3个月做完了后，一下子涌入了30-50个需求，还规定一个月完成，搞得团队疲于奔命。在累了两周后，我仔细分析了一下这些需求，发现很多需求是在重复做阿里云已经做过的东西，还有一些需求是因为聚石塔这个平台不规范没有标准所产生的问题。于是，我做了这么三件事：</p>
+<p style="padding-left: 30px;">1）重新定义聚石塔这个产品主要目标和范围，确定哪些该做，哪些不该做。</p>
+<p style="padding-left: 30px;">2）为聚石塔制定标准 ，让阿里云的API都长得基本一样，并制订云资源的接入标准。</p>
+<p style="padding-left: 30px;">3）推动重构阿里云的Portal系统，不再实现阿里云已经做过的东西，与阿里云紧密结合。</p>
+<p>这些事情推动起来并不容易，聚石塔的业务方一开始也不理解，我和产品一起做业务方的工作，而阿里云也被我逼得很惨（在这里一并感谢，尤其阿里云的同学，老实说，和阿里云跨团队合作中是我这么多年来感觉最好的一次，相当赞）。通过这个事，聚石塔需求一下就有质的下降了。搞得还有几个工程师来和我说，你这么搞，聚石塔就没事可干了。姑且不说工程师对聚石塔的理解是怎么样的。 我只想说，我大量地减少了需求，尽最大可能联合了该联合的人，而不是自己闭门造车，并让产品的目标和方向更明确了。做了这些事情后，大家不但不用加班，而且还有时间充电去学技术，并为聚石塔思考未来的方向和发展。去年公司996的时候，我的团队还在965（搞得跟异教徒似的），而且还有很多时间去专研新的东西。</p>
+<p>说这个故事，我不是为了得瑟，而是因为有些人在微博上抨击我是一个道貌岸然的只会谈概念讲道理的装逼犯。所以，我告诉大家我在聚石塔是怎么做的，我公开写在这里，你也可以向相关的同学去求证我说的是不是真的。也向你证明，我可能是个装逼犯，但绝不是只会谈概念讲道理的装逼犯。</p>
+<p>被业务方逼得紧不要抱怨，你没有时间被逼得像牲口一样工作，这个时候，你需要的是暂停一下想一想，为什么会像牲口一样？而这正是让你变得聪明的机会。</p>
+<p>我为你总结一下，</p>
+<p style="padding-left: 30px;">1）你有没有去Review业务部门给你的这么多的需求，哪些是合理的，哪些是不合理的。在Amazon，开发工程师都会被教育拿到需求后一定要问——“为什么要做？业务影响度有多大？有多少用户受益？”，回答不清这个问题，没有数据的支持，就不做。所以，产品经理要做很多数据挖拙和用户调研的工作，而不是拍拍脑袋，听极少数的用户抱怨就要开需求了。</p>
+<p style="padding-left: 30px;">2）产品经理也要管理和教育的。你要告诉你的产品经理：“你是一个好的产品经理，因为你不但对用户把握得很好，也会对软件工艺把握得很好。你不但会开出外在的功能性需求，也同样会开出内在的让软件系统更完善的非功能性需求。你不是在迁就用户，而是引导用户。你不会无限制地加功能，而是把握产品灵魂控制并简化功能。你会为自己要做的和不做东西的感到同样的自豪。”你要告诉你的产品经理：“做一个半成品不如做好半年产品”（更多这样的观点请参看《<a title="《Rework》摘录及感想" href="https://coolshell.cn/articles/9156.html" target="_blank">Rework摘录和感想</a>》）</p>
+<p style="padding-left: 30px;">3）做事情是要讲效率的。Amazon里喜欢使用一种叫T-Shirt Size Estimation的评估方法来优先做投入小产出大的“Happy Case”。关于什么是效率，什么是T-Shirt Size Estimation，你可以看看《<a title="加班与效率" href="https://coolshell.cn/articles/10217.html" target="_blank">加班与效率</a>》一文 。</p>
+<p style="padding-left: 30px;">4）需求总是会变化的，不要抱怨需求变化太快。你应该抱怨的是为什么我们没有把握好方向？老变？这个事就像踢足球一样，你要去的地方是球将要去的地方，而不是球现在的地方。你要知道球要去哪里，你就知道球之前是怎么动的，找到了运动轨迹后，你才知道球要去像何方。如果你都不知道球要去向何方，那你就是一只无头苍蝇一样，东一下西一下。</p>
+<p><strong>当你忙得跟牲口一样，你应该停下来，问一下自己，自己成为牲口的原因，是不是就是因为自己做事时候像就牲口一样思考？</strong></p>
+<h4>其它</h4>
+<p>最后，我在给阿里今年新入职的毕业生的“技塑人生”的分享中，我给他们布置了5、6个Homework，分享几个给大家：</p>
+<p style="padding-left: 30px;">1）重构或写一个模块，把他做成真正的Elegant级别。</p>
+<p style="padding-left: 30px;">2）与大家分享一篇或几篇技术文章 ，并收获10-30个赞。</p>
+<p style="padding-left: 30px;">3）降低现有至少20%的重复工作或维护工作</p>
+<p style="padding-left: 30px;">4）拒绝或简化一个需求（需要项目中所有的Stakeholders都同意）</p>
+<p>部署这些作业的原因，是我希望新入行的同学们对自己的工作坚持高的标准，我知道你们会因为骨感的现实而妥协，但是我希望你们就算在现实中妥协了也要在内心中坚持尽可能高的标准，不要习惯成自然，最后被社会这个大染缸给潜移默化了。因为你至少要对自己负责。<strong>对自己负责就是，用脚投票，如果妥协得受不了了就离开吧</strong>。</p>
+<p>芝兰生于空谷，不以无人而不芳！君子修身养道，不以穷困而改志！</p>
+<p>谢谢听我唠叨。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4875.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/20110620115951113-150x150.gif" alt="一个空格引发的惨剧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4875.html" class="wp_rp_title">一个空格引发的惨剧</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11432.html">从Code Review 谈如何做技术</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11432.html/feed</wfw:commentRss>
+			<slash:comments>218</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>加班与效率</title>
+		<link>https://coolshell.cn/articles/10217.html</link>
+					<comments>https://coolshell.cn/articles/10217.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 24 Jul 2013 00:28:10 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Project]]></category>
+		<category><![CDATA[Rework]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10217</guid>
+
+					<description><![CDATA[<p>微博上看到了这么一个贴子，就像以前在《腾讯，竞争力 和 用户体验》中批评过腾讯说自己的核心竞争力是员工加班一样，我顺着Winter的回复也批评了一下这个微博——...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10217.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10217.html">加班与效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright  wp-image-10220" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-300x201.jpg" width="240" height="161" />微博上看到了<a href="http://weibo.com/1401880315/A0LFVkB3L" target="_blank">这么一个贴子</a>，就像以前在《<a title="腾讯，竞争力 和 用户体验" href="https://coolshell.cn/articles/5901.html" target="_blank">腾讯，竞争力 和 用户体验</a>》中批评过腾讯说自己的核心竞争力是员工加班一样，我顺着Winter的回复也批评了一下这个微博——</p>
+<p style="padding-left: 30px;">“<span style="color: #808080;">靠加班超越对手？！劳动密集型么？我要是对手的话，我就来趁机挖人了，直接摁死你……//<a href="http://weibo.com/n/%E5%AF%92%E5%86%ACwinter"><span style="color: #808080;">@寒冬winter</span></a>: 当一个管理者的智慧无法衡量一支团队的产出的时候，他就会把“工时”当做最后的救命稻草，死死抱住——这是他唯一听得懂的东西了</span>。”</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10218" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/work_overtime.png" width="539" height="120" srcset="https://coolshell.cn/wp-content/uploads/2013/07/work_overtime.png 539w, https://coolshell.cn/wp-content/uploads/2013/07/work_overtime-300x66.png 300w" sizes="(max-width: 539px) 100vw, 539px" /></p>
+<p>然后，<a title="玄了个澄的" href="http://weibo.com/jiach">@玄了个澄的</a>在微博里at我说，他在微信里看了<a href="http://weibo.com/n/Fenng">@Fenng</a> 关于加班的言论，希望我评论一下。我看了一下大辉的文章，虽然写得有点散乱，但是我和他的一些观点还是很类似的，我主要在这里加强一下我的看法。</p>
+<h4>关于加班</h4>
+<p><strong>认为加班是公司的核心竞争力，或是超越对手的手段，是一种相当 Ridiculous 的想法。这说明管理者们已经想不到自己公司的核心价值了</strong>。</p>
+<p><span id="more-10217"></span></p>
+<p>是的，这些靠堆功能没有灵魂的产品的价值就只剩下比谁跑得快了。他们愚蠢和思维有限的大脑里已经区分不出来，“跑得快”和“跑得好”的差别了。产品的发展不是短跑，而是长跑，甚至更像是登山，登山比的不是快，而比的是策略，比的是意志，目的是登顶。并不是谁一开始爬得快谁就能最先登顶的，你往往被超越的时候都在后半程。对于一些危险的雪山来说，登顶的人通常都是要做好非常很充分的准备，并且在登山的过程中学会如何保留体力，学会如何步步为营的，从来不强行登顶。</p>
+<p>在<a title="《Rework》摘录及感想" href="https://coolshell.cn/articles/9156.html">《Rework》摘录及感想</a> 中提到过两点</p>
+<ul>
+<li><strong>条件受限是好事，因为条件受限可以让你小材大用，让你没有办法再用蛮力来完成工作，让你必需去思考使用知识密集型的解决方案来更聪明的解决问题</strong>。</li>
+</ul>
+<ul>
+<li><strong>工作狂往往不得要领。他们花大把大把的时间去解决问题，他们以为能靠蛮力来弥补思维上的惰性，其结果就是折腾出一堆粗糙无用的解决方案</strong>。</li>
+</ul>
+<p>就像人肉手动的织布机一样，当面对大量订单的时候，一个简单粗暴的方法就是拼命地加人和拼命地工作来换取更大的生产力。只有你在人手不够或是人力成本太高的情况下，你才会去想是不是可以优化一下工具，制造一个更有效率更有生产力的工具。</p>
+<p><strong>在中国，劳动力的成本不高，而管理者们的智力和能力有限，所以，在这个环境下，尤其在KPI和数字的重压下，管理者们是非常非常容易想到需要靠加人或是加班来提高产能的</strong>。所以，他们放弃了知识密集型的创新，而采用了劳动密集型的简单粗暴的方式，长期下来，导致了自己再也不会思考，导致了只会使用人肉解决问题。</p>
+<p>于是，当全自动化的织布机出现的时候，这种劳动密集型的公司分分钟就成为了历史。这样的例子太多太多了，看看历史就知道了。</p>
+<p>当然，有时候，我们需要冲刺还是要适当偶尔加班的，但这绝对不应该是常态和长期的，不然，这必然是一种饮鸩止渴的行为。</p>
+<p>另外，我还要多说几种情况：</p>
+<p style="padding-left: 30px;">1）如果你的员工就像在《<a title="软件公司的两种管理方式" href="https://coolshell.cn/articles/4951.html" target="_blank">软件公司的两种管理</a>》中所说的，像Widget Factories那样，净是些X型的人的话，那么，你也只有使用加班和加人这种方式，就像长城和金字塔的建设过程一样，就像富士康一样，你的团队本质是不会思考只能用鞭子去抽他们的方式去管理。于是，你也只能用“狼性”来呼唤你的员工像那些低智商的野兽一样的行事。</p>
+<p style="padding-left: 30px;">2）有时候，我们需要去“卡位”，需要很快地去实现一个东西占领市场，这需要加班。就像Win95和Intel的奔腾芯片的浮点数问题一样。但是千万不要忘了，你在卡完位后，得马上把你产品的质量搞上去，不然，你一样会死得很难看。（Windows是有两个团队的，一个团队是用来占领市场的，另一个团队是安心搞发展的）注意：“卡位”从某种程度上来说应该是一种有价值的事，但我们依然要思考是否在用蛮力行事。</p>
+<p style="padding-left: 30px;">3）另外，有的人工作就是生活，生活就是工作，所以，对他来说，这不是一种工作，而是一种事业。我认可这样的精神和热情，但是，我还是想让这样的人反思一下自己，有没有用一种更为聪明的方式来从事自己的事业？而不是用蛮力。</p>
+<p>无论上述的哪种情况，我们都可以看到，只要你进入了劳动密集型，靠人和靠加班来解决问题，并沉迷并深 陷其中不能自拔，那们，你终有一天会玩到尽头的。</p>
+<h4>关于效率</h4>
+<p><strong>很多人不知道什么叫效率，他们以为效率就是：单位时间单位人数下干更多的活。这是错的！效率不是比谁干的活多，而是比谁干得活有更大的价值</strong>。效率的物理公式是：<span style="color: #ff0000;"><strong>有用功/总功</strong></span>。<span style="color: #000000;">换句话说，效率就是：单位时间和人数产生的价值</span>。所以，提高效率，并不是加人，也不是干更多的活，而是，你这么多人干出来了多少有价值的东西。</p>
+<p>有了公式，我们也就知道怎么来提高效率了。</p>
+<p><strong>1）增加有用功</strong></p>
+<ul>
+<li>你得多问问你的需求方，为什么要加这个需求？干这个事到底有多大的价值？能让多少人受益？</li>
+<li>你得多问问你的需求方，能不能稍微简化一下需求，这样可以让我付出的努力更少一些？</li>
+<li>你得要多去思考一下，你是在干一个建筑队的活呢？还是在干一个装修队的活？</li>
+<li>你得要多去思考一下，业务上和用户的最大的痛点是什么？</li>
+</ul>
+<p>关于增加有用功，再说两点：</p>
+<ul>
+<li>像乔布斯那样，告诉你的产品经理或是业务方，你现在提的10需求，我只能做3个，会是哪3个？为什么是这3个？<strong>有用功的来源不是拼命做需求，而是砍需求。</strong></li>
+</ul>
+<ul>
+<li><strong>关于创造价值，我们要干的不是像百度的“竞价排名”那样，把钱从别人口袋里搬运到自己的口袋里，而是要像“英国工业革命”或是“硅谷”那样，把价值真正的创造出来</strong>。</li>
+</ul>
+<p><strong>2）降低总功</strong></p>
+<ul>
+<li><span style="line-height: 13px;">你得多问问自己，你有多少时间是在干一些支持性而不是产出性的工作？</span></li>
+<li>你得多问问自己，有没有残酷无情地减少重复劳动的劳动密集型的工作？</li>
+<li>你得多问问自己，自己的管理者和员工的能力和素质有没有在降低你的团队执行的成本？</li>
+</ul>
+<p><strong>3）形成合力</strong></p>
+<p>有一个很不错的产品经理对我说，他看了南京那两个小女孩被饿死的消息，感到很震惊。与之有关联的每一方都说自己尽力，但是最终结果人还是饿死了，你几乎不敢相信这是真的。</p>
+<p>但是，类比一下我们的项目，这种事似乎又发生在我们的公司当中，尤其是大公司中。每一个团队都说自己尽力了，结果项目就是没做好，底层团队说自己只干底层，已经尽力了，前端说自己只负责前端，也尽力了，后端说自己只管后端，不管前端和底层，运维说对于这样的设计和部署自己也尽力了，产品经理，运营都这样说，自己尽力了。你会发现，你几乎很难批评他们，因为他们的确如他们所说的那样，把他们自己的那块都做得很好了，而且的确做得很好了。但是，最终的结果却是：整个产品问题很多。</p>
+<p><strong>所以说，效率不是每个团队各自的效率，而是整个团队对整个产品负责的共同使命，这样才会现整体的效率。没有整体的效率，只有个体的效率，最终也等于没有效率</strong>。</p>
+<h4>T-Shirt Size Estimation</h4>
+<p>Amazon用一种T-Shirt Size 估计的方式来做项目。</p>
+<ul>
+<li>产品经理会对每一条需求评估上业务影响力的尺寸，如：XXXL 影响一千万人以上或是可以占到上亿美金的市场，XXL，影响百万用户或是占了千万金级别以上的市场，后面还有XL，L，M，S，这样下来。</li>
+</ul>
+<ul>
+<li>开发团队也一样，要评估投入的人员时间成本，XXXL表示要干1年，XXL干半年，XL干3个月，L干两个月，M干一个月，S干两周以下。等等。</li>
+</ul>
+<p>于是，</p>
+<ul>
+<li>当业务影响力是XL，时间人员成本是S，这是最高优先级。</li>
+<li>当业务影响力是M，时间人员成本是M，这是低优先级。</li>
+<li>当业务影响力是S，时间人员成本是XL，直接砍掉这个需求。因为是亏的。</li>
+<li>当业务影响力是XXL，时间人员成本是XXL，需要简化需求，把需求简化成XL，时间人员成本变成M以下。</li>
+</ul>
+<p>大家感受一下吧。</p>
+<p>好了，我就说这么多，欢迎大家讨论。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/03/rework-150x150.jpg" alt="《Rework》摘录及感想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_title">《Rework》摘录及感想</a></li><li ><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="软件公司的两种管理方式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_title">软件公司的两种管理方式</a></li><li ><a href="https://coolshell.cn/articles/3218.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="开发时间估计" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3218.html" class="wp_rp_title">开发时间估计</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10217.html">加班与效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10217.html/feed</wfw:commentRss>
+			<slash:comments>194</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Alan Cox：大教堂、市集与市议会</title>
+		<link>https://coolshell.cn/articles/9917.html</link>
+					<comments>https://coolshell.cn/articles/9917.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Mon, 08 Jul 2013 07:42:27 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Alan Cox]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9917</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 在网上搜到的Cox大叔于1998年在开源社区写的一篇文章，当时很轰动，明眼人一看就知道是针对ESR那篇《大教堂与市集》，从...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9917.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9917.html">Alan Cox：大教堂、市集与市议会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>在网上搜到的Cox大叔于1998年在开源社区写的一篇文章，当时很轰动，明眼人一看就知道是针对ESR那篇《大教堂与市集》，从中可见Alan在项目管理风格上乃至个人性格上都与ESR、Linus等人不同之处。顺便说一句，Alan现在出于“家庭原因”已经离开了Linux项目，他曾经评价Linus是<a href="http://apolyton.net/showthread.php/130212-Linus-Torvalds-is-a-terrible-engineer-Alan-Cox" target="_blank">a good developer but a terrible engineer</a>，甚至在Google+上直接说Linus就是一a*sh**e。不管如何，两位曾经十余年里并肩战斗惺惺相惜的大牛就此分道扬镳还是惹人唏嘘。</p>
+<p>言归正传，以下为slashdot收录的英文原文：<a href="http://news.slashdot.org/story/98/10/13/1423253/featurecathedrals-bazaars-and-the-town-council" target="_blank">Cathedrals, Bazaars and the Town Council</a>。</p>
+<p>以下是一些我对市集模式的想法，我认为这值得分享，这种模式会教你如何完全毁掉一个自由软件项目。我还举了一个我称之为“市议会”(Town Council)效应的实例（虽然那些市议员们可不这么认为，注：此处指Linux项目开发者）。</p>
+<p>关于软件开发人员，你必须去了解一些情况。首先要了解的是真正优秀的程序员相对来说并不普遍，不仅如此，在很多其它专业领域里“真正的程序员”和一些捣乱的家伙之间的区别要比“伟大”和“普通”之间的区别要大得多，研究表明生产效率上最好的同其余的比重是30:1。</p>
+<p>其次，你需要了解的是一大堆妄想型码农(wannabe programmer)总是善于发表意见。其中很多人患上了一种叫做“流行性热词”(buzzword)疾病，或者对他们“非黑即白”(one true path)的思考方式有着特殊的偏执，网上很多讨论都是廉价的。</p>
+<p><span id="more-9917"></span></p>
+<p>第三个关于软件项目的事情就是我们所谓的“闲杂人员”(the masses)。他们不是编程人员，而在其它方面有着大量贡献——文档编辑、用户支持，以及对那类经常争论你应该获得许可证才能上网的人的说服工作。</p>
+<p>我想以Linux 8086（注，Intel设计的16位处理器架构）为例来说明如何将整个工程全部搞砸。将Linux的一个子集移植到8086上大体是这世上最无聊的活动之一。整件事的发起就像个笑话并走向失控。</p>
+<p>只有极少数真正的程序员会将时间及其良好的精神状态（或许那是假的）花费在那些唯一价值在于“黑客精神”(Hack Value)的项目上，故而在任何时候那种项目也就两三个核心贡献人员而已。</p>
+<p>不幸的是大批人认为将Linux运行在8086上是干净的，为此义不容辞地想要“入伙”。这类人大多属于妄想型码农之流，以至于连闲杂人员在一个安全距离之外都会沾染上这个项目的“愚蠢”因子。</p>
+<p>问题的导火索在于一大批充满（大多善意的）危险的一知半解的人们的意识观念——不是代码，而是意识观念。他们似乎很懂得如何去编程，但很多人连“Hello World”这样的C程序都不会。他们花了几星期时间去争论并投票该使用什么编译器，甚至在项目开展一年后还在争论是否去写个充分完美的编译器。他们热衷于辩论如何生成大量二进制文件，却又对内核swapper（注，即idle task）设计一无所知。</p>
+<p>Linux 8086项目仍然进行着，真正的开发人员将邮件列表里许多其他成员加入到清除文件(kill files)中，以便他们之间可以顺畅地通过邮件列表沟通，只因半吊子打酱油的家伙实在太多了。这一切不再是市集模式，而是形成了一个核心小组，对圈子里许多人而言这是一种礼貌用语。在这种情形下人们不可避免地处于被动位置。</p>
+<p>像Linux这种基于用户/程序员的项目成长缓慢，虽然它是靠着一群贡献代码的人得以成长起来，但这些人的背景要么是从原始的Minix（注，一种微内核操作系统）黑客社区起家，要么通过艰难的方式不断从头学起。随着项目增长，人们本应该形成一个“Linux内核结构规划管理委员会”，而不是掉入将人们招来唤去，不将失败视为问题的怪圈，用Linus的话来说就是“给我看源码”。</p>
+<p>如果有人陷入困境，他可以发帖询问，在这之前包括现在很大程度上都基于人们正常地拥有时间并具备知识来回复他。在Linux 8086的案例中，开发人员很长一段时间身陷囹圄。假使主动活跃的程序员对只有潜在用处的妄想型码农的比例更高一点的话，我们就可以将一些杂音转化成生产力。项目也就获得更多有用的程序员，他们可以轮流向他人传授经验，任何学习活动都会让你变得更好，哪怕只有一些少量实习生。</p>
+<p>一些人会认为你无法将那些“次要程序员”(lesser programmer)训练成真正的程序员。就Linux项目的个人经验而言，很多人员只要获得一丁点儿的帮助和自信鼓励都将成为世界上最好的开发人员之一。只要帮助和鼓励足够多，很多人就能成功。</p>
+<p>Linux 8086总算大部分从“侵扰”中恢复过来，可至今仍是个不起眼的小项目。你可以从CVS目录树上下载这个由Alistair Riddich领导的项目，他做了很多优秀的工作。随着市议员的撤出，人们可以询问、参与并改善这个项目。</p>
+<p>我们从这个项目，还有其它相同命运的早期Linux 16位处理器项目（有的已死）中很清楚地学到以下几点教训。</p>
+<ul>
+<li>从项目一开始就发布源代码。哪怕不是很有用也无关紧要，将市议会排序分类的最好方式就是发布源代码并告知人们。Linux、KDE以及GNOME都遵循这种方式并获益良多。你可以花一辈子时间去争论怎样写代码才是正确的。只要代码公布，人们（不管水平怎样）都会把玩它。</li>
+</ul>
+<ul>
+<li>要欣赏那些给一点帮助就会对项目做出巨大贡献的人。如果他们最初的补丁有错误，不要盛气凌人，向其解释问题出在哪里并给出解决方案的建议，或者可以查询解决方法的地方。解答真正的问题，帮助别人，你所花费的一分一秒都会成十倍地回报在项目上，对社会也会带来无法估量的好处。[注]</li>
+</ul>
+<ul>
+<li>不要忘记那些非开发人员。我难过地发现许多人问起“前5名最重要的内核成员”时却极少涉及在所有人中最重要的一些——他们负责维护网站，更新日志和邮件列表，还有编辑文档，这些都是同等重要。<br />
+Linus那句“给我看源代码”对真正的项目来说是个狭隘的视角。当你听到人们说“我很想帮忙，可我不会编程”，那么他可以从事文档编写。当人们说“但英语不是我的第一语言”，这时你需要的是一位文档编辑或另一门语言翻译者。</li>
+</ul>
+<ul>
+<li>尝试将有用的人从杂音中分离出来，将有意愿帮忙的人从一大堆无聊评论中分离出来是很难的。在Linux 8086项目中我的确错误地放弃了这一目标，如何将那些只会空谈而又无所事事的人弄走是一门学问。</li>
+</ul>
+<p>下次碰到人们在项目上投票，或者问题讨论了一个月才实现这类情况，给予他们警告。这样才能使人正确地解决问题。在你看来如果一些稀奇古怪的事务不顾一切地运行着，要求他们给你发个补丁，只要能够生效的话。</p>
+<p>小心地说“我们应该怎样”之类的话，对“我该如何做”这样的人伸出援手。</p>
+<p>Alan</p>
+<p>[注]这段话举个例子说明一下。Linux IPv6源码作者以前在葡萄牙上网聊天，只会简单讨论和问一些基本问题。我们助其弄明白一些内核原理之后，他写了大约75%的IPv6协议栈代码，他最近受聘于美国思科公司。</p>
+<p>附录一：一篇针对本文的<a href="http://tech.groups.yahoo.com/group/java-os-project/message/2358?var=1&amp;p=1" target="_blank">吐槽贴</a></p>
+<p>附录二：2009年Cox回复Torvalds的<a href="https://lkml.org/lkml/2009/7/28/375" target="_blank">邮件</a>，事情起因是Cox的一个tty patch导致<a href="https://lkml.org/lkml/2009/7/11/125" target="_blank">kdesu(KDE project&#8217;s su utility)</a>程序无法工作，该问题争论长达两个星期，此后Alan离开了Linux项目投奔Intel。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/1278.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="Linus Torvalds 语录 Top 10" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1278.html" class="wp_rp_title">Linus Torvalds 语录 Top 10</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9917.html">Alan Cox：大教堂、市集与市议会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9917.html/feed</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>IoC/DIP其实是一种管理思想</title>
+		<link>https://coolshell.cn/articles/9949.html</link>
+					<comments>https://coolshell.cn/articles/9949.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 05 Jul 2013 00:44:03 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[design pattern]]></category>
+		<category><![CDATA[DIP]]></category>
+		<category><![CDATA[IoC]]></category>
+		<category><![CDATA[Object-Oriented]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9949</guid>
+
+					<description><![CDATA[<p>关于IoC的的概念提出来已经很多年了，其被用于一种面象对像的设计。我在这里再简单的回顾一下这个概念。我先谈技术，再说管理。 话说，我们有一个开关要控制一个灯的开...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9949.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9949.html">IoC/DIP其实是一种管理思想</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-9957" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-300x200.jpg" width="300" height="200" /> 关于IoC的的概念提出来已经很多年了，其被用于一种面象对像的设计。我在这里再简单的回顾一下这个概念。我先谈技术，再说管理。</p>
+<p>话说，我们有一个开关要控制一个灯的开和关这两个动作，最常见也是最没有技术含量的实现会是这个样子：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/IoC1.jpg" width="240" height="82" /></p>
+<p>然后，有一天，我们发现需要对灯泡扩展一下，于是我们做了个抽象类：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/IoC2.jpg" width="290" height="183" /></p>
+<p>但是，如果有一天，我们发现这个开关可能还要控制别的不单单是灯泡的东西，我们就发现这个开关耦合了灯泡这种类别，非常不利于我们的扩展，于是反转控制出现了。</p>
+<p>就像现实世界一样，造开关的工厂根本不关心要控制的东西是什么，它只做一个开关应该做好的事，就是把电接通，把电断开（不管是手动的，还是声控的，还是光控，还是遥控的），而我们的造各种各样的灯泡（不管是日关灯，白炽灯）的工厂也不关心你用什么样的开关，反正我只管把灯的电源接口给做出来，然后，开关厂和电灯厂依赖于一个标准的通电和断电的接口。于是产生了IoC控制反转，如下图：</p>
+<p><span id="more-9949"></span></p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="size-full wp-image-9952 aligncenter" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/IoC3.jpg" width="504" height="309" srcset="https://coolshell.cn/wp-content/uploads/2013/07/IoC3.jpg 504w, https://coolshell.cn/wp-content/uploads/2013/07/IoC3-300x183.jpg 300w" sizes="(max-width: 504px) 100vw, 504px" /></p>
+<p style="text-align: left;"><strong>所谓控制反转的意思是，开关从以前的设备的专用开关，转变到了控制电源的开关，而以前的设备要反过来依赖于开关厂声明的电源连接接口。只要符合开关厂定义的电源连接的接口，这个开关可以控制所有符合这个电源连接接口的设备</strong>。<span style="color: #ff0000;"><strong>也就是说，开关从依赖设备这种情况，变成了，设备反过来依赖于开关所定义的接口</strong></span>。</p>
+<p>只要你看过我的那篇《<a title="从面向对象的设计模式看软件设计" href="https://coolshell.cn/articles/8961.html" target="_blank">面向对象设计其实和面象对象一点关系也没有</a>》，你就知道这样的例子在生活中太多见了。比如说：</p>
+<p style="padding-left: 30px;">1）在交易的过程中，卖家向买家卖东西，一手交钱一手交货，所以，基本上来说卖家和买家必需强耦合（必需见面）。这个时候，银行出来做担保，买家把钱先垫到银行，银行让卖家发货，买家验货后，银行再把钱打给卖家。这就是反转控制。买卖双方把对对方的直接控制，反转到了让对方来依赖一个标准的交易模型的接口。股票交易也是一样的，证交所就是买卖双方的标准交易模型接口。</p>
+<p style="padding-left: 30px;">2）上面这个例子，可能还不明显，再举一个例子。海尔公司作为一个电器制商需要把自己的商品分销到全国各地，但是发现，不同的分销渠道有不同的玩法，于是派出了各种销售代表玩不同的玩法，随着渠道越来越多，发现，每增加一个渠道就要新增一批人和一个新的流程，严重耦合并依赖各渠道商的玩法。实在受不了了，于是制定业务标准，开发分销信息化系统，只有符合这个标准的渠道商才能成为海尔的分销商。让各个渠道商反过来依赖自己标准。反转了控制，倒置了依赖。</p>
+<p><strong>可见，控制反转和依赖倒置不单单的一种设计模式，反而更是一种管理模式。</strong></p>
+<p>在大公司中，有很多很多的团队，这些团队开发的软件有很多依赖，跨团队合作是一件挺麻烦的事情，下面是一些比较真实的示例：</p>
+<p style="padding-left: 30px;">1）一个网页会有很多频道，于是，我们的前端工程师进入到各个页面为各种频道开发他们的页面，随着频道越来越多，前端开发工程师的人数也越来越多，每增加一个频道，就要增加一个为这个频道服务的前端团队，于是，人数越来越多，干成了劳动密集型。为什么不反转控制，倒置依赖呢？前端的同学完全可以开发出各种页面的标准组件，布局，模板，以前与后端交互框架，然后，让后端的同学反过来依赖于前端的标准，使用前端的框架，前端的布局，模板，和组件，以向前端接入后端的模块。</p>
+<p style="padding-left: 30px;">2）一个平台需要接入各种各样的业务系统，这些垂直业务系统都有自己的账号体系，于是这个平台为了要兼这些垂直系统的账号体系以做到权限控制，需要做各个系统和自己系统中的账号映射，并为账号和分配出来的资源设置各垂直系统的标识，还要在自己的代码中要写很多很多的依赖于各种账号体系的代码。其实，一个依赖倒置和反转控制就很简单。开发一个权限体系标准，让接入方的账号系统反过来依赖并控制这个标准的权限系统，从而做出一个干净的系统。</p>
+<p style="padding-left: 30px;">3）还有一个云平台中的管理模式，一些底层服务的开发团队只管开发底层的技术，然后什么也不管了，就交给上层的开发人员，在底层团队的开发出来的产品上面开发各种管理这个底层资源的东西，比如：生产底层资源的业务，底层资源的控制台，底层资源的监控系统。这个让底层团队只干纯技术，不干与底层技术无关的东西，看似很科学，其实是做错了。因为，上层为各个云资源控制生产，开发控制台和监控的团队，随着接入的资源的越来越多，完全干不过来了，苦逼得一塌糊涂，因为底层的资源千差百怪，每接一个就要开发一堆这个产品的代码。这个时候依赖倒置和反转控制又可以解决问题了。很简单，上层为各个云资源控制生产，开发控制台，和监控的团队应该制定一个标准，让底层的IaaS云资源开发团队反过来依赖这个标准，统一接入方式，如果开发的云资源不符我的生产控制模型，没有控制台，不把监控数据喂入我的监控系统，对不起，请不要接入我这个PaaS平台。</p>
+<p style="padding-left: 30px;">4）一个集中式的处理电子商务中的订单的流程。各个垂直业务线都需要通过这个平台来处理自己的交易业务，但是垂直业务线上的个性化需求太多。于是，这个技术平台开始出现了黑魔法——“为了害怕改变数据库表结构，不得不在数据库中预留一些字段，里面存把业务方的个性化字段存成如JSON这样的东西”，并为之自豪认为可以快速解决业务问题（WTF）。然而，恶梦并没就此结束，管理这个技术平台的小组开始发现，对来自各个业务方的需求应接不暇，各种变态需求严重干扰系统，各种技术决定越来越不好做，导致需求排期排不过来。于是，不单单得到了各个业务方的各种抱怨，最可怕的是还有高层老大们压过来的Deadline，加班加点，苦逼之极，最后业务方自己要去一个自己的平台。为什么不用依赖倒置和反转控制的思想呢？开发一个插件模型、工作流引擎和Pub/Sub系统，让业务方的个性化需求可以以插件的方式插入我的订单流程中，业务方自的数据存在自己的库中，业务逻辑也不要侵入我的系统，并可以使用工作流引擎或Pub/Sub的协义标准来自己定义工作流的各个步骤（甚至把工作流引擎的各个步骤的Decider交给各个业务方自行处理）。让各个业务方来依赖于我的标准插件和工作流接口，反转迭控制，让他们来控制我的系统，依赖倒置，让他们来依赖我的标准。（这个团队想过把自己的系统内部开源出去让别的团队也进来参与，可以是可以，但一定要用Linux/Git这种方式，允许出现多个分支，多个发行版。但多个版本又造成了多个业务平台，这会上上层垂直业务不知所措）</p>
+<p style="padding-left: 30px;">5）看过《<a title="SteveY对Amazon和Google平台的吐槽 - 67,710 人阅读" href="https://coolshell.cn/articles/5701.html" target="_blank">SteveY对Amazon和Google平台的吐槽</a>》的人都知道，Amazon内部系统的SOA架构（这个SOA架构离IBM定义的那个非常变态的SOA还有一定距离），但是这基本上都是依赖倒置和控制反转的思路了—— <strong>与其让我来帮你实现你的业务逻辑，不如把我的业务逻辑开放成服务的方式让你来控制</strong>。</p>
+<p style="padding-left: 30px;">6）再说一个我在Amazon经历的例子。有一个项目是在给Amazon的各个商区（Marketplace）做国际出口的业务，我们先把Media类的产品（书，DVD之类的）做国际出口开放，项目不难，就是让商家同意一个法律协议（上传自己的签名），然后后台小改一下。美国的，欧洲的做的都没有问题，物流团队在出口报关单上打的都是Amazon仓库的地址和商家的签名（本来这就是错的，打的应该是商家的地址和商家的签名），但是到了日本，就出了问题，因为日本海关即要日文信息，也要商家的英文名和英文地址，而我们的系统里面只有商家的日文信息。本来，这是一个挺简单的事——数据库里加两个字段，在那个同意条款的网页上收集一下商家的英文名和地址，然后把这些信息传给后面的物流团队。物流团队一看这个，发现搞不了，因为他还要传给仓库，N多的地方都要加这两个字段，还要写下各种if (site == JP)这样的判断。物流团队不蛮干，重新设计自己的系统。做一个Document Template的东西，这个就是那个那个要贴在物流盒子上的单子。再也不让各个业务团队把那些信息传过来，而是把这个Document Template的东西传给上面的业务方，他们想怎么写就怎么写， 写完后，把这个东西传回来。于是，大家依赖了一个标准的协议，而不是一其字段。（当然，这个改动过多，为此改了半年多，不过非常值）</p>
+<p>所以说啊，在跨团队的工作中，</p>
+<ul>
+<li>如果依赖和控制的东西过多了，就需要制定标准，倒置依赖，反转控制。</li>
+</ul>
+<ul>
+<li>控制欲望最好不要太强，不要想着能干所有的事情，要学会控制反转和依赖倒置原则。否则只会引火烧身。</li>
+</ul>
+<ul>
+<li>反转控制和依赖倒置是一种智慧。</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/8961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/kiss-150x150.png" alt="从面向对象的设计模式看软件设计" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8961.html" class="wp_rp_title">从面向对象的设计模式看软件设计</a></li><li ><a href="https://coolshell.cn/articles/6950.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="需求变化与IoC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6950.html" class="wp_rp_title">需求变化与IoC</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9949.html">IoC/DIP其实是一种管理思想</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9949.html/feed</wfw:commentRss>
+			<slash:comments>66</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>《Rework》摘录及感想</title>
+		<link>https://coolshell.cn/articles/9156.html</link>
+					<comments>https://coolshell.cn/articles/9156.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 11 Mar 2013 00:25:34 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Rework]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9156</guid>
+
+					<description><![CDATA[<p>读了《Rework》这本书好多遍，每次读都有不同的感想。但从来没有把这些感想记录下来，今天把《Rework》书中的一些章节做一些摘录，并把我的一些感想总结出来。...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9156.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9156.html">《Rework》摘录及感想</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-9277" src="https://coolshell.cn/wp-content/uploads/2013/03/rework.jpg" alt="" width="235" height="360" srcset="https://coolshell.cn/wp-content/uploads/2013/03/rework.jpg 294w, https://coolshell.cn/wp-content/uploads/2013/03/rework-196x300.jpg 196w, https://coolshell.cn/wp-content/uploads/2013/03/rework-176x270.jpg 176w" sizes="(max-width: 235px) 100vw, 235px" />读了《Rework》这本书好多遍，每次读都有不同的感想。但从来没有把这些感想记录下来，今天把《Rework》书中的一些章节做一些摘录，并把我的一些感想总结出来。供大家参考。这是一本平生以来让我中毒很深的书，也是一本让我思考得很多的书。希望看到这篇文章的人都能好好地读读这本书。这本书并不难读，是一本你可以一口气不中断就可以读完的书。</p>
+<h4>现实世界</h4>
+<p>“这在现实世界里面行不通”，当你向人们介绍一个新创意时，人们总是这么回答你。这个“现实世界”听起来如此令人沮丧，……只有人耳熟能详，习以为常的事情才会胜利，即使是这些事情已经漏洞百出陈腐低效。</p>
+<p>揭开“现实世界”这个锅盖，你会发现居住在里的人都充斥着悲观主义和失望的情绪。更糟的是，他们想将别人拖进他们的坟墓。如果你是充满希望和野心的人，他们会试着说服你，你的想法是不可能的。他们会说你在浪费时间。</p>
+<p><strong>“现实世界”并不存在，那只是人的一个借口。只是某些人为了开脱 自己的无所作为，跟你一点关系也没有。</strong></p>
+<blockquote><p><strong>感想</strong>：我经常会向一同事和朋友提及一些我的想法，朋友同事们经常会回答我——这个事某某人，某某团队做过了，没成功。或是对我说，你做这个事的时候，要小心这个要小心那个。我觉得，这个时候是最考验我们的时候了，要有一个清醒的头脑去分析别人的话，别人真不代表自己。这个世界上大多数人都是比较保守的，大多数都对这个现实世界都有或多或少的恐惧感。当然，你可以选择做大众，但是如果你想让你的人生有些不同，有些精彩，我还是建议你不要和大多数人想得一样，<strong>如果你和大多数人的想法一样，你必然会和大多数人一样的平庸</strong>。当然，如果你和大多数人不一样，你要么就是天才，要么就是傻瓜。要证明你自己是不是傻瓜，我们可以看看我们过去有没有过一些小成功或小成绩。如果有，那么就应该大胆地坚持自己的想法。</p></blockquote>
+<h4>被高估的“从错误中学习”</h4>
+<p>你真的从错误和失败里面学到什么了吗？你也许学到了别再重蹈覆辙，但是这有什么意义吗？你仍然不知道接下来该做什么。</p>
+<p><span id="more-9156"></span></p>
+<p><strong>相反的应该从成功中汲取养分。成功給予真正靠得住的教材。</strong></p>
+<p>失败并不是成功的先决条件。自然规律是，<strong>逗留在过去的失败中是无法进化的，进化是建立在成功的基础上的</strong>。</p>
+<blockquote><p><strong>感想</strong>：我见过和很多人都在抱怨这不好那不好，但是他们其实并不知道什么是好的，因为——没有见过好的，你将永远不知道什么是好的。就好像你没有见过什么是汽车，你就只会整天在抱怨为什么骑自行车太累。回头想想我们的编程的这个过程也是一样，我们编程技能的提高基本上都是在看到别人的那些漂亮优雅的代码。所以，你一定要去看看那些优秀人干是怎么想的，怎么干的，去那些成功的公司开开眼界。另外，你应该多想想你过去做成功过什么事？那些才是你的长处，才是让你进化的前提。</p></blockquote>
+<h4>计划就是瞎猜</h4>
+<p>除非你是算命先生，长期的商业计划是种幻想。有太多的事实证明那是超出你的掌控的：市场环境、对手、顾客、经济等等。做计划让你觉得一切尽在掌握但实际上你没有。</p>
+<p><strong>当你把计划变成猜测时，就等于进入一个危险的境地。做计划就是在用过去推导未来，等于给你戴上了眼罩。</strong></p>
+<blockquote><p><strong>感想</strong>：你有职业规划吗？如果你有的话，那么你就一定就错了。职业规划是一件很扯淡的事情。我和一些高手都交流过，其实这些人在当初都并不有什么职业规划的，要说有的话，也就是想把技术搞透搞精。这些人在一开始从来没有想过要当个什么经理或是什么架构师之类的东西，这些人就是对技术有非常大的热情，把身边的那些看得见够得着的事情做到好好地，并且保持不持续强大的好奇心努力地学习自己不懂的东西。一个坚定不移的决定和意志力会比任何的计划和职业规划都重要。<strong>你问问自己，想不想当程序员，能不能一辈子都当一个程序员，能不能写程序写一辈子？</strong>（关于做一辈子程序员这个事，大家可以看看我的<a href="http://weibo.com/1401880315/zmebaF5tQ" target="_blank" rel="noopener">新浪微博</a> ——<em>没哪个行业能像计算机行业这么活跃、刺激和有趣了。不仅是新兴工业革命的主力，又渗入到所有的行业中，干一辈子值了。//<a href="http://weibo.com/n/_%E4%BD%A0%E4%BA%B2%E7%88%B1%E7%9A%84%E5%81%8F%E6%89%A7%E7%8B%82">@_你亲爱的偏执狂</a>: 程序员首先是工程师，Professional，就跟律师，医生一样，给大家解决问题；但是另一面呢，又是艺术家，创造新奇好玩的东西。这样的职业做一辈子有什么问题？</em>）</p></blockquote>
+<h4>拒绝壮大</h4>
+<p>规模越大你就得承受更大压力、需要更专业、拥有更强的能力。</p>
+<p><strong>有没有注意到，一个小公司希望自己变大时，大公司却想要变得灵活变通</strong>。记住，一旦你变大了就很难在不解雇人、不破坏士气、不改变你的整个商业路线的情况下收缩规模。</p>
+<p>扩张不必成为你的目标。我们也不是仅在讨论你已有员工数。 还有花费、租金、IT 基础结构、设备等。这些事情不会碰巧发生。 你来决定是否承受这些。如果你决定去承受，你也将遇到新的头痛问题。花费那么多，你强迫自己构建一个复杂的生意，有一大堆困难而高压的事情要解决。</p>
+<p><strong>小公司并不是一个起步，小公司本身就是一个伟大的目标。</strong></p>
+<blockquote><p><strong>感想</strong>：很多人都会以为拥有一支成百上千人的团队而成为一个成功的标志。就像很多朋友和猎头都会问我管多少人，当我说，我就管个十人不到的团队时，他们似乎都会觉得我很平庸。他们中的一些人基本上就不会再问我在干些什么了，因为他们可能觉得这么少的人都干什么大事呢？。当然，我说了他们也不一定听得懂。人多可能恰恰说明你可能在干一个劳动密集型的事情，这并没有什么可自豪的。真正自豪的不是在战争中用人海战术让大量的人去当炮灰，而是用一个小分队端掉敌军的军火库或指挥部。所以，<strong>关键不是你有多少人，关键是你做的事是不是有非凡的意义，而且你用了最小当量的资源。这就好像建立一个高性能的网站一样，用成百上千的服务器不算本事，谁用的少才是本事</strong>。</p></blockquote>
+<h4>工作狂</h4>
+<p>工作狂的行为不但没有必要，而且愚蠢至极。过多的工作并不代表你对项目更关注，也不代表你作了更多的贡献，这仅仅意味着你干了更多的活而已。<strong>工作狂制造的麻烦比解决的麻烦多</strong>。</p>
+<p>工作狂往往不得要领。他们花大把大把的时间去解决问题，<strong>他们以为能靠蛮力来弥补思维上的惰性，其结果就是折腾出一堆粗糙无用的解决方案</strong>。</p>
+<p><strong>如果你只是为了工作而工作，那么你就会丧失判断力。你的价值 观和决策方式都是扭曲</strong>。你没有能力去判断哪些工作值得做，哪些工作该放弃，最后搞得自己筋疲力尽，而一个筋疲力尽的人是无法作出明智的决定的。</p>
+<p><strong>工作狂不是英雄。他们不是在节约时间而是在浪费生命。真正的英雄早已想出了办法，搞定一切，然后回家了。</strong></p>
+<blockquote><p><strong>感想</strong>：这让我想到了那些为了冲业绩的业绩KPI的制订者们，很多时候，他们的价值观和决策真是的很扭曲的。他们生生地把一种技术密集型的工作变成了劳动密集型。<strong>他们其实就是在拼命地训练客户需要的那匹“更快的马”，而从来没有想过要去造个更快的交通工具。</strong></p>
+<p>另外，每当我在优秀员工的评比和员工的绩效考核中的跨团队比较中我们能听到很多很多的人说，XX员工工作任劳任愿，工作得很晚很晚，付出很大。老实说，我真的为这样的价值观感到悲哀。最后，我还想说说关于超时工作，我也经常学习和做自己的事情到深夜，我相信很多人也这样，但我们应该认真思考一下Rework中的这个观点，<strong>我们超时工作是在使用蛮力呢？还是在使用热情和兴趣呢？</strong></p></blockquote>
+<h4>挠自己的痒处</h4>
+<p>想要创造一款伟大的产品或者是某项卓越的服务，最直接、最简单的方法就是去做你自己想用的东西。设计你了解的产品——你就能很快发现它到到底好不好用。</p>
+<p><strong>最棒的是，“解决你实际遇到的问题”会让你爱上你做的事情</strong>。 你知道问题所在并且熟知解决它的价值。这是无法替代的。毕竟，你会充满希望的在接下来的日子里继续做。 甚至会占据你余生所有时间。所以，最好还是做自己真正关心的东西。</p>
+<blockquote><p><strong>感想</strong>：这就是吃自己的狗食，做自己感兴趣的事。软件项目中，我最恨的就是那种闭门造车造出来的自己都不用的东西（不是从已有业务生长出来的东西），以及那些自己不动手就在边上指指点点的各种咨询师或是喜欢动用行政命令的高层管理者。</p>
+<p>但是，在这里，我更想说说我所理解的另一层“挠自己痒处”——有天我和一前前同事聊天，她说她在那家公司十多年了，现在老了，虽然心不老还想折腾，但是对自己的能力没自信，求稳了。我听到很多朋友想对自己有个改变，比如有QA的同学想做开发，有生活在内地的朋友想来大城市的大公司里有更爽的经历，<strong>这些人明明想活得更有激情，但最终在现实面前认命妥协。我说既然有痒处，还比较痒，那就应该毫不犹豫革自己的命，轰轰烈烈地活一次</strong>。别等老了后悔当年没有勇气。“挠自己痒处”就是挑战自己，革自己的命，既然想了，就做吧，生命只有一次，值得我们轰轰烈烈地去为之付出。</p></blockquote>
+<h4>“没时间”不是借口</h4>
+<p>人们最常用的借口是：“时间不够。”他们宣称很想开一家公司，学一种乐器，写一本书，等等，但时间不够用。拜托，如果你善加利用，时间总是有的。</p>
+<p>把看电视或玩魔兽的时间腾出来完成你的创意；把10点上订改成11点上床，这不是怂恿你通宵达旦或是一天干足16个小时——我们要说的是，第周匀出一些业余时间来，就足够你去做些事情了。</p>
+<p>当你拥有某种强烈的渴望时，你就能挤出时间来——不管你身上是否背负着其他责任。<strong>事实上，真相是大多数的渴望并不是那么强烈。于是他们拿时间当借口来自我开脱。别给自己错口。</strong></p>
+<p>另外，永远会有正当其时的时候，你总会觉得自己会么太年轻，要么太老，要么太忙，太穷，或是别的什么原因。<strong>如果你总是为遇到一个完美时机而发愁，那么，完美的时机绝对不会到来</strong>。</p>
+<blockquote><p><strong>感想</strong>：我在“<a title="挑战无处不在 " href="https://coolshell.cn/articles/7048.html" target="_blank" rel="noopener">挑战无处不在</a>”中也表达过这样的观点，<strong>关于热情和态度，说白了就是不要给自己找借口</strong>。比如：“工作忙事多没时间学所以可以不懂”，“工作中没用到所以可以不懂”，“工作没有挑战，一直没有遇到合适的项目”等等。而且，如果你只能在万事俱备的情况下才能做事，那么，你还有什么价值呢？人的价值和竞争力就是在条件并不完美的时候还能搞定事情。</p></blockquote>
+<h4>画沙为界，立场明确</h4>
+<p>坚定的信念能为你赢得超级粉丝，他们会为你马首是瞻，会舍身保护你，他们充满激情的口碑传播将胜过这世间一切的广告。</p>
+<p>强大的主见，也是要付出代价的，在这个过程中，会有人诋毁你，说像傲慢，冷漠。没办法，这就是人生，有人喜欢你，就有人憎恨你。如果你的说法没有引起任何人的心烦意乱，只能说明你的推广力度可能还不够。（也可能代表你比较无趣）</p>
+<p><strong>对我们来说，我们的产品所不能处理的和我们的产品所能处理的一样令人感到骄傲</strong>。</p>
+<p>我们的产品不适合每一个人，没有关系，我们愿意为了那些更加深爱我们的客户而放弃另一部分客户。这就是我们的立场。</p>
+<blockquote><p><strong>感想</strong>：我从来不想做一个大众脸。酷壳上有很多比较有争议的文章，也有很多人说我很极端，偏执，有优越感，清高……，说什么的都有，无所谓。我有一个做新闻编辑的太太，主辑要求文章要客观和没有观点，不温不火，本来好好的一篇有观点的文章被编辑过后只剩下了一堆食之无味的文字。<strong>我喜欢有鲜明的观点，因为鲜明的观点和立场能不但能让文章鲜活起来，而且还能迎来更多的不同意见和更多的思考</strong>（而不只是“顶”“赞”之类无意义的回复）。我并不希望我的观点是正确的，我只希望能和更多的人加入我一同思考，而思考最佳的催化剂就是争论。我从这个行为中收益到了很多很多。</p></blockquote>
+<h4>找好退路无异于失败</h4>
+<p>你还常常听到：“你的退出战略是什么？（万一不成功，你怎么办）”甚至在你刚开始启动时就听到它。这些人不知道怎么开始就要想到怎么结束？急什么呢？如果在全情投入之前就想怎么撤出，这种逻辑不是一般的混乱。</p>
+<p>你正打算恋爱一场就计划着分手？你在第一次约会时就签订婚前协议？你会在婚礼早上先约见离婚律师？那也太荒谬了吧。</p>
+<p><strong>你需要的是承诺战略而不是退出战略。你要考虑的是你的项目怎样发展和成功，而不是怎样撤退</strong>。如果整个战略是基于撤退的，一开始你就不会有机会成功。</p>
+<blockquote><p><strong>感想</strong>：几年前，我有一个朋友被创新工场忽悠从美国退学回来创业，我非常质疑他退学创业这个事。他对我说，没事，反正就算失败我也不会失去什么。还有一个朋友一年前从美国回国创业，也对我说，就算没搞好也没什么。我都对他们说，如果你以为用试一试的态度就可以把一个事情搞成功，那么你让这世上那些Full Time全天候从事这个事情的并有一些积累的人情何以堪？如果你创业时都想好了失败，那就说你你对这个事没有必胜的信心，也说明连你自己都不相信这个事，你还干个什么劲啊？<strong>你与其把时间用在思考如果创业没成功你会怎么办上，你还如去思考一下如何做才有更大的胜算</strong>。</p></blockquote>
+<h4>条件受限是好事</h4>
+<p>“我没有足够的时间、钱、人手、经验”。不要现无谓的抱怨了。“少”不是什么坏事。“条件受限”貌似缺陷，实力优势。有限的资源能激发你在现有的条件下完成任务的能力。没有一点浪费空间，一切都需要你发挥最大的创造力。</p>
+<p>你见过囚犯用肥皂和汤勺制作武器吗？你们是“创新”的典范。只有在条件受到限制时，我们才会发挥出“小材大用”的能力。</p>
+<blockquote><p><strong>感想</strong>：我相信这世上很多事情都是被条件受限逼过去的。我回想到我以前经常在干的性能调优，想尽一切办法榨干系统资源这件事上，我就无法不赞同这句话。想想淘宝的TFS，就是一个因为条件受限到了不得不自己干的时候，被逼出来的东西。如果你没有足够多的人，你才会去想要怎么去优化工作和开发效率，于是才会逼着你去开发一些自动化的工具，而这些工具恰恰解放了生产力可以让你更快地干更多的事。<strong>只有条件受限，才会从劳动密集型中激发出知识密集型的东西</strong>。再回到以前我的那篇“<a title="我们需要专职的QA吗？" href="https://coolshell.cn/articles/6994.html" target="_blank" rel="noopener">是否需要专职的QA</a>”一文说的到东西，如果你有很多很多帮你做测试的QA，你就不会去测试，你的团队也就不会有自动化测试等工具。这就好像在中国这个劳动力又多又廉价的大国下，基本上不需要你在技术上的创新，你只需要去不断地迁就这些低端用户，迁就这些用户越多，你还能有什么重大创新吗？真正的创新是帮助用户成长，而不是迁就用户。</p></blockquote>
+<h4>与其做个半成品，不如做好半个产品</h4>
+<p>同时做N件事的结果就是：一大把绝妙的点子最后被转化成一个蹩脚的产品。</p>
+<p>有舍才有得，砍掉多余的野心，你就会发现慢慢做一件正事要胜过毛毛躁躁地做一堆傻事。</p>
+<p>很多东西都是越简短越好。拿起斧子动手砍吧，为了一个“伟 大”的起点，让我们把那些“挺不错”地枝节给砍掉吧。</p>
+<blockquote><p><strong>感想</strong>：这正如“<a title="为什么中国的网页设计那么烂？" href="https://coolshell.cn/articles/3605.html" target="_blank" rel="noopener">为什么中国的网页设计这么烂</a>”中说的：“中国的学生只是去记忆东西而不是真正的理解。他们从来不花时间去思考，而只是贪婪地去获取更多的信息”。与其记忆那么多的东西，还不如好好理解部分的东西。还有一种说法是：“Done is better than Perfect!”，这句话某些时候说得也挺对的，尤其是对于那些完美地长期不能Done的项目。但是Done一个Ugly的东西还不如不做。所以平衡Done和Perfect的方式正好就是这句话——“与其做个半成品，不好做好半个产品”，因为，<strong>一个半成品会让人绝望，而半个好产品会让人有所期望，这就是其中的不同</strong>。</p></blockquote>
+<h4>关注不变因素</h4>
+<p><strong>很多公司和人都关注即将到来的大事件。他们热衷于新鲜热辣的事物，追逐最新的潮流和技术</strong>。</p>
+<p>这是一条愚笨之路。一旦走上这条路，你就会关注时髦、放弃本质，把注意力放到不断变化的事物上，而不是持久不变的事物上。</p>
+<p>你的事业的核心应该建立在不变的基础之上。<strong>你应该投资于那些人们现在需要，并且十年后仍然需要的事物上</strong>。</p>
+<p>要记住，时尚会凋零。只有当你聚焦于长久的功能时，你才会发现自己把握住了永不落伍的东西。</p>
+<blockquote><p><strong>感想</strong>：一年多前，我在《<a href="https://coolshell.cn/articles/5815.html" target="_blank" rel="noopener">来信、创业和移动互联网</a>》中谈到过那个时尚的“移动互联网”，说了四个方向：阅读，分享交流，电商，推荐/提醒。大家可以看到现在地铁上已经不像以前很多人都在看报纸了，而是很多人都在看手机。而手机端的社交（分享和交流），电子商务，以及很多推荐、提醒都越来越火了。这些东西都是都是“常量”——十年前存在，未来十年也会存在，我们看到很多人太过着眼于手机上的应用，而不是那些不变的因素。今天还有两个巨火无比的流行词，一个是云计算，一个是大数据，那些一听到这两个词就会兴奋的人，我不知道他们有没有真正理解这两词？他们真正理解了云计算其实就是那个N多年前就提过的IT服务，关于大数据，我完全不知道为什么会火，你会因为听到中国人口有13亿你就会兴奋吗？老鼠的数量比较这个更多呢，呵呵。其实，数据无所谓大小之分，只有好数据和烂数据之分，还热数据和冷数据之分。十年前有两个更为流行的词：一个是计算网格，一个是数据网格，这两个词5年前就凋零了，今天的云计算和大数据，有多少人意识到了其中有什么相通的，或是其中的不变因素是什么？<strong>大数据和云计算其实都在描述两个东西，一个是超大规模的计算能力，另一个则是服务。还有一个词是“平台化”，这可能被大家忽略了，通过平台进行计算和数据服务，这才是那计算机存在以来基本不变的东西，无论你是移动互联网，还是互联网，不管是云计算，还是大数据，都需要一个平台提供服务</strong>。</p></blockquote>
+<h4>会议有毒</h4>
+<p>世人最可恨的打扰莫过于开会。原因是：</p>
+<ul>
+<li>会议中充斥着纸上谈兵和抽象的概念，大多是不切实际的。</li>
+<li>会议中能传达的信息量少之又少。</li>
+<li>人们在会议中容易跑题，堪比暴风雪里的芝加哥出租车还容易迷失方向。</li>
+<li>会议要求做充分的准备，但是大多数人没有时间准备这些。</li>
+<li>会议制定的议程常常是模糊的，根本就没有人真正清楚目标是什么。</li>
+<li>会议中难免会轮到那么一两个低能人士发言，于是大家的时间都浪费在他们的扯淡上了。</li>
+<li>会议具有自我繁殖功能。一次会议总能导致另外一次，以及再导出下一次，生生不息&#8230;&#8230;</li>
+</ul>
+<blockquote><p><strong>感想</strong>：这世上除了“他爹的TDD”开发模式，还有“他妈的TMD”开发，就是Team Meeting Driven，很多公司有太多太多的会要开了，开会基本上成了每天工作最主要的东西，对于一些管理者来说一星期中居然有80%时间都在开会。其实，这么多的会议并不意味着你在管理，只是意味着你对要管的东西完全不知道，需要通过开会来了解。很多会完全是没有议题的，大家坐在一起东拉西扯，非常非常地低效。我通常把这种会叫做“神仙会”，用个流行语来说，就是Cloud Meeting，大家神一要的各说各的，似乎，没有这种形式，不能证明参会者的存在，用会议来证明他们的存在，相当的可笑。对我来说，<strong>如果只是带一个或几个问题来开会，简直是就是扯谈，如果对于问题没有几个备选的解决方案和各方案的评估，完全没有必要开会</strong>。Amazon的会议是不会有PPT的，会议组织者会要要讨论的东西写好并打印出来，在会前给参会者把要讨论的东西打印出来，开会前10分钟左右，会场里没有任何声音，每个人都在读文档，全部人读完后，直接对议题发表自己的个人意见应该怎么干，然后很快形成共识，散会。</p></blockquote>
+<h4>人人都得干活</h4>
+<p>在一个小团队里，你需要的是干活的人，而不是监工。每个人都得做事，没有人可以袖手旁观 。</p>
+<p>这意味着你在招聘中要避免招到监工型的人物，这些人喜欢对别人谆谆教导。对于小团队来讲监工型的人就是累赘。</p>
+<p>监工们还喜欢把人拖去开会。实际上，会议是监工们最好的朋友，因为只有在开会时才显得出他们的重要。</p>
+<blockquote><p><strong>感想</strong>：<strong>为什么会有办公室政治，那就是因为这个公司里有一部分人不干活，不做事，</strong>于是，他们就有大量地时间开始胡思乱想，他们花大量的时间不是想怎么去做事，而是想自己怎么更容易的打垮别人得到上面的认可，从而得到晋升。在大公司中这样的情况会比Startup的公司多得多。所以，如果你不想滋生办公室政治，那么你需要干两个事，第一个是最好不要变成大公司，第一个是让每个人都在实干。我最近看到其大公司，虽然很多东西不规范，而且很多东西在野蛮生长，有些事情也有点土，但绝大多数人都在实干，所以，只要每个人都在实干，就算干的方式不好，干出来的东西有问题，也比那些滋生办公室政治的公司强上几百倍</p></blockquote>
+<h4>拒绝照搬 &amp; 将你的产品去商品化</h4>
+<p>有时候，照猫画虎也是一种学习过程，就好像艺术系的学生通过临摹美术馆的作品来学习绘画。当你还是一个学生时，这种模仿是一种很有效的学习工具。不幸的是，商业战场上的模仿却不招人待见。而这也意味着你打算通过当盲从者或抄袭者的方式来建立你的事业，这注定是一个失败模式。</p>
+<p>模仿的问题在于，简单的复制扼杀了深层的理解——而理解才能激发成长。你不但要知其然，还要知其所以然。而当你复制时，你会忽视这一点。你照搬的只是表面，而不是本质。</p>
+<p>一旦你扬名立万，模模仿者会蜂拥而至，这就是生活。但你可以用一种绝佳的方式来保护自己不被 他们吞没：让你自己成为你的产品或服务的一部分。</p>
+<blockquote><p><strong>感想</strong>：在《<a title="抄袭，腾讯 和 产品" href="https://coolshell.cn/articles/7617.html" target="_blank" rel="noopener">抄袭，腾讯 和 产品</a>》中我谈到过这个事情，虽然我对抄袭和山寨很反感，但是我不得不承认这是这个世界的一部分，好的东西总是会被人复制的，这也不一定是一个坏事，这会让你更清楚认识到什么是真正产品的价值，什么是核心竞争力，你但凡有一点急功近利的想法你都要想一想那堆抄袭者，其中还不乏有钱有人的专业抄袭的公司。而面对被抄袭这样的事情，最好的解决方法是着眼着远期而不是短期——<strong>如果你着眼短期，你无疑会面对众多的抄袭和模仿者让你万劫不复，但是，如果你着眼长期，做一个3-5年需要花费大量精力才会成熟的产品，那么，那些急功近利的抄袭者会知难而退的，因为长期并不符合抄袭者的价值观</strong>。</p></blockquote>
+<h4>做得比对手少</h4>
+<p>传统智慧告诉我们，要想打败竞争者就要胜人一筹。如果人家有 4 个功能，你就得 5 个（或者 15 个，25 个）。如果人家花了$20,000，你就得花 $30,000。如果人家有 50 个员工，你就得要 100 个。</p>
+<p>这样的冷战式的攀比思维会把人引上绝路。一旦被卷入“军备竞赛”，你就陷入了一场无止境的战争，这场战争会让你耗费大量的金钱、时间和动力。并且使你陷入长期的防御战中。处于防御状态的公司是没有预见力的；他们只能后知后觉，他们无法领跑，只能尾随。</p>
+<p>那么你应该怎么做呢？比你的竞对手做得少，以此来打败他们。<strong>让自己去解决简单的问题，把那些纠结的、麻烦的、艰难的、讨厌的难题留给竞对手去解决</strong>。不要总想着去胜人一筹、去超过别人，试试相反的做法。</p>
+<p>不要因为你的产品或服务不如别人的花哨就感到自惭形秽。把他们做得醒目高调，并引以为傲。就像对手那些强有力的销售他们多功能的产品一样销售你那简约的产品。</p>
+<blockquote><p><strong>感想</strong>：一个最典型的例子就是iPad，它干得比Laptop少，比上网本少，就是一个很简单的上网和简单游戏的设备，但是他有非常简单的用户体验，让两三岁的儿童和六七十岁的老人都能很快上手。你相信吗？我花了好多年都没教会我父母用电脑以及手机里除了电话功能外的其它功能，但我只花了10分钟就教会他们使用iPad上网了。这就是“做得比对手少”的强大。<strong>只有简约的东西，才会显得更精致，才会显得更专业</strong>。</p></blockquote>
+<h4>谁在乎他们在干什么</h4>
+<p>不管怎样，终究是不值得过于关注你的竞争者。为什么？因为<strong>关注别人太多会让自己受到困扰</strong>。他们现在在做什么？他们下一步呢？我们该怎样作出回应？</p>
+<p>每一个小小的动作都会被分析一下。那是一种可怕的心态。这会产生不可抗拒的压力和焦虑。这样的想法会滋长不好的东西。</p>
+<p>这是没有意义的事情。竞争者的风景时时在变。你的竞争对手明天一个样儿，今天一个样儿。完全在你控制之外。去担心你所不能控制的事情有意义吗？</p>
+<p>过于关注竞争者会混淆你的视野。当你一直吸收别人思想时， 你的机会则会减少。你变得反动而不是充满想象力。你只不过是将你竞对手的产品换了个包装。</p>
+<p>如果你打算做一个“the iPod killer”或“the next Pokemon”，你已经死了。你是在承认你的竞争者所设定的参数。你没有跳出 Apple 的套路。他们制定了这个游戏规则。你不可能打败制定规则的那个人。你必须重新制定一个规则，而不是稍微改建一点点。</p>
+<blockquote><p><strong>感想</strong>：这个社会浮躁之处就在于我们太多的观注了别人，人比人气死人。我们很多人都注意到了别人的风光，看到别人创业被注资，看到别人找到了好的工作，看到了别人不走正道而发达，看到了别人很轻松还挣得多，甚至看到别人的粉丝比自己多，等等，等等，这些东西让自己的心态变，变得非常地不淡定了。眼红也是魔鬼，因为眼红让人心理扭曲了的例子还少吗？<strong>不要在乎别人干了什么，你应该多看看自己的长处是什么，每个人都有每个人的路，你要做的是按照自己的节奏和自己擅长的方式行事，而不是小猫钓鱼</strong>。</p></blockquote>
+<h4>养成对客户说“不”的习惯</h4>
+<p>说“好的”很容易。我们很容易接受同意一个新功能、同意一个过于乐观的截止日期、笑纳一个平庸的设计。很快，一大堆你曾经说“yes”的事情就发生连锁反应，很多你不想要的东西越堆越高，甚至你都看不出原来想要的东西。</p>
+<p>别相信“顾客永远是对的”这类的话。如果你是一个大厨，你的很多客人说你做的菜太咸或者太烫，你可以改。但是如果有一些挑剔的老主顾要求在宽面条里面加些香蕉，你千万不要理会他们，没关系。若是为了少数顾客的要求而毁了产品不值得。</p>
+<p><strong>你的目标是确保你的产品与就是和你合拍的产品，你就是你自己产品最踏实的粉丝。你是最信赖它的那个人</strong>。那样的话，你会说：“我想你也会爱它的，因为我爱它。”</p>
+<blockquote><p><strong>感想</strong>：亨利福特说过：“如果我要问我的客户要什么，他们会告诉我他们要一匹更快的马”，所以，过份的迁就用户并不是一件好的事，相反会是一件很不好的事。互联网和电视节目一样都有一个万恶的KPI，电子节目那万恶的KPI是收视率，而互联网的万恶KPI是流量。于是<strong>很多公司为了流量开始不择手段，就像电视节目用庸俗化来提高收视率一样，我们的一些互联网产品也使用庸俗化的东西来提高流量。我们要做的是一个让人称道的有品质的产品，而不是一个只有访问量的产品</strong>。</p></blockquote>
+<h4>不要攀客户的高枝</h4>
+<p>也许你曾经见过这样的场景：一个顾客向一家公司投了很多钱。这家公司想要尽可能的取悦那个顾客。为了迎合这个客户的要求而改变自己的产品，渐渐地，你的产品就会脱离普遍客户的基础。</p>
+<p>而且，突然有一天，这个大客户绝尘而去，公司则会背负一个包袱——这个产品是围绕着一个已经离开了的人设计的。而其他人没法用。</p>
+<p>人在变，环境在变，你不可能满足所有人的所有要求。<strong>公司要对某一类型的客户全情投入，而不是对某个善变的客户唯唯诺诺</strong>。</p>
+<blockquote><p><strong>感想</strong>：你永远要找到自己的定位，你不可能满足所有的人。就像屌丝们喜欢的北京的动物园批发市场和高富帅们喜欢的北京燕莎商场一样，他们分别定位于不同的用户。你的产品从生下来的那一时刻就应该需要做好定位，是面对什么样的人群。而且，你也不可能实现所有人的需求的。有时候，失去一些客户并不是坏事，<strong>我们要做的是管理我们的客户，让客户认同我们，而不是被客户牵着走</strong>。</p></blockquote>
+<h4>一夜成名只是传说</h4>
+<p>你不会瞬间大红大紫，也不会一夜暴富，你所了解的那些道听途说的“一夜成名”的故事，深挖一点，你就能发现这些成功人士在到达引爆点之前，都已经在这个方向 上苦熬了很长时间。</p>
+<p>把一夜成名的迷梦换成一步一个脚印的成长行动吧。道路很艰难，但你必须充满耐心。你得用功去做，在遇到伯乐前，你得努力很长时间。</p>
+<blockquote><p><strong>感想</strong>：这和我在<a title="程序算法与人生选择" href="https://coolshell.cn/articles/8790.html">程序算法与人生选择</a>一文中所说的那个最短路径的算法的类比一样，与其展望要当什么架构师或是要成为牛人的憧憬，不如把身边看得见够得着的东西学扎实，干出色。一夜成名只是一个传说，你知道酷壳是因为我写十多年的博客，你知道我是因为我积累了十多年的编程，看看酷壳以前介绍过的<a href="https://coolshell.cn/articles/5651.html" target="_blank" rel="noopener">王平同学</a>吧。<strong>很多事情都不是偶然的，都是有前兆的，还是我<a href="https://coolshell.cn/articles/7048.html" target="_blank" rel="noopener">以前说过的那句话</a>，“如果一件事情以前没有发生过，未来也不会发生”，比如：如果你在学校里，在工作里，你的同学和同事并不经常来向你请教询问你的意见，那么你基本上很难成为一个Leader</strong>。</p></blockquote>
+<h4>员工不是13岁</h4>
+<p><strong>当你把员工当孩子看时，人们就会像孩子一样行事</strong>。</p>
+<p>当公司里事事都要上报审批时，你就创造出了一种无脑文化。你成功地制造出了老板和员工之间的对立关系。这种关系在咆哮着：“我不相信你！”</p>
+<p>当你处处限制员工，比如禁上他们在上班时访问外部网站或是开小差，你会得到什么好处？什么也得不到。人们需要开小差，这有助于打破整日的枯燥单调，花点时间上上Youtube或Facebook不会失去什么。</p>
+<p>如果你要监控你的员工，你得想想你要花多少时间和金钱来监管员工。你浪费了多少钱去安装监控软件？你浪费了多少人力资源去监视员工？你浪费了多少时间去写没有人会看的规章制度？<strong>看看这些成本，你很快就发现，对员工的不信任才是最大的开销</strong>。</p>
+<blockquote><p><strong>感想</strong>：我始终在跟我的团队成员说，最有效的管理就是自己管理自己，而不是还要专们的人来管你。不然的话，你一定会很难受的。如果你能管理好你的工作和任务，我们就不需要项目经理。如果你能管理得好你的做事的方法和流程，就不需要那些搞流程的。如果你能管理得好你的程序质量，我们就不需要QA来监管你…… 等等。<strong>其实，你们如果能管理得好自己，并能自我进化。你们甚至不需要一个经理。但是，你们可能会需要一个为你们跑腿打杂的人，其实，那个人就是经理</strong>。</p></blockquote>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9156.html">《Rework》摘录及感想</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9156.html/feed</wfw:commentRss>
+			<slash:comments>152</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>持续部署，并不简单！</title>
+		<link>https://coolshell.cn/articles/7657.html</link>
+					<comments>https://coolshell.cn/articles/7657.html#comments</comments>
+		
+		<dc:creator><![CDATA[马基雅弗利]]></dc:creator>
+		<pubDate>Mon, 25 Jun 2012 00:20:08 +0000</pubDate>
+				<category><![CDATA[企业应用]]></category>
+		<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[CI]]></category>
+		<category><![CDATA[部署]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7657</guid>
+
+					<description><![CDATA[<p>【感谢 @常新居士 投递此文 】 这几年，持续集成随着敏捷在国内的推广而持续走热，与之相伴的持续部署也一直备受关注。自前两年，持续交付这个延续性概念又闯进了国内...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7657.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7657.html">持续部署，并不简单！</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="text-align: left;">【<strong>感谢 <a href="http://weibo.com/renfake" target="_blank">@常新居士</a> 投递此文</strong> 】</p>
+<p style="text-align: left;">这几年，持续集成随着敏捷在国内的推广而持续走热，与之相伴的持续部署也一直备受关注。<strong>自前两年，持续交付这个延续性概念又闯进了国内IT圈，慢慢开始在社区和会议中展露头角。许多不明真相的群众跟风哭着喊着要“上”，而许多前CI的半吊子玩家换件衣服就接着干，有的甚至衣服都来不及换……</strong>。国内的这些土财主如果不巧请了某些所谓的战略家，除了建了一堆持续集成环境，以及每天嚷嚷着要这个要那个，混乱的状况在根本上没有得到改善。本文无意费力探讨持续集成和持续交付的概念，而是打算谈谈对于大型软件企业，以持续集成为基础实现持续部署（交付）时，所要面对的问题以及可行的解决方案。地主老财们，夜黑风正猛，山高路又远，注意脚下……</p>
+<p style="text-align: right;"><strong>And God Said, Let there be light: and there wa</strong>&#8212; GENSIS, Charpter 1, King James</p>
+<h4>一、起步</h4>
+<p>先来讲个故事……</p>
+<p>几年前，一对留美的夫妇通过朋友找到我，让我帮忙在国内组建一个开发团队，该团队负责为其开发一款基于社交网络的客户关系管理软件,（暂且称之为项目A）。这个项目除了尚不清晰的需求范围和很紧的期限外，作为业内人士的老公Richard根据眼下流行的软件开发过程还提了诸多额外的要求：</p>
+<ul>
+<li><strong>功能要及早交付</strong>（以便拿去和潜在的投资人洽谈）</li>
+<li><strong>功能在部署到生产环境前要先部署的一个测试环境</strong>（Richard要试用后给予反馈）</li>
+<li><strong>功能必须经过测试</strong>（长期作为软件外包的甲方，对质量要求严格）</li>
+<li><strong>要减少后期维护的工作</strong>（美国人精贵，少雇一个是一个）</li>
+<li><strong>支持协同开发</strong>（以便维护人员及早介入）</li>
+<li>&#8230;&#8230;</li>
+</ul>
+<p><span style="color: #000000;"><strong>这正是持续集成所要解决的典型场景</strong></span>。针对Richard的要求，我们只要建立一个基于Hudson（现在叫Jenkins）+Maven +SVN 的持续集成环境（再加上持续集成所要求的测试和过程）就可以很好地满足上述要要求，此方案的结构如下：</p>
+<p><span id="more-7657"></span></p>
+<p><a href="https://coolshell.cn/?attachment_id=7686" rel="attachment wp-att-7686"><img decoding="async" loading="lazy" class="alignnone  wp-image-7686 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/hudsonCI2.jpg" alt="" width="693" height="719" srcset="https://coolshell.cn/wp-content/uploads/2012/06/hudsonCI2.jpg 866w, https://coolshell.cn/wp-content/uploads/2012/06/hudsonCI2-289x300.jpg 289w, https://coolshell.cn/wp-content/uploads/2012/06/hudsonCI2-768x797.jpg 768w, https://coolshell.cn/wp-content/uploads/2012/06/hudsonCI2-260x270.jpg 260w" sizes="(max-width: 693px) 100vw, 693px" /></a></p>
+<p>对于上述方案，让我们近距离看看各个服务器的内部情况，以及人员在这种方案下的分工协作：</p>
+<p><a href="https://coolshell.cn/?attachment_id=7708" rel="attachment wp-att-7708"><img decoding="async" loading="lazy" class="alignnone  wp-image-7708 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/response.jpg" alt="" width="658" height="438" srcset="https://coolshell.cn/wp-content/uploads/2012/06/response.jpg 822w, https://coolshell.cn/wp-content/uploads/2012/06/response-300x199.jpg 300w" sizes="(max-width: 658px) 100vw, 658px" /></a></p>
+<p>我们先谈谈上面的图中涉及的一些概念性问题：</p>
+<h5><strong>1.1）编译时依赖</strong>和<strong>运行时依赖</strong></h5>
+<p>从字面上不难理解这两种依赖的类型。但要注意虽然编译时依赖常常也是运行时依赖，但并不能推断出一方必然是另一方。比如，在开发的过程中需要某些提供API的Jar包，而运行时可能是具体API实现的Jar包。再者，被依赖的包会有其自身的依赖，因此,项目对这些包产生间接依赖（<strong>运行时依赖</strong>），依此类推，最终形成一个<strong>依赖树</strong>。当项目运行时，这些依赖树上的包必须全部就位。</p>
+<p>Maven在POM中通scope来界定依赖的类型，从而帮助开发和运维人员摆脱手动处理依赖树的工作，然而运行时所依赖包最终是要安装到生产环境的，这部分工作Maven并不能自动完成。因此，一个常用方式是将运行时所依赖的包拷贝到项目文件中，比如Java Web应用的WEB-INF/lib，然后将项目总的打一个包。<strong>在安装项目包后，修改环境变量，将这些包所在的路径加入相应的环境变量中，如ClassPath</strong>。</p>
+<p>再看个例子，现代的操作系统和其它系统框架都考虑到了运行时依赖树的处理问题，比如Ubuntu的apt-get，CentOS的yum，Ruby的RubyGem，Node的npm等等。</p>
+<h5>1.2）依赖时的复杂度</h5>
+<p>项目除了对程序包的依赖，对于运行环境也有些具体的要求，比如，Web应用需要安装和配置Web服务器，应用服务器，数据服务器等，企业应用中可能需要消息队列，缓存，定时作业，或是对其它系统以Web Service方式暴露的服务。这些可以看做项目在系统层面对外部的依赖。这些依赖有些可以由项目自行处理，而有些则是项目无法处理的，比如运行容器，操作系统等，这些是项目的运行环境。</p>
+<p>总之，依赖的复杂度主要有两个：</p>
+<ol>
+<li>依赖包间的版本兼容性问题。兼容性问题是软件开发的恶梦</li>
+<li>间接依赖，或多重依赖问题。这个问题可以类比想像一下C++中的多重继续种出现的很多问题。</li>
+</ol>
+<div>比如：Ａ依赖于python 2.7，A还依赖于B，但是B却依赖于python 3，而Python 2.7和Python 3不兼容。这是依赖中最恶心的事。</div>
+<h5>1.3）任务分工</h5>
+<p>由于项目简单，因此并不需要专门的运维人员。以一个100人左右以交付为主业（恩，就是做外包）的公司为例，由于没有任何历史项目和代码的拖累，且各个项目间也没有任何关联，故而只需要配备一个IT支持人员进行资源方面的管理：分配机器，报修，初始化系统，分配IP地址等。各个项目的运行环境、数据库、开发环境等都由具体项目的开发人员手动完成。 环境出问题怎么办？很简单，凉拌——重装系统。实际的运行效果不错。</p>
+<h5>1.4）自动化部署</h5>
+<p>由于Hudson这样的持续集成环境提供了自动编译（定时或触发式）的功能，而且可以在编译过程中提供了一些扩展点，因此通过提供一个部署用的脚本，就可以非常容易实现简单的自动化部署。</p>
+<p>毫无疑问，持续集成就是敏捷的魔法药，它见效快、副作用小、业界的争论少。每每运用在混乱的项目中时，几周内项目就开始持续的产出经过测试的功能。对于独立项目，以持续集成为中心的持续部署绝对是不二选择。</p>
+<p><strong>但是，我们有没有想过，这会是一个自动化部署的通用解决方案吗？持续集成应该位于持续交付的中心吗？</strong></p>
+<h4>二、困境</h4>
+<p>回到我们的故事：项目A上线两年后，运营业绩不错，投资人第一轮注资后，Richard的公司进行了扩张，他们对项目进行了重构，而且随着用户数量的增长，公司分别在美国、英国和日本等地建立了运营中心，并且对亚洲市场进行的定制功能开发（项目A+），接下来，公司又投入开发了团购系统（项目B）。在获得了新一轮投资后，各条本来比较简单的业务和功能线上越来越复杂，需要不断地细分，于是公司再度扩张（开发人员达到了300人，国内200多人，而运维团队主要在美国），随后又为项目A/A+的高级用户开发了问答系统（项目C）。目前，他们正准备开发手机系统。 看看下面的图，公司增长的过程中，整个项目环境也变得复杂。（注意，这里是一种逻辑结构，而在物理层面项目B和项目A的生产环境可能部署在相同的机器上）。</p>
+<p><a href="https://coolshell.cn/?attachment_id=7694" rel="attachment wp-att-7694"><img decoding="async" loading="lazy" class="alignnone  wp-image-7694 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/sampleT1-1024x529.jpg" alt="" width="717" height="370" srcset="https://coolshell.cn/wp-content/uploads/2012/06/sampleT1-1024x529.jpg 1024w, https://coolshell.cn/wp-content/uploads/2012/06/sampleT1-300x155.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/06/sampleT1.jpg 1990w" sizes="(max-width: 717px) 100vw, 717px" /></a></p>
+<p>同时，原本单一的项目软件结构随着业务系统的增加也不再简单： <img decoding="async" loading="lazy" class="alignnone  wp-image-7697" src="https://coolshell.cn/wp-content/uploads/2012/06/software.jpg" alt="" width="763" height="414" srcset="https://coolshell.cn/wp-content/uploads/2012/06/software.jpg 954w, https://coolshell.cn/wp-content/uploads/2012/06/software-300x162.jpg 300w" sizes="(max-width: 763px) 100vw, 763px" /></p>
+<p>而软件间的版本依赖使这个问题变得更为复杂：</p>
+<p><a href="https://coolshell.cn/?attachment_id=7700" rel="attachment wp-att-7700"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-7700 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/dependency.jpg" alt="" width="626" height="343" srcset="https://coolshell.cn/wp-content/uploads/2012/06/dependency.jpg 626w, https://coolshell.cn/wp-content/uploads/2012/06/dependency-300x164.jpg 300w" sizes="(max-width: 626px) 100vw, 626px" /></a></p>
+<p>现在，Richard的公司已经不再是一条快乐的小鱼，而是渐渐成为一直庞大的巨兽。虽然只有四个产品，但公司却要支持几百台开发机，几十台生产服务器，还有对应的测试环境，数据库服务器，以及几十个开发小组，和一大堆的内部项目。我们尽可以使用持续集成来为我们完成自动化部署。但，<strong>当我们为各个项目建立起持续集成环境后，它能满足我们对于持续部署的要求吗？我们前期的工作可以简化我们今后项目的持续交付的工作的难度吗？它需要我们为之建立一个庞大的运维团队，还是可以让我们能节省下每一毛钱来投入到真正的业务价值中去？</strong></p>
+<p><strong>让我们先来看看复杂的项目环境中的几个场景</strong>：</p>
+<p><strong>场景1：环境升级</strong></p>
+<p style="padding-left: 30px;">项目A和项目B都依赖于Web容器，公司决定升级Web容器版本，而公司要升级的机器有上百台，依赖人肉升级已不现实，维护团队因此针对各种软件开发了相应的自动化脚本，但当新的软件出现时，必须要开发新的脚本。而且当同时升级若干环境软件时，则难度随之增大，手工调度的方式极易出错，当升级失败时仍需要大量人工处理。由于存在大量升级脚本，有一定的维护成本。</p>
+<p><strong>场景2：依赖于环境的软件升级与回滚</strong></p>
+<p style="padding-left: 30px;">针对环境升级，公司为项目A和项目B开发了新的版本。但环境的升级和软件的升级不是同步进行，出错的可能性非常大（想一想间接依赖和多重依赖的情况）。当新版本部署到生产系统时，发现问题，需要回滚到之前的版本——所有运行时版本都需要回滚，而且环境也需要同步回滚。几百台机器……</p>
+<p><strong>场景3：运行时依赖</strong></p>
+<p style="padding-left: 30px;">在第一节的方案中，我们将所有的运行时依赖都打包到一起。当项目依赖关系复杂时，这样产生的包将非常臃肿，潜在地延长了部署的时间（想一想全世有几百台服务器，一个部署计划需要部署几百兆文件的情况），而且产生冲突的可能性非常大，而且对于不同类型的项目（Java和Ruby项目）缺乏通用性。06年左右，Nortel可是拿Excel统计过运行时依赖的，牵涉若干项目组，反复多次，没有个把月真搞不定。</p>
+<p><strong>场景4：泛滥的部署</strong></p>
+<p style="padding-left: 30px;">每个项目相关的持续集成环境都需要开发自己的部署脚本，重复投入大，而且各个项目的部署过程不一致，并且对于同一个项目无法同时满足不同目的部署要求，例如，环境或系统配置参数改变后，无需安装包，只需做清理和激活的工作。最后，持续集成只是支持了和代码修改有关的部署。</p>
+<p><strong>场景5：不一致的环境</strong></p>
+<p style="padding-left: 30px;">简单项目中，开发环境和运行环境都由开发人员搭建，当公司变大时，系统的运行环境将由运维人员搭建，而开发环境如果由运维人员搭建则工作量太大，由开发人员自己搭建则操作复杂又容易产生不一致的情况。</p>
+<p><strong>场景6：热切换</strong></p>
+<p style="padding-left: 30px;">对于某些部署，需要尽量减少服务的停止时间，需要在服务的同时进行部署。</p>
+<p>这些场景只是以持续集成为中心的持续部署在面对大型企业时所遇到的部分问题。大型企业，人多，项目多，机器多，项目环境复杂，部署维护工作繁多。以持续集成为基础的部署可以解决各个项目的集成问题，却无法帮助企业应对复杂的项目环境和各种不同的部署要求。<strong>究其更本，大型企业中的部署不再是一个简单的问题，而是一个交付生态圈，基础设施和环境管理必须要纳入考虑之中。</strong>要实现真正意义上的持续部署，我们就必须<strong>把环境和项目同等对待</strong>，通通纳入管理之中。同时，部署本身要得到统一。<strong>一个好的部署机制，应该是易于建立，易于使用，易于维护。</strong></p>
+<h4>三、任脉——环境管理</h4>
+<p>什么是环境？</p>
+<p>系统运行所依赖和包含的一切就是其环境：硬件、操作系统，网络资源（IP地址、域名），服务容器，服务器软件配置，环境亦是，运行时依赖的命令和包，项目本身的包和配置都是环境的一部分。对于部署而言，广义上，这些通通应该纳入环境管理的范畴，但狭义上，从软件系统的角度看，一个环境就是其运行需要的软件及其配置（我们先把操作系统和网络资源当做基础设施，其在部署时已处于就位的情况）。因此：</p>
+<p><strong>项目A的生产环境 = 项目A本身的软件包 + 项目A运行时依赖的软件包 + 项目A运行时依赖的其它软件 + 项目A的配置信息</strong></p>
+<p>由于，项目本身的软件包、项目运行时依赖的软件包，以及项目运行时依赖的其它软件在本质上没有区别——都是软件，上面的定义可以进一步抽象为：</p>
+<p><strong>环境 = 软件包 + 配置信息</strong></p>
+<p>在这个定义下，我们就必须将运行环境的软件解构，并以包的形式导入到公司的整个项目资源库中，比如Apache将作为一个包被导入，而Apache依赖的其它包也将依次被导入，并建立起正确的依赖关系。而且，在导入的过程中还必须做些相应的调整，如，环境变量的读取和设置，必须来自于环境配置模块，而不要修改系统的环境变量，防止不同环境在系统环境配置上相互影响和依赖。</p>
+<p>再回头审视我们的示例，项目A的生产环境可以部署在不同的区域，对于各个区域可能有定制化的设定。这就像面向对象中的类，可以通过继承使子类重用父类的公有属性和行为并添加自己特有的信息。因此，环境的概念模型如图：</p>
+<p><a href="https://coolshell.cn/?attachment_id=7725" rel="attachment wp-att-7725"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-7725 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/Env.jpg" alt="" width="523" height="118" srcset="https://coolshell.cn/wp-content/uploads/2012/06/Env.jpg 523w, https://coolshell.cn/wp-content/uploads/2012/06/Env-300x67.jpg 300w" sizes="(max-width: 523px) 100vw, 523px" /></a></p>
+<p>通过这样的关系，我们很容易为示例的复杂环境建立一种简单的结构，对于项目A：</p>
+<p><a href="https://coolshell.cn/?attachment_id=7729" rel="attachment wp-att-7729"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-7729 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/org1.jpg" alt="" width="599" height="519" srcset="https://coolshell.cn/wp-content/uploads/2012/06/org1.jpg 599w, https://coolshell.cn/wp-content/uploads/2012/06/org1-300x259.jpg 300w" sizes="(max-width: 599px) 100vw, 599px" /></a></p>
+<p>这里，环境依然是处于知识层面（Knowledge Level），它并未与具体的基础设施相关联。当我们将一个环境“具现化”成一个运行系统时，我们就产生了一个真正的环境实例。在这两者之间，我们还必须要考虑环境实例的使用目的（开发？测试？……）以及安装所依赖的其它信息（如机器），因此，我们需要增加一个环境目标来集中这些信息，而且由于不同目标的环境可能会有所差别，因此，环境目标也需要配置的能力。概念模型如图：</p>
+<p><a href="https://coolshell.cn/?attachment_id=7731" rel="attachment wp-att-7731"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-7731 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/target.jpg" alt="" width="523" height="438" srcset="https://coolshell.cn/wp-content/uploads/2012/06/target.jpg 523w, https://coolshell.cn/wp-content/uploads/2012/06/target-300x251.jpg 300w" sizes="(max-width: 523px) 100vw, 523px" /></a></p>
+<p>图中的环境实例是如何产生的呢？<strong>部署</strong>，<strong>一次部署可能会产生一个环境实例。</strong>一系列部署将产生对应于环境目标的多个环境实例，除去当前起作用的环境实例外（最新的），其它的是历史环境实例。<strong>通过在历史环境实例中切换，我们自然而然的就可以使整个环境回滚，因为项目所依赖的一切都已经成为的环境中的软件包，而且环境依赖的包的版本会随着部署具体确定下来。</strong>如此一来，我们便可以给每个环境实例分配一个版本号，再通过环境实例的版本号与软件包的版本对应起来，从而得知一次部署时应用的具体软件包，如图：</p>
+<p><a href="https://coolshell.cn/?attachment_id=7732" rel="attachment wp-att-7732"><img decoding="async" loading="lazy" class="alignnone  wp-image-7732 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/version.jpg" alt="" width="669" height="394" srcset="https://coolshell.cn/wp-content/uploads/2012/06/version.jpg 743w, https://coolshell.cn/wp-content/uploads/2012/06/version-300x176.jpg 300w" sizes="(max-width: 669px) 100vw, 669px" /></a></p>
+<p>目前的环境管理结构，已经可以解决场景1、2和5的问题。那<strong>么对于场景2，运行时依赖，环境管理应该如何解决呢？</strong></p>
+<p>细心的朋友，可能已经发现，<strong>在环境层面上我们确定了环境依赖的软件包</strong>，这里有两个隐藏的含义：</p>
+<ul>
+<li>环境定义的是对软件包的运行时依赖</li>
+<li>由于环境是一个逻辑上的概念，因此其所用的软件包也是一个逻辑上的概念（相对于版本控制系统中的软件包）</li>
+</ul>
+<p>我们也已经知道，在部署时，一个环境实例将具体的确定其依赖的软件包的版本。某个版本的软件包最终与代码库中的物理的软件包相关联。但软件包是运行时的安装包，因此，它应该是代码库中包编译的结果。在对代码库的包编译时，既要将结果打上版本保存起来，也好在两者的版本间建立关系，最后，编译结果应该是某种既定的安装包目录文件结构。</p>
+<p>另外，当环境包含的包比较多时，运行时版本树会非常大，手动的指定全部的包的版本将是一个非常大的体力劳动，这部分工作也要得到简化。由此，我们必须</p>
+<div>
+<ul>
+<li><strong>建立逻辑软件包版本和版本库中软件包版本间的关系</strong></li>
+<li><strong><strong>为相互依赖的包编译并打上统一的标签</strong></strong></li>
+<li><strong>简化运行时包依赖关系的生产</strong></li>
+<li><strong>简化运行时包依赖的指定（可参考apt-get和RubyGem，环境只需指定直接依赖的包，间接依赖的包从运行时依赖树中自动导入）</strong></li>
+</ul>
+<div>一个可能的简单结构如下：</div>
+<p><a href="https://coolshell.cn/?attachment_id=7736" rel="attachment wp-att-7736"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-7736 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/pkg1.jpg" alt="" width="783" height="195" srcset="https://coolshell.cn/wp-content/uploads/2012/06/pkg1.jpg 783w, https://coolshell.cn/wp-content/uploads/2012/06/pkg1-300x74.jpg 300w" sizes="(max-width: 783px) 100vw, 783px" /></a></p>
+<p>上述讨论还没有涉及操作系统，<strong>如果我们的运行机器要支持多个系统，我们又该怎么办？？？</strong></p>
+<p>配置信息也是个大问题，大家可以思考</p>
+<ul>
+<li><strong>环境配置和应用配置如何区分？</strong></li>
+<li><strong>如何简化环境配置工作？</strong></li>
+<li><strong>如何使环境配置的效果只对具体环境有效，而不会泄露到环境外部？</strong></li>
+</ul>
+</div>
+<p>再者，</p>
+<ul>
+<li><strong>如何使应用支持多运行目标？</strong></li>
+<li><strong>环境管理如何能方便开发环境的调试？</strong></li>
+<li><strong>要如何简化版本的选择?</strong></li>
+<li><strong><strong>在多个包有编译和运行时依赖时，编译时如何检查以减少引入兼容性问题的风险？</strong></strong></li>
+</ul>
+<p>这些都留待大家思考。</p>
+<h4>四、督脉——部署系统</h4>
+<p>《持续集成》和《持续交付》中都对部署有详细的讨论，不在赘述。<strong>在我看来，部署其就是按照其目的执行一系列步骤将环境置于其目的所指向的状态中</strong>。我们一会再回国头来看这段文绉绉的话，先看看第一部分持续集成的环境下，我们部署的步骤可能会是下面这个样子：</p>
+<ol>
+<li>登陆目标机（ssh）</li>
+<li>停止服务</li>
+<li>清理环境</li>
+<li>准备安装环境（创建文件夹等）</li>
+<li>安装项目包（rsync，解压，权限设置等）</li>
+<li>配置环境变量</li>
+<li>启动服务</li>
+<li>&#8230;&#8230;</li>
+</ol>
+<p>而在第二部分的<strong>情景4</strong>中，我们看到如果对不同的持续集成环境建立不同的部署脚本和环境维护脚本，这部署过程的维护会非常繁琐。基于第三部分的环境管理，我们可以将部署过程抽象为：</p>
+<p><a href="https://coolshell.cn/?attachment_id=7737" rel="attachment wp-att-7737"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-7737 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/06/deploy.jpg" alt="" width="566" height="351" srcset="https://coolshell.cn/wp-content/uploads/2012/06/deploy.jpg 566w, https://coolshell.cn/wp-content/uploads/2012/06/deploy-300x186.jpg 300w" sizes="(max-width: 566px) 100vw, 566px" /></a></p>
+<p>现在回到开头那个文绉绉的描述：<strong>部署其就是按照其目的执行一系列步骤将环境置于其目的所指向的状态中</strong>。</p>
+<p>由于我们已经将部署作为环境管理的一部分，而环境又是对外提供服务的最小实体，因此，对环境的部署就是要根据部署的类型，在环境上按一定的步骤执行一系列操作，从而使环境置于部署类型所要的状态，这个过程中可能会生成对应的环境实例。举例来说，我们可能会修改环境相关的一些配置，然后重启环境，显然，这种情况下不需要下载安装软件包（没有改变），因此也就不需要生成环境实例。</p>
+<p>对于标准的部署——安装软件包并启动环境，可能的步骤将会是：</p>
+<ol>
+<li>选择将要部署的软件包的版本</li>
+<li>生成新的环境实例（确定环境实例的版本和其依赖包的版本，确定环境配置等）</li>
+<li>清理和准备目标机环境</li>
+<li>下载包</li>
+<li>设置环境配置</li>
+<li>环境实例切换</li>
+<li>生成部署报告</li>
+<li>……</li>
+</ol>
+<p>好，部署系统和环境管理各就各位，我们可以将各个项目环境纳入我们的环境管理之中，甚至是持续集成环境本身。再补充一句，要让部署系统和环境管理能很好的发挥作用，我们即需要一个简单一致的UI界面（为开发人员），也需要提供一个清晰明了的服务接口（供外部系统调用，如持续部署系统）。<strong>对于与环境管理相关的机器状态管理，网络资源的配置等等，本文不再涉及，大家可以自己思考</strong>。环境管理的实现、编译系统改造以及持续部署的具体实现，另作文章探讨。</p>
+<p>就技术而言（不考虑围绕持续部署的过程实践），环境管理、部署系统以及我们没有提及的编译系统改造才是生产线的真正引擎，持续部署不过是水到渠成的传送带而已。</p>
+<h4>五、没完</h4>
+<p>打通了任督二脉后，事还还没有完，还有很多细节上的问题。你想，这个工具实在是太好用了，于是公司里成百上千的工程师们都在使用这个自动化部署系统，我们又会面对很多很多问题：</p>
+<ul>
+<li><strong>部署系统的性能问题</strong>。几百号人不停地在把他们的软件部署到自己的机器上，部署到测试环境，部署到生产环境，一天之内一个人可能会要部署N次，回滚N次，不但有大量部署请求，还有大量的文件在网络上传输。你得想想这套部署系统如何解决这些性能问题，还得考虑未来更大规模的性能水平扩展问题。</li>
+</ul>
+<ul>
+<li><strong>目标机环境的管理。</strong>在目标运行机上需要解决几个问题：1）两个环境间如果有一些的一样的包，那就没有必要再下载了，这样可以节约时间。2）每次部署都需要把老的部署环境给保留下来，这样方便在新旧环境下的切换。这两点对于在生产环境下部署非常关键。（这需要环境内所有软件的绿色安装才能更容易达到这个目标，因些，Unix/Linux会比Windows更容易做到这点）</li>
+</ul>
+<ul>
+<li><strong>部署一致性事务问题</strong>。有时候，我们需要同时部署若干台服务器，比如：包A到机器MA，包B到机器MB，包C到机器MC，……（Web Service的SOA架构），这些包之间有运行依赖性和兼容性问题，要么一次性全部完成，要么就全部失败。回滚也是一样的，这是一个部署事务或部署一致性的问题。如何解决呢？</li>
+</ul>
+<ul>
+<li><strong>部署环境的版本控制问题</strong>。前面说过，我们的一个环境就会和若干个包的版本耦合，环境必需管理要部署的包的版本。于是，当你的部署越来越多的时候，各个环境的包的版本开始出现混乱，各种依赖间的版本也会出现不统一的情况，也就是说，就算你有这样的一个工具，在一个高速开发的环境下，我们的部署环境的管理还是会出现很多混乱的情况，需要你不断地统一大家的开发、测试环境。</li>
+</ul>
+<ul>
+<li><strong>部署计划</strong>。我们可能会有很多部署计划，比如：设定定时部署，提升或降低部署优先级，部署事务定义，部署策略（如：先部署10%的机器，如果没有问题，再把剩下的系统部署了），热切计划和策略…… 等等 ，等等 。</li>
+</ul>
+<ul>
+<li><strong>部署的监控和维护</strong>。任何软件和系统都会有这样的问题，当规模上去了以后，我们的自动化部署系统的监控和维护的复杂度并不亚于一个大型的互联网应用。</li>
+</ul>
+<div>这样的问题会有很多，基本上来说，<strong>这样一个持续集成持续部署的自动化系统并不是那么简单的事，其开发工作量和一个标准的大型互联网业务系统没什么两样</strong>。</div>
+<h4>六、总结</h4>
+<p>这里只谈一点自己的看法，从传统的持续集成到面向大型软件的持续部署，我们将系统所依赖的软件环境和软件包抽象为一致的实体纳入到管理之中，并将运维人员的工作真正的分摊到开发人员身上。而云计算的出现，使得计算机本身也可以自动化的创建和回收，这样环境管理的范畴将进一步扩充。相应的，部署的能力和灵活性也是一次质的飞跃，将再一次减轻运维人员的工作压力。</p>
+<p>说了这么多废话，总结一下自己的观点，对于向大型软件企业推销基于持续集成的持续部署（交付）的哥们：</p>
+<ul>
+<li><strong>你就是在耍流氓</strong>，如果你不解决环境管理！！！</li>
+<li><strong>你就是在耍流氓</strong>，如果你不建立部署系统！！！</li>
+<li><strong>你就是在耍流氓</strong>，如果你不扩展编译系统！！！</li>
+<li><strong>你就是在耍流氓</strong>，如果你只是推销小团队的实践而不考虑改造大环境！！！</li>
+<li><strong>你就是个流氓</strong>，如果你只是不断地告诉别人怎么做，自己却从来不动手写一个测试或建立一个持续集成环境！！！</li>
+</ul>
+<p>最后，用Linus最经典的话来结束本文——“ Talk is Cheap, Show me the Code！”</p>
+<p>（<strong>注：本文由<a href="http://weibo.com/renfake" target="_blank">@常新居士</a>完成初稿，我做了一些编辑，主要写了第五节“没完”</strong> ）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5625.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="“品质在于构建过程”吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5625.html" class="wp_rp_title">“品质在于构建过程”吗？</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/5044.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/hat-150x150.jpeg" alt="为什么Scrum不行？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5044.html" class="wp_rp_title">为什么Scrum不行？</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7657.html">持续部署，并不简单！</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7657.html/feed</wfw:commentRss>
+			<slash:comments>48</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>我们需要专职的QA吗？</title>
+		<link>https://coolshell.cn/articles/6994.html</link>
+					<comments>https://coolshell.cn/articles/6994.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 11 Apr 2012 00:48:59 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[QA]]></category>
+		<category><![CDATA[测试]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6994</guid>
+
+					<description><![CDATA[<p>这个文章必然是有争议的，我在我的微博上讨论过很多次了，每次都是很有争议的。有不同的观点，有争论总是一件好事，这样可以引发大家的思考。所以，对于我的这篇博文，如果...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6994.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6994.html">我们需要专职的QA吗？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这个文章必然是有争议的，我在我的<a href="http://weibo.com/haoel" target="_blank">微博</a>上讨论过很多次了，每次都是很有争议的。有不同的观点，有争论总是一件好事，这样可以引发大家的思考。所以，对于我的这篇博文，如果你赞同我的观点，我会感到高兴，如果你会去认真地深入思考，我也会高兴，如果你反对，没关系，可以讨论。</p>
+<p>在此之前，我想说明一下我观点里的这个“专职QA”是怎么定义的。</p>
+<ol>
+<li>其是很多公司成立的专门做测试的技术人员，仅测试不开发。</li>
+<li>这些QA对于软件开发技术并不熟悉，甚至不懂。</li>
+</ol>
+<p>我经历过一些公司都有专职的QA团队（专职的测试人员），自从上个公司我的开发团队在一个项目上被QA部门搞得一团糟，我越来越怀疑专职QA存在在意义。我的观点不一定对，但请让我鲜明地表达一下——<strong>我觉得是不需要全职的QA的，甚至不需要QA这一专职角色或部门，因为，不懂开发的人必然做不好测试。就像不懂开发的研发经理必然管不好研发团队一样。</strong>我越来越觉得Dev应该应该是做测试最合适的人选，这必然是未来的趋势 （因为我已经看到了中国程序员的进步，相比起10年前，今天的程序员已经是非常全面了，再来十年，必然证明我的观点是对的）。</p>
+<p>在我正在展开说明之前，我想引用两篇文章：</p>
+<h4>两篇文章</h4>
+<p>一篇是  “<a href="http://sriramk.com/blog/2012/01/testing.html" target="_blank">On testers and testing</a>”(<a href="http://www.aqee.net/on-testers-and-testing/" target="_blank">中文翻译</a>)，本文的作者Sriram Krishnan是一名程序员，曾在Yahoo和微软工作过，开发过很多软件，曾被纽约时报<a href="http://www.nytimes.com/2011/02/27/business/27novel.html" target="_blank">报道</a>，写过<a href="http://amzn.to/progazure" target="_blank">一本书</a>，本文是他的一篇博客。他在文章中表达了这几个观点——</p>
+<blockquote><p>大多数的开发团队并不需要一个独立的测试角色。即使要有，那么所有的开发时间比上所有的测试时间应该 &gt;20:1的。。证据吗？光看看一些从古至今最成功的软件开发团队就知道了。不论是当今的Facebook，还是30年前最初的NT团队，很多伟大的产品都是出自没有或很少测试人员的团队。</p>
+<p>开发人员应该测试自己的代码。没什么可说的。背后的道理并不重要。这包括单元测试，全覆盖的自动化测试或手工测试或组合测试。如果你的开发人员不能/不愿意或认为这“不归我管”，那你需要更好的程序员。</p></blockquote>
+<p>另一篇文章是邹欣的“<a id="cb_post_title_url" href="http://www.cnblogs.com/xinz/archive/2012/04/09/2439695.html" target="_blank">现代软件工程讲义 9 测试 QA 的角色和分工</a>”，这是一篇很不错的文章。他在文章里提到了分工的必要性，比如第三方的鉴定机构，<strong>并且也指出了分工的一些问题，比如，画地为牢的分工，无明确责任的分工，等，这些问题直接命中了分工的要害</strong>。我隐约觉得，我和邹欣的很多观点是相同的，我们内容上是相同的，只是形式上还有分歧。另外，我的观点太鲜明了，从而容易导向极端的理解。</p>
+<p>你看，<strong>我们都同意，Dev要懂测试，QA要懂开发，只不过分工不同，既然你中有我，我中有你，那就不要分彼此了，一起携手开发测试吧</strong>。（另外，我个人觉得不懂开发的测试人员不可能测试得好）</p>
+<p><em><strong>&#8212;- update&#8212;- </strong></em>{</p>
+<p><span style="color: #008000;">     //本篇文章出来后，网上出现了一些对此讨论的文章，我一并更新在这里</span><br />
+【 《<a id="cb_post_title_url" href="http://www.cnblogs.com/guanhe/archive/2012/04/12/response_to_do_we_need_qa.html">对《我们需要专职QA吗？》的回应</a>》作者：<a href="http://weibo.com/n/%E6%AE%B5%E5%BF%B5-%E6%AE%B5%E6%96%87%E9%9F%AC">@段念-段文韬</a> 】<br />
+【 《<a href="http://blog.sina.com.cn/s/blog_55ba8b460100yawe.html" target="_blank">关于“我们需要专职的QA吗”》</a>作者：<a href="http://weibo.com/u/1764108363" target="_blank">@Jacky郭</a> 】<br />
+【 《<a href="http://blog.sina.com.cn/s/blog_7022adbf0100zgqo.html" target="_blank">我们需要专职的QA吗？（评）</a>》作者：@<a title="Monkey陳曄曄" href="http://weibo.com/aiwanglinjun" target="_blank">Monkey陳曄曄</a> 】<br />
+【《 <a id="blog-title-link" href="http://thinkcool.weebly.com/1/post/2012/04/qa.html" target="_blank">《我们需要专职的QA吗？》读后感</a>》作者：@ <a title="花生色魔叔" href="http://weibo.com/bluesgu">花生色魔叔</a>】</p>
+<p>}</p>
+<p><span id="more-6994"></span></p>
+<h4>我的故事</h4>
+<p>我再说说我最糟糕的QA经历吧，这个公司的QA部门只做测试，他们的leader觉得所有的test design和test 的过程都不需要Dev参与，他们是独立于Dev之外的部门，他们几乎不关心Dev的设计和实现，他们只关心能跑通他们自己设计的test case。但是去执行Test Case的时候，又需要Dev的支持，尤其在环境设置，测试工具使用，确认是否是bug方面，全都在消耗着Dev的资源，最扯的是，他们对任何线上的问题不负责，反正出了问题由Dev加班搞定。</p>
+<p>我有一次私自review他们的test case的时候，发现很多的test case这样写到 &#8211; “Expected Result：Make sure every thing is fine&#8221; ，WTF，什么叫“Every thing is fine”？！而在test case design的时候，没有说明test environment/configuration 是什么？没有说明test data在哪里？Test Case、Test Data、Test Configuration都没有版本控制，还有很多Test Case设计得非常冗余（多个Test Case只测试了一个功能），不懂得分析Function Point就做Test Design。另外，我不知道他们为什么那么热衷于设计一堆各式各样的Negative Test Case，而有很多Positive的Test Case没有覆盖到。为什么呢，因为他们不知道开发和设计的细节，所以没有办法设计出Effective的Test Case，只能从需求和表面上做黑盒。</p>
+<p>在做性能测试的时候，需要Dev手把手的教怎么做性能测试，如何找到系统性能极限，如何测试系统的latency，如何观察系统的负载（CPU，内存，网络带宽，磁盘和网卡I/O，内存换页……）如何做Soak Test，如何观察各个线程的资源使用情况，如何通过配置网络交换机来模拟各种网络错误，等等，等等。</p>
+<p>测试做得也不认真，大量的False Alarm，都是环境问题，比如：安装新版本后没有重启服务，没有使用新的配置文件，网络配置，等等，等等。</p>
+<p>在项目快要上线前的一周，我又私自查看了一下他们的Test Result，我看到5天的Soak Test 的内存使用一直往上涨，很明显的内存泄露，这个情况发生在2个月前，但是一直都没有报告，我只好和我的程序员每天都加班到凌晨，赶在上线前解决了这个问题。但是，QA部门的同学们就像没发生什么事似的，依然正常上下班。哎……</p>
+<p>为什么会这样？我觉得有这么几点原因（和邹欣的观点一样）</p>
+<ol>
+<li>给了QA全部测试的权力，但是没有给相应的责任，</li>
+<li>QA没有体会过软件质量出问题后的痛苦（解决线上问题的压力），导致QA不会主动思考和改进。</li>
+<li>QA对Dev的开发过程和技术完全不了解，增加了很多QA和Dev的沟通。</li>
+<li>QA对软件项目的设计和实现要点不了解，导致了很多不有效的测试。</li>
+</ol>
+<p><span style="color: #cc0000;"><strong>注：我无意在这里贬低QA的能力工作。只是我看到了QA因为没有参与开发的一些现实问题。</strong></span></p>
+<h4>我的观点</h4>
+<p>邹欣对于分工出现的问题给出了两点解决方法：</p>
+<blockquote>
+<ul>
+<li>充分授权和信任（Empower team members）</li>
+<li>各司其职，对项目共同负责（Establish clear accountability and shared responsibility）</li>
+</ul>
+</blockquote>
+<div>我的观点是，<strong>理论上正确，操作上太虚了。这就像我们国家喊的“为人民服务”的口号一样，没有具体的方法，根本无法落实。</strong></div>
+<p>我无意在这里贬低QA的工作，我也无意因为这个事走向另一个极端。但是，我在现在公司的经历，还有很多新兴公司的做法，<span style="color: #cc0000;"><strong>我越来越觉得软件开发，真的不需要专职的QA，更不需要只写代码不懂做测试的专职的Dev</strong></span>。观点如下：</p>
+<p><strong>1）</strong> <strong>开发人员做测试更有效</strong></p>
+<ul>
+<li>开发人员本来就要测试自己写的软件，如果开发人员不懂测试，或是对测试不专业，那么这就不是一个专业的开发人员。</li>
+<li>开发人员了解整个软件的设计和开发过程，开发人员是最清楚应该怎么测试的，这包括单元测试，功能测试，性能测试，回归测试，以及Soak Test 等。</li>
+<li>开发人员知道怎么测试是最有效的。开发人员知道所有的function point，知道fix一个bug后，哪些测试要做回归和验证，哪些不需要。开发人员的技术能力知道怎么才能更好的做测试。</li>
+</ul>
+<p>很多开发人员只喜欢写代码，不喜欢做测试，或是他们说，开发人员应该关注于开发，而不是测试。这个思路相当的错误。开发人员最应该关注的是软件质量，需要证明自己的开发成果的质量。<strong>开发人员如果都不知道怎么做测试，这个开发人员就是一个不合格的开发人员</strong>。</p>
+<p>另外，<strong>我始终不明白，为什么不做开发的QA会比Dev在测试上更专业？ 这一点都说不通啊</strong>。</p>
+<p><strong>2）减少沟通，扯皮，和推诿</strong></p>
+<p>想想下面的这些情况你是否似曾相识？</p>
+<ul>
+<li>QA 做的测试计划，测试案例设计，测试结果，总是需要Dev来评审和检查。</li>
+<li>QA在做测试的过程中，总是需要Dev对其测试的环境，配置，过程做指导。</li>
+<li>QA总是会和Dev争吵某个问题是不是BUG，争吵要不要解决。</li>
+<li>无论发现什么样的问题，总是Dev去解决，QA从不fix问题。</li>
+<li>我们总是能听到，线上发生问题的时候，Dev的抱怨QA这样的问题居然没测出来，</li>
+<li>QA也总会抱怨Dev代码太差，一点也不懂测试，没怎么测就给hand over 给QA了。</li>
+<li>QA总是会push Dev，这个bug再不fix，你就影响我的进度了。</li>
+<li>等等，等等。</li>
+</ul>
+<p>如果没有QA，那么就没有这么多事了，DEV自己的干出来的问题，自己处理，没什么好扯皮的。</p>
+<p>而一方面，QA说Dev不懂测试，另一方面Dev说QA不懂技术，而我们还要让他们隔离开来，各干各的，这一点都不利于把Dev和QA的代沟给填平了。<strong>要让Dev理解QA，让QA理解Dev，减少公说公有理，婆说婆有理的只站在自己立场上的沟通，只有一个方法，那就是让Dev来做测试，让QA来做开发</strong>。这样一样，大家都是程序员了。</p>
+<p><strong>3）吃自己的狗食</strong></p>
+<p>真的优秀的开发团队都是要吃自己狗食的。这句话的意思是——<strong>如果你不能切身体会到自己干的烂事，自己的痛苦，你就不会有想要去改进的动机</strong>。<strong>没有痛苦，就不会真正地去思考，没有真正的思考，就没有真正的进步</strong>。</p>
+<p>在我现在的公司，程序员要干几乎有的事，从需求分析，设计，编码，集成，测试，部署，运维，OnCall，从头到尾，因为：</p>
+<ul>
+<li>只有了解了测试的难度，你才明白怎么写出可测试的软件，怎么去做测试的自动化和测试系统。</li>
+<li>只有自己真正去运维自己的系统，你才知道怎么在程序里写日志，做监控，做统计……</li>
+<li>只有自己去使用自己的系统，你才明白用户的反馈，用户的想法，和用户的需求。</li>
+</ul>
+<p>所以，<strong>真正的工程师是能真正明白软件开发不单单只是coding，还更要明白整个软件工程</strong>。只明白或是只喜欢coding的，那只是码农，不能称之为工程师。</p>
+<p><strong>4）其它问题</strong></p>
+<ul>
+<li><strong>关于SDET</strong>。全称是Software Development Engineer on Test。像微软，Google， Amazon都有这样的职位。但我不知道这样的职位在微软和Google的比例是多少，在Amazon是非常少的。那么像这样的懂开发的专职测试可以有吗？我的答案是可以有！但是，我在想，<strong>如果一个人懂开发，为什么只让其专职做测试呢？这样的程序员分工合理吗？把程序员分成两等公民有意义吗？试问有多少懂开发的程序员愿意只做测试开发呢？</strong>所以，SDET在实际的操作中，更多的还是对开发不熟的测试人员。还是哪句话，不懂开发的人是做不好测试的。</li>
+</ul>
+<ul>
+<li><strong>如果你说Dev对测试不专业，不细心，不认真</strong>，那么我们同样也无法保证QA的专业，细心和认真。在Dev上可能出现的问题，在QA也也会一样出现。而出了问题QA不会来加班解决，还是开发人员自己解决。所以，如果QA不用来解决问题，那么，QA怎么可能真正的细心和认真呢？</li>
+</ul>
+<ul>
+<li><strong>如果你说不要QA的话，Dev人手会不够</strong>。你这样想一下，如果把你团队中现有的QA全部变成Dev，然后，大家一起开发，一起测试，亲密无间，沟通方便，你会不会觉得这样会更有效？你有没有发现，在重大问题上，Dev可以帮上QA的忙，但是QA帮不上Dev的忙。</li>
+</ul>
+<ul>
+<li><strong>第三方中立，你会说人总是测不好自己写的东西，因为有思维定式</strong>。没错，我同意。但是如果是Dev交叉测试呢？你可能会说开发人员会有开发人员的思维定式。那这只能说明开发人员还不成熟，他们还不合格。没关系，只要吃自己的狗食，痛苦了，就会负责的。</li>
+</ul>
+<ul>
+<li><strong>磨刀不误砍柴功</strong>。如果你开发的东西自己在用，那么自己就是自己天然的QA，如果有别的团队也在用你开发的模块，那么，别的团队也就很自然地在帮你做测试了，而且是最真实的测试。</li>
+</ul>
+<ul>
+<li><strong>你可能会说吃狗食就是个笑话，因为如果是我，我把事干烂后，就离职走人了，让别人去吃我的狗食</strong>。这个在现实中的确会发生，也是很现实的。但是想一想，你为什么在一开始让他把事干烂了？另外，如果你的团队在设计评审和代码评审里没有把好关，让某人把事给干烂了，那么这个人的离职带来的问题还是这个团队来扛，于是整个团队都在吃自己的狗食，挺公平的。痛苦过一次，你的团队下次怎么干了，就不敢乱招人了，就不敢随意评审代码了，就不敢让人只做一块东西了。最终还是没有逃脱吃狗食的范畴。</li>
+</ul>
+<ul>
+<li><strong>关于系统集成测试。</strong>所谓集成测试，就是把多个开发团队开发的模块集中起来测试。因为开发人员可能无法看到全局，不了解别个团队的系统，而且步调不一，所以需要有统管全局的专职的QA进行统筹规划并做测试。对这个方面，我并不反对，在实际操作过程中，好像的确用专职的做集成测试的QA统一调度各团队的时度更有效一些。不过，这还是不能让我停止去思考两个问题，1) 如果开发人员看不到全局，他能开发出更好的软件吗？2）这个全职的做集成测试的QA难道不能是各个团队的骨干Dev来组成吗？3）统一调度这个事，不更像是Project Manager要做的事吗？</li>
+</ul>
+<ul>
+<li><strong>关于自动化测试</strong>。所谓自动化的意思是，这是一个机械的重复劳动。我想让测试人员思考一下，你是否在干这样的事？如果你正在干这样的事，那么，你要思考一下你的价值了。但凡是重复性比较高的机械性的劳动，总有一天都会被机器取代的。</li>
+</ul>
+<ul>
+<li><strong>关于线上测试</strong>。我们都知道，无论自己内测的怎么样，到了用户那边，总是会有一些测试不到的东西。所以，有些公司会整出个UAT，用户验收测试。做产品的公司会叫Beta测试。无论怎么样，你总是要上生产线做真正测试的。对于互联网企业来说，生产线上测试有的在玩A/B测试，有的玩部分用户测试，比如，新上线的功能只有10%的用户可以访问得到，这样不会因为出问题让全部用户受到影响。做这种测试系统的人必然是开发人员。</li>
+</ul>
+<p>好吧，我暂时写这么多，我会视大家的讨论再补充我的观点的。</p>
+<p><em><strong>&#8212;&#8211; update  2012/4/11&#8212;&#8211;</strong></em></p>
+<p>一些人觉得我是在泄私愤，我能够理解为什么我会被这样误解，但是没有关系，很多新东西新观点总是会被误解的，我坦然面对。请大家抛开我的这些情感因素，单纯的思考一下，没有专职QA的的团队架构是否有积极的意义在里面？</p>
+<p><strong>再补充一点，大家思考一下，QA是保证质量的，但是很多QA是在做测试，软件质量是测试出来的吗？如果不从需求分析，软件设计，代码实现上做好控制，到测试的时候你还怎么保证质量呢？</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6994.html">我们需要专职的QA吗？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6994.html/feed</wfw:commentRss>
+			<slash:comments>274</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

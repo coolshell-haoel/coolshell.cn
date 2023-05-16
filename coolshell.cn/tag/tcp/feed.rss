@@ -1,0 +1,1213 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>TCP | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/tcp/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 28 Oct 2022 08:37:32 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>从一次经历谈 TIME_WAIT 的那些事</title>
+		<link>https://coolshell.cn/articles/22263.html</link>
+					<comments>https://coolshell.cn/articles/22263.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 19 Jul 2022 06:43:39 +0000</pubDate>
+				<category><![CDATA[Go 语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[SO_LINGER]]></category>
+		<category><![CDATA[TCP]]></category>
+		<category><![CDATA[TIME_WAIT]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22263</guid>
+
+					<description><![CDATA[<p>今天来讲一讲TCP 的 TIME_WAIT 的问题。这个问题尽人皆知，不过，这次遇到的是不太一样的场景，前两天也解决了，正好写篇文章，顺便把 TIME_WAIT...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22263.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22263.html">从一次经历谈 TIME_WAIT 的那些事</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" src="https://coolshell.cn/wp-content/uploads/2022/07/wall_clock-300x167.jpeg" alt="" width="400" height="222" />今天来讲一讲TCP 的 <code>TIME_WAIT</code> 的问题。这个问题尽人皆知，不过，这次遇到的是不太一样的场景，前两天也解决了，正好写篇文章，顺便把 <code>TIME_WAIT</code> 的那些事都说一说。对了，这个场景，跟我开源的探活小工具 <a href="https://github.com/megaease/easeprobe">EaseProbe</a> 有关，我先说说这个场景里的问题，然后，顺着这个场景跟大家好好说一下这个事。</p>
+<h4>问题背景</h4>
+<p>先说一下背景，<a href="https://github.com/megaease/easeprobe">EaseProbe</a> 是一个轻量独立的用来探活服务健康状况的小工具，支持http/tcp/shell/ssh/tls/host以及各种中间件的探活，然后，直接发送通知到主流的IM上，如：Slack/Telegram/Discrod/Email/Team，包括国内的企业微信/钉钉/飞书， 非常好用，用过的人都说好 <img src="https://s.w.org/images/core/emoji/14.0.0/72x72/1f60f.png" alt="😏" class="wp-smiley" style="height: 1em; max-height: 1em;" />。</p>
+<p>这个探活工具在每次探活的时候，必须要从头开始建立整个网络链接，也就是说，需要从头开始进行DNS查询，建立TCP链接，然后进行通信，再关闭链接。这里，我们不会设置 TCP 的 KeepAlive 重用链接，因为探活工具除了要探活所远端的服务，还要探活整个网络的情况，所以，每次探活都需要从新来过，这样才能捕捉得到整个链路的情况。</p>
+<p><span id="more-22263"></span></p>
+<p>但是，这样不断的新建链接和关闭链接，根据TCP的状态机，我们知道这会导致在探测端这边出现的 <code>TIME_WAIT</code> 的 TCP 链接，根据 TCP 协议的定义，这个 TIME_WAIT 需要等待 2倍的MSL 时间，TCP 链接都会被系统回收，在回收之前，这个链接会占用系统的资源，主要是两个资源，一个是文件描述符，这个还好，可以调整，另一个则是端口号，这个是没法调整的，因为作为发起请求的client来说，在对同一个IP上理论上你只有64K的端口号号可用（实际上系统默认只有近30K，从32,768 到 60,999 一共 60999+1-32768=28,232，你可以通过 <code>sysctl net.ipv4.ip_local_port_range</code> 查看  ），如果 <code>TIME_WAIT</code> 过多，会导致TCP无法建立链接，还会因为资源消耗太多导致整个程序甚至整个系统异常。</p>
+<p>试想，如果我们以 10秒为周期探测10K的结点，如果TIME_WAIT的超时时间是120秒，那么在第60秒后，等着超时的 <code>TIME_WAIT</code> 我们就有可能把某个IP的端口基本用完了，就算还行，系统也有些问题。（注意：我们不仅仅只是TCP，还有HTTP协议，所以，大家不要觉得TCP的四元组只要目标地址不一样就好了，一方面，我们探的是域名，需要访问DNS服务，所以，DNS服务一般是一台服务器，还有，因为HTTPS一般是探API，而且会有网关代理API，所以链接会到同一个网关上。另外就算还可以建出站连接，但是本地程序会因为端口耗尽无法bind了。所以，现实情况并不会像理论情况那样只要四元组不冲突，端口就不会耗尽）</p>
+<h4>为什么要 TIME_WAIT</h4>
+<p>那么，为什么TCP在 <code>TIME_WAIT</code> 上要等待一个2MSL的时间？<code></code></p>
+<p>以前写过篇比较宏观的《TCP的那些事》（<a title="TCP 的那些事儿（上）" href="https://coolshell.cn/articles/11564.html" target="_blank" rel="noopener">上篇</a>，<a title="TCP 的那些事儿（下）" href="https://coolshell.cn/articles/11609.html" target="_blank" rel="noopener">下篇</a>），这个访问在“上篇”里讲过，这里再说一次，TCP 断链接的时候，会有下面这个来来回回的过程。</p>
+<p>我们来看主动断链接的最后一个状态 <code>TIME_WAIT</code> 后就不需要等待对端回 ack了，而是进入了超时状态。这主要是因为，在网络上，如果要知道我们发出的数据被对方收到了，那我们就需要对方发来一个确认的Ack信息，那问题来了，对方怎么知道自己发出去的ack，被收到了？难道还要再ack一下，这样ack来ack回的，那什么谁也不要玩了……是的，这就是比较著名的【两将军问题】——两个将军需要在一个不稳定的信道上达成对敌攻击时间的协商，A向B派出信鸽，我们明早8点进攻，A怎么知道B收到了信？那需要B向A派出信鸽，ack说我收到了，明早8点开干。但是，B怎么知道A会收到自己的确认信？是不是还要A再确认一下？这样无穷无尽的确认导致这个问题是没有完美解的（我们在《<a href="https://coolshell.cn/articles/10910.html#Two_Generals_Problem%EF%BC%88%E4%B8%A4%E5%B0%86%E5%86%9B%E9%97%AE%E9%A2%98%EF%BC%89" target="_blank" rel="noopener">分布式事务</a>》一文中说过这个问题，这里不再重述）</p>
+<p>所以，我们只能等一个我们认为最大小时来解决两件个问题：</p>
+<p>1） 为了 <strong>防止来自一个连接的延迟段</strong>被依赖于相同四元组（源地址、源端口、目标地址、目标端口）的稍后连接接受（被接受后，就会被马上断掉，TCP状态机紊乱）。虽然，可以通过指定 TCP 的 sequence number 一定范围内才能被接受。但这也只是让问题发生的概率低了一些，对于一个吞吐量大的的应用来说，依然能够出现问题，尤其是在具有大接收窗口的快速连接上。<a title="RFC 1337：TCP 中的 TIME-WAIT 暗杀危险" href="https://tools.ietf.org/html/rfc1337">RFC 1337</a>详细解释了当 <code>TIME-WAIT</code>状态不足时会发生什么。<sup id="fnref-rfc1337"></sup><code>TIME-WAIT</code>以下是如果不缩短状态可以避免的示例：</p>
+<figure id="attachment_22267" aria-describedby="caption-attachment-22267" style="width: 456px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22267" src="https://coolshell.cn/wp-content/uploads/2022/07/duplicate-segment.png" alt="" width="456" height="467" srcset="https://coolshell.cn/wp-content/uploads/2022/07/duplicate-segment.png 800w, https://coolshell.cn/wp-content/uploads/2022/07/duplicate-segment-293x300.png 293w, https://coolshell.cn/wp-content/uploads/2022/07/duplicate-segment-768x787.png 768w, https://coolshell.cn/wp-content/uploads/2022/07/duplicate-segment-263x270.png 263w" sizes="(max-width: 456px) 100vw, 456px" /><figcaption id="caption-attachment-22267" class="wp-caption-text">由于缩短的 TIME-WAIT 状态，后续的 TCP 段已在不相关的连接中被接受（<a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux" target="_blank" rel="noopener">来源</a>）</figcaption></figure>
+<p>&nbsp;</p>
+<p>2）另一个目的是确保<strong>远端已经关闭了连接</strong>。当最后一个<em>ACK</em>​​ 丢失时，对端保持该<code>LAST-ACK</code>状态。<sup id="fnref-lastack"></sup>在没有<code>TIME-WAIT</code>状态的情况下，可以重新打开连接，而远程端仍然认为先前的连接有效。当它收到一个<em>SYN</em>段（并且序列号匹配）时，它将以<em>RST</em>应答，因为它不期望这样的段。新连接将因错误而中止：</p>
+<p>&nbsp;</p>
+<figure id="attachment_22268" aria-describedby="caption-attachment-22268" style="width: 559px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22268" src="https://coolshell.cn/wp-content/uploads/2022/07/last-ack.png" alt="" width="559" height="375" srcset="https://coolshell.cn/wp-content/uploads/2022/07/last-ack.png 783w, https://coolshell.cn/wp-content/uploads/2022/07/last-ack-300x201.png 300w, https://coolshell.cn/wp-content/uploads/2022/07/last-ack-768x515.png 768w, https://coolshell.cn/wp-content/uploads/2022/07/last-ack-403x270.png 403w" sizes="(max-width: 559px) 100vw, 559px" /><figcaption id="caption-attachment-22268" class="wp-caption-text">如果远端因为最后一个 ACK​​ 丢失而停留在 LAST-ACK 状态，则打开具有相同四元组的新连接将不起作用 （<a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux" target="_blank" rel="noopener">来源</a>）</figcaption></figure>
+<p><code>TIME_WAIT</code> 的这个超时时间的值如下所示：</p>
+<ul>
+<li>在 macOS 上是15秒， <code>sysctl net.inet.tcp | grep net.inet.tcp.msl</code></li>
+<li>在 Linux 上是 60秒 <code>cat /proc/sys/net/ipv4/tcp_fin_timeout</code></li>
+</ul>
+<h4>解决方案</h4>
+<p>要解决这个问题，网上一般会有下面这些解法</p>
+<ul>
+<li>把这个超时间调小一些，这样就可以把TCP 的端口号回收的快一些。但是也不能太小，如果流量很大的话，TIME_WAIT一样会被耗尽。</li>
+<li>设置上 <code>tcp_tw_reuse</code> 。<a title="RFC 1323：高性能 TCP 扩展" href="https://tools.ietf.org/html/rfc1323">RFC 1323</a>提出了一组 TCP 扩展来提高高带宽路径的性能。除其他外，它定义了一个新的 TCP 选项，带有两个四字节<strong>时间戳字段</strong>。第一个是发送选项的 TCP 时间戳的当前值，而第二个是从远程主机接收到的最新时间戳。如果新时间戳严格大于为前一个连接记录的最新时间戳。Linux 将重用该状态下的现有 <code>TIME_WAIT</code> 连接用于<strong>出站的链接</strong>。也就是说，<strong>这个参数对于入站连接是没有任何用图的。</strong></li>
+<li>设置上 <code>tcp_tw_recycle</code> 。 这个参数同样依赖于时间戳选项，但会影响进站和出站链接。这个参数会影响NAT环境，也就是一个公司里的所有员工用一个IP地址访问外网的情况。在这种情况下，时间戳条件将禁止在这个公网IP后面的所有设备在一分钟内连接，因为它们不共享相同的时间戳时钟。毫无疑问，禁用此选项要好得多，因为它会导致 <strong>难以检测</strong>和<strong>诊断</strong>问题。（注：从 Linux 4.10 (commit <a title="tcp：为每个连接随机化 tcp 时间戳偏移" href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=95a22caee396cef0bb2ca8fafdd82966a49367bb">95a22caee396</a> ) 开始，Linux 将为每个连接随机化时间戳偏移量，从而使该选项完全失效，无论有无<abbr title="网络地址解读">NAT</abbr>。它已从 Linux 4.12中完全删除）</li>
+</ul>
+<p>对于服务器来说，上述的三个访问都不能解决服务器的 <code>TIME_WAIT</code> 过多的问题，真正解决问题的就是——<strong>不作死就不会死，也就是说，服务器不要主动断链接，而设置上KeepAlive后，让客户端主动断链接，这样服务端只会有<code>CLOSE_WAIT</code></strong>。</p>
+<p>但是对于用于建立出站连接的探活的 EaseProbe来说，设置上 <code>tcp_tw_reuse</code> 就可以重用 <code>TIME_WAIT</code> 了，但是这依然无法解决 <code>TIME_WAIT</code> 过多的问题。</p>
+<p>然后，过了几天后，我忽然想起来以前在《UNIX 网络编程》上有看到过一个Socket的参数，叫 <code data-enlighter-language="raw" class="EnlighterJSRAW">&lt;code&gt;SO_LINGER</code></code>，我的编程生涯中从来没有使用过这个设置，这个参数主要是为了延尽关闭来用的，也就是说你应用调用 <code>close()</code>函数时，如果还有数据没有发送完成，则需要等一个延时时间来让数据发完，但是，如果你把延时设置为 0  时，Socket就丢弃数据，并向对方发送一个 <code>RST</code> 来终止连接，因为走的是 RST 包，所以就不会有 <code>TIME_WAIT</code> 了。</p>
+<p>这个东西在服务器端永远不要设置，不然，你的客户端就总是看到 TCP 链接错误 “connnection reset by peer”，但是这个参数对于 EaseProbe 的客户来说，简直是太完美了，当EaseProbe 探测完后，直接 reset connection， 即不会有功能上的问题，也不会影响服务器，更不会有烦人的 <code> TIME_WAIT</code> 问题。</p>
+<h4>Go 实际操作</h4>
+<p>在 Golang的标准库代码里，<code>net.TCPConn</code> 有个方法 <code>SetLinger()</code>可以完成这个事，使用起来也比较简单：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">conn, _ := net.DialTimeout("tcp", t.Host, t.Timeout())
+
+if tcpCon, ok := conn.(*net.TCPConn); ok {
+    tcpCon.SetLinger(0)
+}</pre>
+<p>你需要把一个 <code>net.Conn</code>  转型成 <code>net.TCPConn</code>，然后就可以调用方法了。</p>
+<p>但是对于Golang 的标准库中的 HTTP 对象来说，就有点麻烦了，Golang的 http 库把底层的这边连接对象全都包装成私有变量了，你在外面根本获取不到。这篇《<a href="https://iximiuz.com/en/posts/go-net-http-setsockopt-example/" target="_blank" rel="noopener">How to Set Go net/http Socket Options &#8211; setsockopt() example</a> 》中给出了下面的方法：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">dialer := &amp;net.Dialer{
+    Control: func(network, address string, conn syscall.RawConn) error {
+        var operr error
+        if err := conn.Control(func(fd uintptr) {
+            operr = syscall.SetsockoptInt(int(fd), unix.SOL_SOCKET, unix.TCP_QUICKACK, 1)
+        }); err != nil {
+            return err
+        }
+        return operr
+    },
+}
+
+client := &amp;http.Client{
+    Transport: &amp;http.Transport{
+        DialContext: dialer.DialContext,
+    },
+}</pre>
+<p>上面这个方法非常的低层，需要直接使用setsocketopt这样的系统调用，我其实，还是想使用 <code>TCPConn.SetLinger(0)</code> 来完成这个事，即然都被封装好了，最好还是别破坏封闭性碰底层的东西。</p>
+<p>经过Golang http包的源码阅读和摸索，我使用了下面的方法：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">client := &amp;http.Client{
+    Timeout: h.Timeout(),
+    Transport: &amp;http.Transport{
+      TLSClientConfig:   tls,
+      DisableKeepAlives: true,
+      DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
+        d := net.Dialer{Timeout: h.Timeout()}
+        conn, err := d.DialContext(ctx, network, addr)
+        if err != nil {
+          return nil, err
+        }
+        tcpConn, ok := conn.(*net.TCPConn)
+        if ok {
+          tcpConn.SetLinger(0)
+          return tcpConn, nil
+        }
+        return conn, nil
+      },
+    },
+  }</pre>
+<p>然后，我找来了全球 T0p 100W的域名，然后在AWS上开了一台服务器，用脚本生成了 TOP 10K 和 20K 的网站来以5s, 10s, 30s, 60s的间隔进行探活，搞到Cloudflare 的 1.1.1.1 DNS 时不时就把我拉黑，最后的测试结果也非常不错，根本 没有 TIME_WAIT 的链接，相关的测试方法、测试数据和测试报告可以参看：<a href="https://github.com/megaease/easeprobe/blob/main/docs/Benchmark.md" target="_blank" rel="noopener">Benchmark Report</a></p>
+<h4>总结</h4>
+<p>下面是几点总结</p>
+<ul>
+<li><code>TIME_WAIT</code> 是一个TCP 协议完整性的手段，虽然会有一定的副作用，但是这个设计是非常关键的，最好不要妥协掉。</li>
+<li>永远不要使用  <code>tcp_tw_recycle</code> ，这个参数是个巨龙，破坏力极大。</li>
+<li>服务器端永远不要使用  <code>SO_LINGER(0)</code>，而且使用 <code>tcp_tw_reuse</code> 对服务端意义不大，因为它只对出站流量有用。</li>
+<li>在服务端上最好不要主动断链接，设置好KeepAlive，重用链接，让客户端主动断链接。</li>
+<li>在客户端上可以使用 <code>tcp_tw_reuse</code>  和 <code>SO_LINGER(0)</code>。</li>
+</ul>
+<p>最后强烈推荐阅读这篇文章 &#8211; <a href="https://vincent.bernat.ch/en/blog/2014-tcp-time-wait-state-linux" target="_blank" rel="noopener">Coping with the TCP TIME-WAIT state on busy Linux servers</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11564.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/05/tin-can-phone-150x150.jpg" alt="TCP 的那些事儿（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11564.html" class="wp_rp_title">TCP 的那些事儿（上）</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318-150x150.jpg" alt="TCP 的那些事儿（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_title">TCP 的那些事儿（下）</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/1484.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/09/tcp1-150x150.jpg" alt="TCP网络关闭的状态变换时序图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1484.html" class="wp_rp_title">TCP网络关闭的状态变换时序图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22263.html">从一次经历谈 TIME_WAIT 的那些事</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22263.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>HTTP的前世今生</title>
+		<link>https://coolshell.cn/articles/19840.html</link>
+					<comments>https://coolshell.cn/articles/19840.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 01 Oct 2019 11:21:10 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<category><![CDATA[QUIC]]></category>
+		<category><![CDATA[TCP]]></category>
+		<category><![CDATA[TLS]]></category>
+		<category><![CDATA[UDP]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=19840</guid>
+
+					<description><![CDATA[<p>HTTP (Hypertext transfer protocol) 翻译成中文是超文本传输协议，是互联网上重要的一个协议，由欧洲核子研究委员会CERN的英国工...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/19840.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/19840.html">HTTP的前世今生</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200.jpg" alt="" width="300" height="200" />HTTP (Hypertext transfer protocol) 翻译成中文是超文本传输协议，是互联网上重要的一个协议，由欧洲核子研究委员会CERN的英国工程师 <a title="" href="https://en.wikipedia.org/wiki/Tim_Berners-Lee">Tim Berners-Lee</a> v发明的，同时，他也是WWW的发明人，最初的主要是用于传递通过HTML封装过的数据。在1991年发布了HTTP 0.9版，在1996年发布1.0版，1997年是1.1版，1.1版也是到今天为止传输最广泛的版本（初始<a class="external text" href="https://tools.ietf.org/html/rfc2068" rel="nofollow">RFC 2068</a> 在1997年发布， 然后在1999年被 <a class="external text" href="https://tools.ietf.org/html/rfc2616" rel="nofollow">RFC 2616</a> 取代，再在2014年被 <a class="external text" href="https://tools.ietf.org/html/rfc7230" rel="nofollow">RFC 7230</a> /<a class="external text" href="https://tools.ietf.org/html/rfc7231" rel="nofollow">7231</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7232" rel="nofollow">7232</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7233" rel="nofollow">7233</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7234" rel="nofollow">7234</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7235" rel="nofollow">7235</a>取代），2015年发布了2.0版，其极大的优化了HTTP/1.1的性能和安全性，而2018年发布的3.0版，继续优化HTTP/2，激进地使用UDP取代TCP协议，目前，HTTP/3 在2019年9月26日 被 Chrome，Firefox，和Cloudflare支持，所以我想写下这篇文章，简单地说一下HTTP的前世今生，让大家学到一些知识，并希望可以在推动一下HTTP标准协议的发展。</p>
+<h4>HTTP 0.9 / 1.0</h4>
+<p>0.9和1.0这两个版本，就是最传统的 request &#8211; response的模式了，HTTP 0.9版本的协议简单到极点，请求时，不支持请求头，只支持 <code>GET</code> 方法，没了。HTTP 1.0 扩展了0.9版，其中主要增加了几个变化：</p>
+<p><span id="more-19840"></span></p>
+<ul>
+<li>在请求中加入了HTTP版本号，如：<code>GET /coolshell/index.html HTTP/1.0</code></li>
+<li>HTTP 开始有 header了，不管是request还是response 都有header了。</li>
+<li>增加了HTTP Status Code 标识相关的状态码。</li>
+<li>还有 <code>Content-Type</code> 可以传输其它的文件了。</li>
+</ul>
+<p>我们可以看到，HTTP 1.0 开始让这个协议变得很文明了，一种工程文明。因为：</p>
+<ul>
+<li>一个协议有没有版本管理，是一个工程化的象征。</li>
+<li>header是协议可以说是把元数据和业务数据解耦，也可以说是控制逻辑和业务逻辑的分离。</li>
+<li>Status Code 的出现可以让请求双方以及第三方的监控或管理程序有了统一的认识。最关键是还是控制错误和业务错误的分离。</li>
+</ul>
+<p>（注：国内很多公司HTTP无论对错只返回200，这种把HTTP Status Code 全部抹掉完全是一种工程界的倒退）</p>
+<p>但是，HTTP1.0性能上有一个很大的问题，那就是每请求一个资源都要新建一个TCP链接，而且是串行请求，所以，就算网络变快了，打开网页的速度也还是很慢。所以，HTTP 1.0 应该是一个必需要淘汰的协议了。</p>
+<h4> HTTP/1.1</h4>
+<p>HTTP/1.1 主要解决了HTTP 1.0的网络性能的问题，以及增加了一些新的东西：</p>
+<ul>
+<li>可以设置 <code>keepalive</code> 来让HTTP重用TCP链接，重用TCP链接可以省了每次请求都要在广域网上进行的TCP的三次握手的巨大开销。这是所谓的“<strong>HTTP 长链接</strong>” 或是 “<strong>请求响应式的HTTP 持久链接</strong>”。英文叫 HTTP Persistent connection.</li>
+<li>然后支持pipeline网络传输，只要第一个请求发出去了，不必等其回来，就可以发第二个请求出去，可以减少整体的响应时间。（注：非幂等的POST 方法或是有依赖的请求是不能被pipeline化的）</li>
+<li>支持 Chunked Responses ，也就是说，在Response的时候，不必说明 <code>Content-Length</code> 这样，客户端就不能断连接，直到收到服务端的EOF标识。这种技术又叫 “<strong>服务端Push模型</strong>”，或是 “<strong>服务端Push式的HTTP 持久链接</strong>”</li>
+<li>还增加了 cache control 机制。</li>
+<li>协议头注增加了 Language, Encoding, Type 等等头，让客户端可以跟服务器端进行更多的协商。</li>
+<li>还正式加入了一个很重要的头—— <code><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host" target="_blank" rel="noopener noreferrer">HOST</a></code>这样的话，服务器就知道你要请求哪个网站了。因为可以有多个域名解析到同一个IP上，要区分用户是请求的哪个域名，就需要在HTTP的协议中加入域名的信息，而不是被DNS转换过的IP信息。</li>
+<li>正式加入了 <code>OPTIONS</code> 方法，其主要用于 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener noreferrer">CORS &#8211; Cross Origin Resource Sharing</a> 应用。</li>
+</ul>
+<p>HTTP/1.1应该分成两个时代，一个是2014年前，一个是2014年后，因为2014年HTTP/1.1有了一组RFC（<a class="external text" href="https://tools.ietf.org/html/rfc7230" rel="nofollow">7230</a> /<a class="external text" href="https://tools.ietf.org/html/rfc7231" rel="nofollow">7231</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7232" rel="nofollow">7232</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7233" rel="nofollow">7233</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7234" rel="nofollow">7234</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7235" rel="nofollow">7235</a>），这组RFC又叫“HTTP/2 预览版”。其中影响HTTP发展的是两个大的需求：</p>
+<ul>
+<li>一个需要是加大了HTTP的安全性，这样就可以让HTTP应用得广泛，比如，使用TLS协议。</li>
+<li>另一个是让HTTP可以支持更多的应用，在HTTP/1.1 下，HTTP已经支持四种网络协议：
+<ul>
+<li>传统的短链接。</li>
+<li>可重用TCP的的长链接模型。</li>
+<li>服务端push的模型。</li>
+<li>WebSocket模型。</li>
+</ul>
+</li>
+</ul>
+<p>自从2005年以来，整个世界的应用API越来多，这些都造就了整个世界在推动HTTP的前进，我们可以看到，<strong>自2014的HTTP/1.1 以来，这个世界基本的应用协议的标准基本上都是向HTTP看齐了，也许2014年前，还有一些专用的RPC协议，但是2014年以后，HTTP协议的增强，让我们实在找不出什么理由不向标准靠拢，还要重新发明轮子了。</strong></p>
+<h4>HTTP/2</h4>
+<p>虽然 HTTP/1.1 已经开始变成应用层通讯协议的一等公民了，但是还是有性能问题，虽然HTTP/1.1 可以重用TCP链接，但是请求还是一个一个串行发的，需要保证其顺序。然而，大量的网页请求中都是些资源类的东西，这些东西占了整个HTTP请求中最多的传输数据量。所以，理论上来说，如果能够并行这些请求，那就会增加更大的网络吞吐和性能。</p>
+<p>另外，HTTP/1.1传输数据时，是以文本的方式，借助耗CPU的zip压缩的方式减少网络带宽，但是耗了前端和后端的CPU。这也是为什么很多RPC协议诟病HTTP的一个原因，就是数据传输的成本比较大。</p>
+<p>其实，在2010年时，Google 就在搞一个实验型的协议，这个协议叫<a href="https://en.wikipedia.org/wiki/SPDY">SPDY</a>，这个协议成为了HTTP/2的基础（也可以说成HTTP/2就是SPDY的复刻）。HTTP/2基本上解决了之前的这些性能问题，其和HTTP/1.1最主要的不同是：</p>
+<ul>
+<li>HTTP/2是一个二进制协议，增加了数据传输的效率。</li>
+<li>HTTP/2是可以在一个TCP链接中并发请求多个HTTP请求，移除了HTTP/1.1中的串行请求。</li>
+<li>HTTP/2会压缩头，如果你同时发出多个请求，他们的头是一样的或是相似的，那么，协议会帮你消除重复的部分。这就是所谓的HPACK算法（参看<a class="external mw-magiclink-rfc" href="https://tools.ietf.org/html/rfc7541" target="_blank" rel="nofollow noopener noreferrer">RFC 7541</a> 附录A）</li>
+<li>HTTP/2允许服务端在客户端放cache，又叫服务端push，也就是说，你没有请求的东西，我服务端可以先送给你放在你的本地缓存中。比如，你请求X，我服务端知道X依赖于Y，虽然你没有的请求Y，但我把把Y跟着X的请求一起返回客户端。</li>
+</ul>
+<p>对于这些性能上的改善，在Medium上有篇文章你可看一下相关的细节说明和测试“<a href="https://medium.com/@factoryhr/http-2-the-difference-between-http-1-1-benefits-and-how-to-use-it-38094fa0e95b" target="_blank" rel="noopener noreferrer">HTTP/2: the difference between HTTP/1.1, benefits and how to use it</a>”</p>
+<p>当然，还需要注意到的是HTTP/2的协议复杂度比之前所有的HTTP协议的复杂度都上升了许多许多，其内部还有很多看不见的东西，比如其需要维护一个“优先级树”来用于来做一些资源和请求的调度和控制。如此复杂的协议，自然会产生一些不同的声音，或是降低协议的可维护和可扩展性。所以也有一些争议。尽管如此，HTTP/2还是很快地被世界所采用。</p>
+<p>HTTP/2 是2015年推出的，其发布后，Google 宣布移除对SPDY的支持，拥抱标准的 HTTP/2。过了一年后，就有8.7%的网站开启了HTTP/2，根据 <a href="https://w3techs.com/technologies/details/ce-http2/all/all" target="_blank" rel="noopener noreferrer">这份报告</a> ，截止至本文发布时（2019年10月1日 ）， 在全世界范围内已经有41%的网站开启了HTTP/2。</p>
+<p>HTTP/2的官方组织在 Github 上维护了一份<a href="https://github.com/http2/http2-spec/wiki/Implementations" target="_blank" rel="noopener noreferrer">各种语言对HTTP/2的实现列表</a>，大家可以去看看。</p>
+<p>我们可以看到，HTTP/2 在性能上对HTTP有质的提高，所以，HTTP/2 被采用的也很快，所以，<strong>如果你在你的公司内负责架构的话，HTTP/2是你一个非常重要的需要推动的一个事，除了因为性能上的问题，推动标准落地也是架构师的主要职责，因为，你企业内部的架构越标准，你可以使用到开源软件，或是开发方式就会越有效率，跟随着工业界的标准的发展，你的企业会非常自然的享受到标准所带来的红利。</strong></p>
+<h4>HTTP/3</h4>
+<p>然而，这个世界没有完美的解决方案，HTTP/2也不例外，其主要的问题是：若干个HTTP的请求在复用一个TCP的连接，底层的TCP协议是不知道上层有多少个HTTP的请求的，所以，一旦发生丢包，造成的问题就是所有的HTTP请求都必需等待这个丢了的包被重传回来，哪怕丢的那个包不是我这个HTTP请求的。因为TCP底层是没有这个知识了。</p>
+<p>这个问题又叫<a href="https://en.wikipedia.org/wiki/Head-of-line_blocking" target="_blank" rel="noopener noreferrer">Head-of-Line Blocking</a>问题，这也是一个比较经典的流量调度的问题。这个问题最早主要的发生的交换机上。下图来自Wikipedia。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2019/10/HOL_blocking.png" alt="" width="423" height="220" /></p>
+<p>图中，左边的是输入队列，其中的1，2，3，4表示四个队列，四个队列中的1，2，3，4要去的右边的output的端口号。此时，第一个队列和第三个队列都要写右边的第四个端口，然后，一个时刻只能处理一个包，所以，一个队列只能在那等另一个队列写完后。然后，其此时的3号或1号端口是空闲的，而队列中的要去1和3号端号的数据，被第四号端口给block住了。这就是所谓的HOL blocking问题。</p>
+<p>HTTP/1.1中的pipeline中如果有一个请求block了，那么队列后请求也统统被block住了；HTTP/2 多请求复用一个TCP连接，一旦发生丢包，就会block住所有的HTTP请求。这样的问题很讨厌。好像基本无解了。</p>
+<p>是的TCP是无解了，但是UDP是有解的 ！<strong>于是HTTP/3破天荒地把HTTP底层的TCP协议改成了UDP！</strong></p>
+<p>然后又是Google 家的协议进入了标准 &#8211; QUIC （Quick UDP Internet Connections）。接下来是QUIC协议的几个重要的特性，为了讲清楚这些特性，我需要带着问题来讲（注：下面的网络知识，如果你看不懂的话，你需要学习一下《<a href="https://book.douban.com/subject/1088054/" target="_blank" rel="noopener noreferrer">TCP/IP详解</a>》一书（在我写blog的这15年里，这本书推荐了无数次了），或是看一下本站的《<a href="https://coolshell.cn/articles/11564.html">TCP的那些事</a>》。）：</p>
+<ul>
+<li>首先是上面的Head-of-Line blocking问题，在UDP的世界中，这个就没了。这个应该比较好理解，因为UDP不管顺序，不管丢包（当然，QUIC的一个任务是要像TCP的一个稳定，所以QUIC有自己的丢包重传的机制）</li>
+<li>TCP是一个无私的协议，也就是说，如果网络上出现拥塞，大家都会丢包，于是大家都会进入拥塞控制的算法中，这个算法会让所有人都“冷静”下来，然后进入一个“慢启动”的过程，包括在TCP连接建立时，这个慢启动也在，所以导致TCP性能迸发地比较慢。QUIC基于UDP，使用更为激进的方式。同时，QUIC有一套自己的丢包重传和拥塞控制的协，一开始QUIC是重新实现一TCP 的 CUBIC算法，但是随着BBR算法的成熟（BBR也在借鉴CUBIC算法的数学模型），QUIC也可以使用BBR算法。这里，多说几句，<strong>从模型来说，以前的TCP的拥塞控制算法玩的是数学模型，而新型的TCP拥塞控制算法是以BBR为代表的测量模型</strong>，理论上来说，后者会更好，但QUIC的团队在一开始觉得BBR不如CUBIC的算法好，所以没有用。现在的BBR 2.x借鉴了CUBIC数学模型让拥塞控制更公平。这里有文章大家可以一读“<a href="https://medium.com/google-cloud/tcp-bbr-magic-dust-for-network-performance-57a5f1ccf437" target="_blank" rel="noopener noreferrer">TCP BBR : Magic dust for network performance.</a>”</li>
+<li>接下来，现在要建立一个HTTPS的连接，先是TCP的三次握手，然后是TLS的三次握手，要整出六次网络交互，一个链接才建好，虽说HTTP/1.1和HTTP/2的连接复用解决这个问题，但是基于UDP后，UDP也得要实现这个事。于是QUIC直接把TCP的和TLS的合并成了三次握手（对此，在HTTP/2的时候，是否默认开启TLS业内是有争议的，反对派说，TLS在一些情况下是不需要的，比如企业内网的时候，而支持派则说，TLS的那些开销，什么也不算了）。</li>
+</ul>
+<table>
+<tbody>
+<tr>
+<td><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2019/10/http-request-over-tcp-tls@2x-292x300.png" alt="" width="292" height="300" /></td>
+<td><img decoding="async" loading="lazy" class="" src="https://coolshell.cn/wp-content/uploads/2019/10/http-request-over-quic@2x-300x215.png" alt="" width="312" height="227" /></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>所以，QUIC是一个在UDP之上的伪TCP +TLS +HTTP/2的多路复用的协议。</p>
+<p>但是对于UDP还是有一些挑战的，这个挑战主要来自互联网上的各种网络设备，这些设备根本不知道是什么QUIC，他们看QUIC就只能看到的就是UDP，所以，在一些情况下，UDP就是有问题的，</p>
+<ul>
+<li>比如在NAT的环境下，如果是TCP的话，NAT路由或是代理服务器，可以通过记录TCP的四元组（源地址、源端口，目标地址，目标端口）来做连接映射的，然而，在UDP的情况下不行了。于是，QUIC引入了个叫connection id的不透明的ID来标识一个链接，用这种业务ID很爽的一个事是，如果你从你的3G/4G的网络切到WiFi网络（或是反过来），你的链接不会断，因为我们用的是connection id，而不是四元组。</li>
+</ul>
+<ul>
+<li>然而就算引用了connection id，也还是会有问题 ，比如一些不够“聪明”的等价路由交换机，这些交换机会通过四元组来做hash把你的请求的IP转到后端的实际的服务器上，然而，他们不懂connection id，只懂四元组，这么导致属于同一个connection id但是四元组不同的网络包就转到了不同的服务器上，这就是导致数据不能传到同一台服务器上，数据不完整，链接只能断了。所以，你需要更聪明的算法（可以参看 Facebook 的 <a href="https://github.com/facebookincubator/katran" target="_blank" rel="noopener noreferrer">Katran</a> 开源项目 ）</li>
+</ul>
+<p>好了，就算搞定上面的东西，还有一些业务层的事没解，这个事就是 HTTP/2的头压缩算法 HPACK，HPACK需要维护一个动态的字典表来分析请求的头中哪些是重复的，HPACK的这个数据结构需要在encoder和decoder端同步这个东西。在TCP上，这种同步是透明的，然而在UDP上这个事不好干了。所以，这个事也必需要重新设计了，基于QUIC的QPACK就出来了，利用两个附加的QUIC steam，一个用来发送这个字典表的更新给对方，另一个用来ack对方发过来的update。</p>
+<p>目前看下来，HTTP/3目前看上去没有太多的协议业务逻辑上的东西，更多是HTTP/2 + QUIC协议。但，HTTP/3 因为动到了底层协议，所以，在普及方面上可能会比 HTTP/2要慢的多的多。但是，可以看到QUIC协议的强大，细思及恐，QUIC这个协议真对TCP是个威胁，如果QUIC成熟了，TCP是不是会有可能成为历史呢？</p>
+<p>未来十年，让我们看看UDP是否能够逆袭TCP……</p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/07/wall_clock-300x167-1-150x150.jpeg" alt="从一次经历谈 TIME_WAIT 的那些事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_title">从一次经历谈 TIME_WAIT 的那些事</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/01/iStock-1175502114-150x150.png" alt="网络数字身份认证术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_title">网络数字身份认证术</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318-150x150.jpg" alt="TCP 的那些事儿（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_title">TCP 的那些事儿（下）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/19840.html">HTTP的前世今生</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/19840.html/feed</wfw:commentRss>
+			<slash:comments>77</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>TCP 的那些事儿（下）</title>
+		<link>https://coolshell.cn/articles/11609.html</link>
+					<comments>https://coolshell.cn/articles/11609.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 28 May 2014 00:20:32 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Congestion Avoidance]]></category>
+		<category><![CDATA[Fast Recovery]]></category>
+		<category><![CDATA[RTO]]></category>
+		<category><![CDATA[RTT]]></category>
+		<category><![CDATA[TCP]]></category>
+		<category><![CDATA[Window]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11609</guid>
+
+					<description><![CDATA[<p>这篇文章是下篇，所以如果你对TCP不熟悉的话，还请你先看看上篇《TCP的那些事儿（上）》 上篇中，我们介绍了TCP的协议头、状态机、数据重传中的东西。但是TCP...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11609.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11609.html">TCP 的那些事儿（下）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-11641" src="https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318.jpg" alt="" width="360" height="244" srcset="https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318.jpg 400w, https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318-300x203.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318-399x270.jpg 399w" sizes="(max-width: 360px) 100vw, 360px" />这篇文章是下篇，所以如果你对TCP不熟悉的话，还请你先看看上篇《<a href="https://coolshell.cn/articles/11564.html" target="_blank">TCP的那些事儿（上）</a>》 上篇中，我们介绍了TCP的协议头、状态机、数据重传中的东西。但是TCP要解决一个很大的事，那就是要在一个网络根据不同的情况来动态调整自己的发包的速度，小则让自己的连接更稳定，大则让整个网络更稳定。在你阅读下篇之前，你需要做好准备，本篇文章有好些算法和策略，可能会引发你的各种思考，让你的大脑分配很多内存和计算资源，所以，不适合在厕所中阅读。</p>
+<h4>TCP的RTT算法</h4>
+<p>从前面的TCP重传机制我们知道Timeout的设置对于重传非常重要。</p>
+<ul>
+<li>设长了，重发就慢，丢了老半天才重发，没有效率，性能差；</li>
+<li>设短了，会导致可能并没有丢就重发。于是重发的就快，会增加网络拥塞，导致更多的超时，更多的超时导致更多的重发。</li>
+</ul>
+<p>而且，这个超时时间在不同的网络的情况下，根本没有办法设置一个死的值。只能动态地设置。 为了动态地设置，TCP引入了RTT——Round Trip Time，也就是一个数据包从发出去到回来的时间。这样发送端就大约知道需要多少的时间，从而可以方便地设置Timeout——RTO（Retransmission TimeOut），以让我们的重传机制更高效。 听起来似乎很简单，好像就是在发送端发包时记下t0，然后接收端再把这个ack回来时再记一个t1，于是RTT = t1 &#8211; t0。没那么简单，这只是一个采样，不能代表普遍情况。</p>
+<p><span id="more-11609"></span></p>
+<h5>经典算法</h5>
+<p><a href="http://tools.ietf.org/html/rfc793" target="_blank">RFC793</a> 中定义的经典算法是这样的：</p>
+<p style="padding-left: 30px;">1）首先，先采样RTT，记下最近好几次的RTT值。</p>
+<p style="padding-left: 30px;">2）然后做平滑计算SRTT（ Smoothed RTT）。公式为：（其中的 α 取值在0.8 到 0.9之间，这个算法英文叫Exponential weighted moving average，中文叫：加权移动平均）</p>
+<p style="text-align: center;"><strong>SRTT = ( α * SRTT ) + ((1- α) * RTT)</strong></p>
+<p style="padding-left: 30px;">3）开始计算RTO。公式如下：</p>
+<p style="text-align: center;"><strong>RTO = min [ UBOUND,  max [ LBOUND,   (β * SRTT) ]  ]</strong></p>
+<p>其中：</p>
+<ul>
+<li>UBOUND是最大的timeout时间，上限值</li>
+<li>LBOUND是最小的timeout时间，下限值</li>
+<li>β 值一般在1.3到2.0之间。</li>
+</ul>
+<h5>Karn / Partridge 算法</h5>
+<p>但是上面的这个算法在重传的时候会出有一个终极问题——你是用第一次发数据的时间和ack回来的时间做RTT样本值，还是用重传的时间和ACK回来的时间做RTT样本值？</p>
+<p>这个问题无论你选那头都是按下葫芦起了瓢。 如下图所示：</p>
+<ul>
+<li>情况（a）是ack没回来，所以重传。如果你计算第一次发送和ACK的时间，那么，明显算大了。</li>
+<li>情况（b）是ack回来慢了，但是导致了重传，但刚重传不一会儿，之前ACK就回来了。如果你是算重传的时间和ACK回来的时间的差，就会算短了。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-11605" src="https://coolshell.cn/wp-content/uploads/2014/05/Karn-Partridge-Algorithm.jpg" alt="" width="545" height="243" srcset="https://coolshell.cn/wp-content/uploads/2014/05/Karn-Partridge-Algorithm.jpg 745w, https://coolshell.cn/wp-content/uploads/2014/05/Karn-Partridge-Algorithm-300x133.jpg 300w" sizes="(max-width: 545px) 100vw, 545px" /></p>
+<p>所以1987年的时候，搞了一个叫<a href="http://en.wikipedia.org/wiki/Karn's_Algorithm" target="_blank">Karn / Partridge Algorithm</a>，这个算法的最大特点是——<strong>忽略重传，不把重传的RTT做采样</strong>（你看，你不需要去解决不存在的问题）。</p>
+<p>但是，这样一来，又会引发一个大BUG——<strong>如果在某一时间，网络闪动，突然变慢了，产生了比较大的延时，这个延时导致要重转所有的包（因为之前的RTO很小），于是，因为重转的不算，所以，RTO就不会被更新，这是一个灾难</strong>。 于是Karn算法用了一个取巧的方式——只要一发生重传，就对现有的RTO值翻倍（这就是所谓的 Exponential backoff），很明显，这种死规矩对于一个需要估计比较准确的RTT也不靠谱。</p>
+<h5>Jacobson / Karels 算法</h5>
+<p>前面两种算法用的都是“加权移动平均”，这种方法最大的毛病就是如果RTT有一个大的波动的话，很难被发现，因为被平滑掉了。所以，1988年，又有人推出来了一个新的算法，这个算法叫Jacobson / Karels Algorithm（参看<a href="http://tools.ietf.org/html/rfc6298" target="_blank">RFC6289</a>）。这个算法引入了最新的RTT的采样和平滑过的SRTT的差距做因子来计算。 公式如下：（其中的DevRTT是Deviation RTT的意思）</p>
+<p style="padding-left: 30px;"><b>SRTT</b><b> = S</b><b>RTT</b><b> + α</b><b> </b><b>(</b><b>RTT</b><b> – S</b><b>RTT</b><b>)  </b>—— 计算平滑RTT</p>
+<p style="padding-left: 30px;"><b>DevRTT</b><b> = (1-β</b><b>)*</b><b>DevRTT</b><b> + β</b><b>*(|</b><b>RTT-SRTT</b><b>|) </b>——计算平滑RTT和真实的差距（加权移动平均）</p>
+<p style="padding-left: 30px;"><strong>RTO= µ * SRTT + ∂ *DevRTT </strong>—— 神一样的公式</p>
+<p>（其中：在Linux下，α = 0.125，β = 0.25， μ = 1，∂ = 4 ——这就是算法中的“调得一手好参数”，nobody knows why, it just works&#8230;） 最后的这个算法在被用在今天的TCP协议中（Linux的源代码在：<a href="http://lxr.free-electrons.com/source/net/ipv4/tcp_input.c?v=2.6.32#L609" target="_blank">tcp_rtt_estimator</a>）。</p>
+<h4>TCP滑动窗口</h4>
+<p>需要说明一下，如果你不了解TCP的滑动窗口这个事，你等于不了解TCP协议。我们都知道，<strong>TCP必需要解决的可靠传输以及包乱序（reordering）的问题</strong>，所以，TCP必需要知道网络实际的数据处理带宽或是数据处理速度，这样才不会引起网络拥塞，导致丢包。</p>
+<p>所以，TCP引入了一些技术和设计来做网络流控，Sliding Window是其中一个技术。 前面我们说过，<strong>TCP头里有一个字段叫Window，又叫Advertised-Window，这个字段是接收端告诉发送端自己还有多少缓冲区可以接收数据</strong>。<strong>于是发送端就可以根据这个接收端的处理能力来发送数据，而不会导致接收端处理不过来</strong>。 为了说明滑动窗口，我们需要先看一下TCP缓冲区的一些数据结构：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-11594" src="https://coolshell.cn/wp-content/uploads/2014/05/sliding_window.jpg" alt="" width="450" height="179" srcset="https://coolshell.cn/wp-content/uploads/2014/05/sliding_window.jpg 906w, https://coolshell.cn/wp-content/uploads/2014/05/sliding_window-300x119.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/05/sliding_window-900x358.jpg 900w" sizes="(max-width: 450px) 100vw, 450px" /></p>
+<p>上图中，我们可以看到：</p>
+<ul>
+<li>接收端LastByteRead指向了TCP缓冲区中读到的位置，NextByteExpected指向的地方是收到的连续包的最后一个位置，LastByteRcved指向的是收到的包的最后一个位置，我们可以看到中间有些数据还没有到达，所以有数据空白区。</li>
+</ul>
+<ul>
+<li>发送端的LastByteAcked指向了被接收端Ack过的位置（表示成功发送确认），LastByteSent表示发出去了，但还没有收到成功确认的Ack，LastByteWritten指向的是上层应用正在写的地方。</li>
+</ul>
+<p>于是：</p>
+<ul>
+<li>接收端在给发送端回ACK中会汇报自己的AdvertisedWindow = MaxRcvBuffer &#8211; LastByteRcvd &#8211; 1;</li>
+</ul>
+<ul>
+<li>而发送方会根据这个窗口来控制发送数据的大小，以保证接收方可以处理。</li>
+</ul>
+<p>下面我们来看一下发送方的滑动窗口示意图：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11596" src="https://coolshell.cn/wp-content/uploads/2014/05/tcpswwindows.png" alt="" width="660" height="270" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcpswwindows.png 660w, https://coolshell.cn/wp-content/uploads/2014/05/tcpswwindows-300x122.png 300w" sizes="(max-width: 660px) 100vw, 660px" /></p>
+<p style="text-align: center;">（<a href="http://www.tcpipguide.com/free/t_TCPSlidingWindowAcknowledgmentSystemForDataTranspo-6.htm" target="_blank">图片来源</a>）</p>
+<p>上图中分成了四个部分，分别是：（其中那个黑模型就是滑动窗口）</p>
+<ul>
+<li>#1已收到ack确认的数据。</li>
+<li>#2发还没收到ack的。</li>
+<li>#3在窗口中还没有发出的（接收方还有空间）。</li>
+<li>#4窗口以外的数据（接收方没空间）</li>
+</ul>
+<p>下面是个滑动后的示意图（收到36的ack，并发出了46-51的字节）：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11597" src="https://coolshell.cn/wp-content/uploads/2014/05/tcpswslide.png" alt="" width="660" height="210" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcpswslide.png 660w, https://coolshell.cn/wp-content/uploads/2014/05/tcpswslide-300x95.png 300w" sizes="(max-width: 660px) 100vw, 660px" /></p>
+<p>下面我们来看一个接受端控制发送端的图示：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11617" src="https://coolshell.cn/wp-content/uploads/2014/05/tcpswflow.png" alt="" width="666" height="836" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcpswflow.png 666w, https://coolshell.cn/wp-content/uploads/2014/05/tcpswflow-238x300.png 238w" sizes="(max-width: 666px) 100vw, 666px" /></p>
+<p style="text-align: center;">（<a href="http://www.tcpipguide.com/free/t_TCPWindowSizeAdjustmentandFlowControl-2.htm" target="_blank">图片来源</a>）</p>
+<h5 style="text-align: left;">Zero Window</h5>
+<p style="text-align: left;">上图，我们可以看到一个处理缓慢的Server（接收端）是怎么把Client（发送端）的TCP Sliding Window给降成0的。此时，你一定会问，如果Window变成0了，TCP会怎么样？是不是发送端就不发数据了？是的，发送端就不发数据了，你可以想像成“Window Closed”，那你一定还会问，如果发送端不发数据了，接收方一会儿Window size 可用了，怎么通知发送端呢？</p>
+<p style="text-align: left;">解决这个问题，TCP使用了Zero Window Probe技术，缩写为ZWP，也就是说，发送端在窗口变成0后，会发ZWP的包给接收方，让接收方来ack他的Window尺寸，一般这个值会设置成3次，第次大约30-60秒（不同的实现可能会不一样）。如果3次过后还是0的话，有的TCP实现就会发RST把链接断了。</p>
+<p style="text-align: left;"><strong>注意</strong>：只要有等待的地方都可能出现DDoS攻击，Zero Window也不例外，一些攻击者会在和HTTP建好链发完GET请求后，就把Window设置为0，然后服务端就只能等待进行ZWP，于是攻击者会并发大量的这样的请求，把服务器端的资源耗尽。（关于这方面的攻击，大家可以移步看一下<a href="http://en.wikipedia.org/wiki/Sockstress" target="_blank">Wikipedia的SockStress词条</a>）</p>
+<p style="text-align: left;">另外，Wireshark中，你可以使用tcp.analysis.zero_window来过滤包，然后使用右键菜单里的follow TCP stream，你可以看到ZeroWindowProbe及ZeroWindowProbeAck的包。</p>
+<h5 style="text-align: left;">Silly Window Syndrome</h5>
+<p>Silly Window Syndrome翻译成中文就是“糊涂窗口综合症”。正如你上面看到的一样，如果我们的接收方太忙了，来不及取走Receive Windows里的数据，那么，就会导致发送方越来越小。到最后，如果接收方腾出几个字节并告诉发送方现在有几个字节的window，而我们的发送方会义无反顾地发送这几个字节。</p>
+<p>要知道，我们的TCP+IP头有40个字节，为了几个字节，要达上这么大的开销，这太不经济了。</p>
+<p>另外，你需要知道网络上有个MTU，对于以太网来说，MTU是1500字节，除去TCP+IP头的40个字节，真正的数据传输可以有1460，这就是所谓的MSS（Max Segment Size）注意，TCP的RFC定义这个MSS的默认值是536，这是因为<span style="color: #252525;"> </span><span class="reference-text" style="color: #252525;"><a class="external mw-magiclink-rfc" style="color: #663366;" href="http://tools.ietf.org/html/rfc791" rel="nofollow">RFC 791</a>里说了任何一个</span>IP设备都得最少接收576尺寸的大小（实际上来说576是拨号的网络的MTU，而576减去IP头的20个字节就是536）。</p>
+<p><strong>如果你的网络包可以塞满MTU，那么你可以用满整个带宽，如果不能，那么你就会浪费带宽</strong>。（大于MTU的包有两种结局，一种是直接被丢了，另一种是会被重新分块打包发送） 你可以想像成一个MTU就相当于一个飞机的最多可以装的人，如果这飞机里满载的话，带宽最高，如果一个飞机只运一个人的话，无疑成本增加了，也而相当二。</p>
+<p>所以，<strong>Silly Windows Syndrome这个现像就像是你本来可以坐200人的飞机里只做了一两个人</strong>。 要解决这个问题也不难，就是避免对小的window size做出响应，直到有足够大的window size再响应，这个思路可以同时实现在sender和receiver两端。</p>
+<ul>
+<li>如果这个问题是由Receiver端引起的，那么就会使用 David D Clark&#8217;s 方案。在receiver端，如果收到的数据导致window size小于某个值，可以直接ack(0)回sender，这样就把window给关闭了，也阻止了sender再发数据过来，等到receiver端处理了一些数据后windows size 大于等于了MSS，或者，receiver buffer有一半为空，就可以把window打开让send 发送数据过来。</li>
+</ul>
+<ul>
+<li>如果这个问题是由Sender端引起的，那么就会使用著名的<span style="color: #252525;"> </span><a style="color: #0b0080;" title="Nagle's algorithm" href="http://en.wikipedia.org/wiki/Nagle%27s_algorithm" target="_blank">Nagle&#8217;s algorithm</a>。这个算法的思路也是延时处理，他有两个主要的条件：1）要等到 Window Size&gt;=MSS 或是 Data Size &gt;=MSS，2）收到之前发送数据的ack回包，他才会发数据，否则就是在攒数据。</li>
+</ul>
+<p>另外，Nagle算法默认是打开的，所以，对于一些需要小包场景的程序——<strong>比如像telnet或ssh这样的交互性比较强的程序，你需要关闭这个算法</strong>。你可以在Socket设置TCP_NODELAY选项来关闭这个算法（关闭Nagle算法没有全局参数，需要根据每个应用自己的特点来关闭）</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">setsockopt(sock_fd, IPPROTO_TCP, TCP_NODELAY, (char *)&amp;value,sizeof(int));</code></p>
+<p>另外，网上有些文章说<span style="color: #000000;">TCP_CORK的socket option是也关闭Nagle算法，这不对。<strong>TCP_CORK其实是更新激进的Nagle算汉，完全禁止小包发送，而Nagle算法没有禁止小包发送，只是禁止了大量的小包发送</strong>。最好不要两个选项都设置。</span></p>
+<h4>TCP的拥塞处理 &#8211; Congestion Handling</h4>
+<p>上面我们知道了，TCP通过Sliding Window来做流控（Flow Control），但是TCP觉得这还不够，因为Sliding Window需要依赖于连接的发送端和接收端，其并不知道网络中间发生了什么。TCP的设计者觉得，一个伟大而牛逼的协议仅仅做到流控并不够，因为流控只是网络模型4层以上的事，TCP的还应该更聪明地知道整个网络上的事。</p>
+<p>具体一点，我们知道TCP通过一个timer采样了RTT并计算RTO，但是，<strong>如果网络上的延时突然增加，那么，TCP对这个事做出的应对只有重传数据，但是，重传会导致网络的负担更重，于是会导致更大的延迟以及更多的丢包，于是，这个情况就会进入恶性循环被不断地放大。试想一下，如果一个网络内有成千上万的TCP连接都这么行事，那么马上就会形成“网络风暴”，TCP这个协议就会拖垮整个网络。</strong>这是一个灾难。</p>
+<p>所以，TCP不能忽略网络上发生的事情，而无脑地一个劲地重发数据，对网络造成更大的伤害。对此TCP的设计理念是：<span style="color: #cc0000;"><strong>TCP不是一个自私的协议，当拥塞发生的时候，要做自我牺牲。就像交通阻塞一样，每个车都应该把路让出来，而不要再去抢路了。</strong></span></p>
+<p>关于拥塞控制的论文请参看《<a href="http://ee.lbl.gov/papers/congavoid.pdf" target="_blank">Congestion Avoidance and Control</a>》(PDF)</p>
+<p>拥塞控制主要是四个算法：<strong>1）慢启动</strong>，<strong>2）拥塞避免</strong>，<strong>3）拥塞发生</strong>，<strong>4）快速恢复</strong>。这四个算法不是一天都搞出来的，这个四算法的发展经历了很多时间，到今天都还在优化中。 备注:</p>
+<ul>
+<li>1988年，TCP-Tahoe 提出了1）慢启动，2）拥塞避免，3）拥塞发生时的快速重传</li>
+<li>1990年，TCP Reno 在Tahoe的基础上增加了4）快速恢复</li>
+</ul>
+<h5>慢热启动算法 &#8211; Slow Start</h5>
+<p>首先，我们来看一下TCP的慢热启动。慢启动的意思是，刚刚加入网络的连接，一点一点地提速，不要一上来就像那些特权车一样霸道地把路占满。新同学上高速还是要慢一点，不要把已经在高速上的秩序给搞乱了。</p>
+<p>慢启动的算法如下(cwnd全称Congestion Window)：</p>
+<p style="padding-left: 30px;">1）连接建好的开始先初始化cwnd = 1，表明可以传一个MSS大小的数据。</p>
+<p style="padding-left: 30px;">2）每当收到一个ACK，cwnd++; 呈线性上升</p>
+<p style="padding-left: 30px;">3）每当过了一个RTT，cwnd = cwnd*2; 呈指数让升</p>
+<p style="padding-left: 30px;">4）还有一个ssthresh（slow start threshold），是一个上限，当cwnd &gt;= ssthresh时，就会进入“拥塞避免算法”（后面会说这个算法）</p>
+<p>所以，我们可以看到，如果网速很快的话，ACK也会返回得快，RTT也会短，那么，这个慢启动就一点也不慢。下图说明了这个过程。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11619" src="https://coolshell.cn/wp-content/uploads/2014/05/tcp.slow_.start_.jpg" alt="" width="662" height="388" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcp.slow_.start_.jpg 662w, https://coolshell.cn/wp-content/uploads/2014/05/tcp.slow_.start_-300x175.jpg 300w" sizes="(max-width: 662px) 100vw, 662px" /></p>
+<p>这里，我需要提一下的是一篇Google的论文<span style="color: #000000;">《<a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/36640.pdf" target="_blank">An Argument for Increasing TCP&#8217;s Initial Congestion Window</a>》Linux 3.0后采用了这篇论文的建议——把cwnd 初始化成了 10个MSS。</span> <span style="color: #000000;">而Linux 3.0以前，比如2.6，Linux采用了<a href="http://www.rfc-editor.org/rfc/rfc3390.txt" target="_blank">RFC3390</a>，cwnd是跟MSS的值来变的，如果MSS&lt; 1095，则cwnd = 4；如果MSS&gt;2190，则cwnd=2；其它情况下，则是3。</span></p>
+<h5> 拥塞避免算法 &#8211; Congestion Avoidance</h5>
+<p>前面说过，还有一个ssthresh（slow start threshold），是一个上限，当cwnd &gt;= ssthresh时，就会进入“拥塞避免算法”。一般来说ssthresh的值是65535，单位是字节，当cwnd达到这个值时后，算法如下：</p>
+<p style="padding-left: 30px;">1）收到一个ACK时，cwnd = cwnd + 1/cwnd</p>
+<p style="padding-left: 30px;">2）当每过一个RTT时，cwnd = cwnd + 1</p>
+<p>这样就可以避免增长过快导致网络拥塞，慢慢的增加调整到网络的最佳值。很明显，是一个线性上升的算法。</p>
+<h5>拥塞状态时的算法</h5>
+<p>前面我们说过，当丢包的时候，会有两种情况：</p>
+<p style="padding-left: 30px;">1）等到RTO超时，重传数据包。TCP认为这种情况太糟糕，反应也很强烈。</p>
+<ul>
+<ul>
+<li>sshthresh =  cwnd /2</li>
+<li>cwnd 重置为 1</li>
+<li>进入慢启动过程</li>
+</ul>
+</ul>
+<p style="padding-left: 30px;">2）Fast Retransmit算法，也就是在收到3个duplicate ACK时就开启重传，而不用等到RTO超时。</p>
+<ul>
+<ul>
+<li>TCP Tahoe的实现和RTO超时一样。</li>
+</ul>
+</ul>
+<ul>
+<ul>
+<li>TCP Reno的实现是：
+<ul>
+<li>cwnd = cwnd /2</li>
+<li>sshthresh = cwnd</li>
+<li>进入快速恢复算法——Fast Recovery</li>
+</ul>
+</li>
+</ul>
+</ul>
+<p>上面我们可以看到RTO超时后，sshthresh会变成cwnd的一半，这意味着，如果cwnd&lt;=sshthresh时出现的丢包，那么TCP的sshthresh就会减了一半，然后等cwnd又很快地以指数级增涨爬到这个地方时，就会成慢慢的线性增涨。我们可以看到，TCP是怎么通过这种强烈地震荡快速而小心得找到网站流量的平衡点的。</p>
+<h5>快速恢复算法 &#8211; Fast Recovery</h5>
+<p><span style="text-decoration: underline;"><strong>TCP Reno</strong></span></p>
+<p><span style="color: #000000;">这个算法定义在</span><a title="&quot;TCP Congestion Control&quot;" href="http://tools.ietf.org/html/rfc5681">RFC5681</a>。快速重传和快速恢复算法一般同时使用。快速恢复算法是认为，你还有3个Duplicated Acks说明网络也不那么糟糕，所以没有必要像RTO超时那么强烈。 <span style="color: #000000;">注意，正如前面所说，进入Fast Recovery之前，cwnd 和 sshthresh已被更新：</span></p>
+<ul>
+<li>cwnd = cwnd /2</li>
+<li>sshthresh = cwnd</li>
+</ul>
+<p><span style="color: #000000;">然后，真正的Fast Recovery算法如下：</span></p>
+<ul>
+<li>cwnd = sshthresh  + 3 * MSS （3的意思是确认有3个数据包被收到了）</li>
+<li>重传Duplicated ACKs指定的数据包</li>
+<li>如果再收到 duplicated Acks，那么cwnd = cwnd +1</li>
+<li>如果收到了新的Ack，那么，cwnd = sshthresh ，然后就进入了拥塞避免的算法了。</li>
+</ul>
+<p>如果你仔细思考一下上面的这个算法，你就会知道，<strong>上面这个算法也有问题，那就是——它依赖于3个重复的Acks</strong>。注意，3个重复的Acks并不代表只丢了一个数据包，很有可能是丢了好多包。但这个算法只会重传一个，而剩下的那些包只能等到RTO超时，于是，进入了恶梦模式——超时一个窗口就减半一下，多个超时会超成TCP的传输速度呈级数下降，而且也不会触发Fast Recovery算法了。</p>
+<p>通常来说，正如我们前面所说的，SACK或D-SACK的方法可以让Fast Recovery或Sender在做决定时更聪明一些，但是并不是所有的TCP的实现都支持SACK（SACK需要两端都支持），所以，需要一个没有SACK的解决方案。而通过SACK进行拥塞控制的算法是FACK（后面会讲）</p>
+<p><span style="text-decoration: underline;"><strong>TCP New Reno</strong></span></p>
+<p><span style="color: #252525;">于是，1995年，TCP New Reno（参见 </span><a class="external mw-magiclink-rfc" style="color: #663366;" href="http://tools.ietf.org/html/rfc6582" rel="nofollow">RFC 6582</a> ）算法提出来，主要就是在没有SACK的支持下改进Fast Recovery算法的——</p>
+<ul>
+<li>当sender这边收到了3个Duplicated Acks，进入Fast Retransimit模式，开发重传重复Acks指示的那个包。如果只有这一个包丢了，那么，重传这个包后回来的Ack会把整个已经被sender传输出去的数据ack回来。如果没有的话，说明有多个包丢了。我们叫这个ACK为Partial ACK。</li>
+</ul>
+<ul>
+<li>一旦Sender这边发现了Partial ACK出现，那么，sender就可以推理出来有多个包被丢了，于是乎继续重传sliding window里未被ack的第一个包。直到再也收不到了Partial Ack，才真正结束Fast Recovery这个过程</li>
+</ul>
+<p>我们可以看到，这个“Fast Recovery的变更”是一个非常激进的玩法，他同时延长了Fast Retransmit和Fast Recovery的过程。</p>
+<h5>算法示意图</h5>
+<p>下面我们来看一个简单的图示以同时看一下上面的各种算法的样子：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-11621" src="https://coolshell.cn/wp-content/uploads/2014/05/tcp.fr_-1024x359.jpg" alt="" width="680" height="239" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcp.fr_-1024x359.jpg 1024w, https://coolshell.cn/wp-content/uploads/2014/05/tcp.fr_-300x105.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/05/tcp.fr_-900x315.jpg 900w, https://coolshell.cn/wp-content/uploads/2014/05/tcp.fr_.jpg 1410w" sizes="(max-width: 680px) 100vw, 680px" /></p>
+<p>&nbsp;</p>
+<h5>FACK算法</h5>
+<p>FACK全称Forward Acknowledgment 算法，论文地址在这里（PDF）<a href="http://conferences.sigcomm.org/sigcomm/1996/papers/mathis.pdf" target="_blank">Forward Acknowledgement: Refining TCP Congestion Control</a> 这个算法是其于SACK的，前面我们说过SACK是使用了TCP扩展字段Ack了有哪些数据收到，哪些数据没有收到，他比Fast Retransmit的3 个duplicated acks好处在于，前者只知道有包丢了，不知道是一个还是多个，而SACK可以准确的知道有哪些包丢了。 所以，SACK可以让发送端这边在重传过程中，把那些丢掉的包重传，而不是一个一个的传，但这样的一来，如果重传的包数据比较多的话，又会导致本来就很忙的网络就更忙了。所以，FACK用来做重传过程中的拥塞流控。</p>
+<ul>
+<li>这个算法会把SACK中最大的Sequence Number 保存在<strong>snd.fack</strong>这个变量中，snd.fack的更新由ack带秋，如果网络一切安好则和snd.una一样（snd.una就是还没有收到ack的地方，也就是前面sliding window里的category #2的第一个地方）</li>
+</ul>
+<ul>
+<li>然后定义一个<strong>awnd = snd.nxt &#8211; snd.fack</strong>（snd.nxt指向发送端sliding window中正在要被发送的地方——前面sliding windows图示的category#3第一个位置），这样awnd的意思就是在网络上的数据。（所谓awnd意为：actual quantity of data outstanding in the network）</li>
+</ul>
+<ul>
+<li>如果需要重传数据，那么，<strong>awnd = snd.nxt &#8211; snd.fack + retran_data</strong>，也就是说，awnd是传出去的数据 + 重传的数据。</li>
+</ul>
+<ul>
+<li>然后触发Fast Recovery 的条件是： (<strong> ( snd.fack &#8211; snd.una ) &gt; (3*MSS) </strong>) || (dupacks == 3) ) 。这样一来，就不需要等到3个duplicated acks才重传，而是只要sack中的最大的一个数据和ack的数据比较长了（3个MSS），那就触发重传。在整个重传过程中cwnd不变。直到当第一次丢包的snd.nxt&lt;=snd.una（也就是重传的数据都被确认了），然后进来拥塞避免机制——cwnd线性上涨。</li>
+</ul>
+<p>我们可以看到如果没有FACK在，那么在丢包比较多的情况下，原来保守的算法会低估了需要使用的window的大小，而需要几个RTT的时间才会完成恢复，而FACK会比较激进地来干这事。 但是，FACK如果在一个网络包会被 reordering的网络里会有很大的问题。</p>
+<h4>其它拥塞控制算法简介</h4>
+<h5><strong>TCP Vegas 拥塞控制算法</strong></h5>
+<p>这个算法1994年被提出，它主要对TCP Reno 做了些修改。这个算法通过对RTT的非常重的监控来计算一个基准RTT。然后通过这个基准RTT来估计当前的网络实际带宽，如果实际带宽比我们的期望的带宽要小或是要多的活，那么就开始线性地减少或增加cwnd的大小。如果这个计算出来的RTT大于了Timeout后，那么，不等ack超时就直接重传。（Vegas 的核心思想是用RTT的值来影响拥塞窗口，而不是通过丢包） 这个算法的论文是《<a class="external text" style="color: #663366;" href="http://www.cs.cmu.edu/~srini/15-744/F02/readings/BP95.pdf" target="_blank" rel="nofollow">TCP Vegas: End to End Congestion Avoidance on a Global Internet</a>》这篇论文给了Vegas和 New Reno的对比：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-11626" src="https://coolshell.cn/wp-content/uploads/2014/05/tcp_vegas_newreno-1024x555.jpg" alt="" width="680" height="369" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcp_vegas_newreno-1024x555.jpg 1024w, https://coolshell.cn/wp-content/uploads/2014/05/tcp_vegas_newreno-300x162.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/05/tcp_vegas_newreno-900x487.jpg 900w, https://coolshell.cn/wp-content/uploads/2014/05/tcp_vegas_newreno.jpg 1500w" sizes="(max-width: 680px) 100vw, 680px" /></p>
+<p>关于这个算法实现，你可以参看Linux源码：<a href="http://lxr.free-electrons.com/source/net/ipv4/tcp_vegas.h" target="_blank">/net/ipv4/tcp_vegas.h</a>， <a href="http://lxr.free-electrons.com/source/net/ipv4/tcp_vegas.c" target="_blank">/net/ipv4/tcp_vegas.c</a></p>
+<h5></h5>
+<h5 style="color: #000000;">HSTCP(High Speed TCP) 算法</h5>
+<p>这个算法来自<a href="http://tools.ietf.org/html/rfc3649" target="_blank">RFC 3649</a>（<a href="http://en.wikipedia.org/wiki/HSTCP" target="_blank">Wikipedia词条</a>）。其对最基础的算法进行了更改，他使得Congestion Window涨得快，减得慢。其中：</p>
+<ul>
+<li>拥塞避免时的窗口增长方式： cwnd = cwnd + α(cwnd) / cwnd</li>
+<li>丢包后窗口下降方式：cwnd = (1- β(cwnd))*cwnd</li>
+</ul>
+<p>注：α(cwnd)和β(cwnd)都是函数，如果你要让他们和标准的TCP一样，那么让α(cwnd)=1，β(cwnd)=0.5就可以了。 对于α(cwnd)和β(cwnd)的值是个动态的变换的东西。 关于这个算法的实现，你可以参看Linux源码：<a href="http://lxr.free-electrons.com/source/net/ipv4/tcp_highspeed.c" target="_blank">/net/ipv4/tcp_highspeed.c</a></p>
+<h5> TCP BIC 算法</h5>
+<p>2004年，产内出BIC算法。现在你还可以查得到相关的新闻《Google：<a href="https://www.google.com/search?lr=lang_zh-CN%7Clang_zh-TW&amp;newwindow=1&amp;biw=1366&amp;bih=597&amp;tbs=lr%3Alang_1zh-CN%7Clang_1zh-TW&amp;q=%E7%BE%8E%E7%A7%91%E5%AD%A6%E5%AE%B6%E7%A0%94%E5%8F%91BIC-TCP%E5%8D%8F%E8%AE%AE+%E9%80%9F%E5%BA%A6%E6%98%AFDSL%E5%85%AD%E5%8D%83%E5%80%8D&amp;oq=%E7%BE%8E%E7%A7%91%E5%AD%A6%E5%AE%B6%E7%A0%94%E5%8F%91BIC-TCP%E5%8D%8F%E8%AE%AE+%E9%80%9F%E5%BA%A6%E6%98%AFDSL%E5%85%AD%E5%8D%83%E5%80%8D" target="_blank">美科学家研发BIC-TCP协议 速度是DSL六千倍</a>》 BIC全称<a href="http://research.csc.ncsu.edu/netsrv/?q=content/bic-and-cubic" target="_blank">Binary Increase Congestion control</a>，在Linux 2.6.8中是默认拥塞控制算法。BIC的发明者发这么多的拥塞控制算法都在努力找一个合适的cwnd &#8211; Congestion Window，而且BIC-TCP的提出者们看穿了事情的本质，其实这就是一个搜索的过程，所以BIC这个算法主要用的是Binary Search——二分查找来干这个事。 关于这个算法实现，你可以参看Linux源码：<a href="http://lxr.free-electrons.com/source/net/ipv4/tcp_bic.c" target="_blank">/net/ipv4/tcp_bic.c</a></p>
+<h5>TCP WestWood算法</h5>
+<p><span style="color: #000000;">westwood采用和Reno相同的慢启动算法、拥塞避免算法。</span><span style="color: #000000;">westwood的主要改进方面：在发送端做带宽估计，当探测到丢包时，根据带宽值来设置拥塞窗口、</span><span style="color: #000000;">慢启动阈值。</span> 那么，这个算法是怎么测量带宽的？每个RTT时间，会测量一次带宽，测量带宽的公式很简单，就是这段RTT内成功被ack了多少字节。因为，这个带宽和用RTT计算RTO一样，也是需要从每个样本来平滑到一个值的——也是用一个加权移平均的公式。 另外，我们知道，如果一个网络的带宽是每秒可以发送X个字节，而RTT是一个数据发出去后确认需要的时候，所以，X * RTT应该是我们缓冲区大小。所以，在这个算法中，ssthresh的值就是est_BD * min-RTT(最小的RTT值)，如果丢包是Duplicated ACKs引起的，那么如果cwnd &gt; ssthresh，则 cwin = ssthresh。如果是RTO引起的，cwnd = 1，进入慢启动。   关于这个算法实现，你可以参看Linux源码： <a href="http://lxr.free-electrons.com/source/net/ipv4/tcp_westwood.c" target="_blank">/net/ipv4/tcp_westwood.c</a></p>
+<h5>其它</h5>
+<p>更多的算法，你可以从Wikipedia的 <a href="http://en.wikipedia.org/wiki/TCP_congestion-avoidance_algorithm" target="_blank">TCP Congestion Avoidance Algorithm</a> 词条中找到相关的线索</p>
+<h4> 后记</h4>
+<p>好了，到这里我想可以结束了，TCP发展到今天，里面的东西可以写上好几本书。本文主要目的，还是把你带入这些古典的基础技术和知识中，希望本文能让你了解TCP，更希望本文能让你开始有学习这些基础或底层知识的兴趣和信心。</p>
+<p>当然，TCP东西太多了，不同的人可能有不同的理解，而且本文可能也会有一些荒谬之言甚至错误，还希望得到您的反馈和批评。</p>
+<p style="text-align: left;">（全文完）</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/07/wall_clock-300x167-1-150x150.jpeg" alt="从一次经历谈 TIME_WAIT 的那些事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_title">从一次经历谈 TIME_WAIT 的那些事</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/11564.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/05/tin-can-phone-150x150.jpg" alt="TCP 的那些事儿（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11564.html" class="wp_rp_title">TCP 的那些事儿（上）</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/1484.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/09/tcp1-150x150.jpg" alt="TCP网络关闭的状态变换时序图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1484.html" class="wp_rp_title">TCP网络关闭的状态变换时序图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11609.html">TCP 的那些事儿（下）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11609.html/feed</wfw:commentRss>
+			<slash:comments>162</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>TCP 的那些事儿（上）</title>
+		<link>https://coolshell.cn/articles/11564.html</link>
+					<comments>https://coolshell.cn/articles/11564.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 28 May 2014 00:15:36 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[ACK]]></category>
+		<category><![CDATA[ISN]]></category>
+		<category><![CDATA[MSL]]></category>
+		<category><![CDATA[SACK]]></category>
+		<category><![CDATA[SYN]]></category>
+		<category><![CDATA[TCP]]></category>
+		<category><![CDATA[TIME_WAIT]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11564</guid>
+
+					<description><![CDATA[<p>TCP是一个巨复杂的协议，因为他要解决很多问题，而这些问题又带出了很多子问题和阴暗面。所以学习TCP本身是个比较痛苦的过程，但对于学习的过程却能让人有很多收获。...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11564.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11564.html">TCP 的那些事儿（上）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-11654" src="https://coolshell.cn/wp-content/uploads/2014/05/tin-can-phone.jpg" alt="" width="360" height="257" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tin-can-phone.jpg 495w, https://coolshell.cn/wp-content/uploads/2014/05/tin-can-phone-300x214.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/05/tin-can-phone-379x270.jpg 379w" sizes="(max-width: 360px) 100vw, 360px" />TCP是一个巨复杂的协议，因为他要解决很多问题，而这些问题又带出了很多子问题和阴暗面。所以学习TCP本身是个比较痛苦的过程，但对于学习的过程却能让人有很多收获。关于TCP这个协议的细节，我还是推荐你去看<a href="http://www.kohala.com/start/" target="_blank">W.Richard Stevens</a>的《<a href="http://book.douban.com/subject/1088054/" target="_blank">TCP/IP 详解 卷1：协议</a>》（当然，你也可以去读一下<a href="http://tools.ietf.org/html/rfc793" target="_blank">RFC793</a>以及后面N多的RFC）。另外，本文我会使用英文术语，这样方便你通过这些英文关键词来查找相关的技术文档。</p>
+<p>之所以想写这篇文章，目的有三个，</p>
+<ul>
+<li>一个是想锻炼一下自己是否可以用简单的篇幅把这么复杂的TCP协议描清楚的能力。</li>
+<li>另一个是觉得现在的好多程序员基本上不会认认真真地读本书，喜欢快餐文化，所以，希望这篇快餐文章可以让你对TCP这个古典技术有所了解，并能体会到软件设计中的种种难处。并且你可以从中有一些软件设计上的收获。</li>
+<li>最重要的希望这些基础知识可以让你搞清很多以前一些似是而非的东西，并且你能意识到基础的重要。</li>
+</ul>
+<p>所以，本文不会面面俱到，只是对TCP协议、算法和原理的科普。</p>
+<p><span id="more-11564"></span></p>
+<p>我本来只想写一个篇幅的文章的，但是TCP真TMD的复杂，比C++复杂多了，这30多年来，各种优化变种争论和修改。所以，写着写着就发现只有砍成两篇。</p>
+<ul>
+<li>上篇中，主要向你介绍TCP协议的定义和丢包时的重传机制。</li>
+<li>下篇中，重点介绍TCP的流迭、拥塞处理。</li>
+</ul>
+<p>废话少说，首先，我们需要知道TCP在网络OSI的七层模型中的第四层——Transport层，IP在第三层——Network层，ARP在第二层——Data Link层，在第二层上的数据，我们叫Frame，在第三层上的数据叫Packet，第四层的数据叫Segment。</p>
+<p>首先，我们需要知道，我们程序的数据首先会打到TCP的Segment中，然后TCP的Segment会打到IP的Packet中，然后再打到以太网Ethernet的Frame中，传到对端后，各个层解析自己的协议，然后把数据交给更高层的协议处理。</p>
+<h4>TCP头格式</h4>
+<p>接下来，我们来看一下TCP头的格式</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter wp-image-11572" src="https://coolshell.cn/wp-content/uploads/2014/05/TCP-Header-01.jpg" alt="" width="700" height="284" srcset="https://coolshell.cn/wp-content/uploads/2014/05/TCP-Header-01.jpg 800w, https://coolshell.cn/wp-content/uploads/2014/05/TCP-Header-01-300x121.jpg 300w" sizes="(max-width: 700px) 100vw, 700px" />TCP头格式（<a href="http://nmap.org/book/tcpip-ref.html" target="_blank">图片来源</a>）</p>
+<p>你需要注意这么几点：</p>
+<ul>
+<li>TCP的包是没有IP地址的，那是IP层上的事。但是有源端口和目标端口。</li>
+<li>一个TCP连接需要四个元组来表示是同一个连接（src_ip, src_port, dst_ip, dst_port）准确说是五元组，还有一个是协议。但因为这里只是说TCP协议，所以，这里我只说四元组。</li>
+<li>注意上图中的四个非常重要的东西：
+<ul>
+<li><strong>Sequence Number</strong>是包的序号，<strong>用来解决网络包乱序（reordering）问题。</strong></li>
+<li><strong>Acknowledgement Number</strong>就是ACK——用于确认收到，<strong>用来解决不丢包的问题</strong>。</li>
+<li><strong>Window又叫Advertised-Window</strong>，也就是著名的滑动窗口（Sliding Window），<strong>用于解决流控的</strong>。</li>
+<li><strong>TCP Flag</strong> ，也就是包的类型，<strong>主要是用于操控TCP的状态机的</strong>。</li>
+</ul>
+</li>
+</ul>
+<p>关于其它的东西，可以参看下面的图示</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-11573" src="https://coolshell.cn/wp-content/uploads/2014/05/TCP-Header-02.jpg" alt="" width="700" height="214" srcset="https://coolshell.cn/wp-content/uploads/2014/05/TCP-Header-02.jpg 800w, https://coolshell.cn/wp-content/uploads/2014/05/TCP-Header-02-300x91.jpg 300w" sizes="(max-width: 700px) 100vw, 700px" /></p>
+<p style="text-align: center;">（<a href="http://nmap.org/book/tcpip-ref.html" target="_blank">图片来源</a>）</p>
+<h4>TCP的状态机</h4>
+<p>其实，<strong>网络上的传输是没有连接的，包括TCP也是一样的</strong>。而TCP所谓的“连接”，其实只不过是在通讯的双方维护一个“连接状态”，让它看上去好像有连接一样。所以，TCP的状态变换是非常重要的。</p>
+<p>下面是：“<strong>TCP协议的状态机</strong>”（<a href="http://www.tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm" target="_blank">图片来源</a>） 和 “<strong>TCP建链接</strong>”、“<strong>TCP断链接</strong>”、“<strong>传数据</strong>” 的对照图，我把两个图并排放在一起，这样方便在你对照着看。另外，下面这两个图非常非常的重要，你一定要记牢。（吐个槽：看到这样复杂的状态机，就知道这个协议有多复杂，复杂的东西总是有很多坑爹的事情，所以TCP协议其实也挺坑爹的）</p>
+<p><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2014/05/tcpfsm.png" alt="" width="386" height="550" align="top" /> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2014/05/tcp_open_close.jpg" alt="" width="370" height="520" /></p>
+<p>很多人会问，为什么建链接要3次握手，断链接需要4次挥手？</p>
+<ul>
+<li><strong>对于建链接的3次握手，</strong>主要是要初始化Sequence Number 的初始值。通信的双方要互相通知对方自己的初始化的Sequence Number（缩写为ISN：Inital Sequence Number）——所以叫SYN，全称Synchronize Sequence Numbers。也就上图中的 x 和 y。这个号要作为以后的数据通信的序号，以保证应用层接收到的数据不会因为网络上的传输的问题而乱序（TCP会用这个序号来拼接数据）。</li>
+</ul>
+<ul>
+<li><strong>对于4次挥手，</strong>其实你仔细看是2次，因为TCP是全双工的，所以，发送方和接收方都需要Fin和Ack。只不过，有一方是被动的，所以看上去就成了所谓的4次挥手。如果两边同时断连接，那就会就进入到CLOSING状态，然后到达TIME_WAIT状态。下图是双方同时断连接的示意图（你同样可以对照着TCP状态机看）：</li>
+</ul>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter wp-image-11586" src="https://coolshell.cn/wp-content/uploads/2014/05/tcpclosesimul.png" alt="" width="500" height="395" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcpclosesimul.png 666w, https://coolshell.cn/wp-content/uploads/2014/05/tcpclosesimul-300x236.png 300w" sizes="(max-width: 500px) 100vw, 500px" /><br />
+两端同时断连接（<a href="http://www.tcpipguide.com/free/t_TCPConnectionTermination-4.htm" target="_blank">图片来源</a>）</p>
+<p>&nbsp;</p>
+<p>另外，有几个事情需要注意一下：</p>
+<ul>
+<li><strong>关于建连接时SYN超时</strong>。试想一下，如果server端接到了clien发的SYN后回了SYN-ACK后client掉线了，server端没有收到client回来的ACK，那么，这个连接处于一个中间状态，即没成功，也没失败。于是，server端如果在一定时间内没有收到的TCP会重发SYN-ACK。在Linux下，默认重试次数为5次，重试的间隔时间从1s开始每次都翻售，5次的重试时间间隔为1s, 2s, 4s, 8s, 16s，总共31s，第5次发出后还要等32s都知道第5次也超时了，所以，总共需要 1s + 2s + 4s+ 8s+ 16s + 32s = 2^6 -1 = 63s，TCP才会把断开这个连接。</li>
+</ul>
+<ul>
+<li><strong>关于SYN Flood攻击</strong>。一些恶意的人就为此制造了SYN Flood攻击——给服务器发了一个SYN后，就下线了，于是服务器需要默认等63s才会断开连接，这样，攻击者就可以把服务器的syn连接的队列耗尽，让正常的连接请求不能处理。于是，Linux下给了一个叫<strong>tcp_syncookies</strong>的参数来应对这个事——当SYN队列满了后，TCP会通过源地址端口、目标地址端口和时间戳打造出一个特别的Sequence Number发回去（又叫cookie），如果是攻击者则不会有响应，如果是正常连接，则会把这个 SYN Cookie发回来，然后服务端可以通过cookie建连接（即使你不在SYN队列中）。请注意，<strong>请先千万别用tcp_syncookies来处理正常的大负载的连接的情况</strong>。因为，synccookies是妥协版的TCP协议，并不严谨。对于正常的请求，你应该调整三个TCP参数可供你选择，第一个是：tcp_synack_retries 可以用他来减少重试次数；第二个是：tcp_max_syn_backlog，可以增大SYN连接数；第三个是：tcp_abort_on_overflow 处理不过来干脆就直接拒绝连接了。</li>
+</ul>
+<ul>
+<li><strong>关于ISN的初始化</strong>。ISN是不能hard code的，不然会出问题的——比如：如果连接建好后始终用1来做ISN，如果client发了30个segment过去，但是网络断了，于是 client重连，又用了1做ISN，但是之前连接的那些包到了，于是就被当成了新连接的包，此时，client的Sequence Number 可能是3，而Server端认为client端的这个号是30了。全乱了。<a href="http://tools.ietf.org/html/rfc793" target="_blank">RFC793</a>中说，ISN会和一个假的时钟绑在一起，这个时钟会在每4微秒对ISN做加一操作，直到超过2^32，又从0开始。这样，一个ISN的周期大约是4.55个小时。因为，我们假设我们的TCP Segment在网络上的存活时间不会超过Maximum Segment Lifetime（缩写为MSL &#8211; <a href="http://en.wikipedia.org/wiki/Maximum_Segment_Lifetime" target="_blank">Wikipedia语条</a>），所以，只要MSL的值小于4.55小时，那么，我们就不会重用到ISN。</li>
+</ul>
+<ul>
+<li><strong>关于 MSL 和 TIME_WAIT</strong>。通过上面的ISN的描述，相信你也知道MSL是怎么来的了。我们注意到，在TCP的状态图中，从TIME_WAIT状态到CLOSED状态，有一个超时设置，这个超时设置是 2*MSL（<a href="http://tools.ietf.org/html/rfc793" target="_blank">RFC793</a>定义了MSL为2分钟，Linux设置成了30s）为什么要这有TIME_WAIT？为什么不直接给转成CLOSED状态呢？主要有两个原因：1）TIME_WAIT确保有足够的时间让对端收到了ACK，如果被动关闭的那方没有收到Ack，就会触发被动端重发Fin，一来一去正好2个MSL，2）有足够的时间让这个连接不会跟后面的连接混在一起（你要知道，有些自做主张的路由器会缓存IP数据包，如果连接被重用了，那么这些延迟收到的包就有可能会跟新连接混在一起）。你可以看看这篇文章《<a href="http://www.serverframework.com/asynchronousevents/2011/01/time-wait-and-its-design-implications-for-protocols-and-scalable-servers.html" target="_blank">TIME_WAIT and its design implications for protocols and scalable client server systems</a>》</li>
+</ul>
+<ul>
+<li><strong>关于TIME_WAIT数量太多</strong>。从上面的描述我们可以知道，TIME_WAIT是个很重要的状态，但是如果在大并发的短链接下，TIME_WAIT 就会太多，这也会消耗很多系统资源。只要搜一下，你就会发现，十有八九的处理方式都是教你设置两个参数，一个叫<strong>tcp_tw_reuse</strong>，另一个叫<strong>tcp_tw_recycle</strong>的参数，这两个参数默认值都是被关闭的，后者recyle比前者resue更为激进，resue要温柔一些。另外，如果使用tcp_tw_reuse，必需设置tcp_timestamps=1，否则无效。这里，你一定要注意，<strong>打开这两个参数会有比较大的坑——可能会让TCP连接出一些诡异的问题</strong>（因为如上述一样，如果不等待超时重用连接的话，新的连接可能会建不上。正如<a href="https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt" target="_blank">官方文档</a>上说的一样“<strong>It should not be changed without advice/request of technical experts</strong>”）。</li>
+</ul>
+<ul>
+<ul style="padding-left: 30px;">
+<li><strong>关于tcp_tw_reuse</strong>。官方文档上说tcp_tw_reuse 加上tcp_timestamps（又叫PAWS, for Protection Against Wrapped Sequence Numbers）可以保证协议的角度上的安全，但是你需要tcp_timestamps在两边都被打开（你可以读一下<a href="http://lxr.free-electrons.com/ident?i=tcp_twsk_unique">tcp_twsk_unique</a>的源码<span style="color: #000000;"> </span>）。我个人估计还是有一些场景会有问题。</li>
+</ul>
+</ul>
+<ul style="padding-left: 30px;">
+<ul>
+<li><strong>关于tcp_tw_recycle</strong>。如果是tcp_tw_recycle被打开了话，会假设对端开启了tcp_timestamps，然后会去比较时间戳，如果时间戳变大了，就可以重用。但是，如果对端是一个NAT网络的话（如：一个公司只用一个IP出公网）或是对端的IP被另一台重用了，这个事就复杂了。建链接的SYN可能就被直接丢掉了（你可能会看到connection time out的错误）（如果你想观摩一下Linux的内核代码，请参看源码<a href="http://lxr.free-electrons.com/ident?i=tcp_timewait_state_process"> tcp_timewait_state_process</a>）。</li>
+</ul>
+</ul>
+<ul style="padding-left: 30px;">
+<ul>
+<li><strong style="color: #373737;">关于tcp_max_tw_buckets</strong>。这个是控制并发的TIME_WAIT的数量，默认值是180000，如果超限，那么，系统会把多的给destory掉，然后在日志里打一个警告（如：<span style="color: #373737;">time wait bucket table overflow</span>），官网文档说这个参数是用来对抗DDoS攻击的。也说的默认值180000并不小。这个还是需要根据实际情况考虑。</li>
+</ul>
+</ul>
+<p><strong>Again，使用tcp_tw_reuse和tcp_tw_recycle来解决TIME_WAIT的问题是非常非常危险的，因为这两个参数违反了TCP协议（<a href="http://tools.ietf.org/html/rfc1122" target="_blank">RFC 1122</a>） </strong></p>
+<p>其实，TIME_WAIT表示的是你主动断连接，所以，这就是所谓的“不作死不会死”。试想，如果让对端断连接，那么这个破问题就是对方的了，呵呵。另外，如果你的服务器是于HTTP服务器，那么设置一个<a href="http://en.wikipedia.org/wiki/HTTP_persistent_connection" target="_blank">HTTP的KeepAlive</a>有多重要（浏览器会重用一个TCP连接来处理多个HTTP请求），然后让客户端去断链接（你要小心，浏览器可能会非常贪婪，他们不到万不得已不会主动断连接）。</p>
+<h4>数据传输中的Sequence Number</h4>
+<p>下图是我从Wireshark中截了个我在访问coolshell.cn时的有数据传输的图给你看一下，SeqNum是怎么变的。（使用Wireshark菜单中的Statistics -&gt;Flow Graph&#8230; ）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11595" src="https://coolshell.cn/wp-content/uploads/2014/05/tcp_data_seq_num.jpg" alt="" width="381" height="361" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcp_data_seq_num.jpg 381w, https://coolshell.cn/wp-content/uploads/2014/05/tcp_data_seq_num-300x284.jpg 300w" sizes="(max-width: 381px) 100vw, 381px" /></p>
+<p>你可以看到，<strong>SeqNum的增加是和传输的字节数相关的</strong>。上图中，三次握手后，来了两个Len:1440的包，而第二个包的SeqNum就成了1441。然后第一个ACK回的是1441，表示第一个1440收到了。</p>
+<p><strong>注意</strong>：如果你用Wireshark抓包程序看3次握手，你会发现SeqNum总是为0，不是这样的，Wireshark为了显示更友好，使用了Relative SeqNum——相对序号，你只要在右键菜单中的protocol preference 中取消掉就可以看到“Absolute SeqNum”了</p>
+<h4>TCP重传机制</h4>
+<p>TCP要保证所有的数据包都可以到达，所以，必需要有重传机制。</p>
+<p>注意，接收端给发送端的Ack确认只会确认最后一个连续的包，比如，发送端发了1,2,3,4,5一共五份数据，接收端收到了1，2，于是回ack 3，然后收到了4（注意此时3没收到），此时的TCP会怎么办？我们要知道，因为正如前面所说的，<strong>SeqNum和Ack是以字节数为单位，所以ack的时候，不能跳着确认，只能确认最大的连续收到的包</strong>，不然，发送端就以为之前的都收到了。</p>
+<h5>超时重传机制</h5>
+<p>一种是不回ack，死等3，当发送方发现收不到3的ack超时后，会重传3。一旦接收方收到3后，会ack 回 4——意味着3和4都收到了。</p>
+<p>但是，这种方式会有比较严重的问题，那就是因为要死等3，所以会导致4和5即便已经收到了，而发送方也完全不知道发生了什么事，因为没有收到Ack，所以，发送方可能会悲观地认为也丢了，所以有可能也会导致4和5的重传。</p>
+<p>对此有两种选择：</p>
+<ul>
+<li>一种是仅重传timeout的包。也就是第3份数据。</li>
+<li>另一种是重传timeout后所有的数据，也就是第3，4，5这三份数据。</li>
+</ul>
+<p>这两种方式有好也有不好。第一种会节省带宽，但是慢，第二种会快一点，但是会浪费带宽，也可能会有无用功。但总体来说都不好。因为都在等timeout，timeout可能会很长（在下篇会说TCP是怎么动态地计算出timeout的）</p>
+<h5>快速重传机制</h5>
+<p>于是，TCP引入了一种叫<strong>Fast Retransmit</strong> 的算法，<strong>不以时间驱动，而以数据驱动重传</strong>。也就是说，如果，包没有连续到达，就ack最后那个可能被丢了的包，如果发送方连续收到3次相同的ack，就重传。Fast Retransmit的好处是不用等timeout了再重传。</p>
+<p>比如：如果发送方发出了1，2，3，4，5份数据，第一份先到送了，于是就ack回2，结果2因为某些原因没收到，3到达了，于是还是ack回2，后面的4和5都到了，但是还是ack回2，因为2还是没有收到，于是发送端收到了三个ack=2的确认，知道了2还没有到，于是就马上重转2。然后，接收端收到了2，此时因为3，4，5都收到了，于是ack回6。示意图如下：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11599" src="https://coolshell.cn/wp-content/uploads/2014/05/FASTIncast021.png" alt="" width="450" height="291" srcset="https://coolshell.cn/wp-content/uploads/2014/05/FASTIncast021.png 450w, https://coolshell.cn/wp-content/uploads/2014/05/FASTIncast021-300x194.png 300w" sizes="(max-width: 450px) 100vw, 450px" /></p>
+<p>Fast Retransmit只解决了一个问题，就是timeout的问题，它依然面临一个艰难的选择，就是，是重传之前的一个还是重传所有的问题。对于上面的示例来说，是重传#2呢还是重传#2，#3，#4，#5呢？因为发送端并不清楚这连续的3个ack(2)是谁传回来的？也许发送端发了20份数据，是#6，#10，#20传来的呢。这样，发送端很有可能要重传从2到20的这堆数据（这就是某些TCP的实际的实现）。可见，这是一把双刃剑。</p>
+<h5>SACK 方法</h5>
+<p>另外一种更好的方式叫：<strong>Selective Acknowledgment (SACK)</strong>（参看<a href="http://tools.ietf.org/html/rfc2018" target="_blank">RFC 2018</a>），这种方式需要在TCP头里加一个SACK的东西，ACK还是Fast Retransmit的ACK，SACK则是汇报收到的数据碎版。参看下图：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-11600" src="https://coolshell.cn/wp-content/uploads/2014/05/tcp_sack_example-1024x577.jpg" alt="" width="600" height="338" srcset="https://coolshell.cn/wp-content/uploads/2014/05/tcp_sack_example-1024x577.jpg 1024w, https://coolshell.cn/wp-content/uploads/2014/05/tcp_sack_example-300x169.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/05/tcp_sack_example-900x507.jpg 900w, https://coolshell.cn/wp-content/uploads/2014/05/tcp_sack_example.jpg 1437w" sizes="(max-width: 600px) 100vw, 600px" /></p>
+<p>这样，在发送端就可以根据回传的SACK来知道哪些数据到了，哪些没有到。于是就优化了Fast Retransmit的算法。当然，这个协议需要两边都支持。在 Linux下，可以通过<strong>tcp_sack</strong>参数打开这个功能（Linux 2.4后默认打开）。</p>
+<p>这里还需要注意一个问题——<strong>接收方Reneging，所谓Reneging的意思就是接收方有权把已经报给发送端SACK里的数据给丢了</strong>。这样干是不被鼓励的，因为这个事会把问题复杂化了，但是，接收方这么做可能会有些极端情况，比如要把内存给别的更重要的东西。<strong>所以，发送方也不能完全依赖SACK，还是要依赖ACK，并维护Time-Out，如果后续的ACK没有增长，那么还是要把SACK的东西重传，另外，接收端这边永远不能把SACK的包标记为Ack。</strong></p>
+<p>注意：SACK会消费发送方的资源，试想，如果一个攻击者给数据发送方发一堆SACK的选项，这会导致发送方开始要重传甚至遍历已经发出的数据，这会消耗很多发送端的资源。详细的东西请参看《<a href="http://www.ibm.com/developerworks/cn/linux/l-tcp-sack/" target="_blank">TCP SACK的性能权衡</a>》</p>
+<h5>Duplicate SACK &#8211; 重复收到数据的问题</h5>
+<p>Duplicate SACK又称D-SACK，<strong>其主要使用了SACK来告诉发送方有哪些数据被重复接收了</strong>。<a href="http://www.ietf.org/rfc/rfc2883.txt" target="_blank">RFC-2883 </a>里有详细描述和示例。下面举几个例子（来源于<a href="http://www.ietf.org/rfc/rfc2883.txt" target="_blank">RFC-2883</a>）</p>
+<p>D-SACK使用了SACK的第一个段来做标志，</p>
+<ul>
+<li>如果SACK的第一个段的范围被ACK所覆盖，那么就是D-SACK</li>
+</ul>
+<ul>
+<li>如果SACK的第一个段的范围被SACK的第二个段覆盖，那么就是D-SACK</li>
+</ul>
+<p><strong>示例一：ACK丢包</strong></p>
+<p>下面的示例中，丢了两个ACK，所以，发送端重传了第一个数据包（3000-3499），于是接收端发现重复收到，于是回了一个SACK=3000-3500，因为ACK都到了4000意味着收到了4000之前的所有数据，所以这个SACK就是D-SACK——旨在告诉发送端我收到了重复的数据，而且我们的发送端还知道，数据包没有丢，丢的是ACK包。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+	Transmitted  Received    ACK Sent
+	Segment      Segment     (Including SACK Blocks)
+
+	3000-3499    3000-3499   3500 (ACK dropped)
+	3500-3999    3500-3999   4000 (ACK dropped)
+	3000-3499    3000-3499   4000, SACK=3000-3500
+                                        ---------</pre>
+<p><strong> 示例二，网络延误</strong></p>
+<p>下面的示例中，网络包（1000-1499）被网络给延误了，导致发送方没有收到ACK，而后面到达的三个包触发了“Fast Retransmit算法”，所以重传，但重传时，被延误的包又到了，所以，回了一个SACK=1000-1500，因为ACK已到了3000，所以，这个SACK是D-SACK——标识收到了重复的包。</p>
+<p>这个案例下，发送端知道之前因为“Fast Retransmit算法”触发的重传不是因为发出去的包丢了，也不是因为回应的ACK包丢了，而是因为网络延时了。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+    Transmitted    Received    ACK Sent
+    Segment        Segment     (Including SACK Blocks)
+
+    500-999        500-999     1000
+    1000-1499      (delayed)
+    1500-1999      1500-1999   1000, SACK=1500-2000
+    2000-2499      2000-2499   1000, SACK=1500-2500
+    2500-2999      2500-2999   1000, SACK=1500-3000
+    1000-1499      1000-1499   3000
+                   1000-1499   3000, SACK=1000-1500
+                                          ---------</pre>
+<p>&nbsp;</p>
+<p>可见，引入了D-SACK，有这么几个好处：</p>
+<p style="padding-left: 30px;">1）可以让发送方知道，是发出去的包丢了，还是回来的ACK包丢了。</p>
+<p style="padding-left: 30px;">2）是不是自己的timeout太小了，导致重传。</p>
+<p style="padding-left: 30px;">3）网络上出现了先发的包后到的情况（又称reordering）</p>
+<p style="padding-left: 30px;">4）网络上是不是把我的数据包给复制了。</p>
+<p> <strong>知道这些东西可以很好得帮助TCP了解网络情况，从而可以更好的做网络上的流控</strong>。</p>
+<p>Linux下的tcp_dsack参数用于开启这个功能（Linux 2.4后默认打开）</p>
+<p>好了，上篇就到这里结束了。如果你觉得我写得还比较浅显易懂，那么，欢迎移步看下篇《<a href="https://coolshell.cn/articles/11609.html" target="_blank">TCP的那些事（下）</a>》</p>
+<p style="text-align: right;"><strong> <a href="https://coolshell.cn/articles/11609.html" target="_blank">TCP的那些事儿（下）&gt;&gt;&gt;</a></strong></p>
+<p style="text-align: left;">（上篇完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/07/wall_clock-300x167-1-150x150.jpeg" alt="从一次经历谈 TIME_WAIT 的那些事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_title">从一次经历谈 TIME_WAIT 的那些事</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318-150x150.jpg" alt="TCP 的那些事儿（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_title">TCP 的那些事儿（下）</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/1484.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/09/tcp1-150x150.jpg" alt="TCP网络关闭的状态变换时序图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1484.html" class="wp_rp_title">TCP网络关闭的状态变换时序图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11564.html">TCP 的那些事儿（上）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11564.html/feed</wfw:commentRss>
+			<slash:comments>237</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Alan Cox：单向链表中prev指针的妙用</title>
+		<link>https://coolshell.cn/articles/9859.html</link>
+					<comments>https://coolshell.cn/articles/9859.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Sun, 30 Jun 2013 04:27:04 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Alan Cox]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[TCP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9859</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 之前发过一篇二级指针操作单向链表的例子，显示了C语言指针的灵活性，这次再探讨一个指针操作链表的例子，而且是一种完全不同的用...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9859.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9859.html">Alan Cox：单向链表中prev指针的妙用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><figure id="attachment_9906" aria-describedby="caption-attachment-9906" style="width: 200px" class="wp-caption alignright"><img decoding="async" loading="lazy" class="size-medium wp-image-9906" title="Alan Cox" alt="Alan Cox" src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-200x300.jpg" width="200" height="300" srcset="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-200x300.jpg 200w, https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-180x270.jpg 180w, https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox.jpg 667w" sizes="(max-width: 200px) 100vw, 200px" /><figcaption id="caption-attachment-9906" class="wp-caption-text">Alan Cox</figcaption></figure></p>
+<p><span style="color: #cc0000;"><strong> （感谢网友 </strong></span><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><span style="color: #cc0000;"><strong> 投稿）</strong></span></p>
+<p>之前发过一篇<a href="https://coolshell.cn/articles/8990.html" target="_blank">二级指针操作单向链表</a>的例子，显示了C语言指针的灵活性，这次再探讨一个指针操作链表的例子，而且是一种完全不同的用法。</p>
+<p>这个例子是linux-1.2.13网络协议栈里的，关于链表遍历&#038;数据拷贝的一处实现。源文件是/net/inet/dev.c，你可以从<a href="https://www.kernel.org/pub/linux/kernel/v1.2/" target="_blank">kernel.org</a>官网上下载。</p>
+<p>从最早的0.96c版本开始，linux网络部分一直采取TCP/IP协议族实现，这是最为广泛应用的网络协议，整个架构就是经典的OSI七层模型的描述，其中dev.c是属于链路层实现。从功能上看，其位于网络设备驱动程序和网络层协议实现模块之间，作为二者之间的数据包传输通道，一种接口模块而存在——对驱动层的接口函数netif_rx, 以及对网络层的接口函数net_bh。前者提供给驱动模块的中断例程调用，用于链路数据帧的封装；后者作为驱动中断例程<strong>底半部(buttom half)</strong>，用于对数据帧的解析处理并向上层传送。</p>
+<p>为了便于理解，这里补充一下网络通信原理和linux驱动中断机制的背景知识。从最底层的物理层说起，当主机和路由器相互之间进行通信的时候，在物理介质上（同轴、光纤等）以电平信号进行传输。主机或路由器的<strong>硬件接口（网卡）</strong>负责收发这些信号，当信号发送到接口，再由内置的<strong>调制解调器(modem)</strong>将数字信号转换成二进制码，这样才能驻留在主机的硬件缓存中。这时接口（网卡）设备驱动程序将通过<strong>硬中断</strong>来获取硬件缓存中的数据，驱动程序是操作系统中负责直接同硬件设备打交道的模块，硬中断的触发是初始化时通过设置控制寄存器实现的，用于通知驱动程序硬件缓存中有新的数据到来。linux卡设备驱动就是在<strong>中断处理例程(ISR)</strong>中将硬件缓存数据拷贝到内核缓存中，打包成数据链路帧进行解析处理，再向上分发到各种协议层。由于ISR上下文是原子性的、中断屏蔽的，整个步骤又较为繁琐，因此全部放在ISR中处理会影响到其它中断响应实时性，于是linux有实现一种bottom half的<strong>软中断</strong>处理机制，将整个ISR一分为二，前半部上下文屏蔽所有中断，专门处理紧急的、实时性强的事务，如拷贝硬件缓存并打包封装，后半部上下文没有屏蔽中断（但代码不可重入），用于处理比较耗时且非紧急事务，包括数据帧的解析处理和分发。下面要讲的net_bh就属于后半部。</p>
+<p>我们主要关心的是将链路帧分发到协议层那一段逻辑，下面摘自net_bh函数中的一段代码：</p>
+<p><span id="more-9859"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">526 void net_bh(void *tmp)
+527 {
+       ...
+577
+578    /*
+579    * We got a packet ID.  Now loop over the &quot;known protocols&quot;
+580    * table (which is actually a linked list, but this will
+581    * change soon if I get my way- FvK), and forward the packet
+582    * to anyone who wants it.
+583    *
+584    * [FvK didn&#039;t get his way but he is right this ought to be
+585    * hashed so we typically get a single hit. The speed cost
+586    * here is minimal but no doubt adds up at the 4,000+ pkts/second
+587    * rate we can hit flat out]
+588    */
+589   pt_prev = NULL;
+590   for (ptype = ptype_base; ptype != NULL; ptype = ptype-&gt;next)
+591   {
+592    if ((ptype-&gt;type == type || ptype-&gt;type == htons(ETH_P_ALL)) &amp;&amp; (!ptype-&gt;dev || ptype-&gt;dev==skb-&gt;dev))
+593    {
+594      /*
+595      * We already have a match queued. Deliver
+596      * to it and then remember the new match
+597      */
+598      if(pt_prev)
+599      {
+600        struct sk_buff *skb2;
+601        skb2=skb_clone(skb, GFP_ATOMIC);
+602        /*
+603        * Kick the protocol handler. This should be fast
+604        * and efficient code.
+605        */
+606        if(skb2)
+607          pt_prev-&gt;func(skb2, skb-&gt;dev, pt_prev);
+608      }
+609      /* Remember the current last to do */
+610      pt_prev=ptype;
+611    }
+612   } /* End of protocol list loop */
+613   /*
+614   * Is there a last item to send to ?
+615   */
+616   if(pt_prev)
+617     pt_prev-&gt;func(skb, skb-&gt;dev, pt_prev);
+618   /*
+619    *  Has an unknown packet has been received ?
+620    */
+621   else
+622     kfree_skb(skb, FREE_WRITE);
+623
+      ...
+640 }</pre>
+<p>在此稍稍解说一下数据结构，skb就是内核缓存中sock数据封装，协议栈里从链路层到传输层都会用到，只不过封装格式不同，主要是对<strong>协议首部(header)</strong>的由下而上层层剥离（反之由上而下是层层创建），在此你只需理解为一个链路数据帧即可。这段代码的逻辑是解析skb中的协议字段，从协议类型链表（由ptype_base维护）中查询对应的协议节点进行函数指针func回调，以便将数据帧分发到相应的协议层（如ARP、IP、8022、8023等）。</p>
+<p>第一眼看上去是不是有点奇怪？这段代码竟然用一个pt_prev指针去维护ptype链表中前一个节点，从而产生了额外的条件分支判断，咋一看是否多了很多“余”了？回顾一下那篇<a href="https://coolshell.cn/articles/8990.html" target="_blank">二级指针操作单向链表</a>的博文，简直完全是反其道而行之的。如果把pt_prev去掉，代码可以精简为：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">  for (ptype = ptype_base; ptype != NULL; ptype = ptype-&gt;next)
+  {
+    if ((ptype-&gt;type == type || ptype-&gt;type == htons(ETH_P_ALL)) &amp;&amp; (!ptype-&gt;dev || ptype-&gt;dev==skb-&gt;dev))
+    {
+        /*
+        * We already have a match queued. Deliver
+        * to it and then remember the new match
+        */
+        struct sk_buff *skb2;
+        skb2=skb_clone(skb, GFP_ATOMIC);
+        /*
+        * Kick the protocol handler. This should be fast
+        * and efficient code.
+        */
+        if(skb2)
+            pt_prev-&gt;func(skb2, skb-&gt;dev, pt_prev);
+    }
+} /* End of protocol list loop */
+
+kfree_skb(skb, FREE_WRITE);</pre>
+<p>咋看一下“干净”了很多，不是吗？但我们要记住一点，凡是网上发布的linux内核源代码，都是都是经过众多黑客高手们重重检视并验证过的，人家这么写肯定有十分充足的理由，所以不要太过于相信自己的直觉了，让我们再好好review一下代码吧！看看这段循环里做了什么事情？特别是第592~611行。</p>
+<p>由于从网络上拷贝过来skb是唯一的，而分发的协议对象可能是多个，所以在回调之前要做一次clone动作（注意这里是深度拷贝，相当于一次kmalloc）。分发之后还需要调用kfree_skb释放掉原始skb数据块，它的历史使命到此完成了，没有保留的必要（第622行）。<strong>注意，这两个动作都是存在内核开销的。</strong></p>
+<p>然而这里为啥要pt_prev维护一个后向节点呢？这是有深意的，它的作用就是将当前匹配协议项的回调操作延时了。举个例子，如果链表遍历中找到某个匹配项，当前循环仅仅用pt_prev去记录这个匹配项，除此之外不做任何事情，待到下一次匹配项找到时，才去做上一个匹配项pt_prev的回调操作，直到循环结束，才会去做最后的匹配项的回调（当然pt_prev==NULL表示没有一次匹配，直接释放掉），所以这是一种<strong>拖延战术</strong>。有什么好处呢？就是比原先节省了很多不必要的操作。那么哪些操作是不必要的呢？这里我们逆向思考一下，我们看到clone是在协议字段匹配并且pt_prev!=NULL的前提条件下执行的，而kfree是在pt_prev==NULL的前提条件下执行的。在此可以假设一下，如果ptype链表中存在N项协议与之匹配，那么这段代码只会执行N-1次clone，而没有pt_prev时将会执行N次clone和1次kfree，再如果ptype链表中有且仅有一项协议与之匹配，那么整个循环既不会执行到第601行的clone，也不会执行到第622行的kfree。</p>
+<p>也就是说，<strong>当整个链表至少有一项匹配的一般情况下，pt_prev存在比没有时减少了一次clone和一次kfree的开销；只有全部不匹配的最差情况下，两者都只做一次kfree动作，持平。这就是延迟策略产生的效益</strong>。</p>
+<p>熟悉TCP/IP协议族的开发人员应该知道<strong>MTU（最大传输单元）</strong>这个概念，遵循不同协议的MTU值是不同的。比如以太网帧MTU是1500个字节，802.3帧MTU是1492字节，PPP链路帧MTU是269字节，而超通道MTU理论上是65535字节。要知道在一个高速吞吐量通信网络环境下，在大块数据分片传输线路里，在内核级别代码中，减少一处系统开销意味着什么？</p>
+<p>其实我们完全可以抛开一切网络协议相关知识，这不过是一段极其普通的单向链表操作而已，逻辑并不复杂。但是看看人家顶级黑客是怎么思考和coding的，对比一下自己写过的代码，多少次数据处理是用一个简单的for循环匆匆敷衍了事而没有进一步思考其中的粗陋和不合理之处？面对真正的编程高手这种“心计”与“城府”，你是不是有种莫名不安感？你会怀疑你真的了解怎么去使用和操作C语言中基本的链表数据结构么？如果答案是肯定的，那就开始颤抖吧（哈，别误会，其实上面这段话不过是笔者的自我告解罢了）~~~</p>
+<p>最后，让我们感谢尊敬的<a href="http://en.wikipedia.org/wiki/Alan_Cox" target="_blank">Alan Cox</a>大大对Linux社区卓越精细、无与伦比的贡献！（Alan是图中中部戴红帽子的那位）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" alt="Linux Kernel Team" src="http://old.lwn.net/images/ks/group2.jpg" width="704" height="323" /></p>
+<p><strong>附注：</strong></p>
+<p>最新的Linux-2.6.x版本中协议栈实现部分变动很大，但/net/core/dev.c的netif_receive_skb函数里仍然保留了pt_prev这种用法，目的是一样的，都是为了减少一次系统开销的优化操作。</p>
+<p>关于Alan，他在斯旺西大学工作时，在学校服务器上安装了一个早期的linux版本，供学校使用。他修正了许多的问题，重写了网络系统中的许多部份。随后成为linux内核开发小组中的重要成员。<a href="http://en.wikipedia.org/wiki/Alan_Cox" target="_blank">Alan Cox</a>负责维持2.2版，在2.4版上拥有自己的分支（在版本号上会冠上ac，如 2.4.13-ac1）。他的分支版本非常稳定，修正许多错误，许多厂商都使用他的版本。在他去进修工商管理硕士之前，涉入许多linux内核开发的事务，在社群中有很高的地位，有时会被视为是Linus之下的第二号领导者。</p>
+<p>不过，今年1月28日的时候，Alan因为家庭原因宣布退出Linux项目了，下面是他Google+的声明：</p>
+<blockquote><p>“I’m leaving the Linux world and Intel for a bit for family reasons, I’m aware that ‘family reasons’ is usually management speak for ‘I think the boss is an asshole’ but I’d like to assure everyone that while I frequently think Linus is an asshole (and therefore very good as kernel dictator) I am departing quite genuinely for family reasons and not because I’ve fallen out with Linus or Intel or anyone else. Far from it I’ve had great fun working there.”</p></blockquote>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9859.html">Alan Cox：单向链表中prev指针的妙用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9859.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>性能调优攻略</title>
+		<link>https://coolshell.cn/articles/7490.html</link>
+					<comments>https://coolshell.cn/articles/7490.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 20 Jun 2012 01:24:53 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Windows]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[数据库]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[MySQL]]></category>
+		<category><![CDATA[Performance]]></category>
+		<category><![CDATA[SQL]]></category>
+		<category><![CDATA[TCP]]></category>
+		<category><![CDATA[UDP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7490</guid>
+
+					<description><![CDATA[<p>关于性能优化这是一个比较大的话题，在《由12306.cn谈谈网站性能技术》中我从业务和设计上说过一些可用的技术以及那些技术的优缺点，今天，想从一些技术细节上谈谈...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7490.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7490.html">性能调优攻略</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-7641" title="Performance Tuning" src="https://coolshell.cn/wp-content/uploads/2012/06/f1-300x216.jpg" alt="" width="300" height="216" srcset="https://coolshell.cn/wp-content/uploads/2012/06/f1-300x216.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/06/f1.jpg 350w" sizes="(max-width: 300px) 100vw, 300px" />关于性能优化这是一个比较大的话题，在《<a title="由12306.cn谈谈网站性能技术" href="https://coolshell.cn/articles/6470.html" target="_blank">由12306.cn谈谈网站性能技术</a>》中我从业务和设计上说过一些可用的技术以及那些技术的优缺点，今天，想从一些技术细节上谈谈性能优化，主要是一些代码级别的技术和方法。<strong>本文的东西是我的一些经验和知识，并不一定全对，希望大家指正和补充</strong>。</p>
+<p>在开始这篇文章之前，大家可以移步去看一下酷壳以前发表的《<a title="代码优化概要" href="https://coolshell.cn/articles/2967.html" target="_blank">代码优化概要</a>》，这篇文章基本上告诉你——<strong>要进行优化，先得找到性能瓶颈</strong>！ 但是在讲如何定位系统性能瓶劲之前，请让我讲一下系统性能的定义和测试，因为没有这两件事，后面的定位和优化无从谈起。</p>
+<h4>一、系统性能定义</h4>
+<p>让我们先来说说如何什么是系统性能。这个定义非常关键，如果我们不清楚什么是系统性能，那么我们将无法定位之。我见过很多朋友会觉得这很容易，但是仔细一问，其实他们并没有一个比较系统的方法，所以，在这里我想告诉大家如何系统地来定位性能。 总体来说，系统性能就是两个事：</p>
+<ol>
+<li><strong>Throughput</strong> ，吞吐量。也就是每秒钟可以处理的请求数，任务数。</li>
+<li><strong>Latency</strong>， 系统延迟。也就是系统在处理一个请求或一个任务时的延迟。</li>
+</ol>
+<p>一般来说，一个系统的性能受到这两个条件的约束，缺一不可。比如，我的系统可以顶得住一百万的并发，但是系统的延迟是2分钟以上，那么，这个一百万的负载毫无意义。系统延迟很短，但是吞吐量很低，同样没有意义。所以，一个好的系统的性能测试必然受到这两个条件的同时作用。 有经验的朋友一定知道，这两个东西的一些关系：</p>
+<ul>
+<li><strong>Throughput越大，Latency会越差。</strong>因为请求量过大，系统太繁忙，所以响应速度自然会低。</li>
+<li><strong>Latency越好，能支持的Throughput就会越高。</strong>因为Latency短说明处理速度快，于是就可以处理更多的请求。</li>
+</ul>
+<h4>二、系统性能测试</h4>
+<p>经过上述的说明，我们知道要测试系统的性能，需要我们收集系统的Throughput和Latency这两个值。</p>
+<p><span id="more-7490"></span></p>
+<ul>
+<li>首先，<strong>需要定义Latency这个值</strong>，比如说，对于网站系统响应时间必需是5秒以内（对于某些实时系统可能需要定义的更短，比如5ms以内，这个更根据不同的业务来定义）</li>
+</ul>
+<ul>
+<li>其次，<strong>开发性能测试工具</strong>，一个工具用来制造高强度的Throughput，另一个工具用来测量Latency。对于第一个工具，你可以参考一下“<a title="十个免费的Web压力测试工具" href="https://coolshell.cn/articles/2589.html" target="_blank">十个免费的Web压力测试工具</a>”，关于如何测量Latency，你可以在代码中测量，但是这样会影响程序的执行，而且只能测试到程序内部的Latency，真正的Latency是整个系统都算上，包括操作系统和网络的延时，你可以使用Wireshark来抓网络包来测量。这两个工具具体怎么做，这个还请大家自己思考去了。</li>
+</ul>
+<ul>
+<li>最后，<strong>开始性能测试</strong>。你需要不断地提升测试的Throughput，然后观察系统的负载情况，如果系统顶得住，那就观察Latency的值。这样，你就可以找到系统的最大负载，并且你可以知道系统的响应延时是多少。</li>
+</ul>
+<p>再多说一些，</p>
+<ul>
+<li>关于Latency，如果吞吐量很少，这个值估计会非常稳定，当吞吐量越来越大时，系统的Latency会出现非常剧烈的抖动，所以，我们在测量Latency的时候，我们需要注意到Latency的分布，也就是说，有百分之几的在我们允许的范围，有百分之几的超出了，有百分之几的完全不可接受。也许，平均下来的Latency达标了，但是其中仅有50%的达到了我们可接受的范围。那也没有意义。</li>
+</ul>
+<ul>
+<li>关于性能测试，我们还需要定义一个时间段。比如：在某个吞吐量上持续15分钟。因为当负载到达的时候，系统会变得不稳定，当过了一两分钟后，系统才会稳定。另外，也有可能是，你的系统在这个负载下前几分钟还表现正常，然后就不稳定了，甚至垮了。所以，需要这么一段时间。这个值，我们叫做峰值极限。</li>
+</ul>
+<ul>
+<li>性能测试还需要做Soak Test，也就是在某个吞吐量下，系统可以持续跑一周甚至更长。这个值，我们叫做系统的正常运行的负载极限。</li>
+</ul>
+<p>性能测试有很多很复要的东西，比如：burst test等。 这里不能一一详述，这里只说了一些和性能调优相关的东西。总之，性能测试是一细活和累活。</p>
+<h4>三、定位性能瓶颈</h4>
+<p><img decoding="async" loading="lazy" class="alignright size-full wp-image-7640" title="bottleneck" src="https://coolshell.cn/wp-content/uploads/2012/06/bottleneck.jpg" alt="" width="200" height="200" srcset="https://coolshell.cn/wp-content/uploads/2012/06/bottleneck.jpg 200w, https://coolshell.cn/wp-content/uploads/2012/06/bottleneck-150x150.jpg 150w" sizes="(max-width: 200px) 100vw, 200px" />有了上面的铺垫，我们就可以测试到到系统的性能了，再调优之前，我们先来说说如何找到性能的瓶颈。我见过很多朋友会觉得这很容易，但是仔细一问，其实他们并没有一个比较系统的方法。</p>
+<h5>3.1）查看操作系统负载</h5>
+<p>首先，当我们系统有问题的时候，我们不要急于去调查我们代码，这个毫无意义。我们首要需要看的是操作系统的报告。看看操作系统的CPU利用率，看看内存使用率，看看操作系统的IO，还有网络的IO，网络链接数，等等。Windows下的perfmon是一个很不错的工具，Linux下也有很多相关的命令和工具，比如：<a href="http://sourceware.org/systemtap/" target="_blank">SystemTap</a>，<a href="https://latencytop.org/" target="_blank">LatencyTOP</a>，vmstat, sar, iostat, top, tcpdump等等 。通过观察这些数据，我们就可以知道我们的软件的性能基本上出在哪里。比如：</p>
+<p>1）先看CPU利用率，如果CPU利用率不高，但是系统的Throughput和Latency上不去了，这说明我们的程序并没有忙于计算，而是忙于别的一些事，比如IO。（另外，CPU的利用率还要看内核态的和用户态的，内核态的一上去了，整个系统的性能就下来了。而对于多核CPU来说，CPU 0 是相当关键的，如果CPU 0的负载高，那么会影响其它核的性能，因为CPU各核间是需要有调度的，这靠CPU0完成）</p>
+<p>2）然后，我们可以看一下IO大不大，IO和CPU一般是反着来的，CPU利用率高则IO不大，IO大则CPU就小。关于IO，我们要看三个事，一个是磁盘文件IO，一个是驱动程序的IO（如：网卡），一个是内存换页率。这三个事都会影响系统性能。</p>
+<p>3）然后，查看一下网络带宽使用情况，在Linux下，你可以使用iftop, iptraf, ntop, tcpdump这些命令来查看。或是用Wireshark来查看。</p>
+<p>4）如果CPU不高，IO不高，内存使用不高，网络带宽使用不高。但是系统的性能上不去。这说明你的程序有问题，比如，你的程序被阻塞了。可能是因为等那个锁，可能是因为等某个资源，或者是在切换上下文。</p>
+<p><strong>通过了解操作系统的性能，我们才知道性能的问题，比如：带宽不够，内存不够，TCP缓冲区不够，等等，很多时候，不需要调整程序的，只需要调整一下硬件或操作系统的配置就可以了</strong>。</p>
+<h5>3.2）使用Profiler测试</h5>
+<p>接下来，我们需要使用性能检测工具，也就是使用某个Profiler来差看一下我们程序的运行性能。如：Java的JProfiler/TPTP/CodePro Profiler，GNU的gprof，IBM的PurifyPlus，Intel的VTune，AMD的CodeAnalyst，还有Linux下的OProfile/perf，后面两个可以让你对你的代码优化到CPU的微指令级别，如果你关心CPU的L1/L2的缓存调优，那么你需要考虑一下使用VTune。 使用这些Profiler工具，可以让你程序中各个模块函数甚至指令的很多东西，如：<strong>运行的时间</strong> ，<strong>调用的次数</strong>，<strong>CPU的利用率</strong>，等等。这些东西对我们来说非常有用。</p>
+<p>我们重点观察运行时间最多，调用次数最多的那些函数和指令。这里注意一下，对于调用次数多但是时间很短的函数，你可能只需要轻微优化一下，你的性能就上去了（比如：某函数一秒种被调用100万次，你想想如果你让这个函数提高0.01毫秒的时间 ，这会给你带来多大的性能）</p>
+<p>使用Profiler有个问题我们需要注意一下，因为Profiler会让你的程序运行的性能变低，像PurifyPlus这样的工具会在你的代码中插入很多代码，会导致你的程序运行效率变低，从而没发测试出在高吞吐量下的系统的性能，对此，一般有两个方法来定位系统瓶颈：</p>
+<p>1）在你的代码中自己做统计，使用微秒级的计时器和函数调用计算器，每隔10秒把统计log到文件中。</p>
+<p>2）分段注释你的代码块，让一些函数空转，做Hard Code的Mock，然后再测试一下系统的Throughput和Latency是否有质的变化，如果有，那么被注释的函数就是性能瓶颈，再在这个函数体内注释代码，直到找到最耗性能的语句。</p>
+<p>最后再说一点，<strong>对于性能测试，不同的Throughput会出现不同的测试结果，不同的测试数据也会有不同的测试结果。所以，用于性能测试的数据非常重要，性能测试中，我们需要观测试不同Throughput的结果</strong>。</p>
+<h4>四、常见的系统瓶颈</h4>
+<p>下面这些东西是我所经历过的一些问题，也许并不全，也许并不对，大家可以补充指正，我<strong>纯属抛砖引玉</strong>。关于系统架构方面的性能调优，大家可移步看一下《<a title="由12306.cn谈谈网站性能技术" href="https://coolshell.cn/articles/6470.html" target="_blank">由12306.cn谈谈网站性能技术</a>》，关于Web方面的一些性能调优的东西，大家可以看看《<a title="Web开发中需要了解的东西" href="https://coolshell.cn/articles/6043.html" target="_blank">Web开发中需要了解的东西</a>》一文中的性能一章。我在这里就不再说设计和架构上的东西了。</p>
+<p><strong></strong>一般来说，性能优化也就是下面的几个策略：</p>
+<ul>
+<li><strong>用空间换时间</strong>。各种cache如CPU L1/L2/RAM到硬盘，都是用空间来换时间的策略。这样策略基本上是把计算的过程一步一步的保存或缓存下来，这样就不用每次用的时候都要再计算一遍，比如数据缓冲，CDN，等。这样的策略还表现为冗余数据，比如数据镜象，负载均衡什么的。</li>
+</ul>
+<ul>
+<li><strong>用时间换空间</strong>。有时候，少量的空间可能性能会更好，比如网络传输，如果有一些压缩数据的算法（如前些天说的“<a title="Huffman 编码压缩算法" href="https://coolshell.cn/articles/7459.html">Huffman 编码压缩算法</a>” 和 “<a title="rsync 的核心算法" href="https://coolshell.cn/articles/7425.html">rsync 的核心算法</a>”），这样的算法其实很耗时，但是因为瓶颈在网络传输，所以用时间来换空间反而能省时间。</li>
+</ul>
+<ul>
+<li><strong>简化代码</strong>。最高效的程序就是不执行任何代码的程序，所以，代码越少性能就越高。关于代码级优化的技术大学里的教科书有很多示例了。如：减少循环的层数，减少递归，在循环中少声明变量，少做分配和释放内存的操作，尽量把循环体内的表达式抽到循环外，条件表达的中的多个条件判断的次序，尽量在程序启动时把一些东西准备好，注意函数调用的开销（栈上开销），注意面向对象语言中临时对象的开销，小心使用异常（不要用异常来检查一些可接受可忽略并经常发生的错误），…… 等等，等等，这连东西需要我们非常了解编程语言和常用的库。</li>
+</ul>
+<ul>
+<li><strong>并行处理</strong>。如果CPU只有一个核，你要玩多进程，多线程，对于计算密集型的软件会反而更慢（因为操作系统调度和切换开销很大），CPU的核多了才能真正体现出多进程多线程的优势。并行处理需要我们的程序有Scalability，不能水平或垂直扩展的程序无法进行并行处理。从架构上来说，这表再为——是否可以做到不改代码只是加加机器就可以完成性能提升？</li>
+</ul>
+<p>总之，<strong>根据2：8原则来说，20%的代码耗了你80%的性能，找到那20%的代码，你就可以优化那80%的性能</strong>。 下面的一些东西都是我的一些经验，我只例举了一些最有价值的性能调优的的方法，供你参考，也欢迎补充。</p>
+<p><strong>4.1）算法调优</strong>。算法非常重要，好的算法会有更好的性能。举几个我经历过的项目的例子，大家可以感觉一下。</p>
+<ul>
+<li>一个是<strong>过滤算法</strong>，系统需要对收到的请求做过滤，我们把可以被filter in/out的东西配置在了一个文件中，原有的过滤算法是遍历过滤配置，后来，我们找到了一种方法可以对这个过滤配置进行排序，这样就可以用二分折半的方法来过滤，系统性能增加了50%。</li>
+</ul>
+<ul>
+<li>一个是<strong>哈希算法</strong>。计算哈希算法的函数并不高效，一方面是计算太费时，另一方面是碰撞太高，碰撞高了就跟单向链表一个性能（可参看<a title="Hash Collision DoS 问题" href="https://coolshell.cn/articles/6424.html">Hash Collision DoS 问题</a>）。我们知道，算法都是和需要处理的数据很有关系的，就算是被大家所嘲笑的“冒泡排序”在某些情况下（大多数数据是排好序的）其效率会高于所有的排序算法。哈希算法也一样，广为人知的哈希算法都是用英文字典做测试，但是我们的业务在数据有其特殊性，所以，对于还需要根据自己的数据来挑选适合的哈希算法。对于我以前的一个项目，公司内某牛人给我发来了一个哈希算法，结果让我们的系统性能上升了150%。（关于各种哈希算法，你一定要看看<a href="http://programmers.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed/145633#145633" target="_blank">StackExchange上的这篇关于各种hash算法的文章</a> ）</li>
+</ul>
+<ul>
+<li><strong>分而治之和预处理</strong>。以前有一个程序为了生成月报表，每次都需要计算很长的时间，有时候需要花将近一整天的时间。于是我们把我们找到了一种方法可以把这个算法发成增量式的，也就是说我每天都把当天的数据计算好了后和前一天的报表合并，这样可以大大的节省计算时间，每天的数据计算量只需要20分钟，但是如果我要算整个月的，系统则需要10个小时以上（SQL语句在大数据量面前性能成级数性下降）。这种分而治之的思路在大数据面前对性能有很帮助，就像merge排序一样。SQL语句和数据库的性能优化也是这一策略，如：使用嵌套式的Select而不是笛卡尔积的Select，使用视图，等等。</li>
+</ul>
+<p><strong>4.2）代码调优</strong>。从我的经验上来说，代码上的调优有下面这几点：</p>
+<ul>
+<li><strong>字符串操作</strong>。这是最费系统性能的事了，无论是strcpy, strcat还是strlen，最需要注意的是字符串子串匹配。所以，能用整型最好用整型。举几个例子，第一个例子是N年前做银行的时候，我的同事喜欢把日期存成字符串（如：2012-05-29 08:30:02），我勒个去，一个select  where between语句相当耗时。另一个例子是，我以前有个同事把一些状态码用字符串来处理，他的理由是，这样可以在界面上直接显示，后来性能调优的时候，我把这些状态码全改成整型，然后用位操作查状态，因为有一个每秒钟被调用了150K次的函数里面有三处需要检查状态，经过改善以后，整个系统的性能上升了30%左右。还有一个例子是，我以前从事的某个产品编程规范中有一条是要在每个函数中把函数名定义出来，如：const char fname[]=&#8221;functionName()&#8221;, 这是为了好打日志，但是为什么不声明成 static类型的呢？</li>
+</ul>
+<ul>
+<li><strong>多线程调优</strong>。有人说，thread is evil，这个对于系统性能在某些时候是个问题。因为多线程瓶颈就在于互斥和同步的锁上，以及线程上下文切换的成本，怎么样的少用锁或不用锁是根本（比如：<a title="多版本并发控制(MVCC)在分布式系统中的应用" href="https://coolshell.cn/articles/6790.html">多版本并发控制(MVCC)在分布式系统中的应用</a> 中说的乐观锁可以解决性能问题），此外，还有读写锁也可以解决大多数是读操作的并发的性能问题。这里多说一点在C++中，我们可能会使用线程安全的智能指针AutoPtr或是别的一些容器，只要是线程安全的，其不管三七二十一都要上锁，上锁是个成本很高的操作，使用AutoPtr会让我们的系统性能下降得很快，如果你可以保证不会有线程并发问题，那么你应该不要用AutoPtr。我记得我上次我们同事去掉智能指针的引用计数，让系统性能提升了50%以上。对于Java对象的引用计数，如果我猜的没错的话，到处都是锁，所以，Java的性能问题一直是个问题。另外，线程不是越多越好，线程间的调度和上下文切换也是很夸张的事，尽可能的在一个线程里干，尽可能的不要同步线程。这会让你有很多的性能。</li>
+</ul>
+<ul>
+<li><strong>内存分配</strong>。不要小看程序的内存分配。malloc/realloc/calloc这样的系统调非常耗时，尤其是当内存出现碎片的时候。我以前的公司出过这样一个问题——在用户的站点上，我们的程序有一天不响应了，用GDB跟进去一看，系统hang在了malloc操作上，20秒都没有返回，重启一些系统就好了。这就是内存碎片的问题。这就是为什么很多人抱怨STL有严重的内存碎片的问题，因为太多的小内存的分配释放了。有很多人会以为用内存池可以解决这个问题，但是实际上他们只是重新发明了Runtime-C或操作系统的内存管理机制，完全于事无补。当然解决内存碎片的问题还是通过内存池，具体来说是一系列不同尺寸的内存池（这个留给大家自己去思考）。当然，少进行动态内存分配是最好的。说到内存池就需要说一下池化技术。比如线程池，连接池等。池化技术对于一些短作业来说（如http服务） 相当相当的有效。这项技术可以减少链接建立，线程创建的开销，从而提高性能。</li>
+</ul>
+<ul>
+<li><strong>异步操作</strong>。我们知道Unix下的文件操作是有block和non-block的方式的，像有些系统调用也是block式的，如：Socket下的select，Windows下的WaitforObject之类的，如果我们的程序是同步操作，那么会非常影响性能，我们可以改成异步的，但是改成异步的方式会让你的程序变复杂。异步方式一般要通过队列，要注间队列的性能问题，另外，异步下的状态通知通常是个问题，比如消息事件通知方式，有callback方式，等，这些方式同样可能会影响你的性能。但是通常来说，异步操作会让性能的吞吐率有很大提升（Throughput），但是会牺牲系统的响应时间（latency）。这需要业务上支持。</li>
+</ul>
+<ul>
+<li><strong>语言和代码库</strong>。我们要熟悉语言以及所使用的函数库或类库的性能。比如：STL中的很多容器分配了内存后，那怕你删除元素，内存也不会回收，其会造成内存泄露的假像，并可能造成内存碎片问题。再如，STL某些容器的size()==0  和 empty()是不一样的，因为，size()是O(n)复杂度，empty()是O(1)的复杂度，这个要小心。Java中的JVM调优需要使用的这些参数：-Xms -Xmx -Xmn -XX:SurvivorRatio -XX:MaxTenuringThreshold，还需要注意JVM的GC，GC的霸气大家都知道，尤其是full GC（还整理内存碎片），他就像“恐龙特级克赛号”一样，他运行的时候，整个世界的时间都停止了。</li>
+</ul>
+<p><strong>4.3）网络调优</strong></p>
+<p>关于网络调优，尤其是TCP Tuning（你可以以这两个关键词在网上找到很多文章），这里面有很多很多东西可以说。看看Linux下TCP/IP的那么多参数就知道了（顺便说一下，你也许不喜欢Linux，但是你不能否认Linux给我们了很多可以进行内核调优的权力）。强烈建议大家看看《<a href="http://book.douban.com/subject/1088054/" target="_blank">TCP/IP 详解 卷1:协议</a>》这本书。我在这里只讲一些概念上的东西。</p>
+<p><strong>A） TCP调优</strong></p>
+<p>我们知道TCP链接是有很多开销的，一个是会占用文件描述符，另一个是会开缓存，一般来说一个系统可以支持的TCP链接数是有限的，我们需要清楚地认识到TCP链接对系统的开销是很大的。正是因为TCP是耗资源的，所以，很多攻击都是让你系统上出现大量的TCP链接，把你的系统资源耗尽。比如著名的SYNC Flood攻击。</p>
+<p>所以，我们要注意配置KeepAlive参数，这个参数的意思是定义一个时间，如果链接上没有数据传输，系统会在这个时间发一个包，如果没有收到回应，那么TCP就认为链接断了，然后就会把链接关闭，这样可以回收系统资源开销。（注：HTTP层上也有KeepAlive参数）对于像HTTP这样的短链接，设置一个1-2分钟的keepalive非常重要。这可以在一定程度上防止DoS攻击。有下面几个参数（下面这些参数的值仅供参考）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">net.ipv4.tcp_keepalive_probes = 5
+net.ipv4.tcp_keepalive_intvl = 20
+net.ipv4.tcp_fin_timeout = 30</pre>
+<p>对于TCP的TIME_WAIT这个状态，主动关闭的一方进入TIME_WAIT状态，TIME_WAIT状态将持续2个MSL(Max Segment Lifetime)，默认为4分钟，TIME_WAIT状态下的资源不能回收。有大量的TIME_WAIT链接的情况一般是在HTTP服务器上。对此，有两个参数需要注意，</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">net.ipv4.tcp_tw_reuse=1
+net.ipv4.tcp_tw_recycle=1</pre>
+<p>前者表示重用TIME_WAIT，后者表示回收TIME_WAIT的资源。</p>
+<p>TCP还有一个重要的概念叫RWIN（TCP Receive Window Size），这个东西的意思是，我一个TCP链接在没有向Sender发出ack时可以接收到的最大的数据包。为什么这个很重要？因为如果Sender没有收到Receiver发过来ack，Sender就会停止发送数据并会等一段时间，如果超时，那么就会重传。这就是为什么TCP链接是可靠链接的原因。重传还不是最严重的，如果有丢包发生的话，TCP的带宽使用率会马上受到影响（会盲目减半），再丢包，再减半，然后如果不丢包了，就逐步恢复。相关参数如下：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216</pre>
+<p>一般来说，理论上的RWIN应该设置成：吞吐量  * 回路时间。Sender端的buffer应该和RWIN有一样的大小，因为Sender端发送完数据后要等Receiver端确认，如果网络延时很大，buffer过小了，确认的次数就会多，于是性能就不高，对网络的利用率也就不高了。也就是说，对于延迟大的网络，我们需要大的buffer，这样可以少一点ack，多一些数据，对于响应快一点的网络，可以少一些buffer。因为，如果有丢包（没有收到ack），buffer过大可能会有问题，因为这会让TCP重传所有的数据，反而影响网络性能。（当然，网络差的情况下，就别玩什么高性能了） 所以，高性能的网络重要的是要让网络丢包率非常非常地小（基本上是用在LAN里），如果网络基本是可信的，这样用大一点的buffer会有更好的网络传输性能（来来回回太多太影响性能了）。</p>
+<p>另外，我们想一想，如果网络质量非常好，基本不丢包，而业务上我们不怕偶尔丢几个包，如果是这样的话，那么，我们为什么不用速度更快的UDP呢？你想过这个问题了吗？</p>
+<p><strong>B）UDP调优</strong></p>
+<p>说到UDP的调优，有一些事我想重点说一样，那就是MTU——最大传输单元（其实这对TCP也一样，因为这是链路层上的东西）。所谓最大传输单元，你可以想像成是公路上的公交车，假设一个公交车可以最多坐70人，带宽就像是公路的车道数一样，如果一条路上最多可以容下100辆公交车，那意味着我最多可以运送7000人，但是如果公交车坐不满，比如平均每辆车只有20人，那么我只运送了2000人，于是我公路资源（带宽资源）就被浪费了。 所以，我们对于一个UDP的包，我们要尽量地让他大到MTU的最大尺寸再往网络上传，这样可以最大化带宽利用率。对于这个MTU，以太网是1500字节，光纤是4352字节，802.11无线网是7981。但是，当我们用TCP/UDP发包的时候，我们的有效负载Payload要低于这个值，因为IP协议会加上20个字节，UDP会加上8个字节（TCP加的更多），所以，一般来说，你的一个UDP包的最大应该是1500-8-20=1472，这是你的数据的大小。当然，如果你用光纤的话， 这个值就可以更大一些。（顺便说一下，对于某些NB的千光以态网网卡来说，在网卡上，网卡硬件如果发现你的包的大小超过了MTU，其会帮你做fragment，到了目标端又会帮你做重组，这就不需要你在程序中处理了）</p>
+<p>再多说一下，使用Socket编程的时候，你可以使用setsockopt() 设置 SO_SNDBUF/SO_RCVBUF 的大小，TTL和KeepAlive这些关键的设置，当然，还有很多，具体你可以查看一下Socket的手册。</p>
+<p>最后说一点，UDP还有一个最大的好处是multi-cast多播，这个技术对于你需要在内网里通知多台结点时非常方便和高效。而且，多播这种技术对于机会的水平扩展（需要增加机器来侦听多播信息）也很有利。</p>
+<p><strong>C）网卡调优</strong></p>
+<p><strong></strong>对于网卡，我们也是可以调优的，这对于千兆以及网网卡非常必要，在Linux下，我们可以用ifconfig查看网上的统计信息，如果我们看到overrun上有数据，我们就可能需要调整一下txqueuelen的尺寸（一般默认为1000），我们可以调大一些，如：ifconfig eth0 txqueuelen 5000。Linux下还有一个命令叫：ethtool可以用于设置网卡的缓冲区大小。在Windows下，我们可以在网卡适配器中的高级选项卡中调整相关的参数（如：Receive Buffers, Transmit Buffer等，不同的网卡有不同的参数）。把Buffer调大对于需要大数据量的网络传输非常有效。</p>
+<p><strong>D）其它网络性能</strong></p>
+<p>关于多路复用技术，也就是用一个线程来管理所有的TCP链接，有三个系统调用要重点注意：一个是select，这个系统调用只支持上限1024个链接，第二个是poll，其可以突破1024的限制，但是select和poll本质上是使用的轮询机制，轮询机制在链接多的时候性能很差，因主是O(n)的算法，所以，epoll出现了，epoll是操作系统内核支持的，仅当在链接活跃时，操作系统才会callback，这是由操作系统通知触发的，但其只有Linux Kernel 2.6以后才支持（准确说是2.5.44中引入的），当然，如果所有的链接都是活跃的，过多的使用epoll_ctl可能会比轮询的方式还影响性能，不过影响的不大。</p>
+<p>另外，关于一些和DNS Lookup的系统调用要小心，比如：gethostbyaddr/gethostbyname，这个函数可能会相当的费时，因为其要到网络上去找域名，因为DNS的递归查询，会导致严重超时，而又不能通过设置什么参数来设置time out，对此你可以通过配置hosts文件来加快速度，或是自己在内存中管理对应表，在程序启动时查好，而不要在运行时每次都查。另外，在多线程下面，gethostbyname会一个更严重的问题，就是如果有一个线程的gethostbyname发生阻塞，其它线程都会在gethostbyname处发生阻塞，这个比较变态，要小心。（你可以试试GNU的gethostbyname_r()，这个的性能要好一些） 这种到网上找信息的东西很多，比如，如果你的Linux使用了NIS，或是NFS，某些用户或文件相关的系统调用就很慢，所以要小心。</p>
+<p><strong>4.4）系统调优</strong></p>
+<p><strong>A）I/O模型</strong></p>
+<p>前面说到过select/poll/epoll这三个系统调用，我们都知道，Unix/Linux下把所有的设备都当成文件来进行I/O，所以，那三个操作更应该算是I/O相关的系统调用。说到  I/O模型，这对于我们的I/O性能相当重要，我们知道，Unix/Linux经典的I/O方式是（关于Linux下的I/O模型，大家可以读一下这篇文章《<a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank">使用异步I/O大大提高性能</a>》）：</p>
+<p>第一种，同步阻塞式I/O，这个不说了。</p>
+<p>第二种，同步无阻塞方式。其通过fctnl设置 O_NONBLOCK 来完成。</p>
+<p>第三种，对于select/poll/epoll这三个是I/O不阻塞，但是在事件上阻塞，算是：I/O异步，事件同步的调用。</p>
+<p>第四种，AIO方式。这种I/O 模型是一种处理与 I/O 并行的模型。I/O请求会立即返回，说明请求已经成功发起了。在后台完成I/O操作时，向应用程序发起通知，通知有两种方式：一种是产生一个信号，另一种是执行一个基于线程的回调函数来完成这次 I/O 处理过程。</p>
+<p>第四种因为没有任何的阻塞，无论是I/O上，还是事件通知上，所以，其可以让你充分地利用CPU，比起第二种同步无阻塞好处就是，第二种要你一遍一遍地去轮询。Nginx之所所以高效，是其使用了epoll和AIO的方式来进行I/O的。</p>
+<p>再说一下Windows下的I/O模型，</p>
+<p>a）一个是WriteFile系统调用，这个系统调用可以是同步阻塞的，也可以是同步无阻塞的，关于看文件是不是以Overlapped打开的。关于同步无阻塞，需要设置其最后一个参数Overlapped，微软叫Overlapped I/O，你需要WaitForSingleObject才能知道有没有写完成。这个系统调用的性能可想而知。</p>
+<p>b）另一个叫WriteFileEx的系统调用，其可以实现异步I/O，并可以让你传入一个callback函数，等I/O结束后回调之， 但是这个回调的过程Windows是把callback函数放到了APC（<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms681951(v=vs.85).aspx" target="_blank">Asynchronous Procedure Calls</a>）的队列中，然后，只用当应用程序当前线程成为可被通知状态（Alterable）时，才会被回调。只有当你的线程使用了这几个函数时<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms687036(v=vs.85).aspx">WaitForSingleObjectEx</a>, <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms687028(v=vs.85).aspx">WaitForMultipleObjectsEx</a>, <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms684245(v=vs.85).aspx">MsgWaitForMultipleObjectsEx</a>, <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms686293(v=vs.85).aspx">SignalObjectAndWait</a> 和 <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms686307(v=vs.85).aspx">SleepEx</a>，线程才会成为Alterable状态。可见，这个模型，还是有wait，所以性能也不高。</p>
+<p>c）然后是IOCP &#8211; IO Completion Port，IOCP会把I/O的结果放在一个队列中，但是，侦听这个队列的不是主线程，而是专门来干这个事的一个或多个线程去干（老的平台要你自己创建线程，新的平台是你可以创建一个线程池）。IOCP是一个线程池模型。这个和Linux下的AIO模型比较相似，但是实现方式和使用方式完全不一样。</p>
+<p>当然，真正提高I/O性能方式是把和外设的I/O的次数降到最低，最好没有，所以，对于读来说，内存cache通常可以从质上提升性能，因为内存比外设快太多了。对于写来说，cache住要写的数据，少写几次，但是cache带来的问题就是实时性的问题，也就是latency会变大，我们需要在写的次数上和相应上做权衡。</p>
+<p><strong>B）多核<strong>CPU</strong>调优</strong></p>
+<p>关于CPU的多核技术，我们知道，CPU0是很关键的，如果0号CPU被用得过狠的话，别的CPU性能也会下降，因为CPU0是有调整功能的，所以，我们不能任由操作系统负载均衡，因为我们自己更了解自己的程序，所以，我们可以手动地为其分配CPU核，而不会过多地占用CPU0，或是让我们关键进程和一堆别的进程挤在一起。</p>
+<ul>
+<li>对于Windows来说，我们可以通过“任务管理器”中的“进程”而中右键菜单中的“设置相关性……”（Set Affinity&#8230;）来设置并限制这个进程能被运行在哪些核上。</li>
+</ul>
+<ul>
+<li>对于Linux来说，可以使用taskset命令来设置（你可以通过安装schedutils来安装这个命令：apt-get install schedutils）</li>
+</ul>
+<p>多核CPU还有一个技术叫<a href="http://en.wikipedia.org/wiki/Non-Uniform_Memory_Access" target="_blank">NUMA</a>技术（Non-Uniform Memory Access）。传统的多核运算是使用SMP(Symmetric Multi-Processor )模式，多个处理器共享一个集中的存储器和I/O总线。于是就会出现一致存储器访问的问题，一致性通常意味着性能问题。NUMA模式下，处理器被划分成多个node， 每个node有自己的本地存储器空间。关于NUMA的一些技术细节，你可以查看一下这篇文章《<a href="http://www.ibm.com/developerworks/cn/linux/l-numa/index.html" target="_blank">Linux 的 NUMA 技术</a>》，在Linux下，对NUMA调优的命令是：<strong>numactl </strong>。如下面的命令：（指定命令“myprogram arg1 arg2”运行在node 0 上，其内存分配在node 0 和 1上）</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">numactl --cpubind=0 --membind=0,1 myprogram arg1 arg2</code></p>
+<p>当然，上面这个命令并不好，因为内存跨越了两个node，这非常不好。最好的方式是只让程序访问和自己运行一样的node，如：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ numactl --membind 1 --cpunodebind 1 --localalloc myapplication</code></p>
+<p><strong>C）文件系统调优</strong></p>
+<p>关于文件系统，因为文件系统也是有cache的，所以，为了让文件系统有最大的性能。首要的事情就是分配足够大的内存，这个非常关键，在Linux下可以使用free命令来查看 free/used/buffers/cached，理想来说，buffers和cached应该有40%左右。然后是一个快速的硬盘控制器，SCSI会好很多。最快的是Intel SSD 固态硬盘，速度超快，但是写次数有限。</p>
+<p>接下来，我们就可以调优文件系统配置了，对于Linux的Ext3/4来说，几乎在所有情况下都有所帮助的一个参数是关闭文件系统访问时间，在/etc/fstab下看看你的文件系统 有没有noatime参数（一般来说应该有），还有一个是dealloc，它可以让系统在最后时刻决定写入文件发生时使用哪个块，可优化这个写入程序。还要注间一下三种日志模式：data=journal、data=ordered和data=writeback。默认设置data=ordered提供性能和防护之间的最佳平衡。</p>
+<p>当然，对于这些来说，ext4的默认设置基本上是最佳优化了。</p>
+<p>这里介绍一个Linux下的查看I/O的命令—— iotop，可以让你看到各进程的磁盘读写的负载情况。</p>
+<p>其它还有一些关于NFS、XFS的调优，大家可以上google搜索一些相关优化的文章看看。关于各文件系统，大家可以看一下这篇文章——《<a href="http://www.ibm.com/developerworks/cn/linux/l-jfs/" target="_blank">Linux日志文件系统及性能分析</a>》</p>
+<p><strong>4.5）数据库调优</strong></p>
+<p>数据库调优并不是我的强项，我就仅用我非常有限的知识说上一些吧。注意，下面的这些东西并不一定正确，因为在不同的业务场景，不同的数据库设计下可能会得到完全相反的结论，所以，我仅在这里做一些一般性的说明，具体问题还要具体分析。</p>
+<p><strong>A）数据库引擎调优</strong></p>
+<p>我对数据库引擎不是熟，但是有几个事情我觉得是一定要去了解的。</p>
+<ul>
+<li><strong>数据库的锁的方式</strong>。这个非常非常地重要。并发情况下，锁是非常非常影响性能的。各种隔离级别，行锁，表锁，页锁，读写锁，事务锁，以及各种写优先还是读优先机制。性能最高的是不要锁，所以，分库分表，冗余数据，减少一致性事务处理，可以有效地提高性能。NoSQL就是牺牲了一致性和事务处理，并冗余数据，从而达到了分布式和高性能。</li>
+<li><strong>数据库的存储机制</strong>。不但要搞清楚各种类型字段是怎么存储的，更重要的是数据库的数据存储方式，是怎么分区的，是怎么管理的，比如Oracle的数据文件，表空间，段，等等。了解清楚这个机制可以减轻很多的I/O负载。比如：MySQL下使用<span style="font-size: xx-small;">show engines;</span>可以看到各种存储引擎的支持。不同的存储引擎有不同的侧重点，针对不同的业务或数据库设计会让你有不同的性能。</li>
+<li><strong>数据库的分布式策略</strong>。最简单的就是复制或镜像，需要了解分布式的一致性算法，或是主主同步，主从同步。通过了解这种技术的机理可以做到数据库级别的水平扩展。</li>
+</ul>
+<p><strong>B）SQL语句优化</strong></p>
+<p>关于SQL语句的优化，首先也是要使用工具，比如：<a href="http://www.mysql.com/products/enterprise/query.html" target="_blank">MySQL SQL Query Analyzer</a>，<a href="http://www.oracle-base.com/articles/11g/sql-performance-analyzer-11gr1.php" target="_blank">Oracle SQL Performance Analyzer</a>，或是微软<a href="http://msdn.microsoft.com/en-us/library/aa216945(v=sql.80).aspx" target="_blank">SQL Query Analyzer</a>，基本上来说，所有的RMDB都会有这样的工具，来让你查看你的应用中的SQL的性能问题。 还可以使用explain来看看SQL语句最终Execution Plan会是什么样的。</p>
+<p>还有一点很重要，数据库的各种操作需要大量的内存，所以服务器的内存要够，优其应对那些多表查询的SQL语句，那是相当的耗内存。</p>
+<p>下面我根据我有限的数据库SQL的知识说几个会有性能问题的SQL：</p>
+<ul>
+<li><strong>全表检索</strong>。比如：select * from user where lastname = &#8220;xxxx&#8221;，这样的SQL语句基本上是全表查找，线性复杂度O(n)，记录数越多，性能也越差（如：100条记录的查找要50ms，一百万条记录需要5分钟）。对于这种情况，我们可以有两种方法提高性能：一种方法是分表，把记录数降下来，另一种方法是建索引（为lastname建索引）。索引就像是key-value的数据结构一样，key就是where后面的字段，value就是物理行号，对索引的搜索复杂度是基本上是O(log(n)) ——用B-Tree实现索引（如：100条记录的查找要50ms，一百万条记录需要100ms）。</li>
+</ul>
+<ul>
+<li><strong>索引</strong>。对于索引字段，最好不要在字段上做计算、类型转换、函数、空值判断、字段连接操作，这些操作都会破坏索引原本的性能。当然，索引一般都出现在Where或是Order by字句中，所以对Where和Order by子句中的子段最好不要进行计算操作，或是加上什么NOT之类的，或是使用什么函数。</li>
+</ul>
+<ul>
+<li><strong>多表查询</strong>。关系型数据库最多的操作就是多表查询，多表查询主要有三个关键字，EXISTS，IN和JOIN（关于各种join，可以参看<a title="图解SQL的Join" href="https://coolshell.cn/articles/3463.html" target="_blank">图解SQL的Join</a>一文）。基本来说，现代的数据引擎对SQL语句优化得都挺好的，JOIN和IN/EXISTS在结果上有些不同，但性能基本上都差不多。有人说，EXISTS的性能要好于IN，IN的性能要好于JOIN，我各人觉得，这个还要看你的数据、schema和SQL语句的复杂度，对于一般的简单的情况来说，都差不多，所以千万不要使用过多的嵌套，千万不要让你的SQL太复杂，宁可使用几个简单的SQL也不要使用一个巨大无比的嵌套N级的SQL。还有人说，如果两个表的数据量差不多，Exists的性能可能会高于In，In可能会高于Join，如果这两个表一大一小，那么子查询中，Exists用大表，In则用小表。这个，我没有验证过，放在这里让大家讨论吧。另，有一篇关于SQL Server的文章大家可以看看《<a href="http://explainextended.com/2009/06/16/in-vs-join-vs-exists/" target="_blank">IN vs JOIN vs EXISTS</a>》</li>
+</ul>
+<ul>
+<li><strong>JOIN操作</strong>。有人说，Join表的顺序会影响性能，只要Join的结果集是一样，性能和join的次序无关。因为后台的数据库引擎会帮我们优化的。Join有三种实现算法，嵌套循环，排序归并，和Hash式的Join。（MySQL只支持第一种）</li>
+</ul>
+<ul style="padding-left: 60px;">
+<ul>
+<li>嵌套循环，就好像是我们常见的多重嵌套循环。注意，前面的索引说过，数据库的索引查找算法用的是B-Tree，这是O(log(n))的算法，所以，整个算法复法度应该是O(log(n)) * O(log(m)) 这样的。</li>
+<li>Hash式的Join，主要解决嵌套循环的O(log(n))的复杂，使用一个临时的hash表来标记。</li>
+<li>排序归并，意思是两个表按照查询字段排好序，然后再合并。当然，索引字段一般是排好序的。</li>
+</ul>
+</ul>
+<p style="padding-left: 60px;">还是那句话，具体要看什么样的数据，什么样的SQL语句，你才知道用哪种方法是最好的。</p>
+<ul>
+<li><strong>部分结果集。</strong>我们知道MySQL里的Limit关键字，Oracle里的rownum，SQL Server里的Top都是在限制前几条的返回结果。这给了我们数据库引擎很多可以调优的空间。一般来说，返回top n的记录数据需要我们使用order by，注意在这里我们需要为order by的字段建立索引。有了被建索引的order by后，会让我们的select语句的性能不会被记录数的所影响。使用这个技术，一般来说我们前台会以分页方式来显现数据，Mysql用的是OFFSET，SQL Server用的是FETCH NEXT，这种Fetch的方式其实并不好是线性复杂度，所以，如果我们能够知道order by字段的第二页的起始值，我们就可以在where语句里直接使用&gt;=的表达式来select，这种技术叫seek，而不是fetch，seek的性能比fetch要高很多。</li>
+</ul>
+<ul>
+<li><strong>字符串</strong>。正如我前面所说的，字符串操作对性能上有非常大的恶梦，所以，能用数据的情况就用数字，比如：时间，工号，等。</li>
+</ul>
+<ul>
+<li><strong>全文检索</strong>。千万不要用Like之类的东西来做全文检索，如果要玩全文检索，可以尝试使用<a href="http://sphinxsearch.com/" target="_blank">Sphinx</a>。</li>
+</ul>
+<ul>
+<li><strong>其它</strong>。
+<ul>
+<li>不要select *，而是明确指出各个字段，如果有多个表，一定要在字段名前加上表名，不要让引擎去算。</li>
+<li>不要用Having，因为其要遍历所有的记录。性能差得不能再差。</li>
+<li>尽可能地使用UNION ALL  取代  UNION。</li>
+<li>索引过多，insert和delete就会越慢。而update如果update多数索引，也会慢，但是如果只update一个，则只会影响一个索引表。</li>
+<li>等等。</li>
+</ul>
+</li>
+</ul>
+<p>关于SQL语句的优化，网上有很多文章， 不同的数据库引擎有不同的优化技巧，正如本站以前转发的《<a href="https://coolshell.cn/articles/1846.html" rel="bookmark">MySQL性能优化的最佳20+条经验</a>》</p>
+<p>先写这么多吧，欢迎大家指正补充。</p>
+<blockquote><p><strong>注：</strong>这篇文章的确是个大杂烩。其实其中的说到的很多技术在网上都有很多很多的技术文章，google一下就能找到一堆有很多细节的文章，所以我也就不写了。这篇性能调优的文章写作的动机是之前看到 <a href="http://weibo.com/n/%E6%B7%98%E5%AE%9D%E8%A4%9A%E9%9C%B8">@淘宝褚霸</a> 强推的<a href="http://highscalability.com/">highscalability.com</a>上的这篇文章：<a href="http://highscalability.com/blog/2012/5/16/big-list-of-20-common-bottlenecks.html" target="_blank">Big List Of 20 Common Bottlenecks</a>，觉得这篇文章泛泛而谈，觉得自己能写得比它好，所以就产生了动机。</p></blockquote>
+<p>（<span style="color: #cc0000;"><strong>转载时请注明作者和出处，请勿用于商业用途</strong></span>）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7490.html">性能调优攻略</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7490.html/feed</wfw:commentRss>
+			<slash:comments>171</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>TCP网络关闭的状态变换时序图</title>
+		<link>https://coolshell.cn/articles/1484.html</link>
+					<comments>https://coolshell.cn/articles/1484.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Sun, 27 Sep 2009 08:11:19 +0000</pubDate>
+				<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[TCP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1484</guid>
+
+					<description><![CDATA[<p>TCP共有11个网路状态，其中涉及到关闭的状态有5个。 在我们编写网络相关程序的时候，这5个状态经常出现。因为这5个状态相互关联，相互纠缠，而且状态变化触发都是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1484.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1484.html">TCP网络关闭的状态变换时序图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>TCP共有11个网路状态，其中涉及到关闭的状态有5个。</p>
+<p>在我们编写网络相关程序的时候，这5个状态经常出现。因为这5个状态相互关联，相互纠缠，而且状态变化触发都是由应用触发，但是又涉及操作系统和网络，所以正确的理解TCP 在关闭时网络状态变化情况，为我们诊断网络中各种问题，快速定位故障有着非常重要的作用和意义。</p>
+<p style="text-align: left;">下是是根据W.Richard Stevens的《TCP/IP详解》一书的TCP状态转换图。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter  wp-image-6310" title="tcp 状态转换图" src="https://coolshell.cn/wp-content/uploads/2009/09/tcp1.jpg" alt="" width="585" height="826" /></p>
+<p style="text-align: left;"><span id="more-1484"></span></p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-6309" title="tcp 状态转换图 （注释）" src="https://coolshell.cn/wp-content/uploads/2009/09/tcp2.jpg" alt="" width="727" height="746" /> <img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6308" title="tcp 连接建立关闭图" src="https://coolshell.cn/wp-content/uploads/2009/09/tcp3.jpg" alt="" width="469" height="529" srcset="https://coolshell.cn/wp-content/uploads/2009/09/tcp3.jpg 469w, https://coolshell.cn/wp-content/uploads/2009/09/tcp3-265x300.jpg 265w" sizes="(max-width: 469px) 100vw, 469px" /> <img decoding="async" loading="lazy" class="aligncenter  wp-image-6307" title="tcp 连接建图" src="https://coolshell.cn/wp-content/uploads/2009/09/tcp3.jpg" alt="" width="469" height="529" /> <img decoding="async" loading="lazy" class="aligncenter  wp-image-6306" title="tcp 连接关闭图" src="https://coolshell.cn/wp-content/uploads/2009/09/tcp5.jpg" alt="" width="631" height="239" /></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/07/wall_clock-300x167-1-150x150.jpeg" alt="从一次经历谈 TIME_WAIT 的那些事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_title">从一次经历谈 TIME_WAIT 的那些事</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318-150x150.jpg" alt="TCP 的那些事儿（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_title">TCP 的那些事儿（下）</a></li><li ><a href="https://coolshell.cn/articles/11564.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/05/tin-can-phone-150x150.jpg" alt="TCP 的那些事儿（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11564.html" class="wp_rp_title">TCP 的那些事儿（上）</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1484.html">TCP网络关闭的状态变换时序图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1484.html/feed</wfw:commentRss>
+			<slash:comments>12</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

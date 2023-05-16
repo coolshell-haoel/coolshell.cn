@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Twitter | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/twitter/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sun, 05 Feb 2023 04:10:43 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>聊聊 nostr 和 审查</title>
+		<link>https://coolshell.cn/articles/22367.html</link>
+					<comments>https://coolshell.cn/articles/22367.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 03 Feb 2023 07:46:13 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[censorship]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[nostr]]></category>
+		<category><![CDATA[social media]]></category>
+		<category><![CDATA[Twitter]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22367</guid>
+
+					<description><![CDATA[<p>这两天在网络上又有一个东西火了，Twitter 的创始人 @jack 新的社交 iOS App  Damus 上苹果商店（第二天就因为违反中国法律在中国区下架了...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22367.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22367.html">聊聊 nostr 和 审查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-22368" src="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-300x150.png" alt="" width="300" height="150" srcset="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-300x150.png 300w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-1024x512.png 1024w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-768x384.png 768w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-540x270.png 540w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1.png 1140w" sizes="(max-width: 300px) 100vw, 300px" />这两天在网络上又有一个东西火了，Twitter 的创始人 <a href="https://twitter.com/jack">@jack</a> 新的社交 iOS App  <a href="https://apps.apple.com/ca/app/damus/id1628663131" target="_blank" rel="noopener">Damus</a> 上苹果商店（第二天就因为违反中国法律在中国区下架了），这个软件是一个去中心化的 Twitter，使用到的是 nostr &#8211; Notes and Other Stuff Transmitted by Relays 的协议（<a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener">协议简介</a>，<a href="https://github.com/nostr-protocol/nips" target="_blank" rel="noopener">协议细节</a>），协议简介中有很大的篇幅是在批评Twitter和其相类似的中心化的产品，如：<a href="https://mastodon.social/" target="_blank" rel="noopener">Mastodon</a> 和 <a href="https://scuttlebutt.nz/" target="_blank" rel="noopener">Secure Scuttlebutt</a> 。我顺着去看了一下这个协议，发现这个协议真是非常的简单，简单到几句话就可以讲清楚了。</p>
+<h4>通讯过程</h4>
+<ul>
+<li>这个协议中有两个东西，一个是 client，一个是 relay，client 就是用户社交的客户端，relay 就是转发服务器。</li>
+<li>用户不需要注册，用户只需要有一个密钥对（公钥+私钥）就好了，然后把要发的信息做签名，发给一组 relays</li>
+<li>然后你的 Follower 就可以从这些 relays 上订阅到你的信息。</li>
+</ul>
+<p><span id="more-22367"></span></p>
+<h4>技术细节摘要</h4>
+<ul>
+<li>技术实现上，nostr 使用 websocket + JSON 的方式。其中主要是下面这么几个指令
+<ul>
+<li>Client 到 Relay主要是下面这几个指令：
+<ul>
+<li><code>EVENT</code>。发出事件，可以扩展出很多很多的动作来，比如：发信息，删信息，迁移信息，建 Channel ……扩展性很好。</li>
+<li><code>REQ</code>。用于请求事件和订阅更新。收到<code>REQ</code>消息后，relay 会查询其内部数据库并返回与过滤器匹配的事件，然后存储该过滤器，并将其接收的所有未来事件再次发送到同一websocket，直到websocket关闭。</li>
+<li><code>CLOSE</code>。用于停止被 <code>REQ</code> 请求的订阅。</li>
+</ul>
+</li>
+<li>Relay 到 Client 主要是下面几个指令：
+<ul>
+<li><code>EVENT</code>。用于发送客户端请求的事件。</li>
+<li><code>NOTICE</code>。用于向客户端发送人类可读的错误消息或其他信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>关于 <code>EVENT</code> 下面是几个常用的基本事件：
+<ul>
+<li><code>0</code>: <code>set_metadata</code>：比如，用户名，用户头像，用户简介等这样的信息。</li>
+<li><code>1</code>: <code>text_note</code>：用户要发的信息内容</li>
+<li><code>2</code>： <code>recommend_server</code>：用户想要推荐给关注者的Relay的URL（例如<code>wss://somerelay.com</code>）</li>
+</ul>
+</li>
+</ul>
+<h4>如何对抗网络审查</h4>
+<p>那么，这个协议是如何对抗网络审查的？</p>
+<ul>
+<li>识别你的身份是通过你的签名，所以，只要你的私钥还在，你是不会被删号的</li>
+<li>任何人都可以运行一个或多个relay，所以，就很难有人控制所有的relay</li>
+<li>你还可以很方便的告诉其中的 relay 把你发的信息迁到另一个 relay 上</li>
+<li>你的信息是一次发给多个relay的，所以，只要不是所有的热门realy封了你，你就可以发出信息</li>
+<li>每个relay的运营者都可以自己制定规则，会审查哪些类型内容。用户据此选择即可。基本不会有一个全局的规则。</li>
+<li>如果你被全部的relay封了，你还是可以自建你的relay，然后，你可以通过各种方式告诉你身边的人你的relay服务器是什么？这样，他们把这个relay服务器加到他们的client列表中，你又可以从社死中复活了。</li>
+</ul>
+<p>嗯，听起来很简单，整个网络是构建在一种 “社区式”的松散结构，完全可能会出现若干个 relay zone。这种架构就像是互联网的架构，没有中心化，比如 DNS服务器和Email服务器一样，只要你愿意，你完全可以发展出自己圈子里的“私服”。</p>
+<p>其实，电子邮件是很难被封禁和审查的。我记得2003年中国非典的时候，我当时在北京，当时的卫生部部长说已经控制住了，才12个人感染，当局也在控制舆论和删除互联网上所有的真实信息。但是，大家都在用电子邮件传播信息，当时基本没有什么社交软件，大家分享信息都是通过邮件，尤其是外企工作的圈子，当时每天都要收很多的非典的群发邮件，大家还都是用公司的邮件服务器发……这种松散的，点对点的架构，让审查是基本不可能的。其实，<strong>我觉得 nostr 就是另外一个变种或是升级版的 email 的形式</strong>。</p>
+<h4>如何对抗Spam和骗子</h4>
+<p>但是问题来了，如果不能删号封人的话，那么如何对抗那些制造Spam，骗子或是反人类的信息呢？nostr目前的解决方案是通过比特币闪电网络。比如有些客户端实现了如果对方没有follow 你，如果给他发私信，需要支付一点点btc ，或是relay要求你给btc才给你发信息（注：我不认为这是一个好的方法，因为：1）因为少数的坏人让大多数正常人也要跟着付出成本，这是个糟糕的治理方式，2）不鼓励那些生产内容的人，那么平台就没有任何价值了）。</p>
+<p>不过，我觉得也有可以有下面的这些思路：</p>
+<ul>
+<li>用户主动拉黑，但很明显这个效率不高，而且体验不好</li>
+<li>社区或是同盟维护一个黑名单，relay定期更新（如同email中防垃圾邮件也是这样搞的），这其实也是审查。</li>
+<li>防Spam的算法过滤垃圾信息（如同email中干的），自动化审查。</li>
+<li>增加发Spam的成本，如: PoW 工作量证明（比特币的挖矿，最早也是用于Email），发信息要花钱（这个对正常用户伤害太大了）等。</li>
+<li>……</li>
+</ul>
+<p>总之，还是有相应的方法的，但是一定没有完美解，email对抗了这么多年，你还是可以收到大量的垃圾邮件和钓鱼邮件，所以，我觉得 nostr 也不可能做到……</p>
+<h4>怎么理解审查</h4>
+<p>最后，我们要明白的是，<strong>无论你用什么方法，审查是肯定需要的，所以，我觉得要完全干掉审查，最终的结果就是一个到处都垃圾内容的地方！</strong></p>
+<p><strong>我理解的审查不应该是为权力或是个体服务的，而是为大众和人民服务的，所以，审查必然是要有一个开放和共同决策的流程，而不是独断的</strong>。</p>
+<p>这点可以参考开源软件基金会的运作模式。</p>
+<ul>
+<li>最底端的是用户（User）参与开源社区的使用并提供问题和反馈。</li>
+<li>用户在使用过程中了解项目情况后贡献代码和文档就可以晋升为贡献者（Contributors），</li>
+<li>当贡献者提交一定数量贡献之后就可以晋升为提交者（Committers），此时你将拥有你参与仓库的代码读写权限。</li>
+<li>当提交者Committers在社区得到认可后，由项目管理委员会（PMC）选举并产生PMC成员（类似于议员），PMC成员拥有社区相关事务的投票、提名和共同决策权利和义务。</li>
+</ul>
+<p>注意下面几点</p>
+<ul>
+<li>整个社区的决策者，是要通过自己贡献来挣到被选举权的。</li>
+<li>社区所有的工作和决定都是要公开的。</li>
+<li>社区的方向和决策都是要投票的，PMC成员有binding的票权，大众也有non-binding的投票权供参考。</li>
+<li><strong>如果出现了价值观的不同，那么，直接分裂社区就好了，不同价值观的人加入到不同的社区就好了</strong>。</li>
+</ul>
+<p>如果审查是在这个框架下运作的话，虽然不完美，但至少会在一种公允的基础下运作，是透明公开的，也是集体决策的。</p>
+<p>开源软件社区是一个很成功的示范，所以，我觉得只有技术而没有一个良性的可持续运作的社区，是不可能解决问题的，<strong>干净整齐的环境是一定要有人打扫和整理的</strong>。</p>
+<p>&nbsp;</p>
+<figure id="attachment_22371" aria-describedby="caption-attachment-22371" style="width: 300px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22371 size-medium" src="https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-300x289.jpg" alt="欢迎关注我 npub1w6r99545cxea6z76e8nvzjxnymjt4nrsddld33almtm78z7fz95s3c94nu" width="300" height="289" srcset="https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-300x289.jpg 300w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-1024x987.jpg 1024w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-768x740.jpg 768w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-280x270.jpg 280w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533.jpg 1242w" sizes="(max-width: 300px) 100vw, 300px" /><figcaption id="caption-attachment-22371" class="wp-caption-text">欢迎关注我 npub1w6r99545cxea6z76e8nvzjxnymjt4nrsddld33almtm78z7fz95s3c94nu</figcaption></figure>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="国内微博和Twitter的最大不同" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_title">国内微博和Twitter的最大不同</a></li><li ><a href="https://coolshell.cn/articles/25.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="如何上网觅无踪" width="150" height="150" /></a><a href="https://coolshell.cn/articles/25.html" class="wp_rp_title">如何上网觅无踪</a></li><li ><a href="https://coolshell.cn/articles/2305.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/mshole-150x150.jpg" alt="微软的安全补丁分析" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2305.html" class="wp_rp_title">微软的安全补丁分析</a></li><li ><a href="https://coolshell.cn/articles/1901.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/viemu-movie-150x150.gif" alt="Visual Studio的Vim插件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1901.html" class="wp_rp_title">Visual Studio的Vim插件</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22367.html">聊聊 nostr 和 审查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22367.html/feed</wfw:commentRss>
+			<slash:comments>12</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>国内微博和Twitter的最大不同</title>
+		<link>https://coolshell.cn/articles/5247.html</link>
+					<comments>https://coolshell.cn/articles/5247.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 17 Aug 2011 00:34:04 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Sina]]></category>
+		<category><![CDATA[Twitter]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[Weibo]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5247</guid>
+
+					<description><![CDATA[<p>霍炬近两个月前写过一篇《microblogging和微博信息架构产品差距和影响》分析了国内微博和Twitter的差距，重点就是因为信息的平等性。我也一直在观察新...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5247.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5247.html">国内微博和Twitter的最大不同</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>霍炬近两个月前写过一篇《<a href="http://blog.devep.net/virushuo/2011/06/26/microblogging.html">microblogging和微博信息架构产品差距和影响</a>》分析了国内微博和Twitter的差距，重点就是因为信息的平等性。我也一直在观察新浪微博，以及新浪和Twitter的一些功能上的差别。发现了一些东西，想在这里和大家分享一下。我的见解达不到像霍炬那样的层次，作为一个技术人员，我只能在产品功能上做些分析。欢迎大家指正。</p>
+<h4>现实状况</h4>
+<p>国内的微博就是新浪，Sohu微博，腾讯微博，以及饭否。我们不难发现：</p>
+<ul>
+<li>搜狐的和腾讯的就是Copy新浪的。在Following和Followed上大家都有自己所谓的“创新”</li>
+<li>饭否是在Copy Twitter，这点太明显了，不过，抄在了表面，而且相当的怪。</li>
+</ul>
+<p>国内所有的这些以Twitter为蓝本干出来的这些东西，其和Twitter在核心功能上有这些差别：</p>
+<ul>
+<li>Twitter的Retweet一点信息都加不上，国内的微博的转发需要加上自己的评论，也就形自己的信息。</li>
+<li>Twitter的Reply只会有一个@原来的人，国内的Reply也很相似，只是勾上转发后就会把Reply的东西以“<strong>//@XXX</strong>”的方式成为自己的信息。</li>
+<li>饭否的做法比较怪，转发加原文（想做成新浪的样子），回复不加原文，只有@（Twitter）的样子，可见饭否的分裂。</li>
+</ul>
+<h4>SNS中的上下文</h4>
+<p>这段时间，我一直在想，新浪为什么要做成这样，为什么不做成Twitter那样，或者，为什么Twitter做成那样而不是新浪这样？从表面上看上去，<strong>新浪的“<span style="color: #800000;">回复+转发</span>”会带被回的信息，而Twitter的回复不带上下文，Twitter上一些我fo的人的话题完全看不懂，不像新浪的还能看到上文</strong>。</p>
+<p>老实说，在一开始，我还觉得新浪微博这种用法和技术上要比 Twitter 要强大，现在看来是我当时对Twitter并不熟悉。经过这段时间的观察。<strong>我恰恰发现新浪在转发和回复上都要带上原文其实是一件很没有技术含量的事</strong>。要说清这个事，请让我说一下评论和回复的事。</p>
+<p><span id="more-5247"></span></p>
+<ul>
+<li>我们网上讨论一个事的时候，你会发现，一个主题下的讨论会对回复的话题进行讨论而偏题，甚至会发散出多条讨论线各自发展。这种事会造成讨论的混乱。所以，上下文是关键。</li>
+<li>BBS和Wordpress可以使用“引用”或“回复”来让你的话题有上下文。新浪的博客和新闻评论里没有，只是网易的评论可以盖楼。所以新浪微博基本上采用的就是这样的方式。</li>
+</ul>
+<p>然而，Twitter则不是，Twitter的回复系统是不会像新浪那样加上“<strong>//@XXX</strong>”的东西的，如果你要看信息的上下文，你需要点击信息，在右边栏会出现其上下文列表。<strong>Twitter的这个功能可以让你很容易地找到一个信息链，而不受别的信息链的干扰，不像国内微博那样——多个信息链穿插成一锅粥让你无法阅读</strong>（饭否是抄Twitter抄的最像的，但是其没有实现这个功能）。</p>
+<h4>上下文造假</h4>
+<p>国内的所有微博都做不到这个事，我估计是因为技术不行。所以，为了加上上下文，他们只能做成今天你看到的这个样子。你也许会想和我争论，这样在阅读体验上更好。但是，如果你看过下面这个例子，你一定就不会这么想了。</p>
+<p>在新浪微博上，我们转发或是回复时，我们可以人为地加上这样的上下文（说白了，就是造假）：</p>
+<blockquote><p>//<a href="http://weibo.com/yaochen" target="_blank">@姚晨</a>：八顿也会C语言。//<a href="http://weibo.com/renzhiqiang" target="_blank">@任志强</a>：不是C++才牛吗？ //<a href="http://blog.sina.com.cn/lichengpeng" target="_blank">@李承鹏</a>：代表盲肠封你为程序员的脊梁。//<a href="http://weibo.com/1739928273" target="_blank">@苍井空</a>：还要爱吃空心菜的菜。 //<a href="http://weibo.com/kaifulee" target="_blank">@李开复</a>：成功的程序员的标志：1）用C语言，2）不用IE6，3）无需敏捷咨询师。</p></blockquote>
+<p>看到这个，你明白为什么Twitter要那样，而不是新浪这样了吧？！<strong>这就是差距，至少是产品经理的差距</strong>。我个人觉得还有技术上的差距。如果某人给你发来的一条手机短信你都搞不清楚是不是这个人说的，那会是多么恐怖的事。</p>
+<p><span style="color: #cc0000;"><strong>有人说，在Twitter上也可以造假，但是这需要用户自己去干，Twitter的系统并不会主动干这个。 Twitter的Retweet和Reply是可以区分用户行为和系统行为（就看你加不加原信息），而新浪微博则无法区系统行为和用户行为，这就是国内微博的软肋！</strong></span></p>
+<h4>其它</h4>
+<p>新浪的东西其实挺没创意的，<a title="微软用新浪来当反面教材" href="https://coolshell.cn/articles/3872.html" target="_blank">微软用新浪在当过反面教材</a>，某WEB设计师也用<a title="为什么中国的网页设计那么烂？" href="https://coolshell.cn/articles/3605.html" target="_blank">新浪来当过反面教材</a>。不过，新浪微博还是很强大的，尤其是删贴和阻止信息传播上，经过观察，的确很强大。</p>
+<p><span style="color: #008000;">我把我这篇文章里的那个欺诈示例转到了我的微博（<a href="http://weibo.com/n/%E5%B7%A6%E8%80%B3%E6%9C%B5%E8%80%97%E5%AD%90"><span style="color: #008000;">@左耳朵耗子</span></a>）做了个测试。结果，在有这篇文章做提示的情况下，还是有些人相信了，还有些人骂我并把我取消关注和拉黑了。我真是服了，我故意造得这么假这么娱乐，结果还是有些人认真了。你说那些骗子看到这个情况岂不是开心之极啊。再次说明新浪微博的这种上下文的方式弊端！</span></p>
+<p>（<strong>转载请注明作者和出处</strong>）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/affc-image1-150x150.png" alt="微软用新浪来当反面教材" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_title">微软用新浪来当反面教材</a></li><li ><a href="https://coolshell.cn/articles/22367.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-150x150.png" alt="聊聊 nostr 和 审查" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22367.html" class="wp_rp_title">聊聊 nostr 和 审查</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5247.html">国内微博和Twitter的最大不同</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5247.html/feed</wfw:commentRss>
+			<slash:comments>85</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,1185 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>XML | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/xml/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 22 Apr 2013 10:53:59 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>PFIF网上寻人协议</title>
+		<link>https://coolshell.cn/articles/9508.html</link>
+					<comments>https://coolshell.cn/articles/9508.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 21 Apr 2013 16:20:16 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Atom]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[PFIF]]></category>
+		<category><![CDATA[RSS]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9508</guid>
+
+					<description><![CDATA[<p>本文的主要内容来自Wikipedia(http://en.wikipedia.org/wiki/People_Finder_Interchange_Format...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9508.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9508.html">PFIF网上寻人协议</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>本文的主要内容来自Wikipedia(<a href="http://en.wikipedia.org/wiki/People_Finder_Interchange_Format" target="_blank">http://en.wikipedia.org/wiki/People_Finder_Interchange_Format</a>)</p>
+<p>PFIF全称People Finder Interchange Format，是一个应用广泛的数据开源的标准协议，这个协议主要是设计用来在不同的政府、救援组织、或是其它的一些灾难中生存者和其亲人联系的网站间进行数据交换的一种协议。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" alt="" src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder.png" width="492" height="249" /></p>
+<p>这个协议基于XML，信息中包括人的身份标识，还有人目前的位置和状态等一些信息。PFIF可以通过Atom和RSS feed出去。PFIF可以允许不同的寻人站点进行数据交换和合并。每一条记录都有一个唯一的标识，这个标识说明了这是由哪个域名创建的。这样，当A站点获得B点的某个人的数据时，在A站点可以对这个人的增加的信息可以转到其它站点上再被增加相关的信息，因为有一个唯一的ID，所以信息可以在不同的站点上被附加。</p>
+<p>从wikipedia上看，说起PFIF这个事，得回到2001年的911事件，那时人们一共使用了超过25个不同的在线论坛和网上寻人站来查找相关的亲人和朋友（注：寻人网站英文叫：Survivor Registry，生还者登记网站）。其中一个最大的网站是由伯克利大学的学生Ka-Ping Yee 和 Miriam Walker 开发运行在Millennium计算集群上的safe.millennium.berkeley.edu网站。那时，为了减少各种网站间的混乱，伯克利的寻人网站开始从其它几个比较大的寻人站点收集相关的数据，并人肉整合到一起。</p>
+<p><span id="more-9508"></span></p>
+<p>2005年，在<a title="Hurricane Katrina" href="http://en.wikipedia.org/wiki/Hurricane_Katrina">卡特里娜飓风</a> 灾难的时候，有数据百万人迁移。于是相关的寻人网站又出现了，而且比911的还要多。于是有很多的志愿者开发了一个叫 <a title="Katrina PeopleFinder Project" href="http://en.wikipedia.org/wiki/Katrina_PeopleFinder_Project">Katrina PeopleFinder Project（卡特里娜寻人项目）</a> 他们人肉地收集不同站点的数据，并统一格式放到一个由Salesfore.com提供一个数据库中。这个项目的组织者David Geilhufe 呼吁一个技术标准以便这些寻人网站间的数据可以自动地整合共享在一起。于是之前伯克利的那个 <a href="http://zesty.ca/" target="_blank">Ka-Ping Yee</a> 开始和志愿者 Kieran Lal，Jonathan Plax 和 <a title="CiviCRM" href="http://en.wikipedia.org/wiki/CiviCRM">CiviCRM</a> 团队一同工作，于是开始了草拟了第一版的PFIF协议，其于2005年9月4日发布，1.1版于第二天发布，其中修改了一些错误。随后，Salesfore.com的数据库开始支持这一标准，然后，Yahoo!和Google的寻人网站也加入这一协议。</p>
+<p>接下来， <a title="2010 Haiti earthquake" href="http://en.wikipedia.org/wiki/2010_Haiti_earthquake">2010年的海地地震</a> 时，Google发布了自己的 <a title="Google Person Finder" href="http://en.wikipedia.org/wiki/Google_Person_Finder">Google Person Finder</a>，其基于PFIF协议和CNN，纽约时报，以及美国国家医学图书馆和其它的一些寻人网站进行数据交换。然而，PFIF1.1是基于美国的社会标准搞的，并不适用于海地。于是2010年1月26日，PFIF1.2发布，其增加了几个字段用于标记生还者的国家和国际区号，还有性别，年纪，生日，状态，还有相同人的关联。</p>
+<p>PFIF 1.3 于2011年3月发布，其主要解决了个人隐私问题，其加入了一个字段指明该信息的一个有效时间，过期的数据会被删除。PFIF1.3同时移除了英式的first-name和last-name，取而代之的是full-name。</p>
+<p>PFIF 1.4 于2012年5月发布，其加入了一个字段用于链接这个人在互联网上的个人资源链接，这样可以用于合并相同的人（比如：指向同一个微博网址），还支持了多个照片。</p>
+<p style="text-align: center;"><strong>PFIF1.4的Spec链接：<a href="http://zesty.ca/pfif/1.4/" target="_blank">http://zesty.ca/pfif/1.4/ </a></strong></p>
+<p>如下的网站有软件实现了PFIF：</p>
+<ul>
+<li><a title="Google Person Finder" href="http://en.wikipedia.org/wiki/Google_Person_Finder">Google Person Finder</a></li>
+<li><a title="Sahana FOSS Disaster Management System" href="http://en.wikipedia.org/wiki/Sahana_FOSS_Disaster_Management_System">Sahana Eden</a></li>
+<li><a href="http://pl.nlm.nih.gov/index.php" rel="nofollow">National Library of Medicine People Locator</a></li>
+<li><a title="Ushahidi" href="http://en.wikipedia.org/wiki/Ushahidi#Ushahidi">Ushahidi</a></li>
+<li><a href="http://code.google.com/p/pfifnet/" rel="nofollow">PFIF .NET Library</a></li>
+<li><a href="http://erislabs.net/ianb/projects/pfif/" rel="nofollow">XML::PFIF Perl module</a></li>
+</ul>
+<p>本次四川地震，谷歌率先发布了他人寻人网站：<a href="https://google.org/personfinder/2013-sichuan-earthquake" target="_blank">https://google.org/personfinder/2013-sichuan-earthquake</a>。接下来，国内的百度，360，搜索，一淘，CSDN，高德……都发布了自己的寻人网站，微博上，大家都在说这些企业不应该搞这么多这样的网站，这样只会造成混乱。而且大家都在呼吁大家一起运作一个网站，共享数据，共享信息。晚上，我在微博上看到了这个PFIF协议，于是写下这篇文章。</p>
+<p>关于Google 的寻人的数据可以通过Google PersonFinder API 下载和上传，这里是其API页面：</p>
+<p style="text-align: center;"><strong><a href="http://code.google.com/p/googlepersonfinder/wiki/DataAPI" target="_blank">http://code.google.com/p/googlepersonfinder/wiki/DataAPI</a></strong></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-150x150.jpg" alt="我看ChatGPT: 为啥谷歌掉了千亿美金" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_title">我看ChatGPT: 为啥谷歌掉了千亿美金</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/5701.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="SteveY对Amazon和Google平台的吐槽" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5701.html" class="wp_rp_title">SteveY对Amazon和Google平台的吐槽</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9508.html">PFIF网上寻人协议</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9508.html/feed</wfw:commentRss>
+			<slash:comments>24</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>语言的数据亲和力</title>
+		<link>https://coolshell.cn/articles/4905.html</link>
+					<comments>https://coolshell.cn/articles/4905.html#comments</comments>
+		
+		<dc:creator><![CDATA[Todd]]></dc:creator>
+		<pubDate>Wed, 29 Jun 2011 00:10:44 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Groovy]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[JSON]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4905</guid>
+
+					<description><![CDATA[<p>[ 感谢 Todd 同学投递本文 ] 目前，程序设计语言似乎进入了一个蓬勃发展的时期，Javascript、Perl、Python、Ruby、Groovy等一批...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4905.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4905.html">语言的数据亲和力</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>[ 感谢 <a href="http://www.cnblogs.com/weidagang2046/" target="_blank">Todd 同学</a>投递本文 ]</strong></p>
+<p><span style="font-family: 'Lucida Console';">目前，程序设计语言似乎进入了一个蓬勃发展的时期，Javascript、Perl、Python、Ruby、Groovy等一批较新的语言正越来越多地被熟悉和使用，而C++、C#、Java等主流语言也在不断地融入函数式和动态性特征。程序员的百宝箱中可供选择的宝贝是越来多了，而社区中关于语言间的比较和争论也更为热烈，我们常常见到关于“面向过程和面向对象的比较”、“动态语言和静态语言的比较”、“命令式和函数式范式的比较”等比较。我注意到这类讨论的关注点多集中于设计相关话题，如“动态语言的Duck typing多态和静态语言的继承多态的比较”，“Prototype based和Class based的比较”等。但我认为还有一个十分重要的方面值得关注，这就是数据处理。</span></p>
+<p><span style="font-family: 'Lucida Console';">数据处理之所以重要是因为不论是本地信息存储还是系统间信息交换都需要建立在一定的数据格式基础上。另外，不管语言属于那种范式，设计上采用什么模式，在微观层次上程序很大一部分工作都是在做数据处理。所以，从数据处理角度比较和理解语言间的差异有重要的现实意义。虽然数据通常是平台和语言无关的，但不同的语言在处理某种格式的数据时会表现出不同的难度，甚至某些数据格式只能采用特定的语言才能实现，这就是数据亲和力的不同。</span></p>
+<p><span style="font-family: 'Lucida Console';">语言的数据亲和力(Data Affinity)指的是语言的数据模型与某种数据格式之间的匹配程度。语言对某种数据格式亲和力越强，则操作某类数据越容易。</span></p>
+<p>&nbsp;</p>
+<h4><strong><span style="font-family: 'Lucida Console';">二进制字节块格式</span></strong></h4>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">在偏底层的操作系统、嵌入式和通信系统中，二进制的字节块是最常见的一种数据格式。二进制数据布局紧凑和接近机器的特点使得它常常作为系统间通信或系统文件的数据格式，但一般高级语言都不方便直接和0101打交道，而是基于记录、结构体和类等结构化表示操作数据，这就存在着在底层的二进制字节块和高层的结构化数据直接的转换问题。</span></p>
+<p><span style="font-family: 'Lucida Console';"><span id="more-4905"></span><br />
+</span></p>
+<p><span style="font-family: 'Lucida Console';">C语言作为最主要的系统语言具有很高的字节块数据亲和力。这不仅因为C语言具有指针可以直接访问内存以外，还因为C的结构体(struct)可以和字节块建立起直接的映射关系。例如，在基于Socket连接的分布式系统中服务器端和客户端通过二进制的字节数据进行通信，通信双方只要事先定义共用的结构体，发送方先创建相应的结构体变量并填充字段，然后把变量对应的内存块copy到Socket，接收方从Socket读取字节块，然后把字节块强制类型转换为相应的结构体指针即可读取个字段信息。整个过程中通信的双方都没有复杂的信息编码和解码的过程。示例代码如下：</span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct t_data {
+    int version;
+    char type[10];
+    float value;
+};
+
+//发送方
+struct t_data data;
+data.version = 1;
+strcpy(data.type,  “degree”);
+data.value = 189.0;
+send(socket,  &amp;data,  sizeof(data));
+
+//接收方
+struct t_data data;
+read(socket,  &amp;data,  sizeof(data));
+printf(“%d, %s, %f”, data.version,  data.type, data.value);</pre>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">上面的方法在实际应用中还需要注意内存对齐问题和大小端问题。内存对齐问题可以通过编译器预处理命令来进行控制，保证内存中struct结构与传输的字节块具有相同的对齐方式；大小端问题需要通信的双方采用同样的大小端方式，否则就需要进行转换。</span></p>
+<p><span style="font-family: 'Lucida Console';">C++可以完全兼容C的结构体，但C++的类(包括class和struct)中如果定义了虚函数，则会丧失结构的字节块数据亲和力，这是C++编程时需要权衡的一个因素。而除了C/C++，其他语言中则难以见到字节块数据亲和力，其原因在于C/C++允许控制结构体/对象的内存布局，并允许对指针进行非类型安全的强制类型转换，这都是在Java，C#等语言中不允许的。所以，在Java、C#中进行字节块的编码解码就只能按照协议一个字段一个字段地按偏移量和长度进行解析。C/C++的指针以及结构体和内存的直接映射带来了对字节块数据的亲和力，但同时也留下了内存访问和类型安全的隐患；而Java、C#在拥有引用安全和类型安全的同时也失去了对字节块数据的亲和力。</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4><span style="font-family: 'Lucida Console';"><strong>文本格式</strong> </span></h4>
+<p><span style="font-family: 'Lucida Console';">文本格式是另一种十分常见的数据格式。《Unix编程艺术》中是这样描述文本格式的：&#8221;Text streams are a valuable universal format because they&#8217;re easy for human beings to read, write, and edit without specialized tools ”。基于文本流的管道处理是一种备受赞誉的Unix风格。Shell可以通过管道把各种功能单一的命令串联起来，让文本流在管道上流动，因而Shell语言具有很好的文本数据亲和力。许多文本数据处理任务Bash都可以一行搞定，这就是Hacker们酷爱的One Liner风格。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">下面我们来看两个用Bash进行文本处理的例子：</span></p>
+<p><span style="font-family: 'Lucida Console';">1. 统计当前目录下的gz文件数目：</span></p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">ls –l *.gz | wc –l</code></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">2. 在Web服务器日子service.log中统计2011年6月26和27两天中每天中各页面的PV</span></p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">cat service.log | grep  ^2011-06-2[6-7] | cut –d ‘ ‘ –f 1, 3 | sort | uniq –c</code></p>
+<p>&nbsp;</p>
+<p>service.log:</p>
+<p style="padding-left: 30px;"><span style="font-family: 'Lucida Console';">2011-06-25 13:00:55 /music/c.htm Safari<br />
+…<br />
+2011-06-26 08:01:23 /main.htm IE<br />
+2011-06-26 08:03:01 /sports/b.htm Chrome<br />
+…<br />
+2011-06-27 11:41:06 /main.htm IE<br />
+2011-06-27 11:52:41 /news/a.htm Firefox</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">输出:</span></p>
+<p style="padding-left: 30px;"><span style="font-family: 'Lucida Console';">210 2011-06-26 /main.htm<br />
+231 2011-06-26 /news/a.htm<br />
+155 2011-06-26 /sports/b.htm<br />
+288 2011-06-27 /main.htm<br />
+292 2011-06-27 /news/a.htm<br />
+161 2011-06-27 /sports/b.htm</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">上面的两个简单文本数据处理任务如果是在C或C++下实现则要麻烦得多，代码量至少是十几行或者数十行，加上编译调试，整个开发效率可能比Shell低一个数量级。除了Shell外，Perl也是以强大的文本数据处理而闻名的。我们来看一个Perl正则表达式的例子：</span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">while (&lt;STDIN&gt;) {
+    if (/hello\s(\w+)/i)  {
+        print “say hello to $1“
+     }
+     elsif (/goodbye\s(\w+)/i)  {
+         print “say goodbye to  $1”
+    }
+}</pre>
+<p><span style="font-family: 'Lucida Console';">输入：</span></p>
+<p style="padding-left: 30px;">HeLLo world</p>
+<p style="padding-left: 30px;">Goodbye bug</p>
+<p><span style="font-family: 'Lucida Console';">输出：</span></p>
+<p style="padding-left: 30px;">say hello to world</p>
+<p style="padding-left: 30px;">say goodbye to bug</p>
+<p><span style="font-family: 'Lucida Console';">上面的例子中我们看到Perl直接进行字符串匹配并进行数据提取的强大威力。Perl基于正则表达式的字符串处理不仅比C/C++等系统语言更强大，甚至比Python这样的动态语言也更强大和更方便，这是因为正则表达式是Perl语言的“一等公民”，这就使得Perl比其他以库的方式支持正则表达式功能的语言具有更好的文本数据亲和力。后来的Ruby也学习Perl把直接在语言上支持正则表达式。</span></p>
+<p>&nbsp;</p>
+<h4><strong><span style="font-family: 'Lucida Console';">结构化文本格式</span></strong></h4>
+<p><span style="font-family: 'Lucida Console';">XML是最近十几年来流行起来的一种通用（半）结构化的文本数据交换格式。XML除具有一般文本格式的优点外，还具有表达复杂的层次信息的优势，所以它至诞生以来就被大量用于配置文件和各种Web Service中。现代程序设计基本都少不了了XML打交道，不过在C++、Java和C#集中静态类型语言中处理XML却并不是一件十分轻松的事情。我们先来看一个Java解析和构建下面这个XML的例子：</span></p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">&lt;langs type=&quot;current&quot;&gt;
+  &lt;language&gt;Java&lt;/language&gt;
+  &lt;language&gt;Groovy&lt;/language&gt;
+  &lt;language&gt;JavaScript&lt;/language&gt;
+&lt;/langs&gt;</pre>
+<p>&nbsp;</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">//Java解析XML
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+try {
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(&quot;src/languages.xml&quot;);
+    Element langs = doc.getDocumentElement();
+    System.out.println(&quot;type = &quot; + langs.getAttribute(&quot;type&quot;));
+    NodeList list = langs.getElementsByTagName(&quot;language&quot;);
+    for(int i = 0 ; i &amp;lt; list.getLength();i++) {
+        Element language = (Element) list.item(i);
+        System.out.println(language.getTextContent());
+    }
+}catch(Exception e) {
+    e.printStackTrace();
+}
+
+//Java创建XML
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+try {
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.newDocument();
+    Element langs = doc.createElement(&quot;langs&quot;);
+    langs.setAttribute(&quot;type&quot;, &quot;current&quot;);
+    doc.appendChild(langs);
+
+    Element language1 = doc.createElement(&quot;language&quot;);
+    Text text1 = doc.createTextNode(&quot;Java&quot;);
+    language1.appendChild(text1);
+    langs.appendChild(language1);
+
+    Element language2 = doc.createElement(&quot;language&quot;);
+    Text text2 = doc.createTextNode(&quot;Groovy&quot;);
+    language2.appendChild(text2);
+    langs.appendChild(language2);
+    Element language3 = doc.createElement(&quot;language&quot;);
+    Text text3 = doc.createTextNode(&quot;JavaScript&quot;);
+    language3.appendChild(text3);
+    langs.appendChild(language3);
+} catch (Exception e) {
+    e.printStackTrace();
+}</pre>
+<p><span style="color: #800040; font-family: 'Lucida Console';"><br />
+</span> 为了解析和创建小小的一段XML代码需要编写如此冗长的Java代码，而实现同样的功能动态语言Groovy则十分简洁：</p>
+<pre data-enlighter-language="groovy" class="EnlighterJSRAW">//Groovy解析XML
+def langs = new XmlParser().parse(&quot;languages.xml&quot;)
+println &quot;type = ${langs.attribute(&quot;type&quot;)}&quot;
+langs.language.each{
+    println it.text()
+}
+//Groovy创建XML
+def xml = new groovy.xml.MarkupBuilder()
+xml.langs(type:&quot;current&quot;){
+   language(&quot;Java&quot;)
+   language(&quot;Groovy&quot;)
+   language(&quot;JavaScript&quot;)
+}</pre>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">上面Groovy操作XML的代码简洁而富有表达力，代码与XML几乎是一一对应的，如同直接在XML上进行操作的DSL一样，而相应的Java代码则看不到XML的影子。这说明Groovy具有很高的XML数据的亲和力。为什么Java和Groovy在XML亲和力方面有这样的差异呢？原因在于Java要求所有的方法和属性都必须先定义再调用，严格的静态类型检查使得Java只能把XML元素作为“二等公民”来表达；而Groovy则没有静态类型检查的限制，可以自由地使用方法和属性来表达XML结构。上面用Groovy创建XML的例子中，groovy.xml.MarkupBuilder类中实际上并没有langs, language这些方法，但会在调用的时候自动创建相应的XML结构。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">除了XML外，JSON是另一种通用的半结构化的纯文本数据交换格式，它常被视为轻量级的XML。JSON的本意是Javascript的对象表示(Javascript Object Notation)，它属于Javascript的语法子集，所以Javascript对JSON有原生的支持。下面就是一个在Javascript中创建JSON对象的例子：</span></p>
+<p>[javascript]var json = { “langs” :<br />
+    {<br />
+        &quot;type” : &quot;current”,<br />
+       &quot;language” :  [&quot;Java”, &quot;Groovy”, &quot;Javascript”]<br />
+    }<br />
+}[/javascript]</p>
+<p><span style="font-family: 'Lucida Console';">许多Javascript程序都会通过AJAX都从服务器获取JSON字符串，然后把字符串解析为JSON对象。由于Javascript对JSON的原生支持，所以，在Javascript中解析JSON字符串可以采用通用的eval方式，如：</span></p>
+<p>[javascript]var json = eval(“(&quot; +  jsonStr + “)&quot;);</p>
+<p>alert(json.langs.type);[/javascript]</p>
+<p><span style="font-family: 'Lucida Console';">甚至可以：</span></p>
+<p>[javascript]eval(“var json = ” +  jsonStr);</p>
+<p>alert(json.langs.type);[/javascript]</p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">不过eval的通用性带来了一定的安全隐患，所以一般只建议对受信任的数据源采用eval方式解析JSON，对于不受信任的数据源可以采用专门的JSON解析库。无论如何Javascript对JSON的原生支持都使得Javascript创建和解析JSON数据十分的简单，也就是说Javascript具有很高的JSON数据亲和力。另外，Groovy 1.8也加入了对JSON的原生支持，操作JSON与Javascript一样方便。</span></p>
+<h4><strong><span style="font-family: 'Lucida Console';">总结</span></strong></h4>
+<p><span style="font-family: 'Lucida Console';">到这里为止本文篇幅已经很长了，只能列举二进制字节块格式、文本格式和结构化文本格式3种典型的数据格式。实际上，数据亲和力的话题还有很多值得探讨的，比如C#的Linq。本文的探讨算是抛砖引玉，目的在于引起大家注意在比较语言的时候不要忽略了数据亲和力这样一个重要方面。本文的错误或不足，敬请指正，谢谢！</span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/7992.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/cpp_small-150x150.jpg" alt="C++的坑真的多吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7992.html" class="wp_rp_title">C++的坑真的多吗？</a></li><li ><a href="https://coolshell.cn/articles/5576.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/10/00.QuickBasic_PDS_IDE-150x150.png" alt="那些曾伴我走过编程之路的软件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5576.html" class="wp_rp_title">那些曾伴我走过编程之路的软件</a></li><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4905.html">语言的数据亲和力</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4905.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Web开发人员速查卡</title>
+		<link>https://coolshell.cn/articles/3684.html</link>
+					<comments>https://coolshell.cn/articles/3684.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 16 Feb 2011 10:59:06 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Apache]]></category>
+		<category><![CDATA[ASP]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[MySQL]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Unicode]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3684</guid>
+
+					<description><![CDATA[<p>无论你是多牛的程序员，你都无法记住所有的东西。而很多时候，查找某些知识又比较费事。所以，网上有很多Cheat Sheets，翻译成小抄也好 ，速查卡也好，总之就...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3684.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3684.html">Web开发人员速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>无论你是多牛的程序员，你都无法记住所有的东西。而很多时候，查找某些知识又比较费事。所以，网上有很多Cheat Sheets，翻译成小抄也好 ，速查卡也好，总之就是帮你节省 时间的。之前给大家介绍过<a rel="bookmark" href="https://coolshell.cn/articles/870.html" target="_blank">Web设计的速查卡</a>、<a rel="bookmark" href="https://coolshell.cn/articles/2964.html" target="_blank">25个jQuery的编程小抄</a>，还有<a rel="bookmark" href="https://coolshell.cn/articles/1566.html" target="_blank">程序员小抄大全</a>，今天转一篇开发人员的速查卡，<a href="http://www.topdesignmag.com/all-the-cheat-sheets-that-a-web-developer-needs/" target="_blank">源文在这里</a>。下面的文章我就不翻译了。</p>
+<h2>HTML Cheat Sheet</h2>
+<p><img decoding="async" loading="lazy" title="1" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/1128.jpg" alt="" width="450" height="127" /></p>
+<ul>
+<li><a href="http://www.html.su/" target="_blank">HTML/XTML in one page</a></li>
+<li><a href="http://refcardz.dzone.com/refcardz/html5-new-standards-web-interactivity" target="_blank">HTML5: The Evolution of Web Standards by James Sugrue</a></li>
+<li><a href="http://www.elizabethcastro.com/html/extras/xhtml_ref.html" target="_blank">(X)HTML Elements and Attributes</a></li>
+<li><a href="http://www.w3.org/QA/2002/04/valid-dtd-list.html" target="_blank">Doctype Declarations (DTDs)</a></li>
+<li><a href="http://www.digitalmediaminute.com/reference/entity/index.php" target="_blank">XHTML Character Entity Reference</a></li>
+<li><a href="http://downloads.gosquared.com/help_sheets/08/HTML-Help-Sheet-02.jpg" target="_blank">GoSquared HTML Help Sheet</a></li>
+</ul>
+<p><span id="more-3684"></span></p>
+<p><strong> </strong></p>
+<h2>CSS Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="2" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/2104.jpg" alt="" width="451" height="112" /></p>
+<ul>
+<li><a href="http://www.css.su/" target="_blank">CSS in one page</a></li>
+<li><a href="http://www.elizabethcastro.com/html/extras/cssref.html" target="_blank">CSS Properties and Values</a></li>
+<li><a href="http://www.blooberry.com/indexdot/css/propindex/all.htm" target="_blank">All CSS Properties Listed Alphabetically</a></li>
+<li><a href="http://www.dustindiaz.com/css-shorthand/" target="_blank">CSS Shorthand Guide</a></li>
+<li><a href="http://www.gosquared.com/liquidicity/archives/1010" target="_blank">GoSquared CSS Help Sheet</a></li>
+</ul>
+<h2>Adobe Flash Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="3" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/312.png" alt="" width="449" height="87" /></p>
+<ul>
+<li><a href="http://michaeldoyle.eu/blog/wp-content/uploads/2009/10/flash-cheat-sheet.pdf" target="_blank">Flash Cheat Sheet</a></li>
+<li><a href="http://edutechwiki.unige.ch/en/Flash_CS3_keyboard_shortcuts" target="_blank">Flash CS3 Keyboard Shortcuts</a></li>
+</ul>
+<p><strong> </strong></p>
+<h2><strong>ASP Cheat Sheets</strong></h2>
+<h2><strong><img decoding="async" loading="lazy" title="4" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/430.jpg" alt="" width="451" height="106" /><br />
+</strong></h2>
+<ul>
+<li><a href="http://refcardz.dzone.com/refcardz/core-aspnet" target="_blank">Core ASP.NET</a></li>
+<li><a href="http://www.newdrp.com/Posters/Development/tabid/67/id/284/Default.aspx" target="_blank">ASP.NET MVC Framework Cheat Sheet</a></li>
+<li><a href="http://www.newdrp.com/Posters/Development/tabid/67/id/286/Default.aspx" target="_blank">ASP.NET MVC View Cheat Sheet</a></li>
+</ul>
+<h2>PHP Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="5" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/55.png" alt="" width="450" height="112" /></p>
+<ul>
+<li><a href="http://www.dreamincode.net/forums/topic/35660-php-quick-reference-cheat-sheet/" target="_blank">PHP Basics Quick Reference Sheet</a></li>
+<li><a href="http://www.digilife.be/quickreferences/QRC/PHP%20Cheat%20Sheet.pdf" target="_blank">PHP Cheat Sheet</a></li>
+<li><a href="http://www.sk89q.com/content/2010/04/phpsec_cheatsheet.pdf" target="_blank">PHP Security Cheat Sheet</a></li>
+<li><a title="PHP Variable and Array Tests (php version 5.1.6) by Barry Hunter" href="http://www.deformedweb.co.uk/php_variable_tests.php" target="_blank">PHP Variable and Array Tests</a></li>
+<li><a href="http://downloads.gosquared.com/help_sheets/08/PHP-Help-Sheet-01.jpg" target="_blank">GoSquared PHP Help Sheet</a></li>
+</ul>
+<h2>MySQL Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="6" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/65.png" alt="" width="450" height="89" /></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/mysql-cheat-sheet/" target="_blank">MySQL Cheat Sheet by Dave Child</a></li>
+<li><a href="http://www.cheat-sheets.org/saved-copy/MySQL_QuickRef.pdf" target="_blank">MySQL Database Quick Reference</a></li>
+<li><a href="http://www.sqltutorial.org/sql-cheat-sheet.aspx" target="_blank">SQL Statements Cheat Sheet</a></li>
+</ul>
+<h2>JavaScript Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="7" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/75.png" alt="" width="451" height="118" /></p>
+<ul>
+<li><a href="http://www.javascript.su/" target="_blank">JavaScript in one page</a></li>
+<li><a href="http://www.addedbytes.com/cheat-sheets/javascript-cheat-sheet/" target="_blank">JavaScript Cheat Sheet</a></li>
+<li><a href="http://wps.aw.com/wps/media/objects/2234/2287950/javascript_refererence.pdf" target="_blank">Addison-Wesley’s JavaScript Reference Card</a></li>
+</ul>
+<h2>jQuery Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="8" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/85.png" alt="" width="450" height="109" /></p>
+<ul>
+<li><a href="http://colorcharge.com/jquery/" target="_blank">jQuery Cheatsheet</a></li>
+<li><a href="http://woork.blogspot.com/2009/09/jquery-visual-cheat-sheet.html" target="_blank">jQuery 1.3 Visual Cheat Sheet by Antonio Lupetti</a></li>
+<li><a href="http://refcardz.dzone.com/refcardz/jquery-selectors" target="_blank">jQuery Selectors by Bear Bibeault &amp; Yehuda Katz</a></li>
+</ul>
+<h2>Unicode Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="9" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/97.png" alt="" width="450" height="112" /></p>
+<ul>
+<li><a href="http://www.utf.ru/" target="_blank">The Unicode Character Code</a></li>
+<li><a href="http://www.visibone.com/htmlref/char/cer.htm" target="_blank">HTML Characters, Numeric Codes, 0-65535 by Bob Stein</a></li>
+</ul>
+<h2>XML Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="10" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/106.png" alt="" width="450" height="111" /></p>
+<ul>
+<li><a href="http://www.xml.su/" target="_blank">XML in one page</a></li>
+<li><a href="http://www.mulberrytech.com/quickref/XMLquickref.pdf" target="_blank">XML 1.0 Syntax Quick Reference by Mulberry Technologies</a></li>
+</ul>
+<h2>mod_rewrite and .htaccess Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="11" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/1111.png" alt="" width="455" height="95" /></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/mod_rewrite-cheat-sheet/" target="_blank">mod_rewrite Cheat Sheet by Dave Child</a></li>
+<li><a href="http://www.thejackol.com/htaccess-cheatsheet/" target="_blank">htaccess Cheatsheet</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="Web中的省略号" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_title">Web中的省略号</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3684.html">Web开发人员速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3684.html/feed</wfw:commentRss>
+			<slash:comments>22</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>那些炒作过度的技术和概念</title>
+		<link>https://coolshell.cn/articles/3609.html</link>
+					<comments>https://coolshell.cn/articles/3609.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 28 Jan 2011 02:00:52 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[COBRA]]></category>
+		<category><![CDATA[OOP]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[SOA]]></category>
+		<category><![CDATA[SOAP]]></category>
+		<category><![CDATA[UML]]></category>
+		<category><![CDATA[XML]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3609</guid>
+
+					<description><![CDATA[<p>StackExchange.com上有一个贴子在评论着最近20年来被炒作过度的技术，对于出现的结果，大多数赞同，也有一些不赞同。下面我从前15名挑了10个（Ja...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3609.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3609.html">那些炒作过度的技术和概念</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://stackexchange.com" target="_blank">StackExchange.com</a>上有一个<a href="http://programmers.stackexchange.com/questions/38505/most-overhyped-software-engineering-technologies-and-concepts-of-the-last-20-year" target="_blank">贴子</a>在评论着最近20年来被炒作过度的技术，对于出现的结果，大多数赞同，也有一些不赞同。下面我从前15名挑了10个（Java的WORE我去掉了，TDD我也去掉了，因为我觉得他们应该没有炒作过度，而且都不错），按原贴的顺序罗列如下：（后面的一些评论是我加的，欢迎大家讨论）</p>
+<h4>Top 10 过度炒作的技术和概念</h4>
+<ul>
+<li><strong>Unified Modeling Language (UML)</strong> &#8211; UML是一个程序员交流想法的不错的工具，但是他离程序员真正需要的设计工具还差得很远，比如：设计是否符合需求、架构设计、数据流等等。只有为数不多的程序员使用这个工具交流想法，而没有用在具体工作中。</li>
+</ul>
+<ul>
+<li><strong>Sharepoint </strong>&#8211; 现在N多的公司都在用微软的这个东西做公司内部的Intranet。不过安装和维护起来，代价相当的大。但是其市场做的很成功，不对技术上来说对技术人员来说，相当的蹩脚。Sharepoint的设计没有认真地分析过业务流程，仅仅是一个文档存储地。看上去我们似乎可以做任何的事，但是如果你要用其来管理你的项目和track你的项目问题，你会发现其是无比的难用。</li>
+</ul>
+<ul>
+<li><strong>eXtensible Mark-up Language (XML)</strong> &#8211;  XML嘛，以前说过很多了（<a href="https://coolshell.cn/articles/2504.html" target="_blank">XML1</a>，<a href="https://coolshell.cn/articles/3498.html" target="_blank"> XML2</a>）我们用他来做和程序数据封装，用来做配置文件，用来做网络传输格式。我们的程序处理起XML来，又慢，又不经济，没有工具，几乎无法维护XML文件。XML用来做数据封包真是很不经济，Yaml和JSON那个不比它简单？用XML来做程序配置文件不知道是谁想出来的主意，相当的愚蠢，看看Unix/Linux下的配置文件，简单易读，相当容易维护。真是高科技啊。</li>
+</ul>
+<ul>
+<li><strong>SOAP, XML-RPC, WSDL 的 Web Services</strong> &#8211; 这个东西前几年炒的很凶。所有人都相信，这是程序员的未来。可惜的，其中的复杂和不一致，相当的令人恶心。<a href="https://coolshell.cn/articles/3585.html" target="_blank">SOAP的那个S居然还是Simple</a>！看来，扯上XML的都不会是什么好的东东。不过，个人认为，CORBA比他更恶。</li>
+</ul>
+<p><span id="more-3609"></span></p>
+<ul>
+<li><strong>CORBA </strong>&#8211; 作为一个比其更恶的更过度炒作的COM技术的Linux/Unix下的补充技术，这个技术也好不到哪里去。相当的复杂，从理论上开始就是这样了。这是一个没有经过实践就搞出来的一个东西。然后开始炒作。</li>
+</ul>
+<ul>
+<li><strong>Cloud Computing</strong> &#8211; 这是一个靠炒作出现的东西。这个东西也就是说，我们可以使用不同的调备，比如电脑，平板电脑，手机，移动设备随时随地做想做的事。Google的Chrome笔记本的广告展示了这项技术，但是，把工作结果放在云端的人会有多少呢。更多的人更喜欢的是去使用那些自己可以控制的电脑或平台。Google在这点上做的明显不如Amazon，像Amazon EC2平台，你可以在世界上任何一个角落随时随地的去启动你那台远程的系统。（<strong><span style="color: #800000;"><em>更新（2011/1/29）</em></span></strong>：<span style="color: #808080;">解释一下，关于云计算，在写下这篇文章的时候我本来有点拿不定主意的，后来回顾了一下历史，如COM啊，ActiveX啊，EJB啊，当时感觉都是很强的东西，但是最终也只是被炒作的。云计算，我不知道未来怎么样，从今天来看，这项技术在今天存在炒作的情况——中移动云，阿里云，到处都是云，在云面前，神马都是浮云了。</span>）</li>
+</ul>
+<ul>
+<li><strong>SOA &#8211; Service Oriented Architecture</strong> &#8211; 这是一个没有人真正知道是什么玩意的概念。炒作了很多年，很多人都试图去了解它，但最后的结果是打个哈欠，看别的东西去了。现在没有人提了。中国一些银行在IBM的鼓动下搞了很多所谓的SOA应用，结果是系统很复杂，当然，也再离不开IBM了。</li>
+</ul>
+<ul>
+<li><strong>Software Industrial Process</strong> &#8211; 软件开发中有很多所谓的工业界的流程，用这些流程好像可以控制质量。外包公司和中国的本土公司很喜欢这些东西，比如ISO和CMMi，这些流程不能说不好，也有好的地方，尤其是对那些不会思考只要跟从的Worker来说。这些工业界流程中炒作过度的是，那些所谓的使用这些流程可以预测项目周期，质量控制，以前需求开发和管理等东西。其让流程上升到了一种神学的可预言的地步，同样也上升到了政治的地步。因为，这些流程中都必然会有SQA 的Audit的流程，还有统计和报告的流程，这些统统不是软件开发的流程，但是的确是相当的政治。使用这些工业届标准流程的公司，通常都是一些创造性有问题的公司。</li>
+</ul>
+<ul>
+<li><strong>Agile Software Development &#8211; 敏捷开发</strong>。首先，我承认其中的很多实践相当有效，在理论上也不错，还有很多不错方法的。不过，还是有炒作的成分（<span style="color: #008000;"><strong>下面的言论，我等着被骂</strong></span>）对我来说，在中国，“敏捷开发”的炒作简直就像是一个电视购物，ThoughtWorks中国各种咨询师们软件开发经验其实并不丰富，准确来说，他们有的是咨询经验，而没有具体项目实施经验（有的咨询师甚至都没有写过一行代码就去学教人怎么编程和开发软件了），和他们沟通起来能够感到他们对敏捷很亢奋，而且是唯敏捷主义，就差打出Once Process，One Agile的口号了，他们信仰敏捷流程的已经接近宗教信仰，他们的精神世界很朝鲜。因为，无论你和他们的咨询师谈什么，他们只说敏捷，从来不会分析一下，项目的特性是什么？开发这个项目的人的风格是什么？客户的特性是什么？有没有关心软件的stakeholder们（如：程序员，测试人员，客户，管理人员）是怎么想的？而XP和SCRUM也就成了Push工程师最强大的工具。<strong><span style="color: #800000;">流程这个东西，应该是项目组自发出来的东西，而不是被 灌输，被教条使用的东西。不同的团队、不同的项目、不同的人，不同的风格就是不同的流程，只有去使用适合自己的流程才是最好的流程</span></strong>。<strong>打个比方，足球队中，巴西队玩的是个人艺术足球，德国队玩的是整体和纪律性足球，意大利玩的是防守型足球，但是他们都有夺世界杯冠军的实力，如果你硬要让巴西队去整德国队或是意大利队的风格，那就悲剧了</strong>。很显然，ThoughtWorks很像把全中国的软件公司都整成Agile的，这注定了其在中国是杯具的，也只能争取到那些不知所措的公司和项目，没有合适的项目，也只有靠各种炒作（比如整一些大会，搞一些宣传）。他们总是觉得中国的用户和程序员需要去用时间不停地教育，但是，他们从来没有想想自己的原因 &#8212; 靠教育和灌输是永远赢不了的。<strong>我给他们的个人建议是，不要以为世界就像你所想像的那样，学会尊重程序员和项目还有很多非技术的东西，多听听程序员和客户怎么说，多分析一下项目的特质，从实际情况出发，而不是自己涛涛不绝地<strong>向大家</strong>灌输自己的理论</strong>。</li>
+</ul>
+<ul>
+<li><strong>Object-Oriented Programming (OOP</strong>) &#8211; 不多说了，以前本站说过了，所有的一切都在<a href="https://coolshell.cn/articles/3036.html" target="_blank">面向对象是个骗局</a>一文中。不过有一点我想告诉大家，面向对象的Design Pattern真是被滥用了，Design Pattern教你的是两件事，1）怎么去化繁为简，2）怎么能让对象的耦合性降低。而不是一个公式让你的套，但，更多的程序员则学会了“<a href="https://coolshell.cn/articles/2058.html" target="_blank">流行的设计模式编程</a>”。</li>
+</ul>
+<h4>附：下构面是我拿不定是否是过度炒作的技术</h4>
+<p><strong>Write Once Run Anywhere </strong>&#8211; 这个有点让我不解，不知道为什么会那么靠前。这是Java的口号，我觉得Java在跨平台方面还是成功的，没有过度炒作啊。用虚拟机的确是做到了这一点，对于那些需要有不同的硬件和操作系统平台并不断升级和更换它们的公司来说，这的确是个很不错的解决平台依赖性的方案。我个感觉这个技术并没有炒作过头，至少在Java这边是这样的。与其说这个，还不如说EJB，这才是炒作过度的技术。</p>
+<p>[<span style="color: #000080;">更新 2011/02/13</span>]下面的回复，在我形成这篇文章的时候我没有想过，经ming同学一说，我觉得似乎有些道理。</p>
+<blockquote cite="#commentbody-29425"><p><strong><a rel="nofollow" href="https://coolshell.cn/articles/3609.html/comment-page-1#comment-29425">ming</a> :</strong></p>
+<p>我从一开始就觉得java的“Write Once Run Anywhere”是彻头彻尾的炒作。</p>
+<p>想想，所谓的跨平台无非就是依靠虚拟机、解释器之类的东西实现的，那么，哪个脚本语言不是依靠解释器呢？古老的perl已经跨平台了。当然，跨平台的语言还有很多。但是，只有java炒作这个概念。</p></blockquote>
+<p><strong>Test Driven Design (TDD)</strong> &#8211; 从测试案例开始写程序这可能是很多程序员都不习惯的方法。其实这是一种比较好的编程方法，保证了代码怎么改动都不会break其它没有改动的代码，代码可以在一种持续集成中保证质量。但是，我们需要知道TDD的一些副作用（在<a title="十条不错的编程观点 " href="https://coolshell.cn/articles/2424.html">十条不错的编程观点</a>里也提到过TDD的弊端）：1）TDD可能会让程序员敷衍了事，以为test case 没有错就正确了。2）TDD可能会让你忽略了软件设计和架构以及程序的扩展性和重用性。T<strong>DD只是一种方法，并不是程序的核心</strong>。当然，TDD近几年的炒作也有点过头，已经出现了“TDD是一种Design方法”等“神乎其技”的论调，我对此表示质疑中。</p>
+<p>[更新 2011/02/13] 关于TDD，请参看我另一篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并不是看上去的那么美</a>》</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3609.html">那些炒作过度的技术和概念</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3609.html/feed</wfw:commentRss>
+			<slash:comments>278</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>SOAP的S是Simple</title>
+		<link>https://coolshell.cn/articles/3585.html</link>
+					<comments>https://coolshell.cn/articles/3585.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 27 Jan 2011 00:47:56 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[SOAP]]></category>
+		<category><![CDATA[WDSL]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3585</guid>
+
+					<description><![CDATA[<p>曾经有一个争论，一边是站在SOAP这边的人，另一边则是其它人。 站在SOAP这边人，当他们在争论SOAP和Web Service框架的复杂度时，SOAP这边的人...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3585.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3585.html">SOAP的S是Simple</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>曾经有一个争论，一边是站在SOAP这边的人，另一边则是其它人。 站在SOAP这边人，当他们在争论SOAP和Web Service框架的复杂度时，SOAP这边的人说，在引入那些WS-*东东之前，SOAP的确是简单的，这就是为什么SOAP的第一个字母S就是Simple。</p>
+<p>在2000年的时候，有一个苦恼的程序员，</p>
+<p><strong>程序员</strong>: 不好意思，我的老板这周末去打高尔夫了，现在我不得不要搞一个SOAP的应用，但是我根本不知道什么是SOAP。SOAP专家，你能帮我吗？</p>
+<p><strong>SOAP专家</strong>: 当然可以。首先，我要告诉你，SOAP 就是 Simple Object Access Protocol.</p>
+<p><strong>程序员</strong>: 哦，那么说来，他是简单的罗？</p>
+<p><strong>SOAP专家</strong>: 简单的就像星期天一样，我的朋友。</p>
+<p><strong>程序员</strong>: OK，快跟我说说。</p>
+<p><strong>SOAP专家</strong>: 好，就像他的名字一样，SOAP用为远程对象访问。</p>
+<p><strong>程序员</strong>: 像CORBA一样？</p>
+<p><strong>SOAP专家</strong>: 正是如此，就是像 CORBA，只是更简单。不需要复杂的传输协议，还要设置防火墙，SOAP用的是HTTP。而且我们用的是XML作为传输数据格式而不是二进制。</p>
+<p><span id="more-3585"></span></p>
+<p><strong>程序员</strong>: 听起来很不错哦，告诉我它是怎么工作的？</p>
+<p><strong>SOAP专家</strong>: 没问题。首先，有一个SOAP信封，其相当的简单。就是一个XML文件由head和body组成。在body中进行你的RPC调用。</p>
+<p><strong>程序员</strong>: 哦，这就是所有的RPC的东西？</p>
+<p><strong>SOAP专家</strong>: 确对是的。就像我所说的，你的RPC调用的方法名和其参数都需要写的这个XML文档的body中。方法名是在最外层的tag，每一个嵌套的子tag就是其参数。并且所有参数的类型都可以被指定，请看能规格说明书的第五节。</p>
+<p><strong>程序员</strong>: (阅读第五节) 还好，不算太坏。</p>
+<p><strong>SOAP专家</strong>: 现在，当你的服务开发完后，你需要指定endpoint.</p>
+<p><strong>程序员</strong>: Endpoint?</p>
+<p><strong>SOAP专家</strong>: Endpoint, 就是服务的地址。你需要使用HTTP的 POST 方法把SOAP 信封放到 endpoint的 URL.</p>
+<p><strong>程序员</strong>: 如果我使用HTTP的GET方法什么怎么样？</p>
+<p><strong>SOAP专家</strong>: 不知道，使用GET的行为 undefined.</p>
+<p><strong>程序员</strong>: 哼哼。那么，要是我把我的服务移到别的 endpoint上？我是否可以得到一个301错误？</p>
+<p><strong>SOAP专家</strong>: 不会的，SOAP不会返回HTTP的错误码。</p>
+<p><strong>程序员</strong>: 那么，当你说SOAP使用HTTP，你的意思是说SOAP在HTTP打了个洞？</p>
+<p><strong>SOAP专家</strong>: 哦，别说得那么难听，应该说， SOAP 是一个传输协议。</p>
+<p><strong>程序员</strong>: HTTP 就不是吗？那是应用层的协议啊。总之，SOAP支持了别的什么传输协议？</p>
+<p><strong>SOAP专家</strong>: 官方地来说没有。但是你可以潜在地支持任何的协议。而且有许多的平台支持JMS，FTP还有SMTP。</p>
+<p><strong>程序员</strong>: 有人用那那些协议吗？</p>
+<p><strong>SOAP专家</strong>: 嗯，没有。不过，我想表达的是，你能够。</p>
+<p><strong>程序员</strong>: 好吧。关于 SOAPAction HTTP header，这是用来做什么的？</p>
+<p><strong>SOAP专家</strong>: 老实说，没人真正的知道。</p>
+<p><strong>程序员</strong>: 那么，那些 ‘actor’ 和 ‘mustUnderstand’ 属性，是否有人用呢？</p>
+<p><strong>SOAP专家</strong>: 没有，真的没人用。你就忽略这些东西吧。</p>
+<p><strong>程序员</strong>: 好吧，让我现读一读SOAP的规格说明书。</p>
+<p>(程序员阅读中……)</p>
+<p><strong>程序员</strong>: 好了，我现在几乎可以做个简单的东西了，但是我不能说我喜欢这个远程过程调用RPC的方法以及其序列化对象的方式 。</p>
+<p><strong>SOAP专家</strong>: RPC！对象序列化！你从哪得到的SOAP就是一堆RPC的这种印象？! SOAP是关于基于文档的消息传递啊，我的朋友。</p>
+<p><strong>程序员</strong>: 但是，这是你说的……</p>
+<p><strong>SOAP专家</strong>: 忘了我所说的吧。现在，让我们谈谈消息传递吧。其消息格式遵守XML Schema，我们把之称为新型的文件格式。</p>
+<p><strong>程序员</strong>: XML Schema?</p>
+<p><strong>SOAP专家</strong>: 哦，这是很不错的东西，未来的头等技术，你应该看一下。</p>
+<p><strong>程序员</strong>: (阅读 Schema 规格说明书). 上帝保佑我们！就算是亚历山大帝也搞不定它啊。</p>
+<p><strong>SOAP专家</strong>: 不必太担心。会有专门的工作为你来创建XML Schema。真的，这只不过就是工具上的事。</p>
+<p><strong>程序员</strong>: 工具是怎么做的？</p>
+<p><strong>SOAP专家</strong>: 好吧，他们反映了你的代码，并自动生成Schema。</p>
+<p><strong>程序员</strong>: 反映了我的代码？我以为这只是文档，而不是对象序列化。</p>
+<p><strong>SOAP专家</strong>: 你没听我说吗？这只不是工具上的事。总之，我们不能期望你来手写 XML Schema 和 WSDL。另外，这其实就是一种校正测量。你不需要读的。</p>
+<p><strong>程序员</strong>:  喔喔，等一下，你刚才说的那个单词是什么？ Wizzdle?</p>
+<p><strong>SOAP专家</strong>: 哦，我没有说过吗？WSDL. Web Services Description Language. 它让你指定你的数据类型，参数，操作名，传输绑定，以及endpoint URI，这样，所有的客户程序员就可以访问你的服务了。你应该看看。</p>
+<p><strong>程序员</strong>: (阅读WSDL 规格说明书)。我相信那个写下这个文章的人已经被枪杀了。其内部说明都不一致。而且，其用的是HTTP GET绑定，你不是和我说过， GET 是 undefined吗.</p>
+<p><strong>SOAP专家</strong>: 不必担心那个，没人会用那玩意。总之，工具会帮你生成WSDL，而且在WDSL里会有Schema的。</p>
+<p><strong>程序员</strong>: 但是，不应该用别的方法吗？不应该是先设计好接口然后再是生成代码吗？</p>
+<p><strong>SOAP专家</strong>: 是的，我猜那在原则上听起来是对的。但做起来并不容易，只有很少的SOAP栈支持先开发WSDL。让工具为这个事操心去吧。</p>
+<p><strong>程序员</strong>: 还有一个问题。如果我们传递 XML Schema 的消息，我们在哪里指写操作名？</p>
+<p><strong>SOAP专家</strong>: 好吧，你还记得 SOAPAction HTTP header吗? 绝大多数的人把操作名放在那里。</p>
+<p><strong>程序员</strong>: 大多数人？</p>
+<p><strong>SOAP专家</strong>: 嗯，这种新型并不会被写在所有的地方。</p>
+<p><strong>程序员</strong>: 我注意到你们整个SOAP界有很多的模糊和歧意，有些地方还是错的，并没有标准的规格说明书。实际上， SOAP 和 WSDL 规格说明书只是 W3C 的笔记罢了，连草稿都不是。</p>
+<p><strong>SOAP专家</strong>: 我们还在继续中。</p>
+<p><strong>程序员</strong>: 这个真的能行吗？能承诺吗？</p>
+<p><strong>SOAP专家</strong>: 绝对没有问题。</p>
+<p><strong>程序员</strong>: 好吧，那我去试试。</p>
+<p>(不久以后……)</p>
+<p><strong>程序员</strong>: 事情变得很恶心。我这边的工具生成的WDSL居然不能被我同事的工具使用。还不仅仅是这个，其生成的XML Schemas 无法重用。而且，好像没有工具可以最好的处理SOAPAction header.</p>
+<p><strong>SOAP专家</strong>:  很报歉，兄弟。在光明的那一面，没人用这些文件。为了让传输独立，我们所有人都用包装好的文件。听着是不是很酷：包装好的文件？</p>
+<p><strong>程序员</strong>: 那是什么？</p>
+<p><strong>SOAP专家</strong>: 就像是原来那样，只不过，你整个消息被 包装起来成一个元素，其和操作有一样的名字。现在操作名和消息成了一体了。</p>
+<p><strong>程序员</strong>: 好吧，请问说明书在哪里？</p>
+<p><strong>SOAP专家</strong>: 哦，没有规格说明书。这只是Microsoft自己搞的。不过应该是个很不错的主意，挺不错的。然后，这是一个新玩意。我想你一定会喜欢它的—— Web Services Interoperability Group，简称 WS-I，它就是为了移除 SOAP 和 WSDL 规格说明书中的那些歧义。我知道你有多么喜欢规格说明书。</p>
+<p><strong>程序员</strong>: 所以，换句话说，原来的那些规格说明书太糟糕了，以致于你需要一个标准化的东西来标准化这些标准。上帝啊。好吧，那么，是否这些协调问题被 解决了？</p>
+<p><strong>SOAP专家</strong>: 当然，只要你使用 WS-I 的 SOAP 栈，就可以减少使用80%的 XML Schema，别用任何不同寻常的数据类型，也别期望可以和WebSphere和 Apache Axis一起运行。</p>
+<p><strong>程序员</strong>: 那么，是否包装的文件被在那里被解释了？</p>
+<p><strong>SOAP专家</strong>: 没有，但是你的工具会明白的。绝大多数，总之。</p>
+<p><strong>程序员</strong>: 让我总结一下，SOAP的定义是不变的，SOAP可以是任何东西，但就是简单，它不再意味着对象访问，就算是所有的工具都那样做。</p>
+<p><strong>SOAP专家</strong>: 基本上是对的，但是我们走得比你要远一些。我们不赞成SOAP缩写的含义。</p>
+<p><strong>程序员</strong>: 真的！那么SOAP是什么的缩写？</p>
+<p><strong>SOAP专家</strong>: 什么也不是，就是SOAP.</p>
+<p><strong>程序员</strong>: (无语中……)</p>
+<p><strong>SOAP专家</strong>: 下面让我来告诉你什么是 UDDI。</p>
+<p>（注：我以前还认真地学过SOAP，不过真是学不懂。）</p>
+<p>原文：<a href="http://harmful.cat-v.org/software/xml/soap/simple" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="那些炒作过度的技术和概念" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3609.html" class="wp_rp_title">那些炒作过度的技术和概念</a></li><li ><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder-150x150.png" alt="PFIF网上寻人协议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_title">PFIF网上寻人协议</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3498.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="信XML，得自信" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3498.html" class="wp_rp_title">信XML，得自信</a></li><li ><a href="https://coolshell.cn/articles/2504.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="信XML，得永生！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2504.html" class="wp_rp_title">信XML，得永生！</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3585.html">SOAP的S是Simple</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3585.html/feed</wfw:commentRss>
+			<slash:comments>10</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>信XML，得自信</title>
+		<link>https://coolshell.cn/articles/3498.html</link>
+					<comments>https://coolshell.cn/articles/3498.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 19 Jan 2011 00:49:48 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3498</guid>
+
+					<description><![CDATA[<p>XML可能是计算有史以来最NB的发明了，以至于我们以没有XML的程序是难登大堂的程序，不用XML，你都不好意思当程序员。于是，我们看到了很多很雷人的用法（《信X...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3498.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3498.html">信XML，得自信</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>XML可能是计算有史以来最NB的发明了，以至于我们以没有XML的程序是难登大堂的程序，不用XML，你都不好意思当程序员。于是，我们看到了<a href="https://coolshell.cn/articles/2504.html" target="_blank">很多很雷人的用法</a>（《信XML，得永生》），当然一些朋友当时并没有看懂，不过我不怪大家，因为我们依然深信使用XML可以让你有强大的Zhuangbility，于是我们有下面这两种相当Geiliable的用法。</p>
+<h4>一、XML中的XML</h4>
+<p>这个例子是某公司的一个SOAP实现——我们的Webservice需要返回一个XML字符串，这怎么办呢？其实很容易，因为——XML是无所不能的，那怕是封装自己。</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+&lt;!-- ED: soap envelope omitted for readability --&gt;
+&lt;string xmlns=&quot;urn:Initech.Global.Services&quot;&gt;
+  &amp;lt;CompanyGetConnector&amp;gt;
+    &amp;lt;xs:schema xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&amp;gt;
+      &amp;lt;xs:element name=&quot;InitechGetConnector&quot;&amp;gt;
+        &amp;lt;xs:complexType&amp;gt;
+          &amp;lt;xs:choice maxOccurs=&quot;unbounded&quot;&amp;gt;
+            &amp;lt;xs:element name=&quot;employees&quot;&amp;gt;
+              &amp;lt;xs:complexType&amp;gt;
+                &amp;lt;xs:sequence&amp;gt;
+                  &amp;lt;xs:element name=&quot;EmployerName&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Employee&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Firstname&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Prefix&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Lastname&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Org._unit&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Function&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;E-mail_work&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Telephone_work&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Mobile_work&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Birthdate&quot; type=&quot;xs:date&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Hired_since__irt._yearsemployed_&quot; type=&quot;xs:date&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                  &amp;lt;xs:element name=&quot;Image&quot; type=&quot;xs:base64Binary&quot; minOccurs=&quot;0&quot;/&amp;gt;
+                &amp;lt;/xs:sequence&amp;gt;
+              &amp;lt;/xs:complexType&amp;gt;
+            &amp;lt;/xs:element&amp;gt;
+          &amp;lt;/xs:choice&amp;gt;
+        &amp;lt;/xs:complexType&amp;gt;
+      &amp;lt;/xs:element&amp;gt;
+    &amp;lt;/xs:schema&amp;gt;
+
+    &amp;lt;employees&amp;gt;
+      &amp;lt;EmployerName&amp;gt;
+        My Client
+      &amp;lt;/EmployerName&amp;gt;
+      &amp;lt;Employee&amp;gt;
+        100001
+      &amp;lt;/Employee&amp;gt;
+    &amp;lt;/employees&amp;gt;
+  &amp;lt;/CompanyGetConnector&amp;gt;
+&lt;/string&gt;
+</pre>
+<p><span id="more-3498"></span></p>
+<h4>二、一切皆为配置</h4>
+<p>没有hard code这是一个优秀程序员在入门时就要学习的，对于Hard Coder的东西最好写在配置文件中，这样修改这些参数就不需要修改代码而需要重新编译了。自从有了XML之后，我们的配置文件就不在使用像ini文件或是Unix下在conf文件那样的易读，我们认为，使用XML作为配置文件的格式是大势所趋，而且，我们要让我们的代码尽量的可以高度的配置，于是我们出现了下面的代码——这是一个强大的尝试，其标志着，我们完全可以以不久的未来用XML来编写一切语言的代码。</p>
+<p>注：下面的代码最强大的应该是XML中的那个SQL。</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">&lt;add key=&quot;sqlSource&quot; value=&quot;
+    SELECT TOP REPLACE_NUMBER_OF_ROWS_TO_RETRIEVE
+           History.handle AS ID_FAX_LOG,
+           CASE isnumeric(SUBSTRING (Notes_Doc.Text ,1,8))
+              WHEN 1 then SUBSTRING (Notes_Doc.Text ,1,8)
+              ELSE NULL END AS ID_STAGE,
+           DocumentUsers.UserName AS NM_DOCUMENTUSER_USERNAME,
+           DocumentUsers.UserID AS TXT_DOCUMENTUSER_USERID,
+           DocumentUserGroups.GroupID AS TXT_DOCUMENTUSERGROUP_GROUPID,
+           Documents.UniqueID AS TXT_DOCUMENTS_UNIQUE_ID,
+           History.TRDateTime AS DT_HISTORY_TRANSACTION_DATE,
+           CASE COALESCE(HistoryPrint.handle,0)
+              WHEN 0 THEN
+                 CASE COALESCE(HistoryGeneric.handle,0)
+                    WHEN 0 THEN
+                       CASE COALESCE(HistoryTRX.handle,0)
+                          WHEN 0 THEN &#039;??&#039;
+                          ELSE
+                             CASE (Documents.Flags &amp; 0x10)
+                                WHEN 0 THEN &#039;Send&#039;
+                                ELSE &#039;Recieve&#039;
+                                END
+                          END
+                    ELSE CAST(HistoryGeneric_Short.Data AS varchar(32))
+                    END
+              ELSE &#039;Print&#039;
+              END AS TXT_TRANSACTION_TYPE,
+
+           CASE COALESCE(HistoryPrint.handle,0)
+              WHEN 0 THEN
+                 CASE COALESCE(HistoryGeneric.handle,0)
+                    WHEN 0 THEN
+                       CASE COALESCE(HistoryTRX.handle,0)
+                          WHEN 0 THEN &#039;??&#039;
+                          ELSE
+                             CASE Documents_Term.TermStatStr
+                                WHEN &#039;Success&#039; THEN &#039;Success&#039;
+                                ELSE &#039;Fail&#039;
+                                END
+                          END
+                    ELSE
+                       CASE HistoryGeneric.ErrCode
+                          WHEN 0 THEN &#039;Success&#039;
+                       ELSE &#039;Fail&#039;
+                       END
+                    END
+              ELSE
+                 CASE SUBSTRING(HistoryPrint.Msg,1,7)
+                    WHEN &#039;Success&#039; THEN &#039;Success&#039;
+                    ELSE &#039;Fail&#039;
+                    END
+              END AS TXT_TRANSACTION_STATUS,
+
+           CASE COALESCE(HistoryPrint.handle,0)
+              WHEN 0 THEN
+                 CASE COALESCE(HistoryGeneric.handle,0)
+                    WHEN 0 THEN
+                       CASE COALESCE(HistoryTRX.handle,0)
+                          WHEN 0 THEN &#039;??&#039;
+                          ELSE COALESCE(HistoryTRX_Term.TermStatStr,CONVERT(varchar,Documents.TermStat))
+                          END
+                    ELSE REPLACE(REPLACE(CAST(HistoryGeneric_Detail.Data AS varchar(192)) ,&#039;\t&#039;,&#039;&#039;), &#039;~u&#039;, HistoryGeneric.UserID )
+                    END
+              ELSE HistoryPrint.Msg
+              END AS TXT_TRANSACTION_MESSAGE,
+
+           CASE COALESCE(HistoryPrint.handle,0)
+              WHEN 0 THEN
+                 CASE COALESCE(HistoryGeneric.handle,0)
+                    WHEN 0 THEN
+                       CASE COALESCE(HistoryTRX.handle,0)
+                          WHEN 0 THEN Documents.ElapsedSendTime
+                          ELSE
+                             CASE COALESCE(HistoryTRX.handle,0)
+                                WHEN 0 THEN Documents.ElapsedSendTime
+                                ELSE HistoryTRX.ElapsedTime
+                                END
+                          END
+                    ELSE NULL
+                    END
+              ELSE HistoryPrint.TimeToPrint
+              END AS NBR_TRANSACTION_ELAPSEDTIME,
+
+           CASE COALESCE(HistoryGeneric.handle,0)
+              WHEN 0 THEN
+                 CASE substring(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE
+                               (REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                                  Documents.Destination,&#039; &#039;,&#039;&#039;),&#039;)&#039;,&#039;&#039;),&#039;(&#039;,&#039;&#039;),
+                                  &#039;-&#039;,&#039;&#039;),&#039;/&#039;,&#039;&#039;),&#039;.&#039;,&#039;&#039;),&#039;*&#039;,&#039;&#039;),&#039;,&#039;,&#039;&#039;),&#039;;&#039;,&#039;&#039;),
+                                  &#039;\&#039;,&#039;&#039;),&#039;-&#039;,&#039;&#039;),1,1)
+                    WHEN &#039;1&#039; THEN substring(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                                            REPLACE(REPLACE(REPLACE( REPLACE(REPLACE(
+                                            REPLACE(Documents.Destination,&#039; &#039;,&#039;&#039;),&#039;)&#039;,
+                                            &#039;&#039;),&#039;(&#039;,&#039;&#039;),&#039;-&#039;,&#039;&#039;),&#039;/&#039;,&#039;&#039;),&#039;.&#039;,&#039;&#039;),&#039;*&#039;,&#039;&#039;),
+                                            &#039;,&#039;,&#039;&#039;),&#039;;&#039;,&#039;&#039;),&#039;\&#039;,&#039;&#039;),&#039;-&#039;,&#039;&#039;), 2, len(
+                                            REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                                            REPLACE(REPLACE(REPLACE( REPLACE(REPLACE(
+                                            REPLACE(Documents.Destination,&#039; &#039;,&#039;&#039;),&#039;)&#039;,
+                                            &#039;&#039;),&#039;(&#039;,&#039;&#039;),&#039;-&#039;,&#039;&#039;),&#039;/&#039;,&#039;&#039;),&#039;.&#039;,&#039;&#039;),&#039;*&#039;,&#039;&#039;)
+                                            ,&#039;,&#039;,&#039;&#039;),&#039;;&#039;,&#039;&#039;),&#039;\&#039;,&#039;&#039;),&#039;-&#039;,&#039;&#039;)) )
+                    ELSE REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                         REPLACE(REPLACE(REPLACE(Documents.Destination,&#039; &#039;,&#039;&#039;),&#039;-&#039;,&#039;&#039;),&#039;)&#039;,
+                         &#039;&#039;),&#039;(&#039;,&#039;&#039;),&#039;/&#039;,&#039;&#039;),&#039;.&#039;,&#039;&#039;),&#039;*&#039;,&#039;&#039;),&#039;,&#039;,&#039;&#039;),&#039;;&#039;,&#039;&#039;),&#039;\&#039;,&#039;&#039;),&#039;-&#039;,&#039;&#039;)
+                    END
+              ELSE HistoryGeneric.UserID
+              END AS TXT_TRANSACTION_DESTINATION,
+
+           CASE (Documents.Flags &amp; 0x8)
+              WHEN 0 THEN &#039;N&#039;
+              ELSE &#039;Y&#039; END AS NBR_DOCUMENTS_DELETED,
+
+           CASE (Documents.Flags &amp; 0x4)
+              WHEN 0 THEN &#039;N&#039;
+              ELSE &#039;Y&#039; END AS NBR_DOCUMENTS_VIEWED,
+
+           /* Fax Destination */
+           Documents.ToName AS TXT_DOCUMENTS_TO_NAME,
+           Documents.ToContactNum AS TXT_DOCUMENTS_TO_CONTACT_NUM,
+           Documents.ToCompany AS TXT_DOCUMENTS_TO_COMPANY,
+           Documents.ToCityState AS TXT_DOCUMENTS_TO_CITY_STATE,
+           Documents.FaxDIDNum AS TXT_DOCUMENTS_FAX_DID_NUM,
+           Documents.FromPhoneNum AS TXT_DOCUMENTS_FROM_PHONE_NUM,
+           Documents.GeneralFaxNum AS TXT_DOCUMENTS_GENERAL_FAX_NUM,
+           HistoryPrint.NetPrintID AS TXT_HISTORYPRINT_NETPRINTID,
+
+           /* Number of pages */
+           DocFiles.NumPages AS NBR_DOCFILES_TOTAL_PAGE_COUNT,
+           HistoryTRX.GoodPageCount AS NBR_HISTORYTRX_GOOD_PAGE_COUNT,
+           HistoryTRX.BadPageCount AS NBR_HISTORYTRX_BAD_PAGE_COUNT,
+           HistoryPrint.PagesPrinted AS NBR_HISTORYPRINT_PAGESPRINTED,
+           HistoryPrint.CopiesPrinted AS NBR_HISTORYPRINT_COPIESPRINTED,
+           /* location of fax image */ DTConfigurations.ServerName AS TXT_DOCFILES_SERVER_NAME,
+           DTConfigurations.ImageDir AS TXT_DOCFILES_IMAGE_DIR,
+           DocFiles.BodyFilename AS TXT_DOCFILES_BODY_FILENAME,
+           Documents.FCSFile AS TXT_DOCFILES_FCS_FILE,
+           REPLACE( DTConfigurations.ImageDir, &#039;D:\Data&#039;, &#039;\\&#039;+ServerName )
+              + &#039;\&#039;+DocFiles.BodyFilename+&#039;*&#039; AS TXT_DOCFILES_PATH_BODY_NAME,
+           REPLACE( DTConfigurations.ImageDir, &#039;D:\Data&#039;, &#039;\\&#039;+ServerName )
+              + &#039;\&#039;+Documents.FCSFile+&#039;*&#039; AS TXT_DOCUMENTS_PATH_FCSFILE,
+           Notes_Doc.Text AS TXT_NOTES_DOC_TEXT,
+           Notes_CCList.Text AS TXT_NOTES_CCLIST_TEXT,
+           DocumentUsers.RouteInfo AS TXT_DOCUMENTUSER_ROUTEINFO,
+           DocumentUsers.RouteType AS NBR_DOCUMENTUSER_ROUTETYPE,
+           DocumentUsers.EmailAddr AS TXT_DOCUMENTUSER_EMAILADDR,
+
+           /* misc Documents data */
+           Documents.CreationTime AS DT_DOCUMENTS_CREATION_TIME,
+           Documents.FRFlags2 AS NBR_DOCUMENTS_FRFLAGS2,
+           Documents.Flags AS NBR_DOCUMENTS_FLAGS,
+           Documents.ErrorCode AS NBR_DOCUMENTS_ERROR_CODE,
+           Documents.TermStat AS NBR_DOCUMENTS_TERMSTAT,
+
+           /* misc HistoryTRX data */
+           HistoryTRX.RemoteID AS TXT_HISTORYTRX_REMOTE_ID,
+           HistoryTRX.RemoteServer AS TXT_HISTORYTRX_REMOTE_SERVER,
+           HistoryTRX.Flags AS NBR_HISTORYTRX_FLAGS,
+           HistoryTRX.TermStat AS NBR_HISTORYTRX_TERMSTAT,
+
+           /* misc HistoryTRX data */
+           HistoryGeneric.ErrCode AS NBR_HISTORYGENERIC_ERRCODE,
+           HistoryGeneric.GenType AS NBR_HISTORYGENERIC_GENTYPE,
+           HistoryGeneric.UserID AS TXT_HISTORYGENERIC_USERID,
+
+           /* Handles */ Documents.handle AS ID_DOCUMENTS_HANDLE,
+           History.handle AS ID_HISTORY_HANDLE,
+           HistoryTRX.handle AS ID_HISTORYTRX_HANDLE,
+           HistoryGeneric.handle AS ID_HISTORYGENERIC_HANDLE,
+           HistoryPrint.handle AS ID_HISTORYPRINT_HANDLE
+
+    FROM Documents
+            INNER JOIN Users DocumentUsers ON Documents.OwnerID = DocumentUsers.handle
+            INNER JOIN History ON Documents.handle = History.Owner
+            LEFT OUTER JOIN DocFiles ON Documents.DocFileDBA = DocFiles.handle
+            LEFT OUTER JOIN Groups DocumentUserGroups ON DocumentUsers.GroupID = DocumentUserGroups.handle
+            LEFT OUTER JOIN HistoryPrint ON HistoryPrint.handle = History.handle
+            LEFT OUTER JOIN HistoryGeneric ON HistoryGeneric.handle = History.handle
+            LEFT OUTER JOIN Notes Notes_Doc ON Notes_Doc.handle = Documents.NoteDBA
+            LEFT OUTER JOIN Notes Notes_CCList ON Notes_CCList.handle = Documents.CCListDBA
+            LEFT OUTER join DTConfigurations ON DTConfigurations.ServerGUID = Documents.ServerGUID
+            LEFT OUTER JOIN Globalization HistoryGeneric_Detail ON
+               HistoryGeneric_Detail.Namespace = &#039;RightFax.SQL.HistoryGeneric&#039;
+               AND SUBSTRING(HistoryGeneric_Detail.LocKey,5,20) = &#039;DetailMsg&#039;
+               AND SUBSTRING(HistoryGeneric_Detail.LocKey,1,3) = CAST(HistoryGeneric.GenType AS varchar)
+               AND HistoryGeneric_Detail.IsoLanguageName = &#039;en-us&#039;
+            LEFT OUTER JOIN Globalization HistoryGeneric_Short ON
+               HistoryGeneric_Short.Namespace = &#039;RightFax.SQL.HistoryGeneric&#039;
+               AND SUBSTRING(HistoryGeneric_Short.LocKey,5, 20) = &#039;ShortMsg&#039;
+               AND SUBSTRING(HistoryGeneric_Short.LocKey,1, 3) = CAST(HistoryGeneric.GenType AS varchar)
+               AND HistoryGeneric_Short.IsoLanguageName = &#039;en-us&#039;
+            LEFT OUTER JOIN HistoryTRX ON HistoryTRX.handle = History.handle
+            LEFT OUTER JOIN (
+               SELECT distinct CONVERT(varchar,G.Data) AS TermStatStr,
+                      T.StatusCode AS TermStatCode,
+                      T.handle AS TermStat
+                 FROM Globalization G
+                         INNER JOIN TermStatToStatusCode T ON
+                            ( G.LocKey = &#039;HistoryTRX.BTHUSTAT&#039;
+                                 + RIGHT(&#039;0000&#039;
+                                 + LTRIM(RTRIM(CONVERT(char(3),T.StatusCode))), 3)
+                              AND G.IsoLanguageName = &#039;en-us&#039;
+                              AND G.LocKey like &#039;HistoryTRX.BTHUSTAT%&#039; )
+                  ) AS HistoryTRX_Term ON HistoryTRX.TermStat = HistoryTRX_Term.TermStat
+            LEFT OUTER JOIN (
+               SELECT distinct CONVERT(varchar,G.Data) AS TermStatStr,
+                      T.StatusCode AS TermStatCode,
+                      T.handle AS TermStat
+                 FROM Globalization G
+                         INNER JOIN TermStatToStatusCode T ON
+                            ( G.LocKey = &#039;HistoryTRX.BTHUSTAT&#039;
+                                 + RIGHT(&#039;0000&#039;
+                                 + LTRIM(RTRIM(CONVERT(char(3),T.StatusCode))), 3)
+                              AND G.IsoLanguageName = &#039;en-us&#039;
+                              AND G.LocKey like &#039;HistoryTRX.BTHUSTAT%&#039; )
+                  ) AS Documents_Term ON Documents.TermStat = Documents_Term.TermStat
+    WHERE
+       NOT (
+          /* The outer join on the HistoryPrint, HistoryGeneric, and HistoryTRX results in
+           * rows that just have null history data. One of the three must have a value. If
+           * all are null, the row is a result of the outer joins and the rows have no useable data so they
+           * filtered out. */
+          HistoryTRX.handle IS NULL
+             AND HistoryGeneric.handle IS NULL
+             AND HistoryPrint.handle IS NULL )
+       AND DocumentUsers.UserName IS NOT NULL
+
+       /* THIS VALUE is inserted into a NON NULL column in the FAX_LOG table. */
+       AND DocumentUsers.UserID IS NOT NULL
+
+       /* THIS VALUE is inserted into a NON NULL column in the FAX_LOG table. */
+       AND Documents.UniqueID IS NOT NULL
+
+       /* THIS VALUE is inserted into a NON NULL column in the FAX_LOG table. */
+       AND History.TRDateTime &gt; &#039;REPLACE_WHERE_CLAUSE_CRITERIA&#039;
+   ORDER BY History.TRDateTime&quot;
+/&gt; </pre>
+<p>来源：<a href="http://thedailywtf.com/Articles/All-In-The-Config.aspx" target="_blank">文章一</a>，<a href="http://thedailywtf.com/Articles/XMLd-XML.aspx" target="_blank">文章二</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder-150x150.png" alt="PFIF网上寻人协议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_title">PFIF网上寻人协议</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="那些炒作过度的技术和概念" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3609.html" class="wp_rp_title">那些炒作过度的技术和概念</a></li><li ><a href="https://coolshell.cn/articles/3585.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/6.jpg" alt="SOAP的S是Simple" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3585.html" class="wp_rp_title">SOAP的S是Simple</a></li><li ><a href="https://coolshell.cn/articles/2504.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="信XML，得永生！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2504.html" class="wp_rp_title">信XML，得永生！</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3498.html">信XML，得自信</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3498.html/feed</wfw:commentRss>
+			<slash:comments>40</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>信XML，得永生！</title>
+		<link>https://coolshell.cn/articles/2504.html</link>
+					<comments>https://coolshell.cn/articles/2504.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 09 Jun 2010 00:27:42 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2504</guid>
+
+					<description><![CDATA[<p>在计算机的世界里，什么最牛？Javascript？C语言？C++？iPad？还是brainfuck？我个人觉得都不是，这个世界里，XML最NB，这世界到处都充斥...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2504.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2504.html">信XML，得永生！</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在计算机的世界里，什么最牛？<a href="https://coolshell.cn/?tag=javascript" target="_blank">Javascript</a>？<a href="https://coolshell.cn/articles/914.html" target="_blank">C语言</a>？<a href="https://coolshell.cn/articles/1724.html" target="_blank">C++</a>？<a href="https://coolshell.cn/articles/2086.html" target="_blank">iPad</a>？还是<a href="https://coolshell.cn/articles/1142.html" target="_blank">brainfuck</a>？我个人觉得都不是，这个世界里，XML最NB，这世界到处都充斥着XML，正如在“<a href="https://coolshell.cn/articles/2424.html" target="_blank">十条不错的编程观点</a>”文中所说，我们不用XML我们都不知道怎么编程了。下面，让我们来看一看XML的几个真实的示例，相信你会同意我的观点的。</p>
+<h4>一、如何用XML返回数据库SQL查询结果</h4>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">&lt;?xml version=&quot;1.0&quot; encoding=&quot;iso-8859-1&quot; ?&gt;
+&lt;result&gt;
+  &lt;fields&gt;
+    &lt;field&gt;NAME&lt;/field&gt;
+    &lt;field&gt;LAST NAME&lt;/field&gt;
+    &lt;field&gt;MOTHER MAIDEN NAME&lt;/field&gt;
+    &lt;field&gt;BIRTHDATE&lt;/field&gt;
+    ...
+  &lt;/fields&gt;
+  &lt;data&gt;
+    &lt;row&gt;
+      &lt;value&gt;MARLENE&lt;/value&gt;
+      &lt;value&gt;RUTH&lt;/value&gt;
+      &lt;value&gt;DE MARCO&lt;/value&gt;
+      &lt;value&gt;1973-02-24 00:00:00&lt;/value&gt;
+      ...
+    &lt;/row&gt;
+  &lt;/data&gt;
+&lt;/result&gt;</pre>
+<p><span id="more-2504"></span></p>
+<h4>二、如何用XML序列化一个图片</h4>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">&lt;attachments xmlns = &quot;http://webservices...&quot; &gt;
+  &lt;bytes&gt;37&lt;/bytes&gt;
+  &lt;bytes&gt;80&lt;/bytes&gt;
+  &lt;bytes&gt;68&lt;/bytes&gt;
+  &lt;bytes&gt;70&lt;/bytes&gt;
+  &lt;bytes&gt;45&lt;/bytes&gt;
+  &lt;bytes&gt;49&lt;/bytes&gt;
+  &lt;bytes&gt;46&lt;/bytes&gt;
+  &lt;bytes&gt;52&lt;/bytes&gt;
+  &lt;bytes&gt;10&lt;/bytes&gt;
+  &lt;bytes&gt;37&lt;/bytes&gt;
+  &lt;bytes&gt;-30&lt;/bytes&gt;
+  &lt;bytes&gt;-29&lt;/bytes&gt;
+  &lt;bytes&gt;-49&lt;/bytes&gt;
+  &lt;bytes&gt;-45&lt;/bytes&gt;
+  &lt;bytes&gt;10&lt;/bytes&gt;
+  &lt;bytes&gt;52&lt;/bytes&gt;
+  &lt;bytes&gt;32&lt;/bytes&gt;
+  &lt;bytes&gt;48&lt;/bytes&gt;
+  &lt;bytes&gt;32&lt;/bytes&gt;
+  &lt;bytes&gt;111&lt;/bytes&gt;
+  ...
+  ...
+  ...</pre>
+<h4>三、如何让XML与CSV格式兼容</h4>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">&lt;?xml version=&quot;1.0&quot; encoding=&quot;iso8859-1&quot; ?&gt;
+&lt;import tag=&quot;1stTEST&quot; type=&quot;data&quot; mode=&quot;update&quot;&gt;
+&lt;options&gt;
+    &lt;dateformat mmddyyyy=&quot;true&quot;/&gt;
+        &lt;notification&gt;
+            &lt;EMail&gt;example@example.com&lt;/EMail&gt;
+        &lt;/notification&gt;
+    &lt;/options&gt;
+    &lt;fields&gt;
+        &lt;field name=&quot;name&quot; type=&quot;char&quot; mapsto=&quot;person.data&quot;/&gt;
+        &lt;field name=&quot;officeid&quot; type=&quot;char&quot; mapsto=&quot;custom.locationid&quot;/&gt;
+        &lt;field name=&quot;startyear&quot; type=&quot;char&quot; mapsto=&quot;person.yearstarted&quot;/&gt;
+        &lt;field name=&quot;personelid&quot; type=&quot;int&quot; mapsto=&quot;person.id&quot;/&gt;
+        &lt;field name=&quot;dob&quot; type=&quot;date&quot; mapsto=&quot;person.dateofbith&quot;/&gt;
+        &lt;field name=&quot;sex&quot; type=&quot;char&quot; mapsto=&quot;person.sex&quot;/&gt;
+        &lt;field name=&quot;modified&quot; type=&quot;date&quot; mapsto=&quot;record.modified&quot;/&gt;
+    &lt;/fields&gt;
+    &lt;csvdata columnheaders=&quot;false&quot;&gt;
+&lt;![CDATA[
+&quot;Jack Wade&quot;,214,2002,111012,07/04/1975,&quot;M&quot;,02/11/2006
+&quot;Sam Davidson&quot;,214,1999,104841,10/15/1967,&quot;M&quot;,02/10/2006
+&quot;Denise V Law&quot;,214,1998,104660,01/21/1971,&quot;F&quot;,02/17/2006
+&quot;Lisa Blake&quot;,214,1989,100987,08/01/1982,&quot;F&quot;,01/21/2006
+&quot;Andrew Match&quot;,214,1991,101074,12/25/1980,&quot;M&quot;,02/28/2006
+]]&gt;
+    &lt;/csvdata&gt;
+&lt;/import&gt;</pre>
+<h4>四、如何把XML当成数组来用</h4>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">&lt;rootNode&gt;
+   &lt;numberOfAddresses&gt;110&lt;/numberOfAddresses&gt;
+   &lt;address_1&gt;442 Fake St.&lt;/address_1&gt;
+   &lt;address_2&gt;61 Main St.&lt;/address_2&gt;
+   ...
+   ...
+   ...
+   &lt;address_110&gt;3881 N 4th Ave. #5D&lt;/address_110&gt;
+&lt;/rootNode&gt;</pre>
+<p>相信你一定有比这更牛X的例子，欢迎与我们分享！<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder-150x150.png" alt="PFIF网上寻人协议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_title">PFIF网上寻人协议</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="那些炒作过度的技术和概念" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3609.html" class="wp_rp_title">那些炒作过度的技术和概念</a></li><li ><a href="https://coolshell.cn/articles/3585.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/6.jpg" alt="SOAP的S是Simple" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3585.html" class="wp_rp_title">SOAP的S是Simple</a></li><li ><a href="https://coolshell.cn/articles/3498.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="信XML，得自信" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3498.html" class="wp_rp_title">信XML，得自信</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2504.html">信XML，得永生！</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2504.html/feed</wfw:commentRss>
+			<slash:comments>50</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>早期XML Schema中的open content模型</title>
+		<link>https://coolshell.cn/articles/604.html</link>
+					<comments>https://coolshell.cn/articles/604.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Wed, 22 Apr 2009 05:04:41 +0000</pubDate>
+				<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=604</guid>
+
+					<description><![CDATA[<p>摘要：在看SDO的一些规范文档，可能会出现open content这样的词组，上网查了相关资料，发现这是一种XML Schema的模型，本文就描述了XML Sc...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/604.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/604.html">早期XML Schema中的open content模型</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>摘要</strong>：在看SDO的一些规范文档，可能会出现open content这样的词组，上网查了相关资料，发现这是一种XML Schema的模型，本文就描述了XML Schema的Open Content模型的含义，在最新的XML Schema规范中，好像已经没有Open模型，它的等价物是any模型。</p>
+<p>早期发布的XML Schema规范中支持一种新的element定义，在这个定义中，你可以将XML的Element的内容定义为开放的。下面我们将会介绍一下XML的Open Content 模型。</p>
+<p>在Open Content模型中，如果一个XML的元素在XML Schema中被声明为开放的，那么这个Schema对应的XML文档的实例就可以包含一个没有在Schema中罗列的子元素。例如，一个包含着如下的XML Schema的Schema文件</p>
+<p><span id="more-604"></span></p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+      &lt;element name=&amp;quot;Book&amp;quot;&gt;
+           &lt;type&gt;
+               &lt;element name=&amp;quot;Title&amp;quot; type=&amp;quot;string&amp;quot;/&gt;
+               &lt;element name=&amp;quot;Author&amp;quot; type=&amp;quot;string&amp;quot;/&gt;
+               &lt;element name=&amp;quot;Date&amp;quot; type=&amp;quot;string&amp;quot;/&gt;
+               &lt;element name=&amp;quot;ISBN&amp;quot; type=&amp;quot;string&amp;quot;/&gt;
+               &lt;element name=&amp;quot;Publisher&amp;quot; type=&amp;quot;string&amp;quot;/&gt;
+           &lt;/type&gt;
+      &lt;/element&gt;</pre>
+<p>这个book element的声明意味着这个Schema的实例XML文件必须包含5个元素 &#8211; Title,Author，Date，ISBN，Pbulish。例如：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+     &lt;Book&gt;
+         &lt;Title&gt;Illusions The Adventures of a Reluctant Messiah&lt;/Title&gt;
+         &lt;Author&gt;Richard Bach&lt;/Author&gt;
+         &lt;Date&gt;1977&lt;/Date&gt;
+         &lt;ISBN&gt;0-440-34319-4&lt;/ISBN&gt;
+         &lt;Publisher&gt;Dell Publishing Co.&lt;/Publisher&gt;
+     &lt;/Book&gt;
+
+</pre>
+<p>假设，在实例XML文件，你希望增加book的另外一个子元素，比如，你希望增加一个到某一个网页的连接：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+     &lt;Book&gt;
+         &lt;Title&gt;Illusions The Adventures of a Reluctant Messiah&lt;/Title&gt;
+         &lt;Author&gt;Richard Bach&lt;/Author&gt;
+         &lt;Date&gt;1977&lt;/Date&gt;
+         &lt;ISBN&gt;0-440-34319-4&lt;/ISBN&gt;
+         &lt;Publisher&gt;Dell Publishing Co.&lt;/Publisher&gt;
+         &lt;AuthorsWebPage xlink:href=&amp;quot;&lt;a href=&amp;quot;http://www.rbach.com&amp;quot;/&amp;quot;&gt;http://www.rbach.com&amp;quot;/&lt;/a&gt;&gt;
+    &lt;/Book&gt;
+
+</pre>
+<p>对于上面这个XML文件，XML Schema分析器将会认为这个XML文件是无效的XML，因为上面的文件的包含了Scheme中没有定义的元素。但是在我们的应用场景中，我们可能会希望XML Schema分析器不要报错，因为，应用程序自己知道如何处理&lt;AuthorsWebPage&gt;这个元素。为了达到这个目的，我们就可以将Book声明为开放的。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder-150x150.png" alt="PFIF网上寻人协议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_title">PFIF网上寻人协议</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="那些炒作过度的技术和概念" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3609.html" class="wp_rp_title">那些炒作过度的技术和概念</a></li><li ><a href="https://coolshell.cn/articles/3585.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/6.jpg" alt="SOAP的S是Simple" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3585.html" class="wp_rp_title">SOAP的S是Simple</a></li><li ><a href="https://coolshell.cn/articles/3498.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="信XML，得自信" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3498.html" class="wp_rp_title">信XML，得自信</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/604.html">早期XML Schema中的open content模型</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/604.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

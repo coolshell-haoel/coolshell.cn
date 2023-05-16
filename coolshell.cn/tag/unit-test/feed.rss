@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Unit Test | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/unit-test/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 27 Nov 2012 08:49:26 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>如何测试洗牌程序</title>
+		<link>https://coolshell.cn/articles/8593.html</link>
+					<comments>https://coolshell.cn/articles/8593.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 20 Nov 2012 00:22:07 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[test]]></category>
+		<category><![CDATA[Unit Test]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8593</guid>
+
+					<description><![CDATA[<p>我希望本文有助于你了解测试软件是一件很重要也是一件不简单的事。 我们有一个程序，叫ShuffleArray()，是用来洗牌的，我见过N多千变万化的Shuffle...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8593.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8593.html">如何测试洗牌程序</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我希望本文有助于你了解测试软件是一件很重要也是一件不简单的事。</p>
+<p>我们有一个程序，叫ShuffleArray()，是用来洗牌的，我见过N多千变万化的ShuffleArray()，但是似乎从来没人去想过怎么去测试这个算法。所以，我在面试中我经常会问应聘者如何测试ShuffleArray()，没想到这个问题居然难倒了很多有多年编程经验的人。对于这类的问题，其实，测试程序可能比算法更难写，代码更多。而这个问题正好可以加强一下我在《<a title="我们需要专职的QA吗？" href="https://coolshell.cn/articles/6994.html" target="_blank">我们需要专职的QA吗？</a>》中我所推崇的——开发人员更适合做测试的观点。</p>
+<p>我们先来看几个算法（<strong>第一个用递归二分随机抽牌，第二个比较偷机取巧，第三个比较通俗易懂</strong>）</p>
+<h4>递归二分随机抽牌</h4>
+<p>有一次是有一个朋友做了一个网页版的扑克游戏，他用到的算法就是想模拟平时我们玩牌时用手洗牌的方式，是用递归+二分法，我说这个程序恐怕不对吧。他觉得挺对的，说测试了没有问题。他的程序大致如下（原来的是用Javascript写的，我在这里凭记忆用C复现一下）：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+//递归二分方法
+const size_t MAXLEN = 10;
+const char TestArr[MAXLEN] = {&#039;A&#039;,&#039;B&#039;,&#039;C&#039;,&#039;D&#039;,&#039;E&#039;,&#039;F&#039;,&#039;G&#039;,&#039;H&#039;,&#039;I&#039;,&#039;J&#039;};
+
+static char RecurArr[MAXLEN]={0};
+static int cnt = 0;
+void ShuffleArray_Recursive_Tmp(char* arr, int len)
+{
+    if(cnt &gt; MAXLEN || len &lt;=0){
+        return;
+    }
+
+    int pos = rand() % len;
+    RecurArr[cnt++] = arr[pos];
+    if (len==1) return;
+    ShuffleArray_Recursive_Tmp(arr, pos);
+    ShuffleArray_Recursive_Tmp(arr+pos+1, len-pos-1);
+}
+
+void ShuffleArray_Recursive(char* arr, int len)
+{
+    memset(RecurArr, 0, sizeof(RecurArr));
+    cnt=0;
+    ShuffleArray_Recursive_Tmp(arr, len);
+    memcpy(arr, RecurArr, len);
+}
+
+void main()
+{
+    char temp[MAXLEN]={0};
+    for(int i=0; i&lt;5; i++) {
+        strncpy(temp, TestArr, MAXLEN);
+        ShuffleArray_Recursive((char*)temp, MAXLEN);
+    }
+}
+</pre>
+<p><span id="more-8593"></span></p>
+<p>随便测试几次，还真像那么回事：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">第一次：D C A B H E G F I J
+第二次：A G D B C E F J H I
+第三次：A B H F C E D G I J
+第四次：J I F B A D C E H G
+第五次：F B A D C E H G I J</pre>
+<h4>快排Hack法</h4>
+<p>让我们再看一个hack 快排的洗牌程序（只看算法，省去别的代码）：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+int compare( const void *a, const void *b )
+{
+    return rand()%3-1;
+}
+
+void ShuffleArray_Sort(char* arr, int len)
+{
+    qsort( (void *)arr, (size_t)len, sizeof(char), compare );
+}
+</pre>
+<p>运行个几次，感觉得还像那么回事：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">第一次：H C D J F E A G B I
+第二次：B F J D C E I H G A
+第三次：C G D E J F B I A H
+第四次：H C B J D F G E I A
+第五次：D B C F E A I H G J</pre>
+<p>看不出有什么破绽。</p>
+<h4>大多数人的实现</h4>
+<p>下面这个算法是大多数人的实现，就是for循环一次，然后随机交换两个数</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">void ShuffleArray_General(char* arr, int len)
+{
+    const int suff_time = len;
+    for(int idx=0; idx&lt;suff_time; idx++) {
+        int i = rand() % len;
+        int j = rand() % len;
+        char temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}</pre>
+<p>跑起来也还不错，洗得挺好的。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">第一次：G F C D A J B I H E
+第二次：D G J F E I A H C B
+第三次：C J E F A D G B H I
+第四次：H D C F A E B J I G
+第五次：E A J F B I H G D C</pre>
+<p>但是上述三个算法哪个的效果更好？好像都是对的。<strong>一般的QA或是程序员很有可能就这样把这个功能Pass了</strong>。但是事情并没有那么简单……</p>
+<h4>如何测试</h4>
+<p>在做测试之前，我们还需要了解一下一个基本知识——<strong>PC机上是做不出真随机数的，只能做出伪随机数。真随机数需要硬件支持</strong>。但是不是这样我们就无法测试了呢，不是的。我们依然可以测试。</p>
+<p>我们知道，洗牌洗得好不好，主要是看是不是够随机。那么如何测试随机性呢？</p>
+<p>试想，我们有个随机函数rand()返回1到10中的一个数，如果够随机的话，每个数返回的概率都应该是一样的，也就是说每个数都应该有10分之1的概率会被返回。</p>
+<p>一到概率问题，我们只有一个方法来做测试，那就是用统计的方式。也就是说，你调用rand()函数100次，其中，每个数出现的次数大约都在10次左右。（注意：我用了左右，这说明概率并不是很准确的）不应该有一个数出现了15次以上，另一个在5次以下，要是这样的话，这个函数就是错的。</p>
+<p>举一反三，测试洗牌程序也一样，需要通过概率的方式来做统计，是不是每张牌出现在第一个位置的次数都是差不多的。</p>
+<p>于是，这样一来上面的程序就可以很容易做测试了。</p>
+<p>下面是测试结果（<strong>测试样本1000次——列是每个位置出现的次数，行是各个字符的统计</strong>，出现概率应该是1/10，也就是100次）：</p>
+<p><strong>递归随机抽牌的方法</strong></p>
+<p>很明显，这个洗牌程序太有问题。算法是错的！</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">     1    2    3    4    5    6    7    8    9    10
+----------------------------------------------------
+A | 101  283  317  208   65   23    3    0    0    0
+B | 101  191  273  239  127   54   12    2    1    0
+C | 103  167  141  204  229  115   32    7    2    0
+D | 103  103   87  128  242  195  112   26    3    1
+E | 104   83   62   67  116  222  228   93   22    3
+F |  91   58   34   60   69  141  234  241   65    7
+G |  93   43   35   19   44  102  174  274  185   31
+H |  94   28   27   27   46   68   94  173  310  133
+I | 119   27   11   30   28   49   64   96  262  314
+J |  91   17   13   18   34   31   47   88  150  511</pre>
+<p><strong>快排Hack法</strong></p>
+<p>看看对角线（从左上到右下）上的数据，很离谱！所以，这个算法也是错的。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">      1    2    3    4    5    6    7    8    9    10
+-----------------------------------------------------
+A |   74  108  123  102   93  198   40   37   52  173
+B |  261  170  114   70   49   28   37   76  116   79
+C |  112  164  168  117   71   37   62   96  116   57
+D |   93   91  119  221  103   66   91   98   78   40
+E |   62   60   82   90  290  112   95   98   71   40
+F |   46   60   63   76   81  318   56   42   70  188
+G |   72   57   68   77   83   39  400  105   55   44
+H |   99   79   70   73   87   34  124  317   78   39
+I |  127  112  102   90   81   24   57   83  248   76
+J |   54   99   91   84   62  144   38   48  116  264</pre>
+<p><strong>大多数人的算法</strong></p>
+<p>我们再来看看大多数人的算法。还是对角线上的数据有问题，所以，还是错的。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">      1    2    3    4    5    6    7    8    9    10
+-----------------------------------------------------
+A |  178   98   92   82  101   85   79  105   87   93
+B |   88  205   90   94   77   84   93   86  106   77
+C |   93   99  185   96   83   87   98   88   82   89
+D |  105   85   89  190   92   94  105   73   80   87
+E |   97   74   85   88  204   91   80   90  100   91
+F |   85   84   90   91   96  178   90   91  105   90
+G |   81   84   84  104  102  105  197   75   79   89
+H |   84   99  107   86   82   78   92  205   79   88
+I |  102   72   88   94   87  103   94   92  187   81
+J |   87  100   90   75   76   95   72   95   95  215</pre>
+<h4>正确的算法</h4>
+<p>下面，我们来看看性能高且正确的算法—— <a href="http://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle" target="_blank">Fisher_Yates算法</a></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">void ShuffleArray_Fisher_Yates(char* arr, int len)
+{
+    int i = len, j;
+    char temp;
+
+    if ( i == 0 ) return;
+    while ( --i ) {
+        j = rand() % (i+1);
+        temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}</pre>
+<p>这个算法不难理解，看看测试效果（效果明显比前面的要好）：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">      1    2    3    4    5    6    7    8    9    10
+-----------------------------------------------------
+A |  107   98   83  115   89  103  105   99   94  107
+B |   91  106   90  102   88  100  102   97  112  112
+C |  100  107   99  108  101   99   86   99  101  100
+D |   96   85  108  101  117  103  102   96  108   84
+E |  106   89  102   86   88  107  114  109  100   99
+F |  109   96   87   94   98  102  109  101   92  102
+G |   94   95  119  110   97  112   89  101   89   94
+H |   93  102  102  103  100   89  107  105  101   98
+I |   99  110  111  101  102   79  103   89  104  102
+J |  105  112   99   99  108  106   95   95   99   82</pre>
+<p>但是我们可以看到还是不完美。因为我们使用的rand()是伪随机数，不过已经很不错的。最大的误差在20%左右。</p>
+<p>我们再来看看洗牌100万次的统计值，你会看到误差在6%以内了。这个对于伪随机数生成的程序已经很不错了。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">      1       2     3       4      5      6      7      8     9      10
+-------------------------------------------------------------------------
+A | 100095  99939 100451  99647  99321 100189 100284  99565 100525  99984
+B |  99659 100394  99699 100436  99989 100401  99502 100125 100082  99713
+C |  99938  99978 100384 100413 100045  99866  99945 100025  99388 100018
+D |  99972  99954  99751 100112 100503  99461  99932  99881 100223 100211
+E | 100041 100086  99966  99441 100401  99958  99997 100159  99884 100067
+F | 100491 100294 100164 100321  99902  99819  99449 100130  99623  99807
+G |  99822  99636  99924 100172  99738 100567 100427  99871 100125  99718
+H |  99445 100328  99720  99922 100075  99804 100127  99851 100526 100202
+I | 100269 100001  99542  99835 100070  99894 100229 100181  99718 100261
+J | 100268  99390 100399  99701  99956 100041 100108 100212  99906 100019</pre>
+<h4>如何写测试案例</h4>
+<p>测试程序其实很容易写了。就是，设置一个样本大小，做一下统计，然后计算一下误差值是否在可以容忍的范围内。比如：</p>
+<ul>
+<li>样本：100万次</li>
+<li>最大误差：10%以内</li>
+<li>平均误差：5%以内 （或者：90%以上的误差要小于5%）</li>
+</ul>
+<h4>注意</h4>
+<p>其实，以上的测试只是测试了牌在各个位置的概率。这个还不足够好。因为还可能会现在有Patten的情况。如：每次洗牌出来的都是一个循环顺序数组。这完全可以满足我上面的测试条件。但是那明显是错的。<strong>所以，还需要统计每种排列的出现的次数</strong>，看看是不是均匀。但是，<strong>如果这些排列又是以某种规律出现的呢</strong>？看来，这没完没了了。</p>
+<p>测试的确是一个很重要，并不简单的事情。谢谢所有参与讨论的人。</p>
+<h4>附录</h4>
+<p>之前忘贴了一个模拟我们玩牌洗牌的算法，现补充如下：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">void ShuffleArray_Manual(char* arr, int len)
+{
+    int mid = len / 2;
+
+    for (int n=0; n&lt;5; n++){
+
+        //两手洗牌
+        for (int i=1; i&lt;mid; i+=2){
+            char tmp = arr[i];
+            arr[i] = arr[mid+i];
+            arr[mid+i] = tmp;
+        }
+
+        //随机切牌
+        char *buf = (char*)malloc(sizeof(char)*len);
+
+        for(int j=0; j&lt;5; j++) {
+            int start= rand() % (len-1) + 1;
+            int numCards= rand()% (len/2) + 1;
+
+            if (start + numCards &gt; len ){
+                numCards = len - start;
+            }
+
+            memset(buf, 0, len);
+            strncpy(buf, arr, start);
+            strncpy(arr, arr+start, numCards);
+            strncpy(arr+numCards, buf, start);
+        }
+        free(buf);
+
+    }
+}</pre>
+<p>我们来看看测试结果：（10万次）效果更好一些，误差在2%以内了。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">      1       2     3       4      5      6      7      8     9      10
+-------------------------------------------------------------------------
+A |  10002   9998   9924  10006  10048  10200   9939   9812  10080   9991
+B |   9939   9962  10118  10007   9974  10037  10149  10052   9761  10001
+C |  10054  10100  10050   9961   9856   9996   9853  10016   9928  10186
+D |   9851   9939   9852  10076  10208  10003   9974  10052   9992  10053
+E |  10009   9915  10050  10037   9923  10094  10078  10059   9880   9955
+F |  10151  10115  10113   9919   9844   9896   9891   9904  10225   9942
+G |  10001  10116  10097  10030  10061   9993   9891   9922   9889  10000
+H |  10075  10033   9866   9857  10170   9854  10062  10078  10056   9949
+I |  10045   9864   9879  10066   9930   9919  10085  10104  10095  10013
+J |   9873   9958  10051  10041   9986  10008  10078  10001  10094   9910</pre>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17381.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/PerfTest-150x150.png" alt="性能测试应该怎么做？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17381.html" class="wp_rp_title">性能测试应该怎么做？</a></li><li ><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-150x150.jpg" alt="Cuckoo Filter：设计与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_title">Cuckoo Filter：设计与实现</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/538efefbgw1eiz9cvx78fj20rm0fmdi8-150x150.jpg" alt="【活动】解迷题送礼物" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_title">【活动】解迷题送礼物</a></li><li ><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/QR-Code-Overview-150x150.jpeg" alt="二维码的生成细节和原理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_title">二维码的生成细节和原理</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8593.html">如何测试洗牌程序</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8593.html/feed</wfw:commentRss>
+			<slash:comments>142</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“单元测试要做多细？”</title>
+		<link>https://coolshell.cn/articles/8209.html</link>
+					<comments>https://coolshell.cn/articles/8209.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 03 Sep 2012 00:13:31 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[TDD]]></category>
+		<category><![CDATA[Unit Test]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8209</guid>
+
+					<description><![CDATA[<p>这篇文章主要来源是StackOverflow上的一个回答——“How deep are your unit tests?”。一个有13.8K的分的人（John ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8209.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8209.html">“单元测试要做多细？”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这篇文章主要来源是StackOverflow上的一个回答——“<a title="How deep are your unit tests?" href="http://stackoverflow.com/questions/153234/how-deep-are-your-unit-tests" target="_blank">How deep are your unit tests?</a>”。一个有13.8K的分的人（<a href="http://stackoverflow.com/users/1116/john-nolan">John Nolan</a>）问了个关于TDD的问题，这个问题并不新鲜，最亮的是这个问题的Best Answer，这个问题是——</p>
+<p style="padding-left: 30px;">“TDD需要花时间写测试，而我们一般多少会写一些代码，而第一个测试是测试我的构造函数有没有把这个类的变量都设置对了，这会不会太过分了？那么，我们写单元测试的这个单元的粒度到底是什么样的？并且，是不是我们的测试测试得多了点？”</p>
+<h4>答案</h4>
+<p>StackOverflow上，这个问题的答案是这样的——</p>
+<p style="padding-left: 30px;">“I get paid for code that works, not for tests, so my philosophy is to test as little as possible to reach a given level of confidence (I suspect this level of confidence is high compared to industry standards, but that could just be hubris). If I don&#8217;t typically make a kind of mistake (like setting the wrong variables in a constructor), I don&#8217;t test for it. I do tend to make sense of test errors, so I&#8217;m extra careful when I have logic with complicated conditionals. When coding on a team, I modify my strategy to carefully test code that we, collectively, tend to get wrong.”</p>
+<p style="padding-left: 30px;"><strong>老板为我的代码付报酬，而不是测试，所以，我对此的价值观是——测试越少越好，少到你对你的代码质量达到了某种自信</strong>（我觉得这种的自信标准应该要高于业内的标准，当然，这种自信也可能是种自大）。如果我的编码生涯中不会犯这种典型的错误（如：在构造函数中设了个错误的值），那我就不会测试它。<strong>我倾向于去对那些有意义的错误做测试，所以，我对一些比较复杂的条件逻辑会异常地小心</strong>。当在一个团队中，我会非常小心的测试那些会让团队容易出错的代码。</p>
+<p>这个回答对TDD似乎有一种否定，<strong>最亮的是这个问题是由<a href="http://en.wikipedia.org/wiki/Kent_Beck" target="_blank">Kent Beck</a>，Kent是XP和TDD的创造者，是敏捷开发实践方法的奠基人</strong>。以致于还有人调侃到——</p>
+<p><span id="more-8209"></span></p>
+<p><img decoding="async" loading="lazy" class="alignright size-full wp-image-8212" title="fight club" src="https://coolshell.cn/wp-content/uploads/2012/09/fight.jpg" alt="" width="342" height="195" srcset="https://coolshell.cn/wp-content/uploads/2012/09/fight.jpg 342w, https://coolshell.cn/wp-content/uploads/2012/09/fight-300x171.jpg 300w" sizes="(max-width: 342px) 100vw, 342px" /></p>
+<p style="padding-left: 30px;">The world does not think that Kent Beck would say this! There are legions of developers dutifully pursuing 100% coverage because they think it is what Kent Beck would do! I have told many that you said, in your XP book, that you don&#8217;t always adhere to Test First religiously. But I&#8217;m surprised too.</p>
+<p style="padding-left: 30px;">只是要地球人都不会觉得Kent Beck会这么说啊！我们有大堆程序员在忠实的追求着100%的代码测试覆盖率，因为这些程序员觉得Kent Beck也会这么干！我告诉过很多人，你在你的XP的书里说过，你并不总是支持“宗教信仰式的Test First”，但是今天Kent这么说，我还是很惊讶！</p>
+<p>后面还有一些人不同意Kent， 我一下子从这个事中想到了《<a href="http://movie.douban.com/subject/1292000/" target="_blank">fight club</a>》里的那个精神分裂者创建了一个连自己都反对的地下组织。呵呵。</p>
+<p>其实我是非常同意Kent的，怎么合适怎么搞，爱怎么测试就怎么测试，只要自己和团队有信心就可以了。没有必要就一定要写测试，一定要测试先行。</p>
+<h4>其它答案</h4>
+<p>八卦完了，我们还是来认认真真地看看这个问题中其它的其它答案，因为这个问题的也是国人爱问题的问题。</p>
+<p><strong>第二个答案：值得借鉴</strong></p>
+<ul>
+<li>开发过程中，单元测试应该来测试那些可能会出错的地方，或是那些边界情况。</li>
+<li>维护过程中，单元测试应该跟着我们的bug report来走，每一个bug都应该有个UT。于是程序员就会对自己的代码变更有两个自信，一是bug 被 fixed，二是相同的bug不会再次出现。</li>
+</ul>
+<p><strong>第三个答案：给敏捷咨师看的答案</strong></p>
+<p>这个答案在说，我们只注意到了TDD中的T，而忽略了第一个D，就是Driven…… bla bla bla&#8230; 又这扯这些空洞的东西了，国内的各种不学无术的敏捷咨询师最好这一口了。</p>
+<p><strong>第四个答案：致那些什么都要测试的人</strong></p>
+<p>如果我们需要测试一个像 <code>int square(int x)</code> 这样的开根函数，我们需要40亿个测试（每个数都要测试）。</p>
+<p>事实上这种情况可能还更糟糕，如果有这样一个方法 <code>void setX(int newX)</code> 不会更改其它的成员变量，如：obj.z, Obj.y，那么，你是不是还要去测试一下别的变量没有被改变？</p>
+<p>我们只可能测试那些有意义的，确实要测试的案例。</p>
+<h4>我的观点</h4>
+<p>我在《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并没有看上去的那么美</a>》一文中说过我的观点了，我就不再多说了。我还是把下面这些观点列出来，供大家思考和讨论：</p>
+<p style="padding-left: 30px;">1）<strong>我国的教育对我们最大的洗脑不是掩盖事实，而让我们习惯于标准答案，习惯于教条，从而不会思考！敏捷开发中的若干东西似乎都成了软件开发中对某种标准答案的教条，实在是悲哀！</strong></p>
+<p style="padding-left: 30px;">2）<strong>软件开发是一种脑力劳动，是一种知识密集型的工作，就像艺术作品一样，创作过程和成品是没有标准答案的。</strong></p>
+<p style="padding-left: 30px;">3）<strong>软件的质量不是测试出来的，而是设计和维护出来的。就像工匠们在一点一点地雕琢他们的作品一样。</strong></p>
+<p>UT的粒度是多少，这个不重要，重要的是你会不会自己思考你的软件应该怎么做，怎么测试。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="敏捷水管工" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_title">敏捷水管工</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li><li ><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/feedback_cycle-150x150.jpg" alt="[转]TDD到底美还是不美？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_title">[转]TDD到底美还是不美？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8209.html">“单元测试要做多细？”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8209.html/feed</wfw:commentRss>
+			<slash:comments>101</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些单元测试的Guideline</title>
+		<link>https://coolshell.cn/articles/1192.html</link>
+					<comments>https://coolshell.cn/articles/1192.html#respond</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 27 Jul 2009 08:24:57 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[CppUnit]]></category>
+		<category><![CDATA[Guideline]]></category>
+		<category><![CDATA[JUnit]]></category>
+		<category><![CDATA[NUnit]]></category>
+		<category><![CDATA[Unit Test]]></category>
+		<category><![CDATA[UT]]></category>
+		<category><![CDATA[xUnit]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1192</guid>
+
+					<description><![CDATA[<p>Jimmy Bogard 曾经写过一篇文章： 《从单元测试中获益》，这这篇文章中给出了下面三条规则： “测试名应该从用户的角度描述是什么和为什么” – 这样一来...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1192.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1192.html">一些单元测试的Guideline</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Jimmy Bogard 曾经写过一篇文章： 《<a href="http://www.lostechies.com/blogs/jimmy_bogard/archive/2008/12/18/getting-value-out-of-your-unit-tests.aspx">从单元测试中获益</a>》，这这篇文章中给出了下面三条规则：</p>
+<ol>
+<li>“<strong>测试名应该从用户的角度描述是什么和为什么</strong>” – 这样一来，程序员可以从名字就可以知道用户需要什么样的软件行为。</li>
+<li>“<strong>测试也是代码，同样也需要我们更多的爱</strong>” – 真实运行在生产环境下的代码不仅仅只是我们需要去关心和花心思的代码。对于单元测试中的代码同样也需要易读易维护，以及可重用的特性。“<em>我非常痛恨那些又长又复杂的测试代码，如果一个测试需要30行的单元测试代码，请把其放在一个方法中。一个长的测试步骤只会激怒程序员。如果你在正式的代码中都没有这么长的代码，那么为什么我们需要在测试代码中容忍这样的情形呢？</em>”</li>
+<li>“<strong>不要只用一种固定的模式或组织风格</strong>”<em> – </em>有些时候，对于一些特殊的测试案例，标准的类设计模式，或一个固有的测试装置可能并不能有效的工作。</li>
+</ol>
+<p><span id="more-1192"></span></p>
+<p><a href="http://tech.groups.yahoo.com/group/testdrivendevelopment/message/31412">Lior Friedman</a> 加上： “第0条 &#8211; 测试应该只测试单元其外部的行为，而不是内部的结构”。或者说，只测试对一个单元的期望，而不是这个单元的构成。</p>
+<p><a href="http://groups.google.com/group/nunit-discuss/msg/56c9d75647731502?hl=en">Ravichandran Jv</a> 也加上了他的条例：</p>
+<ol>
+<li>一个测试一个断言（如果可能）。 </li>
+<li>如果在测试中有“if else” 的语句，请把if和else两个分支拆分成两个测试案例。 </li>
+<li>如果一个测试案例中也有if else 分枝，那么这个测试案例也需要被重构。</li>
+<li>测试案例的命名代表了这种测试的类型。例如：TestMakeReservation() 和TestMakeNoReservation()是不一样的类型。</li>
+</ol>
+<p><a href="http://groups.google.com/group/nunit-discuss/msg/fb335c19a8a44821?hl=en">Charlie Poole</a>，NUnit的作者，重述了“一个测试一个断言”成“一个逻辑断言Logical Assert” – 他说， “有时候，因为我们测试API的表现不足，你需要写多个物理的Assert才能达到一个完整的结果。许多使用NUnit框架API进行单元测试的开发，很不可能只使用一个Assert就完成了一个测试”。</p>
+<p><a href="http://www.bryancook.net/2008/06/test-naming-conventions-guidelines.html">Bryan Cook</a> 也提供了一个不错的可供考虑的列表：</p>
+<ol>
+<li>做到：对Fixture一致地命名</li>
+<li>做到：使用namespace</li>
+<li>做到：测试方法的命名和Setup/TearDown 一致</li>
+<li>考虑：分离你的测试和开发代码</li>
+<li>做到：测试的命令和被测试的功能一致</li>
+<li>考虑：使用&#8221;Cannot&#8221; 前缀命名期望的异常</li>
+</ol>
+<p>Bryan 有超过 <a href="http://www.bryancook.net/2008/06/test-naming-conventions-guidelines.html">一打的建议</a>。</p>
+<p>最后，有些人建议大家读一下 Gerard Meszaros的书： “<a href="http://www.amazon.com/xUnit-Test-Patterns-Refactoring-Addison-Wesley/dp/0131495054/ref=sr_1_1?ie=UTF8&amp;s=books&amp;qid=1248380993&amp;sr=8-1">xUnit Test Patterns: Refactoring Test Code</a>”</p>
+<p>文章：<a href="http://www.infoq.com/news/2009/07/Better-Unit-Tests" target="_blank">链接</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="如何测试洗牌程序" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8593.html" class="wp_rp_title">如何测试洗牌程序</a></li><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/656.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="Linux 的僵尸(zombie)进程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/656.html" class="wp_rp_title">Linux 的僵尸(zombie)进程</a></li><li ><a href="https://coolshell.cn/articles/10476.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/huarong-150x150.png" alt="C++11的Lambda使用一例：华容道求解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10476.html" class="wp_rp_title">C++11的Lambda使用一例：华容道求解</a></li><li ><a href="https://coolshell.cn/articles/8422.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="TF-IDF模型的概率解释" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8422.html" class="wp_rp_title">TF-IDF模型的概率解释</a></li><li ><a href="https://coolshell.cn/articles/536.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/bubble-150x150.png" alt="一个显示排序过程的Python脚本" width="150" height="150" /></a><a href="https://coolshell.cn/articles/536.html" class="wp_rp_title">一个显示排序过程的Python脚本</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1192.html">一些单元测试的Guideline</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1192.html/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

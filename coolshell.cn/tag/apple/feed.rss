@@ -1,0 +1,698 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Apple | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/apple/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 22 Aug 2014 10:16:48 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>由苹果的低级Bug想到的</title>
+		<link>https://coolshell.cn/articles/11112.html</link>
+					<comments>https://coolshell.cn/articles/11112.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 24 Feb 2014 00:12:11 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[bug]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[goto]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11112</guid>
+
+					<description><![CDATA[<p>2014年2月22日，在这个“这么二”的日子里，苹果公司推送了 iOS 7.0.6（版本号11B651）修复了 SSL 连接验证的一个 bug。官方网页在这里：...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11112.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11112.html">由苹果的低级Bug想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-11123" src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail.png" alt="" width="260" height="158" /> 2014年2月22日，在这个“这么二”的日子里，苹果公司推送了 iOS 7.0.6（版本号11B651）修复了 SSL 连接验证的一个 bug。官方网页在这里：<a href="http://support.apple.com/kb/HT6147" target="_blank">http://support.apple.com/kb/HT6147</a>，网页中如下描述：</p>
+<blockquote><p><strong>Impact</strong>: An attacker with a privileged network position may capture or modify data in sessions protected by SSL/TLS</p>
+<p><strong>Description</strong>: Secure Transport failed to validate the authenticity of the connection. This issue was addressed by restoring missing validation steps.</p></blockquote>
+<p>也就是说，这个bug会引起中间人攻击，bug的描述中说，这个问题是因为miss了对连接认证的合法性检查的步骤。</p>
+<p>这里多说一句，<strong>一旦网上发生任何的和SSL/TL相关的bug或安全问题，不管是做为用户，还是做为程序员的你，你一定要高度重视起来</strong>。因为这个网络通信的加密协议被广泛的应用在很多很多最最需要安全的地方，如果SSL/TLS有问题的话，意味着这个世界的计算机安全体系的崩溃。</p>
+<h4>Bug的代码原因</h4>
+<p>Adam Langley的《<a href="https://www.imperialviolet.org/2014/02/22/applebug.html">Apple&#8217;s SSL/TLS bug</a> 》的博文暴出了这个bug的细节。（在苹果的开源网站上，通过查看苹果的和SSL/TLS有关的代码变更，我们可以在文件<a href="http://opensource.apple.com/source/Security/Security-55471/libsecurity_ssl/lib/sslKeyExchange.c" target="_blank">sslKeyExchange.c</a>中找到下面的代码）</p>
+<p><span id="more-11112"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW" data-enlighter-highlight="12">static OSStatus
+SSLVerifySignedServerKeyExchange(SSLContext *ctx, bool isRsa, SSLBuffer signedParams,
+                                 uint8_t *signature, UInt16 signatureLen)
+{
+	OSStatus        err;
+	...
+
+	if ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;serverRandom)) != 0)
+		goto fail;
+	if ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;signedParams)) != 0)
+		goto fail;
+		goto fail;
+	if ((err = SSLHashSHA1.final(&amp;hashCtx, &amp;hashOut)) != 0)
+		goto fail;
+	err = sslRawVerify(ctx,
+                       ctx-&gt;peerPubKey,
+                       dataToSign,				/* plaintext */
+                       dataToSignLen,			/* plaintext length */
+                       signature,
+                       signatureLen);
+	if(err) {
+		sslErrorLog(&quot;SSLDecodeSignedServerKeyExchange: sslRawVerify &quot;
+                    &quot;returned %d\n&quot;, (int)err);
+		goto fail;
+	}
+
+fail:
+    SSLFreeBuffer(&amp;signedHashes);
+    SSLFreeBuffer(&amp;hashCtx);
+    return err;
+}</pre>
+<p>注意，我高亮的地方，也就是那里有两个goto fail; 因为if语句没有加大括号，所以，只有第一个goto是属于if的，而第二个goto则是永远都会被执行到的（注：这里不是Python是C语言，缩进不代表这个语句属于同一个语句块）。也就是说，就算是前面的if检查都失败了（err  == 0），也会goto fail。我们可以看到fail标签中释放完内存后就会return err;</p>
+<p>你想一下，<strong>这段程序在SSLHashSHA1.update()  返回成功，也就是返回0 的时候会发生什么样的事？是的，真正干活的 sslRawVerify()被bypass了。而且这个函数SSLVerifySignedServerKeyExchange() 还返回了0，也就是成功了！</strong>尼玛！你可能想到酷壳网上之前《<a title="一个空格引发的惨剧" href="https://coolshell.cn/articles/4875.html" target="_blank">一个空格引发的惨剧</a>》的文章。都是低级bug。</p>
+<p>这个低级bug在这个周末在网上被炒翻了天，你可以<strong><a href="https://twitter.com/search?q=%23gotofail" target="_blank">上Twiter上看看#gotofail的标签的盛况</a></strong>。<strong>Goto Fail必然会成为历史上的一个经典事件</strong>。</p>
+<p>如果你喜欢XKCD，你一定会想到这个漫画：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" src="https://sslimgs.xkcd.com/comics/goto.png" alt="" width="740" height="201" /></p>
+<p><span style="line-height: 1.5em;"><strong>注意</strong>：这个bug不会影响TLS 1.2版本，因为1.2版本不会用这个函数，走的是另一套机制。但是别忘了client端是可以选择版本的。</span></p>
+<p>如果你想测试一下你的浏览器是否会有问题，<strong>你可以上一下当天就上线的<a href="https://gotofail.com/" target="_blank"> https://gotofail.com</a> 网站</strong></p>
+<h4>一些思考</h4>
+<p>下面是我对这个问题的一些思考。</p>
+<h5>0）关于编译报警</h5>
+<p>有人在说苹果的这个代码中的goto语句会产生死代码——dead code，也就是永远都不会执行到的代码，C/C++的编程器是会报警的。但，实际上，dead code在默认上的不会报警的。即使你加上-Wall，GCC 4.8.2 或 Clang 3.3 都不会报警，包括Visual Studio 2012在默认的报警级别也不会（默认是/W3级，需要上升到/W4级以上，但是升级到/W4上，你的工程可能会有N多的Warning，你不一定能看得过来）。gcc和Clang有一个参数叫：-Wunreachable-code，是可以对这种情况报警的，但即没有被包括在-Wall里。原因是，这个参数有很多的问题，因为编译器的优化代码的行为，这个参数并不能对每种情况都准确地报告。另请注意，GCC的新版本中剔除了这个参数。当然，其它一些静态的代码检查工具也可以检查这个低级的问题。</p>
+<p>另外，是不是用IDE的代码自动化格式工具也可以帮上一点忙呢？至少可以把那个缩进变成让人一看就觉得有问题。</p>
+<h5>1）关于Code Merge 和 Code Review</h5>
+<p>你可以通过这里的代码比较看到这个bug的diff，也可以到<a href="https://gist.github.com/alexyakoubian/9151610/revisions" target="_blank">这里看看</a>（631行）。</p>
+<blockquote style="font-size: 11px;"><p>diff -urN &lt;(curl -s http://opensource.apple.com/source/Security/Security-55179.13/libsecurity_ssl/lib/sslKeyExchange.c\?txt) \ &lt;(curl -s http://opensource.apple.com/source/Security/Security-55471/libsecurity_ssl/lib/sslKeyExchange.c\?txt) \</p></blockquote>
+<p>通过code diff你可以看到，<strong>苹果公司是在重构代码——为很多函数去掉了ctx的参数</strong>。</p>
+<p>所以，我们可以猜测，两个goto fail语句，可能是因为对code在不同branch上做merge发生的。版本工具merge代码的时候，经常性的会出现这样的问题。如果代码的diff很多，这个问题会很容易就没有注意到。就算有code review，这个有问题的代码也很难被找出来的。<strong>如果你来review下面的diff，你会注意到这个错误吗？</strong></p>
+<p><img decoding="async" loading="lazy" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/02/gotofail.jpg" alt="" width="560" height="275" /></p>
+<p>也就是说，在重构分支上的代码是对的，但是在分支merge的时候，被merge工具搞乱了。所以说，<strong>我们在做code merge的时候，一定要小心小心再小心，不能完全相信merge工具</strong>。</p>
+<h5>2）关于测试</h5>
+<p>很明显，这个bug很难被code review发现。对于重构代码和代码merge里众多的diff，是很难被review的。</p>
+<p>当然，“事后诸葛亮”的人们总是很容易地说这个问题可以被测试发现，但是实际情况是这样的吗？</p>
+<p>这个问题也很难被功能测试发现，因为这个函数在是在网络握手里很深的地方，功能 测试不一定能覆盖得那么深，你要写这样的case，必需对TLS的协议栈非常熟悉，熟悉到对他所有的参数都很熟悉，并能写出针对每一个参数以及这些参数的组合做一堆test case，这个事情也是一件很复杂的事。要写出所有的case本身就是一件很难很难的事情。关于这个叫SSLVerifySignedServerKeyExchange()函数的细节，你可以看看相关的<a href="https://tools.ietf.org/html/rfc5246#section-7.4.3">ServerKeyExchange</a> RFC文档。</p>
+<p>如果只看这个问题的话，你会说对这个函数做的 Unit Test 可以发现这个问题，是的。但是，别忘了SSL/TLS这么多年了，这些基础函数都应该是很稳定的了， 在事前，我们可能不会想到要去为这些稳定了多少年的函数写几个Unit Test。</p>
+<p><strong>只要有足够多的时间，我们是可以对所有的功能点，所有的函数都做UT，也可以去追求做代码覆盖和分支覆盖一样。但有一点我们却永远无法做到，那就是——穷举所有的负面案例</strong>。所以，对于测试来说，我们不能走极端，需要更聪明的测试。就像我在《<a title="我们需要专职的QA吗？" href="https://coolshell.cn/articles/6994.html" target="_blank">我们需要专职的QA</a>》文章里的说过的——<strong>测试比coding难度大多了，测试这个工作只有高级的开发人员才做得好。我从来不相信不写代码的人能做好测试。</strong></p>
+<p>这里，<strong>我并不是说通过测试来发现这个问题的可能性不大，我想说的是，测试很重要，单测更重要。但是，我们无法面面俱到</strong>。在我们没有关注到的地方，总会发生愚蠢的错误。</p>
+<p>P.S.，在各大网站对这个事的讨论中，我们可以看到OS X下的curl命令居然可以接受一个没有验证过的IP地址的https的请求，虽然现在还没有人知道这事的原因，但是，这可能是没有在测试中查到的一个原因。</p>
+<h5>3）关于编码风格</h5>
+<p><span style="line-height: 1.5em;">对于程序员来说，在C语言中，省掉语句大括号是一件非常不明智 的事情。如我们强制使用语句块括号，那么，这两个goto fail都会在一个if的语句块里，而且也容易维护并且易读。（另外，通过这个bug，我们可以感受到，像Python那样，用缩进来表示语句块，的确是挺好的一件事）</span></p>
+<p>也有人说，如果你硬要用只有单条语句，且不用语句块括号，那么，这就是一条语句，应该放在同一行上。如下所示：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">if  (check_something)   do_something(); </code></p>
+<p>但是这样一来，你在单步调试代码的时候，就有点不爽了，当你step over的时候，你完全不知道if的条件是真还是假。所以，还是分多行，加上大括号会好一些。</p>
+<p>相似的问题，我很十多年前也犯过，而且那次我出的问题也比较大，导致了用户的数据出错。那次就是维护别人的代码，别人的代码就是没有if的语句块括号，就像苹果的代码那样。<span style="line-height: 1.5em;">我想在return z之前调用一个函数，结果就杯具了：</span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW" data-enlighter-highlight="6">if ( ...... )
+    return x;
+if ( ...... )
+    return y;
+if ( ...... )
+    foo();
+    return z;</pre>
+<p>这个错误一不小心就犯了，因为人的大脑会相当然地认为缩进的都是一个语句块里的。但是如果原来的代码都加上了大括号，然后把缩进做正常，那么对后面维护的人会是一个非常好的事情。就不会犯我这个低级错误了。就像下面的代码一样，虽然写起来有点罗嗦，但利人利己。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">if ( ...... ){
+    return x;
+}
+if ( ...... ){
+    return y;
+}
+if ( ...... ){
+    return z;
+}</pre>
+<p>与此类似的代码风格还有如下，你觉得哪个更容易阅读呢？</p>
+<ul>
+<li>if (!p)    和  if (p == NULL)</li>
+</ul>
+<ul>
+<li>if (p)    和  if (p != NULL)</li>
+</ul>
+<ul>
+<li>if (!bflag)  和 if  (bflag == false)</li>
+</ul>
+<ul>
+<li>if ( CheckSomthing() )  和 if ( CheckSomething() == true )</li>
+</ul>
+<p>另外还有很多人在switch 语句里用case来做if，也就是说case后面没有break。就像<a href="http://en.wikipedia.org/wiki/Duff's_device" target="_blank">Duff&#8217;s Device</a>一样，再配以goto，代码就写得相当精彩了（这里<a href="https://github.com/agentzh/luajit2/blob/master/src/host/buildvm.c#L395" target="_blank">有个例子</a>）</p>
+<p><span style="line-height: 1.5em;">所以说，代码不是炫酷的地方是给别人读的。</span></p>
+<p>另外，我在想，为什么苹果的这段代码不写成下面这样的形式？你看，下面这种情况不也很干净吗？</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+if (  ((err = ReadyHash(&amp;SSLHashSHA1, &amp;hashCtx)) != 0 )
+       || ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;clientRandom)) != 0)
+       || ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;serverRandom) != 0)
+       || ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;signedParams) != 0)
+       || ((err = SSLHashSHA1.final(&amp;hashCtx, &amp;hashOut)) != 0)) {
+
+     goto fail;
+}
+</pre>
+<p>其实，还可以做一些代码上的优化，比如，把fail标签里的那些东西写成一个宏，这样就可以去掉goto语句了。</p>
+<h5>4）关于goto语句</h5>
+<p>关于goto语句，1968年，<a href="http://en.wikipedia.org/wiki/Edsger_Dijkstra">Edsger Dijkstra</a> 投了一篇文章到Communications of the ACM。原本的标题是《A Case Against the Goto Statement》。CACM编辑<a href="http://en.wikipedia.org/wiki/Niklaus_Wirth">Niklaus Wirth</a>灵感来了，把标题改为我们熟知的 《<a href="http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html" target="_blank">Go To Statement Considered Harmful</a>》Dijkstra写的内容也是其一贯的犀利语气，文中说：“几年前我就观察到，一个程序员的品质是其程序中goto语句的密度成反比的”，他还说，“后来我发现了为什么goto语句的使用有这么严重的后果，并相信所有高级语言都应该把goto废除掉。”  （<strong>花絮</strong>：因为，这篇文章的出现，计算学界开始用&#8217; <a href="http://en.wikipedia.org/wiki/Considered_harmful">X considered harmful</a> &#8216;当文章标题的风潮，直到<a href="http://meyerweb.com/eric/comment/chech.html">有人终于受不了</a>为止）</p>
+<p>为什么goto语句不好呢？Dijkstra说，一个变量代表什么意义要看其上下文。一个程序用N<code></code>记录房间里的人数，在大部分时候，N<code></code>代表的是“目前房间里的人”。但在观察到又有一个人进房间后、把N<code></code>递增的指令前的这段程序区块中，N<code></code>的值代表的是“目前房间里的人数加一”。因此，要正确诠释程序的状态，必须知道程序执行的历史，或着说，知道现在“算到哪”了。</p>
+<p>怎么谈“算到哪了”？如果是一直线执行下来的程序，我们只要指到那条语句，说“就是这里”，就可以了。如果是有循环程序，我们可能得说：“现在在循环的这个地方，循环已经执行了第<code>i</code>次”。如果是在函数中，我们可能得说：“现在执行到函数<code>p</code>的这一点；<code>p</code>刚刚被<code>q调用</code>，调用点在一个循环中，这个循环已经执行了<code>i</code>次”。</p>
+<p>如果有goto<code>语句了</code>呢？那就麻烦了。因为电脑在执行某个指令前，可能是从程序中许许多多goto<code></code>其中之一跳过来的。要谈某变量的性质也几乎变得不可能了。这就是为什么goto语句问题。</p>
+<p>Dijkstra的这篇文章对后面很多程序员有非常深的影响，包括我在内，都觉得Goto语句能不用就不用，虽然，我在十年前的《<a href="http://blog.csdn.net/haoel/article/month/2003/05" target="_blank">编程修养</a>》（这篇文章已经严重过时，某些条目已经漏洞百出）中的<a href="http://blog.csdn.net/haoel/article/details/2876" target="_blank">第23条</a>也说过，我只认为在goto语句只有一种情况可以使用，就是苹果这个bug里的用法。但是我也同意Dijkstra，goto语句能不用就不用了。就苹果的这个问题而言，在更为高级的C++中，<a href="http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization" target="_blank">使用RAII技术</a>，这样的goto语句已经没有什么存在的意义了。</p>
+<p>Dijkstra这篇文章后来成为结构化程式论战最有名的文章之一。长达19年之后，Frank Rubin投了一篇文章到CACM,标题为《<a href="http://www.ecn.purdue.edu/ParaMount/papers/rubin87goto.pdf">&#8216; <code></code>Go To Considered Harmful&#8217; Considered Harmful</a> 》Rubin说，「虽然Dijkstra的说法既太学术又缺乏说服力」，却似乎烙到每个程序员的心里了。这样，当有人说“用goto语句来解这题可能会比较好”会被严重鄙视。于是Rubin出了一道这样的题：令<code>X</code>为<code>N * N</code>的整数阵列。如果<code>X</code>的第<code>i</code>行全都是零，请输出<code>i</code>。如果不只一行，输出最小的<code>i</code> .</p>
+<p>Rubin找了一些惯用goto和不用goto的程序员来解题，发现用goto的程序又快又清楚。而不用goto通常花了更多的时间，写出很复杂的解答。你觉得呢？ 另外，你会怎么写这题的程序呢？</p>
+<p>（<strong>花絮</strong>：以后几个月的CACM热闹死了。编辑收到许多回应，两个月后刊出了其中五篇。文章也包括了《<a href="http://www.ecn.purdue.edu/ParaMount/papers/acm_may87.pdf">&#8220;&#8216;GOTO Considered Harmful&#8217; Considered Harmful&#8221; Considered Harmful?</a> 》）</p>
+<p><strong>对于我而言，goto语句的弊远远大于利，在99%的情况下，我是站在反goto这边的</strong>。Java和Python就没有提供Goto语句，原因就是因为goto语句很容易被滥用！</p>
+<p><strong>更新：2014年3月5日</strong> &#8211; RedHat 近日也发现个GnuTLS安全问题，与苹果的类似：无法正确检验特定的伪造SSL证书，这个总是会将伪造证书识别为有效证书。虽然Redhat的代码为if加上了花括号，但还是因为没有控制好goto，造成了bug。所以说啊，goto语句的坑是很多。</p>
+<ul>
+<li>BUG页面：<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1069865" target="_blank">https://bugzilla.redhat.com/show_bug.cgi?id=1069865</a></li>
+</ul>
+<ul>
+<li>相关的Diff: <a href="https://bugzilla.redhat.com/attachment.cgi?id=867911&amp;action=diff" target="_blank">https://bugzilla.redhat.com/attachment.cgi?id=867911&amp;action=diff</a></li>
+</ul>
+<p>goto语句在写代码的时候也许你会很爽，但是在维护的时候，绝对是一堆坑！redhat的这个patch为原来本来只有一个label的goto又加了另一个label，现在两个label交差goto，继续挖坑……</p>
+<h4>总结</h4>
+<p>你看，我们不能完全消灭问题，但是，我们可以用下面几个手段来减少问题：</p>
+<p style="padding-left: 30px;">1）<strong>尽量在编译上发生错误，而不是在运行时</strong>。</p>
+<p style="padding-left: 30px;">2）<strong>代码是让人读的，顺便让机器运行</strong>。不要怕麻烦，好的代码风格，易读的代码会减少很多问题。</p>
+<p style="padding-left: 30px;">3）<strong>Code Review是一件很严肃的事情</strong>，但 Code Reivew的前提条件是代码的可读性一定要很好。</p>
+<p style="padding-left: 30px;">4）<strong>测试是一件很重要也是很难的事情，尤其是开发人员要非常重视</strong>。</p>
+<p style="padding-left: 30px;">5）<strong>不要走飞线，用飞线来解决问题是可耻的！</strong>所以，用goto语句来组织代码的时代过去了，你可以有很多种方式不用goto也可以把代码组织得很好。</p>
+<p>最后，我在淘宝过去的一年里，经历过一些P1/P2故障，尤其是去年的8-9月份故障频发的月份，我发现其中有70%的P1/P2故障，就是因为没有code review，没有做好测试，大量地用飞线来解决问题，归根结底就是只重业务结果，对技术没有应有的严谨的态度和敬畏之心。</p>
+<p><span style="color: #cc0000;"><strong>正如苹果的这个“goto fail”事件所暗喻的，如果你对技术没有应有的严谨和敬畏之心，你一定会——</strong></span></p>
+<p style="text-align: center; font-size: 36px; color: #cc0000; font-family: Georgia,;"><strong>Go To Fail !!!</strong></p>
+<p>在这里唠叨这么多，与大家共勉！</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/11466.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/04/c99-150x150.jpg" alt="C语言的整型溢出问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11466.html" class="wp_rp_title">C语言的整型溢出问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11112.html">由苹果的低级Bug想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11112.html/feed</wfw:commentRss>
+			<slash:comments>116</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>抄袭，腾讯 和 产品</title>
+		<link>https://coolshell.cn/articles/7617.html</link>
+					<comments>https://coolshell.cn/articles/7617.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 13 Jun 2012 00:35:31 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[C2C]]></category>
+		<category><![CDATA[QQ]]></category>
+		<category><![CDATA[腾讯]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7617</guid>
+
+					<description><![CDATA[<p>很早就想写这篇文章了，只是想法比较零碎，所以一直没有成文，这两天觉得思考得比较成熟了一些，所以把我的这些想法整理下来，欢迎大家一起和我讨论。 鄙视抄袭和山寨 首...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7617.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7617.html">抄袭，腾讯 和 产品</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-7620" title="i hate copycat!" src="https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-296x300.png" alt="" width="296" height="300" srcset="https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-296x300.png 296w, https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-267x270.png 267w, https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat.png 395w" sizes="(max-width: 296px) 100vw, 296px" />很早就想写这篇文章了，只是想法比较零碎，所以一直没有成文，这两天觉得思考得比较成熟了一些，所以把我的这些想法整理下来，欢迎大家一起和我讨论。</p>
+<h4>鄙视抄袭和山寨</h4>
+<p>首先，先表达我的立场，我对抄袭的立场持BS和痛恨的态度，尤其是<a title="中国的C2C模式" href="https://coolshell.cn/articles/3820.html" target="_blank">那些C2C的网站</a>，痛恨这些国外有什么就山寨什么的做法，尤其是那些连界面都不改，像素级的抄袭，连CSS和img都是一样的，更甚者，连图片都链接到抄袭源的网站去了，连源代码都抄的行为，比如：<a href="http://weibo.com/1661751144/yjLfJqMZ6" target="_blank">腾讯抄新浪的代码</a>，<a href="http://yuanxing.iteye.com/blog/638129" target="_blank">新浪抄twitter的源码</a>。无法不BS之。</p>
+<p>有很多网友邀请我去那个抄袭Quora的网站上去回答问题，借此，再次声明我不会去的。因此，有一些网友说，我不一样也在Twitter的抄袭网站新浪微博上吗？说我装逼了。我想说，新浪和Twitter基本上是同一种产品的思路，但是其实现不一样，新浪微博上一些twitter上没有功能，我个人觉得这并不算抄袭，我甚至认为新浪微博和Twitter各有长处，在一些功能上新浪微博比twitter做得更好。你可以理解为，新浪微博总体上来说并没有突破我心中的那个条抄袭的底线。</p>
+<p>我个人对抄袭的理解如下：</p>
+<p style="padding-left: 30px;">1）你可以复制别人的想法和功能，但是如果你连界面设计，代码，图片，风格，布局，等等所有的一切都照抄，那我就一定要鄙视你。</p>
+<p style="padding-left: 30px;">2）你可以仿照别人的产品，但是你的出发点应该是他没做好，我来把它把做好，如果你的出发点是为了复制抄袭和山寨，我一样鄙视。</p>
+<p>所以，你可以理解我为什么不去Quora，Stackoverflow，Facebook，Google的山寨网站了，因为上述两点，1）完全复制，2）山寨地太次。</p>
+<h4>理性对待抄袭</h4>
+<p>因为很多朋友极端地理解了我对抄袭的立场，所以我有必要要说说我对“抄袭”或是“模仿”的其它一些观点：</p>
+<p><span id="more-7617"></span></p>
+<p><strong>1）“抄袭想法”</strong>。想法这个东西我不觉是有什么专有的东西，也不存在什么抄袭，好的想法，就不应该被垄断，好的想法是应该放出来让大家一起来实现的。所以，我并不觉得一个想法有什么不能被抄袭的。你做Web Server，我也做Web Server，你做论坛，我也做论坛，你做手机，我也做手机，你做便携电脑，我也做便携电脑，你做通讯软件，我也可以做通讯软件…… 等等，越是优秀的产品和思路，就越不可能不被别人学习和模仿的。</p>
+<p><strong>2）“抄袭界面”</strong>。根据法律来说，界面上的某些元件，如菜单，按钮，甚至布局，配色之类的单一的东西是没有版权的，但是这些东西组成的界面是存在版权的，你不能让你的产品界面和别人的界面长得雷同。而且，对于一些有艺术特征的设计和版式是受法律保护的。所以，对于界面来说，我们需要做一些区别，比如，很多电视机长得很相似，连摇控器都很相似，但是电视其中的菜单和功能会有不同；很多的家用小汽车形状都很相似，但是线条和外形并不相似；Unix和Linux的用户接口几乎一样，但是Unix和Linux的内部实现和功能上有很大的不同（比如文件系统，内核管理等），MacOS/Windows/X-Win/Gnome/KDE 这些桌面系统大同，但是实现和细节上又不一样。</p>
+<p>看我这样一说，你会说，嗯，你说的就是所谓的“微创新”！是的，这是个仁者见仁，智者见智的问题了。再说一遍，无所谓什么微创新不微创新，我对此的价值观很简单  —— <strong>只要你这个复制品在不违反法律的层面上，能在品质上超过原来那个产品，我是会认可的，而且还是会对复制品买帐的</strong>。</p>
+<p>总之，我想说的是——</p>
+<p style="padding-left: 30px;">1）好的东西总是会让人去学习和仿制的，而学习和仿制好的一面是会引入竞争，竞争会让这个东西更好的。</p>
+<p style="padding-left: 30px;">2）不要害怕被人仿制，被人仿制说明你做得好，如果你的仿冒者超过了你，那你应该反思自己，而不要赖别人。</p>
+<h4>如何不被腾讯抄袭</h4>
+<p>说起抄袭这个事来，就不得不说腾讯，现在互联网上一堆人都在思考，腾讯太变态，无论我做什么，都逃不出他的魔掌。很多风投都在问创业团队一个问题——“如果腾讯抄你，你怎么办？”。</p>
+<p>在我往下阐述如何不被腾讯抄的话题下，请让我先重申一下我在“<a title="腾讯，竞争力 和 用户体验" href="https://coolshell.cn/articles/5901.html" target="_blank">腾讯，竞争力 和 用户体验</a>”一文中说的那个观点：“<em>腾讯这样大规模的抄袭和山寨，对整个社会的价值就是——会让很多很多的创业团队放弃Copy，甚至让他们要放弃那些容易被复制的“业务型的项目”，而逼着他们去努力思考，如何才不能被腾讯复制，如何才能有自己的核心价值</em>”，我把这个观点再进一步阐述，“<strong>有腾讯在，会让你更清楚地认识什么叫创业的残酷，会让你更清楚认识到什么是真正产品的价值，什么是核心竞争力，你但凡有一点急功近利的想法你都要想一想那个有钱有人有势也很急功近利的企鹅！</strong>”</p>
+<p>我不知道，我写了那篇文章这段时间来，大家有没有思考过前边文章里我说的问题？其实我在“<a title="腾讯，竞争力 和 用户体验" href="https://coolshell.cn/articles/5901.html" target="_blank">腾讯，竞争力 和 用户体验</a>”一文中已经说到过一些了，不知道大家有没有去思考？</p>
+<p>老实说，其实腾讯并不可怕，先让我们来分析一下腾讯的特征和短板：</p>
+<ul>
+<li><strong>特征</strong>。腾讯的很多产品线完全雷同，比如：QQ，微信，空间，群，微博，朋友，等等，几乎完全一样，所以，这是不是说明了下面几个问题：</li>
+</ul>
+<p style="padding-left: 60px;">1）他们人太多，没事干了，所以什么都干。<br />
+2）各产品线为了规避风险都想伴QQ这个大款，所以不知道怎么创新。<br />
+3）内部竞争激烈，技术团队加班赶工，所以只能无目的地广撒网了。</p>
+<ul>
+<li><strong>短板</strong>。你看看腾讯的这些产品线和他的用户群，我觉得就目前阶段，腾讯至少有三种产品复制不出来。</li>
+</ul>
+<p style="padding-left: 60px;">1）有烦杂的线下业务的产品。比如：电子商务需要供应商，仓库，物流，等这样物理流程的业务很难复制。<br />
+2）有质量，有价值，有权威的社区。比如，豆瓣，Stackoverflow，Quora这样的有价值的社区。<br />
+3）有技术含量的产品，比如： Nginx，MySQL，Android/iOS 之流技术大于业务的产品。</p>
+<p>通过这样的分析，我想告诉大家，<strong>腾讯并不可怕，可怕的是你自己不会思考和观察，可怕的是你急功近利而没有去找有价值的东西来做</strong>。推而广之，如果你想做的东西是很快就能做出来的，那么你就不要指望不被人抄，也就是说，<strong><span style="color: #cc0000;">如果你着眼短期，你无疑会面对众多的抄袭和模仿者让你万劫不复，但是，如果你着眼长期，做一个3-5年需要花费大量精力才会成熟的产品，那么，那些急功近利的抄袭者会知难而退的</span></strong>。因为，“需要3-5年的时间”这一条完全不符合抄袭者的价值观，所以，你面对的竞争对手也会少了9成。</p>
+<h4>什么是真正的产品</h4>
+<p>说到这里，我必需要说一下什么是真正的产品！我看到现在很多创业团队把功能当产品来做，这就为模仿者们留下了很多很多机会，比如苹果商店里的很多照片分享的Apps，或是一些云存读，云分享之类的东西，如：Dropbox和Evernote，或是一些旅游类的Apps。这些东西在我眼里还不能算得上是真正的产品，所以，我们可以看到他们的模仿者有很多很多。当然，我并不是说不能把功能当成产品来做，只是我觉得这样的产品并不长久，并不具强大的可持续性，而且很容易被取代。那怕是现在风头正劲的Instgram, Dropbox, Evernote，大家试想一下，如果哪天Apple或是Canon把Instgram这样的功能集成到他的照相功能中，哪天操作系统把Dropbox/Evernote集成到他的操作系统中。（当然，我只是说有这种可能，我只是想让大家思考一下以功能为产品的弱势是什么样的）</p>
+<p>好，让我来说说什么是真正的产品：</p>
+<ul>
+<li><strong>真正的产品应该是有一个端到端的一个解决方案</strong>。比如说：电子阅读中的从购书，到阅读，再到阅读心得分享，再到推荐，这一整套的解决方案。看看苹果的产品的端到端的解决方案，就知道什么是产品的样子了。</li>
+</ul>
+<ul>
+<li><strong>真正的产品应该是有价值的</strong>。这种价值表现在——你可以从中获得有价值的内容，并且你也可以通过他创造对你有价值的东西。比如，像豆瓣，像Stackoverflow，甚至像Twitter和微博这样让信息平等让信息传递更快的社区，或是像AWS或是Apple的开发平台，等等。可见，我们无法通过QQ获得有价值的东西，我们也无法通过QQ创造有价值的东西。</li>
+</ul>
+<ul>
+<li><strong><strong>真正的产品应该是和社会有交互并能自我进化的</strong>。</strong>真正的产品应该是用户会来贡献有价值的内容，真正的产品应该是有开放的接口让其它系统容易集成的。也就是说，真正的产品应该是有一个生态圈的，在这个生态圈内，不但能自给自足，自我循环，还能自我管理，自我进化。可见，腾讯的用户群完全没有为这个平台贡献什么有价值的东西，更不谈他们会帮腾讯来进化了。</li>
+</ul>
+<ul>
+<li><strong>真正的产品应该是体现品质的</strong>。所谓有品质的意思是，你能从使用这个产品中获得一种感觉，一种档次的提升的感觉。你可以认为使用品牌而非山寨的智能手机，使用一些如Thinkpad或MacBook的笔记本电脑或iPad，因为那是一种品质的体现。但是我们都知道，使用QQ完全没有任何品质的感觉，你不会在你的简历中放上QQ号，你也不会在一些商务场合使用QQ的，不是吗？这就好像请客吃饭一样，你总是会请你的朋友去一些有品质的饭馆而不是拉面馆。</li>
+</ul>
+<p>当你把你的产品目标放在这样高的位置上，你不难发现，一来，仿冒者们无法跟上你的跟步，二来，仿冒者们几乎没有办法来复制。因为，他们只能复制到外表，但永远无法复制到产品的精髓。</p>
+<p>还是那句话，<strong>因为仿冒者们急功近利的基因就决定了他们做不到抄袭。因为QQ用户群的基因也决定了腾讯无法复制豆瓣或Stackoverflow</strong>。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5901.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="腾讯，竞争力 和 用户体验" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5901.html" class="wp_rp_title">腾讯，竞争力 和 用户体验</a></li><li ><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="如何设计“找回用户帐号”功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_title">如何设计“找回用户帐号”功能</a></li><li ><a href="https://coolshell.cn/articles/5966.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="腾讯帐号申诉的用户体验" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5966.html" class="wp_rp_title">腾讯帐号申诉的用户体验</a></li><li ><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail-150x150.png" alt="由苹果的低级Bug想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_title">由苹果的低级Bug想到的</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7617.html">抄袭，腾讯 和 产品</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7617.html/feed</wfw:commentRss>
+			<slash:comments>243</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Bret Victor &#8211; Inventing on Principle</title>
+		<link>https://coolshell.cn/articles/6775.html</link>
+					<comments>https://coolshell.cn/articles/6775.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 09 Mar 2012 00:38:48 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[Bret Victor]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6775</guid>
+
+					<description><![CDATA[<p>Bret Victor（简历） &#8211; 苹果公司的UI交互设计师（大神级的人），在 CUSEC（Canadian University Software...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6775.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6775.html">Bret Victor – Inventing on Principle</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://worrydream.com" target="_blank">Bret Victor</a>（<a href="http://worrydream.com/#!/cv/bret_victor_resume.pdf" target="_blank">简历</a>） &#8211; 苹果公司的UI交互设计师（大神级的人），在 <a href="http://cusec.net" target="_blank">CUSEC</a>（<em>Canadian University Software Engineering Conference</em>） 上做了一个题为 “Inventing on Principle” 的演讲（<a href="http://vimeo.com/36579366" target="_blank">vimeo视频链接</a>），这个演讲中展示了五个示例：</p>
+<ul>
+<li>用程序画树。如何把程序绘图变成实时的，如何把程序和图映射起来。</li>
+<li>游戏调试。在实时编程的基础上，可以更容易的让你看到程序参数对游戏的调整，甚至对游戏过程的可视化调试。</li>
+<li>算法调试。在写二分查找算法时可以实时看到程序的执行过程。边写边看到。</li>
+<li>电路图。可以实时地看到电路图中各个部件的对1/0信号的处理。</li>
+<li>动画。一种比flash制作动画更NB 的方法。</li>
+</ul>
+<p>下面是优酷上的视频——你一定会被示例中的那些编程工具所震撼！</p>
+<p><center><embed src="http://player.youku.com/player.php/sid/XMzUyOTIyNzg0/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></center></p>
+<p>不过，Bret并不是在说什么编程，也不是在说什么技术，他是在说 How to live your life。</p>
+<p><span id="more-6775"></span></p>
+<p>他认为，在我们的生活当中，我们听到太多的诸如：“跟随你的喜好”、“跟随你的兴趣”，“跟随你的热情”之类的东西，但他更认为，更应该是“跟随一个原则 follow you principle”，他认为真正能让你把事做正确的不是你的喜好，不是你的兴趣，也不是热情，而一个做事的原则。在这个演讲中Bret介绍了他自己的原则和他人的原则，供你参考和并找到你的原则从而live in your life。</p>
+<p>Bret的原则是，他觉得人总是会有很多想法，而把这些想法变成现实是一件非常重要的事，也是最难的事。他觉得当我们在写代码实现一个东西的时候，在实现一个游戏，算法，电路，动画的时候，人很难把自己脑海里的东西映射成现实的东西，因为一个想法变成现实，需要反反复复的调整，如果看不见，就没办法调整。而我们在写好程序，需要编译程序，运行程序，才能看到结果，之后，有些东西发现并不满意，需要做调整，于是需要猜着去改一下程序，再编译运行，再看结果，于是，这个调整的过程相当令人痛苦，因为代码里的那些数字，我需要一点一点地去试，调大调小，总是不能调到我们想要的结果，从而让人无法正常思考。所以，他的原则是——<strong>创造者需要对自己的创造的东西有实时的反馈</strong>。于是出现了视频中的实时编程的那些示例。（其实，这个东西和Firebug很相似，我还记得以前和朋友说过，如果写C/C++程序也能有像Firebug的这种工具就好了，现在果然离实现不远了）</p>
+<p>Bret说起他的动机的时候，他说，他把这个事当成了一种责任而不是一种机会。他说，这就好像我们听到的：审查机制，性别歧视，环境破坏，违反人权等这些问题，绝大多数人是不会把这些事当成一个机会的，而那些有责任感的人会把解决这些问题当作一种责任。同样，当他看到我们被工具或环境限制住了我们创造东西的过程时，他并不觉得这是一个可以发明更好的产品的机会，甚至这是开创自己事业的机会，或是对社会做贡献的机会。他认为想法相当的宝贵，如果一个好的想法推动不了的时候，他会很难受，就像看到一场灾难一样，他觉得，让大家的想法能够顺的进行，这是他的一个责任。</p>
+<p>后面他，举到了很多人的例子，</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Larry_Tesler" target="_blank">Larry Tesler</a> &#8211; 著名的计算机科学家，前苹果的首席科学家，图形界面的创造者（在“<a title="SteveY对Amazon和Google平台的长篇大论" href="https://coolshell.cn/articles/5701.html" target="_blank">SteveY对Amazon和Google平台的长篇大论</a>”中提到过他）。他在70年代看到人们在使用电脑文本编辑器时，需要按某个键进入某种模式（Mode），然后才能输入（VI）。他觉得这样操作起来很复杂，也很不舒服，所以，他为自己设定了一个原则——“Don&#8217;t Mode Me In”，他做了很多尝试，做了一个叫Gypsy的文档编辑器，可以通过拖拽移动字符，而且他还发明了复制粘贴，对于一个没有使用过电脑的人来说，只需半个小时的训练就可以输入文字了。Larry把消除模式设置成了自己的原则或责任。他的个人主页是：http://www.nomodes.com，他的Twitter是 @nomodes，甚至他的车牌也是nomodes.</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Elizabeth_Cady_Stanton" target="_blank">Elizabeth Cady Stanton</a>，100年前的一个美国的女权主义者，当时，她主张妇女的各项权益，比如参与投票，所有人都以为他疯了，今天看来，她是对的，她消除了性别歧视。这和Larry 很相似，他们都看到了一种文化上的错误，并要预见到了未来的样子，他们都为自己设定了一个原则或是信仰，而去为之奋斗。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Doug_Engelbart" target="_blank">Doug Engelbart</a>，美国发明家，瑞典人和挪威人后裔。最广为人知的是他发明了鼠标，另外他的小组是人机交互的先锋，开发了超文本系统、网络计算机，以及图形用户界面的先驱；并致力于倡导运用计算机和网络，来协同解决世界上日益增长的紧急而又复杂的问题。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Alan_Kay" target="_blank">Alan Kay</a>，美国计算机科学家，在面向对象编程和窗口式图形用户界面方面作出了先驱性贡献。2003年获得图灵奖。目前担任Viewpoints研究院院长，加州大学伯克利分校兼职教授。曾任Apple公司院士，惠普公司资深院士。他有一句尽人皆知的名言——预测未来的最好办法就是创造未来。他相信如果小孩能够熟练掌握电脑，如果写程序是和读书写字一样成为基础知识，那么人们就掌握了一种新的方式去思考，新的方式去了解世界。他所有发明的东西都基于他自己的原则或信条。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Richard_Stallman" target="_blank">Richard Stallman</a>，是美国自由软件运动的精神领袖、GNU计划以及自由软件基金会（Free Software Foundation）的创立者。作为一个著名的黑客，他的主要成就包括Emacs及后来的GNU Emacs，GNU C 编译器及GDB 调试器。他所写作的GNU通用公共许可证（GNU GPL）是世上最广为采用的自由软件许可证，为copyleft观念开拓出一条崭新的道路。他的原则，是软件必须是自由的，他认为软件的自由是关乎道义上的对错的，关系到人类的自由。他没车没房没结婚没孩子，也不用手机，但他有非常忠实自由的信条和责任感。</p>
+<p>Bret通过这些例子继续强调——他并不是要大家样做，他只是给大家一个选择。你可以成为一个非常优秀的工程师，非常熟练地掌握了一些技术，你也可以为这个社会做很多贡献，这是成为一个工匠的路，也是大多数人走的路。不过旁边还有一条路，值得去走，那就是解决问题的路，这条路往一头走是创业者，往另一头走是学者，但你需要找到一个你自己的原则，你可能需要很长时间才能找到你的原则，Bret说他花了10年才搞清楚他的原则是什么。</p>
+<p>个人以为，Bret所说这个原则也好，信条也好，是一种对自己创造力有引导性质的原则和信条，并不是那些已有的原则或信条，否则那只不过是在跟从了，所以，这些原则和信条应该是新的东西，是自己悟出来的东西，这样的原则和信条会导致你有一种责任感向正确的方向去创造。当然，这些原则也不是那些非常笼统和模糊的东西，比如，要创业开公司，要设计出有更好的用户体验的东西，要创造有很多用户使用的产品，或是有更好的收入什么的。其应该是明确的，有指导性的，就像Bret他自己的信条一样——“创造者需要即时的反馈”，就像他演示的那样，当你在一行一行修改你的代码的时候，你可以立即看到代码运行的过程和效果。这个原则可以指导着他要对一切达不到这个原则的东西负责，并引导着他知道应该做什么，不应该做什么，从而去创造新的东西，解决问题。</p>
+<p>当然，世界是多元的，每个人都有每个人自己的原则。不同的原则必然会把你导到不同的路上。不管你是否同意，视频中的那些演示是相当令人震撼的。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-150x150.jpg" alt="Bret Victor &#8211; Learnable Programming" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_title">Bret Victor &#8211; Learnable Programming</a></li><li ><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="多些时间能少写些代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_title">多些时间能少写些代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6775.html">Bret Victor – Inventing on Principle</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6775.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>腾讯，竞争力 和 用户体验</title>
+		<link>https://coolshell.cn/articles/5901.html</link>
+					<comments>https://coolshell.cn/articles/5901.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 22 Nov 2011 00:29:24 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Amazon]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[QQ]]></category>
+		<category><![CDATA[腾讯]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5901</guid>
+
+					<description><![CDATA[<p>自从那篇rant了一堆公司都的文章发布来，得到了大家的关注，有些朋友让我写一下腾讯，在我的微博上（@左耳朵耗子）还有位腾讯的朋友让我也评价一下腾讯。本来不想写的...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5901.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5901.html">腾讯，竞争力 和 用户体验</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>自从<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html" target="_blank">那篇rant了一堆公司都的文章</a>发布来，得到了大家的关注，有些朋友让我写一下腾讯，在我的微博上（<a href="http://weibo.com/haoel" target="_blank">@左耳朵耗子</a>）还有位腾讯的朋友让我也评价一下腾讯。本来不想写的，觉得腾讯没啥好说的，但是因为下面的几个原因，让我有点坐不住了：</p>
+<ol>
+<li>这两天知乎上的一个“<a href="http://www.zhihu.com/question/19920338" target="_blank">腾讯的核心竞争力</a>”的贴子在微博上被很多人所推崇。</li>
+<li>还有一个网友发邮件给我说让我别rant了，宁可C2C也比rant有意义。</li>
+<li>我周末的时候去豆瓣和他们交流了一些关于产品和用户体验方面的话题。</li>
+<li>还看到了Jeff Bezos的访谈文章《<a href="http://tech.sina.com.cn/i/2011-11-17/15546337096.shtml" target="_blank">贝佐斯：亚马逊是科技界唯一一家低利润公司</a>》</li>
+</ol>
+<p>于是就有了这篇文章，但不想再rant了，我希望这篇文章更有价值一些，但是我喜欢的调侃的风格依然，因为这是我觉得能让文章有趣味的方式。</p>
+<h4>腾讯的“价值”</h4>
+<p>首先我想说说腾讯的价值。根据我<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html" target="_blank">那篇 rant 的文章</a>来说，我觉得人要活得有价值，事业也要做得有价值。我不太待见那些没有价值的东西。所以，我在那篇文章里让大家都思考了一个问题，我们做这个事的价值在哪里？所以，要评论腾讯，就得想想他的价值。众所周知，腾讯的起家是通过IM软件QQ，当然，他有段时间几乎快不行了。不过挺过来了，造就了这么一个帝国。所以，腾讯的价值应该是即时通讯，让大家的沟通变得更顺畅，这点腾讯的确做得非常强大，视频，音频，涂鸦，抓屏，表情，Q币，共享，群聊，新闻，弹窗，离线文件，远程协助…… 的确做得非常地体贴用户。除了扫描硬盘文件有点那个。</p>
+<p>但是，最近的腾讯变了（当然有人说他也没有变，QQ本来就是抄来的），有什么就抄什么，没有创意，山寨大王，成了腾讯的代名词。马云也说过：“现在腾讯拍拍网最大的问题就是没有创新，所有的东西都是抄来的”。网上还有很多，什么“一直在抄袭，从未超越过”或是“<a href="http://weibo.com/2093492691/xwYpFB9IK" target="_blank">一直在山寨，从没反省过</a>”等等的话，还有“<a href="http://tieba.baidu.com/f?kz=1007979914" target="_blank">自从有了XXX，腾讯就出了XXX</a>”的文体。</p>
+<p><strong>但是，你们都错了，包括马云，我不同意你们，我觉得这正是腾讯的价值所在</strong>。</p>
+<p><span id="more-5901"></span></p>
+<p>昨天有个网友写邮件给我说，整天rant也没啥意思吧，还不如真的做点C2C吧。他的想法是先把一些基本的东西如评论，发贴，头像，登录什么的都做好，然后国外出什么就抄什么，抄的会飞快。我给他回信说，你抄得过腾讯吗？他无语了。你看，一个有C2C想法的人就这样被放弃了其想法。所以，我觉得，<strong>腾讯这样大规模的抄袭和山寨，对整个社会的价值就是——<span style="color: #cc0000;">会让很多很多的创业团队放弃Copy，甚至让他们要放弃那些容易被复制的“业务型的项目”，而逼着他们去努力思考，如何才不能被腾讯复制，如何才能有自己的核心价值</span></strong>。而所有的骂名都被腾讯所承当，腾讯把住了所有的茅坑，让你不得不去做最有价值的东西，这是一种什么样的精神啊？！对于那些整天都在骂腾讯的人来说，你们好好地去面壁反思吧！</p>
+<h4>“腾讯的核心竞争力”一文</h4>
+<p>顶在<a href="http://www.zhihu.com/question/19920338" target="_blank">这篇文章</a>最上面的最佳答案是腾讯无线国际业务产品总监Andy Pan的答案，在微博上也广受推崇。不知道为什么，我总是有一些和大家不一样的想法，看来我是一个有相当逆反心理的愤青。没做出什么东西来，话还挺多，我都有点烦自己了，你也多多原谅我。</p>
+<p>Andy Pan的答案中，说了两点核心竞争力，第一个是腾讯的IM平台，还用了Windows来做比较，很明显，这个前微软件的产品总监并不知道什么是平台，关于平台，<a title="SteveY对Amazon和Google平台的长篇大论" href="https://coolshell.cn/articles/5701.html" target="_blank">Steve Y的这篇平台论</a>说得很清楚了，建议Andy同学学习一下。Windows之所以是个平台的原因是因为Windows没有什么都做，而是开放了很多很多的API和SDK让第三方的产商去做，而腾讯并没有开放IM的API，不但搞定了珊瑚虫，而且什么事情都要自己做，这根本不是平台，平台是要去开放的，是要去为业界创造生态环境的，而腾讯的做法更像是封闭的垄断。当Andy Pan说起Amazon收购Zappos的时候，他忘记了Amazon的云平台上还养了一个巨大的竞争对手Target（最近分手了），还养了十年。因为，Bezos觉得有个竞争对手和自己进行良性的竞争对自己是有好处的。</p>
+<p>Andy还说做为一个IM细分用户的领域是有必要的，没错，完全赞同。不过，实在看不出来对领域的细分，更多的是对领域的扩张。新闻门户，搜搜，拍拍，百科，Q吧，炫风，炫舞，三国，英雄杀，浏览器，输入法，对战平台，电台，影音，图书，阅读，3366，QQTalk…… 一点都看不出来的是对IM的细分。你信吗？</p>
+<p>第二个Andy说的核心竞争力是员工加班。加班到深夜也成了核心竞争力，看来是实在找不到核心竞争力了。好吧，我觉得这句话可以说得更好一些，再怎么也应该说成是企业文化，或是企业文化催人奋进，每个人都有主人翁的精神，而不是工作负荷大嘛。你看，我都能说的这么漂亮啊，我才是像高管的样子哦，吼吼。对我来说，加班文化是差团队的表现，要么就是管理不行，让大家都加班，要么就是自己不行（反正肯定有问题，我在<a title="多些时间能少写些代码" href="https://coolshell.cn/articles/5686.html" target="_blank">多些时间能少些代码</a>里论述过了）。当然，我知道了，腾讯的战线拉得很长，什么都要做，当然会那么累了，要学会做精不要做多嘛。</p>
+<p>作为一位高管，应该要知道，重要的不是你有多努力，你花了多少时间，而是你有没有去思考，有没有去创造价值。<strong>腾讯难道不觉得，不断地创新去颠覆传统才是互联网行业的核心竞争力吗</strong>。</p>
+<p>我觉得腾讯那所谓的核心竞争力是用户数量大，大在关系链上，像我这样几本不用QQ的人有时候都会被朋友和同学逼着去用QQ收个文件照片或是远程协助个什么。QQ这个聊天工具做得非常不错，这点我是要赞一下的。所以，这才让用户聚集起来，没有了这个，不知道腾讯会怎么样。</p>
+<h4>腾讯的软肋</h4>
+<p>Andy Pan有一点说的是对的，就是腾讯和微软很像，不过像的不是平台，而是运营模式——那就是永远跳不出自己的模式。微软不管做什么，都必需誓死捍卫其Windows平台，连那么有创造力的体感硬件Knect也只能用在微软的产品和平台上，更不用说hotmail，Bing和Sharepoint了，如果能开放一些用点别的技术，我相信微软在互联网界可能还是很强大的。</p>
+<p>腾讯也逃不出“腾讯的模式”——那就是<strong>大量的低端业务和低端内容</strong>。我不确定腾讯是不是像微软那样誓死捍卫其低端业务和内容的。但是QQ的确驱逐了很多高质量的用户，因为QQ上的不成熟的小孩太多了，交友，网恋，甚至欺骗和色情在那里泛滥，造成劣币驱逐良币。另外，QQ这个名词起得很不好，因为正常点的成年人都不会去Q（装可爱），所QQ好像也就成了未成年人的代名词。而似乎有自我价值诉求的人都不会用QQ，在正式场合比如自己的应聘简历上留一个QQ邮箱还是有点掉价的。可见QQ的这个品牌形象很低端。腾讯的很多产品都走的都是这个路线。</p>
+<p>不可否认，这和中国网民的群体素质有关系。但我以为，<strong>作为那么大的公司，应该担负起培养或引导网民素质，开启民智，引人向上的角色，而不是将就于低端的大众用户</strong>。</p>
+<p>另外，还值得一提的是近来关于通过QQ抓人的新闻很多，所以，大家都知道的为什么更多的用户去用gtalk了。不过有一点应该是真的，那就是通过QQ监控聊天用户的体验，应该是很不错的。</p>
+<p>看到这里，你一定会对我抱怨说：“我擦，你这篇还照旧是一篇rant，fuck你一万遍”。别骂了，你没有看我已经赶快起了一个新段落来说点我觉得有点价值的东西。</p>
+<h4>真正的用户体验</h4>
+<p>说起用户的体验，这是一个可能比较大的，也可能比较具体的话题（以前本站有一篇<a title="用户界面和用户体验的差别" href="https://coolshell.cn/articles/3142.html" target="_blank">关于UX比喻的文章</a>）。关于用户体验来说，很多人都以为是对UI的一个加强，也就是说把UI的操作做得更好。所以，大家都在UI上花大力气做UX。这样的认识并不错，QQ做得也是非常好的，看看WebQQ，真是非常地强大。</p>
+<p>不过，我想说，<strong>如果你认为用户的体验在UI上，那么你只看到了用户体验的冰山一角，用户的体验远远不只这个</strong>。“<strong>任何表面上的东西都是肤浅的</strong>”——这是写Effective C++的Scott Meyers说的。</p>
+<p>你看——Reddit，Twitter，StackOverflow， 还有国内的豆瓣，界面做的真的不怎么的，Reddit的界面ugly到了就像是一个没有完成的原型网站一样！但是为什么人家的用户人气那么旺，为什么呢？</p>
+<p>这就是我想说的比UI更高层次的用户体验了——<strong>关注用户的真正的体验</strong>。我先举个例子——</p>
+<blockquote><p>大家知道Amazon注册了很多个容易让人打错的域名吗？我这里有一个不完整的列表：Amamzon.com， Amaxon.com，Amazong.com，Amozon.com，Amazonc.com，Amazone.com，Amazn.com（翻墙），namazon.com…… 为的都是用户体验。（注：你要是用拼音也可以，如：yamaxun.com）</p></blockquote>
+<p>这是一个很小的例子，旨在说明用户体验不单单是UI的事。</p>
+<p>下面正式阐述真正的用户体验（这些东西我在前面<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html" target="_blank">那篇rant里提过了</a>，这里说得更细一点）——</p>
+<ul>
+<li><strong>注重社区的质量</strong>。很多论坛和网站的兴起都是因为一开始有高质量的文章和素质高的人，然而，人气一足，三教九流的人都来了，于是劣币逐良币，那些素质高的人就只能离开了。所以，任何把高质量和低质量的东西放在一起的社区相当的破坏整体用户体验。尤其是那些对质量有诉求的人。为了避免劣币逐良币，大家要学习一下豆瓣，StackOverflow，没有什么热文版，就算有，也要精心地控制内容的质量。<strong>你要知道，人们来这里是因为被这个社区有价值的东西吸引来的</strong>。就像是去StackOverflow或Quora一样，可以得到很靠谱的答案，可以和很牛的人在一起交流，这是社区的价值。所以，像StackOverflow或Quora这样的网站，一些质量不高的答案在那里就会被投反对票，其会影响你的reputation。看看Amazon.com上的书评，IMDB上的影评，非常专业，还有打分，高质量的东西自然就浮出来了，低质量的东西自然就下降了。<strong>小心维护社区的质量必然会给用户有更好的体验</strong>。（不知道大家有没有参加过豆瓣的小组活动，我有一个朋友参加过一次关于绘画的活动，说是质量相当高）</li>
+</ul>
+<ul>
+<li> <strong>注重社区的权威</strong>。像豆瓣或是Stackoverflow上都有评分。你怎么能让你的评分有权威性呢？你知道，在中国这块土地上有大量的五毛和水军，他们随时都可以开动，3Q大战的时候大家都见识过了，对于这些牛皮癣怎么办呢？在Stackoverflow上，你会发现，你没有15点reputation，你没有资格vote什么，你为了要能去vote什么，你先得贡献些什么，对于不懂技术的五毛和水军们完全搞不定这些东西了（当然，你可以去建一个问题，但是要小心被down vote）。对于豆瓣来说，豆瓣的每个用户都有个权威值，这个值通过用户的在线时间，发贴数量，访问次数，有没有高质量的文章，有没有参加社区活动，等等等因素，得出一个权威值。刚注册的用户权威值为0，如果有了一些负面的东西还有可能是负数，有些被社区所推崇的牛人级的用户的权威可能高达几千几万。这样，当水军和五毛们对一本书或是一个电影投票的时候，就算是数量大，但基本上没有什么作用。这就是为什么豆瓣里有的电影有70%的人投了三分或四分，但那个电影还是在快5分的样子。这就是为了维护社区的权威和质量的体现。淘宝的好评差评也是一样，但是如果可以被水军去冲的话，那就很没有意思了。看看大众点评网里的那些评论，很多都完全失去了权威。因为他们没有vote的机制。</li>
+</ul>
+<ul>
+<li><strong>注重用户的个性化，并引导用户</strong>。登录进入Amazon或豆瓣或是新浪微博，在首页上，你会看到你所关注的东西。整个首页是为你个人量身定制出来的。这样一来，就算这个社区里有什么流氓或是低端用户，那也不会影响用户的体验（新浪微博的隐私设置也是很不错的）。最注要的是，这让为引导用户，开启民智做了充分的准备——这就是推荐。Amazon是推荐算法的鼻祖。推荐书，推荐产品的邮件，页面定制，等等。Henry Ford 说过——“如果你问用户想要什么，他们会告诉你要一匹更快的马”，看看苹果的设计出来的产品，都是在引导用户，如果你只看到了苹果的UI，那只看到了一部分。苹果开发的东西都在引导用户认可和追逐有艺术气息的数码产品。所以，<strong>根据用户的特征来向用户推荐并引导用户，告诉用户什么是好的，什么是有价值的，才是真正的用户体验</strong>。</li>
+</ul>
+<div>
+<ul>
+<li><strong>把事变简单，把难度降低</strong>。还记得以前的PC上的Windows吗？还记得以前的个人主页，现在的blog吗？他们可以让更多的人会更容易地操作电脑，发布信息。看看苹果的iPad，其可以让一个5岁的孩子或是60岁的没的接触过电脑的老人在5分钟内学会使用电脑上网浏览。这意味着什么？这意味着会使用电脑的人越来越多；可以让更多的人发布自己的信息。<strong>这意味着什么？这意味着金字塔低端的人会越来越多，于是生态环境也会越来越好</strong>。<strong>对于业务来说，你需要给予end-to-end的服务。</strong>就像苹果一样，你不要担心买来电脑怎么去装软件，去下载音乐和电影，也不必担心会装上恶意的软件。就像Amazon的第三方商户平台，对于商户来说，你把货发给Amazon就好了，你不必担心库存，物流，客服，退货，财务，所有的一切都由Amazon代劳了。这些东西才是最强悍的东西。（腾讯的QQ也是让很多人能上网聊天，降低了网聊的难度，所以也流行了起来）</li>
+</ul>
+<p>上面的这四点真正的用户体验，腾讯有没有做到？你有答案的。老实说，腾讯的用户体验只做了些很表面的东西。</p>
+<p>最后，让我用我东家老大的话来结束这篇文章—— <strong></strong></p>
+<blockquote><p>“我们对于完美客服体验的理解是，用户其实并不希望与我们直接对话。每次客户联系我们，我们都视为工作中的失误。我已经说了好多年了，人们应该与他们的朋友交谈，而不是与商家。因此，我们充分利用各种客服信息来探究客户联系我们的真正原因。什么地方出现问题了？那个人为什么要打电话？为什么他们花费时间与我们交谈而不是与家人交谈？我们如何解决这个问题？”</p>
+<p style="text-align: right;">—— Jeff Bezos</p>
+</blockquote>
+<p style="text-align: center;"><strong>尊重用户，提高品质，不断创新——这才是互联网企业的核心竞争力！</strong></p>
+<p style="text-align: left;"><span style="color: #cc0000;">最后注明一下版权，<strong>本文由陈皓原创发表，你可以任意传载，但必需在明显位置注明作者和出处，而且不能用于任何商业用途</strong></span>。</p>
+</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-150x150.png" alt="抄袭，腾讯 和 产品 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_title">抄袭，腾讯 和 产品 </a></li><li ><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="如何设计“找回用户帐号”功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_title">如何设计“找回用户帐号”功能</a></li><li ><a href="https://coolshell.cn/articles/5966.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="腾讯帐号申诉的用户体验" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5966.html" class="wp_rp_title">腾讯帐号申诉的用户体验</a></li><li ><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail-150x150.png" alt="由苹果的低级Bug想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_title">由苹果的低级Bug想到的</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5901.html">腾讯，竞争力 和 用户体验</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5901.html/feed</wfw:commentRss>
+			<slash:comments>215</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>10个必需的iOS开发工具和资源</title>
+		<link>https://coolshell.cn/articles/5089.html</link>
+					<comments>https://coolshell.cn/articles/5089.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 02 Aug 2011 00:40:11 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[iPad]]></category>
+		<category><![CDATA[iPhone]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5089</guid>
+
+					<description><![CDATA[<p>界面总不是一件很容易事，尤其是iPhone/iPad的界面，做过iOS开发的程序员，一定会感到开发iPhone/iPad的界面是一件多么不容易的事。下面的文章来...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5089.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5089.html">10个必需的iOS开发工具和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>界面总不是一件很容易事，尤其是iPhone/iPad的界面，做过iOS开发的程序员，一定会感到开发iPhone/iPad的界面是一件多么不容易的事。下面的文章来自<a href="http://alexefish.com/post/15967480885/10-essential-ios-developer-tools-resources" target="_blank">10 Essential iOS Developer Tools &amp; Resources</a>，这个文章介绍了十个iOS开发的基础性工具和资源，其一定会很有效地帮你做iOS的开发。（在这里，我再闲扯一句，虽然Android的开发好像整整XML文件界面就出来了，其明显比iOS的开发要容易很多，但是我还是觉得iOS的生命力要强过Android，看看Android今天的应用就知道，有时候入门门槛低不是一些好事，大多数的程序员搞出来的Android代码和软件简直令人作呕，就像不是每个人都能烧得手好菜一样。（“<a title="食客还是大厨" href="https://coolshell.cn/articles/3589.html" target="_blank">食客与大厨</a>”，也许偏激，但值得你我思考），又把蛋扯远了）</p>
+<h4>1. Omnigraffle + Ultimate iPhone Stencil</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/omni.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-293" title="omni" src="https://coolshell.cn/wp-content/uploads/2011/08/omni.jpeg" alt="" width="695" height="120" /></a></p>
+<p><a href="http://www.omnigroup.com/products/omnigraffle/" target="_blank">Omnigraffle</a> 是一个很强大的像Microsoft Viso的一个软件，其只能于运行在Mac OS X和iPad平台之上。它曾获得2002年的苹果设计奖。在这里，你可以下载 <a href="http://graffletopia.com/stencils/413" target="_blank">Ultimate iPhone Stencil</a> ，然后使用Omnigraffle 来非常快地制作你的iPhone应用的演示界面。（查看了一下Omnigraffle 的iPad版，真贵，$49.99。作者居然推荐买，TNND，一看就是托）。</p>
+<p><a href="http://www.omnigroup.com/products/omnigraffle/" target="_blank">Omnigraffle Link</a>, <a href="http://graffletopia.com/stencils/413" target="_blank">Ultimate iPhone Stencil Link</a></p>
+<p><span id="more-5089"></span></p>
+<h4>2. Glyphish Icons</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/glphy.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-295" title="glphy" src="https://coolshell.cn/wp-content/uploads/2011/08/glphy.jpeg" alt="" width="695" height="120" /></a></p>
+<p>你可能能从上面的这些图标中看到Flipboard 和 Twitter 在iOS上的应用使用了其中的一些图标。是的，这些个小图标对你的开发很有帮助。作者强烈推荐你花$25去购买 <a href="http://glyphish.com/" target="_blank">Glyphish</a> 的Pro版。当然啦，你都能花$99/year开发iOS的程序，你还怕花这区区的25刀？</p>
+<p><a href="http://glyphish.com/" target="_blank">Glypish Link</a></p>
+<h4>3. teehan + lax iPhone 4 GUI PSD</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/teehan.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-296" title="teehan" src="https://coolshell.cn/wp-content/uploads/2011/08/teehan.jpeg" alt="" width="695" height="120" /></a></p>
+<p>teehan+lax 是一个加拿大多伦多的代理商。他们经常发布一些他们自己内部用的资源， <a href="http://www.teehanlax.com/downloads/iphone-4-guid-psd-retina-display/" target="_blank">iPhone 4 GUI PSD</a> 就是其中的一个，这是一个PSD资源文件其包括了iPhone 4的UI 视图控制和一般的UI元件。这是免费让你下载的。</p>
+<p><a href="http://www.teehanlax.com/blog/iphone-4-gui-psd-retina-display/" target="_blank">teehan + lax iPhone 4 GUI PSD Link</a></p>
+<h4>4. Stanford University iPhone Development Lectures</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/stanford.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-297" title="stanford" src="https://coolshell.cn/wp-content/uploads/2011/08/stanford.jpeg" alt="" width="695" height="120" /></a></p>
+<p>斯坦福大学iPhone开发教程，这可能是iOS开发者的圣经级的课程了，你可以从 iTunes U上下载，当然，国内的各大门户公开课也有这个视频，还有中文字幕。比如网易公开课：<a href="http://v.163.com/special/opencourse/iphonekaifa.html">http://v.163.com/special/opencourse/iphonekaifa.html</a></p>
+<p><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=384233225" target="_blank">iTunes U Link</a></p>
+<h4>5. 71 Squared</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/71sq.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-298" title="71sq" src="https://coolshell.cn/wp-content/uploads/2011/08/71sq.jpeg" alt="" width="695" height="120" /></a></p>
+<p>如果你要搞iPhone的游戏开发，那么你可看看 <a href="http://www.71squared.com/iphone-tutorials/" target="_blank">71 Squared</a> 上的资源和教程，让你从零开始搞iPhone游戏。不知道你有没有听说过 Tiny Wings 这个由 Andreas Illiger 开发的很漂亮的并获得很大成功的游戏？Andreas 就是从这个网站上学习开发的。这个网站的的资源太丰富了，你绝对不能错过。</p>
+<p><a href="http://www.71squared.com/iphone-tutorials/" target="_blank">71 Squared Link</a></p>
+<h4>6. Charles</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/charles.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-302" title="charles" src="https://coolshell.cn/wp-content/uploads/2011/08/charles.jpeg" alt="" width="695" height="120" /></a></p>
+<p>如果你想让你的应用发出一个HTTP请求，并通过仿真器来调试，这恐怕是一件很难的事。 <a href="http://www.charlesproxy.com/" target="_blank">Charles</a> 是这样一个工具其强在让你看到所有的和互联网交互的请求。这个无价的工具可以让你节省巨大的时间来debug你的应用。当然，要价$50啊，很不便宜，但是还是那句话，$99刀一年你都花了，你还在乎这点钱？嘿嘿嘿</p>
+<p><a href="http://www.charlesproxy.com/" target="_blank">Charles Link</a></p>
+<h2>7. ASIHTTPRequest</h2>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/asihttp.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-303" title="asihttp" src="https://coolshell.cn/wp-content/uploads/2011/08/asihttp.jpeg" alt="" width="695" height="120" /></a></p>
+<p>和 Charles一样， <a href="http://allseeing-i.com/ASIHTTPRequest/" target="_blank">ASIHTTPRequest</a> 也是一个强大的封装其由 CFNetwork API构造。如果你想要从你的iPhone上调用一个Web API，那么 <a href="http://allseeing-i.com/ASIHTTPRequest/" target="_blank">ASIHTTPRequest</a> 一定会省你很多事。这个东西的文档极端的不错，并有成千上万的有用的功能几乎覆盖了所有的事，比如： PUT, DELETE, GET, POST 全都没有问题。</p>
+<p><a href="http://allseeing-i.com/ASIHTTPRequest/" target="_blank">ASIHTTPRequest Link</a></p>
+<h2>8. Stack Overflow</h2>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/stackoverflow2.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-313" title="stackoverflow2" src="https://coolshell.cn/wp-content/uploads/2011/08/stackoverflow2.jpeg" alt="" width="695" height="120" /></a></p>
+<p>Stack Overflow 这个东西不用说了吧。我个人认为这是这个世界上最佳的问问题的地方，就算你不问，你就上去查一查，你也能看到一大堆已经有人问过的问题。通过问题来加深认识，是进阶的要做的事。在stakeoverflow面前，什么CSDN，it-pub，等等国内的技术问题解决网站完全不值一题。</p>
+<p><a href="http://stackoverflow.com/" target="_blank">Stack Overflow Link</a></p>
+<h4>9. MBProgressHUD</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/mbprogress.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-307" title="mbprogress" src="https://coolshell.cn/wp-content/uploads/2011/08/mbprogress.jpeg" alt="" width="695" height="120" /></a></p>
+<p>MBProgressHUD 是一个用来做没有文档的 UIProgressHUD UIKit 类的替代品。其就是用来显示一个正在下载中的指示器。这个东西很容易使用，并且有很好的文档，你需要几分钟就可以把其集成到你的应用中。你可以到 <a href="https://github.com/jdg/MBProgressHUD" target="_blank">github repository</a>上查看其资料。作者号称其99%的应用都使用了这个东西。</p>
+<p><a href="https://github.com/jdg/MBProgressHUD" target="_blank">MBProgressHUD Link</a></p>
+<h4>10. Apple Documentation</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/iosdev.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-308" title="iosdev" src="https://coolshell.cn/wp-content/uploads/2011/08/iosdev.jpeg" alt="" width="695" height="120" /></a></p>
+<p>作者说，最后一个资源也是最好的一个，那就是苹果的官方文档 <a href="http://developer.apple.com/devcenter/ios/index.action" target="_blank">Apple Documentation</a>，示例代码，视频，各种类的参考文档，你在开发过程中绝对无法离开它。在你去Stack Overflow和Google的时候，你应该先去看看这个文档。</p>
+<p><a href="http://developer.apple.com/devcenter/ios/index.action" target="_blank">iOS Documentation Link</a></p>
+<p>上面是原作者介绍的一些资源，看起来是给初学者用的，我也是初学者，在<strong>这里想问一下各位熟悉iOS开发的大拿，在这个基础上，你们有没有什么推荐？</strong></p>
+<p><em><strong>&#8212;-更新 2011/8/3，新浪微博上我以前的一个同事给了大家下面的推荐&#8212;-</strong></em></p>
+<p>//<a href="http://weibo.com/n/%E6%9D%8E%E6%9D%A8iBabyNote">@李杨iBabyNote</a>：加上Three20吧，一个非常好的的开源iphone UI library. facebook 用的，品质有保证。 还有tweetero (Open Source Twitter App for iPhone),国内sina/qq微博 API 基本copy twitter. 所以想做iphone上和围脖相关的应用可以参考此代码<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2719.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="苹果开发工具Xcode 4 第二预览版" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2719.html" class="wp_rp_title">苹果开发工具Xcode 4 第二预览版</a></li><li ><a href="https://coolshell.cn/articles/2913.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/1-150x150.png" alt="消费者的消费观" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2913.html" class="wp_rp_title">消费者的消费观</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail-150x150.png" alt="由苹果的低级Bug想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_title">由苹果的低级Bug想到的</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5089.html">10个必需的iOS开发工具和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5089.html/feed</wfw:commentRss>
+			<slash:comments>30</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>苹果开发工具Xcode 4 第二预览版</title>
+		<link>https://coolshell.cn/articles/2719.html</link>
+					<comments>https://coolshell.cn/articles/2719.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 23 Jul 2010 09:40:00 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[Interface Builder]]></category>
+		<category><![CDATA[iPad]]></category>
+		<category><![CDATA[iPhone]]></category>
+		<category><![CDATA[LLVM]]></category>
+		<category><![CDATA[Mac]]></category>
+		<category><![CDATA[Xcode]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2719</guid>
+
+					<description><![CDATA[<p>今天，苹果公司向开发者发布Xcode 4 Preview 2，这是一个IDE用来开发在Mac，iPhone，iPad上应用程序的工具。在这个第二预览版中，主要有...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2719.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2719.html">苹果开发工具Xcode 4 第二预览版</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今天，苹果公司向开发者发布Xcode 4 Preview 2，这是一个IDE用来开发在Mac，iPhone，iPad上应用程序的工具。在这个第二预览版中，主要有以下新的功能：</p>
+<ul>
+<li>这个版本不像以往的版本有太多的窗口，其把以前那些窗口督统一起来，只有一个窗口。</li>
+<li>集成了Interface Builder（以前这个东东和Xcode是两个东西）</li>
+<li>Xcode Assistant 可以让你的设计和代码同时呈现。</li>
+<li>LLVM Compiler 2.0。LLVM是下一代的编译器，其完全支持C，C++和Objective C，而且编译的速度和编译成的执行速度都快于GCC。同时也引入了LLDB做为新的调试器。</li>
+<li>多版本编译。这个功能可以让你在IDE中编译两个版本的代码，而且可以和Subversion或Git集成。</li>
+</ul>
+<p>你可以访问 <a href="http://developer.apple.com/technologies/tools/whats-new.html" target="_blank">What&#8217;s New</a> 来看看具体的细节。</p>
+<p><figure style="width: 651px" class="wp-caption aligncenter"><a href="http://developer.apple.com/technologies/tools/whats-new.html"><img decoding="async" loading="lazy" title="苹果开发工具Xcode 4 Preview 2" src="http://devimages.apple.com/technologies/tools/images/new_single_window20100721.jpg" alt="" width="651" height="409" /></a><figcaption class="wp-caption-text">苹果开发工具Xcode 4 Preview 2</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5089.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="10个必需的iOS开发工具和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5089.html" class="wp_rp_title">10个必需的iOS开发工具和资源</a></li><li ><a href="https://coolshell.cn/articles/2913.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/1-150x150.png" alt="消费者的消费观" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2913.html" class="wp_rp_title">消费者的消费观</a></li><li ><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail-150x150.png" alt="由苹果的低级Bug想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_title">由苹果的低级Bug想到的</a></li><li ><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-150x150.png" alt="抄袭，腾讯 和 产品 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_title">抄袭，腾讯 和 产品 </a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li><li ><a href="https://coolshell.cn/articles/5901.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="腾讯，竞争力 和 用户体验" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5901.html" class="wp_rp_title">腾讯，竞争力 和 用户体验</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2719.html">苹果开发工具Xcode 4 第二预览版</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2719.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>几个Web的资源</title>
+		<link>https://coolshell.cn/articles/2524.html</link>
+					<comments>https://coolshell.cn/articles/2524.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 24 Jun 2010 00:35:32 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2524</guid>
+
+					<description><![CDATA[<p>首先一个先给大家介绍一个HTML5的资源网站：http://www.html5rocks.com/ ，在这个网站上，有三个子站： HTML5的幻灯片：http:...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2524.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2524.html">几个Web的资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>首先一个先给大家介绍一个HTML5的资源网站：<a href="http://www.html5rocks.com/" target="_blank">http://www.html5rocks.com/</a> ，在这个网站上，有三个子站：</p>
+<ol>
+<li>HTML5的幻灯片：<a href="http://slides.html5rocks.com/" target="_blank">http://slides.html5rocks.com/</a>，虽然是英文的，但相信我，这个幻灯片做得很好，你应该能看得懂。</li>
+<li>HTML5的操练场：<a href="http://playground.html5rocks.com/" target="_blank">http://playground.html5rocks.com/</a>，这个页面上有很多HTML5的源码，你可以就直接在上面修改，并查看修改结果。</li>
+<li>HTML5的教程：<a href="http://www.html5rocks.com/tutorials/" target="_blank">http://www.html5rocks.com/tutorials/</a>，这个页上有一些Steps by Steps的教程，很不错。</li>
+</ol>
+<p>第二个，给大家推荐一个Javascript库，叫——<a href="http://code.ovidiu.ch/dragdealer/" target="_blank">DragDealer</a>。这个JS主要是处理Web上的各种拖动效果，脚本很小，在没有压缩的情况下也只有12K，而且没有任何的dependence，使用起来也比较方便。</p>
+<p>第三个，是Apple的Showcase，我们都知道，iPhone不支持flash，但支持HTML5，大家可以点下面这些链接看看Apple公司自己做的HTML5的一些效果。当然，有一些需要safari浏览器。</p>
+<p><span id="more-2524"></span></p>
+<ul>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/showcase/video/">Video effects</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/showcase/typography/">Web typography</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/showcase/gallery/">Web gallery</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/showcase/transitions/">Photo transitions</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/showcase/audio/">Audio</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/showcase/threesixty/">360°</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/showcase/vr/">VR</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/CanvasPixelManipulation/">Canvas pixel manipulation</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/StickyNotes/">Sticky notes</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/ConcertPoster/">Concert Poster</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/Checkers/">Checkers</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/LightTable/">Light table</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/OfflineCalendar/">Offline calendar</a></li>
+<li><a rel="nofollow" href="http://developer.apple.com/safaridemos/MovieTrailers/">Movie trailers</a></li>
+</ul>
+<p>如果大家也有一些相似的资源，不妨一起来分享。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="JS游戏引擎列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_title">JS游戏引擎列表</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2524.html">几个Web的资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2524.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

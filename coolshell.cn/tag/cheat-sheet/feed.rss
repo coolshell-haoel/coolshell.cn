@@ -1,0 +1,1022 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Cheat Sheet | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/cheat-sheet/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 16 Sep 2011 01:08:49 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>给程序员的VIM速查卡</title>
+		<link>https://coolshell.cn/articles/5479.html</link>
+					<comments>https://coolshell.cn/articles/5479.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 16 Sep 2011 01:07:05 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5479</guid>
+
+					<description><![CDATA[<p>前几天酷壳发布过“vim简明攻略”，不知道大家练得怎么样了。如果你练了一下，那么这里这个速查卡就会对你有帮助了。以前本站也有过一个（vim速查卡），不过其太简单...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5479.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5479.html">给程序员的VIM速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>前几天酷壳发布过“<a title="简明 Vim 练级攻略" href="https://coolshell.cn/articles/5426.html" target="_blank">vim简明攻略</a>”，不知道大家练得怎么样了。如果你练了一下，那么这里这个速查卡就会对你有帮助了。以前本站也有过一个（<a title="Vim命令速查卡" href="https://coolshell.cn/articles/150.html" target="_blank">vim速查卡</a>），不过其太简单了。我觉得这个很不错，很全，很直观。这个速查卡来自<strong><a href="http://michael.peopleofhonoronly.com/vim/" target="_blank">这里</a></strong>。其用颜色标注了级别：</p>
+<ul>
+<li><span style="background-color: #008000;"><span style="color: #ffffff;">  Green  </span></span> = 存活级</li>
+<li><span style="background-color: #ffff00;">  Yellow  </span> = 感觉良好</li>
+<li><span style="background-color: #ff8000;">  Orange  </span> / <span style="background-color: #0000ff;"><span style="color: #ffffff;">Blue</span></span> = 高级</li>
+<li><span style="background-color: #ff0000;">  Red  </span> = 专家级</li>
+</ul>
+<p>下面的图片点击可以看大图：</p>
+<figure id="attachment_5480" aria-describedby="caption-attachment-5480" style="width: 639px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print.png"><img decoding="async" loading="lazy" class="size-large wp-image-5480    " title="给程序员的VIM速查卡" src="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-1024x791.png" alt="给程序员的VIM速查卡" width="639" height="494" srcset="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-1024x791.png 1024w, https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-300x232.png 300w, https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-768x593.png 768w, https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-350x270.png 350w" sizes="(max-width: 639px) 100vw, 639px" /></a><figcaption id="caption-attachment-5480" class="wp-caption-text">给程序员的VIM速查卡（点击看大图）</figcaption></figure>
+<p>你还可以下载<a href="http://michael.peopleofhonoronly.com/vim/vim_cheat_sheet_for_programmers_print.pdf" target="_blank">PDF版</a>的和<a href="http://michael.peopleofhonoronly.com/vim/vim_cheat_sheet_for_programmers_print.xlsx" target="_blank">Excel版</a>的，如果你是色盲的话，还有<a href="http://michael.peopleofhonoronly.com/vim/vim_cheat_sheet_for_programmers_colorblind.pdf" target="_blank">蓝色版PDF</a>的。如果你不是很喜欢的话，这里还有几个：</p>
+<p><span id="more-5479"></span></p>
+<ul>
+<li><a href="http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html">http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html</a></li>
+<li><a href="http://tnerual.eriogerg.free.fr/vim.html">http://tnerual.eriogerg.free.fr/vim.html</a></li>
+<li><a href="http://www.lagmonster.org/docs/vi.html">http://www.lagmonster.org/docs/vi.html</a></li>
+<li><a href="http://jrmiii.com/2009/03/06/learning-vim-the-pragmatic-way.html">http://jrmiii.com/2009/03/06/learning-vim-the-pragmatic-way.html</a></li>
+</ul>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5426.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/rectangular-blocks-150x150.gif" alt="简明 Vim 练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5426.html" class="wp_rp_title">简明 Vim 练级攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5479.html">给程序员的VIM速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5479.html/feed</wfw:commentRss>
+			<slash:comments>73</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Web开发人员速查卡</title>
+		<link>https://coolshell.cn/articles/3684.html</link>
+					<comments>https://coolshell.cn/articles/3684.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 16 Feb 2011 10:59:06 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Apache]]></category>
+		<category><![CDATA[ASP]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[MySQL]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Unicode]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3684</guid>
+
+					<description><![CDATA[<p>无论你是多牛的程序员，你都无法记住所有的东西。而很多时候，查找某些知识又比较费事。所以，网上有很多Cheat Sheets，翻译成小抄也好 ，速查卡也好，总之就...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3684.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3684.html">Web开发人员速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>无论你是多牛的程序员，你都无法记住所有的东西。而很多时候，查找某些知识又比较费事。所以，网上有很多Cheat Sheets，翻译成小抄也好 ，速查卡也好，总之就是帮你节省 时间的。之前给大家介绍过<a rel="bookmark" href="https://coolshell.cn/articles/870.html" target="_blank">Web设计的速查卡</a>、<a rel="bookmark" href="https://coolshell.cn/articles/2964.html" target="_blank">25个jQuery的编程小抄</a>，还有<a rel="bookmark" href="https://coolshell.cn/articles/1566.html" target="_blank">程序员小抄大全</a>，今天转一篇开发人员的速查卡，<a href="http://www.topdesignmag.com/all-the-cheat-sheets-that-a-web-developer-needs/" target="_blank">源文在这里</a>。下面的文章我就不翻译了。</p>
+<h2>HTML Cheat Sheet</h2>
+<p><img decoding="async" loading="lazy" title="1" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/1128.jpg" alt="" width="450" height="127" /></p>
+<ul>
+<li><a href="http://www.html.su/" target="_blank">HTML/XTML in one page</a></li>
+<li><a href="http://refcardz.dzone.com/refcardz/html5-new-standards-web-interactivity" target="_blank">HTML5: The Evolution of Web Standards by James Sugrue</a></li>
+<li><a href="http://www.elizabethcastro.com/html/extras/xhtml_ref.html" target="_blank">(X)HTML Elements and Attributes</a></li>
+<li><a href="http://www.w3.org/QA/2002/04/valid-dtd-list.html" target="_blank">Doctype Declarations (DTDs)</a></li>
+<li><a href="http://www.digitalmediaminute.com/reference/entity/index.php" target="_blank">XHTML Character Entity Reference</a></li>
+<li><a href="http://downloads.gosquared.com/help_sheets/08/HTML-Help-Sheet-02.jpg" target="_blank">GoSquared HTML Help Sheet</a></li>
+</ul>
+<p><span id="more-3684"></span></p>
+<p><strong> </strong></p>
+<h2>CSS Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="2" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/2104.jpg" alt="" width="451" height="112" /></p>
+<ul>
+<li><a href="http://www.css.su/" target="_blank">CSS in one page</a></li>
+<li><a href="http://www.elizabethcastro.com/html/extras/cssref.html" target="_blank">CSS Properties and Values</a></li>
+<li><a href="http://www.blooberry.com/indexdot/css/propindex/all.htm" target="_blank">All CSS Properties Listed Alphabetically</a></li>
+<li><a href="http://www.dustindiaz.com/css-shorthand/" target="_blank">CSS Shorthand Guide</a></li>
+<li><a href="http://www.gosquared.com/liquidicity/archives/1010" target="_blank">GoSquared CSS Help Sheet</a></li>
+</ul>
+<h2>Adobe Flash Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="3" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/312.png" alt="" width="449" height="87" /></p>
+<ul>
+<li><a href="http://michaeldoyle.eu/blog/wp-content/uploads/2009/10/flash-cheat-sheet.pdf" target="_blank">Flash Cheat Sheet</a></li>
+<li><a href="http://edutechwiki.unige.ch/en/Flash_CS3_keyboard_shortcuts" target="_blank">Flash CS3 Keyboard Shortcuts</a></li>
+</ul>
+<p><strong> </strong></p>
+<h2><strong>ASP Cheat Sheets</strong></h2>
+<h2><strong><img decoding="async" loading="lazy" title="4" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/430.jpg" alt="" width="451" height="106" /><br />
+</strong></h2>
+<ul>
+<li><a href="http://refcardz.dzone.com/refcardz/core-aspnet" target="_blank">Core ASP.NET</a></li>
+<li><a href="http://www.newdrp.com/Posters/Development/tabid/67/id/284/Default.aspx" target="_blank">ASP.NET MVC Framework Cheat Sheet</a></li>
+<li><a href="http://www.newdrp.com/Posters/Development/tabid/67/id/286/Default.aspx" target="_blank">ASP.NET MVC View Cheat Sheet</a></li>
+</ul>
+<h2>PHP Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="5" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/55.png" alt="" width="450" height="112" /></p>
+<ul>
+<li><a href="http://www.dreamincode.net/forums/topic/35660-php-quick-reference-cheat-sheet/" target="_blank">PHP Basics Quick Reference Sheet</a></li>
+<li><a href="http://www.digilife.be/quickreferences/QRC/PHP%20Cheat%20Sheet.pdf" target="_blank">PHP Cheat Sheet</a></li>
+<li><a href="http://www.sk89q.com/content/2010/04/phpsec_cheatsheet.pdf" target="_blank">PHP Security Cheat Sheet</a></li>
+<li><a title="PHP Variable and Array Tests (php version 5.1.6) by Barry Hunter" href="http://www.deformedweb.co.uk/php_variable_tests.php" target="_blank">PHP Variable and Array Tests</a></li>
+<li><a href="http://downloads.gosquared.com/help_sheets/08/PHP-Help-Sheet-01.jpg" target="_blank">GoSquared PHP Help Sheet</a></li>
+</ul>
+<h2>MySQL Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="6" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/65.png" alt="" width="450" height="89" /></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/mysql-cheat-sheet/" target="_blank">MySQL Cheat Sheet by Dave Child</a></li>
+<li><a href="http://www.cheat-sheets.org/saved-copy/MySQL_QuickRef.pdf" target="_blank">MySQL Database Quick Reference</a></li>
+<li><a href="http://www.sqltutorial.org/sql-cheat-sheet.aspx" target="_blank">SQL Statements Cheat Sheet</a></li>
+</ul>
+<h2>JavaScript Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="7" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/75.png" alt="" width="451" height="118" /></p>
+<ul>
+<li><a href="http://www.javascript.su/" target="_blank">JavaScript in one page</a></li>
+<li><a href="http://www.addedbytes.com/cheat-sheets/javascript-cheat-sheet/" target="_blank">JavaScript Cheat Sheet</a></li>
+<li><a href="http://wps.aw.com/wps/media/objects/2234/2287950/javascript_refererence.pdf" target="_blank">Addison-Wesley’s JavaScript Reference Card</a></li>
+</ul>
+<h2>jQuery Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="8" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/85.png" alt="" width="450" height="109" /></p>
+<ul>
+<li><a href="http://colorcharge.com/jquery/" target="_blank">jQuery Cheatsheet</a></li>
+<li><a href="http://woork.blogspot.com/2009/09/jquery-visual-cheat-sheet.html" target="_blank">jQuery 1.3 Visual Cheat Sheet by Antonio Lupetti</a></li>
+<li><a href="http://refcardz.dzone.com/refcardz/jquery-selectors" target="_blank">jQuery Selectors by Bear Bibeault &amp; Yehuda Katz</a></li>
+</ul>
+<h2>Unicode Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="9" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/97.png" alt="" width="450" height="112" /></p>
+<ul>
+<li><a href="http://www.utf.ru/" target="_blank">The Unicode Character Code</a></li>
+<li><a href="http://www.visibone.com/htmlref/char/cer.htm" target="_blank">HTML Characters, Numeric Codes, 0-65535 by Bob Stein</a></li>
+</ul>
+<h2>XML Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="10" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/106.png" alt="" width="450" height="111" /></p>
+<ul>
+<li><a href="http://www.xml.su/" target="_blank">XML in one page</a></li>
+<li><a href="http://www.mulberrytech.com/quickref/XMLquickref.pdf" target="_blank">XML 1.0 Syntax Quick Reference by Mulberry Technologies</a></li>
+</ul>
+<h2>mod_rewrite and .htaccess Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="11" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/1111.png" alt="" width="455" height="95" /></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/mod_rewrite-cheat-sheet/" target="_blank">mod_rewrite Cheat Sheet by Dave Child</a></li>
+<li><a href="http://www.thejackol.com/htaccess-cheatsheet/" target="_blank">htaccess Cheatsheet</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="Web中的省略号" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_title">Web中的省略号</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3684.html">Web开发人员速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3684.html/feed</wfw:commentRss>
+			<slash:comments>22</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的网站和贴子</title>
+		<link>https://coolshell.cn/articles/3480.html</link>
+					<comments>https://coolshell.cn/articles/3480.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 18 Jan 2011 00:53:24 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[AutoTools]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Kinect]]></category>
+		<category><![CDATA[makefile]]></category>
+		<category><![CDATA[MikeOS]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[TeleHash]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3480</guid>
+
+					<description><![CDATA[<p>各位朋友，又到了介绍各种杂项的时候了，正如以前的这篇和这篇文章一样，本篇文章也给你介绍一些最近出现的一些有趣的东西。希望你能喜欢。 首先是华尔街的一篇报道，20...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3480.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3480.html">一些有意思的网站和贴子</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>各位朋友，又到了介绍各种杂项的时候了，正如以前的<a href="https://coolshell.cn/articles/3013.html" target="_blank">这篇</a>和<a href="https://coolshell.cn/articles/3437.html" target="_blank">这篇</a>文章一样，本篇文章也给你介绍一些最近出现的一些有趣的东西。希望你能喜欢。</p>
+<ul>
+<li>首先是<a href="http://online.wsj.com/article/SB10001424052748704723104576062173458318658.html?mod=WSJ_hps_sections_careerjournal#articleTabs%3Darticle" target="_blank">华尔街的一篇报道</a>，2011年最好和最不好的工作，其引用了<a href="http://careercast.com/" target="_blank">CareerCast.com</a>的数据，其列出了<a href="http://online.wsj.com/public/resources/documents/st_BESTJOBS0104_20110105.html" target="_blank">100个工作种类</a>，并根据薪资、工作环境、工作鸭梨、体力消耗和就业前景做了一个排序。结果<strong>排第一位的是“软件工程师”</strong>，其理由是：高科技产品的需求呈爆炸式增长，以及人们对iPod、平板电脑、和其它科技产品应用软件的喜好，软件工程师被评为最佳职业。软件工程师有弹性工作时间，可以在家办公，而且每个月都有猎头找来。而最差是的则是码头工人。</li>
+</ul>
+<div>
+<div style="text-align: center;"><a href="http://online.wsj.com/public/resources/documents/st_BESTJOBS0104_20110105.html"><img decoding="async" loading="lazy" src="http://si.wsj.net/public/resources/images/OB-LP754_bestjo_D_20110104181820.jpg" border="0" alt="[bestjobspromo]" hspace="0" vspace="0" width="262" height="174" /></a></div>
+</div>
+<ul>
+<li>接下来是一个叫<a href="http://www.theserverside.com/news/thread.tss?track=NL-461&amp;ad=808081&amp;thread_id=61622&amp;asrc=EM_NLN_13145929&amp;uid=2780877" target="_blank">“Java pass by value”的长贴</a>，楼主说有一天在LinkedIn.com上看到了Java Group里有人讨论Java是pass by value的，长达240+贴子。贴子里说，如果你使用Java的原始类型如int, long，就是传值，如果你用object, array，其实传的是一个引用的拷贝，所以，Java是传值的。呵呵，你觉得有道理吗？于是，成就了这个大讨论战。<a href="http://www.reddit.com/r/programming/comments/f1d7r/huge_war_over_whether_java_is_pass_by_reference/" target="_blank">reddit.com上也有N多的回贴</a>。有空可以看看。</li>
+</ul>
+<p><span id="more-3480"></span></p>
+<ul>
+<li>然后是两个网站，不知道你是否还记得我们介绍的那个<a rel="bookmark" href="https://coolshell.cn/articles/2065.html" target="_blank">Windows 3.1的Web网站</a>，用Web来实现一切看来是迟早的问题。下面，让我们来看两个网站：
+<ul>
+<li>第一个是仿MS-DOS的个人网站——<a href="http://stopwilson.com/" target="_blank">http://stopwilson.com/</a></li>
+</ul>
+</li>
+</ul>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2011/01/msdos_website.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3482" title="msdos_website" src="https://coolshell.cn/wp-content/uploads/2011/01/msdos_website.jpg" alt="" width="650" height="446" srcset="https://coolshell.cn/wp-content/uploads/2011/01/msdos_website.jpg 650w, https://coolshell.cn/wp-content/uploads/2011/01/msdos_website-300x205.jpg 300w" sizes="(max-width: 650px) 100vw, 650px" /></a> <a href="https://coolshell.cn/wp-content/uploads/2011/01/Javascript_ipad.jpg"></a></p>
+<ul>
+<li>
+<ul>
+<li>第二个是仿iPad的网站——<a href="http://alexw.me/ipad/" target="_blank">http://alexw.me/ipad/</a></li>
+</ul>
+</li>
+</ul>
+<p style="text-align: center;"><img decoding="async" loading="lazy" title="Javascript ipad" src="https://coolshell.cn/wp-content/uploads/2011/01/Javascript_ipad.jpg" alt="" width="506" height="336" /></p>
+<p style="padding-left: 60px;">如果以后的上网设备必然是以移动为主，那么Web开发中的HTML+ Javascript将有可能成为最所有应用都需要去支持的东西。</p>
+<ul>
+<li>说到Web开发，表单提交功能是每个网站都会最到的事情。这里有一篇文章告诉你了如何增强表单的可用性。非常不错，Web程序员可以前往一读：<a href="http://sixrevisions.com/user-interface/10-tips-for-optimizing-web-form-submission-usability/" target="_blank">http://sixrevisions.com/user-interface/10-tips-for-optimizing-web-form-submission-usability/</a></li>
+</ul>
+<div>
+<ul>
+<li>接下来，向大家介绍一个开源项目——TeleHash，其基于<a href="http://en.wikipedia.org/wiki/Kademlia">Kademlia</a>在<a href="http://en.wikipedia.org/wiki/Distributed_hash_table" target="_blank">DHT网络</a>上以P2P的方式用<a href="http://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank">UDP协议</a>来发送一些<a href="http://www.json.org/" target="_blank">JSON数据</a>。于是你的应用程序就可以使用这个库来开发你的应用了。其源码在：<a href="https://github.com/quartzjer/TeleHash" target="_blank">https://github.com/quartzjer/TeleHash</a>，它的口号是：JSON + UDP + DHT = Freedom</li>
+</ul>
+</div>
+<ul>
+<li>如果你想使用autotools（autoconf和automake）写Makefile，这里有一个非常不错的教程：<a href="http://www.lrde.epita.fr/~adl/autotools.html" target="_blank">http://www.lrde.epita.fr/~adl/autotools.html</a></li>
+</ul>
+<ul>
+<li>不知道大家知不知道微软xbox 360上的<a href="http://www.xbox.com/en-US/kinect" target="_blank">Kinect</a>？其是XBox的一个硬件插件，有点类似于Wii，不过它的强大之处在于，你只需要用你的肢体动作就可以玩游戏了，不需要手上拿个什么。现在，几乎全世界的程序员都在hack这个东东，有人还用他玩WoW，也是强大。这里有一个教程教你如何通过<a href="http://openkinect.org/" target="_blank">openkinect.org</a>和C#开发点自己的小玩意。</li>
+</ul>
+<ul>
+<li>相试着写一个最简单的操作系统吗？这里有<a href="http://mikeos.berlios.de/write-your-own-os.html" target="_blank">一篇教程</a>教你用x86的汇编做一个操作系统，如果你想走得更远，可以看看<a href="http://mikeos.berlios.de/" target="_blank">MikeOS project</a>。</li>
+</ul>
+<p style="text-align: center;"><a href="http://mikeos.berlios.de/"><img decoding="async" loading="lazy" class="aligncenter" title="MikeOS" src="http://mikeos.berlios.de/images/shot-3.png" alt="" width="504" height="280" /></a></p>
+<ul>
+<li>下面是一个HTML5 Canvas Cheat Sheet（点击看大图），关于更多的Cheat Sheet，你可以看看《<a href="https://coolshell.cn/articles/1566.html" target="_blank">程序员小抄大全</a>》《<a rel="bookmark" href="https://coolshell.cn/articles/2964.html" target="_blank">25个jQuery的编程小抄</a>》</li>
+</ul>
+<figure id="attachment_3492" aria-describedby="caption-attachment-3492" style="width: 300px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet.png"><img decoding="async" loading="lazy" class="size-medium wp-image-3492" title="HTML5 Canvas Cheat Sheet" src="https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet-300x221.png" alt="HTML5 Canvas Cheat Sheet" width="300" height="221" srcset="https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet-300x221.png 300w, https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet-1024x757.png 1024w, https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet.png 1388w" sizes="(max-width: 300px) 100vw, 300px" /></a><figcaption id="caption-attachment-3492" class="wp-caption-text">HTML5 Canvas Cheat Sheet</figcaption></figure>
+<ul>
+<li><a href="http://monodroid.net/" target="_blank">Mono开始支持Android</a>。Mono是一个由Novell公司（先前是Ximian）主持的项目。该项目的目标是创建一系列符合ECMA标准（Ecma-334和Ecma-335）的.NET工具，包括C#编译器和共通語言執行平臺。与微软的.NET Framework不同，Mono项目不仅可以运行于Windows系统上，还可以运行于Linux，FreeBSD，Unix，Mac OS X和Solaris。这个项目叫MonoDroid。</li>
+</ul>
+<p style="text-align: center;"><a href="http://monodroid.net/"><img decoding="async" loading="lazy" class="alignnone" title="http://monodroid.net/" src="http://tirania.org/images/mono-android.png" alt="" width="188" height="300" /></a></p>
+<p style="text-align: center;">&nbsp;</p>
+<ul>
+<li>最后来一个给力的教程吧，这是一个关于教你如何制作一个<a href="http://daid.mine.nu/instructabliss/?url=http://www.instructables.com/id/Led-Cube-8x8x8/" target="_blank">3D的LED显示的教程</a>，相当的详细，甚至教你如何上ebay采购相关的电子元件和设备，还有如何编程，有兴趣的朋友可以一读。</li>
+</ul>
+<p style="text-align: center;"><a href="http://daid.mine.nu/instructabliss/?url=http://www.instructables.com/id/Led-Cube-8x8x8/"><img decoding="async" loading="lazy" src="http://www.instructables.com/image/FUXO1RWGICYBAOS/Led-Cube-8x8x8.jpg" alt="Led Cube 8x8x8" width="500" height="375" /></a></p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: left;">这回就这么多，希望你喜欢。</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3480.html">一些有意思的网站和贴子</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3480.html/feed</wfw:commentRss>
+			<slash:comments>23</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>25个jQuery的编程小抄</title>
+		<link>https://coolshell.cn/articles/2964.html</link>
+					<comments>https://coolshell.cn/articles/2964.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 19 Sep 2010 00:14:12 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2964</guid>
+
+					<description><![CDATA[<p>以前本站向大家介绍过“程序员小抄大全”，这里是25个jQuery的小抄（有一些在墙外），有的还可以设置成你的电脑桌面。这些东西可以让你很快速地记得一些常用的东西...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2964.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2964.html">25个jQuery的编程小抄</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前本站向大家介绍过“<a rel="bookmark" href="https://coolshell.cn/articles/1566.html" target="_blank">程序员小抄大全</a>”，这里是25个jQuery的小抄（有一些在墙外），有的还可以设置成你的电脑桌面。这些东西可以让你很快速地记得一些常用的东西，就好像软件的快捷键一样。希望它们对你会有帮助。</p>
+<h3><a href="http://colorcharge.com/jquery/" target="_blank">1. jQuery 1.2 Cheat-sheet</a> [PNG]</h3>
+<p><a href="http://colorcharge.com/jquery/"><img decoding="async" loading="lazy" title="1" src="http://technologytosoftware.com/wp-content/uploads/2010/09/1.png" alt="" width="550" height="377" /></a></p>
+<p><span id="more-2964"></span></p>
+<h3><a href="http://www.gscottolson.com/weblog/2008/01/11/jquery-cheat-sheet/" target="_blank">2. jQuery 1.2 Cheat Sheet v1.0</a> [PDF]</h3>
+<p><a href="http://www.gscottolson.com/weblog/2008/01/11/jquery-cheat-sheet/"><img decoding="async" loading="lazy" title="2" src="http://technologytosoftware.com/wp-content/uploads/2010/09/2.png" alt="" width="550" height="374" /></a></p>
+<h3><a href="http://blog.acodingfool.com/cheatsheets/jquery-1-3-cheatsheet/" target="_blank">3. jQuery 1.3 Cheatsheet</a> [PDF]</h3>
+<p><a href="http://blog.acodingfool.com/cheatsheets/jquery-1-3-cheatsheet/"><img decoding="async" loading="lazy" title="3" src="http://technologytosoftware.com/wp-content/uploads/2010/09/32.jpg" alt="" width="550" height="636" /></a></p>
+<h3><a href="http://api.jquery.com/" target="_blank">4. jQuery API Browser</a> [Adobe AIR, HTML]</h3>
+<p><a href="http://api.jquery.com/"><img decoding="async" loading="lazy" title="4" src="http://technologytosoftware.com/wp-content/uploads/2010/09/42.jpg" alt="" width="550" height="151" /></a></p>
+<h3>5. <a href="http://n-bp.com/jquery_cheat_sheet/v11/" target="_blank">jQuery1.1 Cheat Sheet</a> [HTML]</h3>
+<p><a href="http://n-bp.com/jquery_cheat_sheet/v11/"><img decoding="async" loading="lazy" title="5" src="http://technologytosoftware.com/wp-content/uploads/2010/09/52.jpg" alt="" width="550" height="358" /></a></p>
+<h3>6. <a href="http://jtouch.colorcharge.com/" target="_blank">jTouch – jQuery Cheat Sheet for iPhone</a> [HTML]</h3>
+<p><a href="http://jtouch.colorcharge.com/"><img decoding="async" loading="lazy" title="6" src="http://technologytosoftware.com/wp-content/uploads/2010/09/62.jpg" alt="" width="550" height="189" /></a></p>
+<h3>7.<a href="http://www.futurecolors.ru/jquery/" target="_blank"> jQuery 1.4 API Cheat Sheet</a> [HTML, PDF, PNG]</h3>
+<p><a href="http://www.futurecolors.ru/jquery/"><img decoding="async" loading="lazy" title="7" src="http://technologytosoftware.com/wp-content/uploads/2010/09/7.jpg" alt="" width="550" height="189" /></a></p>
+<h3>8. <a href="http://refcardz.dzone.com/refcardz/jquery-selectors" target="_blank">jQuery Selectors</a> [PDF]</h3>
+<p><a href="http://refcardz.dzone.com/refcardz/jquery-selectors"><img decoding="async" loading="lazy" title="8" src="http://technologytosoftware.com/wp-content/uploads/2010/09/82.jpg" alt="" width="550" height="189" /></a></p>
+<h3>9.<a href="http://oscarotero.com/jquery/" target="_blank"> jQuery 1.3 Quick API Reference</a> [ HTML]</h3>
+<p><a href="http://oscarotero.com/jquery/"><img decoding="async" loading="lazy" title="9" src="http://technologytosoftware.com/wp-content/uploads/2010/09/9.png" alt="" width="550" height="343" /></a></p>
+<h3>10.<a href="http://oscarotero.com/jquery/ui.html"> </a><a href="http://oscarotero.com/jquery/ui.html" target="_blank">jQuery UI 1.7 Quick API Reference</a> [ HTML]</h3>
+<p><a href="http://oscarotero.com/jquery/ui.html"><img decoding="async" loading="lazy" title="10" src="http://technologytosoftware.com/wp-content/uploads/2010/09/102.jpg" alt="" width="550" height="189" /></a></p>
+<h3>11. <a href="http://www.javascripttoolbox.com/jquery/cheatsheet/" target="_blank">jQuery 1.3.2 Cheat Sheet</a> [Microsoft Excel (XLS), PDF, PNG]</h3>
+<p><a href="http://www.javascripttoolbox.com/jquery/cheatsheet/"><img decoding="async" loading="lazy" title="11" src="http://technologytosoftware.com/wp-content/uploads/2010/09/112.jpg" alt="" width="550" height="189" /></a></p>
+<h3>12. <a href="http://www.javascripttoolbox.com/jquery/cheatsheet/" target="_blank">jQuery 1.1.3 Cheat Sheet</a> [Microsoft Excel (XLS), PDF, PNG]</h3>
+<p><a href="http://www.javascripttoolbox.com/jquery/cheatsheet/"><img decoding="async" loading="lazy" title="12" src="http://technologytosoftware.com/wp-content/uploads/2010/09/12.gif" alt="" width="550" height="426" /></a></p>
+<h3>13. <a href="http://woork.blogspot.com/2009/09/jquery-visual-cheat-sheet.html" target="_blank">jQuery 1.3 Visual Cheat Sheet</a> [PDF]</h3>
+<p><a href="http://woork.blogspot.com/2009/09/jquery-visual-cheat-sheet.html"><img decoding="async" loading="lazy" title="13" src="http://technologytosoftware.com/wp-content/uploads/2010/09/13.jpg" alt="" width="550" height="389" /></a></p>
+<h3>14.<a href="http://woorkup.com/2010/06/13/jquery-1-4-2-visual-cheat-sheet/" target="_blank"> jQuery 1.4.2 Visual Cheat Sheet</a> [JPEG, PDF]</h3>
+<p><a href="http://woorkup.com/2010/06/13/jquery-1-4-2-visual-cheat-sheet/"><img decoding="async" loading="lazy" title="14" src="http://technologytosoftware.com/wp-content/uploads/2010/09/14.jpg" alt="" width="550" height="579" /></a></p>
+<h3>15. <a href="http://remysharp.com/jquery-api/" target="_blank">jQuery API</a> [HTML]</h3>
+<p><a href="http://remysharp.com/jquery-api/"><img decoding="async" loading="lazy" title="15" src="http://technologytosoftware.com/wp-content/uploads/2010/09/15.jpg" alt="" width="550" height="189" /></a></p>
+<h3>16. <a href="http://labs.impulsestudios.ca/jquery-cheat-sheet" target="_blank">jQuery 1.4 Cheat Sheet</a> [PDF]</h3>
+<p><a href="http://labs.impulsestudios.ca/jquery-cheat-sheet"><img decoding="async" loading="lazy" title="16" src="http://technologytosoftware.com/wp-content/uploads/2010/09/16.jpg" alt="" width="550" height="189" /></a></p>
+<h3>17.<a href="http://chris4403.blogspot.com/2008/01/jquery-cheatsheet-wallpaper.html" target="_blank"> jQuery cheatsheet Wallpaper</a></h3>
+<p><a href="http://chris4403.blogspot.com/2008/01/jquery-cheatsheet-wallpaper.html"><img decoding="async" loading="lazy" title="17" src="http://technologytosoftware.com/wp-content/uploads/2010/09/17.jpg" alt="" width="550" height="189" /></a></p>
+<h3>18. <a href="http://carlos.bueno.org/jq-yui.html" target="_blank">jQuery – YUI3 Rosetta Stone</a> [HTML]</h3>
+<p><a href="http://carlos.bueno.org/jq-yui.html"><img decoding="async" loading="lazy" title="18" src="http://technologytosoftware.com/wp-content/uploads/2010/09/18.jpg" alt="" width="550" height="247" /></a></p>
+<h3>19. <a href="http://www.cheat-sheets.org/#jQuery" target="_blank">jQuery 1.2 by Adrien Gibrat</a> [PDF]</h3>
+<p><a href="http://www.cheat-sheets.org/#jQuery"><img decoding="async" loading="lazy" title="19" src="http://technologytosoftware.com/wp-content/uploads/2010/09/19.jpg" alt="" width="550" height="255" /></a></p>
+<h3>20. <a href="http://acodingfool.typepad.com/blog/2009/01/jquery-13-cheat-sheet.html" target="_blank">jQuery 1.3 Cheat Sheet</a></h3>
+<p><a href="http://acodingfool.typepad.com/blog/2009/01/jquery-13-cheat-sheet.html"><img decoding="async" loading="lazy" title="20" src="http://technologytosoftware.com/wp-content/uploads/2010/09/20.jpg" alt="" width="550" height="336" /></a></p>
+<h3>21. <a href="http://www.gmtaz.com/index.php/jquery-13-cheatsheet-wallpaper/" target="_blank">jQuery 1.3 Cheatsheet Wallpaper </a>[1920×1200, 1680×1050 and 1440×900]</h3>
+<p><a href="http://www.gmtaz.com/index.php/jquery-13-cheatsheet-wallpaper/"><img decoding="async" loading="lazy" title="21" src="http://technologytosoftware.com/wp-content/uploads/2010/09/211.jpg" alt="" width="550" height="189" /></a></p>
+<h3><a href="http://www.cheat-sheets.org/saved-copy/jQuery.1.3.Visual.Cheat.Sheet.by.WOORK.pdf" target="_blank">22. jQuery 1.3 Visual Cheat Sheet by Antonio Lupetti</a> [PDF]</h3>
+<p><a href="http://www.cheat-sheets.org/saved-copy/jQuery.1.3.Visual.Cheat.Sheet.by.WOORK.pdf"><img decoding="async" loading="lazy" title="22" src="http://technologytosoftware.com/wp-content/uploads/2010/09/22.jpg" alt="" width="550" height="378" /></a></p>
+<h3><a href="http://codylindley.com/jqueryselectors/" target="_blank">23. jQuery Selectors Cheatsheet</a> [HTML]</h3>
+<p><a href="http://codylindley.com/jqueryselectors/"><img decoding="async" loading="lazy" title="23" src="http://technologytosoftware.com/wp-content/uploads/2010/09/23.jpg" alt="" width="550" height="189" /></a></p>
+<h3><a href="http://jn.orz.hm/jquery/ui_effect.html" target="_blank">24. jQuery UI – Effects Cheatsheet</a> [HTML]</h3>
+<p><a href="http://jn.orz.hm/jquery/ui_effect.html"><img decoding="async" loading="lazy" title="24" src="http://technologytosoftware.com/wp-content/uploads/2010/09/24.jpg" alt="" width="550" height="189" /></a></p>
+<h3>25. <a href="http://elegantcode.com/wp-content/uploads/2010/03/Jquery-Validator-Cheat-sheet.pdf" target="_blank">jQuery Validator Cheatsheet </a>– Elegant Code [PDF]</h3>
+<p><a href="http://elegantcode.com/wp-content/uploads/2010/03/Jquery-Validator-Cheat-sheet.pdf"><img decoding="async" loading="lazy" title="25" src="http://technologytosoftware.com/wp-content/uploads/2010/09/25.jpg" alt="" width="550" height="189" /></a></p>
+<p>文章：<a href="http://technologytosoftware.com/most-useful-jquery-cheat-sheets.html" target="_blank">http://technologytosoftware.com/most-useful-jquery-cheat-sheets.html</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-150x150.png" alt="给程序员的VIM速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_title">给程序员的VIM速查卡</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3480.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/01/OB-LP754_bestjo_D_20110104181820-150x150.jpg" alt="一些有意思的网站和贴子" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3480.html" class="wp_rp_title">一些有意思的网站和贴子</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2964.html">25个jQuery的编程小抄</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2964.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>免费电子书列表</title>
+		<link>https://coolshell.cn/articles/2775.html</link>
+					<comments>https://coolshell.cn/articles/2775.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Wed, 04 Aug 2010 10:37:59 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[book]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[ebook]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2775</guid>
+
+					<description><![CDATA[<p>在StackOverflow上，有人要打算收集个免费电子书的列表，结果很快就有人分享了一个列表。很不错，我就转过来了。原帖的地址在http://stackove...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2775.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2775.html">免费电子书列表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在StackOverflow上，有人要打算收集个免费电子书的列表，结果很快就有人分享了一个列表。很不错，我就转过来了。原帖的地址在<a href="http://stackoverflow.com/questions/194812/list-of-freely-available-programming-books">http://stackoverflow.com/questions/194812/list-of-freely-available-programming-books</a> （注意：有些连接可能会被墙掉）</p>
+<p>List of Free Programming books (compiled):  <strong>Meta-List</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.htdp.org/2003-09-26/Book/">How to Design Programs: An Introduction to Computing and Programming</a></li>
+<li><a rel="nofollow" href="http://www.coderholic.com/25-free-computer-science-books/">25 Free Computer Science Ebooks</a></li>
+<li><a rel="nofollow" href="http://www.freetechbooks.com/">Free Tech Books</a></li>
+<li><a rel="nofollow" href="http://www.mindviewinc.com/Books/">MindView Inc</a> (List of Free Books)</li>
+<li><a rel="nofollow" href="http://en.wikibooks.org/wiki/Category%3aProgramming">Wikibooks: Programming</a></li>
+<li><a rel="nofollow" href="http://en.wikibooks.org/wiki/Category%3aProgramming"></a><a rel="nofollow" href="http://refcardz.dzone.com/">Cheat Sheets (Free)</a></li>
+<li><a rel="nofollow" href="http://blogs.msdn.com/wriju/archive/2009/01/07/free-ebooks-at-codeplex.aspx">CodePlex List of Free E-Books</a></li>
+<li><a rel="nofollow" href="http://www.booktraining.net/">Book Training &#8211; On Video!</a></li>
+<li><a rel="nofollow" href="http://www.spmn.com/products_guidebooks.html">Sofware Program Managers Network &#8211; Free EBooks</a></li>
+<li><a rel="nofollow" href="http://www.linbai.info/">EBook Share @ linbai.info</a></li>
+<li><a rel="nofollow" href="http://www.freebooksclub.net/">FreeBooksClub.Net</a></li>
+<li><a rel="nofollow" href="http://theassayer.org/">Theassayer.org</a> (Free Online books)</li>
+<li><a rel="nofollow" href="http://oreilly.com/openbook/">O&#8217;Reilly&#8217;s Open Books Project</a></li>
+<li><a rel="nofollow" href="http://www.techbooksforfree.com/">TechBooksForFree.com</a></li>
+<li><a rel="nofollow" href="http://www.galileocomputing.de/katalog/openbook">Galileo Computing</a> (Free Downloadable German Books)</li>
+</ul>
+<p><span id="more-2775"></span><strong>Graphics Programming</strong></p>
+<ul>
+<li>Nvidia <a rel="nofollow" href="http://http.developer.nvidia.com/GPUGems/gpugems_part01.html">GPU Gems 1</a></li>
+<li>Nvidia <a rel="nofollow" href="http://http.developer.nvidia.com/GPUGems2/gpugems2_part01.html">GPU Gems 2</a></li>
+<li>Nvidia <a rel="nofollow" href="http://http.developer.nvidia.com/GPUGems3/gpugems3_part01.html">GPU Gems 3</a></li>
+<li><a rel="nofollow" href="http://www.gamedev.net/reference/articles/article1698.asp">Graphics Programming Black Book</a></li>
+</ul>
+<p><strong>Language Agnostic</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://codebetter.com/files/folders/codebetter_downloads/entry179694.aspx">Foundations of Programming</a> by Karl Seguin</li>
+<li><a rel="nofollow" href="http://scpd.stanford.edu/knuth/index.jsp">Computer Musings</a> (Lectures by Donald Knuth)</li>
+<li><a rel="nofollow" href="http://www.catb.org/esr/writings/cathedral-bazaar/">The Cathedral and the Bazaar</a> (Introduction to Open Source Software)</li>
+<li><a rel="nofollow" href="http://www.codeplex.com/AppArchGuide">Patterns and Practices: Application Architecture Guide 2.0</a></li>
+<li><a rel="nofollow" href="http://www.cl.cam.ac.uk/~rja14/book.html">Security Engineering</a></li>
+<li><a rel="nofollow" href="http://www.dspguide.com/">Digital Signal Processing For Engineers and Scientists</a></li>
+<li><a rel="nofollow" href="http://gettingreal.37signals.com/">Getting Real</a> (Courtesy <a rel="nofollow" href="http://37signals.com/">37 Signals</a>)</li>
+<li><a rel="nofollow" href="http://mitpress.mit.edu/sicp/">Structure and Interpretation of Computer Programs</a></li>
+<li><a rel="nofollow" href="http://www.infoq.com/minibooks/domain-driven-design-quickly">Domain Driven Design Quickly</a></li>
+<li><a rel="nofollow" href="http://homepage.mac.com/s_lott/books/oodesign.html">OO Design</a></li>
+<li><a rel="nofollow" href="http://smartbear.com/codecollab-code-review-book.php">Best Kept Secrets of Peer Code Review</a></li>
+<li><a rel="nofollow" href="http://www.scribd.com/doc/7181362/NASA-Software-Measurement-Guidebook">NASA Software Measurement Handbook</a></li>
+<li><a rel="nofollow" href="http://homepages.inf.ed.ac.uk/dts/pm/Papers/nasa-manage.pdf">NASA Manager Handbook for Software Development</a></li>
+<li><a rel="nofollow" href="http://www.cl.cam.ac.uk/teaching/Lectures/funprog-jrh-1996/">Introduction to Functional Programming</a> &#8211; Class Lectures and Slides</li>
+<li><a rel="nofollow" href="http://www.htdp.org/">How to Design Programs</a> &#8211; MIT Press</li>
+<li><a rel="nofollow" href="http://www.swebok.org/stoneman/trial_1_00.html">Guide to the Software Engineering Body of Knowledge</a> &#8211; IEEE Computer Society Press</li>
+<li><a rel="nofollow" href="http://ocw.mit.edu/OcwWeb/web/home/home/index.htm">Online Course Materials</a> &#8211; MIT</li>
+<li><a rel="nofollow" href="http://www.cs.berkeley.edu/~vazirani/algorithms.html">Algorithms</a> (Draft Copy)</li>
+<li><a rel="nofollow" href="http://dotnetslackers.com/projects/Data-Structures-And-Algorithms/">Data Structures and Algorithms</a></li>
+<li><a rel="nofollow" href="http://www.agileskills.org/download.html.en">Essential Skills for Agile Development</a></li>
+<li><a rel="nofollow" href="http://www.cs.brown.edu/~sk/Publications/Books/ProgLangs/">Programming Languages: Application and Interpretation</a></li>
+<li><a rel="nofollow" href="http://pine.fm/LearnToProgram/">Learn to Program</a></li>
+<li><a rel="nofollow" href="http://www.dreamsongs.com/Files/PatternsOfSoftware.pdf">Patterns of Software: Tales from the Software Community</a></li>
+<li><a rel="nofollow" href="http://freeworld.thc.org/root/phun/unmaintain.html">How to write Unmaintainable Code</a></li>
+<li><a rel="nofollow" href="http://catb.org/esr/writings/taoup/html/">The Art of Unix Programming</a></li>
+<li><a rel="nofollow" href="http://nexus.realtimepublishers.com/dgbcq.php">The Definitive Guide to Building Code Quality</a></li>
+<li><a rel="nofollow" href="http://openbookproject.net/thinkcs/cpp.php">How to Think Like a Computer Scientist</a></li>
+<li><a rel="nofollow" href="http://planning.cs.uiuc.edu/">Planning Algorithms</a></li>
+<li><a rel="nofollow" href="http://greenteapress.com/semaphores/">The Little Book of Semaphores</a></li>
+<li><a rel="nofollow" href="http://www.ii.uib.no/~michal/und/i227/book/book.pdf">Mathematical Logic &#8211; an Introduction</a></li>
+<li><a rel="nofollow" href="http://www.cse.ohio-state.edu/~gurari/theory-bk/theory-bk.html">An Introduction to the Theory of Computation</a></li>
+<li><a rel="nofollow" href="http://devshaped.com/book">Developers Developers Developers Developers</a></li>
+<li><a rel="nofollow" href="http://www.iecc.com/linker/">Linkers and loaders</a></li>
+<li><a rel="nofollow" href="http://beej.us/guide/bgnet/">Beej&#8217;s Guide to Network Programming</a></li>
+<li><a rel="nofollow" href="http://www.infoq.com/minibooks/domain-driven-design-quickly">Domain Driven Design Quickly</a></li>
+<li><a rel="nofollow" href="http://compilers.iecc.com/crenshaw/">Let&#8217;s Build a Compiler</a></li>
+<li><a rel="nofollow" href="http://producingoss.com/">Producing Open Source Software</a></li>
+<li><a rel="nofollow" href="http://www.lindaspaces.com/book/">How to Write Parallel Programs</a></li>
+<li><a rel="nofollow" href="http://www.neildavidson.com/dontjustrollthedice.html">Don&#8217;t Just Roll the Dice</a></li>
+</ul>
+<p><strong>ASP.NET MVC</strong>:</p>
+<ul>
+<li><a rel="nofollow" href="http://weblogs.asp.net/scottgu/archive/2009/03/10/free-asp-net-mvc-ebook-tutorial.aspx">NerdDinner Walkthrough</a></li>
+</ul>
+<p><strong>Assembly Language</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://download.savannah.gnu.org/releases/pgubook/ProgrammingGroundUp-1-0-booksize.pdf">ProgrammingGroundUp</a></li>
+<li><a rel="nofollow" href="http://drpaulcarter.com/pcasm/">Paul Carter&#8217;s Tutorial on x86 Assembly</a></li>
+<li><a rel="nofollow" href="http://www.agner.org/optimize/">Software optimization resources by Agner Fog</a></li>
+</ul>
+<p><strong>Bash</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://tldp.org/LDP/abs/html/">Advanced Bash-Scripting Guide</a></li>
+</ul>
+<p><strong>C/C++</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.knosof.co.uk/cbook/cbook.html">The new C standard &#8211; an annotated reference</a></li>
+<li><a rel="nofollow" href="http://publications.gbdirect.co.uk/c_book/">The C book</a></li>
+<li><a rel="nofollow" href="http://www.mindview.net/Books/TICPP/ThinkingInCPP2e.html">Thinking in C++, Second Edition</a></li>
+<li><a rel="nofollow" href="http://cppannotations.sourceforge.net/">C++ Annotations</a></li>
+<li><a rel="nofollow" href="http://www.agner.org/optimize/">Software optimization resources by Agner Fog</a></li>
+<li><a rel="nofollow" href="http://cartan.cas.suffolk.edu/oopdocbook/opensource/index.html">Introduction to Design Patterns in C++ with Qt 4</a> (Open Publication License)</li>
+</ul>
+<p><strong>C#</strong></p>
+<ul>
+<li>See <strong>.NET</strong> below</li>
+</ul>
+<p><strong>Django</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://djangobook.com/">Djangobook.com</a></li>
+</ul>
+<p><strong>Forth</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://home.iae.nl/users/mhx/sf.html">Starting Forth</a></li>
+</ul>
+<p><strong>Git</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://progit.org/book/">Pro Git</a></li>
+<li><a rel="nofollow" href="http://book.git-scm.com/index.html">The Git Community Book</a></li>
+</ul>
+<p><strong>Haskell</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
+<li><a rel="nofollow" href="http://book.realworldhaskell.org/read/">Real World Haskell</a></li>
+</ul>
+<p><strong>Java</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://java.sun.com/docs/books/tutorial/">Sun&#8217;s Java Tutorials</a></li>
+<li><a rel="nofollow" href="http://www.mindview.net/Books/TIJ/">Thinking in Java</a></li>
+<li><a rel="nofollow" href="http://openbookproject.net/thinkcs/java.php">How to Think Like a Computer Scientist</a></li>
+<li><a rel="nofollow" href="http://www.redbooks.ibm.com/redbooks/SG245118.html">Java Thin-Client Programming</a></li>
+<li><a rel="nofollow" href="http://s3.amazonaws.com/neilbartlett.name/osgibook_preview_20090110.pdf">OSGi in Practice</a> (CreativeCommons Attribution Non-commercial Share Alike License)</li>
+</ul>
+<p><strong>JavaScript</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://eloquentjavascript.net/">Eloquent JavaScript</a></li>
+<li><a rel="nofollow" href="http://www.crockford.com/javascript/">Crockford&#8217;s JavaScript</a></li>
+<li><a rel="nofollow" href="http://www.rebeccamurphey.com/jqfundamentals/">jQuery Fundamentals</a> (starts with JS basics)</li>
+</ul>
+<p><strong>Linux</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.advancedlinuxprogramming.com/">Advanced Linux Programming</a></li>
+</ul>
+<p><strong>Lisp</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.gigamonkeys.com/book/">Practical Common Lisp</a></li>
+<li><a rel="nofollow" href="http://www.paulgraham.com/onlisp.html">On Lisp</a></li>
+<li><a rel="nofollow" href="http://www.paulgraham.com/acl.html">ANSI Common Lisp</a></li>
+<li><a rel="nofollow" href="http://www.cs.cmu.edu/Groups/AI/html/cltl/mirrors.html">Common Lisp the Language, 2nd Edition</a></li>
+<li><a rel="nofollow" href="http://psg.com/~dlamkins/sl/contents.html">Successful Lisp</a></li>
+<li><a rel="nofollow" href="http://letoverlambda.com/index.cl/toc">Let Over Lamda &#8211; 50 Years of Lisp</a></li>
+</ul>
+<p><strong>Lua</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.lua.org/pil/">Programming In Lua</a> (for v5 but still largely relevant)</li>
+</ul>
+<p><strong>Maven</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.maestrodev.com/better-build-maven">Better Builds with Maven</a></li>
+<li><a rel="nofollow" href="http://www.sonatype.com/books/mvnex-book/reference/public-book.html">Maven by Example</a></li>
+<li><a rel="nofollow" href="http://www.sonatype.com/books/maven-book/reference/">Maven: The Definitive Guide</a></li>
+</ul>
+<p><strong>Mercurial</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://hgbook.red-bean.com/">Mercurial: The Definitive Guide</a></li>
+<li><a rel="nofollow" href="http://hginit.com/">HGInit &#8211; Mercurial Tutorial by Joel Spolsky</a></li>
+</ul>
+<p><strong>.NET (C#)</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.programmersheaven.com/2/CSharpBook">Free C# Book</a> Covers C#1.0 and 2.0 (Courtesy of <a rel="nofollow" href="http://www.programmersheaven.com/">Programmers Heaven</a>)</li>
+<li><a rel="nofollow" href="http://www.infoq.com/minibooks/vsnettt">Visual Studio Tips and Tricks</a></li>
+<li><a rel="nofollow" href="http://weblogs.asp.net/zeeshanhirani/archive/2008/12/05/my-christmas-present-to-the-entity-framework-community.aspx">Entity Framework</a> (514 pages)</li>
+<li><a rel="nofollow" href="http://www.charlespetzold.com/dotnet/index.html">Charles Petzold&#8217;s .Net Book 0</a></li>
+<li><a rel="nofollow" href="http://www.albahari.com/threading/">Threading in C#</a></li>
+<li><a rel="nofollow" href="http://www.csharpcourse.com/">C# Yellow Book</a> (Intro to programming)</li>
+<li><a rel="nofollow" href="http://en.wikibooks.org/wiki/C_Sharp_Programming">C# Programming &#8211; Wikibook</a></li>
+<li><a rel="nofollow" href="http://www.techotopia.com/index.php/C_Sharp_Essentials">C# Essentials</a></li>
+<li><a rel="nofollow" href="http://www.brpreiss.com/books/opus6/">Data Structures and Algorithms with Object-Oriented Design Patterns in C#</a></li>
+<li><a rel="nofollow" href="http://downloads.red-gate.com/ebooks/DotNet/illustratedcsharp2008.zip">Illustrated C# 2008</a> (Download) (<strong>.ZIP</strong>) [dead link]</li>
+<li><a rel="nofollow" href="http://www.red-gate.com/products/ants_performance_profiler/be_ahead_of_the_game_ebook.htm?utm_source=simpletalk&amp;utm_medium=email&amp;utm_content=nlv_aheadofgame-ebook&amp;utm_campaign=antsperformanceprofiler">O&#8217;Reilly&#8217;s C# Pocket Reference Manual</a> (<em>Free Ebook courtesy of <a rel="nofollow" href="http://red-gate.com/">Red Gate Software</a></em>) [dead link]</li>
+</ul>
+<p><strong>NoSQL</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://books.couchdb.org/relax/">CouchDB: The Definitive Guide</a></li>
+</ul>
+<p><strong>Objective-C</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://developer.apple.com/DOCUMENTATION/Cocoa/Conceptual/ObjectiveC/">The Objective-C Programming Language</a></li>
+</ul>
+<p><strong>Parrot / Perl 6</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://github.com/perl6/book/">Perl 6</a> (Work in progress)</li>
+</ul>
+<p><strong>Perl</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://hop.perl.plover.com/book/">Higher Order Perl</a></li>
+<li><a rel="nofollow" href="http://www.greenteapress.com/perl/">Perl The Hard Way</a></li>
+<li><a rel="nofollow" href="http://www.extremeperl.org/bk/home">Extreme Perl</a></li>
+<li><a rel="nofollow" href="http://linkmingle.com/list/13-plus-List-of-Free-Great-Perl-Books-available-Online-freebooksandarticles">Perl Free Online EBooks</a> <strong>Meta-List</strong></li>
+<li><a rel="nofollow" href="http://www.masonbook.com/book/">The Mason Book</a></li>
+<li><a rel="nofollow" href="http://modperlbook.org/">Practical mod_perl</a></li>
+<li><a rel="nofollow" href="http://www.perl.org/books/beginning-perl/">Beginning Perl</a></li>
+<li><a rel="nofollow" href="http://www.masonbook.com/book/">Embedding Perl in HTML with Mason</a> (Open Publication License)</li>
+<li><a rel="nofollow" href="http://lwp.interglacial.com/index.html">Perl &amp; LWP</a></li>
+<li><a rel="nofollow" href="http://www.globalspin.com/thebook/">Perl for the Web</a></li>
+<li><a rel="nofollow" href="http://oreilly.com/openbook/webclient/">Web Client Programming with Perl</a></li>
+<li><a rel="nofollow" href="http://github.com/chromatic/modern_perl_book/">Modern Perl 5</a> (Work in progress)</li>
+</ul>
+<p><strong>PHP</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.ipbwiki.com/Practical_PHP_Programming%3aTable_Of_Contents">Practical PHP Programming</a> (Wiki that contains O&#8217;Reilly&#8217;s <em>PHP In a Nutshell</em>)</li>
+<li><a rel="nofollow" href="http://www.survivethedeepend.com/">Zend Framework: Survive the Deep End</a></li>
+</ul>
+<p><strong>PowerShell</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://powershell.com/cs/blogs/ebook/">Mastering PowerShell</a></li>
+</ul>
+<p><strong>Prolog</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.amzi.com/ExpertSystemsInProlog/">Building Expert Systems in Prolog</a></li>
+<li><a rel="nofollow" href="http://www.amzi.com/AdventureInProlog/advfrtop.htm">Adventure in Prolog</a></li>
+<li><a rel="nofollow" href="http://computing.unn.ac.uk/staff/cgpb4/prologbook/">Prolog Programming A First Course</a></li>
+<li><a rel="nofollow" href="http://www.ida.liu.se/~ulfni/lpp/">Logic, Programming and Prolog (2ed)</a></li>
+<li><a rel="nofollow" href="http://www.j-paine.org/prolog/mathnotes/files/pms/pms.html">Introduction to Prolog for Mathematicians</a></li>
+<li><a rel="nofollow" href="http://www.learnprolognow.org/">Learn Prolog Now!</a></li>
+<li><a rel="nofollow" href="http://cs.union.edu/~striegnk/courses/nlp-with-prolog/html/">Natural Language Processing Techniques in Prolog</a></li>
+</ul>
+<p><strong>PostgreSQL</strong></p>
+<ul><a rel="nofollow" href="http://cs.union.edu/~striegnk/courses/nlp-with-prolog/html/"> </a></p>
+<li><a rel="nofollow" href="http://www.commandprompt.com/ppbook/">Practical PostgreSQL</a></li>
+</ul>
+<p><strong>Python</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://diveintopython.org/">Dive Into Python</a></li>
+<li><a rel="nofollow" href="http://diveintopython3.org/">Dive Into Python 3</a></li>
+<li><a rel="nofollow" href="http://www.swaroopch.com/notes/Python">Byte of Python</a></li>
+<li><a rel="nofollow" href="http://homepage.mac.com/s_lott/books/python.html">Building Skills in Python Version 2.5</a></li>
+<li><a rel="nofollow" href="http://linkmingle.com/list/List-of-Free-Online-Python-Books-freebooksandarticles">Python Free Online Ebooks</a> <strong>Meta-List</strong></li>
+<li><a rel="nofollow" href="http://openbookproject.net/pybiblio/">Python Bibliotheca</a></li>
+<li><a rel="nofollow" href="http://www.greenteapress.com/thinkpython/thinkpython.pdf">Think Python</a></li>
+<li><a rel="nofollow" href="http://www.brpreiss.com/books/opus7/html/book.html">Data Structures and Algorithms in Python</a></li>
+<li><a rel="nofollow" href="http://www.greenteapress.com/thinkpython/thinkCSpy/">How to Think Like a Computer Scientist: Learning with Python</a></li>
+<li><a rel="nofollow" href="http://www.openbookproject.net/py4fun/">Python for Fun</a></li>
+<li><a rel="nofollow" href="http://inventwithpython.com/">Invent Your Own Computer Games With Python</a></li>
+<li><a rel="nofollow" href="http://www.mindview.net/Books/TIPython/">Thinking in Python</a></li>
+<li><a rel="nofollow" href="http://djangobook.com/">The Django Book</a></li>
+<li><a title="SWFK" rel="nofollow" href="http://www.briggs.net.nz/log/writing/snake-wrangling-for-kids/">Snake Wrangling For Kids</a></li>
+</ul>
+<p><strong>Ruby</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.ruby-doc.org/docs/ProgrammingRuby/">Programming Ruby</a></li>
+<li><a rel="nofollow" href="http://mislav.uniqpath.com/poignant-guide/">Why&#8217;s (Poignant) Guide to Ruby</a> (<a rel="nofollow" href="http://www.scribd.com/doc/2236084/Whys-Poignant-Guide-to-Ruby">Mirror</a> via <a rel="nofollow" href="http://www.scribd.com/">Scribd</a>)</li>
+<li><a rel="nofollow" href="http://www.humblelittlerubybook.com/">Mr. Neighborly&#8217;s Humble Little Ruby Book</a></li>
+<li><a rel="nofollow" href="http://rubybestpractices.com/">Ruby Best Practices</a></li>
+<li><a rel="nofollow" href="http://macruby.labs.oreilly.com/">MacRuby: The Definitive Guide</a></li>
+<li><a rel="nofollow" href="http://www.railstutorial.org/">Ruby on Rails Tutorial: Learn Rails By Example</a></li>
+</ul>
+<p><strong>Scala</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.scala-lang.org/docu/files/ScalaTutorial.pdf">A Scala Tutorial for Java programmers</a></li>
+<li><a rel="nofollow" href="http://www.scala-lang.org/docu/files/ScalaByExample.pdf">Scala By Example</a></li>
+<li><a rel="nofollow" href="http://programming-scala.labs.oreilly.com/index.html">Programing Scala</a></li>
+<li><a rel="nofollow" href="http://github.com/leithaus/XTrace/tree/monadic/src/main/book/content/">Xtrace</a> (Github)</li>
+<li><a rel="nofollow" href="http://github.com/tjweir/liftbook">List</a> (Github)</li>
+<li><a rel="nofollow" href="http://github.com/leithaus/XTrace/tree/monadic/src/main/book/content/">Pro Scala: Monadic Design Patterns for the Web</a></li>
+<li><a rel="nofollow" href="http://github.com/tjweir/liftbook">Exploring Lift</a> (published earlier as &#8220;The Definitive Guide to Lift&#8221;, <a rel="nofollow" href="http://groups.google.com/group/the-lift-book">pdf</a>)</li>
+</ul>
+<p><strong>Scheme</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.scheme.com/tspl4/">The Scheme Programming Language (Edition 4)</a></li>
+</ul>
+<p><strong>SmallTalk</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://stephane.ducasse.free.fr/FreeBooks.html">SmallTalk Free Ebooks</a> <em>Courtesy of Stéphane Ducasse</em></li>
+<li><a rel="nofollow" href="http://www.squeakbyexample.org/">Squeak By Example</a> (Smalltalk IDE)</li>
+</ul>
+<p><strong>Subversion</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.phptr.com/content/images/0131855182/downloads/Nagel_book.pdf">Subversion Version Control: Using the Subversion Version Control System in Development Projects</a></li>
+</ul>
+<p><strong>*<em>SQL (Implementation agnostic) *</em> </strong></p>
+<li><a rel="nofollow" href="http://www.cs.arizona.edu/people/rts/publications.html">Developing Time-Oriented Database Applications in SQL</a>,Richard T. Snodgrass</li>
+<p><strong>Vim</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.swaroopch.com/notes/Vim">A Byte of Vim</a></li>
+</ul>
+<p>你有和我们分享的计算机电子书列表吗？欢迎在回复中和我们分享。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-150x150.jpg" alt="一些非常不错的资料" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_title">一些非常不错的资料</a></li><li ><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-150x150.png" alt="给程序员的VIM速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_title">给程序员的VIM速查卡</a></li><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2775.html">免费电子书列表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2775.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>程序员小抄大全</title>
+		<link>https://coolshell.cn/articles/1566.html</link>
+					<comments>https://coolshell.cn/articles/1566.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 13 Oct 2009 14:26:30 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1566</guid>
+
+					<description><![CDATA[<p>你是否会经常忘记一些CSS中的函数名或是一些属性名，那个时候，你一定觉得，如果手边有一个“小抄”（Cheat Sheet）就好了。当然，这个“小抄”不是给你作弊...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1566.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1566.html">程序员小抄大全</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="size-full wp-image-1568 alignright" title="Cheat Sheet" src="https://coolshell.cn/wp-content/uploads/2009/10/Cheating.jpg" alt="Cheat Sheet" width="180" height="120" />你是否会经常忘记一些CSS中的函数名或是一些属性名，那个时候，你一定觉得，如果手边有一个“小抄”（Cheat Sheet）就好了。当然，这个“小抄”不是给你作弊用的，这个“小纸条”就是可以让你马上知道那个你最想知道的东西。这个“小抄”上也不需要有所有的东西，就需要那些经常用的就行了。现在，网上有很多这样的“小抄”，它们可能是PDF格式的，可能是PNG格式的，你可以很方便地把其打印出来（可以打印得很小），然后贴在你的电脑旁，一但需要，瞟一眼就可以了，这对于我们的工作是相当方便的。</p>
+<p>之前，酷壳也有两篇关于速查卡的文章《<a rel="bookmark" href="https://coolshell.cn/articles/870.html">Web设计的速查卡</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/150.html">Vim命令速查卡</a>》，不过都不如本贴多。</p>
+<p>下面是N多的各种和样的“小抄”，其中包括了Ajax, C++, Java, Python, PHP, Perl, ASP, Unix, Ruby, Google, HTML, CSS, XML &#8230;&#8230;..，让我们姑且叫做“程序员小抄大全”吧。当然，他们都是英文版的，可能某些链接你可能需要翻墙软件才能访问。我这里就不教你怎么翻墙了，这样的贴子网上多的是。</p>
+<p><span id="more-1566"></span></p>
+<p><strong>Actionscript</strong></p>
+<ul>
+<li><a href="http://actionscriptcheatsheet.com/blog/quick-referencecheatsheet-for-actionscript-20/">Quick reference/Cheatsheet for ActionScript 2.0</a></li>
+</ul>
+<p><strong>Ajax</strong></p>
+<ul>
+<li><a href="http://slash7.com/cheats/whats_ajax_cheatsheet.pdf">What&#8217;s Ajax? Cheat Sheet — PDF</a></li>
+<li><a href="http://www.snook.ca/archives/javascript/prototype_disse/">Prototype Dissected — Cheat Sheet PNG</a></li>
+<li><a href="http://slash7.com/cheats/scriptaculous_fx1.pdf">scriptaculous Combination Effects — Cheat Sheet — PDF</a></li>
+</ul>
+<p><strong>Apache</strong></p>
+<ul>
+<li><a href="http://www.petefreitag.com/cheatsheets/apache/">Apache Cheat Sheet</a></li>
+<li><a href="http://www.thejackol.com/htaccess-cheatsheet/">htaccess Cheatsheet</a></li>
+<li><a href="http://www.addedbytes.com/mod_rewrite_cheat_sheet.png">mod_rewrite Cheat Sheet — PNG</a></li>
+<li><a href="http://www.addedbytes.com/mod_rewrite_cheat_sheet.pdf">mod_rewrite Cheat Sheet — PDF</a></li>
+</ul>
+<p><strong>ASCII Character Codes</strong></p>
+<ul>
+<li><a href="http://www.cookwood.com/html/extras/entities.html">Character Entity References in HTML 4 and XHTML 1.0</a></li>
+<li><a href="http://www.addedbytes.com/characters_cheat_sheet.png">HTML Character Entities Cheat Sheet — PNG</a></li>
+<li><a href="http://www.addedbytes.com/characters_cheat_sheet.pdf">HTML Character Entities Cheat Sheet — PDF</a></li>
+<li><a href="http://www.chami.com/tips/internet/050798I.html">HTML special character reference</a></li>
+<li><a href="http://tlt.its.psu.edu/suggestions/international/web/codehtml.html">HTML — Special Entity Codes</a></li>
+<li><a href="http://www.yellowpipe.com/yis/tools/ASCII-HTML-Characters/index.php">Special ASCII HTML Character Codes</a></li>
+<li><a href="http://www.digitalmediaminute.com/reference/entity/index.php">XHTML Character Entity Reference</a></li>
+</ul>
+<p><strong>ASP</strong></p>
+<ul>
+<li><a href="http://www.addedbytes.com/asp_cheat_sheet.png">ASP / VBScript Cheat Sheet — PNG</a></li>
+</ul>
+<p><strong>C# and VB.NET</strong></p>
+<ul>
+<li><a href="http://aspalliance.com/625">C# and VB.NET Comparison Cheat Sheet — PDF</a></li>
+<li><a href="http://www.codeproject.com/dotnet/CheatSheetCastingNET.asp">Cheat Sheet — Casting in VB.NET and C#</a></li>
+</ul>
+<p><strong>CSS</strong></p>
+<ul>
+<li><a href="http://www.veign.com/downloads/guides/qrg0007.pdf">CSS 2 — Quick Reference Guide — PDF</a></li>
+<li><a href="http://www.addedbytes.com/css_cheat_sheet.pdf">CSS Cheat Sheet — PDF</a></li>
+<li><a href="http://www.addedbytes.com/css_cheat_sheet.png">CSS Cheat Sheet — PNG</a></li>
+<li><a href="http://www.blooberry.com/indexdot/css/propindex/all.htm">CSS Property Index</a></li>
+<li><a href="http://home.tampabay.rr.com/bmerkey/cheatsheet.htm">Cascading Style Cheatsheet</a></li>
+<li><a href="http://www.dustindiaz.com/css-shorthand/">CSS Shorthand Guide</a></li>
+</ul>
+<p><strong>CVS</strong></p>
+<ul>
+<li><a href="http://www-bcl.cs.unm.edu/computers/cvs.html">CVS Cheat Sheet</a></li>
+<li><a href="http://www.cs.put.poznan.pl/csobaniec/Papers/svn-refcard.pdf">Subversion Quick Reference Card — PDF</a></li>
+<li><a href="http://www.slac.stanford.edu/grp/cd/soft/cvs/cvs_cheatsheet.html">CVS Cheat-sheet</a></li>
+</ul>
+<p><strong>C++</strong></p>
+<ul>
+<li><a href="http://www.linuxsoftware.co.nz/cppcontainers.html">C++ Containers Cheat Sheet</a></li>
+<li><a href="http://downloads.dreamincode.net/ref_sheets/cpp_reference_sheet.pdf">C++ Quick Reference Sheet (Cheat Sheet) — PDF</a></li>
+<li><a href="http://cs.fit.edu/%7Emmahoney/cse2050/how2cpp.html">How to Program in C++ — Language Summary</a></li>
+</ul>
+<p><strong>Django</strong></p>
+<ul>
+<li><a title="The Django Book" href="http://www.djangobook.com/">The Django Book</a></li>
+</ul>
+<p><strong>Firefox</strong></p>
+<ul>
+<li><a href="http://the-cream.blogspot.com/2006/10/firefox-keyboard-shortcuts.html">Firefox Keyboard Shortcuts — PDF</a></li>
+<li><a href="http://www.accessfirefox.com/ShortcutsKandM.html">Firefox Shortcuts Sheet</a></li>
+<li><a href="http://lesliefranke.com/2006/06/22/mozilla-firefox-cheat-sheet-update/">Mozilla Firefox Cheat Sheet</a></li>
+<li><a href="http://lesliefranke.com/files/reference/thunderbirdcheatsheet.html">Mozilla Thunderbird Cheat Sheet</a></li>
+<li><a href="http://www.mozilla.org/support/firefox/keyboard">Keyboard Shortcuts</a></li>
+</ul>
+<p><strong>Google</strong></p>
+<ul>
+<li><a href="http://evhead.com/hodgepodge/gmail-shortcuts.html">Gmail Shortcuts (printable cheatsheet)</a></li>
+<li><a href="http://www.googleguide.com/advanced_operators_reference.html">Google Advanced Operators (Cheat Sheet)</a></li>
+<li><a href="http://www.adelaider.com/google/">Google Cheat Sheet (Version 1.06) — PDF</a></li>
+<li><a href="http://www.bueltge.de/allg-google-cheat-sheet/42/">Google Cheat Sheet — auch als PDF</a></li>
+<li><a href="http://www.feedsforme.com/google/">Google Cheat Sheets — auch als PDF</a></li>
+<li><a href="http://www.google.com/help/cheatsheet.html">Google Help : Cheat Sheet</a></li>
+</ul>
+<p><strong>HTML/XHTML</strong></p>
+<ul>
+<li><a href="http://www.alphalink.com.au/%7Erhduncan/htmlguide/cheatindex.html">A Simple Guide To HTML — Cheat Sheet</a></li>
+<li><a href="http://library.albany.edu/imc/pdf/HTML-XHTML_Tag_Sheet.pdf">HTML &amp; XHTML Tag Quick Reference</a></li>
+<li><a href="http://www.psacake.com/web/dy.asp">HTML Cheat Sheet</a></li>
+<li><a href="http://www.cookwood.com/html/extras/entities.html">HTML Entities</a></li>
+<li><a href="http://www.killersites.com/HTML_CODES/index.jsp">HTML CODES CHEAT SHEET</a></li>
+<li><a href="http://cdburnerxp.se/htmlcheatsheet.pdf">XHTML</a></li>
+<li><a href="http://www.angelfire.com/nm/thehtmlsource/html/cheatsheet.html">HTML Cheat Sheet</a></li>
+<li><a href="http://cdburnerxp.se/htmlcheatsheet.pdf">XHTML Cheat Sheet v. 1.03 — PDF</a></li>
+</ul>
+<p><strong>Java</strong></p>
+<ul>
+<li><a href="http://www.janeg.ca/JQREF.pdf">Java Quick Reference — PDF</a></li>
+<li><a href="http://java.sun.com/products/jsp/syntax/1.1/card11.pdf">(</a><a href="http://java.sun.com/products/jsp/syntax/1.1/card11.pdf">JSPª) SYNTAX version 1.1</a></li>
+<li><a href="http://java.sun.com/products/jsp/syntax/2.0/card20.pdf">(JSP<img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2122.png" alt="™" class="wp-smiley" style="height: 1em; max-height: 1em;" />) SYNTAX version 2.0</a></li>
+</ul>
+<p><strong>JavaScript</strong></p>
+<ul>
+<li><a href="http://www.addedbytes.com/javascript_cheat_sheet.png">JavaScript Cheat Sheet — PNG</a></li>
+<li><a href="http://www.addedbytes.com/javascript_cheat_sheet.pdf">JavaScript Cheat Sheet — PDF</a></li>
+<li><a href="http://javascript-reference.info/">JavaScript Reference</a></li>
+<li><a href="http://www.dannyg.com/ref/jsquickref.html">JavaScript and Browser Objects Quick Reference</a></li>
+<li><a href="http://www.visibone.com/regular-expressions/">Regular Expressions for JavaSript — free online quick reference</a></li>
+</ul>
+<p><strong>Microformats</strong></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/microformats-cheat-sheet/">Microformats Cheat Sheet</a></li>
+<li><a href="http://suda.co.uk/projects/microformats/cheatsheet/">Microformats Cheat Sheet</a></li>
+</ul>
+<p><strong>Misc</strong></p>
+<ul>
+<li><a href="http://www.draac.com/chmodchart.html">CHMOD Chart</a></li>
+<li><a href="http://photonotes.org/cgi-bin/view.pl?letter=%21">Complete listing of common camera symbols.</a></li>
+<li><a href="http://www.sql-und-xml.de/unicode-database/">The Unicode-Database</a></li>
+<li><a href="http://www.addedbytes.com/colourchart.png">RGB Hex Colour Chart — PNG</a></li>
+<li><a href="http://www.geocities.com/Athens/1802/pgpcard.html">Pretty Good PGP Reference Card</a></li>
+<li><a href="http://www.aiic.net/ViewPage.cfm/page302.htm">Search Engine Cheat Sheet</a></li>
+<li><a href="http://www.digilife.be/quickreferences/quickrefs.htm">Quick Reference Cards</a></li>
+</ul>
+<p><strong>MySQL</strong></p>
+<ul>
+<li><a href="http://www.nparikh.org/unix/mysql.php">MySQL Cheat Sheet</a></li>
+<li><a href="http://www.addedbytes.com/mysql_cheat_sheet.pdf">MySQL Cheat Sheet — PDF</a></li>
+<li><a href="http://www.addedbytes.com/mysql_cheat_sheet.png">MySQL Cheat Sheet — PNG</a></li>
+<li><a href="http://www.3gwt.net/demo/SQL_redux.html">SQL Cheatsheet</a></li>
+</ul>
+<p><strong>Oracle</strong></p>
+<ul>
+<li><a href="http://www.yagc.ndo.co.uk/cheatsheets/plsql_cheatsheet.html">Oracle PL/SQL Cheatsheet</a></li>
+<li><a href="http://www.vttoth.com/oracle.htm">Oracle Cheat Sheet</a></li>
+<li><a href="http://radio.weblogs.com/0128037/stories/2003/10/21/oracleScmInstallationCheatSheet.html">Oracle SCM Installation Cheat Sheet</a></li>
+</ul>
+<p><strong>Perl</strong></p>
+<ul>
+<li><a href="http://www.mnlab.cs.depaul.edu/%7Eehab/Courses/TDC568/resources/PerlQuickRef.pdf">Perl Regular Expression -Quick Reference — PDF</a></li>
+<li><a href="http://juerd.nl/site.plp/perlcheat">Perl Cheat Sheet</a></li>
+<li><a href="http://juerd.nl/site.plp/perlcheat">Perl Cheat Sheet</a></li>
+<li><a href="http://search.cpan.org/%7Enwclark/perl-5.8.7/pod/perlcheat.pod">Perl 5 Cheat Sheet</a></li>
+<li><a href="http://johnbokma.com/perl/perl-quick-reference-card.html">Perl Quick Reference Card — PDF</a></li>
+<li><a href="http://refcards.com/refcards/perl-regexp/index.html">Perl Regexp Quick Reference Card — PDF</a></li>
+</ul>
+<p><strong>Photoshop/Gimp</strong></p>
+<ul>
+<li><a href="http://frenchfragfactory.net/ozh/download/refcards/Gimp.pdf">Gimp Quick Reference Card v.1.0</a></li>
+<li><a href="http://frenchfragfactory.net/ozh/download/refcards/Photoshop.pdf">Photoshop 7.0 Quick Reference Card for Windows — PDF</a></li>
+<li><a href="http://www.creativetechs.com/tips/tip_resources/PSCS2_Shortcuts_Windows.pdf">Photoshop CS2 Keyboard Shortcuts (Windows) — PDF</a></li>
+<li><a href="http://www.creativetechs.com/tips/tip_resources/PSCS2_Shortcuts_Mac.pdf">Photoshop CS2 Keyboard Shortcuts (Macintosh) — PDF</a></li>
+</ul>
+<p><strong>PHP</strong></p>
+<ul>
+<li><a href="http://www.symfony-project.com/weblog/2006/04/25/admin-generator-cheat-sheet.html">symfony PHP5 framework — Admin Generator cheat sheet — PDF</a></li>
+<li><a href="http://www.addedbytes.com/php_cheat_sheet.pdf">PHP Cheat Sheet — PDF</a></li>
+<li><a href="http://www.addedbytes.com/php_cheat_sheet.png">PHP Cheat Sheet — PNG</a></li>
+<li><a href="http://www.blueshoes.org/en/developer/php_cheat_sheet/">PHP Cheat Sheet with special php syntax</a></li>
+<li><a href="http://www.addedbytes.com/regular_expressions_cheat_sheet.png">Regular Expressions Cheat Sheet — PNG</a></li>
+</ul>
+<p><strong>Python</strong></p>
+<ul>
+<li><a href="http://www-128.ibm.com/developerworks/library/l-cheatsheet3.html">Python 101 cheat sheet</a></li>
+<li><a href="http://www.yukoncollege.yk.ca/%7Ettopper/COMP118/rCheatSheet.html">Python Cheat Sheet</a></li>
+<li><a href="http://www.drweb.de/weblog/weblog/?p=548">Python Cheat Sheet — PDF</a></li>
+<li><a href="http://www.onlamp.com/python/excerpt/PythonPocketRef/examples/python.pdf">Python Quick Reference</a></li>
+<li><a href="http://rgruet.free.fr/PQR24/PQR2.4.html">Python 2.4 Quick Reference</a></li>
+</ul>
+<p><strong>Regular Expressions</strong></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/regular-expressions-cheat-sheet/">Regular Expressions Cheat Sheet</a></li>
+<li><a href="http://regexlib.com/CheatSheet.aspx">Regular Expression Cheat Sheet (.NET)</a></li>
+</ul>
+<p><strong>Ruby</strong></p>
+<ul>
+<li><a href="http://slash7.com/cheats/activerecord_cheatsheet.pdf">ActiveRecord Relationships — Ruby on Rails cheat sheet guide — PDF</a></li>
+<li><a href="http://www.blainekendall.com/index.php/rubyonrailscheatsheet/">RubyOnRails-Cheatsheet — PDF</a></li>
+<li><a href="http://www.addedbytes.com/ruby_on_rails_cheat_sheet.png">Ruby on Rails Cheat Sheet — PNG</a></li>
+<li><a href="http://slash7.com/cheats/form_helpers.pdf">Ruby on Rails cheat sheet guide — PDF</a></li>
+<li><a href="http://www.zenspider.com/Languages/Ruby/QuickRef.html">Ruby quick reference</a></li>
+<li><a href="http://www.threaded.com/ruby_cheatsheet.htm">Threadeds Ruby Cheat Sheet</a></li>
+<li><a href="http://slash7.com/cheats/rails_files_cheatsheet.pdf">What Goes Where? — Ruby on Rails cheat sheet — PDF</a></li>
+</ul>
+<p><strong>Unix/Linux</strong></p>
+<ul>
+<li><a href="http://www.unixguide.net/linux/linuxshortcuts.shtml">Linux Shortcuts and Commands</a></li>
+<li><a href="http://aperiodic.net/screen/quick_reference?do=show">quick_reference [GNU screen]</a></li>
+<li><a href="http://www.pixelbeat.org/cmdline.html">Unix Cheat Sheet</a></li>
+<li><a href="http://homepage.powerup.com.au/%7Esquadron/linux_manual.pdf">The One Page Linux Manual — Version 3 — PDF </a></li>
+<li><a href="http://www.gasmi.net/docs/tcp.html">TCP Ports list (3498 ports in list) </a></li>
+<li><a href="http://www.rain.org/%7emkummel/unix.html">Treebeard&#8217;s Unix Cheat Sheet</a></li>
+<li><a href="http://www.pixelbeat.org/vim.tips.html">Essential Vim keyboard shortcuts Cheat Sheet</a></li>
+<li><a href="http://tnerual.eriogerg.free.fr/vim.html">VIM Quick Reference Card</a></li>
+<li><a href="http://bullium.com/support/vim.html">Vim Commands Cheat Sheet</a></li>
+</ul>
+<p><strong>Weblog</strong></p>
+<ul>
+<li><a href="http://andywibbels.com/files/Blogger_Cheatsheet_v1.pdf">Blogger Cheatsheet — PDF</a></li>
+<li><a href="http://andywibbels.com/files/TypePad_Cheatsheet_v1.pdf">TypePad Cheatsheet — PDF</a></li>
+<li><a href="http://andywibbels.com/files/Movable_Type_Cheatsheet_v1.pdf">Movable Type Cheatsheet — PDF</a></li>
+<li><a href="http://www.einfach-persoenlich.de/2005-05-29/movabletype-movable-type-cheat-sheet-spickzettel.html">MovableType</a></li>
+<li><a href="http://andywibbels.com/files/WordPress_Cheatsheet_v1.pdf">WordPress Cheatsheet — PDF</a></li>
+<li><a href="http://bueltge.de/wp-wordpress-cheat-sheet-fuer-theme-tags-und-plugin-api/205">WP — WordPress Cheat Sheet f眉r Theme Tags und Plugin-API — PDF</a></li>
+</ul>
+<p><strong>Windows</strong></p>
+<ul>
+<li><a href="http://www.ss64.com/nt/">An A-Z Index of the Windows NT/XP command line</a></li>
+<li><a href="http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html">Graphical vi-vim Cheat Sheet and Tutorial</a></li>
+<li><a href="http://www.fgcu.edu/support/office2000/ppt/shortcuts.html">Power Point 2000 — Keyboard Shortcuts</a></li>
+<li><a href="http://www.oreilly.com/examples/promos/pt/power_point_quickref.pdf">POWERPOINT 2003 — Quick Reference Card</a></li>
+<li><a href="http://www.gasmi.net/docs/tcp.html">TCP Ports list (3498 ports in list) </a></li>
+<li><a href="http://tlt.its.psu.edu/suggestions/international/accents/codealt.html">Windows — Alt Key Numeric Codes</a></li>
+</ul>
+<p><strong>XML</strong></p>
+<ul>
+<li><a href="http://www.dopefly.com/projects/fuseboxxmlcheatsheet.cfm">Fusebox 4.1 XML Cheat Sheet</a></li>
+<li><a href="http://www.zvon.org/download2_cheatsheet.php/sheet_mathML_el_attr.pdf?title=MathML%3A+elements+-+attributes">MathML Reference — PDF</a></li>
+<li><a href="http://www.zvon.org/download2_cheatsheet.php/sheet_voiceXML_el_attr.pdf?title=VoiceXML%3A+elements+-+attributes">VoiceXML Reference — PDF</a></li>
+<li><a href="http://refcards.com/download/bj/xtm-1.0.pdf">XML TopicMaps 1.0 — Quick Reference Card — PDF</a></li>
+<li><a href="http://www.mulberrytech.com/quickref/XMLquickref.pdf">XML Quick References — PDF</a></li>
+<li><a href="http://www.zvon.org/download2_cheatsheet.php/sheet_xmlSchema2001_child_parent.pdf?title=XML+Schema+2001%3A+children+-+parents">XML Schema 2001: children — parents — PDF</a></li>
+<li><a href="http://www.zvon.org/download2_cheatsheet.php/sheet_xmlSchema2001_el_attr.pdf?title=XML+Schema+2001%3A+elements+-+attributes">XML Schema 2001: elements — attributes — PDF</a></li>
+<li><a href="http://www.zvon.org/Output/cheatsheets/cheatsheet_list.html">XML Schema 2000/10 — PDF</a></li>
+<li><a href="http://www.xml.dvint.com/docs/SchemaStructuresQR-2.pdf">XML Schema — Structures Quick Reference — PDF</a></li>
+<li><a href="http://www.xml.dvint.com/docs/SchemaDataTypesQR-2.pdf">XML Schema — Data Types Quick Reference — PDF</a></li>
+<li><a href="http://www.zvon.org/download2_cheatsheet.php/sheet_xslReference_el_attr.pdf?title=XSL+FO%3A+elements+-+attributes">XSL FO Reference — PDF</a></li>
+<li><a href="http://www.mulberrytech.com/quickref/XSLT_1quickref-v2.pdf">XSLT Quick References — PDF</a></li>
+<li><a href="http://refcards.com/download/deepx/XSLT-1.0.pdf">XSLT Quick Reference Card — PDF</a></li>
+<li><a href="http://www.topxml.com/xsl/XSLTRef.asp">XSLT Reference</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-150x150.png" alt="给程序员的VIM速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_title">给程序员的VIM速查卡</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3480.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/01/OB-LP754_bestjo_D_20110104181820-150x150.jpg" alt="一些有意思的网站和贴子" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3480.html" class="wp_rp_title">一些有意思的网站和贴子</a></li><li ><a href="https://coolshell.cn/articles/2964.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="25个jQuery的编程小抄" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2964.html" class="wp_rp_title">25个jQuery的编程小抄</a></li><li ><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/22.jpg" alt="免费电子书列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_title">免费电子书列表</a></li><li ><a href="https://coolshell.cn/articles/3489.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/01/scr1_m-150x150.png" alt="Linux的cycle日历（你懂的）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3489.html" class="wp_rp_title">Linux的cycle日历（你懂的）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1566.html">程序员小抄大全</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1566.html/feed</wfw:commentRss>
+			<slash:comments>29</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

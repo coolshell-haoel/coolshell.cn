@@ -1,0 +1,1742 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>业界新闻 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/category/itnews/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 09 May 2023 04:25:32 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>是微服务架构不香还是云不香？</title>
+		<link>https://coolshell.cn/articles/22422.html</link>
+					<comments>https://coolshell.cn/articles/22422.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 08 May 2023 09:52:06 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[AWS]]></category>
+		<category><![CDATA[Lambda]]></category>
+		<category><![CDATA[Microservice]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<category><![CDATA[Step Function]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22422</guid>
+
+					<description><![CDATA[<p>这两天技术圈里热议的一件事就是Amazon的流媒体平台Prime Video在2023年3月22日发布了一篇技术博客《规模化Prime Video的音视频监控服...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22422.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22422.html">是微服务架构不香还是云不香？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-22424" src="https://coolshell.cn/wp-content/uploads/2023/05/monolith.microservices-300x200.png" alt="" width="300" height="200" srcset="https://coolshell.cn/wp-content/uploads/2023/05/monolith.microservices-300x200.png 300w, https://coolshell.cn/wp-content/uploads/2023/05/monolith.microservices-768x512.png 768w, https://coolshell.cn/wp-content/uploads/2023/05/monolith.microservices-405x270.png 405w, https://coolshell.cn/wp-content/uploads/2023/05/monolith.microservices.png 800w" sizes="(max-width: 300px) 100vw, 300px" />这两天技术圈里热议的一件事就是Amazon的流媒体平台Prime Video在2023年3月22日发布了一篇技术博客《<a title="Scaling up the Prime Video audio/video monitoring service and reducing costs by 90%" href="https://www.primevideotech.com/video-streaming/scaling-up-the-prime-video-audio-video-monitoring-service-and-reducing-costs-by-90" target="_blank" rel="noopener">规模化Prime Video的音视频监控服务，成本降低90%</a>》，副标题：“<strong>从分布式微服务架构到单体应用程序的转变有助于实现更高的规模、弹性和降低成本</strong>”，有人把这篇文章在五一期间转到了<a href="https://www.reddit.com/r/programming/comments/137alxn/prime_video_switched_from_serverless_to_ec2_and/" target="_blank" rel="noopener">reddit</a> 和 <a href="https://news.ycombinator.com/item?id=35811741" target="_blank" rel="noopener">hacker news</a> 上，在Reddit上热议。这种话题与业内推崇的微服务架构形成了鲜明的对比。从“微服务架构”转“单体架构”，还是Amazon干的，这个话题足够劲爆。然后DHH在刚<a href="https://twitter.com/dhh/status/1655076668787097607" target="_blank" rel="noopener">喷完Typescript</a>后继续发文《<a href="https://world.hey.com/dhh/even-amazon-can-t-make-sense-of-serverless-or-microservices-59625580" target="_blank" rel="noopener">即便是亚马逊也无法理解Servless或微服务</a>》，继续抨击微服务架构，于是，瞬间引爆技术圈，登上技术圈热搜。</p>
+<p>今天上午有好几个朋友在微信里转了三篇文章给我，如下所示：</p>
+<ul>
+<li>《<a href="https://mp.weixin.qq.com/s/mEmz8pviahEAWy1-SA8vcg" target="_blank" rel="noopener">微服务是不是个蠢主意？</a>》</li>
+<li>《<a href="https://mp.weixin.qq.com/s/7zm5YyeZhQ2mu2TJvOK5tQ" target="_blank" rel="noopener">单体回归？亚马逊放弃用于视频监控的微服务</a> 》</li>
+<li>《<a href="https://mp.weixin.qq.com/s/fQtAMf4BfJxdBPWDE5ygwg" target="_blank" rel="noopener">从微服务转为单体架构、成本降低 90%，亚马逊内部案例引发轰动</a>》</li>
+</ul>
+<p>看看这些标题就知道这些文章要的是流量而不是好好写篇文章。看到第二篇，你还真当 Prime Video 就是 Amazon 的全部么？然后，再看看这些文章后面的跟风评论，我觉得有 80%的人只看标题，而且是连原文都不看的。所以，我想我得写篇文章了……</p>
+<p><span id="more-22422"></span></p>
+<h4>原文解读</h4>
+<p>要认清这个问题首先是要认认真真读一读原文，Amazon Prime Video 技术团队的这篇文章并不难读，也没有太多的技术细节，但核心意思如下：</p>
+<p>1）<strong>这个系统是一个监控系统，用于监控数据千条用户的点播视频流</strong>。主要是监控整个视频流运作的质量和效果（比如：视频损坏或是音频不同步等问题），这个监控主要是处理视频帧，所以，他们有一个微服务主要是用来把视频拆分成帧，并临时存在 S3 上，就是下图中的 Media Conversion 服务。</p>
+<p>2）<strong>为了快速搭建系统，Prime Video团队使用了Serverless 架构，也就是著名的 AWS Lambda 和 AWS Step Functions</strong>。前置 Lambda 用来做用户请求的网关，Step Function 用来做监控（探测器），有问题后，就发 SNS 上，Step Function 从 S3 获取 Media Conversion 的数据，然后把运行结果再汇总给一个后置的 Lambda ，并存在 S3 上。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-22423 " src="https://coolshell.cn/wp-content/uploads/2023/05/prime.01.webp" alt="" width="624" height="496" srcset="https://coolshell.cn/wp-content/uploads/2023/05/prime.01.webp 1011w, https://coolshell.cn/wp-content/uploads/2023/05/prime.01-300x238.webp 300w, https://coolshell.cn/wp-content/uploads/2023/05/prime.01-768x610.webp 768w, https://coolshell.cn/wp-content/uploads/2023/05/prime.01-340x270.webp 340w" sizes="(max-width: 624px) 100vw, 624px" /></p>
+<p>整个架构看上去非常简单 ，一点也不复杂，而且使用了 Serverless 的架构，一点服务器的影子都看不见。<strong>实话实说，这样的开发不香吗？我觉得很香啊，方便快捷，完全不理那些无聊的基础设施，直接把代码转成服务，然后用 AWS 的 Lamda + Step Function + SNS + S3 分分钟就搭出一个有模有样的监控系统了，哪里不好了？！</strong></p>
+<p>但是他们遇到了一个比较大的问题，就是 AWS Step Function 的伸缩问题，从文章中我看到了两个问题（注意前方高能）：</p>
+<ol>
+<li>需要很多很多的并发的 AWS Step Function ，于是达到了帐户的 hard limit。</li>
+<li>AWS Step Function 按状态转换收费，所以，贵得受不了了。</li>
+</ol>
+<p>注意，这里有两个关键点：1）<strong>帐户对 Step Function 有限制</strong>，2）<strong>Step Function 太贵了用不起</strong>。</p>
+<p>然后，Prime Video 的团队开始解决问题，下面是解决的手段：</p>
+<p>1） 把 Media Conversion  和 Step Function 全部写在一个程序里，Media Conversion 跟 Step Function 里的东西通过内存通信，不再走S3了。结果汇总到一个线程中，然后写到 S3.</p>
+<p>2）把上面这个单体架构进行分布式部署，还是用之前的 AWS Lambda 来做入门调度。</p>
+<p>EC2 的水平扩展没有限制，而且你想买多少 CPU/MEM 的机器由你说了算，而这些视频转码，监控分析的功能感觉就不复杂，本来就应该写在一起，这么做不更香吗？当然更香，比前面的 Serverless 的确更香，因为如下的几个原因：</p>
+<ol>
+<li>不再受 Step Function 的限制了，技术在自己手里，有更大的自由度。</li>
+<li>没有昂贵的 Step Function 云成本的确变得更低了，如果你把 Lambda 换成 Nginx 或 Spring Gateway 或是我司的 <a href="https://github.com/megaease/easegress" target="_blank" rel="noopener">Easegress</a>，你把 S3 换成 MinIO，你把 SNS 换成 Kafka，你的成本 还能再低。</li>
+</ol>
+<h4>独立思考</h4>
+<p>好了，原文解读完了，你有自己的独立思考了吗？下面是我的独立思考，供你参考：</p>
+<p>1）<strong>AWS 的 Serverless 也好， 微服务也好，单体也好，在合适的场景也都很香</strong>。这就跟汽车一样，跑车，货车，越野车各有各的场景，你用跑车拉货，还是用货车泡妞都不是一个很好的决定。</p>
+<p>2）<strong>这篇文章中的这个例子中的业务太过简单了，本来就是一两个服务就可以干完的事。</strong>就是一个转码加分析的事，要分开的话，就两个微服务就好了（一个转码一个分析），做成流式的。如果不想分，合在一起也没问题了，这个粒度是微服务没毛病。微服务的划分有好些原则，我这里只罗列几个比较重要的原则：</p>
+<ul>
+<li><strong>边界上下文</strong>。微服务的粒度不能大于领域驱动里的 Bounded Context（具体是什么 大家自行 Google），也就是一个业务域。</li>
+<li><strong>单一职责，高内聚，低耦合</strong>。把因为相同原因变化的合在一起（内聚），把不同原因变化的分开（解耦）</li>
+<li><strong>事务和一致性</strong>。对于两个重度依赖的功能，需要完成一个事务和要保证强一致性的，最好不要拆开，要放在一起。</li>
+<li><strong>跟组织架构匹配</strong>。把同一个团队的东西放在一起，不同团队的分开。</li>
+</ul>
+<p>3）<strong>Prime Video 遇到的问题不是技术问题，而是 AWS  Step Function 处理能力不足，而且收费还很贵的问题</strong>。这个是 AWS 的产品问题，不是技术问题。或者说，这个是Prime Video滥用了Step Function的问题（本来这种大量的数据分析处理就不适合Step Function）。所以，大家不要用一个产品问题来得到微服务架构有问题的结论，这个没有因果关系。<strong>试问，如果 Step Funciton 可以无限扩展，性能也很好，而且白菜价，那么 Prime Video 团队还会有动力改成单体吗？他们不会反过来吹爆 Serverless 吗？</strong></p>
+<p>4）Prime Video 跟 AWS 是两个独立核算的公司，就像 Amazon 的电商和 AWS 一样，也是两个公司。Amazon 的电商和 AWS 对服务化或是微服务架构的理解和运维，我个人认为这个世界上再也找不到另外一家公司了，包括 Google 或 Microsoft。你有空可以看看本站以前的这篇文章《<a title="SteveY对Amazon和Google平台的吐槽" href="https://coolshell.cn/articles/5701.html">Steve Yegg对Amazon和Google平台的吐槽</a>》你会了解的更多。</p>
+<p>5）<strong>Prime Video 这个案例本质上是“下云”，下了 AWS Serverless 的云</strong>。云上的成本就是高，一个是费用问题，另一个是被锁定的问题。Prime Video 团队应该很庆幸这个监控系统并不复杂，重写起来也很快，所以，可以很快使用一个更传统的“服务化”+“云计算”的分布式架构，不然，就得像 DHH 那样咬牙下云——《<a href="https://world.hey.com/dhh/why-we-re-leaving-the-cloud-654b47e0" target="_blank" rel="noopener">Why We&#8217;re Leaving the Cloud</a>》（他们的 SRE 的这篇博文 <a href="https://dev.37signals.com/our-cloud-spend-in-2022/" target="_blank" rel="noopener">Our Cloud Spend in 2022</a>说明了下云的困难和节约了多少成本）</p>
+<h4>后记</h4>
+<p>最后让我做个我自己的广告。我在过去几年的创业中，帮助了很多公司解决了这些 分布式，微服务，云原生以及云计算成本的问题，如果你也有类似问题。欢迎，跟我联系：<a href="mailto:haoel@hotmail.com">haoel@hotmail.com</a></p>
+<p>另外，我们今年发布了一个平台 MegaEase Cloud，<strong> 就是想让用户在不失去云计算体验的同时，通过自建高可用基础架构的方式来获得更低的成本（至少降 50%的云计算成本）。</strong>目前可以降低成本的方式：</p>
+<ol>
+<li>基础软件：通过开源软件自建，</li>
+<li>内容分发：MinIO + Cloudflare 的免费 CDN，</li>
+<li>马上准备发布的直接与底层IDC合作的廉价GPU计算资源…</li>
+</ol>
+<p><strong>欢迎大家试用。</strong></p>
+<p><strong>如何访问</strong></p>
+<ul>
+<li>中国区:   <a href="https://cloud.megaease.cn" target="_blank" rel="noopener">https://cloud.megaease.cn </a></li>
+<li>国际区：<a href="https://cloud.megaease.com" target="_blank" rel="noopener">https://cloud.megaease.com</a></li>
+</ul>
+<p><strong>注：这两个区完全独立，帐号不互通。因为网络的不可抗力，千万不要跨区使用。</strong></p>
+<p><strong>产品演示</strong></p>
+<ul>
+<li><a href="https://www.bilibili.com/video/BV17v4y1R7mA/" target="_blank" rel="noopener">https://www.bilibili.com/video/BV17v4y1R7mA/</a></li>
+</ul>
+<p><strong>介绍文章</strong></p>
+<ul>
+<li><a href="https://megaease.cn/zh/blog/2023/02/15/welcome-to-megaease-cloud/" target="_blank" rel="noopener">欢迎使用 MegaEase Cloud </a></li>
+<li><a href="https://megaease.cn/zh/blog/2023/04/06/megaease-cloud-2023.03-significant-update/" target="_blank" rel="noopener">2023 年 03 月重大更新</a></li>
+</ul>
+<p>&nbsp;</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-150x150.png" alt="AWS 的 S3 故障回顾和思考" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_title">AWS 的 S3 故障回顾和思考</a></li><li ><a href="https://coolshell.cn/articles/10476.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/huarong-150x150.png" alt="C++11的Lambda使用一例：华容道求解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10476.html" class="wp_rp_title">C++11的Lambda使用一例：华容道求解</a></li><li ><a href="https://coolshell.cn/articles/4601.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="关于Amazon云宕机的网贴收集" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4601.html" class="wp_rp_title">关于Amazon云宕机的网贴收集</a></li><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5826.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="千万别用MongoDB？真的吗？！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5826.html" class="wp_rp_title">千万别用MongoDB？真的吗？！</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22422.html">是微服务架构不香还是云不香？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22422.html/feed</wfw:commentRss>
+			<slash:comments>226</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>我看ChatGPT: 为啥谷歌掉了千亿美金</title>
+		<link>https://coolshell.cn/articles/22398.html</link>
+					<comments>https://coolshell.cn/articles/22398.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 11 Feb 2023 16:31:16 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[ChatGPT]]></category>
+		<category><![CDATA[Google]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22398</guid>
+
+					<description><![CDATA[<p>两个月前，我试着想用 ChatGPT 帮我写篇文章《eBPF 介绍》，结果错误百出，导致我又要从头改一遍，从那天我觉得 ChatGPT 生成的内容完全不靠谱，所...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22398.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22398.html">我看ChatGPT: 为啥谷歌掉了千亿美金</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-22405" src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-300x200.jpg" alt="" width="300" height="200" srcset="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-300x200.jpg 300w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-768x511.jpg 768w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-406x270.jpg 406w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.jpg 900w" sizes="(max-width: 300px) 100vw, 300px" />两个月前，我试着想用 ChatGPT 帮我写篇文章《<a title="eBPF 介绍" href="https://coolshell.cn/articles/22320.html">eBPF 介绍</a>》，结果错误百出，导致我又要从头改一遍，从那天我觉得 ChatGPT 生成的内容完全不靠谱，所以，从那天开始我说我不会再用 ChatGPT 来写文章（这篇文章不是由 ChatGPT 生成），因为，在试过一段时间后，我对 ChatGTP 有基于如下的认识：</p>
+<ol>
+<li><strong>ChatGPT 不是基于事实，是基于语言模型的</strong>，事实对他来说不重要，对他重要的是他能读懂你的问题，并按照一定的套路回答你的问题。</li>
+<li><strong>因为是基于套路的回答，所以，他并不能保证内容是对的，他的目标是找到漂亮的精彩的套路</strong>，于是，你会发现，他的内容组织能力和表述还不错，但是只要你认真玩上一段时间，你会发现，ChatGPT 那些表述的套路其实也比较平常一般。它的很多回答其实都不深，只能在表面上。就像 Github 的 Copilot 一样，写不了什么高级的代码，只能帮你写一些常规格式化的代码（当然，这也够了）</li>
+</ol>
+<figure id="attachment_22417" aria-describedby="caption-attachment-22417" style="width: 640px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22417 size-large" src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-1024x853.jpg" alt="" width="640" height="533" srcset="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-1024x853.jpg 1024w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-300x250.jpg 300w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-768x640.jpg 768w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-324x270.jpg 324w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example.jpg 1220w" sizes="(max-width: 640px) 100vw, 640px" /><figcaption id="caption-attachment-22417" class="wp-caption-text">ChatGPT 就是一个语言模型，如果不给他足够的数据和信息，它基本就是在胡编乱造</figcaption></figure>
+<p>所以，基于上面这两个点认识，以发展的眼光来看问题，我觉得 ChatGPT 这类的 AI 可以成为一个小助理，他的确可以干掉那些初级的脑力工作者，但是，还干不掉专业的人士，这个我估计未来也很难，不过，这也很帅了，因为大量普通的工作的确也很让人费时间和精力，<strong>但是有个前提条件——就是ChatGPT所产生的内容必需是真实可靠的，没有这个前提条件的话，那就什么用也没有了</strong>。</p>
+<p>今天，我想从另外一个角度来谈谈 ChatGPT，尤其是我在Youtube上看完了微软的发布会《<a href="https://youtu.be/rOeRWRJ16yY" target="_blank" rel="noopener">Introducing your copilot for the web: AI-powered Bing and Microsoft Edge</a> 》，才真正意识到Google 的市值为什么会掉了1000亿美元，是的，<strong>谷歌的搜索引擎的霸主位置受到了前所未有的挑战</strong>……</p>
+<p><span id="more-22398"></span></p>
+<p>我们先来分析一下搜索引擎解决了什么样的用户问题，在我看来搜索引擎解决了如下的问题：</p>
+<ul>
+<li><strong>知识或信息索引</strong>。查新闻，查股票，查历史，查文档，找答案……</li>
+<li><strong>找服务提供商</strong>。找卖东西的电商，找帮你修东西的服务，找软件……</li>
+<li><strong>信息的准确和可靠</strong>。搜索引擎的rank算法保证了最准确、最有用、最权威的信息出现在最前面……（作恶的百度不在此列）</li>
+</ul>
+<p>基本上就是上面这几个，搜索引擎在上面这几件事上作的很好，但是，还是有一些东西搜索引擎做的并不好，如：</p>
+<ul>
+<li><strong>搜索引擎是基于关键词的，不是基于语义的</strong>。所以，搜索引擎并不知道你的真实需求，因此，你会不可避免地要干下面的事，
+<ul>
+<li>你经常要不断地增加或调整不同的关键词来提高查询信息的准确度……</li>
+<li>你经常要在你查找的信息中进行二次或多次过滤和筛选……</li>
+</ul>
+</li>
+<li><strong>搜索引擎是只能呈现内容，无法解读内容</strong>。所以，你找到相关的链接后，你还要花大量的时间来阅读理解，经常性的你不可避免的要干下面的事：
+<ul>
+<li>打开一个链接，读到了一大半后，发现你要的内容不在其中，只能关掉再打开一个……</li>
+<li>你想要的内容是在的，但是太晦涩，看不懂，太费解，你要找小白友好的版本……</li>
+<li>你想要的内容不完整，你需要在很多个链接和网页上做拼图游戏……</li>
+<li>内容是无法结构化的展示的，你搜到的东西全都是碎片信息</li>
+</ul>
+</li>
+<li><strong>搜索引擎没有上下文关联，两次搜索是没有关系的</strong>。也就是说，人知道的越多，问题也就越多，所以，我们经常会面临下面的问题：
+<ul>
+<li>随着我了解的越多，我的信息搜索的会出现分支，这个分支只有我自己的管理，搜索引擎是不关心的，导致我每次都相当于从头开始……</li>
+<li>你做计划的时候，你需要从多个不同的搜索中获取你想要的东西，最终组合成你定制化的东西，比如做旅游计划……</li>
+</ul>
+</li>
+</ul>
+<p>好了，我们知道，<strong>ChatGPT 这类的技术主要是用来根据用户的需求来按一定的套路来“生成内容”的</strong>，只是其中的内容并不怎么可靠，那么，如果把搜索引擎里靠谱的内容交给 ChatGPT 呢？那么，这会是一个多么强大的搜索引擎啊，完全就是下一代的搜索引擎，上面的那些问题完全都可以解决了：</p>
+<ul>
+<li>你可以打一段话给搜索引擎，ChatGPT 是读得懂语义的。</li>
+<li>因为知道语义，于是在众多搜过结果中，他更知道哪些是你想要的内容。</li>
+<li>ChatGPT 可以帮你生成 <a href="https://en.wikipedia.org/wiki/TL;DR" target="_blank" rel="noopener">TL;DR</a>，把长文中的要求总结出来形成更易读的短文</li>
+<li>ChatGPT 可以帮你整理内容，在多个网页中帮你整合和结构化内容</li>
+<li>ChatGPT 可以有上下文对话，你可以让他帮你不断通过更多的关键词搜索信息，并在同一个主题下生成、组织和优化内容</li>
+</ul>
+<p><strong>一旦 ChatGPT 利用上了搜索引擎内容准确和靠谱的优势，那么，ChatGPT 的能力就完全被释放出来了，所以，带 ChatGPT 的搜索引擎，就是真正的“如虎添翼”！</strong></p>
+<p>因此，微软的 Bing + ChatGPT，成为了 Google 有史以来最大的挑战者，我感觉——所有跟信息或是文字处理相关的软件应用和服务，都会因为 ChatGPT 而且全部重新洗一次牌的，这应该会是新一轮的技术革命……<strong>Copilot 一定会成为下一代软件和应用的标配！</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder-150x150.png" alt="PFIF网上寻人协议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_title">PFIF网上寻人协议</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/5701.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="SteveY对Amazon和Google平台的吐槽" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5701.html" class="wp_rp_title">SteveY对Amazon和Google平台的吐槽</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/3806.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/C_String-150x150.jpg" alt="Google图片搜索下的的C String" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3806.html" class="wp_rp_title">Google图片搜索下的的C String</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22398.html">我看ChatGPT: 为啥谷歌掉了千亿美金</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22398.html/feed</wfw:commentRss>
+			<slash:comments>23</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>聊聊 nostr 和 审查</title>
+		<link>https://coolshell.cn/articles/22367.html</link>
+					<comments>https://coolshell.cn/articles/22367.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 03 Feb 2023 07:46:13 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[censorship]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[nostr]]></category>
+		<category><![CDATA[social media]]></category>
+		<category><![CDATA[Twitter]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22367</guid>
+
+					<description><![CDATA[<p>这两天在网络上又有一个东西火了，Twitter 的创始人 @jack 新的社交 iOS App  Damus 上苹果商店（第二天就因为违反中国法律在中国区下架了...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22367.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22367.html">聊聊 nostr 和 审查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-22368" src="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-300x150.png" alt="" width="300" height="150" srcset="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-300x150.png 300w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-1024x512.png 1024w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-768x384.png 768w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-540x270.png 540w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1.png 1140w" sizes="(max-width: 300px) 100vw, 300px" />这两天在网络上又有一个东西火了，Twitter 的创始人 <a href="https://twitter.com/jack">@jack</a> 新的社交 iOS App  <a href="https://apps.apple.com/ca/app/damus/id1628663131" target="_blank" rel="noopener">Damus</a> 上苹果商店（第二天就因为违反中国法律在中国区下架了），这个软件是一个去中心化的 Twitter，使用到的是 nostr &#8211; Notes and Other Stuff Transmitted by Relays 的协议（<a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener">协议简介</a>，<a href="https://github.com/nostr-protocol/nips" target="_blank" rel="noopener">协议细节</a>），协议简介中有很大的篇幅是在批评Twitter和其相类似的中心化的产品，如：<a href="https://mastodon.social/" target="_blank" rel="noopener">Mastodon</a> 和 <a href="https://scuttlebutt.nz/" target="_blank" rel="noopener">Secure Scuttlebutt</a> 。我顺着去看了一下这个协议，发现这个协议真是非常的简单，简单到几句话就可以讲清楚了。</p>
+<h4>通讯过程</h4>
+<ul>
+<li>这个协议中有两个东西，一个是 client，一个是 relay，client 就是用户社交的客户端，relay 就是转发服务器。</li>
+<li>用户不需要注册，用户只需要有一个密钥对（公钥+私钥）就好了，然后把要发的信息做签名，发给一组 relays</li>
+<li>然后你的 Follower 就可以从这些 relays 上订阅到你的信息。</li>
+</ul>
+<p><span id="more-22367"></span></p>
+<h4>技术细节摘要</h4>
+<ul>
+<li>技术实现上，nostr 使用 websocket + JSON 的方式。其中主要是下面这么几个指令
+<ul>
+<li>Client 到 Relay主要是下面这几个指令：
+<ul>
+<li><code>EVENT</code>。发出事件，可以扩展出很多很多的动作来，比如：发信息，删信息，迁移信息，建 Channel ……扩展性很好。</li>
+<li><code>REQ</code>。用于请求事件和订阅更新。收到<code>REQ</code>消息后，relay 会查询其内部数据库并返回与过滤器匹配的事件，然后存储该过滤器，并将其接收的所有未来事件再次发送到同一websocket，直到websocket关闭。</li>
+<li><code>CLOSE</code>。用于停止被 <code>REQ</code> 请求的订阅。</li>
+</ul>
+</li>
+<li>Relay 到 Client 主要是下面几个指令：
+<ul>
+<li><code>EVENT</code>。用于发送客户端请求的事件。</li>
+<li><code>NOTICE</code>。用于向客户端发送人类可读的错误消息或其他信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>关于 <code>EVENT</code> 下面是几个常用的基本事件：
+<ul>
+<li><code>0</code>: <code>set_metadata</code>：比如，用户名，用户头像，用户简介等这样的信息。</li>
+<li><code>1</code>: <code>text_note</code>：用户要发的信息内容</li>
+<li><code>2</code>： <code>recommend_server</code>：用户想要推荐给关注者的Relay的URL（例如<code>wss://somerelay.com</code>）</li>
+</ul>
+</li>
+</ul>
+<h4>如何对抗网络审查</h4>
+<p>那么，这个协议是如何对抗网络审查的？</p>
+<ul>
+<li>识别你的身份是通过你的签名，所以，只要你的私钥还在，你是不会被删号的</li>
+<li>任何人都可以运行一个或多个relay，所以，就很难有人控制所有的relay</li>
+<li>你还可以很方便的告诉其中的 relay 把你发的信息迁到另一个 relay 上</li>
+<li>你的信息是一次发给多个relay的，所以，只要不是所有的热门realy封了你，你就可以发出信息</li>
+<li>每个relay的运营者都可以自己制定规则，会审查哪些类型内容。用户据此选择即可。基本不会有一个全局的规则。</li>
+<li>如果你被全部的relay封了，你还是可以自建你的relay，然后，你可以通过各种方式告诉你身边的人你的relay服务器是什么？这样，他们把这个relay服务器加到他们的client列表中，你又可以从社死中复活了。</li>
+</ul>
+<p>嗯，听起来很简单，整个网络是构建在一种 “社区式”的松散结构，完全可能会出现若干个 relay zone。这种架构就像是互联网的架构，没有中心化，比如 DNS服务器和Email服务器一样，只要你愿意，你完全可以发展出自己圈子里的“私服”。</p>
+<p>其实，电子邮件是很难被封禁和审查的。我记得2003年中国非典的时候，我当时在北京，当时的卫生部部长说已经控制住了，才12个人感染，当局也在控制舆论和删除互联网上所有的真实信息。但是，大家都在用电子邮件传播信息，当时基本没有什么社交软件，大家分享信息都是通过邮件，尤其是外企工作的圈子，当时每天都要收很多的非典的群发邮件，大家还都是用公司的邮件服务器发……这种松散的，点对点的架构，让审查是基本不可能的。其实，<strong>我觉得 nostr 就是另外一个变种或是升级版的 email 的形式</strong>。</p>
+<h4>如何对抗Spam和骗子</h4>
+<p>但是问题来了，如果不能删号封人的话，那么如何对抗那些制造Spam，骗子或是反人类的信息呢？nostr目前的解决方案是通过比特币闪电网络。比如有些客户端实现了如果对方没有follow 你，如果给他发私信，需要支付一点点btc ，或是relay要求你给btc才给你发信息（注：我不认为这是一个好的方法，因为：1）因为少数的坏人让大多数正常人也要跟着付出成本，这是个糟糕的治理方式，2）不鼓励那些生产内容的人，那么平台就没有任何价值了）。</p>
+<p>不过，我觉得也有可以有下面的这些思路：</p>
+<ul>
+<li>用户主动拉黑，但很明显这个效率不高，而且体验不好</li>
+<li>社区或是同盟维护一个黑名单，relay定期更新（如同email中防垃圾邮件也是这样搞的），这其实也是审查。</li>
+<li>防Spam的算法过滤垃圾信息（如同email中干的），自动化审查。</li>
+<li>增加发Spam的成本，如: PoW 工作量证明（比特币的挖矿，最早也是用于Email），发信息要花钱（这个对正常用户伤害太大了）等。</li>
+<li>……</li>
+</ul>
+<p>总之，还是有相应的方法的，但是一定没有完美解，email对抗了这么多年，你还是可以收到大量的垃圾邮件和钓鱼邮件，所以，我觉得 nostr 也不可能做到……</p>
+<h4>怎么理解审查</h4>
+<p>最后，我们要明白的是，<strong>无论你用什么方法，审查是肯定需要的，所以，我觉得要完全干掉审查，最终的结果就是一个到处都垃圾内容的地方！</strong></p>
+<p><strong>我理解的审查不应该是为权力或是个体服务的，而是为大众和人民服务的，所以，审查必然是要有一个开放和共同决策的流程，而不是独断的</strong>。</p>
+<p>这点可以参考开源软件基金会的运作模式。</p>
+<ul>
+<li>最底端的是用户（User）参与开源社区的使用并提供问题和反馈。</li>
+<li>用户在使用过程中了解项目情况后贡献代码和文档就可以晋升为贡献者（Contributors），</li>
+<li>当贡献者提交一定数量贡献之后就可以晋升为提交者（Committers），此时你将拥有你参与仓库的代码读写权限。</li>
+<li>当提交者Committers在社区得到认可后，由项目管理委员会（PMC）选举并产生PMC成员（类似于议员），PMC成员拥有社区相关事务的投票、提名和共同决策权利和义务。</li>
+</ul>
+<p>注意下面几点</p>
+<ul>
+<li>整个社区的决策者，是要通过自己贡献来挣到被选举权的。</li>
+<li>社区所有的工作和决定都是要公开的。</li>
+<li>社区的方向和决策都是要投票的，PMC成员有binding的票权，大众也有non-binding的投票权供参考。</li>
+<li><strong>如果出现了价值观的不同，那么，直接分裂社区就好了，不同价值观的人加入到不同的社区就好了</strong>。</li>
+</ul>
+<p>如果审查是在这个框架下运作的话，虽然不完美，但至少会在一种公允的基础下运作，是透明公开的，也是集体决策的。</p>
+<p>开源软件社区是一个很成功的示范，所以，我觉得只有技术而没有一个良性的可持续运作的社区，是不可能解决问题的，<strong>干净整齐的环境是一定要有人打扫和整理的</strong>。</p>
+<p>&nbsp;</p>
+<figure id="attachment_22371" aria-describedby="caption-attachment-22371" style="width: 300px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22371 size-medium" src="https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-300x289.jpg" alt="欢迎关注我 npub1w6r99545cxea6z76e8nvzjxnymjt4nrsddld33almtm78z7fz95s3c94nu" width="300" height="289" srcset="https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-300x289.jpg 300w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-1024x987.jpg 1024w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-768x740.jpg 768w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-280x270.jpg 280w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533.jpg 1242w" sizes="(max-width: 300px) 100vw, 300px" /><figcaption id="caption-attachment-22371" class="wp-caption-text">欢迎关注我 npub1w6r99545cxea6z76e8nvzjxnymjt4nrsddld33almtm78z7fz95s3c94nu</figcaption></figure>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="国内微博和Twitter的最大不同" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_title">国内微博和Twitter的最大不同</a></li><li ><a href="https://coolshell.cn/articles/25.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="如何上网觅无踪" width="150" height="150" /></a><a href="https://coolshell.cn/articles/25.html" class="wp_rp_title">如何上网觅无踪</a></li><li ><a href="https://coolshell.cn/articles/6424.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="Hash Collision DoS 问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6424.html" class="wp_rp_title">Hash Collision DoS 问题</a></li><li ><a href="https://coolshell.cn/articles/3385.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/rank_scatter1-150x150.png" alt="编程语言流行度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3385.html" class="wp_rp_title">编程语言流行度</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22367.html">聊聊 nostr 和 审查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22367.html/feed</wfw:commentRss>
+			<slash:comments>12</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>50年前的登月程序和程序员有多硬核</title>
+		<link>https://coolshell.cn/articles/19612.html</link>
+					<comments>https://coolshell.cn/articles/19612.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 21 Jul 2019 11:00:30 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=19612</guid>
+
+					<description><![CDATA[<p>2019年7月20日，是有纪念意义的一天，这天不是因为广大网民帮周杰伦在新浪微博上的超话刷到第一，而是阿波罗登月的50周年的纪念日。早在几年前，在Github上...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/19612.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/19612.html">50年前的登月程序和程序员有多硬核</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>2019年7月20日，是有纪念意义的一天，这天不是因为广大网民帮周杰伦在新浪微博上的超话刷到第一，而是阿波罗登月的50周年的纪念日。早在几年前，在Github上放出了当年Apollo飞船使用的源代码（当然是汇编的），但完全不明白为什么这几天会有一些中国的小朋友到这个github的issue里灌水……，人类历史上这么伟大的一件事，为什么不借这个机会学习一下呢？下面是一些阿波罗登月与程序员相关的小故事，顺着这些东西，你可以把你的周末和精力用得更有价值。</p>
+<p><img decoding="async" loading="lazy" class=" size-full alignright" src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766.jpg" alt="" width="400" height="498" /></p>
+<p>首先，要说的是Apollo 11导航的源代码，这些代码的设计负责人叫<a href="https://en.wikipedia.org/wiki/Margaret_Hamilton_(software_engineer)" target="_blank" rel="noopener noreferrer">Margaret Heafield Hamilton </a>，是一个女程序员，专业是数学和哲学，1960年得到一个MIT麻省理工大学的临时的软件开发职位，负责在PDP-1和LGP-30上运行天气预报的软件（注：在计算机历史上，PDP系统机器被称为Hack文化的重要推手，PDP-11推了Unix操作系统，而Unix操作系统则是黑客文化的重要产品。参看《<a href="https://coolshell.cn/articles/2322.html" target="_blank" rel="noopener noreferrer">Unix传奇</a>》）。然后，她又为美国空军编写探测知敌方飞行的软件，之后，于1965年的时候，她加入了MIT仪器实验室，并成为了这个实验室的主管，这个实验实就是Apollo计划的一部分，她负责编写全新的月球登录的导航软件，以及后来该软件在其他项目中的各个版本。</p>
+<p><span id="more-19612"></span></p>
+<p>上图是Hamilton站在她和她的麻省理工团队为阿波罗项目制作的导航软件源代码旁边，在Github上的开源的代码 &#8211; <a href="https://github.com/chrislgarry/Apollo-11" target="_blank" rel="noopener noreferrer">Apollo-11</a> （2016年开源）。我们可以看到，有两个重要的目录，一个目录叫“Comanche055”，一个目录叫“Luminary099”，前者是指挥舱用的（英文为 <a href="https://en.wikipedia.org/wiki/Apollo_command_and_service_module#Command_Module_(CM)" target="_blank" rel="noopener noreferrer">Command Module</a> ）后者为登月舱用的（英文为 <a href="https://en.wikipedia.org/wiki/Apollo_Lunar_Module" target="_blank" rel="noopener noreferrer">Lunar Module</a>），这里需要说明一下的是，指挥舱是把登录舱推到月球上，在返回的时候，登录舱是被抛弃掉的，而返回到地球的是指挥舱。如果你想看这两份源代码的纸版，你可以访问这两个链接：<a href="https://archive.org/details/Comanche55J2k60" target="_blank" rel="noopener noreferrer">Comanche 55 AGC Program Listing</a> 和 <a href="https://archive.org/details/Luminary99001J2k60" target="_blank" rel="noopener noreferrer">Luminary 99 REv.1 AGC Program Listing</a>。其中的55 和 90 是各自的build 版本号。</p>
+<p>我们细看一下，这些文件的日期是，1969年7月14日，而Apollo 11登月的日期是1969年7月16日起程，7月19日经过月球背面，7月20日下午8点登月。代码写好，两天后就直接上生产，然后就登月，还是导航代码，这代码写的的健壮性得有多强。</p>
+<p>如果你仔细比较一下这两个目录中的文件，你会发现有些文件是一样的，不但文件名一样，而且内容也一样。这说明这两个模块中的一些东西是相似的。</p>
+<p><img decoding="async" loading="lazy" class="size-full aligncenter" src="https://coolshell.cn/wp-content/uploads/2019/07/source.code_.compare.png" alt="" width="800" height="402" /></p>
+<p>这些代码应该是很难读了，因为当时写这些代码的时候，C语言都没有被发明，所以基本上来说都是汇编代码了，而且还可以发现，这些代码的源文件全是以agc后缀结尾的， 看来这还不是我们平时所了解的汇编，所谓的AGC代表了运行这些代码的计算机 &#8211;<a href="https://en.wikipedia.org/wiki/Apollo_Guidance_Computer" target="_blank" rel="noopener noreferrer"> Apollo Guideance Computer</a> 。沿着这个Wikipedia的链接，你可以看到AGC这个电脑的指令是什么样的，看懂那几条指令后，这些源代码也就能读懂了。当然，因为是写成汇编的，所以，读起来还是要费点神的。不过，其中有一个文件是 <code><a href="https://github.com/chrislgarry/Apollo-11/blob/master/Luminary099/LUNAR_LANDING_GUIDANCE_EQUATIONS.agc" target="_blank" rel="noopener noreferrer">LUNAR_LANDING_GUIDANCE_EQUATIONS.agc</a></code> 你会不会很好奇想去看看？</p>
+<p>打开源文件，你还可以看到每个文件都有很多很多的注释，非常友好，但是也有一些注释比较有趣。这里有一组短视频带你读这些代码 &#8211; <a href="https://www.pluralsight.com/courses/moon-landing-apollo-11" target="_blank" rel="noopener noreferrer">Exploring the Apollo Guidance Computer(AGC) Code</a>，一供10个小视频，每个2分钟左右，如果你英文听边还行（我觉得很容易听懂），可以看看，了解一下AGC的工作方式，挺有趣意思的。</p>
+<p>当时的AGC有32公斤，主频只有2MHz，2K的RAM，36K的ROM。嗯，当年就是这么一个小玩意，把人送上了月球，今天，一个聊天程序就占内存几GB……</p>
+<p>下面是AGC在Apollo 1指挥舱里的样子（图片截自上面的视频），这个高质量的3D扫描来自<a href="https://www.3d.si.edu/explorer/apollo-11-command-module" target="_blank" rel="noopener noreferrer"> Simithsonian 3D: Apollo 11 Command Module</a> （我觉得美国人干这些事干就是很漂亮啊，这种高清的3D扫描太牛了，如果你仔细看，这个舱里还有宇航员在舱壁上的手写）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2019/07/AGC.DSKY_.png" alt="" width="800" height="402" /></p>
+<p>这个AGC的操作界面又叫DSKY &#8211; Display 和 Keyboard的缩写，下图是一个 AGC 模拟器，其官方主页在 <a href="https://www.ibiblio.org/apollo/" target="_blank" rel="noopener noreferrer">https://www.ibiblio.org/apollo/</a>源代码在 <a href="https://github.com/virtualagc/virtualagc" target="_blank" rel="noopener noreferrer">Github/VirtualAGC</a>。在这个界面上我们可以看到：下面的键盘上左边有两个键，一个是动词Verb一个是名词Noun，Verb指定操作类型，Noun指定要由Verb命令修改的数据。右边的显示器下面有三个5位的数字，这三个数值显示表示航天器姿态的矢量，以及所需速度变化的显示矢量。是的，当年的导航就靠这三个数字和里面的程序了。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2019/07/DSKY.png" alt="" width="588" height="669" /></p>
+<p>&nbsp;</p>
+<p>如果你想了解AGC更多的细节，你可以看看 这篇 <a href="http://www.ibiblio.org/apollo/ForDummies.html" target="_blank" rel="noopener noreferrer">AGC for Dummies</a>。这篇文章讲述了AGC这个嵌入式系统的背景和操作指令。一份详细的<a href="http://www.ibiblio.org/apollo/assembly_language_manual.html" target="_blank" rel="noopener noreferrer">AGC 汇编语言手册</a>可以让你了解更多的细节。</p>
+<p>另外，我在Youtube上找到了一个讲当时Apollo电脑的纪录片 &#8211; <a href="https://www.youtube.com/watch?v=9YA7X5we8ng" target="_blank" rel="noopener noreferrer">Navigation Computer</a>，太有趣了。比如：21分51秒开始讲存储用的 <a href="https://en.wikipedia.org/wiki/Core_rope_memory" target="_blank" rel="noopener noreferrer">Rope Memory</a> 绕线内存，Hamilton 也出来讲了一下在这种内存上编程，画面切到一个人用个比较长的金属针在一个像主板一样的东西上，左右穿梭，就像刺绣一样，但是绣的不是图案，而是程序……太硬核了，真正的通过“硬编织”的方式来写程序。</p>
+<p><a href="https://www.youtube.com/watch?v=9YA7X5we8ng" target="_blank" rel="noopener noreferrer"><img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2019/07/rope.memory.png" alt="" width="800" height="497" /></a></p>
+<p>看完上面这个纪录篇，我是非常之惊叹，惊叹于50年前的工程能力，惊叹于50年前这些人面对技术的的一丝不苟，对技术的尊重和严谨的这种精神和方法，一点都不比较今天差。</p>
+<p>不过，最牛的还不是这个，我在Hamilton的Wikipedia词条上找到了他说的一个事件—— 当年Apollo登陆雷达开关放在了错误的位置，导致AGC收到了不少错误的信号。结果就是AGC既得执行着陆必须的计算，又要接受这些占用其15%时间的额外数据。但是AGC的程序居然可以用高优先级的任务打断低优先级的任务，于是，AGC自动剔除了低级别的任务以保证了重要的任务完成。Hamilton 原话说—— 如果当时的程序不能识别错误并从错误中恢复，我怀疑阿波罗不能成功登月。if the computer hadn&#8217;t recognized this problem and taken recovery action, I doubt if Apollo 11 would have been the successful moon landing it was。</p>
+<p>看到这里，你有没有觉得——“这个女程序员的一小步，是整个人类的一大步”？</p>
+<p>Hamilton 的牛逼之外还在于，她是第一个将“软件工程”提出来的人，在MIT，她想让软件开发就像其它工程一样，有相应的工程纪律，给于相关的尊重，于是她创造了Software Engineering这个词。2018年，<a href="https://www.computer.org/csdl/magazine/so/2018/05" target="_blank" rel="noopener noreferrer">IEEE在纪念软件工程50周年</a>的时候，他们把 Hamilton 请过去讲了一个叫 <a href="https://ieeexplore.ieee.org/document/8409915" target="_blank" rel="noopener noreferrer">What the Errors Tell Us</a> 的主题。她绝对可以称得上是程序员的Pioneer。</p>
+<p>三年前，Apollo的源代码被开源时候，Twitter有个叫 Lin Clark 的人发了一条推：“我妈50年前的代码被放到Github上了”，虽然，她不是 Hamilton 的女儿，但她妈妈也是Apollo其中一个程序员，现在Lin Clark同样也是一个程序员，目前在 Mozilla工作，Staff Engineer，专长 <span class="lt-line-clamp__line">WebAssembly, Rust, 和 JavaScript</span> ，也是个非常厉害的程序，Youtube上各种演讲，也是一个跟他妈妈一样牛的人。</p>
+<p>当她在Twitter上这么自豪地发了一条这样的推后，我不知道各位有什么想法？想不想你的后代在未来也会这样自豪的发条微博？<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2019/07/Lin-Clark-e1563706128853.jpg" alt="" width="400" height="629" /></p>
+<p>&nbsp;</p>
+<p>最后，尤其是想对那些到Apollo源代码的issue里发spam垃圾信息的人说一下，你看看人家，再看看你们自己，你们是不是想让你们的孩子在登月100周年纪念的时候说——50年前我爹那个傻叉在Apollo的github的issue列表时写了些垃圾，还以为自己多机灵？！</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-150x150.jpg" alt="Bret Victor &#8211; Learnable Programming" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_title">Bret Victor &#8211; Learnable Programming</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/19612.html">50年前的登月程序和程序员有多硬核</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/19612.html/feed</wfw:commentRss>
+			<slash:comments>70</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>StackOverflow 2019 程序员调查</title>
+		<link>https://coolshell.cn/articles/19307.html</link>
+					<comments>https://coolshell.cn/articles/19307.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 21 Apr 2019 04:29:13 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=19307</guid>
+
+					<description><![CDATA[<p>前些天，StackOverflow 发布了 2019年的年度程序员调查，这个调查报查有90000名程序员参与，这份调度报告平均花了20分钟，可见，这份报告有很多...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/19307.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/19307.html">StackOverflow 2019 程序员调查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" class="alignright " src="https://coolshell.cn/wp-content/uploads/2019/04/2019-Dev-Survey-Blog-360x200.png" alt="" />前些天，StackOverflow 发布了 <a href="https://insights.stackoverflow.com/survey/2019" target="_blank" rel="noopener noreferrer">2019年的年度程序员调查</a>，这个调查报查有90000名程序员参与，这份调度报告平均花了20分钟，可见，这份报告有很多的问题，也是很详细的。这份报告有一些地方，让我有了一些思考。</p>
+<p>首先，我们先来看一下之份报告的 Key Results：</p>
+<ul>
+<li>Python 成为了过去一年中成长最快的语言，把Java挤到了第二位，排在后面的是Rust语言。</li>
+<li>有半数以上的被访者在是在16岁写下自己的第一行代码。</li>
+<li><a href="https://stackoverflow.com/jobs/devops-jobs" target="_blank" rel="noopener noreferrer">DevOps Specialists</a> 和 Site Reliability Engineers 是程序员中最有经验，技术最牛，薪资最好的职位。（这对应于国内的——系统架构师）</li>
+<li>在几个头部的程序员大国中，中国的程序员最乐观的，他们相信在今天出生的人会有比他们父母更好的人生。对于欧洲的程序员来说，比较法国和德国的程序员，他们对未来并不太乐观。</li>
+<li>对于最影响程序员生产力的事，不同的程序员有不同的想法。</li>
+</ul>
+<p><span id="more-19307"></span></p>
+<h4 id="toc_1">第一部分，Developer Profile</h4>
+<p>在第一部分中，我们可以看到，中国程序员参与这个调查的并不多，程序员主要集中在美国、欧洲、印度这三个地方。所以，这份报告更偏国际上一些。这对于我们中国程序员也有很大的帮助，因为一方面可以看到世界发展的趋势，另一方面也可以了解我们和世界有什么不一样。</p>
+<p>对于技术职业来说，整个世界的程序员开始趋于全栈和后端，有51.9%的人是全栈，50%的人是后端，32.8%的人是前端……在这些人中，很多程序员都选了多项，中位数是3项，最常见是前端、后端和全栈全选的。然后，接下来是选两项的，选两项目的包括：数据库管理员和系统管理员，DevOps Specialist 和 Site Reliablility Engineer， 学术研究者和科学家，设计师和前端工程师。<img decoding="async" loading="lazy" class="aligncenter wp-image-19308 " src="https://coolshell.cn/wp-content/uploads/2019/04/06-01.Developers.Rols_-1024x259.png" alt="" width="648" height="137" /></p>
+<p>从这些数据中我们可以看见：<strong>前后端的界限越来越不明显，设计师和前端的界限也开始模糊。这应该说明，工具和框架的成熟，让后端程序员和设计师也可以进入到前端工程师的领域，或是前端工程师开始进入后端和设计的领域</strong>。总之，复合型人才越来越越成为主流，而前后端也趋于一个相互融合的态势。</p>
+<p>在接下来的图表中，我们可以看到有80%以上的人是把编程当成自己的爱好（包括相关的女性）。<img decoding="async" loading="lazy" class="aligncenter " src="https://coolshell.cn/wp-content/uploads/2019/04/06-02.Coding.as_.a.Hobby_.png" alt="" width="410" height="71" /></p>
+<p>真是应了那句话——“Programmers who don’t code in their spare time for fun will never become as good as those that do”，是的，如果你对编程没有感到一种快乐，没有在你空闲的时候去以一种的兴趣爱好方式去面对，那么，无论是编程，还是运动，还是去旅游，都不会有太多成效的。</p>
+<p>在接下来的编程经验上，有两组如下的数据：</p>
+<table>
+<thead>
+<tr>
+<th>学习编程的年限</th>
+<th>编程的年限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img decoding="async" loading="lazy" class="aligncenter wp-image-19310 " src="https://coolshell.cn/wp-content/uploads/2019/04/06-03.Years_.Since_.Learning.to_.Code_.png" alt="" width="376" height="272" /></td>
+<td><img decoding="async" loading="lazy" class="aligncenter wp-image-19311 " src="https://coolshell.cn/wp-content/uploads/2019/04/06-04.Years_.Coding.Professionally.png" alt="" width="372" height="242" /></td>
+</tr>
+</tbody>
+</table>
+<p>我们可以看到无论是学习还是编程，随着时间的拉长，其人数占比越来越少。</p>
+<p>下面我们再来看一个年龄图：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-19312 " src="https://coolshell.cn/wp-content/uploads/2019/04/06-05.Age_-1024x710.png" alt="" width="499" height="270" /></p>
+<p>调查报告从20岁开始每隔5年划分一个年龄段，我们不难发现从25-29岁开始每个年龄段都比前一个年龄段人数急剧减少大约30-50%，比如25-29年龄段占总人数27.6%，而30-34则只有19.3%。以此类推，到60岁以上，就只剩1%。可以看出5年是大多数程序员的转型周期。这是合理的，因为5年时间足够一个人积累足够的经验技能为职业转型做准备。</p>
+<p>我们也可以看到50岁以上的程序员只有4.2%，大约是参与调查人员的300多人，如果这些人20岁左右参加工作，那么说明他们在1990左右就开始写代码，事实上那个时间点别说是程序员了，连电脑用户都不多。<strong>电脑和互联网真正暴发的时间还是在1995年 &#8211; 2000年之间，不过，那个时间点程序员的总体人数也不多，而行业越来越火才会导致大量的人进入到这个行业中，这个转换过程基本上去需要3-5年，也就是从2000年后才开始有大量的人拥入程序员这个行业，程序员的人数在过去30年间也是呈增涨态势的，所以，我个人认为，所谓的“众多老程序员”的比例会被2005年以后大量拥入程序员行业的年青人所“稀释”。所以，上图的比例不能完全说明程序员是个青春饭</strong>。</p>
+<p>但是，我们还是要正视老牌资深的程序员越来越少的这个事实，在这份报告第三部分中说了一些和程序员职业生涯相关的调查，如下：</p>
+<ul>
+<li><strong>在被问到有多少人对自己的职业满意的时</strong>。有40%的人觉得很满意，而有34.3%的人觉得一般满意，有10%的人说不清，还有15%的人是不满意的。可以看到有不少人是对这个职业生涯是有想法的。</li>
+<li><strong>在被问到有多少人想转管理而可以挣得更多时</strong>。有30%的人是说想转的，有51%的人是明确不转的，还有20%的人是说不知道。可见，想转管理的人最多可能会有一半的人。</li>
+<li><strong>在被问到有多少人想转管理时</strong>。有1/3的人是明确不想转的，而有1/4的人是明确是想转，而有36%的人则是不说，观望中。可见，的确是有很多想想转管理的。</li>
+</ul>
+<p><strong>我们可以看到，程序员中并不是所有的人都是可以坚持这么长时间的，这也挺正常的，对很大一部分人来说，对这个职业是有或多或少的不满意的，也有一部分人可能会随着技术的更新被淘汰，还有另外很大一部分人是想转管理的。所以，能够长时间地跟上形势长时间地喜欢写代码，并且对程序员这个的职业长期满意，不想转管理的，的确是为随时年龄的越大也越来越少</strong>。</p>
+<p><strong>但我们完全可以看出来，程序员的主力军在20-40岁这个区间，而30岁左右的程序员是年富力强（经验和能力都很好）的黄金时间</strong>。</p>
+<p>老程序员在国外似乎不会存在多大的问题，但在国内会有一些问题，所以，对于像我一样喜欢写代码、打算长久做程序员的兄弟，这里分享一些相关的经验。</p>
+<ol>
+<li><strong>持续高效地学习</strong>。软件行业的新技术层出不穷，旧的技术淘汰很快，所以我们更要多多学习基础技术和原理，那些都是很难改变的，并且基础扎实了后，学习新的技术也才会更快速。其间我们也不要乱学新技术，我们要关注那些有潜力的技术，也就看准了再学（参看酷壳的《<a href="https://coolshell.cn/articles/18190.html">Go语言、Docker和新技术</a>》）。注意，而是跟上大时代已经比较不容易，引领时代的人还是少数，所以，还是要更为高效地学习。</li>
+<li><strong>积极面对他人的不解</strong>。 很多时候，总是会有人说：“到了你这个年纪怎么还在做程序员？”，这句话感觉就是对程序员这个职业的一种羞辱，社会的价值观感觉容不下大龄程序员。这个时候，我一般会跟他们解释到，我40来岁了，我觉得自己的状态还很好，工作完成没什么问题，偶尔加班到凌晨也行，新知识和技术我学起来不比年轻人慢，我在这个年纪有的经验比他们都多，而且，我这个年纪还在写代码，说明我真的喜欢这个事，<strong>像我这样的人能够长时间坚持做一个职业的人这个世界已经不多了，你们应该珍惜……</strong></li>
+<li><strong>找到自己的定位</strong>。我们需要做好职业规划、财务和心理方面的准备。40岁的程序员，所能竞争的一定是自己的认识和经验，所以，40岁以后如果你还是很喜欢这一行业，你的社会阅历和经历以及对这个社会的理解，可以让你做一些有创新的事，除此之外，你还可以做一个教练、老师、咨询、专家……，用你的经验和能力帮助下一代和一些中小型的公司，这不但是他们的刚需，同时也会让重新焕发的。</li>
+</ol>
+<h4 id="toc_2">第二部分，技术</h4>
+<p>首先，在这部分，主要是了解一些技术，这部分的技术可以给于程序员们一些指导。</p>
+<table>
+<thead>
+<tr>
+<th>最流行的语言</th>
+<th>最热门的语言</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img decoding="async" loading="lazy" class="aligncenter wp-image-19313" src="https://coolshell.cn/wp-content/uploads/2019/04/06-06.Popular.Languages-669x1024.png" alt="" width="377" height="709" /></td>
+<td><img decoding="async" loading="lazy" class="aligncenter wp-image-19314" src="https://coolshell.cn/wp-content/uploads/2019/04/06-07.Loved_.Languages-679x1024.png" alt="" width="367" height="743" /></td>
+</tr>
+</tbody>
+</table>
+<p>我们可以看到，</p>
+<ul>
+<li>Javascript/HTML/CSS是很多人都会用到的，后面的是SQL，这个也没什么问题，无论前后端的人，或多或少都会要用到的，这些技术感觉已经成为了基础必会的技术了，就像数中的加减乘除一样。</li>
+<li>Python/Java/Shell 是后端开发主流语言的前三强，Python在今年超过了Java。这里让我比较好奇的是居然还有很多人用Shell，这估计跟运维有关，所以，Python的热可能也是通过运维和大数据相关。</li>
+<li>流行语言后，第二梯队的是 C# / PHP / C++ / TypeScript / C ，接下来的是： Ruby / Go / Swift / Kotlin /WebAssembly / Rust&#8230; 。但在最被程序员喜欢的编程语言中：Rust / Python / TypeScript / Koltin / WebAssembly / Swift / Go&#8230; 都是排在前几名的。<strong>程序语言每隔一段时间就会整出一些新的语言来，我们一定要明白新出来的东西主要是为了解决什么样的问题，不然很容易迷失。</strong></li>
+<li>在后面还有一个编程语言的薪资图，我们可以看到，在上面被提过的这些个编程语言中，<strong>Go语言的薪资是最高的（这可能是因为Go语言写关键的系统级的中件间——因为Go语言正在成为云计算的第一编程语言）</strong>，然后是Scala、Ruby、WebAssembly、Rust、Erlang、Shell、Python、Typescript……</li>
+</ul>
+<p><strong>通过这些个信息，我们可以看出主流技术、有潜力的技术，传统过气技术，以及相关薪资，对我们在选择编程语言上有一定的启示。</strong></p>
+<p>在后面，我们可以看到:</p>
+<ul>
+<li>在 Web 开发框架上，主流使用还是 jQuery, React.js，Angular.js 为最前面的三个前端开发框架。而被程序员所喜欢的则是 React.js，Vue.js，Express, Spring，程序员非常不喜欢 Drupal，jQuery，Ruby on Rails 和Angular.js……</li>
+<li>在其它开发框架/库/工具上，主流是Node.js、.NET、Pandas、Unity 3D、Tensorflow、Ansible、Cordova、Xamarin……而程序员比较喜欢的是.NET、Torch/PyTorch、Flutter、Pandas、Tensorflow、Node.js &#8230;</li>
+<li>在操作系统上，主流使用Linux、Windows、Docker、Android、AWS……，而程序员最喜欢的是Linux、Docker、Kubernetes、Raspberry Pi、AWS、MacOS、iOS……</li>
+<li>在数据库上，MySQL、PostgreSQL、MSSQL、SQLite、MongoDB、Redis、Elasticsearch是比较主流的，而程序员非常喜欢的是，Redis、PostgreSQL、Elasticsearch、Firebase、MongoDB……，程序员比较讨厌的是 Couchbase、Oracle、Cassandra、MySQL。</li>
+</ul>
+<p><strong>从这些个图表中，我们可以看到主流和有潜力的技术是什么，我们可以看到 Windows 的技术并没有过时，感觉似乎都有可能会卷土重来，但是，开源的技术来势凶凶，正在吞食整个软件业，不容小觑，Docker/Kubernetes无论是在主流应用上还是被程序员的喜好上都是非常猛的，而云平台的AWS开始成为标准平台技术……</strong></p>
+<p>接下来的开发工具中，我们可以看到：</p>
+<ul>
+<li>Visual Studio Code 成为了最流行的开发工具。让我没有想到的是跟在后面的是 Notepad++（好久没用这个工具了，我得找回来用用了），而IntelliJ、Vim、Sublime Text排以后面。 Eclipse 和 Atom 动力不足，Emacs 开始变得小众了。</li>
+<li>程序员主要的开发平台还是Windows占了近1/2， MacOS和Linux随后，各占1/4。</li>
+<li>有38%的人使用容器技术做开发，30%的人使用容器做测试，在生产线上使用容器的有26%</li>
+</ul>
+<p><strong>看样子编程开发工具还是Visual Studio 和 IntelliJ的天下，MacOS/Linux正在抢Windows的开发市场</strong></p>
+<p>接下来，StackOverflow给了一个技术圈的图</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2019/04/06-08.Technology.Circle-1024x1024.png" alt="" width="640" height="640" /></p>
+<p>从上面这个图中，我们可以看以技术的几圈子：</p>
+<ul>
+<li><strong>Microsoft圈</strong> &#8211; Windows、.NET、ASP.NET、C#、Azure、SQL Server</li>
+<li><strong>Java圈</strong> &#8211; Java、Spring</li>
+<li><strong>手机圈</strong> &#8211; Android、 iOS、Kotlin、Swift、Firebase</li>
+<li><strong>前端圈</strong> &#8211; Javascript、React.js、Angular.js、PHP</li>
+<li><strong>大数据圈</strong> &#8211; Python、TensorFlow、Torch/PyTorch</li>
+<li><strong>基础平台圈</strong> &#8211; Linux、Shell、Vim、Docker、Kubernetes、Elasticsearch、Redis……</li>
+<li><strong>其它圈子</strong> &#8211; C/C++/汇编圈子、Ruby圈子、Hadoop/Spark圈子、……</li>
+</ul>
+<p><strong>看到谁的圈子大了吧，圈子大的并不代表技术实力强或是有前途，不过可以代表在那个圈子相关的关联技术，一方面，可以给你一些相关的参考，另一方面，整体可以让你看到全部的目前比较主流的技术。</strong></p>
+<h4 id="toc_3">第三部份 工作</h4>
+<p>在第三部份工作中，我们可以看到如下的一些数据：</p>
+<ul>
+<li>有3/4的程序员是全职的，10%左右的程序员是自由职业，6%左右的程序员是失业的，这个比例在北美、印度和欧洲都差不多。</li>
+<li>有1/3的人在过去一年内换过工作，1/4的人在过去1-2年间换过工作，1/3的人在2-4年换过工作。</li>
+<li>程序员找工作时，影响程序员的几个主要因素是：技术（编程语言、框架和使用的技术）、办公环境和公司文化、灵活的时间和安排、更专业的机会、远程工作……</li>
+<li>影响程序员工作的几大因素是：有干扰的工作环境、开会、要干一些和开发无关的事、人手不够、管理不够、工具不够、通勤时间……</li>
+<li>对于工程质量，有近70%的人有Code Review，而30%的则没有；有60%多的人有Unit Test，而不到40%的没有……</li>
+</ul>
+<p><strong>从工作中我们可以看到，程序员还是比较关心技术和公司文化的，换工作也是这个职业很正常的特性，他们并不喜欢被打扰，希望有足够的时间，而对于工程质量还是很有追求的。</strong></p>
+<p>最后用一张程序员的“<strong>每周工作时间</strong>” 来结束本文！</p>
+<p><img decoding="async" loading="lazy" class="aligncenter " src="https://coolshell.cn/wp-content/uploads/2019/04/07-09.Hours_.Worked.Per_.Week_-1024x640.png" alt="" width="498" height="280" /></p>
+<p>祝大家快乐！</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/19307.html">StackOverflow 2019 程序员调查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/19307.html/feed</wfw:commentRss>
+			<slash:comments>19</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>关于Facebook 的 React 专利许可证</title>
+		<link>https://coolshell.cn/articles/18140.html</link>
+					<comments>https://coolshell.cn/articles/18140.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 19 Sep 2017 06:08:00 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Facebook]]></category>
+		<category><![CDATA[React]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=18140</guid>
+
+					<description><![CDATA[<p>随着Apache、百度、Wordpress都在和Facebook的React.js以及其专利许可证划清界限，似乎大家又在讨论Facebook的这个BSD+PAT...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/18140.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/18140.html">关于Facebook 的 React 专利许可证</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-sup_wechat_big" src="https://coolshell.cn/wp-content/uploads/2017/09/react_patent-360x200.jpg" alt="" width="360" height="200" />随着Apache、百度、Wordpress都在和Facebook的React.js以及其专利许可证划清界限，似乎大家又在讨论Facebook的这个BSD+PATENT的许可证问题了。这让我想起了之前在Medium读过的一篇文章——《<a href="https://medium.com/@dwalsh.sdlr/react-facebook-and-the-revokable-patent-license-why-its-a-paper-25c40c50b562" target="_blank" rel="noopener noreferrer">React, Facebook, and the Revocable Patent License, Why It&#8217;s a Paper</a>》，我觉得那篇文章写的不错，而且还是一个会编程的律师写的，所以有必要把这篇文章传播到中文社区这边来。注意，我不会全部翻译，我只是用我的语言来负责搬运内容和观点，我只想通过这篇文章让大家了解一下这个世界以及专利相关的知识，这样可以避免你看到某乎的“怎么看待XXX”这类的问题时人云亦云，能有自己的独立思考和自我判断。;-)</p>
+<p>这篇文章的作者叫Dennis Walsh，他自称是亚历桑那和加利福尼亚州的律师，主要针对版权法和专利诉论的法律领域。但是这个律师不一样，他更很喜欢商业和软件多一些。现在他用React/GraphQL/Elixir在写一个汽车代理销售相关的软件，而且已经发布到第2版了。</p>
+<p>首先，作者表明，专利法经常被人误解，因为其实充满了各种晦涩难懂的法律术语，所以，作者用个例子来讲述专利的一个原则 —— <strong>专利并不是授于让你制造或开发的权利，而是授予你可以排他的权利。（</strong>事实上似乎也是这样，申请专利很多时候都不是为了制作相关的产品，而是为了防止别人使用类似的技术制作相关的产品）</p>
+<p><span id="more-18140"></span></p>
+<p>如果有公司X为铅笔申请了专利，而另一家公司Y为把用于铅笔的橡皮擦申请了专利。那么，公司X可以阻止公司Y来生产铅笔，而对带橡皮擦的铅笔没办法，但是公司Y的专利可以让公司X不能生产带有橡皮擦的铅笔。</p>
+<p>所以，公司Y的橡皮擦专利又被广泛地叫作“<a href="https://definitions.uslegal.com/b/blocking-patent/" target="_blank" rel="noopener noreferrer">Blocking Patent</a>”。公司Y不能说他发明了铅笔，因为这是公司X的专利，但是，他们可以让公司X无法对铅笔做出某些改进。</p>
+<p>于是，因为这种 Blocking Patent 存在，对于开源的公司是不利的，因为根据上面的那个例子来说，开源公司就是公司X，他们做了一个基础的软件，而公司Y在上面做了些改进，并注册成了专利，从而导致开源的公司X无法对它基础开源软件作出被公司Y专利阻止的改进，开源的公司X希望能够自由地使用公司Y的橡皮擦专利，因为毕竟是它发明了铅笔并放弃了铅笔的专利。</p>
+<p>于是就出来了“专利反击条款”（<a href="https://en.wikipedia.org/wiki/Software_patents_and_free_software#Patent_retaliation" target="_blank" rel="noopener noreferrer">Patent Retaliation Clauses</a>）。一般来说有两种专利条款，一种是弱条款，一种是强条款。</p>
+<p>Weak Patent Retaliation Clauses &#8211; 这种条款声明，如果许可证持有者用某个专利来打击许可证颁布者，那么专利就视为终止。用人话来表达就是，公司X做了一个开源铅笔，而公司Y注册了橡皮檫专利。此时，公司X做了一支带像皮擦的铅笔，而公司Y马上对公司X提起专利侵权诉讼。那么，公司Y就失去了对底层铅笔的专利控制。（正如前面所说的，公司Y的橡皮擦专利因为在起诉公司X的开源铅笔，而失去了对开源铅笔的专利排他权利）</p>
+<p>Strong Patent Retailiation Clauses &#8211; 这种条款声明比“弱条款”要的更多。具体来说就是，任何专利声明终结许可证，而不管这个专利有没有和你基础的软件有关系。用人话来说就是，公司Y使用他们的热气球专利来起诉公司X，那么公司Y就失去了他们对铅笔的专利限制。</p>
+<p>我个人理解起来，这两种条款看上去是防御性质的。</p>
+<p>Facebook的React的Patent License如下：</p>
+<blockquote><p>The license granted hereunder will terminate, automatically and without notice,if you (or any of your subsidiaries, corporate affiliates or agents) initiatedirectly or indirectly, or take a direct financial interest in, any Patent Assertion: (i) against Facebook or any of its subsidiaries or corporateaffiliates, (ii) against any party if such Patent Assertion arises in whole orin part from any software, technology, product or service of Facebook or any ofits subsidiaries or corporate affiliates, or (iii) against any party relating to the Software. Notwithstanding the foregoing, if Facebook or any of itssubsidiaries or corporate affiliates files a lawsuit alleging patentinfringement against you in the first instance, and you respond by filing apatent infringement counterclaim in that lawsuit against that party that isunrelated to the Software, the license granted hereunder will not terminateunder section (i) of this paragraph due to such counterclaim.</p></blockquote>
+<p>这些条款中和基础软件没有任何关系，所以，<strong>这个条款是“强专利反击条款”</strong>。</p>
+<p>在后面，本文的作者又解解释了，为什么React的“强专利反击条款”就跟没有似的。他在文中针对一些歇斯底里的言论，如：“Facebook不用害怕专利诉讼了，而且他可以随时偷袭你家的专利仓库”，也作出了一些解释来分析这个事。</p>
+<p>Contractural Liability &#8211; 意思是说，专利方面的东西只会影响专利上的事，而不会影响和专利无关的事，React底层协议是BSD-3许可证还是会被保留。换句话说，React的“强专利反击条款”只生效于专利层面，而不会对非常专利的软件使用产生问题，如果和专利无关，React还是走BSD-3的许可协议。</p>
+<p>Copyright Liability &#8211; 这个和Contractural Liablitity 一样。作者说，如果有人有特别的案例或是有说服力的论据来说明Facebook的这个条款会作用于非专利的地方，那么，请告诉他。</p>
+<p>Patent Liability &#8211; 专利的责任和损害是两件事，非专业人士总是会把其搞混。</p>
+<p>第一个问题是Liability， 要搞清这个事，得搞清“Patent&#8217;s Claims”，而不是这个技术的技术规格说明，技术规格说明和权力主张是两码事。作者说，现在的很多专利都是一些想法，很多投机份子随便一拍脑袋就发明出一个想法，然后就去注册专利了。但是可以被用来法律执行的只有“Patent&#8217;s Claims”（专利的权利主张），而不是那些想法。这些权利主张相当相当的晦涩难读，而且是会故意被模糊掉的，因为，当你清楚的定义了你的发明是什么，那么，就可以清楚的定义出来什么不是你的发明。比如：一个铅笔专利权利主张里说，“这一个用石墨和木头组合起来的写字工具”，那么，只要我不用木头和石墨来做组合，而是用塑料来做组合，那么我就不是专利侵权。所以，一般来说，专利主张是会更为通用一些，比如，“这是一个用于涂画表面的装置，其包括：与涂画端相连的握持端”。作者这里给了一个<a href="https://www.google.com/patents/US8046721" target="_blank" rel="noopener noreferrer">苹果公司的滑动解锁专利</a>的示例。可以感受一下产品规格说明和专利权利主张完全是两码事。</p>
+<p>专利这些事，在法律界里是非常非常困难作出评估的。所以，这个社会每年都会给律师们几十亿美金来一遍又一遍地回答这些问题，而且律师还经常回答错了。而对于美国的法律，对于专利诉讼会有一个叫<a href="https://en.wikipedia.org/wiki/Markman_hearing" target="_blank" rel="noopener noreferrer">Markman hearing的审前听证会</a>（马克曼听证会），自从1996年美国最高法的“<a href="https://en.wikipedia.org/wiki/Markman_v._Westview_Instruments,_Inc." target="_blank" rel="noopener noreferrer">马克曼诉威斯幽仪器公司案</a>”这个听证会就变成了一个惯例，美国联邦法院用这个听证会来向决定专利权利主张的解释，而且，上诉法院还经常性的推翻审判法院的裁决。（对于美国法律来说，一般是法官认证法律，陪审团认定事实，然而，对于专利而言，1996年的那个案件认为专利术语是一个需要法官决定的法律问题，而不是陪审团决定的事实问题。关于马克曼听证会的事，可以参看本文未尾的附录）</p>
+<p>所以，要决定Facebook的专利责任，我们需要评估Facebook的专利及其权利主张，而不是技术规格说明。具体来说，要明确Facebook对于React这个底层技术的专利权利主张是什么？但是作者搜了一下，发现什么也没有找到。也就是说，对于USPTO（美国专利商标局）或法院来说，他们没办法对Facebook的这样没有为React申请专利的方式来执行任何和专利的诉讼，也就是说，Facebook的这个React License的条款，美国政府是无法在法律上支持的。</p>
+<p>第二个问题是专利损害。就算是Facebook可以评估出来一个合法可执行的专利来保护React，对于专利损害也是很有问题的。作者说他到目前还没有发现一个开源软件被专利侵权的事，就算有这样的案例，也不会是这里说的这个事。作者觉得在这个事上操作起来就是一个笑话。</p>
+<p>另外，作者认为，React 专利许可证这个事就是个纸老虎。因为，一方面，这个专利不像电信通讯里的那些专利，你拿不掉。作者认为要从你的代码中把React去掉虽然难，但是也不是什么很难的事，另外，要打这样的专利官司，一般来说，在美国至少要花100-200万美金的费用才能发起诉讼，而要胜诉则需要需要200多万到2000万美金的费用，你觉得你要花多钱才能把React从你的代码库中剔除？肯定比这钱少。</p>
+<p>作者还认为，Facebook玩这个事虽然出发点不错，但是感觉并不聪明，从目前的情况看下来，就像他想咬你一口，但却没有牙。</p>
+<p>后面，作者还说了一下，转成别的框架会不会有问题？比如：你用Preact/Vue或是你自研的东西？作者说，未必，如果Facebook真的为React注册了专利，比如：React里的组件技术、虚拟DOM渲染技术等等。那么，你用Preact/Vue或是带这样技术的自研的框架，那么，从你使用的第一天就在侵犯Facebook的专利权了。然而，使用React反而不会有这么大的风险，因为Facebook让你免费的用React。作者说，用别的框架的法律风险比用其它替代品的风险更高。</p>
+<p>后面，作者也更新了一篇文章 《<a href="https://medium.com/@dwalsh.sdlr/using-graphql-why-facebook-now-owns-you-3182751028c9" target="_blank"  rel="noopener noreferrer">Using GraphQL? Why Facebook Now Owns You</a>》，意思是，用React可能还好，但是用GraphQL就有问题了。因为找到了GraphQL的专利—— <a href="https://patents.google.com/patent/US9646028" target="_blank" rel="noopener noreferrer">“Graph Query Logic”</a>。</p>
+<p>后来我查了一下，我发现，React也有个相关的专利—— “<a href="https://patents.google.com/patent/US9003278" target="_blank" rel="noopener noreferrer">Efficient event delegation in browser scripts</a> ”，看上去和虚拟DOM渲染有关。Holy Shit!</p>
+<p>好了，用还是不用React我也不知道，总之，这个世界比较复杂，我只是想借这篇文章来学习一下法律上的相关东西，欢迎听到大家的观点。</p>
+<p>最后，请允许我调侃一下来结束本文——“不用担心React的许可证问题，因为前端不是一年半就用新的框架重写一次么？”哈哈。</p>
+<p><strong>更新：Facebook官方于20017年9月23日在其官方blog上发贴《<a href="https://code.facebook.com/posts/300798627056246/relicensing-react-jest-flow-and-immutable-js" target="_blank" rel="noopener noreferrer">Relicensing React, Jest, Flow, and Immutable.js</a>》决定取消之前的带专利的许可证。</strong></p>
+<h4>延伸阅读</h4>
+<h5>马克曼听证会 &#8211; Markman Hearing</h5>
+<p>马克曼听证会的一些背景知识，下面的文字来源于《<a href="http://www.sipo.gov.cn/sipo2013/mtjj/2013/201303/t20130320_788543.html" target="_blank" rel="noopener noreferrer">&#8220;马克曼听证&#8221;制度的由来及启示</a>》</p>
+<p>与美国专利诉讼的悠长历史相比，1996年才经美国最高法院确立的“马克曼听证”（Markman Hearing，也称为Claim Construction，即权利要求书的解释）无疑是一项年轻的制度。但由于几乎所有的专利侵权诉讼中都会遇到涉案专利权利要求书的解释这一核心问题，且因“马克曼听证”结果往往清楚地预示了案件结果，经“马克曼听证”获得有利结论的一方一旦据此向法庭提起不审即判的动议，专利侵权诉讼往往可就此快速了结，因此该制度的确立成为美国专利诉讼历史上的一件大事。</p>
+<p>“马克曼听证”制度的由来</p>
+<p>“马克曼听证”制度确立之前，在专利侵权诉讼中的权利要求书解释，通常交由陪审团在对案件事实进行裁决时一并做出，且并不会在诉讼文件上单独就陪审团这一问题的判断进行记录。1991年，马克曼（Markman）先生因认为其拥有的专利号为RE33054的“干洗衣物贮存及追踪控制装置”专利权被Westview公司所侵犯，遂向宾夕法尼亚州东区联邦地方法院提起了专利侵权诉讼。</p>
+<p>该专利是用扫描的方式，将客户的衣物编号扫描后输入电脑中做分类标示，并在衣物干洗过程中追踪衣物位置，干洗完成后自动将衣物放回客户固定的存贮位置。被告的产品则是同时运用扫描器和电脑两种方式，将客户干洗衣物的资料存入电脑并显示费用、日期等相关信息。本案陪审团的裁决认为被告装置构成对原告专利权利的侵犯，但该地方法院认为系争专利与被告装置在功能实施上并不一致，遂推翻陪审团的裁决，判决被告不构成侵权。</p>
+<p>马克曼不服，于1995年向联邦上诉法院提起上诉，但其上诉理由仅为联邦地方法院错误地解释了陪审团关于专利权利要求书解释中某个词语的涵义。联邦上诉法院在审理该案时，将案件的核心问题定为两个：一是原告对于请求项解释有无权利请求陪审团裁决;二是联邦地方法院是否正确地解释了“Inventory”一词。该院多数法官经审理后认为，权利要求书范围的解释与确定，属于法律问题而非事实问题，因而属于法院权限，而不应交由陪审团决定，且此前将此问题交由陪审团确定并不妥当。同时，由于认为原告专利与被告装置存在实质功能上的差异，联邦上诉法院亦不认为被告构成专利侵权。少数持不同意见的该院法官主要是质疑这一结论违反了美国第七宪法修正案（即所有根据美国法律进行的普通法诉讼，只要争议金额超过20美元，即有要求陪审团审判的权利）。</p>
+<p>马克曼不服，向最高法院提出上诉。1996年4月23日，美国最高法院就马克曼诉Westview器械公司案（Markman v. Westview Instruments, Inc. 517 U.S. 370 （1996））做出终审裁决，裁决认定：权利要求书的解释是联邦地区法院法官应当处理的法律问题，而不是应当由陪审团来认定的事实问题，尽管在解释权利要求书的过程中可能会包含一些对于事实问题的解释，且这样做并不违反第七修正案赋予给陪审团的权利。这一裁决标志着“马克曼听证”制度的正式确立。</p>
+<p>“马克曼听证”制度的不足</p>
+<p>该案判决是美国专利诉讼史上的一个重大转折。“马克曼听证”成为法官专门用于解释专利权利要求的一个经常性听证程序，用以解决专利侵权诉讼的核心问题。由于该听证并非普遍适用，因此，十几年来，联邦民事诉讼规则并未正式对其有任何规定，而是给予法院绝对的自由裁量权。但是，何时可以进行“马克曼听证”?如何进行?是否有必要进行?类似问题在一定程度上困扰了审理专利侵权案件较多的法院。</p>
+<p>2001年，加州北区联邦地区法院率先制定了供本法院使用的专利审判专属规则（Patent Local Rules），其中第四部分即为权利要求书的解释程序（Claim Construction Proceddings），对“马克曼听证”的时间、流程、限制及当事人的义务均进行了规定。此后，各州纷纷效仿。目前，乔治亚州北区联邦法院、得克萨斯州东区联邦法院、得克萨斯州南区联邦法院、宾夕法尼亚州西区联邦法院等都制订了书面的“马克曼听证”程序指南。近年来，不断有新的案例在解释与细化着“马克曼听证”，如2006年的Wilson Sporting Goods Co.诉Hillerich &amp; Bradsby Co.案，2005年的Phillips诉AWH Corp.案，2008年的Howmedica Osteonics Corp.诉Wright Medical Technology, Inc.案，这些司法实践大大拓展与丰富了“马克曼听证”使用的实体和程序规则，使之日渐成为美国专利诉讼中一个复杂、完备的司法程序。以至于竟然有人开发了模拟“马克曼听证”程序，只要你愿意，可以下载并训练，以熟悉和确保有真正的权利要求书解释时不会出现不利于自己的问题。</p>
+<p>但是，该听证带来的问题也逐渐受到重视。有人质疑说该程序导致专利诉讼费用增加，因为“马克曼听证”通常会单独进行，且程序复杂，因此导致当事人花费大量的时间与精力，更为重要的是，由于40%至60%的联邦地区法院案件会在联邦巡回上诉法院被推翻，因此，花费巨大的“马克曼听证”似乎价值有限。同时，权利要求书的解释要求是不多不少，忠实于技术发明思想与发明事实，但由于地区法院分散，法官的相关技术知识不十分专业，将权利要求书解释这样的问题交给他们，难免会带来一些无法克服的问题。</p>
+<p>“马克曼听证”制度的启示</p>
+<p>我国民事诉讼中并无陪审团制度，案件的事实问题与法律问题均由法官审理与确定。在专利侵权诉讼中，对于案件中涉及到的技术问题可以通过专家鉴定等方式解决，但并不因此免除法官审理案件的义务，即法律问题的判断归于法官，事实的法律属性判断仍然归于法官。同时，权利要求书的解释在我国的专利侵权诉讼中并不是一个单独的程序，而是合并在案件审理过程中。因此，仅就我国的司法审判而言，“马克曼听证”制度并无直接的借鉴意义。</p>
+<p>但是，对于那些已经走出和正在走出国门的企业来说，了解与掌握这一重要的专利诉讼程序却是极其重要的。通领科技集团的积极尝试充分证明了这一点，而且随着这一程序的不断成熟，美国国际贸易法院（ITC）也开始在审理时适用“马克曼听证”制度。所以，知道“马克曼听证”意味着什么，确保所提交的用于解释权利要求的文件确实充分，学会利用“马克曼听证”，无论是对于破解美国的专利诉讼威胁，还是为未来准备有效的法律武器，无疑都非常重要。（知识产权报　作者　魏玮）</p>
+<p>&nbsp;</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/7448.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="扎克伯格的一封信：关于Facebook IPO" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7448.html" class="wp_rp_title">扎克伯格的一封信：关于Facebook IPO</a></li><li ><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Quora使用到的技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_title">Quora使用到的技术</a></li><li ><a href="https://coolshell.cn/articles/4549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="Facebook 的系统架构" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4549.html" class="wp_rp_title">Facebook 的系统架构</a></li><li ><a href="https://coolshell.cn/articles/3396.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/Visualizing-Friendships-on-Facebook-150x150.png" alt="Facebook全球关系网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3396.html" class="wp_rp_title">Facebook全球关系网</a></li><li ><a href="https://coolshell.cn/articles/2184.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/03/bt_js_demo-150x150.jpg" alt="BT工作原理演示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2184.html" class="wp_rp_title">BT工作原理演示</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/18140.html">关于Facebook 的 React 专利许可证</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/18140.html/feed</wfw:commentRss>
+			<slash:comments>33</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>AWS 的 S3 故障回顾和思考</title>
+		<link>https://coolshell.cn/articles/17737.html</link>
+					<comments>https://coolshell.cn/articles/17737.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 03 Mar 2017 06:20:03 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Amazon S3]]></category>
+		<category><![CDATA[AWS]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[High Availability]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17737</guid>
+
+					<description><![CDATA[<p>继Gitlab的误删除数据事件没几天，“不沉航母” AWS S3 （Simple Storage Service）几天前也“沉”了4个小时，墙外的半个互联网也跟...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17737.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17737.html">AWS 的 S3 故障回顾和思考</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-17738" src="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down.png" width="360" height="197" srcset="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down.png 553w, https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-300x164.png 300w, https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-494x270.png 494w" sizes="(max-width: 360px) 100vw, 360px" />继<a href="https://coolshell.cn/articles/17680.html" target="_blank">Gitlab的误删除数据事件</a>没几天，“不沉航母” AWS S3 （Simple Storage Service）几天前也“沉”了4个小时，墙外的半个互联网也跟着挂了。如约，按 AWS 惯例，AWS今天给出了一个简单的故障报告《<span class="s1"><a href="https://aws.amazon.com/cn/message/41926/" target="_blank">Summary of the Amazon S3 Service Disruption in the Northern Virginia (US-EAST-1) Region</a>》。这个故障和简单来说和Gitlab一样，也是人员误操作。先简单的说一下这份报中说了什么。</span></p>
+<h4>故障原因</h4>
+<p>简单来说，这天，有一个 AWS 工程师在调查 <span class="s1">Northern Virginia (US-EAST-1) Region 上 S3 的一个和账务系统相关的问题，这个问题是S3的账务系统变慢了（我估计这个故障在Amazon里可能是Sev2级，Sev2级的故障在Amazon算是比较大的故障，需要很快解决），Oncall的开发工程师（注：Amazon的运维都是由开发工程师来干的，所以Amazon内部嬉称SDE-Software Developer Engineer 为 Someone Do Everything）想移除一个账务系统里的一个子系统下的一些少量的服务器（估计这些服务器上有问题，所以想移掉后重新部署），结果呢，有一条命令搞错了，导致了移除了大量的S3的控制系统。包括两个很重要的子系统：</span></p>
+<p><span id="more-17737"></span></p>
+<p style="padding-left: 30px;">1）<strong>一个是S3的对象索引服务（Index）</strong>，其中存储了S3对象的metadata和位置信息。这个服务也提供了所有的 GET，LIST，PUT 和DELETE请求。</p>
+<p style="padding-left: 30px;">2）<strong>一个是S3的位置服务系统（Placement）</strong>，这个服务提供对象的存储位置和索引服务的系统。这个系统主要是用于处理PUT新对象请求。</p>
+<p>这就是为什么S3不可访问的原因。</p>
+<p>在后面，AWS也说明了一下故障恢复的过程，其中重点提到了这点——</p>
+<p style="padding-left: 30px;">虽然整个S3的是做过充分的故障设计的（注：AWS的七大Design Principle 之一 Design for Failure）—— 就算是最核心的组件或服务出问题了，系统也能恢复。但是，可能是在过去的日子里 S3 太稳定了，所以，AWS 在很长很长一段时间内都没有重启过 S3 的核心服务，而过去这几年，S3 的数据对象存储级数级的成长（S3存了什么样数量级的对象，因为在Amazon工作过，所以多大概知道是个什么数量级，这里不能说，不过，老实说，很惊人的），所以，这两个核心服务在启动时要重建并校验对象索引元数据的完整性，这个过程没想到花了这么长的时候。而Placement服务系统依赖于Index 服务，所以花了更长的时间。</p>
+<p>了解过系统底层的技术人员应该都知道这两个服务有多重要，简而言之，这两个系统就像是Unix/Linux文件系统中的inode，或是像HDFS里的node name，如果这些元数据丢失，那么，用户的所有数据基本上来说就等于全丢了。</p>
+<p>而要恢复索引系统，就像你的操作系统从异常关机后启动，文件系统要做系统自检那样，硬盘越大，文件越多，这个过程就越慢。</p>
+<p>另外，这次，AWS没有使用像以前那样 Outage 的故障名称，用的是 “Increased Error Rate” 这样的东西。我估计是没有把所有这两个服务删除完，估计有些用户是可以用的，有的用户是则不行了。</p>
+<h4>后续改进</h4>
+<p>在这篇故障简报中，AWS 也提到了下面的这些改进措施——</p>
+<p>1）<strong>改进运维操作工具</strong>。对于此次故障的运维工具，有下面改进：</p>
+<ul>
+<li><strong>让删除服务这个操作变慢一些</strong>（陈皓注：这样错了也可以有时间反悔，相对于一个大规模的分布式系统，这招还是很不错的，至少在系统报警时有也可以挽救）</li>
+</ul>
+<ul>
+<li><strong>加上一个最小资源数限制的SafeGuard</strong>（陈皓注：就是说，任何服务在运行时都应该有一个最小资源数，分布式集群控制系统会强行维护服务正常运行的最小的一个资源数）</li>
+</ul>
+<ul>
+<li>举一反三，Review所有和其它的运维工具，保证他们也相关的检查。</li>
+</ul>
+<p>2）<strong>改进恢复过程。</strong>对于恢复时间过长的问题，有如下改进：</p>
+<ul>
+<li><strong>分解现有厚重的重要服务成更小的单元</strong>（在 AWS，Service是大服务，小服务被称之为 Cell），AWS 会把这几个重要的服务重构成 Cell服务。（陈皓注：这应该就是所谓的“微服务”了吧）。这样，服务粒度变小，重启也会快一些，而且还可以减少故障面（原文：blast radius &#8211; 爆炸半径）</li>
+</ul>
+<ul>
+<li><strong>今年内完成对 Index 索引服务的分区计划</strong>。</li>
+</ul>
+<p>&nbsp;</p>
+<h4>相关思考</h4>
+<p>下面是我对这一故障的相关思考——</p>
+<p>0）<strong>太喜欢像Gitlab和AWS这样的故障公开了</strong>，那怕是一个自己人为的低级错误。不掩盖，不文过饰非，透明且诚恳。Cool!</p>
+<p>1）这次事件，还好没有丢失这么重要的数据，不然的话，将是灾难性的。</p>
+<p>2）另外，面对在 US-EASE-1 这个老牌 Region 上的海量的对象，而且能在几个小时内恢复，很不容易了。</p>
+<p>3）这个事件，再次映证了我在《<a href="https://coolshell.cn/articles/17459.html">关于高可用的系统</a>》中提到的观点：<strong>一个系统的高可用的因素很多，不仅仅只是系统架构，更重要的是——高可用运维</strong>。</p>
+<p>4）<strong>对于高可用的运维，平时的故障演习是很重要的。</strong>AWS 平时应该没有相应的故障演习，所以导致要么长期不出故障，一出就出个大的让你措手不及。这点，Facebook就好一些，他们每个季度扔个骰子，随机关掉一个IDC一天。Netflix 也有相关的 Chaos Monkey，我以前在的路透每年也会做一次大规模的故障演练——灾难演习。</p>
+<p>5）AWS对于后续的改进可以看出他的技术范儿。可以看到其改进方案是用技术让自己的系统更为的高可用。然后，对比国内的公司对于这样的故障，基本上会是下面这样的画风：</p>
+<p style="padding-left: 30px;">a）加上更多更为严格的变更和审批流程，</p>
+<p style="padding-left: 30px;">b）使用限制更多的权限系统和审批系统</p>
+<p style="padding-left: 30px;">c）使用更多的人来干活（一个人干事，另一个人在旁边看）</p>
+<p style="padding-left: 30px;">d）使用更为厚重的测试和发布过程</p>
+<p style="padding-left: 30px;">e）惩罚故障人，用价值观教育工程师。</p>
+<p>这还是我老生长谈的那句话——<strong>如果你是一个技术公司，你就会更多的相信技术而不是管理。相信技术会用技术来解决问题，相信管理，那就只会有制度、流程和价值观来解决问题</strong>。（注意：这里我并没有隔离技术和管理，只是更为倾向于用技术解决问题）</p>
+<p><strong>最后，你是要建一个 “高可用的技术系统” ，还是一个 “高用的管理系统”？ ;-)</strong></p>
+<p>（全文完）</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/22422.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/05/monolith.microservices-150x150.png" alt="是微服务架构不香还是云不香？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22422.html" class="wp_rp_title">是微服务架构不香还是云不香？</a></li><li ><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/12/bachelor-mechanical-eng-icon@72x-150x150.png" alt="我做系统架构的一些原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_title">我做系统架构的一些原则</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/cache-150x150.png" alt="缓存更新的套路" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_title">缓存更新的套路</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17737.html">AWS 的 S3 故障回顾和思考</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17737.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>由苹果的低级Bug想到的</title>
+		<link>https://coolshell.cn/articles/11112.html</link>
+					<comments>https://coolshell.cn/articles/11112.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 24 Feb 2014 00:12:11 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[bug]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[goto]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11112</guid>
+
+					<description><![CDATA[<p>2014年2月22日，在这个“这么二”的日子里，苹果公司推送了 iOS 7.0.6（版本号11B651）修复了 SSL 连接验证的一个 bug。官方网页在这里：...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11112.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11112.html">由苹果的低级Bug想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-11123" src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail.png" alt="" width="260" height="158" /> 2014年2月22日，在这个“这么二”的日子里，苹果公司推送了 iOS 7.0.6（版本号11B651）修复了 SSL 连接验证的一个 bug。官方网页在这里：<a href="http://support.apple.com/kb/HT6147" target="_blank">http://support.apple.com/kb/HT6147</a>，网页中如下描述：</p>
+<blockquote><p><strong>Impact</strong>: An attacker with a privileged network position may capture or modify data in sessions protected by SSL/TLS</p>
+<p><strong>Description</strong>: Secure Transport failed to validate the authenticity of the connection. This issue was addressed by restoring missing validation steps.</p></blockquote>
+<p>也就是说，这个bug会引起中间人攻击，bug的描述中说，这个问题是因为miss了对连接认证的合法性检查的步骤。</p>
+<p>这里多说一句，<strong>一旦网上发生任何的和SSL/TL相关的bug或安全问题，不管是做为用户，还是做为程序员的你，你一定要高度重视起来</strong>。因为这个网络通信的加密协议被广泛的应用在很多很多最最需要安全的地方，如果SSL/TLS有问题的话，意味着这个世界的计算机安全体系的崩溃。</p>
+<h4>Bug的代码原因</h4>
+<p>Adam Langley的《<a href="https://www.imperialviolet.org/2014/02/22/applebug.html">Apple&#8217;s SSL/TLS bug</a> 》的博文暴出了这个bug的细节。（在苹果的开源网站上，通过查看苹果的和SSL/TLS有关的代码变更，我们可以在文件<a href="http://opensource.apple.com/source/Security/Security-55471/libsecurity_ssl/lib/sslKeyExchange.c" target="_blank">sslKeyExchange.c</a>中找到下面的代码）</p>
+<p><span id="more-11112"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW" data-enlighter-highlight="12">static OSStatus
+SSLVerifySignedServerKeyExchange(SSLContext *ctx, bool isRsa, SSLBuffer signedParams,
+                                 uint8_t *signature, UInt16 signatureLen)
+{
+	OSStatus        err;
+	...
+
+	if ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;serverRandom)) != 0)
+		goto fail;
+	if ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;signedParams)) != 0)
+		goto fail;
+		goto fail;
+	if ((err = SSLHashSHA1.final(&amp;hashCtx, &amp;hashOut)) != 0)
+		goto fail;
+	err = sslRawVerify(ctx,
+                       ctx-&gt;peerPubKey,
+                       dataToSign,				/* plaintext */
+                       dataToSignLen,			/* plaintext length */
+                       signature,
+                       signatureLen);
+	if(err) {
+		sslErrorLog(&quot;SSLDecodeSignedServerKeyExchange: sslRawVerify &quot;
+                    &quot;returned %d\n&quot;, (int)err);
+		goto fail;
+	}
+
+fail:
+    SSLFreeBuffer(&amp;signedHashes);
+    SSLFreeBuffer(&amp;hashCtx);
+    return err;
+}</pre>
+<p>注意，我高亮的地方，也就是那里有两个goto fail; 因为if语句没有加大括号，所以，只有第一个goto是属于if的，而第二个goto则是永远都会被执行到的（注：这里不是Python是C语言，缩进不代表这个语句属于同一个语句块）。也就是说，就算是前面的if检查都失败了（err  == 0），也会goto fail。我们可以看到fail标签中释放完内存后就会return err;</p>
+<p>你想一下，<strong>这段程序在SSLHashSHA1.update()  返回成功，也就是返回0 的时候会发生什么样的事？是的，真正干活的 sslRawVerify()被bypass了。而且这个函数SSLVerifySignedServerKeyExchange() 还返回了0，也就是成功了！</strong>尼玛！你可能想到酷壳网上之前《<a title="一个空格引发的惨剧" href="https://coolshell.cn/articles/4875.html" target="_blank">一个空格引发的惨剧</a>》的文章。都是低级bug。</p>
+<p>这个低级bug在这个周末在网上被炒翻了天，你可以<strong><a href="https://twitter.com/search?q=%23gotofail" target="_blank">上Twiter上看看#gotofail的标签的盛况</a></strong>。<strong>Goto Fail必然会成为历史上的一个经典事件</strong>。</p>
+<p>如果你喜欢XKCD，你一定会想到这个漫画：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" src="https://sslimgs.xkcd.com/comics/goto.png" alt="" width="740" height="201" /></p>
+<p><span style="line-height: 1.5em;"><strong>注意</strong>：这个bug不会影响TLS 1.2版本，因为1.2版本不会用这个函数，走的是另一套机制。但是别忘了client端是可以选择版本的。</span></p>
+<p>如果你想测试一下你的浏览器是否会有问题，<strong>你可以上一下当天就上线的<a href="https://gotofail.com/" target="_blank"> https://gotofail.com</a> 网站</strong></p>
+<h4>一些思考</h4>
+<p>下面是我对这个问题的一些思考。</p>
+<h5>0）关于编译报警</h5>
+<p>有人在说苹果的这个代码中的goto语句会产生死代码——dead code，也就是永远都不会执行到的代码，C/C++的编程器是会报警的。但，实际上，dead code在默认上的不会报警的。即使你加上-Wall，GCC 4.8.2 或 Clang 3.3 都不会报警，包括Visual Studio 2012在默认的报警级别也不会（默认是/W3级，需要上升到/W4级以上，但是升级到/W4上，你的工程可能会有N多的Warning，你不一定能看得过来）。gcc和Clang有一个参数叫：-Wunreachable-code，是可以对这种情况报警的，但即没有被包括在-Wall里。原因是，这个参数有很多的问题，因为编译器的优化代码的行为，这个参数并不能对每种情况都准确地报告。另请注意，GCC的新版本中剔除了这个参数。当然，其它一些静态的代码检查工具也可以检查这个低级的问题。</p>
+<p>另外，是不是用IDE的代码自动化格式工具也可以帮上一点忙呢？至少可以把那个缩进变成让人一看就觉得有问题。</p>
+<h5>1）关于Code Merge 和 Code Review</h5>
+<p>你可以通过这里的代码比较看到这个bug的diff，也可以到<a href="https://gist.github.com/alexyakoubian/9151610/revisions" target="_blank">这里看看</a>（631行）。</p>
+<blockquote style="font-size: 11px;"><p>diff -urN &lt;(curl -s http://opensource.apple.com/source/Security/Security-55179.13/libsecurity_ssl/lib/sslKeyExchange.c\?txt) \ &lt;(curl -s http://opensource.apple.com/source/Security/Security-55471/libsecurity_ssl/lib/sslKeyExchange.c\?txt) \</p></blockquote>
+<p>通过code diff你可以看到，<strong>苹果公司是在重构代码——为很多函数去掉了ctx的参数</strong>。</p>
+<p>所以，我们可以猜测，两个goto fail语句，可能是因为对code在不同branch上做merge发生的。版本工具merge代码的时候，经常性的会出现这样的问题。如果代码的diff很多，这个问题会很容易就没有注意到。就算有code review，这个有问题的代码也很难被找出来的。<strong>如果你来review下面的diff，你会注意到这个错误吗？</strong></p>
+<p><img decoding="async" loading="lazy" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/02/gotofail.jpg" alt="" width="560" height="275" /></p>
+<p>也就是说，在重构分支上的代码是对的，但是在分支merge的时候，被merge工具搞乱了。所以说，<strong>我们在做code merge的时候，一定要小心小心再小心，不能完全相信merge工具</strong>。</p>
+<h5>2）关于测试</h5>
+<p>很明显，这个bug很难被code review发现。对于重构代码和代码merge里众多的diff，是很难被review的。</p>
+<p>当然，“事后诸葛亮”的人们总是很容易地说这个问题可以被测试发现，但是实际情况是这样的吗？</p>
+<p>这个问题也很难被功能测试发现，因为这个函数在是在网络握手里很深的地方，功能 测试不一定能覆盖得那么深，你要写这样的case，必需对TLS的协议栈非常熟悉，熟悉到对他所有的参数都很熟悉，并能写出针对每一个参数以及这些参数的组合做一堆test case，这个事情也是一件很复杂的事。要写出所有的case本身就是一件很难很难的事情。关于这个叫SSLVerifySignedServerKeyExchange()函数的细节，你可以看看相关的<a href="https://tools.ietf.org/html/rfc5246#section-7.4.3">ServerKeyExchange</a> RFC文档。</p>
+<p>如果只看这个问题的话，你会说对这个函数做的 Unit Test 可以发现这个问题，是的。但是，别忘了SSL/TLS这么多年了，这些基础函数都应该是很稳定的了， 在事前，我们可能不会想到要去为这些稳定了多少年的函数写几个Unit Test。</p>
+<p><strong>只要有足够多的时间，我们是可以对所有的功能点，所有的函数都做UT，也可以去追求做代码覆盖和分支覆盖一样。但有一点我们却永远无法做到，那就是——穷举所有的负面案例</strong>。所以，对于测试来说，我们不能走极端，需要更聪明的测试。就像我在《<a title="我们需要专职的QA吗？" href="https://coolshell.cn/articles/6994.html" target="_blank">我们需要专职的QA</a>》文章里的说过的——<strong>测试比coding难度大多了，测试这个工作只有高级的开发人员才做得好。我从来不相信不写代码的人能做好测试。</strong></p>
+<p>这里，<strong>我并不是说通过测试来发现这个问题的可能性不大，我想说的是，测试很重要，单测更重要。但是，我们无法面面俱到</strong>。在我们没有关注到的地方，总会发生愚蠢的错误。</p>
+<p>P.S.，在各大网站对这个事的讨论中，我们可以看到OS X下的curl命令居然可以接受一个没有验证过的IP地址的https的请求，虽然现在还没有人知道这事的原因，但是，这可能是没有在测试中查到的一个原因。</p>
+<h5>3）关于编码风格</h5>
+<p><span style="line-height: 1.5em;">对于程序员来说，在C语言中，省掉语句大括号是一件非常不明智 的事情。如我们强制使用语句块括号，那么，这两个goto fail都会在一个if的语句块里，而且也容易维护并且易读。（另外，通过这个bug，我们可以感受到，像Python那样，用缩进来表示语句块，的确是挺好的一件事）</span></p>
+<p>也有人说，如果你硬要用只有单条语句，且不用语句块括号，那么，这就是一条语句，应该放在同一行上。如下所示：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">if  (check_something)   do_something(); </code></p>
+<p>但是这样一来，你在单步调试代码的时候，就有点不爽了，当你step over的时候，你完全不知道if的条件是真还是假。所以，还是分多行，加上大括号会好一些。</p>
+<p>相似的问题，我很十多年前也犯过，而且那次我出的问题也比较大，导致了用户的数据出错。那次就是维护别人的代码，别人的代码就是没有if的语句块括号，就像苹果的代码那样。<span style="line-height: 1.5em;">我想在return z之前调用一个函数，结果就杯具了：</span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW" data-enlighter-highlight="6">if ( ...... )
+    return x;
+if ( ...... )
+    return y;
+if ( ...... )
+    foo();
+    return z;</pre>
+<p>这个错误一不小心就犯了，因为人的大脑会相当然地认为缩进的都是一个语句块里的。但是如果原来的代码都加上了大括号，然后把缩进做正常，那么对后面维护的人会是一个非常好的事情。就不会犯我这个低级错误了。就像下面的代码一样，虽然写起来有点罗嗦，但利人利己。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">if ( ...... ){
+    return x;
+}
+if ( ...... ){
+    return y;
+}
+if ( ...... ){
+    return z;
+}</pre>
+<p>与此类似的代码风格还有如下，你觉得哪个更容易阅读呢？</p>
+<ul>
+<li>if (!p)    和  if (p == NULL)</li>
+</ul>
+<ul>
+<li>if (p)    和  if (p != NULL)</li>
+</ul>
+<ul>
+<li>if (!bflag)  和 if  (bflag == false)</li>
+</ul>
+<ul>
+<li>if ( CheckSomthing() )  和 if ( CheckSomething() == true )</li>
+</ul>
+<p>另外还有很多人在switch 语句里用case来做if，也就是说case后面没有break。就像<a href="http://en.wikipedia.org/wiki/Duff's_device" target="_blank">Duff&#8217;s Device</a>一样，再配以goto，代码就写得相当精彩了（这里<a href="https://github.com/agentzh/luajit2/blob/master/src/host/buildvm.c#L395" target="_blank">有个例子</a>）</p>
+<p><span style="line-height: 1.5em;">所以说，代码不是炫酷的地方是给别人读的。</span></p>
+<p>另外，我在想，为什么苹果的这段代码不写成下面这样的形式？你看，下面这种情况不也很干净吗？</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+if (  ((err = ReadyHash(&amp;SSLHashSHA1, &amp;hashCtx)) != 0 )
+       || ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;clientRandom)) != 0)
+       || ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;serverRandom) != 0)
+       || ((err = SSLHashSHA1.update(&amp;hashCtx, &amp;signedParams) != 0)
+       || ((err = SSLHashSHA1.final(&amp;hashCtx, &amp;hashOut)) != 0)) {
+
+     goto fail;
+}
+</pre>
+<p>其实，还可以做一些代码上的优化，比如，把fail标签里的那些东西写成一个宏，这样就可以去掉goto语句了。</p>
+<h5>4）关于goto语句</h5>
+<p>关于goto语句，1968年，<a href="http://en.wikipedia.org/wiki/Edsger_Dijkstra">Edsger Dijkstra</a> 投了一篇文章到Communications of the ACM。原本的标题是《A Case Against the Goto Statement》。CACM编辑<a href="http://en.wikipedia.org/wiki/Niklaus_Wirth">Niklaus Wirth</a>灵感来了，把标题改为我们熟知的 《<a href="http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html" target="_blank">Go To Statement Considered Harmful</a>》Dijkstra写的内容也是其一贯的犀利语气，文中说：“几年前我就观察到，一个程序员的品质是其程序中goto语句的密度成反比的”，他还说，“后来我发现了为什么goto语句的使用有这么严重的后果，并相信所有高级语言都应该把goto废除掉。”  （<strong>花絮</strong>：因为，这篇文章的出现，计算学界开始用&#8217; <a href="http://en.wikipedia.org/wiki/Considered_harmful">X considered harmful</a> &#8216;当文章标题的风潮，直到<a href="http://meyerweb.com/eric/comment/chech.html">有人终于受不了</a>为止）</p>
+<p>为什么goto语句不好呢？Dijkstra说，一个变量代表什么意义要看其上下文。一个程序用N<code></code>记录房间里的人数，在大部分时候，N<code></code>代表的是“目前房间里的人”。但在观察到又有一个人进房间后、把N<code></code>递增的指令前的这段程序区块中，N<code></code>的值代表的是“目前房间里的人数加一”。因此，要正确诠释程序的状态，必须知道程序执行的历史，或着说，知道现在“算到哪”了。</p>
+<p>怎么谈“算到哪了”？如果是一直线执行下来的程序，我们只要指到那条语句，说“就是这里”，就可以了。如果是有循环程序，我们可能得说：“现在在循环的这个地方，循环已经执行了第<code>i</code>次”。如果是在函数中，我们可能得说：“现在执行到函数<code>p</code>的这一点；<code>p</code>刚刚被<code>q调用</code>，调用点在一个循环中，这个循环已经执行了<code>i</code>次”。</p>
+<p>如果有goto<code>语句了</code>呢？那就麻烦了。因为电脑在执行某个指令前，可能是从程序中许许多多goto<code></code>其中之一跳过来的。要谈某变量的性质也几乎变得不可能了。这就是为什么goto语句问题。</p>
+<p>Dijkstra的这篇文章对后面很多程序员有非常深的影响，包括我在内，都觉得Goto语句能不用就不用，虽然，我在十年前的《<a href="http://blog.csdn.net/haoel/article/month/2003/05" target="_blank">编程修养</a>》（这篇文章已经严重过时，某些条目已经漏洞百出）中的<a href="http://blog.csdn.net/haoel/article/details/2876" target="_blank">第23条</a>也说过，我只认为在goto语句只有一种情况可以使用，就是苹果这个bug里的用法。但是我也同意Dijkstra，goto语句能不用就不用了。就苹果的这个问题而言，在更为高级的C++中，<a href="http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization" target="_blank">使用RAII技术</a>，这样的goto语句已经没有什么存在的意义了。</p>
+<p>Dijkstra这篇文章后来成为结构化程式论战最有名的文章之一。长达19年之后，Frank Rubin投了一篇文章到CACM,标题为《<a href="http://www.ecn.purdue.edu/ParaMount/papers/rubin87goto.pdf">&#8216; <code></code>Go To Considered Harmful&#8217; Considered Harmful</a> 》Rubin说，「虽然Dijkstra的说法既太学术又缺乏说服力」，却似乎烙到每个程序员的心里了。这样，当有人说“用goto语句来解这题可能会比较好”会被严重鄙视。于是Rubin出了一道这样的题：令<code>X</code>为<code>N * N</code>的整数阵列。如果<code>X</code>的第<code>i</code>行全都是零，请输出<code>i</code>。如果不只一行，输出最小的<code>i</code> .</p>
+<p>Rubin找了一些惯用goto和不用goto的程序员来解题，发现用goto的程序又快又清楚。而不用goto通常花了更多的时间，写出很复杂的解答。你觉得呢？ 另外，你会怎么写这题的程序呢？</p>
+<p>（<strong>花絮</strong>：以后几个月的CACM热闹死了。编辑收到许多回应，两个月后刊出了其中五篇。文章也包括了《<a href="http://www.ecn.purdue.edu/ParaMount/papers/acm_may87.pdf">&#8220;&#8216;GOTO Considered Harmful&#8217; Considered Harmful&#8221; Considered Harmful?</a> 》）</p>
+<p><strong>对于我而言，goto语句的弊远远大于利，在99%的情况下，我是站在反goto这边的</strong>。Java和Python就没有提供Goto语句，原因就是因为goto语句很容易被滥用！</p>
+<p><strong>更新：2014年3月5日</strong> &#8211; RedHat 近日也发现个GnuTLS安全问题，与苹果的类似：无法正确检验特定的伪造SSL证书，这个总是会将伪造证书识别为有效证书。虽然Redhat的代码为if加上了花括号，但还是因为没有控制好goto，造成了bug。所以说啊，goto语句的坑是很多。</p>
+<ul>
+<li>BUG页面：<a href="https://bugzilla.redhat.com/show_bug.cgi?id=1069865" target="_blank">https://bugzilla.redhat.com/show_bug.cgi?id=1069865</a></li>
+</ul>
+<ul>
+<li>相关的Diff: <a href="https://bugzilla.redhat.com/attachment.cgi?id=867911&amp;action=diff" target="_blank">https://bugzilla.redhat.com/attachment.cgi?id=867911&amp;action=diff</a></li>
+</ul>
+<p>goto语句在写代码的时候也许你会很爽，但是在维护的时候，绝对是一堆坑！redhat的这个patch为原来本来只有一个label的goto又加了另一个label，现在两个label交差goto，继续挖坑……</p>
+<h4>总结</h4>
+<p>你看，我们不能完全消灭问题，但是，我们可以用下面几个手段来减少问题：</p>
+<p style="padding-left: 30px;">1）<strong>尽量在编译上发生错误，而不是在运行时</strong>。</p>
+<p style="padding-left: 30px;">2）<strong>代码是让人读的，顺便让机器运行</strong>。不要怕麻烦，好的代码风格，易读的代码会减少很多问题。</p>
+<p style="padding-left: 30px;">3）<strong>Code Review是一件很严肃的事情</strong>，但 Code Reivew的前提条件是代码的可读性一定要很好。</p>
+<p style="padding-left: 30px;">4）<strong>测试是一件很重要也是很难的事情，尤其是开发人员要非常重视</strong>。</p>
+<p style="padding-left: 30px;">5）<strong>不要走飞线，用飞线来解决问题是可耻的！</strong>所以，用goto语句来组织代码的时代过去了，你可以有很多种方式不用goto也可以把代码组织得很好。</p>
+<p>最后，我在淘宝过去的一年里，经历过一些P1/P2故障，尤其是去年的8-9月份故障频发的月份，我发现其中有70%的P1/P2故障，就是因为没有code review，没有做好测试，大量地用飞线来解决问题，归根结底就是只重业务结果，对技术没有应有的严谨的态度和敬畏之心。</p>
+<p><span style="color: #cc0000;"><strong>正如苹果的这个“goto fail”事件所暗喻的，如果你对技术没有应有的严谨和敬畏之心，你一定会——</strong></span></p>
+<p style="text-align: center; font-size: 36px; color: #cc0000; font-family: Georgia,;"><strong>Go To Fail !!!</strong></p>
+<p>在这里唠叨这么多，与大家共勉！</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/11466.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/04/c99-150x150.jpg" alt="C语言的整型溢出问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11466.html" class="wp_rp_title">C语言的整型溢出问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11112.html">由苹果的低级Bug想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11112.html/feed</wfw:commentRss>
+			<slash:comments>116</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>扎克伯格的一封信：关于Facebook IPO</title>
+		<link>https://coolshell.cn/articles/7448.html</link>
+					<comments>https://coolshell.cn/articles/7448.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 19 May 2012 03:01:21 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Facebook]]></category>
+		<category><![CDATA[IPO]]></category>
+		<category><![CDATA[Joke]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7448</guid>
+
+					<description><![CDATA[<p>MENLO PARK, CA (The Borowitz Report) – 在Fackbook IPO前夕，Facebook的创始人兼CEO Mark Zuc...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7448.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7448.html">扎克伯格的一封信：关于Facebook IPO</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" id="ImageStory" class="alignleft" src="http://www.borowitzreport.com/wp-content/uploads/zuck.jpg" alt="" />MENLO PARK, CA (<strong><strong><a title="Borowitz Report" href="http://www.borowitzreport.com/2012/05/17/a-letter-from-mark-zuckerberg/" target="_blank">The Borowitz Report</a></strong></strong>) – 在Fackbook IPO前夕，Facebook的创始人兼CEO Mark Zuckerberg 给全球股民发表了封公开信：</p>
+<p>亲爱的股民们：</p>
+<p style="padding-left: 60px;">    这么多年来，你们已经在Facebook上浪费了你们的时间 ，接下来，你们会得到浪费你们金钱的机会。</p>
+<p>   明天是Facebook的IPO，并且我知道你们一定在想，Facebook怎么就和2000年的.COM泡沫不一样啦？</p>
+<p>首先，我想告诉你们，以前那些糟糕的dot-com公司玩的是概念和炒作，而没有真正的商业价值。而Facebook不一样，也就是说，我们Facebook是建立在强大的以“疯狂的小鸟”和“一群想像中的羊”的基础上的。</p>
+<p>其次，Facebook是世界上最成功的社交网络，我们的用户最近才发现，这个社交网络让人们分享了数以万计别人根本不感兴趣的信息。</p>
+<p>第三，当某人点击Faceback广告的时候，我们就会挣到钱。而且我们知道，点我们广告的人都不是故意点击，成百万的人点我们的广告是因为那时他们喝醉了。我们完全从iTunes偷到这个有创意的想法。</p>
+<p>最后，如果你买我们的股票，你将永远不会孤独。据调查，在过去几年里使用facebook的全球9亿用户，他们都有轻微或中等程度的大脑损伤，这影响了他们的作正常判断的能力。所以，这些人都成为你的朋友——Facebook的股民。</p>
+<p>有了你的帮助，如果明天一切都照计划进行，Facebook IPO将会募到1000亿美金。这是个什么概念，这相当于4到5个摩根大通银行损失的钱。</p>
+<p>最后一件事：我，Mark Zuckerberg，是否会因此IPO获得180亿美金？ 也许，我正在考虑把希腊买了，但就算是这样，我还是有180亿美金。 LOL.</p>
+<p>Friend me (粉我),</p>
+<p>Mark</p>
+<div>（新闻来源：<a href="http://www.borowitzreport.com/2012/05/17/a-letter-from-mark-zuckerberg/" target="_blank">http://www.borowitzreport.com/2012/05/17/a-letter-from-mark-zuckerberg/</a>）</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18140.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/09/react_patent-360x200-1-150x150.jpg" alt="关于Facebook 的 React 专利许可证" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18140.html" class="wp_rp_title">关于Facebook 的 React 专利许可证</a></li><li ><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Quora使用到的技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_title">Quora使用到的技术</a></li><li ><a href="https://coolshell.cn/articles/4549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="Facebook 的系统架构" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4549.html" class="wp_rp_title">Facebook 的系统架构</a></li><li ><a href="https://coolshell.cn/articles/3396.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/Visualizing-Friendships-on-Facebook-150x150.png" alt="Facebook全球关系网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3396.html" class="wp_rp_title">Facebook全球关系网</a></li><li ><a href="https://coolshell.cn/articles/1941.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="程序员的相关笑话（二）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1941.html" class="wp_rp_title">程序员的相关笑话（二）</a></li><li ><a href="https://coolshell.cn/articles/1903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="程序员的相关笑话（一）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1903.html" class="wp_rp_title">程序员的相关笑话（一）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7448.html">扎克伯格的一封信：关于Facebook IPO</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7448.html/feed</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>谈谈数据安全和云存储</title>
+		<link>https://coolshell.cn/articles/6976.html</link>
+					<comments>https://coolshell.cn/articles/6976.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 09 Apr 2012 00:33:22 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Cloud]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6976</guid>
+
+					<description><![CDATA[<p>前些天，创新工场李开复同学在2012博鳌亚洲论坛表示： “你们有多少人丢过手机？大概有15%。你们有多少人数据放在微软掉过的？我想不见得很多吧。所以相对来说是安...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6976.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6976.html">谈谈数据安全和云存储</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>前些天，创新工场李开复同学<a title="李开复：数据存在大公司比身边安全 不信问陈冠希" href="http://weibo.com/1197161814/ycNUWw7hz" target="_blank">在2012博鳌亚洲论坛表示</a>：</p>
+<blockquote><p>“你们有多少人丢过手机？大概有15%。你们有多少人数据放在微软掉过的？我想不见得很多吧。所以相对来说是安全的。<strong>放在大公司里比自己拿着掉的概率更大，你不相信的话，可以问陈冠希先生。</strong>”</p></blockquote>
+<p><img decoding="async" class="aligncenter" alt="" src="http://ww4.sinaimg.cn/bmiddle/61e04755jw1drlo96bsktj.jpg" width="440" /></p>
+<h4>两种安全</h4>
+<p>看到这个消息的时候，我觉得李开复同学混淆了云存储和安全这两个概念，在英文里，有两个单词，<strong>一个是Safety，一个是Security，很不幸的是，这两个英文单词翻译成中文都叫“安全”</strong>，因此总是被混淆，熟知英文又熟悉IT业的李开复同学在这个句子中混淆了这“两种安全”，我在<a href="http://weibo.com/haoel" target="_blank">我的微博</a>上指出来后，居然还有很多网友继续混淆这两点，所以，这让我产生了写篇博文的说明一下，并顺着说说云存储和数据安全的个人理解。</p>
+<p><span id="more-6976"></span></p>
+<ul>
+<li><strong>所谓Safety，也就是数据不丢失的意思。</strong>这是目前云存储解决的问题，你可以把你的数据放在云端，你的所有的终端设备都可以通过云端来共享同步你的数据，这样，<strong>云端就成了你数据同步和备份的数据中枢</strong>。<strong>说得专业一点，这又叫Availability</strong>，中文叫可用性，意思是，你的数据总是可用的，基本不会丢失 ，</li>
+</ul>
+<ul>
+<li><strong>所谓Security，也就是数据的隐私和不泄露</strong>。这就是德艺双馨的陈冠希老师的痛，因为本来隐私和机密的数据被泄露出去了。就目前而言，我看到的云存储解决的都是Availability，而不是Security。Security解决的是私密和不泄露的问题。所以，李开复同学要让陈冠希老师把他的那些数据存到云端是可笑的，<strong>对于那些私密照片，我相信陈冠希老师要求的是“Security”，而不是“Availability”</strong>。</li>
+</ul>
+<p>有网友在我的微博上指出：&#8221;一种数据是不能丢，但是可以泄露，那可以放云端，另一种是宁可丢都不能泄露，这就不能放在云端了&#8221;。这句话可以帮你更好地理解什么是Availability和Security。</p>
+<h4>Security &#8211; 本地 vs 云端</h4>
+<p>现在的云解决的更多的是不丢失，而不是不泄漏。有一些网友在微博上和我争论道，其实云存储也能保证Security，因为有加密认证，云端会加密数据。我对此存有不同意见，<strong>对于Security，我个人更觉得，Security的数据应该完全私有化，所以，放在本地会有更好的Security</strong>。我的理由如下：</p>
+<ul>
+<li>先问你自己一个问题，无论是不是大公司的云服务，你敢把你的银行帐号和口令存在云端吗？你的银行帐号和口令你可能都不敢放在你的电脑里。因为你要找到一个完全绝对只有你能访问的地方。比如说你的大脑。</li>
+</ul>
+<ul>
+<li>云端的认证和云端的数据加密有用吗？没有用的，因为我只要破解了这个用户口令，想想你的电脑成了肉鸡，你网盘的口令都不要，你云端的数据一下都成了浮云了。想想去年年底各大网站的口令泄露吧。</li>
+</ul>
+<ul>
+<li>数据存放在本地的移动硬盘上时，只有你的电脑同时插着USB链接线了上网线时，别人才有机会入侵，一旦你发现入侵，你还可以拔线。而你的数据放在云端，黑客可以全天候地入侵你的云端数据，得手后你都不知道你自己的帐号被黑了。</li>
+</ul>
+<ul>
+<li>无论是云端或是本地都防不住你的客户端被肉鸡，而云端还要面对比本地更多的风险，比如，云端无良员工，云端的代码漏洞，云端的黑客入侵，还有电邮电话诈骗，钓鱼网站，DNS劫持，政府审查，等等，等等。</li>
+</ul>
+<p>看看银行和金融行业，完全是自己的专用网络，和互联网物理隔绝，这就是为了Security。Security就必需是完全绝对的对数据的私有化。比如某些公司的电脑不能使用USB，光驱等等外设，所有内网与外网的数据交换都必需受到监控。</p>
+<p>再多说一点，其实，要黑你的云端帐号并不用很高深的技术，有调查表明，伪装成客服人员或是警察给你打个电话问你要口令，大多数人是会告诉自己的帐号和口令的。还有就是抓住人的占便宜的心理，比如：在大街上撒U盘，大多数人是会捡回去插在自己或公司的电脑上浏览里面的内容的。</p>
+<p>所以，所谓物理隔绝不单单只是网线，还有这些外设。</p>
+<h4>Availability &#8211; 本地 vs 云端</h4>
+<p>硬盘是有寿命的，如果你不间断开机，你的硬盘估计也就能支持5年左右。光盘也是有寿命，因为是塑料也会老化的，和存放的条件有关。所以，在本地看来，数据总是容易丢失的。因为我们本地的存储设备并不可靠，只是家用级的，不是工业级的。</p>
+<p>云存储可以使用RAID之类的家庭里用不到的技术来镜像数据等技术手机，从而可以保证可用性很高，所以，放在云端的数据库可用性会更高一些（当然，就像开复老师说的一样还是要大公司才靠谱）。</p>
+<p>再多说一点，现在很多云存储仅仅只是做简单的和客户端本地的数据同步，没有版本控制，这意味着，如果你本地的文件本来是好的，但是后来你的电脑中了病毒后，你本地的数据被损坏了，不幸的是，这些被损坏的数据也同步到了云端，并分发到了你所有的终端设备中，于是灾难还是一样发生。所以，不支持版本控制，或是更轻量一些的“数据快照”功能的云，其实其数据并不Safe。</p>
+<h4>家庭私有云存储</h4>
+<p>云存储，对于PC用户来说，就目前而言，最多的应用还是那些各种各样的Dropbox类的网盘应用，这些应用很好地解决了数据的——备份、同步、共享这三个问题。但是，我觉得还是有一些如下问题没有解决。</p>
+<ul>
+<li>Security问题。就是陈冠希老师的数据私密性的问题。</li>
+<li>费用问题。相对于本地的存储来说，网盘费用太高了，还是一月或一年的算，Dropbox 100GB的网盘要200USD一年，这够买两个1TB的硬盘了，而且绝对可以用超过1年以上。</li>
+<li>备份效率问题。通过网络备份，同步和共享，对于数据量大一点，效率太差了。</li>
+</ul>
+<p>我不知道大家怎么样？我现在更多的数据备份是我的一些家庭照片和视频，随着现在的数码相机的像素越来越高，一张照片的大小可以在4MB甚至10M，数据量太大了。而且，这些照片都个人的照片，不能传到网上做备份。每次在我的SD卡，PC，移动硬盘，iPad，手机上倒腾这些照片和视频的时候，总是很麻烦。（我昨晚在微博上<a href="http://weibo.com/1401880315/ydGN1zXGz">做了个小调查</a>，发现很多人家里是有很多设备的，像我这样，家里有3个本，2个台式机，2个kindle，1个iPad，2个智能手机，1个高清播放机的家庭都算是比较节俭的了）</p>
+<p><strong>我觉得就目前这样的情况，个人家庭的私有云解决方案应该要出现了</strong>。也就是家庭内的数据中心解决方案，也许只需要像高清播放机那样的一个小盒子，里面可以用软件RAID两块或多块硬盘以保证数据的可用性，其还可以让你的数据在N多设备中共享，同步，备份，但你又不用担心互联网安全来担心这些数据，因为这仅仅是你的家庭局域网。</p>
+<p>因为小孩让家庭照片和视频暴增，导致我去年就在想应该有一个家庭私有网盘的东西，所以，当我前些天看到<a href="http://www.spacemonkey.com/" target="_blank">Space Monkey</a> （<a href="http://news.cnet.com/8301-19882_3-57391989-250/dropbox-rival-space-monkey-puts-cloud-in-your-house/" target="_blank">新闻报道</a>）的时候，我立马就觉得这就是我想要的东西。</p>
+<p><img decoding="async" class="aligncenter" alt="" src="http://asset1.cbsistatic.com/cnwk.1d/i/tim/2012/03/07/spacemonkeyHW_270x283.JPG" /></p>
+<p>不过，国内还没有相应的产品，有想法的同学不妨试试去做一个类似于这样的产品，动作要快，千万不要让创新工场和腾讯抢先了。;-)</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/01/iStock-1175502114-150x150.png" alt="网络数字身份认证术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_title">网络数字身份认证术</a></li><li ><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200-1-150x150.png" alt="HTTP API 认证授权术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_title">HTTP API 认证授权术</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/17607.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-150x150.jpg" alt="从 MongoDB “赎金事件” 看安全问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17607.html" class="wp_rp_title">从 MongoDB “赎金事件” 看安全问题</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-150x150.jpg" alt="bash代码注入的安全漏洞" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_title">bash代码注入的安全漏洞</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6976.html">谈谈数据安全和云存储</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6976.html/feed</wfw:commentRss>
+			<slash:comments>93</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Why C++ ? 王者归来</title>
+		<link>https://coolshell.cn/articles/6548.html</link>
+					<comments>https://coolshell.cn/articles/6548.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 02 Feb 2012 00:22:57 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Performance]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6548</guid>
+
+					<description><![CDATA[<p>因为又有人邀请我去Quora的C2C网站去回答问题去了，这回是 关于 @laiyonghao 的这篇有点争议的博文《2012 不宜进入的三个技术点》Action...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6548.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6548.html">Why C++ ? 王者归来</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>因为又有人邀请我去Quora的C2C网站去回答问题去了，这回是 关于 <a href="http://weibo.com/n/laiyonghao">@laiyonghao</a> 的这篇有点争议的博文《2012 不宜进入的三个技术点》ActionScript，Thread 和 C++，<a href="http://blog.csdn.net/lanphaday/article/details/7223385" target="_blank"> C++争议的争议最大</a>。（要我说，.NET比C++更需要慎重进入，呵）。我就在这里回复一下这个问题吧。</p>
+<p>正好我一个月前看到一个视频，这个演讲视频还比较著名，这个演讲者是<em>Exceptional C++ </em>和 <em>C++ Coding Standards</em> 的作者，还是ISO C++ 委员会的Chair，C++/CLI首席架构师，还是Microsoft的软件架构师，他叫<a href="http://herbsutter.com/" target="_blank">Herb Sutter</a>，他的这个演讲视频是 <a href="http://cppandbeyond.com/" target="_blank">C++ and Beyond 2011</a>上的一次公开演讲，题目是——<a href="http://channel9.msdn.com/posts/C-and-Beyond-2011-Herb-Sutter-Why-C" target="_blank">Why C++</a>? （如果你觉得那里的视频比较慢，你可以看<a href="http://v.youku.com/v_show/id_XMzA5OTIwODIw.html" target="_blank">优酷上的视频</a>）（英文听力好的同学可以看一样，因为都没有中文字幕）</p>
+<p>我觉得这篇文章就足够可以说明很多问题了，所以，我把Herb的演讲幻灯片截了几页放到这里，并做上一些注释，算是一个演讲内容摘要吧。</p>
+<p>1） 为什么C++？因为 Performance per $，也就是说performance 就是钱，这个分成三个方面，</p>
+<ul>
+<li>耗电，芯片的耗电量，移动设备的耗电量，家用电脑的耗电量都和钱有关系。</li>
+<li>资源，家用电脑和移动设备上的处理器资源有限，因为要让一般消费者买的起。</li>
+<li>体验，在更小的设备上会有更好的体验，有更好的体验就可以挣更多的钱。</li>
+</ul>
+<p>移动设备上的耗电量相信用过智能手机的人都知道吧，Android手机的耗电量实在是太大了。就算是iPhone在开启Wifi和3G的情况下耗电量也很快。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6550" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.01.jpg" alt="" width="566" height="319" /></p>
+<p><span id="more-6548"></span></p>
+<p>2）C++的进化分成三个时代：</p>
+<ul>
+<li>1979 &#8211; 1989：研究C的对象能力。主要是为C++做准备</li>
+<li>1989 &#8211; 1999：C++成了主流。</li>
+<li>1999 &#8211; 2009：Coffee-based语言（Java, .NET）出现了，极大的提高了开发生产力。</li>
+</ul>
+<p style="padding-left: 30px;">对于第三个时代，Herb说了很多，他说这个并没有什么错，因为这个时候我们非常关注开发的生产力，这个非常重要，这就是为什么C++一下就失去优势的地方。但是是否这些Coffee-Based的语言可以做任重要的事呢？不行，很多时候，这是一个Trade-Off的事，也就是生产力不是免费的是需要你用别的东西去交换的。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6551" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.02.jpg" alt="" width="567" height="319" /></p>
+<p>3）第四个时期。</p>
+<p style="padding-left: 30px;">Herb认为，2009-2019是第四个时期，因为我们又喜欢Native Code了，C++从被驱逐后又被请回来了。因为网站的性能越来越是个问题，移动端的设备非常流行。但主要是因为Performance就是钱，因为前面的三个因素，性能影响的是dollar，不尊重性能的公司都会发现花钱的速度太快了。（比如去年大家热炒的京东促销和12306.cn的问题，12306给整个社会造成了巨大的金钱浪费）</p>
+<p style="padding-left: 30px;">Herb把这个时期比做 The Return of the King。（指环王的第三部：王者归来）<strong> 性能为王！</strong></p>
+<p style="padding-left: 30px;">这就好像我在“<a title="软件开发的“三重门”" href="https://coolshell.cn/articles/6526.html" target="_blank">软件开发的三重门</a>”里说的，开垦时代需要的是快和生产力，而开垦完后就得保证其稳定性。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6552" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.03.jpg" alt="" width="567" height="318" /></p>
+<p>4）Herb还给了一张幻灯片问，“The World is built on &#8230;.”，后面例出了多个语言。然后Herb说，世界是由C和C++构成的。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-6562" title="WhyCPP.03.01" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.03.01.jpg" alt="" width="397" height="224" /></p>
+<p>5）Herb给了一张表格，这张表可相当形像。如果把我们的对编程语言的需求总结为四个：<strong>效率，灵活，抽象，生产率</strong>。那么，C语言玩的是前两个，而C++玩的是前三个，Java和C#玩的是后两个（抽象和生产率）</p>
+<p>任保一种设计都不可能让你什么都要的，这就是Trade-Off——什么事都需要交换的。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6553" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.04.jpg" alt="" width="567" height="318" /></p>
+<p>6）Herb举了一个微软内的例子，用C++ 和 ATL 来开发IE工具条的报告，意思是你可以用脚本在IE的工具条上加按钮，但是作者建议使用C++，因为用.NET或是脚本有重大的limitation，尤其是性能上的问题。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-6554" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.05.jpg" alt="" width="600" height="339" /></p>
+<p style="text-align: left;">7）接下来，我们来看看移动设备。</p>
+<p style="text-align: left; padding-left: 30px;">下图中，第一个是iOS，第二个是Android，第三个是WinPhone。Herd说了几个事：</p>
+<p style="text-align: left; padding-left: 30px;">a）比Web APP，人们更喜欢Native的APP，这个在用移动设备上可以得到验证。</p>
+<p style="text-align: left; padding-left: 30px;">b）iOS也好，Android也好，WinPhone也好，他们不是在搞操作系统，而是在搞应用，为的是让智能手机更好。手机就是一个App。</p>
+<p style="text-align: left; padding-left: 30px;">c）这三个手机在第一版出来时都不支持C++，而第二版出来时都支持C++了。因为他们要兼顾性能和一定程度上的开发效率。WinPhone还没有到第二版，让我们拭目以待。（我以前写过一篇<a title="Android将允许纯C/C++开发应用" href="https://coolshell.cn/articles/3549.html" target="_blank">调侃Android支持C++开发</a>的文章，这也只是一年前的事，说明C++全面回归了）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6555" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.06.jpg" alt="" width="567" height="319" /></p>
+<p>8）如果你还是不相信的话，我们可以看看为什么Apple和Google都在搞C++的编译器，因为他们觉得g++性能不行。所以，基于LLVM的编译器正在领导潮流，因为我们关注Natvie Code的性能优化。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6556" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.07.jpg" alt="" width="539" height="615" /></p>
+<p>9）接下来，Herb说了一下数据中心，你知道数据中心最花钱的是什么吗？三个事：</p>
+<blockquote>
+<ul>
+<li>57% 花在了硬件上。</li>
+<li>18% 花在了配电和降温上。</li>
+<li>13% 花在了耗电上。</li>
+</ul>
+</blockquote>
+<p style="padding-left: 30px;">88%的钱花在了硬件和电力上。这可是很大一笔费用啊。（还有人说硬件比软件便宜吗？）我记得我上一个公司的数据中心每年要花的电费就在百万美元以上。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6557" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.08.jpg" alt="" width="566" height="319" /></p>
+<p>10）昨天在<a href="http://weibo.com/1401880315/y3kshD9jf" target="_blank">微博上有个笑话</a>，说是某咨询师要求程序员把代码打印出来走查，程序员问是不是要用彩打？哈哈。我说，这至少不环保嘛。消耗太大了。是的，C++是可以省电的，以及于C++之父都在YouTube 说C++是可以减轻全球变暖的问题。哇，C++开始真正造福人类了。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6558" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.09.jpg" alt="" width="516" height="397" /></p>
+<p>11）我还需要重温一下老大的这句话——</p>
+<blockquote><p><strong>My contribution to the fight against global warming is C++’s efficiency</strong>: Just think if Google had to have twice as many server farms! Each uses as much energy as a small town. And it’s not just a factor of two…<strong> Efficiency is not just running fast or running bigger programs, it’s also running using less resources</strong>.</p>
+<p style="text-align: right;">Bjarne Stroustrup, June 2011</p>
+</blockquote>
+<p style="text-align: left; padding-left: 30px;">最后一句说的非常好！<strong>效率不仅仅只是跑得，跑得多，更是可以使用更少的资源</strong>。</p>
+<p style="text-align: left;">12）下面让我们再来看一张表，一张把钱投到哪里的表格，这样我们可以看到一些趋势。</p>
+<ul>
+<li>70年代80年代，资源不够，主要是把钱投在性能上。</li>
+<li>80年代到90代，主要是90年代开始有一半的投次到了抽象和生产率上。</li>
+<li>00年代，完全都在抽象和生产率上。</li>
+<li>10年代，80%的钱都要回头来解决性能问题。这就是C/C++的王者归来。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6559" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.10.jpg" alt="" width="567" height="319" /></p>
+<p>13）当然，不是C++不注重 开发效率，看看C++0X的标准引入了多少东西我们就知道了。但是本质上，<strong>C++还是致力于性能和抽象的完全平衡</strong>。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6560" title="" src="https://coolshell.cn/wp-content/uploads/2012/02/WhyCPP.11.jpg" alt="" width="567" height="319" /></p>
+<p>那么，我们还会觉得C++要被淘汰了，不适合进入了吗？看完这个演讲，你应该有答案的。</p>
+<p>后面讲了C++的文艺复兴，你可以在Google 搜索 “<a href="https://www.google.com/search?q=C%2B%2B+Renaissance" target="_blank">C++ Renaissance</a>”看看。另外，<strong>该视频的讲议可以在<a href="http://ecn.channel9.msdn.com/content/WhyCPPCB2011.pdf" target="_blank">这里下载</a></strong>。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/05/etcd-150x150.png" alt="ETCD的内存问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_title">ETCD的内存问题</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6548.html">Why C++ ? 王者归来</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6548.html/feed</wfw:commentRss>
+			<slash:comments>145</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Hash Collision DoS 问题</title>
+		<link>https://coolshell.cn/articles/6424.html</link>
+					<comments>https://coolshell.cn/articles/6424.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 06 Jan 2012 00:36:05 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Hash]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6424</guid>
+
+					<description><![CDATA[<p>最近，除了国内明文密码的安全事件，还有一个事是比较大的，那就是 Hash Collision DoS （Hash碰撞的拒绝式服务攻击），有恶意的人会通过这个安全...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6424.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6424.html">Hash Collision DoS 问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>最近，除了国内明文密码的安全事件，还有一个事是比较大的，那就是 Hash Collision DoS （Hash碰撞的拒绝式服务攻击），有恶意的人会通过这个安全弱点会让你的服务器运行巨慢无比。<strong>这个安全弱点利用了各语言的Hash算法的“非随机性”可以制造出N多的value不一样，但是key一样数据，然后让你的Hash表成为一张单向链表，而导致你的整个网站或是程序的运行性能以级数下降（可以很轻松的让你的CPU升到100%）</strong>。目前，这个问题出现于<a href="http://www.java.com/">Java</a>, <a href="http://jruby.org/">JRuby</a>, <a href="http://www.php.net/">PHP</a>, <a href="http://python.org/">Python</a>, <a href="http://rubini.us/">Rubinius</a>, <a href="http://www.ruby-lang.org/">Ruby</a>这些语言中，主要：</p>
+<ul>
+<li><a href="http://www.java.com">Java</a>, 所有版本</li>
+<li><a href="http://jruby.org/">JRuby</a> &lt;= 1.6.5 （目前fix在 1.6.5.1）</li>
+<li><a href="http://www.php.net/">PHP</a> &lt;= 5.3.8, &lt;= 5.4.0RC3 （目前fix在 5.3.9,  5.4.0RC4）</li>
+<li><a href="http://python.org/">Python</a>, all versions</li>
+<li><a href="http://rubini.us/">Rubinius</a>, all versions</li>
+<li><a href="http://www.ruby-lang.org/">Ruby</a> &lt;= 1.8.7-p356 （目前fix在 1.8.7-p357, 1.9.x）</li>
+<li><a href="http://geronimo.apache.org/">Apache Geronimo</a>, 所有版本</li>
+<li><a href="http://tomcat.apache.org/">Apache Tomcat</a> &lt;= 5.5.34, &lt;= 6.0.34, &lt;= 7.0.22 （目前fix在 5.5.35,  6.0.35,  7.0.23）</li>
+<li><a href="http://glassfish.java.net/">Oracle Glassfish</a> &lt;= 3.1.1 （目前fix在mainline）</li>
+<li><a href="http://www.eclipse.org/jetty/">Jetty</a>, 所有版本</li>
+<li><a href="http://plone.org/">Plone</a>, 所有版本</li>
+<li><a href="http://rack.rubyforge.org/">Rack</a> &lt;= 1.3.5, &lt;= 1.2.4, &lt;= 1.1.2 （目前fix 在 1.4.0, 1.3.6, 1.2.5, 1.1.3）</li>
+<li><a href="http://code.google.com/p/v8/">V8 JavaScript Engine</a>, 所有版本</li>
+<li>ASP.NET 没有打MS11-100补丁</li>
+</ul>
+<p>注意，Perl没有这个问题，因为Perl在N年前就fix了这个问题了。关于这个列表的更新，请参看 <a href="http://www.ocert.org/advisories/ocert-2011-003.html" target="_blank">oCERT的2011-003报告</a>，比较坑爹的是，这个问题早在2003 年就在论文《<a href="http://www.cs.rice.edu/~scrosby/hash/CrosbyWallach_UsenixSec2003.pdf" target="_blank">通过算法复杂性进行拒绝式服务攻击</a>》中被报告了，但是好像没有引起注意，尤其是Java。</p>
+<h4>弱点攻击解释</h4>
+<p>你可以会觉得这个问题没有什么大不了的，因为黑客是看不到hash算法的，如果你这么认为，那么你就错了，这说明对Web编程的了解还不足够底层。</p>
+<p><span id="more-6424"></span></p>
+<p>无论你用JSP，PHP，Python，Ruby来写后台网页的时候，在处理HTTP POST数据的时候，你的后台程序可以很容易地以访问表单字段名来访问表单值，就像下面这段程序一样：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+
+$usrname = $_POST[&#039;username&#039;];
+$passwd = $_POST[&#039;password&#039;];
+
+</pre>
+<p>这是怎么实现的呢？这后面的东西就是Hash Map啊，所以，我可以给你后台提交一个有10K字段的表单，这些字段名都被我精心地设计过，他们全是Hash Collision ，于是你的Web Server或语言处理这个表单的时候，就会建造这个hash map，于是在每插入一个表单字段的时候，都会先遍历一遍你所有已插入的字段，于是你的服务器的CPU一下就100%了，你会觉得这10K没什么，那么我就发很多个的请求，你的服务器一下就不行了。</p>
+<p>举个例子，你可能更容易理解：</p>
+<p>如果你有n个值—— v1, v2, v3, &#8230; vn，把他们放到hash表中应该是足够散列的，这样性能才高：</p>
+<blockquote><p>0 -&gt; v2<br />
+1 -&gt; v4<br />
+2 -&gt; v1<br />
+&#8230;<br />
+&#8230;<br />
+n -&gt; v(x)</p></blockquote>
+<p>但是，这个攻击可以让我造出N个值——  dos1, dos2, &#8230;., dosn，他们的hash key都是一样的（也就是Hash Collision），导致你的hash表成了下面这个样子：</p>
+<blockquote><p>0 &#8211; &gt; dos1 -&gt; dos2 -&gt; dos3 -&gt; &#8230;. -&gt;dosn<br />
+1 -&gt; null<br />
+2 -&gt; null<br />
+&#8230;<br />
+&#8230;<br />
+n -&gt; null</p></blockquote>
+<p>于是，单向链接就这样出现了。这样一来，O(1)的搜索算法复杂度就成了O(n)，而插入N个数据的算法复杂度就成了O(n^2)，你想想这是什么样的性能。</p>
+<p>（关于Hash表的实现，如果你忘了，那就把大学时的《数据结构》一书拿出来看看）</p>
+<h4>  Hash Collision DoS 详解</h4>
+<p>StackOverflow.com是个好网站， 合格的程序员都应该知道这个网站。上去一查，就看到了这个贴子“<a title="Application vulnerability due to Non Random Hash Functions" href="http://stackoverflow.com/questions/8669946/application-vulnerability-due-to-non-random-hash-functions" target="_blank">Application vulnerability due to Non Random Hash Functions</a>”。我把这个贴子里的东西摘一些过来。</p>
+<p>首先，这些语言使用的Hash算法都是“非随机的”，如下所示，这个是Java和Oracle使用的Hash函数：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static int hash(int h)
+{
+h ^= (h &gt;&gt;&gt; 20) ^ (h &gt;&gt;&gt; 12);
+return h ^ (h &gt;&gt;&gt; 7) ^ (h &gt;&gt;&gt; 4);
+}</pre>
+<p>所谓“非随机的” Hash算法，就可以猜。比如：</p>
+<p>1）在Java里， Aa和BB这两个字符串的hash code(或hash key) 是一样的，也就是Collision 。</p>
+<p>2）于是，我们就可以通过这两个种子生成更多的拥有同一个hash key的字符串。如：&#8221;AaAa&#8221;, &#8220;AaBB&#8221;, &#8220;BBAa&#8221;, &#8220;BBBB&#8221;。这是第一次迭代。其实就是一个排列组合，写个程序就搞定了。</p>
+<p>3）然后，我们可以用这4个长度的字符串，构造8个长度的字符串，如下所示：</p>
+<pre style="padding-left: 30px;"><code>"AaAaAaAa", "AaAaBBBB", "AaAaAaBB", "AaAaBBAa", 
+"BBBBAaAa", "BBBBBBBB", "BBBBAaBB", "BBBBBBAa", 
+"AaBBAaAa", "AaBBBBBB", "AaBBAaBB", "AaBBBBAa", 
+"BBAaAaAa", "BBAaBBBB", "BBAaAaBB", "BBAaBBAa",</code></pre>
+<p><code>4）同理，我们就可以生成16个长度的，以及256个长度的字符串，总之，很容易生成N多的这样的值。</code></p>
+<p>在攻击时，我只需要把这些数据做成一个HTTP POST 表单，然后写一个无限循环的程序，不停地提交这个表单。你用你的浏览器就可以了。当然，如果做得更精妙一点的话，把你的这个表单做成一个跨站脚本，然后找一些网站的跨站漏洞，放上去，于是能过SNS的力量就可以找到N多个用户来帮你从不同的IP来攻击某服务器。</p>
+<p>&nbsp;</p>
+<h4>防守</h4>
+<p>要防守这样的攻击，有下面几个招：</p>
+<ul>
+<li>打补丁，把hash算法改了。</li>
+<li>限制POST的参数个数，限制POST的请求长度。</li>
+<li>最好还有防火墙检测异常的请求。</li>
+</ul>
+<p>不过，对于更底层的或是其它形式的攻击，可能就有点麻烦了。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/图1-3-150x150.jpg" alt="无锁HashMap的原理与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_title">无锁HashMap的原理与实现</a></li><li ><a href="https://coolshell.cn/articles/9606.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/race_condition-150x150.jpg" alt="疫苗：Java HashMap的死循环" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9606.html" class="wp_rp_title">疫苗：Java HashMap的死循环</a></li><li ><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/01/iStock-1175502114-150x150.png" alt="网络数字身份认证术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_title">网络数字身份认证术</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200-1-150x150.png" alt="HTTP API 认证授权术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_title">HTTP API 认证授权术</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6424.html">Hash Collision DoS 问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6424.html/feed</wfw:commentRss>
+			<slash:comments>119</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>CSDN明文口令泄露的启示</title>
+		<link>https://coolshell.cn/articles/6193.html</link>
+					<comments>https://coolshell.cn/articles/6193.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 22 Dec 2011 04:08:27 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[CSDN]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6193</guid>
+
+					<description><![CDATA[<p>2011年12月21日晚，某计算机专业的大学生寝室，某同学大叫到：“兄弟们，最新的日本XX女星的AV片已经下好，大家快过来看啊，相当精彩啊~~~”，然而，这个寝...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6193.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6193.html">CSDN明文口令泄露的启示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>2011年12月21日晚，某计算机专业的大学生寝室，某同学大叫到：“兄弟们，最新的日本XX女星的AV片已经下好，大家快过来看啊，相当精彩啊~~~”，然而，这个寝室里的其它同学似乎没有听到这哥们的呼喊，于是，这哥们又叫了三次，没有人理他，因为大家都在眉飞色舞地谈论着CSDN的明文密码和用户帐号泄露的事情，并在网上查找着下载CSDN那600万的用户数据……上面这个故事是我编的，只是想描述一下昨晚的情形。</p>
+<p>其实，CSDN明文密码并不是什么稀奇的事情，我是2000年注册CSDN的吧，当时找回口令的机制就是把口令直接传回来了，这一定是明文了。去年去CSDN参加移动互联网沙龙的时候，范凯和蒋涛说过明文密码的事，不过他们说的是很早以前的事了，而且一笔带过了。1年后的今天，事情又暴了，可见，“出来混的，迟早是要还的”这句话是几近真理的。</p>
+<p>我在以前的BLOG里就提到过CSDN的明文密码（在“<a title="你会做Web上的用户登录功能吗？" href="https://coolshell.cn/articles/5353.html">如何设计用户登录功能</a>”一文）和 帐号泄露（“<a title="如何管理并设计你的口令" href="https://coolshell.cn/articles/2428.html">如何设计自己的口令</a>”） 的事（<strong>由此可见，酷壳里的很多文章里的事都应验了</strong>，因为我知道“出来混的，迟早是要还的”）</p>
+<p>（<strong>可悲吧？还是程序员的网站呢，明文口令和用户信息泄露有悖于一个程序员网站的称号</strong>）</p>
+<h4>泄露的密码分析</h4>
+<p>我昨晚下载了<a href="http://www.csdn.net.sql">www.csdn.net.sql</a>文件，并分析了一下这个文件，经过各种awk, grep, sort, uniq, sed后，下面是我看到的东西：</p>
+<ul>
+<li>有近45万的用户使用 123456789 和 12345678 做口令。</li>
+<li>有近40万的用户使用自己的生日做口令。</li>
+<li>有近15万的用户使用自己的手机号做口令。</li>
+<li>有近25万的用户使用自己的QQ号做口令。</li>
+<li>设置成弱口令的用户占了590万，也就是那种就算你用MD5或是SHA散列的也能很快就被暴力破解出来的口令。</li>
+<li>只有8000多个用户的口令里在8个长度以上，并有大写字母，小写字母，数字，并不在字典表里。</li>
+</ul>
+<p>（很好，这回泄露的还不单单只是明文用户密码和用户邮件，还有用户的手机号，生日和QQ号。挺好的）</p>
+<p>下面，我们来看一下top 100的口令是什么？（第一列是采用这个密码个数，第二列是密码，我擦 dearbook是什么啊）简单地看了一下，top 一万的口令都很SB。比如什么woshishui, 123abc, aaa123456，01010101，haohaoxuexi，msconfig 相当的2B，还有<a href="mailto:P@ssw0rd">P@ssw0rd</a>，q1w2e3r4t5，看似文艺，实际很2的口令&#8230;. （<strong>可悲吧？还是程序员的网站呢，自己设的口令有悖于一个程序员的称号</strong>）</p>
+<p><span id="more-6193"></span></p>
+<p style="padding-left: 30px;">235033 123456789<br />
+212751 12345678<br />
+76346 11111111<br />
+45902 dearbook<br />
+34953 00000000<br />
+19986 123123123<br />
+17791 1234567890<br />
+15033 88888888<br />
+6995 111111111<br />
+5966 147258369<br />
+5553 987654321<br />
+5459 aaaaaaaa<br />
+5145 1111111111<br />
+5025 66666666<br />
+4435 a123456789<br />
+4096 11223344<br />
+3667 1qaz2wsx<br />
+3649 xiazhili<br />
+3610 789456123<br />
+3497 password<br />
+3281 87654321<br />
+3277 qqqqqqqq<br />
+3175 000000000<br />
+3143 qwertyuiop<br />
+3094 qq123456<br />
+3077 iloveyou<br />
+3061 31415926<br />
+2985 12344321<br />
+2886 0000000000<br />
+2826 asdfghjkl<br />
+2797 1q2w3e4r<br />
+2580 123456abc<br />
+2578 0123456789<br />
+2573 123654789<br />
+2540 12121212<br />
+2515 qazwsxedc<br />
+2396 abcd1234<br />
+2380 12341234<br />
+2348 110110110<br />
+2298 asdasdasd<br />
+2243 22222222<br />
+2166 123321123<br />
+2160 abc123456<br />
+2145 123456<br />
+2138 a12345678<br />
+2113 123456123<br />
+2106 a1234567<br />
+2100 1234qwer<br />
+1989 qwertyui<br />
+1986 123456789a<br />
+1971 aa123456<br />
+1918 asdfasdf<br />
+1891 99999999<br />
+1859 999999999<br />
+1859 123456aa<br />
+1854 123456123456<br />
+1699 520520520<br />
+1656 963852741<br />
+1652 741852963<br />
+1652 55555555<br />
+1589 33333333<br />
+1480 qwer1234<br />
+1384 asd123456<br />
+1339 77777777<br />
+1316 qweasdzxc<br />
+1285 code8925<br />
+1273 11112222<br />
+1268 ms0083jxj<br />
+1245 zzzzzzzz<br />
+1214 111222333<br />
+1206 qweqweqwe<br />
+1200 3.1415926<br />
+1183 123456qq<br />
+1148 147852369<br />
+1136 521521521<br />
+1121 asdf1234<br />
+1111 123698745<br />
+1109 1123581321<br />
+1058 asdfghjk<br />
+1054 q1w2e3r4<br />
+1038 12345678a<br />
+1003 woaini1314<br />
+991 1234abcd<br />
+988 123qweasd<br />
+975 1qazxsw2<br />
+967 woaiwojia<br />
+920 321321321<br />
+910 05962514787<br />
+894 123456987<br />
+892 kingcom5<br />
+882 zxcvbnm123<br />
+882 5845201314<br />
+853 0987654321<br />
+847 wwwwwwww<br />
+835 11111111111111111111<br />
+805 12345600<br />
+783 11235813<br />
+777 1q2w3e4r5t<br />
+772 10101010<br />
+770 123456asd</p>
+<h4>老生长谈安全问题</h4>
+<p>从酷壳出现开始我就在老生长谈用户安全的东西了，今天借着这个事，大家再去重温一下酷壳的文章吧：</p>
+<ul>
+<li><a title="Twitter的禁用口令" href="https://coolshell.cn/articles/2451.html">Twitter禁用的口令</a>。看看去吧，一个好的网站应该如何引导用户设置强口令。Apple ID也是这样，需要你输入的口令有大小写，数字，非数字和字母，等等。<strong>今天CSDN的这个列表应该成为各大网站“口令禁用列表”。</strong></li>
+</ul>
+<ul>
+<li>有朋友说，明文口令是巨2的一件事，是的。我可以告诉你，这个明文口令有可能存在于所有国内的网站上，比如：QQ，新浪，人人，开心，天涯……。<strong>对于安全问题，你要做最坏的假设，鲁迅先生说过：“不惮以最坏的恶意来推测中国人”，所以，对于中国的网站你要做如下最坏假设：1）其以明文存我的口令，2）其内部不良员工会把我的信息泄露出去</strong>。不信你可以看看下面的某QQ群里的截图：（<a href="http://weibo.com/1494759712/xDa7tah7E?type=repost" target="_blank">看看多玩网明文口令的消息吧</a>，<a href="http://weibo.com/1642471052/xDaC1dEhP?type=repost" target="_blank">再看看这个消息吧</a> QQ邮箱和QQ号的）<img decoding="async" loading="lazy" class="aligncenter" title="国内网站的数据库" src="http://ww4.sinaimg.cn/large/63071edagw1doah4id8l4j.jpg" alt="" width="333" height="756" /></li>
+</ul>
+<ul>
+<li>你可能会说用MD5和SHA散列口令就好了，这个只比明文好一点点，因为有rainbow table，国外的号称达到99%覆盖，国内的达到93%覆盖。你加salt也没有用。就算我只能拿得到你的被散列的密码，没有rainbow和salt，我一样可以使用暴力破解，甚至就是尝试一下字典里的密码就可以了。这会非常快的，你可以看看本站的这篇文章“<a title="破解你的口令" href="https://coolshell.cn/articles/3801.html" target="_blank">破解你的口令</a>”，<strong>现在暴力破解MD5和SHA的口令很快的，因为MD5和SHA性能太好了。</strong>所以，你需要看看“<a title="如何防范密码被破解" href="https://coolshell.cn/articles/2078.html" target="_blank">如何防范密码被破解</a>”，其会告诉你加密口令要用一个性能差的算法——bcrypt。（也可以参看<a title="Web开发中需要了解的东西" href="https://coolshell.cn/articles/6043.html">Web开发中需要了解的东西</a>中的<a href="http://codahale.com/how-to-safely-store-a-password/" target="_blank">如何安全保存口令一文</a>）</li>
+</ul>
+<ul>
+<li>所以，你有必要地读一读我的这篇“<a title="如何管理并设计你的口令" href="https://coolshell.cn/articles/2428.html">如何管理和设计自己的口令</a>”，不要在同一网站上使用相同的口令，把口令的级别分好的组。自己管理好自己的口令。</li>
+</ul>
+<ul>
+<li> 对于Web用户的安全问题，程序员们一定要看一下 这两篇文章，你要是不看的话，你没有资格开发Web项目。</li>
+<ul>
+<li><a title="你会做Web上的用户登录功能吗？" href="https://coolshell.cn/articles/5353.html">如何设计用户登录功能</a></li>
+<li><a title="Web开发中需要了解的东西" href="https://coolshell.cn/articles/6043.html">Web开发中需要了解的东西</a></li>
+</ul>
+</ul>
+<ul>
+<li>当你看过 <a title="你会做Web上的用户登录功能吗？" href="https://coolshell.cn/articles/5353.html">如何设计用户登录功能</a> 一文后，你一定会头晕的，所以，我想告诉你，<strong>这种事情最好不要自己干，使用OpenID 和 OAuth吧，人家把这事干到了极致了</strong>。而且这样会带来两个好处：</li>
+<ul>
+<li><strong>用户不需要自己维护和管理一套新的帐号</strong>。</li>
+<li><strong>用户的资料放在国外，从政治上来说是安全的</strong>。（八卦一下：Google总部要求中国谷歌所有开发团队不得在本地保存用户的信息）</li>
+</ul>
+</ul>
+<ul>
+<li>再说一点，再说说如何让自己内部的用户数据不会被不良员工外泄。<strong>所有的开发团队都不允许直接操作用户的数据库，只允许通过安全的接口来验证用户，用户信息的数据库中需要对操作者有审计功能，永远不允许不受信的人或操作进行全库扫描</strong>。当然，我相信，国内的开发团队绝对达不到这一步（包括某些银行）。</li>
+</ul>
+<ul>
+<li>再说一下，<strong><span style="color: #000000;">真正的安全系统是协同整个社会的安全系统做出来的一道安全长城，而不是什么都要自己搞</span>。</strong>比如：通过很多方法“耦合”和银行和电信其是别的第三方的安全策略，比如，让用户绑定邮箱，绑定手机，绑定信用卡等。</li>
+</ul>
+<p>最后说一下，CSDN在这次事件的表现看上去还是很不错的，道歉也很诚恳，<strong>但是，我还是希望CSDN反思一下为什么数据库会泄露了？内部有不良员工？还是系统不安全被黑？不要只是诚恳道歉，还要找自己的原因。其它的网站可能就很恶劣了。包括新浪，人人，开心等，最恶心的就是腾讯，你说他的安全有问题，他还找一堆人来骂你。</strong></p>
+<p style="text-align: center;"><span style="color: #cc0000; font-size: 16pt; font-family: 'Microsoft YaHei';"><strong>祝大家新年快乐！</strong></span></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6193.html">CSDN明文口令泄露的启示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6193.html/feed</wfw:commentRss>
+			<slash:comments>145</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>腾讯，竞争力 和 用户体验</title>
+		<link>https://coolshell.cn/articles/5901.html</link>
+					<comments>https://coolshell.cn/articles/5901.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 22 Nov 2011 00:29:24 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Amazon]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[QQ]]></category>
+		<category><![CDATA[腾讯]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5901</guid>
+
+					<description><![CDATA[<p>自从那篇rant了一堆公司都的文章发布来，得到了大家的关注，有些朋友让我写一下腾讯，在我的微博上（@左耳朵耗子）还有位腾讯的朋友让我也评价一下腾讯。本来不想写的...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5901.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5901.html">腾讯，竞争力 和 用户体验</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>自从<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html" target="_blank">那篇rant了一堆公司都的文章</a>发布来，得到了大家的关注，有些朋友让我写一下腾讯，在我的微博上（<a href="http://weibo.com/haoel" target="_blank">@左耳朵耗子</a>）还有位腾讯的朋友让我也评价一下腾讯。本来不想写的，觉得腾讯没啥好说的，但是因为下面的几个原因，让我有点坐不住了：</p>
+<ol>
+<li>这两天知乎上的一个“<a href="http://www.zhihu.com/question/19920338" target="_blank">腾讯的核心竞争力</a>”的贴子在微博上被很多人所推崇。</li>
+<li>还有一个网友发邮件给我说让我别rant了，宁可C2C也比rant有意义。</li>
+<li>我周末的时候去豆瓣和他们交流了一些关于产品和用户体验方面的话题。</li>
+<li>还看到了Jeff Bezos的访谈文章《<a href="http://tech.sina.com.cn/i/2011-11-17/15546337096.shtml" target="_blank">贝佐斯：亚马逊是科技界唯一一家低利润公司</a>》</li>
+</ol>
+<p>于是就有了这篇文章，但不想再rant了，我希望这篇文章更有价值一些，但是我喜欢的调侃的风格依然，因为这是我觉得能让文章有趣味的方式。</p>
+<h4>腾讯的“价值”</h4>
+<p>首先我想说说腾讯的价值。根据我<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html" target="_blank">那篇 rant 的文章</a>来说，我觉得人要活得有价值，事业也要做得有价值。我不太待见那些没有价值的东西。所以，我在那篇文章里让大家都思考了一个问题，我们做这个事的价值在哪里？所以，要评论腾讯，就得想想他的价值。众所周知，腾讯的起家是通过IM软件QQ，当然，他有段时间几乎快不行了。不过挺过来了，造就了这么一个帝国。所以，腾讯的价值应该是即时通讯，让大家的沟通变得更顺畅，这点腾讯的确做得非常强大，视频，音频，涂鸦，抓屏，表情，Q币，共享，群聊，新闻，弹窗，离线文件，远程协助…… 的确做得非常地体贴用户。除了扫描硬盘文件有点那个。</p>
+<p>但是，最近的腾讯变了（当然有人说他也没有变，QQ本来就是抄来的），有什么就抄什么，没有创意，山寨大王，成了腾讯的代名词。马云也说过：“现在腾讯拍拍网最大的问题就是没有创新，所有的东西都是抄来的”。网上还有很多，什么“一直在抄袭，从未超越过”或是“<a href="http://weibo.com/2093492691/xwYpFB9IK" target="_blank">一直在山寨，从没反省过</a>”等等的话，还有“<a href="http://tieba.baidu.com/f?kz=1007979914" target="_blank">自从有了XXX，腾讯就出了XXX</a>”的文体。</p>
+<p><strong>但是，你们都错了，包括马云，我不同意你们，我觉得这正是腾讯的价值所在</strong>。</p>
+<p><span id="more-5901"></span></p>
+<p>昨天有个网友写邮件给我说，整天rant也没啥意思吧，还不如真的做点C2C吧。他的想法是先把一些基本的东西如评论，发贴，头像，登录什么的都做好，然后国外出什么就抄什么，抄的会飞快。我给他回信说，你抄得过腾讯吗？他无语了。你看，一个有C2C想法的人就这样被放弃了其想法。所以，我觉得，<strong>腾讯这样大规模的抄袭和山寨，对整个社会的价值就是——<span style="color: #cc0000;">会让很多很多的创业团队放弃Copy，甚至让他们要放弃那些容易被复制的“业务型的项目”，而逼着他们去努力思考，如何才不能被腾讯复制，如何才能有自己的核心价值</span></strong>。而所有的骂名都被腾讯所承当，腾讯把住了所有的茅坑，让你不得不去做最有价值的东西，这是一种什么样的精神啊？！对于那些整天都在骂腾讯的人来说，你们好好地去面壁反思吧！</p>
+<h4>“腾讯的核心竞争力”一文</h4>
+<p>顶在<a href="http://www.zhihu.com/question/19920338" target="_blank">这篇文章</a>最上面的最佳答案是腾讯无线国际业务产品总监Andy Pan的答案，在微博上也广受推崇。不知道为什么，我总是有一些和大家不一样的想法，看来我是一个有相当逆反心理的愤青。没做出什么东西来，话还挺多，我都有点烦自己了，你也多多原谅我。</p>
+<p>Andy Pan的答案中，说了两点核心竞争力，第一个是腾讯的IM平台，还用了Windows来做比较，很明显，这个前微软件的产品总监并不知道什么是平台，关于平台，<a title="SteveY对Amazon和Google平台的长篇大论" href="https://coolshell.cn/articles/5701.html" target="_blank">Steve Y的这篇平台论</a>说得很清楚了，建议Andy同学学习一下。Windows之所以是个平台的原因是因为Windows没有什么都做，而是开放了很多很多的API和SDK让第三方的产商去做，而腾讯并没有开放IM的API，不但搞定了珊瑚虫，而且什么事情都要自己做，这根本不是平台，平台是要去开放的，是要去为业界创造生态环境的，而腾讯的做法更像是封闭的垄断。当Andy Pan说起Amazon收购Zappos的时候，他忘记了Amazon的云平台上还养了一个巨大的竞争对手Target（最近分手了），还养了十年。因为，Bezos觉得有个竞争对手和自己进行良性的竞争对自己是有好处的。</p>
+<p>Andy还说做为一个IM细分用户的领域是有必要的，没错，完全赞同。不过，实在看不出来对领域的细分，更多的是对领域的扩张。新闻门户，搜搜，拍拍，百科，Q吧，炫风，炫舞，三国，英雄杀，浏览器，输入法，对战平台，电台，影音，图书，阅读，3366，QQTalk…… 一点都看不出来的是对IM的细分。你信吗？</p>
+<p>第二个Andy说的核心竞争力是员工加班。加班到深夜也成了核心竞争力，看来是实在找不到核心竞争力了。好吧，我觉得这句话可以说得更好一些，再怎么也应该说成是企业文化，或是企业文化催人奋进，每个人都有主人翁的精神，而不是工作负荷大嘛。你看，我都能说的这么漂亮啊，我才是像高管的样子哦，吼吼。对我来说，加班文化是差团队的表现，要么就是管理不行，让大家都加班，要么就是自己不行（反正肯定有问题，我在<a title="多些时间能少写些代码" href="https://coolshell.cn/articles/5686.html" target="_blank">多些时间能少些代码</a>里论述过了）。当然，我知道了，腾讯的战线拉得很长，什么都要做，当然会那么累了，要学会做精不要做多嘛。</p>
+<p>作为一位高管，应该要知道，重要的不是你有多努力，你花了多少时间，而是你有没有去思考，有没有去创造价值。<strong>腾讯难道不觉得，不断地创新去颠覆传统才是互联网行业的核心竞争力吗</strong>。</p>
+<p>我觉得腾讯那所谓的核心竞争力是用户数量大，大在关系链上，像我这样几本不用QQ的人有时候都会被朋友和同学逼着去用QQ收个文件照片或是远程协助个什么。QQ这个聊天工具做得非常不错，这点我是要赞一下的。所以，这才让用户聚集起来，没有了这个，不知道腾讯会怎么样。</p>
+<h4>腾讯的软肋</h4>
+<p>Andy Pan有一点说的是对的，就是腾讯和微软很像，不过像的不是平台，而是运营模式——那就是永远跳不出自己的模式。微软不管做什么，都必需誓死捍卫其Windows平台，连那么有创造力的体感硬件Knect也只能用在微软的产品和平台上，更不用说hotmail，Bing和Sharepoint了，如果能开放一些用点别的技术，我相信微软在互联网界可能还是很强大的。</p>
+<p>腾讯也逃不出“腾讯的模式”——那就是<strong>大量的低端业务和低端内容</strong>。我不确定腾讯是不是像微软那样誓死捍卫其低端业务和内容的。但是QQ的确驱逐了很多高质量的用户，因为QQ上的不成熟的小孩太多了，交友，网恋，甚至欺骗和色情在那里泛滥，造成劣币驱逐良币。另外，QQ这个名词起得很不好，因为正常点的成年人都不会去Q（装可爱），所QQ好像也就成了未成年人的代名词。而似乎有自我价值诉求的人都不会用QQ，在正式场合比如自己的应聘简历上留一个QQ邮箱还是有点掉价的。可见QQ的这个品牌形象很低端。腾讯的很多产品都走的都是这个路线。</p>
+<p>不可否认，这和中国网民的群体素质有关系。但我以为，<strong>作为那么大的公司，应该担负起培养或引导网民素质，开启民智，引人向上的角色，而不是将就于低端的大众用户</strong>。</p>
+<p>另外，还值得一提的是近来关于通过QQ抓人的新闻很多，所以，大家都知道的为什么更多的用户去用gtalk了。不过有一点应该是真的，那就是通过QQ监控聊天用户的体验，应该是很不错的。</p>
+<p>看到这里，你一定会对我抱怨说：“我擦，你这篇还照旧是一篇rant，fuck你一万遍”。别骂了，你没有看我已经赶快起了一个新段落来说点我觉得有点价值的东西。</p>
+<h4>真正的用户体验</h4>
+<p>说起用户的体验，这是一个可能比较大的，也可能比较具体的话题（以前本站有一篇<a title="用户界面和用户体验的差别" href="https://coolshell.cn/articles/3142.html" target="_blank">关于UX比喻的文章</a>）。关于用户体验来说，很多人都以为是对UI的一个加强，也就是说把UI的操作做得更好。所以，大家都在UI上花大力气做UX。这样的认识并不错，QQ做得也是非常好的，看看WebQQ，真是非常地强大。</p>
+<p>不过，我想说，<strong>如果你认为用户的体验在UI上，那么你只看到了用户体验的冰山一角，用户的体验远远不只这个</strong>。“<strong>任何表面上的东西都是肤浅的</strong>”——这是写Effective C++的Scott Meyers说的。</p>
+<p>你看——Reddit，Twitter，StackOverflow， 还有国内的豆瓣，界面做的真的不怎么的，Reddit的界面ugly到了就像是一个没有完成的原型网站一样！但是为什么人家的用户人气那么旺，为什么呢？</p>
+<p>这就是我想说的比UI更高层次的用户体验了——<strong>关注用户的真正的体验</strong>。我先举个例子——</p>
+<blockquote><p>大家知道Amazon注册了很多个容易让人打错的域名吗？我这里有一个不完整的列表：Amamzon.com， Amaxon.com，Amazong.com，Amozon.com，Amazonc.com，Amazone.com，Amazn.com（翻墙），namazon.com…… 为的都是用户体验。（注：你要是用拼音也可以，如：yamaxun.com）</p></blockquote>
+<p>这是一个很小的例子，旨在说明用户体验不单单是UI的事。</p>
+<p>下面正式阐述真正的用户体验（这些东西我在前面<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html" target="_blank">那篇rant里提过了</a>，这里说得更细一点）——</p>
+<ul>
+<li><strong>注重社区的质量</strong>。很多论坛和网站的兴起都是因为一开始有高质量的文章和素质高的人，然而，人气一足，三教九流的人都来了，于是劣币逐良币，那些素质高的人就只能离开了。所以，任何把高质量和低质量的东西放在一起的社区相当的破坏整体用户体验。尤其是那些对质量有诉求的人。为了避免劣币逐良币，大家要学习一下豆瓣，StackOverflow，没有什么热文版，就算有，也要精心地控制内容的质量。<strong>你要知道，人们来这里是因为被这个社区有价值的东西吸引来的</strong>。就像是去StackOverflow或Quora一样，可以得到很靠谱的答案，可以和很牛的人在一起交流，这是社区的价值。所以，像StackOverflow或Quora这样的网站，一些质量不高的答案在那里就会被投反对票，其会影响你的reputation。看看Amazon.com上的书评，IMDB上的影评，非常专业，还有打分，高质量的东西自然就浮出来了，低质量的东西自然就下降了。<strong>小心维护社区的质量必然会给用户有更好的体验</strong>。（不知道大家有没有参加过豆瓣的小组活动，我有一个朋友参加过一次关于绘画的活动，说是质量相当高）</li>
+</ul>
+<ul>
+<li> <strong>注重社区的权威</strong>。像豆瓣或是Stackoverflow上都有评分。你怎么能让你的评分有权威性呢？你知道，在中国这块土地上有大量的五毛和水军，他们随时都可以开动，3Q大战的时候大家都见识过了，对于这些牛皮癣怎么办呢？在Stackoverflow上，你会发现，你没有15点reputation，你没有资格vote什么，你为了要能去vote什么，你先得贡献些什么，对于不懂技术的五毛和水军们完全搞不定这些东西了（当然，你可以去建一个问题，但是要小心被down vote）。对于豆瓣来说，豆瓣的每个用户都有个权威值，这个值通过用户的在线时间，发贴数量，访问次数，有没有高质量的文章，有没有参加社区活动，等等等因素，得出一个权威值。刚注册的用户权威值为0，如果有了一些负面的东西还有可能是负数，有些被社区所推崇的牛人级的用户的权威可能高达几千几万。这样，当水军和五毛们对一本书或是一个电影投票的时候，就算是数量大，但基本上没有什么作用。这就是为什么豆瓣里有的电影有70%的人投了三分或四分，但那个电影还是在快5分的样子。这就是为了维护社区的权威和质量的体现。淘宝的好评差评也是一样，但是如果可以被水军去冲的话，那就很没有意思了。看看大众点评网里的那些评论，很多都完全失去了权威。因为他们没有vote的机制。</li>
+</ul>
+<ul>
+<li><strong>注重用户的个性化，并引导用户</strong>。登录进入Amazon或豆瓣或是新浪微博，在首页上，你会看到你所关注的东西。整个首页是为你个人量身定制出来的。这样一来，就算这个社区里有什么流氓或是低端用户，那也不会影响用户的体验（新浪微博的隐私设置也是很不错的）。最注要的是，这让为引导用户，开启民智做了充分的准备——这就是推荐。Amazon是推荐算法的鼻祖。推荐书，推荐产品的邮件，页面定制，等等。Henry Ford 说过——“如果你问用户想要什么，他们会告诉你要一匹更快的马”，看看苹果的设计出来的产品，都是在引导用户，如果你只看到了苹果的UI，那只看到了一部分。苹果开发的东西都在引导用户认可和追逐有艺术气息的数码产品。所以，<strong>根据用户的特征来向用户推荐并引导用户，告诉用户什么是好的，什么是有价值的，才是真正的用户体验</strong>。</li>
+</ul>
+<div>
+<ul>
+<li><strong>把事变简单，把难度降低</strong>。还记得以前的PC上的Windows吗？还记得以前的个人主页，现在的blog吗？他们可以让更多的人会更容易地操作电脑，发布信息。看看苹果的iPad，其可以让一个5岁的孩子或是60岁的没的接触过电脑的老人在5分钟内学会使用电脑上网浏览。这意味着什么？这意味着会使用电脑的人越来越多；可以让更多的人发布自己的信息。<strong>这意味着什么？这意味着金字塔低端的人会越来越多，于是生态环境也会越来越好</strong>。<strong>对于业务来说，你需要给予end-to-end的服务。</strong>就像苹果一样，你不要担心买来电脑怎么去装软件，去下载音乐和电影，也不必担心会装上恶意的软件。就像Amazon的第三方商户平台，对于商户来说，你把货发给Amazon就好了，你不必担心库存，物流，客服，退货，财务，所有的一切都由Amazon代劳了。这些东西才是最强悍的东西。（腾讯的QQ也是让很多人能上网聊天，降低了网聊的难度，所以也流行了起来）</li>
+</ul>
+<p>上面的这四点真正的用户体验，腾讯有没有做到？你有答案的。老实说，腾讯的用户体验只做了些很表面的东西。</p>
+<p>最后，让我用我东家老大的话来结束这篇文章—— <strong></strong></p>
+<blockquote><p>“我们对于完美客服体验的理解是，用户其实并不希望与我们直接对话。每次客户联系我们，我们都视为工作中的失误。我已经说了好多年了，人们应该与他们的朋友交谈，而不是与商家。因此，我们充分利用各种客服信息来探究客户联系我们的真正原因。什么地方出现问题了？那个人为什么要打电话？为什么他们花费时间与我们交谈而不是与家人交谈？我们如何解决这个问题？”</p>
+<p style="text-align: right;">—— Jeff Bezos</p>
+</blockquote>
+<p style="text-align: center;"><strong>尊重用户，提高品质，不断创新——这才是互联网企业的核心竞争力！</strong></p>
+<p style="text-align: left;"><span style="color: #cc0000;">最后注明一下版权，<strong>本文由陈皓原创发表，你可以任意传载，但必需在明显位置注明作者和出处，而且不能用于任何商业用途</strong></span>。</p>
+</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-150x150.png" alt="抄袭，腾讯 和 产品 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_title">抄袭，腾讯 和 产品 </a></li><li ><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="如何设计“找回用户帐号”功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_title">如何设计“找回用户帐号”功能</a></li><li ><a href="https://coolshell.cn/articles/5966.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="腾讯帐号申诉的用户体验" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5966.html" class="wp_rp_title">腾讯帐号申诉的用户体验</a></li><li ><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail-150x150.png" alt="由苹果的低级Bug想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_title">由苹果的低级Bug想到的</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5901.html">腾讯，竞争力 和 用户体验</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5901.html/feed</wfw:commentRss>
+			<slash:comments>215</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>来信， 创业 和 移动互联网</title>
+		<link>https://coolshell.cn/articles/5815.html</link>
+					<comments>https://coolshell.cn/articles/5815.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 15 Nov 2011 00:31:21 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Amazon]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5815</guid>
+
+					<description><![CDATA[<p>上一篇博文翻译了Steve Yegge的rant，这两天有一些事让我也想rant一下（所谓rant就是一篇巨长无比的抱怨和说教），不过无论是从见解还是恶搞来说肯...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5815.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5815.html">来信， 创业 和 移动互联网</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>上一篇博文<a title="SteveY对Amazon和Google平台的长篇大论" href="https://coolshell.cn/articles/5701.html" target="_blank">翻译了Steve Yegge的rant</a>，这两天有一些事让我也想rant一下（所谓rant就是一篇巨长无比的抱怨和说教），不过无论是从见解还是恶搞来说肯定没有SteveY的水平高，所以，这篇博文只是单纯的rant，看标题就知道了，就像“<strong>篱笆，女人和狗</strong>”一样，乡土味实足。所以，下述的一些观点未必正确，也未必靠谱，也就是我的个人唠叨罢了，我想到哪里说到哪里。（篇幅较长，见谅）</p>
+<h4>引子</h4>
+<p>我前两天，收到一封邮件，一位快要毕业的的大学生问我，是去百度，还是去创新工场？他在来信中说，从个人道德价值观来说，他想去创新工场，要远离流氓企业，不然会有狼狈为奸、助纣为虐的感觉，对不起自己。但是创新工场那边情况不熟悉， 不知道怎么选择，并问我现在比较热的移动互联网靠不靠谱。</p>
+<p>正好这两天我在微博里看到大家转贴李开复的几个让毕业生创业的微博，比如，<a href="http://weibo.com/1197161814/xwjDfAcf6" target="_blank">这个微博</a>，还有 <a href="http://weibo.com/1197161814/xw46V0Cz4" target="_blank">这个微博</a>。呵呵。</p>
+<blockquote><p><strong>李开复</strong>：有关毕业生高科技创业,我的建议：1）创业需要理解趋势、汇集精英、实践经验,因此大学毕业不要主导创业,只能参加创业公司,2）最好远在毕业前就寻找创业公司实习机会（无偿亦可）,因为也许创业并不适合你或你想象那样,3）毕业时若想学习创业,最好到创业公司。到大公司学习能学技术但不够针对性。</p></blockquote>
+<p>还有前两天的“移动开发者大会”，然后，又有一个以前的同事和我谈了一下他创业的事以及他的想法，正好又在网上看到罗永浩同学的那个“<a href="http://v.youku.com/v_show/id_XMzE3OTIyMzg0.html" target="_blank">一个理想者创业的故事</a>”的演讲。还有一些做blog插件的团队希望我能在酷壳上安装一下他们的插件。等等，等等。所以，让我有了这个可以rant的写作情绪。</p>
+<p><span id="more-5815"></span></p>
+<h4>邮件回复</h4>
+<p>请原谅我不能把邮件的原文直接贴出来，因为自从上次我在博客中点名评批了关于敏捷的东西，我明白了，这个世界上，当把你放到公众的高度上，很多以前可以说的话可能都不能说了（虽然我还是在说，说得还比较尖锐，可能本性如此，呵呵）。言归正传，关于这个网友问我的问题，要是我的话，我可能两个都不会选，但是毕竟人家刚毕业，回想一下我当年毕业的时候，不也一样，就像菜市场里的大白菜一样被路过的人挑来捡去的，那有什么选择可言。人都是需要慢慢成长的，刚毕业的这个时候还不能挑挑捡捡的时候，能有两个offer在手作选择已是非常不错了。另外，人家刚毕业，面对北京这个物价奇高的地方，首先要解决的是生活下来，而不是像那些有工作经验的人一样可以追求更高层次的东西，所以，我不应该从我的角度上来思考这个问题，应该从他们的角度，从更现实的角度来思考。于是，我是大概是这么回复他的（加上了很多口水话是为了更像rant）——</p>
+<ul>
+<li>我对新东西是总是持谨慎的态度，创新工场的刚起步，还需要磨练，而且从现阶段的情况看下来，并不太妙。百度的技术还是很不错的，人家好多年了，用户数量也很大，也有很多积累了，所以还是应该去百度。我之所以这样评价，是因为我始终觉得：1）<strong>创业是不需要助跑的，创业是一种积累到了自然就出现的东西</strong>。你也许并不那么觉得，但是我觉得创业助跑就像高考的辅导班一样，或是像英语培训班一样，正如老罗所说的，出成绩的本来就是人家先天悟性不错，不行的总是不行，而需要培训的大多数总是有问题的，搞培训的都知道这个道理。退一步讲，就算是这些辅导班让你可以考个高分，但是后面呢？创业是一条很长的路，不是考了高分拿了风投被人宣传就能成的事。2）<strong>刚毕业的学生，要学的不是创业，而</strong><strong>是开眼界，长见识，这比任何事都重要，因为我们的的视野决定了我们的人生</strong>。大家也知道我国的教育是什么情况。所以，刚毕业的同学第一件事是把教育和工作差距上的那条大沟给填平了。因此，我觉得大公司有更多的资源和牛人能开阔你的眼界，而不是创新工场里的那些补习班式的团队和项目。而要开眼界应该是去一些成熟的公司，就算要学习创业也应该去那些成型了的创业公司，这是因为，更多的是你要看的那些成功公司的经验和思路。<strong>你可能知道什么不好，但是你没有见过好的，你将不知道什么是好的</strong>。你要学习的是成功的东西，而不是失败的东西，这是就我觉得开眼界长见识的最大的价值。</li>
+</ul>
+<ul>
+<li>关于那些流氓企业（商业公司总是会有些商业手段的，但是使用的是流氓手段的必然是流氓），我们处在的这个社会似乎已经分不清楚什么是流氓手段，什么是商业手段，但是有些公司的做法还是太过份，在如今这样垃圾的社会中居然还能脱颖而出，不得不让人佩服。不过我认为，<strong>我们需要用出世的态度去思考，入世的态度去做事</strong>。社会是个大染坊，我们走入社会参加工作后，很多人都会迷失在其中，分不清什么是入世什么是出世，所以这需要我们坚持住我们心中那份理想的价值观，这个很难，能坚持下来的也不多。无论这个公司的文化让你有多么的不认同，但只要其好的东西（比如百度的技术还是很不错的），能让你开眼界长见识，那就没有问题。因为不管你去到哪里，那些恶心的事总是会或多或少的存在，这就是中国的社会。所以，<strong>我们去那些无良企业，并不是学他的文化，而是学习他的技术和他们把事做出来的经验，根据鲁迅的拿来主义，重要的去其糟粕，取其精华</strong>。必竟人家那么大，在技术方面总是有可取之处的，学成后离开他就好了。我们的教育把我们洗脑洗成了只有是和非的价值观，要么就是大好，要么就是大恶。所以，我们的感情要么就是爱，要么就是恨。没有必要，社会是多元的，多维的，这需要我们要学会分开看问题。<strong>对于刚毕业的学生，还是多去学学一些实实在在的技术，百度是有技术的</strong>。</li>
+</ul>
+<div>所以，对于李开复的微博，我认为，毕业去创业并不好。去学习创业也要看看是去哪里？很多朋友都觉得毕业就算学完了，这就错了。大学毕业表示真正的学习才刚刚开始，我比较保守，我觉得走出学校，还需要5-10年的社会学习和积累。我经历告诉我，大多数人是浮燥的，急功近利的，好大喜功的，无论是投资人，创业者，还是打工者。真正踏踏实实学习和努力的人很少。我想说是，不要被人两三句话就说得激动万分，不知道自己是谁了，<strong>你一开始没有吃好的饭，你总有一天得回来吃的</strong>。</div>
+<h4>创业 和 事业</h4>
+<p>我上上周未和我一个朋友聊了一下他的创业的想法和经历。他和我说他见到这个国外投资人曾投过MySQL，当这个投资人听到他的项目的时候，很惊讶，因为，投资人来中国听到几乎全部都是“业务型的项目”，而从他这里第一次听到“技术型的项目”。投资人非常感兴趣，于是就聊了一会就决定投他的项目了。</p>
+<p>我在想，如果我们假设有一天MongoDB的创始人在中国找投资人，对中国的投资人说，我有一个很NB的想法，我要做一个开源的非关系型的数据库，可以解决大规模数据量的快速水平扩展的问题，并可以为现在互联网上的数据处理增加巨大的性能价值， 我不知道中国的投资人对这样的项目会不会感兴趣？我看悬。我这里不是说“业务型的项目”不好，我只是想说，在一个浮燥的环境里，几乎没人会关注这些“技术型的项目”。“业务型的项目”外表很华丽，更能打动人，可以让人看到“钱途”，所以，也就没人会关心那些可能改变世界的长期性的“技术型的项目”。多可悲的社会。</p>
+<p>其实，<strong>创业就是开创事业</strong>。重点是事业，不是开个公司，也不是挣钱，<strong>公司和挣钱是你事业的副产品</strong>。<strong>事业是我们的理想，是我们对自己人生价值的一种诉求</strong>。我个人认为，只有上升上事业的层面上来，才能算得上是创业。如果你只是想开个公司，接两个项目做做，挣点钱，我觉得那就是在浪费时间浪费生命，还不如去跟着一个不错的公司打工，除非你是想以一种曲线的方式达到你的人生理想目标。<strong>你的公司至少应该要去改善或是颠覆点什么，如果还有价值观的输出，那就更完美了</strong>。总之一句话，<strong><span style="color: #cc0000;">别把自己给卖了</span></strong>。</p>
+<p>就算是在公司里打工，也应该有这份理想主义。我一直和我的团队说——我们每一个人今天不愁找工作，外面也有很多东西在诱惑着我们。对于我们来说，我们今天在Amazon这个高速增涨并很踏实的公司里，我们应该把在公司里打工升华到事业的层面上来。看看，Amazon是怎么一点一点地、扎扎实实地、有条不紊地、通过技术分析用户和市场来改变世界的，想想自己在Amazon公司里可以影响些什么，可以领导些什么，可以跟着Amazon去为这个世界改变些什么。当你有这样的心态和方式，积累到了，你就能去改变些什么，那时，你要出去创业也就成了一件水到渠成的事。</p>
+<p>看看今天如此浮燥的社会，我不知道人们怎么了。<strong>中国的很多的创业公司好像都只是为了上市挣钱，而国外更多的公司是为了上市后能改变世界或颠覆传统，这其中有多大的差距啊</strong>。每当看到中国有那么多的CopyCat（<a title="中国的C2C模式" href="https://coolshell.cn/articles/3820.html" target="_blank">或叫C2C</a>），而国外有那么多的创新，我实在无法为国人感到骄傲。他们甚至还为他们的抄袭找到很多理由，比如，有人说Linux 抄 Unix还不是抄，Windows还不是抄MacOS，OpenOffice抄MS Office，等等。我同意很多好的创意会被人Copy去，这本来也没有什么。只是我想说的是：</p>
+<p style="padding-left: 30px;">1）判断一个事有没有抄了另一个事。我觉得不应该看其表面特征像不像，应该看其有没有颠覆性。比如Linux对Unix的颠覆。PC对苹果电脑的颠覆（Windows属于PC机颠覆时代的产物，让PC机更具颠覆性。 同样，Linux的开始也是先上x86）。<strong>就算是表面上复制了你，但是用另一种模式其改变了世界，颠覆了传统，创造了价值，这就不是抄袭</strong>。而中国的很多团队呢，还有那个山寨大王的公司，他们只不过是在做简单的复制，Copy而已，根本谈不上什么颠覆，不知道这个山寨公司怎么想的？钱没处花了吗？不知道这个世界上还有更多的东西更有价值吗？另外，举个例子，新浪微博可能是一个比较不错的复制，我暂时不说其在技术处理信息的回复上和Twitter巨大的差异（<a title="国内微博和Twitter的最大不同" href="https://coolshell.cn/articles/5247.html" target="_blank">可以看看这篇文章</a>），但是我们可以看到它还是有很多不错的功能（可惜的是新浪的名人路线让其永远不能理解什么是互联网的内涵，而很多人也迷失在这种浮华和虚荣之中）。而其它什么饭否，知乎，等等就是纯粹为了山寨了。如果我们不能颠覆一个产品，我们至少要想着去颠覆或是改善其某个或是几个功能吧。单纯的复制，走不长远，因为你无法理解其内涵。</p>
+<p style="padding-left: 30px;">2）我们能不能问问我们自己。只是简单地去复制一个别人的想法，而没有经过自己的分析和考虑，这样的创业有意思吗？总有一些东西要不同吧，总不能靠我们政府帮你墙了你的复制源吧。这样的人生有什么意思吗？还是那句话——<strong>别把自己给卖了</strong>。</p>
+<p>我有一些同学，都在给中国的国有银行做项目，做了十多年了，还是和十年前几乎一个样。项目就是打单，加班，赶工，需求拼命变更，被甲方和SB领导蹂躏，等等，等等。我在想，一个公司，十多年了，还是老样子，连最基本的商业运作和项目管理还是十年前老样子，哎。十年，在IT行业，这十年是完全翻天覆地的变化，人们的生活方式和传统都受到了前所未有的改变和颠覆。然而，我们很多这样的公司，这十年，他们并没有改变什么，连自己都没有改变。银行里的系统还是向十年前那样，还是用十年前的方式和银行打交道。这些公司，他们从未想过要去改变或是颠覆点什么，就算想过，也就坚持了一两年。<strong>我们中国的企业，大多数是没有理想，没有抱负的企业</strong>。这样的例子有很多很多。</p>
+<ul>
+<li>看看csdn，it-pub, 中文infoQ等一系例的技术论坛。尤其是 CSDN，也有十来年的历史了吧。从来没有想过怎么过提高信息质量，论坛和博客系统有段时间那叫一个难用啊。充斥着各种各样的广告和产商的软文和活动。看看<a href="http://weibo.com/1654762921/xx4FL0z6g" target="_blank">这个微博</a>（<strong>注</strong>：<span style="color: #800000;">这个微博已经删除了，这个微博是CSDN的老总范凯不知道怎么在论坛时放广告了，因为全都放满了</span>），你就知道为什么这些论坛干了那么长时间也无法成为像<a href="http://stackoverflow.com/" target="_blank">StackOverflow</a>或是<a href="http://www.quora.com/" target="_blank">Quora</a>这样的水平。再说说<a href="http://www.infoq.com/cn/" target="_blank">InfoQ中文站</a>，完全就是敏捷和TW的喉舌，主编里面有半数以上是TW公司的，上面的文章就像看新华网，人民网一样失去了媒体应有的客观性。而且那里的语言栏目没有C/C++语言，你能想像这些坑爹的编辑是怎么想的吗？所以，他们也无法成为像<a href="http://www.cnet.com/" target="_blank">CNet</a>, <a href="http://techcrunch.com/" target="_blank">TechCrunch</a>，或是像<a href="http://drdobbs.com/" target="_blank">Dr. Dobb&#8217;s</a>。因为那里是产商的广告战场，而不是技术人员的论坛。他们的目光短浅之处就在于，<strong>他们并没有明白真正让论坛和社区有人气有权威的是技术人员，而不是这些为了销售的产商。难道不想成为最权威的技术网站吗？难道不知道成为最权威的技术网站后面所蕴藏的商机会比今天这种模式要大N倍吗</strong>？</li>
+</ul>
+<ul>
+<li>淘宝也一样（也许马云明白，下面的人不明白）。前段时间我在淘宝商城里买了一个假货。于是我找在线客服投诉，在线客服不管，让我打电话去杭州（这么大个公司连个800的客服电话都没有，shit!），我只好打到杭州，经过若干个占线的经历后（淘宝的call center真是弱爆了），杭州的客服告诉我，让我在线点“让淘宝客服介入”，我说，我打电话来淘宝就是让你介入的，但我却被告之要求介入的唯一方法必需是在网站上点相应的按钮。偶滴神啊，哪个脑子进水的经理设计的这客服流程啊（这不是和老罗那个短片里星巴克的“中杯”的段子不一样脑残吗）。好吧，我还没疯，我去网站点了，结果3-4个月，淘宝的客服根本就没找我，连个邮件都没发。可见，<strong>淘宝几乎是和商家一伙的，而不是站在买家一边的</strong>。淘宝的目光短浅之处就在于，<strong>他们并没有明白真正付钱的是买家，而不是那些商户。如果买家满意了，淘宝及其商户才能赚到钱。这么浅显的道理不懂吗？也许，淘宝知道他现在平台上的这些商户让他根本不敢面对买家</strong>（另外，关于淘宝的技术，我觉得有点两极分化，后台看似很强，但是前台用户的管理页面那个恶心啊，还要整些ActiveX插件，搞得只支持IE 和 Win，仅支持IE也罢了（最近发现其支持chrome了），有时候下单的时候看不见提交按钮，联系在线客服，他让我：换别的浏览器，如果不行，就清空所有的缓存，再不行就重装浏览器，WTF，你们开发人员有没有搞错啊）</li>
+</ul>
+<ul>
+<li>百度和360就更SB了。有技术，有资金，有用户，有市场，还是上市公司，也积累了那么多年，也有很不错的产品和功能，但是就一定要去走流氓的路线，脑子透逗了吧。<strong>这不是目光短浅的问题了，这是人品和智商的问题了</strong>。难道百度不觉得有一个权威公正的搜索排名，会比恶意地竞价排名能挣更多的钱吗？难道百度不明白保护知识产权也能挣更多的钱吗？因为，当你让一个生态环境良性循环起来，你会发现，作为生态引擎的你会让整个生态系统更加依赖你，追捧你，而这个良性的生态系统会让你不由自主地进化和变得越来越强。对于360我就不多说了，你懂的，你要是不懂，那也不是目光短浅的问题了，也是智商的问题了。</li>
+</ul>
+<p>所以，他们能走到最高点也就是这样了。不想去创新，不想去改变传统方式，不去分析和关注用户，只为了挣钱挣钱，眼光就是如此短浅，所以也就成了钱和投资方的奴隶，于是也就变得愚蠢和迟钝了。<strong>真是Stay hungry, Stay foolish啊，hungry到饥不择食，foolish到自掘坟墓</strong>。</p>
+<p>当然，你一定会说，对这些大公司来说是这样的，但是对于创业的小团队来说，我说的这些东西太大了，什么改变世界，什么颠覆传统，这个命题太大了。你甚至可以举出像“超级玛丽”这样的经典游戏，或是像“开心农场”这样打发时间的游戏，其并没有改变世界，也没有颠覆传统，但人家还是很成功的。没错，有些时候，我们创业并不需要去改变什么，只需要去满足别人些什么（满足他人的虚荣心的微博，让人打发时间的游戏）。对于我们大多数人来说，能做一个软件产品有很多用户在用就很满足了。能让很多用户来用你的东西，说白了还是在改变什么，或是在颠覆点什么。你没有发现，满足人们的虚荣心，让人打发时间也不是件简单的事，虽然这些只是玩一阵子就不玩的东西，但是，不可否认电子游戏界的创新以及其方式的改变也是相当猛的。</p>
+<p>好吧，我再圆一圆我的话——<strong>创业总是要去改变点什么，颠覆点什么，或是满足点人们什么，解决点什么，而只有想要去创建某种规则，建立某种秩序，并有价值观输出的团队，才有可能成为真正的事业</strong>。</p>
+<p>在这个社会里，很多人并不明白这个道理，就算是明白，也不会这么行事。我有一个以前的同事，来中国Amazon面试Kindle App团队的部门经理，过了，也给offer了。但是不想来，为什么？因为他觉得现在他在管一个几十人的团队。而Amazon的这个团队太小了，只有不到十人，而且职位的title不满意。这就是我前面说的，眼界不够开阔的问题。小团队干大事情这不挺好的吗？我们很多人都把眼光放在了那些虚的地方，比如部门大不大，位置高不高，薪水诱不诱人，但却没有看到要做这个事有多大。可惜啊。</p>
+<p>上新浪微博看看，全是什么XXCTO，XXCEO，XX创始人，XX总监，XX高级主管……title要多牛有多牛，但可惜的是也就是个名称罢了，我花10元钱也可以为自己印一盒要有多牛就有多牛的名片。那些用人经理和猎头只会问，你职位是什么啊？你管多少人啊？好像是个高级主管，管上几十上百人就很牛似的。可是，你用这个title和这些人做了什么事啊？这就像我质问Thoughtworks和敏捷人士们一样，你们用这些所谓NB的东西做了什么大事啊？！（注意：我不是说，挣多少钱和职位发展不重要，我只是说，相对于做什么事，怎么做事来说，这些都是其次重要的，只要做的事靠谱，报酬和职业都会得到的）</p>
+<p>好吧，让我再回到创业的话题上来，<strong>有一本书叫“<a href="http://book.douban.com/subject/3889178/" target="_blank">Rework</a>”，想创业的朋友可以好好读一读</strong>。“保持 小的公司规模，你不需要加班，你没有必要耗尽你一生的积蓄，承担财务风险。你可以一边继续日常工作，一边开始创业，这样随时都能有现金满足需要。你甚至不需要办公室。现在可以在家工作，和从未见面离你千里之外的人合作…… ” 这是一本让你可以去思考的书，远比那些名人们的微博有价值地多得多。<strong><span style="color: #cc0000;">不要跟随大流，保持住内心的理想，Think it Big, Make it Different</span></strong>。</p>
+<p>我没有能力去诠释人活着是为了什么。但就我而言，我认为应该在自己那短暂的人生内能去多经历更多一些有意义事情，能多做一些更有意义的事情，人生太短了，人太容易变了，时间，精力和人性都经不起折腾。只要做的事有意义，跟着别人一起去开创事业未尝不可，开公司又不是什么时尚。所以，如果你是一个做事的人，我觉得，不要去盲目地创业，那是在浪费时间，潜下心来，观察，思考，尝试，积累，就像一只在非洲草原上匍匐前缓缓逼进猎物的狮子那样有耐心。<span style="color: #cc0000;"><strong>把自己当成一个沉着稳重猎手，而不是战场上的炮灰</strong></span>。</p>
+<h4>移动互联网</h4>
+<p>我不知道大家怎么看这个名词的。这是个当今巨火无比的词儿。有人跟我说过一个段子，某中国大公司的研究所的某某研究员是做出了这样的口沫横飞的定义——“移动互联网绝对是个了不起的东西，因为互联网是移动互联网的子集，因为静止是相对的，移动是绝对的，所以移动互联网必然是未来的一切……”。领导的讲话真是没得说，你我都不可能说出来这样的话。</p>
+<p>在我眼中，互联网才是核心，移动只不过是互联网的补充，只不过是为了让互联网有更好的体验。今天，全世界都打鸡血似地开发移动应用，我仿佛看到当年Windows平台出现的时候，大家都在Windows上写一些小软件一样。不可否认其中是有一些很不错的应用，也不可否认苹果的App Store让这些“软件个体户们”有了更好的创作平台，而软件质量也显著提高。但是更多的应用都会像Windows平台上的那些小软件一样，必然会很快被淹没在历史大潮之中。没有后面互联网和实际业务的强力支持，移动上的应用也就是一些小打小闹的东西。今天移动互联网的热，就像10年前.com的热一样，我看到移动互联网中像当年.com那样大量的泡沫。我看到各种创业团队和投资一涌而上，而我们都知道，<strong>当潮水退却的时候，就可以看到哪些人在裸泳了</strong>。</p>
+<p>今天的移动设备和当年的PC机何其相似，真正制定规则的人都是那些在制造移动设备及其操作系统的公司。当年在Windows上有很多不错的共享软件，什么foxmail，netants，cuteftp，…… 我记得当时foxmail被以2000万收购，但是今天也就这样了，邮件都都在Web或是移动端收了。我相信今天在这些在移动设备上开发应用的创业团队，很有可能也会在5到10年之后面临着相同的尴尬（可能会更短）。我倒不是说这样的小软件没意思，我只是想说，这样的小软件的开发完全没有必要成立公司，要成立公司，就应该要干得比这个事要大。不是吗？难道你不想创建一个能比自己寿命还长的事业和公司吗？移动互联网上的很多小应用，更像是大学里学生们开发着玩的一些软件玩具罢了。</p>
+<p>移动互联网上很多app感觉特别无聊，比如foursquare, 街旁之类的东西，虽然我实在不能理解这样的东西为何流行，但我想起了我6年前（2005年），当blog出现的时候，我在MSN的BLOG上记录<a href="http://blog.sina.com.cn/s/blog_538efefb0100n53e.html" target="_blank">过自己的一些粗糙的想法</a>（现在搬到了新浪Blog）。当时我认为，<strong>互联网的进化和人类社会的进化很相似，web1.0 到 web 2.0，就是从“自由”到“自我”的一个过程。</strong>今天，我们看到了 “自我”这个过程的各种各样的演绎，也许，像这种地理位置签到的玩意儿同样满足了人们那种“自我”的渴望。不过，我们都可以看到今天互联网上“自我”的泛滥，人们在网上晒各种各样自己的东西，在豆瓣上展示自己读过的书，看过的电影，在微博上晒自己的旅行照片，生活点滴，自己的车子房子老婆孩子，公司，职位，简历，加V，衣食住行，吃喝拉撒，等等一切可以拿出来炫耀的东西，包括自己的地理位置。我想到了“自我”，但我万万没有想到自我的东西里还包括自己的位置。<strong>这些不创造任何价值的自我的东西终将是过眼云烟，昙花一现</strong>。<strong>我们都得问问自己这个问题——我们有没有在创造价值</strong>？！（也许这个话说得有些绝对了，对于中国人来说，这是我们的culture啊。另外，我意识虚荣和炫耀并不产生价值是错的一一GMM的事给了我一记漂亮的耳光。试想，当今这个社会，如果所有的二奶都来炫耀谁包养了她，官员们都能签到他们出入的位置，那么还是能创造很多价值的。滑稽吧）</p>
+<p>今天，我大胆预测一下未来互联网的走势，只有了解历史，我们才能看清未来。</p>
+<ul>
+<li><strong>互联网的精髓是自由和分享</strong>。这个东西以前是这样，现在也是这样，未来还是这样。就算是我们正在经历那些反人类的东西。但这个精神和趋势必然是无法阻挡的。我们在网上没有边界地分享我们的数字信息，或公开，或私密，无论是我的发邮件，写博客，织微博，还是看视频，听音乐，写评论。都是自由和分享的体现。移动互联网会把这个事体现到极致。</li>
+</ul>
+<ul>
+<li><strong>互联网的本质是信息组织</strong>。关于信息，以前是ICP发布信息，现在是ICP feed信息(订阅)，大众参与组织信息。但是都会有一个问题，那就是信息太多，等于没有信息。搜索引擎的出现部分解决了这一问题。但没有解决彻底。因为搜索出来的东西还是太多，而且是搜索引擎的单一标准，而不是个体差异和喜好的标准。所以，<strong>我觉得未来的信息必然要走个性化的路。搜索引擎或是别的平台（如豆瓣，电子商务等）会学习用户的习惯和喜好，然后根据用户的喜好出现不同的结果。这就是所谓的推荐</strong>！<strong>未来必然是推荐的时代</strong>。</li>
+</ul>
+<p>所以，对于移动平台，我觉得最有价值的就是这些事情：1）<strong>阅读</strong>（如：kindle，新闻，图书，订阅等），2）<strong>分享和交流</strong>（如：facetime，iMessage，微信，米聊，电邮等等），3）<strong>电子商务</strong>（如：机票酒店餐饮购物），4）<strong>推荐</strong>（目前这一块还是比较空的）。注意，我们需要清楚地认识到，其中的分享和交流是对传统电话和短信的延续，并不是取代！有些时候，本来直接打个电话发个短信就解决了的事，我们还要让用户上我们的平台，这就没有意义了。</p>
+<p>哦，你会问我，云计算在哪里？云嘛，在天上漂着呢，尤其是中国的各种云。我不知道你还记不记得前几年的“网格计算”？现在真的成浮云了。不要去追随着那些媒体们热捧热炒的东西，<strong>中国的科技媒体们一来只会跟产商，二来他们哪有你懂技术懂产品啊</strong>。所以，不要被他们吹晕了，不知道自己该干什么了。还是想一想，你要解决什么问题，关注这些名词或代号没有意义。</p>
+<h4>结尾</h4>
+<p>最后，我要说明一下，本文是我思考了十天左右的文章，不存在喝多了，也不存在凌晨写作头脑不清的问题，也不存在本来要把一篇给小范围传播的文章给大家看。对于我在文中批评的那些公司，我希望他们能把我的这些rant当成一种建议和鞭策，当然，你们需要适应我调侃和尖锐的语气。千万不要学那些敏感人士，或是黑我的blog，或是骂人，因为这样只会让你们看上去更为难堪。</p>
+<p><span style="color: #cc0000;">最后注明一下版权，<strong>本文由陈皓原创发表，你可以任意传载，但必需在明显位置注明作者和出处，而且不能用于任何商业用途</strong>。</span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/6142.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/amazon_global_selling-150x150.jpg" alt="三个事和三个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6142.html" class="wp_rp_title">三个事和三个问题</a></li><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5815.html">来信， 创业 和 移动互联网</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5815.html/feed</wfw:commentRss>
+			<slash:comments>243</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

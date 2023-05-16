@@ -1,0 +1,1909 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>ebook | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/ebook/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 12 Dec 2011 14:33:27 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Python 和 PyGame 的一些示例</title>
+		<link>https://coolshell.cn/articles/4710.html</link>
+					<comments>https://coolshell.cn/articles/4710.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 18 May 2011 00:43:58 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[pygame]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4710</guid>
+
+					<description><![CDATA[<p>看到一个网页收集了很多使用Python和PyGame写游戏的示例，分享给大家。（注：我不知道用Python/PyGame写游戏其性能会怎么样，但是一些小游戏应该...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4710.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4710.html">Python 和 PyGame 的一些示例</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>看到<a href="http://cs.simpson.edu/?q=python_pygame_examples" target="_blank">一个网页</a>收集了很多使用Python和PyGame写游戏的示例，分享给大家。（注：我不知道用Python/PyGame写游戏其性能会怎么样，但是一些小游戏应该是没有问题的）</p>
+<p>这个网页同时给了一本<a href="http://cs.simpson.edu/files/CS_Intro_Book.pdf" target="_blank">介绍Python和PyGame的电子书</a>（PDF），下面的这些例子就是这本书的示例。所有的这些示例可以<a href="http://cs.simpson.edu/files/Python%20Examples.zip" target="_blank">打包下载</a>。</p>
+<h4>基础 Python 示例</h4>
+<ul>
+<li><a href="http://cs.simpson.edu/?q=if_statement_examples.py">if_statement_examples.py</a> &#8211; if 语句的一个简单示例</li>
+<li><a href="http://cs.simpson.edu/?q=for_loops_examples.py">for_loop_examples.py</a> &#8211; for 语句的一个简单示例.</li>
+<li><a href="http://cs.simpson.edu/?q=while_loop_examples.py">while_loop_examples.py</a> &#8211; while 语句的一个简单示例</li>
+</ul>
+<h4>Pygame 图形示例</h4>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=pygame_base_template.py">pygame_base_template.py</a> &#8211; 开启一个黑的 pygame 窗口。当你要写一个新的代码时，你可以使用这个示例的代码初始化你的程序。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/pygame_base_template.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/pygame_base_template_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=simple_graphics_demo.py">simple_graphics_demo.py</a> &#8211; 作图，画一些简单的图形。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/simple_graphics_demo.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/simple_graphics_demo_thumb.png" alt="simple_graphics_demo_thumb.png" /></a></td>
+</tr>
+</tbody>
+</table>
+<p><span id="more-4710"></span></p>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=functions_and_graphics.py">functions_and_graphics.py</a> &#8211; 图一些雪人。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/functions_and_graphics.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/functions_and_graphics_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=animating_snow.py">animating_snow.py</a> &#8211; 下雪动画。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/animating_snow.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/animating_snow_thumb.png" alt="Animating Snow" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=move_keyboard.py">move_keyboard.py</a> &#8211; 使用键盘移动一个图形</p>
+<p><a href="http://cs.simpson.edu/?q=move_mouse.py">move_mouse.py</a> &#8211; 使用鼠标移动一个图形</p>
+<p><a href="http://cs.simpson.edu/?q=move_game_controller.py">move_game_controller.py</a> &#8211; 使用游戏手柄移动一个图形</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/move_keyboard.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/move_keyboard_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=bitmapped_graphics.py">bitmapped_graphics.py</a> &#8211; 显示一些图片（png, jpb），并加入一些声音。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/bitmapped_graphics.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/bitmapped_graphics_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=array_backed_grid.py">array_backed_grid.py</a> &#8211; 一个网格，可以用来开发一些棋类的游戏。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/array_backed_grid.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/array_backed_grid_thumb.png" alt="" /></a></td>
+</tr>
+</tbody>
+</table>
+<h4>Pygame 示例</h4>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=sprite_collect_blocks.py">sprite_collect_blocks.py</a> &#8211; 使用鼠标移动一个小点</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_blocks.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_blocks_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=sprite_collect_circle.py">sprite_collect_circle.py</a> &#8211; 和上面的示例一样，只不过是圆点。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_circle.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_circle_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=sprite_collect_graphic.py">sprite_collect_graphic.py</a> &#8211; 和上面的示例一样，只不过是图片。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_graphic.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/sprite_collect_graphic_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=move_sprite_mouse.py">move_sprite_mouse.py</a> &#8211; 用鼠标移动一个点</p>
+<p><a href="http://cs.simpson.edu/?q=move_sprite_keyboard_jump.py">move_sprite_keyboard_jump.py</a> &#8211; 用键盘移动一个点（跳动式的）</p>
+<p><a href="http://cs.simpson.edu/?q=move_sprite_keyboard_smooth.py">move_sprite_keyboard_smooth.py</a> &#8211; 用键盘移动一个点（平滑式的）.</p>
+<p><a href="http://cs.simpson.edu/?q=move_sprite_game_controller.py">move_sprite_game_controller.py</a> &#8211; 用游戏手柄移动一个点</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/move_sprite_mouse.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/move_sprite_mouse_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=move_with_walls_example.py">move_with_walls_example.py</a> &#8211; 移动一个点，但是会被墙阻止。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/move_with_walls_example.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/move_with_walls_example_thumb.png" alt="" /></a></td>
+</tr>
+</tbody>
+</table>
+<h4>游戏示例</h4>
+<table border="0" cellspacing="1" cellpadding="1">
+<tbody>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=bounce_ball_with_paddle.py">bounce_ball_with_paddle.py</a> &#8211; 两个玩家玩对碰球游戏，需要两个手柄。</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/bounce_ball_with_paddle.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/bounce_ball_with_paddle_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td><a href="http://cs.simpson.edu/?q=breakout_simple.py">breakout_simple.py</a> &#8211; 一个简单的游戏，显示 &#8220;Game Over&#8221; 信息.</td>
+<td><a href="http://cs.simpson.edu/files/python_examples/screenshots/breakout_simple.png"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/breakout_simple_thumb.png" alt="" /></a></td>
+</tr>
+<tr>
+<td>一个学生的作业. <a href="http://cs.simpson.edu/?q=node/62">Spring 2011</a></td>
+<td><a href="http://cs.simpson.edu/?q=node/62"><img decoding="async" src="http://cs.simpson.edu/files/2011spring.png" alt="" /></a></td>
+</tr>
+<tr>
+<td>另一个学生的作业.<a href="http://cs.simpson.edu/21"> Fall 2010</a></p>
+<p><a href="http://cs.simpson.edu/?q=node/23">Download games</a> &#8211; .</td>
+<td><a href="http://cs.simpson.edu/?q=node/21"><img decoding="async" src="http://cs.simpson.edu/files/python_examples/screenshots/sample_games_vid.png" alt="" /></a></td>
+</tr>
+</tbody>
+</table>
+<h4>创建一个安装包</h4>
+<p><a href="http://cs.simpson.edu/?q=make_an_installer_for_your_python_program">Python Pygame 安装包教程 </a></p>
+<h4>搜索和排序示例</h4>
+<ul>
+<li><a href="http://cs.simpson.edu/files/example_sorted_names.txt">example_sorted_names.txt</a> &#8211; Sample file of names used in searching_example.py</li>
+<li><a href="http://cs.simpson.edu/?q=searching_example.py">searching_example.py</a> &#8211; Example linear and binary searches</li>
+<li><a href="http://cs.simpson.edu/files/AliceInWonderLand.txt">AliceInWonderLand.txt</a> &#8211; Text of Alice In Wonderland. Source: <a href="http://www.gutenberg.org/wiki/Main_Page">Project Gutenberg</a></li>
+<li><a href="http://cs.simpson.edu/files/AliceInWonderLand200.txt">AliceInWonderLand200.txt</a></li>
+<li><a href="http://cs.simpson.edu/files/dictionary.txt">dictionary.txt</a></li>
+<li><a href="http://cs.simpson.edu/?q=sorting_examples.py">sorting_examples.py</a> &#8211; Example code for the insertion and selection sorts.</li>
+</ul>
+<h4>文件示例</h4>
+<p><a href="http://cs.simpson.edu/?q=high_score.py">high_score.py</a> &#8211; Example that shows how to read and write a high score to the disk so that it persists between program runs.</p>
+<h4>其它信息</h4>
+<ul>
+<li><a href="http://www.pygame.org/">Pygame Website</a> &#8211; Pygame 主站</li>
+<li><a href="http://www.pygame.org/docs/">Pygame Documentation</a> &#8211; Pygame 文档</li>
+</ul>
+<p>（全文完）</p>
+<p>——————————</p>
+<p><strong><span style="color: #000000;">最后，不好意思很久没有更新酷壳，这段时间在国外出差，事多，5月31回国。大家见谅！</span></strong><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/1928.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/27.jpg" alt="如何使用Python操作摄像头" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1928.html" class="wp_rp_title">如何使用Python操作摄像头</a></li><li ><a href="https://coolshell.cn/articles/1157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="Python 自然语言处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1157.html" class="wp_rp_title">Python 自然语言处理</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4710.html">Python 和 PyGame 的一些示例</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4710.html/feed</wfw:commentRss>
+			<slash:comments>15</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的文章和资源</title>
+		<link>https://coolshell.cn/articles/4220.html</link>
+					<comments>https://coolshell.cn/articles/4220.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 06 Apr 2011 00:47:40 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[64bits]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4220</guid>
+
+					<description><![CDATA[<p>又到了向大家介绍一些最近我在网上发现的有价值的东西的时候了。（下面的链接中很多都被墙） 以前向大家介绍过《一些重要的算法》和《算法和数据结构词典》，不过，你知道...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4220.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4220.html">一些有意思的文章和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>又到了向大家介绍一些最近我在网上发现的有价值的东西的时候了。（下面的链接中很多都被墙）</p>
+<ul>
+<li>以前向大家介绍过《<a title="一些重要的算法" href="https://coolshell.cn/articles/2583.html" target="_blank">一些重要的算法</a>》和《<a title="算法和数据结构词典" href="https://coolshell.cn/articles/1499.html" target="_blank">算法和数据结构词典</a>》，不过，你知道有些什么样比较奇怪的数据结构吗？wikipedia上的这个词条可以让你看看<a href="http://en.wikipedia.org/wiki/List_of_data_structures" target="_blank">各种不同的数据结构</a>。比如：<a rel="nofollow" href="http://en.wikipedia.org/wiki/Skip_list">Skip lists</a>， <a rel="nofollow" href="http://en.wikipedia.org/wiki/Bloom_filter">Bloom filters</a>，或是什么<a rel="nofollow" href="http://en.wikipedia.org/wiki/Dancing_Links">Dancing links</a>。你也许会像一个以“<a title="如何学好C++语言" href="https://coolshell.cn/articles/4119.html" target="_blank">如何学好C++</a>”中的朋友们所说的，不削于这种所谓的“奇技淫巧”，甚至觉得这太根本不实用。其实，这些东西还是有用的，至少对你开阔思路，活动编程思维能力很有意义。</li>
+</ul>
+<ul>
+<li>本站的关于<a href="https://coolshell.cn/tag/%e6%8e%92%e5%ba%8f" target="_blank">排序的文章</a>有很多，对于排序算法来说，其受到要排序的个数和数据的杂乱程度的影响，我们知道比较稳定的排序算法是快速排序和归并排序，归并排序对于大量的数据排序效果是非常好的，尤其是我们可以进行并行的排序。这里有一个并行归并排序的算法的源代码，你可以参考一下 &#8211; “<a href="http://dzmitryhuba.blogspot.com/2010/10/parallel-merge-sort.html" target="_blank">Parallel Merge Sort</a>”。</li>
+</ul>
+<ul>
+<li>说到“奇技淫巧”和算法，这里有一个文章向你展示了C语言中使用位操作可能完成的各种算法，很有意思。请参看 &#8211; “<a href="http://aggregate.ee.engr.uky.edu/MAGIC/" target="_blank">The Aggregate Magic Algorithms</a>”</li>
+</ul>
+<ul>
+<li>这里有篇文章教你如何取得一个<a href="http://www.productivity501.com/harvard-masters-degree/6463/" target="_blank">在线的哈佛大学的硕士学位</a>，文章中说了一些相关的事宜，包括一些收费情况，并且展示了一张文凭。这里有一个网页说明了<a href="http://blog.markwshead.com/911/harvard-online-masters-degree-in-software-engineering/" target="_blank">哈佛软件工程学位</a>（Software Engineering）的所需要学习的科目，比如：Java和分布式计算，分布式/企业级计算，设计模式和Java，通讯协议，高级数据网络，Web开发，计算理论，Perl实践，Unix系统编程……我不知道我们的国家各个大学的硕士在学什么，因为我没有读过硕士，但好像现在的计算机研究生只是导师用来挣钱的免费资源，而且，实在不知道研究生在校研究什么。不管怎么样，从这看来，我们的大学好像并没有教给学生计算机的技术。比如在“<a title="如何学好C语言" href="https://coolshell.cn/articles/4102.html" target="_blank">如何学好C语言</a>”和“<a title="如何学好C++语言" href="https://coolshell.cn/articles/4119.html" target="_blank">如何学好C++语言</a>”中我提到的那些书，那些才是大学里应该学的。我国的教育还真不是一般的落后，不过你不妨试试哈佛的在线学位。</li>
+</ul>
+<p><span id="more-4220"></span></p>
+<ul>
+<li>关于网上的电子书，以前本站介绍过一 个<a title="免费电子书列表" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>，这里再推荐一个网站，上面有很多很多很不错的计算机科学方面的电子书，当然，都是英文的。<a href="http://www.sciencebooksonline.info/computer-science.html" target="_blank">http://www.sciencebooksonline.info/computer-science.html</a>。我知道你对英文发憷，但是，朋友，你一定要学好英文啊，这不仅仅只是为了学好计算机啊。</li>
+</ul>
+<ul>
+<li>还记得本站的“<a title="64位平台C/C++开发注意事项" href="https://coolshell.cn/articles/3512.html" target="_blank">64位平台开发的注意事项</a>”吗？Intel Software Network上有这样一篇文章其收集了一些在64位平台上经常出现的错的，图文并茂的，相当的不错，强力推荐给大家 &#8211; “<a href="http://software.intel.com/en-us/articles/collection-of-examples-of-64-bit-errors-in-real-programs/" target="_blank">A Collection of Examples of 64-bit Errors in Real Programs</a>”</li>
+</ul>
+<ul>
+<li>你爱好汇编语言吗？如果你是汇编的痴迷者，那么mac.com上的<a href="http://homepage.mac.com/randyhyde/webster.cs.ucr.edu/index.html">这个列表</a>对你很有意义了。里面的相关文章非常不错哦。而这里有一个<a href="http://www.duntemann.com/assembly.html" target="_blank">Step by Step的x86汇编编程教程</a>。</li>
+</ul>
+<ul>
+<li>还记得那篇“UI和UX的差别”吗？呵呵。这里有一个网站，给了你30+条UX用户体验的建议，我觉得非常不错，转给大家<a href="http://uxmyths.com/">http://uxmyths.com/</a></li>
+</ul>
+<ul>
+<li>想在Visual Studio 2010下编写Python吗？那么，向你介绍这个微软官方的插件<a href="http://pytools.codeplex.com/" target="_blank">Python  Tools for Visual Studio</a>。你还可以在VS中调试你的Python代码。挺不错的。</li>
+</ul>
+<ul>
+<li>在VS里开发Python，那么就可以使用Eclipse编写Android程序，这里有一篇教程教你 &#8211; <a href="http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-android-with-eclipse-reloaded/" target="_blank">Get Started Developing For Android With Eclipse, Reloaded</a></li>
+</ul>
+<ul>
+<li>说到了Android，必然要提一提iOS。想学iOS编程吗？这里有一篇教程很不错，如果你是一个什么也不懂的初学者，你不妨看看这篇文章“<a href="http://designthencode.com/scratch/" target="_blank">Build iOS App from Scrach</a>”</li>
+</ul>
+<ul>
+<li>查JDK是不是有点不好查？这里有一个网站可以方便地查找JDK和Android的API &#8211; <a href="http://www.kiwidoc.com/" target="_blank">http://www.kiwidoc.com</a>，我觉得很不错哦。</li>
+</ul>
+<ul>
+<li>不知道你是不是一个怀旧的人，你是否还记得以前用C语言开发Web的时光呢？我记得我97-98年的时候学过用C开发web应用，觉得挺难学的，我还没有完全搞懂，就出现了ASP，PHP……。这两天看到一篇 <a href="http://www.tutorialspoint.com/cplusplus/cpp_web_programming.htm" target="_blank">C++ Web Programming</a>，讲得真是很系统啊，从处理HTTP Header，到处理表单和上传文件。看完后，感觉有点坐着时光机器回到大学时的感觉。呵呵。</li>
+</ul>
+<ul>
+<li>说到Web编程，现在的Web编程和以前很不一样了。你觉得未来的Web编程的技术会是什么样的？NoSQL? 服务器端的Javascript? 各种像Amazon的EC2或S3的云计算平台？更新更强大的开发框架？HTML 5/CSS 3？这里有一篇文章你可以去看看 &#8211; “<a href="http://net.tutsplus.com/articles/general/7-exciting-web-development-trends-for-2011/">7 Exciting Web Development Trends for 2011</a>”.</li>
+</ul>
+<ul>
+<li>无论Web编程到了什么时候，安全问题永远都是你需要注意的。这里有一篇文章“<a href="http://code.google.com/intl/zh-CN/edu/submissions/daswani/index.html" target="_blank">What Every Web Programmer Needs To Know About Security</a>” &#8211;  每一个Web程序员都应该知道的安全问题。</li>
+</ul>
+<ul>
+<li>再推荐两个关于WebGL的游戏演示，一个是3D的比较好玩的有点<a href="http://cycleblob.com/" target="_blank">像贪吃蛇一样的游戏</a>，另一个是<a href="http://nicolas-bonnel.github.com/WARPG/index.html" target="_blank">RPG式的游戏</a>，第三人称视角，看上去很不错。</li>
+</ul>
+<ul>
+<li>这里有20款图标，<a href="http://www.tutorialcadet.com/20-user-interface-icon-sets-for-developers/" target="_blank">http://www.tutorialcadet.com/20-user-interface-icon-sets-for-developers/</a>，也许会对你的UI开发有帮助。wikipedia上也有一些<a href="http://commons.wikimedia.org/wiki/Comparison_of_icon_sets" target="_blank">免费的图标</a>。</li>
+</ul>
+<ul>
+<li>在以前的“<a title="一些有意思的贴子和工具" href="https://coolshell.cn/articles/3480.html" target="_blank">一些资源介绍</a>”的文章中介绍过<a href="http://mikeos.berlios.de/write-your-own-os.html" target="_blank">一篇教程</a>教你用x86的汇编做一个操作系统， 这里又有一篇文章向你展示了一个最最简单的操作系统内核，这个操作系统叫做<a href="http://www.retroprogramming.com/2011/03/itsy-os-simple-preemptive-switcher.html" target="_blank">Itsy-OS Kernel</a>，你可以看看。</li>
+</ul>
+<ul>
+<li>你还记得Google在四月一日愚人节那天搞的那个<a href="http://mail.google.com/mail/help/motion.html" target="_blank">Google Gmail Motion</a>吗？用你的body Language写邮件？呵呵，不过，某人使用微软的Kinect做到了，视频在这里：<a href="http://www.youtube.com/watch?v=Lfso7_i9Ko8" target="_blank">http://www.youtube.com/watch?v=Lfso7_i9Ko8</a>。项目主页在这里：<a href="http://projects.ict.usc.edu/mxr/faast/">http://projects.ict.usc.edu/mxr/faast/</a>。</li>
+<li>不知道你看过电影《创战纪》了吗？我个人觉得电影很一般。不过你想知道里面的一些特效是用什么样的技术怎么做的吗？呵呵，其中的一个程序员写了一篇博文 &#8211; “<a href="http://jtnimoy.net/workviewer.php?q=178" target="_blank">Tron Legacy</a>”，我看到了Unix, C++等。这篇文章很不错。</li>
+</ul>
+<p>好的，就这么多，也欢迎你分享你所看到的和听到的东西。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4220.html">一些有意思的文章和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4220.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的贴子和工具</title>
+		<link>https://coolshell.cn/articles/3903.html</link>
+					<comments>https://coolshell.cn/articles/3903.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 04 Mar 2011 00:25:39 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[CSS3]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[iPhone]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3903</guid>
+
+					<description><![CDATA[<p>又到了介绍各种杂项的时候了，正如以前的这三篇（这篇，这篇，和这篇）文章一样，本篇文章也给你介绍一些最近出现的一些有趣的东西。希望你能喜欢。 先说找工作吧，电影《...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3903.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3903.html">一些有意思的贴子和工具</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>又到了介绍各种杂项的时候了，正如以前的这三篇（<a title="一些非常有意思的杂项资源" href="https://coolshell.cn/articles/3013.html" target="_blank">这篇</a>，<a title="一些杂项资源" href="https://coolshell.cn/articles/3437.html" target="_blank">这篇</a>，和<a title="一些有意思的网站和贴子" href="https://coolshell.cn/articles/3480.html" target="_blank">这篇</a>）文章一样，本篇文章也给你介绍一些最近出现的一些有趣的东西。希望你能喜欢。</p>
+<p>先说找工作吧，电影《<a title="社交网络（豆瓣）" href="http://movie.douban.com/subject/3205624/" target="_blank">该页无法显示</a>》里的那个<a href="http://www.facebook.com" target="_blank">facebook</a>主页上的<strong><a title="FaceBook的招聘题" href="http://www.facebook.com/careers/puzzles.php" target="_blank">招聘网页</a></strong>上是列了一堆问题，你可以去看看，你可以使用c/c++，Erlang，Haskell，Java，Perl，Python，PHP，Ruby来解题，不过只接受Unix/Linux下的版本， 不接受Windows的版本。无独有偶，<a href="http://www.dropbox.com/" target="_blank">DropBox</a>的<strong><a title="DropBox的招聘题 " href="http://www.dropbox.com/jobs/challenges" target="_blank">招聘网页</a></strong>上也是些算法题，大家可以过去看看，不过需要翻墙。（现在，对于美国互联网企业来说，如果你没有被<a title="中国的C2C模式" href="https://coolshell.cn/articles/3820.html" target="_blank">C2C</a>，说明你根本不存在，如果你没有被墙，说明你还不算成功）</p>
+<p>接下来给大家介绍一些文档和教程吧，都是英文的。</p>
+<ul>
+<li><strong><a href="http://www.harding.edu/fmccown/java_csharp_comparison.html" target="_blank">Java和C#的完整比较</a></strong>。这是一个相当完整的比较Java和C#语言的网页。很有意思，有助于你了解Java和C#的各种特性和不同。</li>
+</ul>
+<ul>
+<li><strong><a href="http://use-the-index-luke.com/" target="_blank">SQL 性能调优</a></strong>。这个文档覆盖了<em>IBM DB2</em>, <em>MySQL</em>, <em>Oracle</em>,<em>PostgreSQL</em> 和 <em>Microsoft SQL Server</em>。不过这个电子书还没有写完，你可以使用其<a href="http://use-the-index-luke.com/blog/feed" target="_blank">RSS</a>, <a href="http://twitter.com/MarkusWinand">twitter</a> 或 <a title="Like on Facebook" href="http://www.facebook.com/plugins/like.php?href=http://www.facebook.com/pages/Use-The-Index-Luke/157726730906717?ref%3Dts&amp;layout=standard&amp;show_faces=true&amp;width=250&amp;action=like&amp;colorscheme=light&amp;height=80">Facebook</a> 来跟踪其进度。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.cleveralgorithms.com/" target="_blank">Clever Algorithms</a></strong>。这个电子书也是免费的。其主要面向一些AI和面向自然的算法，一共45个。其包括概率随机算法，迭代进化算法，物理算法，可能性算法，蚂蚁蜜蜂式算法，免疫算法，神经算法等。里面大量的高等数学公式对我来说我已经看不懂了。不过，我相信这个电子书非常适合搞理论研究的人，或是需要抄袭一篇论文以顺利毕业的人使用。</li>
+</ul>
+<ul>
+<li><strong><a href="http://blog.gingertech.net/wp-content/uploads/2011/01/LCA_MM_AVProc2011/#slide1" target="_blank">HTML5 Audio &amp; Video 处理</a></strong>。这是一组在线的幻灯片，请使用键盘光标键翻页。这是一组带着各种演示的幻灯片，对于你要学习HTML5的声音和视频相关的知识很有帮助。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.mikeash.com/pyblog/friday-qa-2010-12-31-c-macro-tips-and-tricks.html" target="_blank">C 语言的宏</a></strong>。你想知道C语的宏有哪些有些意思的用法吗？这篇文档不会让你失望的。其由浅入深地向你介绍了宏的各种用法。</li>
+</ul>
+<ul>
+<li><strong><a href="http://stringoftheseus.com/blog/2011/01/10/api-sorting-algorithms/" target="_blank">各种语言的排序算法</a></strong>。你想知道各种语言其默认的排序算法用的是<a title="一个排序算法比较的网站" href="https://coolshell.cn/articles/399.html" target="_blank">哪种排序算法</a>吗？看看这篇文章吧。</li>
+</ul>
+<ul>
+<li><strong><a href="http://fixplz.blourp.com/blog/=phys" target="_blank">物理模拟F#教程</a></strong>。相信你一定玩过那种游戏，画一个任意形状的石头，其会从天上落下以砸下面的一个东西，这个教程用.NET的F#向大家说明了这种东西怎么去做。（<a href="http://fixplz.blourp.com/blog/img/fsphys.rar" target="_blank">演示程序</a>）</li>
+</ul>
+<p><span id="more-3903"></span></p>
+<ul>
+<li><strong><a href="http://www.helixsoft.nl/articles/circle/sincos.htm" target="_blank">Sin &amp; Cos游戏教程</a></strong>。这篇文章向你介绍了一些游戏编程的技术。</li>
+</ul>
+<ul>
+<li><strong><a href="http://damienradtke.org/unofficial-introduction-to-gnome-application-dev/" target="_blank">GNOME开发介绍</a></strong>。这是一个非官方的介绍GNOME应用开发的教程，简单清楚，很适合初学者。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.korokithakis.net/tutorials/python" target="_blank">10分钟学会Python</a></strong>。是的，也许你和我一样，很恨这样几天就学好一门语言的书，比如：<a title="“21天教你学会C++”" href="https://coolshell.cn/articles/2250.html" target="_blank">21天学好C++</a>。这个更夸张，10分钟。TNND。不过，当我看了一下后，我觉得其很适合初学者对Python有一个感性的认识。</li>
+</ul>
+<ul>
+<li><strong><a href="http://nicolasgallagher.com/css-drop-shadows-without-images/" target="_blank">CSS阴影教程</a></strong>。这是一篇教你种CSS做出种式样式的阴影效果的教程，这里是<a href="http://nicolasgallagher.com/css-drop-shadows-without-images/demo/" target="_blank">演示</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://gergo.erdi.hu/blog/2011-02-13-developing_iphone_applications_in_haskell___a_tutorial/" target="_blank">用Haskell开发iPhone应用</a></strong>。这是一个教程序，告诉你如何用Haskell开发iOS的应用程序。</li>
+</ul>
+<p>下面，再让我给你介绍一些和Web开发相关的开源的库。</p>
+<ul>
+<li><strong><a href="http://www.photon-project.com/" target="_blank">Photon</a></strong>。这是一个号称高性能的轻量级的PHP应用服务器框架。号称比Zend，Symfony和mod_php快3-10倍。</li>
+</ul>
+<ul>
+<li><strong><a href="http://web.chemdoodle.com/" target="_blank">ChemDoodle</a></strong>。这是一个用来画一些化学分子式的基于HTML5的类库和API，支持2D/3D，很强大。兼容于所有产商的支持HTML5的浏览器。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.limejs.com/" target="_blank">LimeJS</a></strong>。这个JS库可以让你方便得制作一些触摸屏的小游戏。<a href="http://www.limejs.com/static/roundball/index.html" target="_blank">演示一</a>，<a href="http://www.limejs.com/static/zlizer/index.html" target="_blank">演示二</a>。（<a title="JS游戏引擎列表" href="https://coolshell.cn/articles/3516.html" target="_blank">一些游戏相关的JS</a>）</li>
+</ul>
+<ul>
+<li><strong><a href="https://github.com/ruidlopes/spellcheckthejs" target="_blank">拼写检查</a></strong>。这是一个英文拼写检查的JS。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.clips.ua.ac.be/pages/pattern" target="_blank">Pattern</a></strong>。这是东东很强大，用于做Web挖掘，其有一组工具用来从Google, Twitter, Wikipedia，Web爬虫，HTML上获得数据，并进行文本分析和数据图形化显示。你可以上这里看看<a href="http://www.clips.ua.ac.be/demos" target="_blank">相关演示</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.appcelerator.com/products/titanium-mobile-application-development/">Titanium Mobile</a></strong>。你想让你的代码同时支持iPhone和Android吗？这是一个跨平台的开发工具。这里有<a href="http://agiliq.com/blog/2011/02/iphoneandroid-application-development-using-titani/" target="_blank">一个教程</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://css3buttons.michaelhenriksen.dk/" target="_blank">CSS3的按钮</a></strong>。这里可以去下载一个CSS3的库，里面有N多的按钮风格，感觉都很酷。</li>
+</ul>
+<p>接下来，介绍一些小工具。</p>
+<ul>
+<li><strong><a href="http://caniuse.com/" target="_blank">Web兼容性表</a></strong>。你想看看各种浏览器对HTML5，CSS3，SVG的支持吗？这个网站可以让你看到所有的主流浏览器的兼容表。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.qgrep.com/" target="_blank">qgrep</a></strong>。嫌grep不够快吗？试试qgrep吧，支持OSX,  Linux 和 Windows。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.cam.hi-ho.ne.jp/oishi/indexen.html" target="_blank">XKeymacs</a></strong>。你有Emacs情结吗？如果有的话，试试这个工具吧，在windows里到处c-x c-c, c-x c-s, c-p, c-n什么什么的。挺有意思的。好吧，不是有意思，是BT。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.sublimetext.com/blog/articles/sublime-text-2-public-alpha" target="_blank">Sublime Text 2</a></strong>。虽然目前只是Alpha版本，但是这个看上去真的很不错。尤其是用来查看代码。支持Windows, Linux和OSX。</li>
+</ul>
+<ul>
+<li><strong><a href="http://code.google.com/p/vs-android/" target="_blank">VS-Android</a></strong>。这个项目让你可以在Visual Studio 2010的IDE下开发Android NDK C/C++的程序。</li>
+</ul>
+<p>其它东西。</p>
+<ul>
+<li><strong><a href="http://rigaux.org/language-study/scripting-language/" target="_blank">脚本语言排名</a></strong>。这个网页不但对所有的脚本语言进行了排名，还对一些操作进行了比较。</li>
+</ul>
+<ul>
+<li>HTML5的3D演示，这里有几个HTML5的3D演示，你可以看看，<a title="sketch/" href="http://hakim.se/experiments/html5/sketch/#1966de71" target="_blank">演示一</a>，<a title="蛋白质分子式" href="http://jolecule.appspot.com/pdb/1mbo#view:4mfct8" target="_blank">演示二</a>，<a title="立方体" href="http://dl.dropbox.com/u/59304/labs/cubeStable.html" target="_blank">演示三</a>，<a title="坦克游戏" href="http://dl.dropbox.com/u/59304/labs/tankGame.html" target="_blank">演示四</a>。</li>
+</ul>
+<ul>
+<li>说到Web上的3D，你可能需要看看Adobe的<a title="Molehill APIs" href="http://labs.adobe.com/technologies/flashplatformruntimes/incubator/features/molehill.html" target="_blank">Molehill (3D GPU accelerated) APIs</a>，这里有一篇<a href="http://www.bytearray.org/?p=2810" target="_blank">介绍文章</a>。</li>
+</ul>
+<ul>
+<li>还记得那个<a title="流体力学的演示" href="https://coolshell.cn/articles/3421.html" target="_blank">流体力学的演示</a>吗？现在有人把其做到了<a href="http://www.infi.nl/blog/view/id/98/Liquid_on_iPhone_and_iPad" target="_blank">iPhone/iPad上</a>。</li>
+</ul>
+<p>就这么多吧，也许没什么意思，那也请你见谅了。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3903.html">一些有意思的贴子和工具</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3903.html/feed</wfw:commentRss>
+			<slash:comments>24</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>（麻省理工免费课程）计算机科学和编程导论</title>
+		<link>https://coolshell.cn/articles/3723.html</link>
+					<comments>https://coolshell.cn/articles/3723.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 28 Feb 2011 00:25:07 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Course]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[MIT]]></category>
+		<category><![CDATA[Programming]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3723</guid>
+
+					<description><![CDATA[<p>以前本站推荐过麻省理工的C/C++的课程，今天在他们的网站看到上有一组关于计算机科学和编程导论的免费公开课（视频是Youtube的），我看了几个课程，我觉得讲得...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3723.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3723.html">（麻省理工免费课程）计算机科学和编程导论</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前本站推荐过<a href="https://coolshell.cn/articles/2474.html" target="_blank">麻省理工的C/C++的课程</a>，今天在他们的网站看到上有一组关于<a href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/" target="_blank">计算机科学和编程导论的免费公开课</a>（视频是Youtube的），我看了几个课程，我觉得讲得很系统啊，而且有一点一通百通的感觉。虽然是理论课，但是可以感到我国的教育还是有很大差距的。这个组课程推荐给大家（需要翻墙），视频都有字幕，计算机科学系毕业的同学应该会很容易听懂。强烈推荐。（网友Aslan指出已经有人搬运到优酷上了，<a href="http://www.youku.com/playlist_show/id_3940564_ascending_1_mode_pic_page_1.html" target="_blank">链接在这里</a>，遗憾的是没有字幕，另外，不知道为什么会说是Python学习）</p>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="1: Introduction and Goals; Data Types, Operators, and Variables" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-1">&nbsp;</p>
+<p></a><a title="1: Introduction and Goals; Data Types, Operators, and Variables" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-1"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-1/lec01.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">1: Introduction and Goals; Data Types, Operators, and Variables</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-1">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p0.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="2: Branching, Conditionals, and Iteration" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-2">&nbsp;</p>
+<p></a><a title="2: Branching, Conditionals, and Iteration" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-2"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-2/lec02.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">2: Branching, Conditionals, and Iteration</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-2">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p1.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="3: Common Code Patterns: Iterative Programs" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-3">&nbsp;</p>
+<p></a><a title="3: Common Code Patterns: Iterative Programs" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-3"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-3/lec03.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">3: Common Code Patterns: Iterative Programs</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-3">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p2.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<p><span id="more-3723"></span></p>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="4: Abstraction through Functions; Introduction to Recursion" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-4">&nbsp;</p>
+<p></a><a title="4: Abstraction through Functions; Introduction to Recursion" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-4"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-4/lec04.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">4: Abstraction through Functions; Introduction to Recursion</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-4">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p3.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="5: Floating Point Numbers, Successive Refinement, Finding Roots" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-5">&nbsp;</p>
+<p></a><a title="5: Floating Point Numbers, Successive Refinement, Finding Roots" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-5"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-5/lec05.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">5: Floating Point Numbers, Successive Refinement, Finding Roots</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-5">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p4.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="6: Bisection Methods, Newton/Raphson, Introduction to Lists" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-6">&nbsp;</p>
+<p></a><a title="6: Bisection Methods, Newton/Raphson, Introduction to Lists" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-6"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-6/lec06.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">6: Bisection Methods, Newton/Raphson, Introduction to Lists</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-6">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p5.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="7: Lists and Mutability, Dictionaries, Introduction to Efficiency" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-7">&nbsp;</p>
+<p></a><a title="7: Lists and Mutability, Dictionaries, Introduction to Efficiency" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-7"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-7/lec07.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">7: Lists and Mutability, Dictionaries, Introduction to Efficiency</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-7">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p6.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="8: Complexity: Log, Linear, Quadratic, Exponential Algorithms" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-8">&nbsp;</p>
+<p></a><a title="8: Complexity: Log, Linear, Quadratic, Exponential Algorithms" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-8"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-8/lec08.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">8: Complexity: Log, Linear, Quadratic, Exponential Algorithms</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-8">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p7.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="9: Binary Search, Bubble and Selection Sorts" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-9">&nbsp;</p>
+<p></a><a title="9: Binary Search, Bubble and Selection Sorts" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-9"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-9/lec09.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">9: Binary Search, Bubble and Selection Sorts</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-9">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p8.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="10: Divide and Conquer Methods, Merge Sort, Exceptions" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-10">&nbsp;</p>
+<p></a><a title="10: Divide and Conquer Methods, Merge Sort, Exceptions" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-10"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-10/lec10.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">10: Divide and Conquer Methods, Merge Sort, Exceptions</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-10">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p9.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="11: Testing and Debugging" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-11">&nbsp;</p>
+<p></a><a title="11: Testing and Debugging" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-11"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-11/lec11.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">11: Testing and Debugging</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-11">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p10.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="12: Debugging, Knapsack Problem, Introduction to Dynamic Programming" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-12">&nbsp;</p>
+<p></a><a title="12: Debugging, Knapsack Problem, Introduction to Dynamic Programming" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-12"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-12/lec12.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">12: Debugging, Knapsack Problem, Introduction to Dynamic Programming</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-12">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p11.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="13: Dynamic Programming: Overlapping Subproblems, Optimal Substructure" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-13">&nbsp;</p>
+<p></a><a title="13: Dynamic Programming: Overlapping Subproblems, Optimal Substructure" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-13"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-13/lec13.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">13: Dynamic Programming: Overlapping Subproblems, Optimal Substructure</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-13">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p12.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="14: Introduction to Object-oriented Programming" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-14">&nbsp;</p>
+<p></a><a title="14: Introduction to Object-oriented Programming" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-14"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-14/lec14.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">14: Introduction to Object-oriented Programming</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-14">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p13.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="15: Abstract Data Types, Classes and Methods" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-15">&nbsp;</p>
+<p></a><a title="15: Abstract Data Types, Classes and Methods" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-15"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-15/lec15.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">15: Abstract Data Types, Classes and Methods</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-15">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p14.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="16: Encapsulation, Inheritance, Shadowing" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-16">&nbsp;</p>
+<p></a><a title="16: Encapsulation, Inheritance, Shadowing" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-16"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-16/lec16.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">16: Encapsulation, Inheritance, Shadowing</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-16">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p15.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="17: Computational Models: Random Walk Simulation" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-17">&nbsp;</p>
+<p></a><a title="17: Computational Models: Random Walk Simulation" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-17"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-17/lec17.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">17: Computational Models: Random Walk Simulation</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-17">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p16.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="18: Presenting Simulation Results, Pylab, Plotting" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-18">&nbsp;</p>
+<p></a><a title="18: Presenting Simulation Results, Pylab, Plotting" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-18"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-18/lec18.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">18: Presenting Simulation Results, Pylab, Plotting</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-18">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p17.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="19: Biased Random Walks, Distributions" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-19">&nbsp;</p>
+<p></a><a title="19: Biased Random Walks, Distributions" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-19"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-19/lec19.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">19: Biased Random Walks, Distributions</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-19">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p18.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="20: Monte Carlo Simulations, Estimating pi" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-20">&nbsp;</p>
+<p></a><a title="20: Monte Carlo Simulations, Estimating pi" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-20"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-20/lec20.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">20: Monte Carlo Simulations, Estimating pi</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-20">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p19.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="21: Validating Simulation Results, Curve Fitting, Linear Regression" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-21">&nbsp;</p>
+<p></a><a title="21: Validating Simulation Results, Curve Fitting, Linear Regression" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-21"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-21/lec21.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">21: Validating Simulation Results, Curve Fitting, Linear Regression</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-21">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p20.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="22: Normal, Uniform, and Exponential Distributions" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-22">&nbsp;</p>
+<p></a><a title="22: Normal, Uniform, and Exponential Distributions" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-22"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-22/lec22.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">22: Normal, Uniform, and Exponential Distributions</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-22">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p21.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="23: Stock Market Simulation" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-23">&nbsp;</p>
+<p></a><a title="23: Stock Market Simulation" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-23"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-23/lec23.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">23: Stock Market Simulation</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-23">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p22.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<table width="100%">
+<tbody>
+<tr>
+<td width="120"><a title="24: Course Overview; What Do Computer Scientists Do?" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-24">&nbsp;</p>
+<p></a><a title="24: Course Overview; What Do Computer Scientists Do?" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-24"><img decoding="async" src="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-24/lec24.jpg" alt="" /></a></td>
+<td>
+<p class="mediatitle">24: Course Overview; What Do Computer Scientists Do?</p>
+<p><a class="bullet medialink" href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-00-introduction-to-computer-science-and-programming-fall-2008/video-lectures/lecture-24">Youtube（英文字幕）</a></p>
+<p><a href="http://v.youku.com/v_playlist/f4862914o1p23.html" target="_blank">优酷（无字幕）</a></td>
+</tr>
+</tbody>
+</table>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4657.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/05/OSS-License-150x150.jpg" alt="狗日的开源软件许可证" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4657.html" class="wp_rp_title">狗日的开源软件许可证</a></li><li ><a href="https://coolshell.cn/articles/2474.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="（麻省理工免费课程）C语言内存管理和C++面向对象编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2474.html" class="wp_rp_title">（麻省理工免费课程）C语言内存管理和C++面向对象编程</a></li><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat-150x150.png" alt="Go编程模式：修饰器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_title">Go编程模式：修饰器</a></li><li ><a href="https://coolshell.cn/articles/17757.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/04/IMG_7411-150x150.jpg" alt="如何重构“箭头型”代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17757.html" class="wp_rp_title">如何重构“箭头型”代码</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3723.html">（麻省理工免费课程）计算机科学和编程导论</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3723.html/feed</wfw:commentRss>
+			<slash:comments>171</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>几篇技术文章</title>
+		<link>https://coolshell.cn/articles/3311.html</link>
+					<comments>https://coolshell.cn/articles/3311.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 25 Nov 2010 01:04:54 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Database]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[Perl]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3311</guid>
+
+					<description><![CDATA[<p>The Art of Unix http://www.faqs.org/docs/artu/ Perl for Impatient Developer http...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3311.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3311.html">几篇技术文章</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>The Art of Unix</strong></p>
+<p><a href="http://www.faqs.org/docs/artu/" target="_blank">http://www.faqs.org/docs/artu/</a></p>
+<p><strong>Perl for Impatient Developer</strong></p>
+<p><a href="http://blob.perl.org/books/impatient-perl/iperl.pdf" target="_blank">http://blob.perl.org/books/impatient-perl/iperl.pdf</a></p>
+<p><strong>Game Development with Javascript</strong></p>
+<p><a href="http://www.brighthub.com/hubfolio/matthew-casperson/blog/archive/2009/06/29/game-development-with-javascript-and-the-canvas-element.aspx" target="_blank">http://www.brighthub.com/hubfolio/matthew-casperson/blog/archive/2009/06/29/game-development-with-javascript-and-the-canvas-element.aspx</a></p>
+<p><strong>Introduction to x64 Assembly</strong></p>
+<p><a href="http://software.intel.com/en-us/articles/introduction-to-x64-assembly/" target="_blank">http://software.intel.com/en-us/articles/introduction-to-x64-assembly/</a></p>
+<p><strong>Database Fundamental</strong></p>
+<p><a href="https://www.ibm.com/developerworks/wikis/display/db2oncampus/FREE+ebook+-+Database+fundamentals">https://www.ibm.com/developerworks/wikis/display/db2oncampus/FREE+ebook+-+Database+fundamentals</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="最为奇怪的程序语言的特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_title">最为奇怪的程序语言的特性</a></li><li ><a href="https://coolshell.cn/articles/1850.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/programming_language-150x150.jpg" alt="Javascript程序员嘴最脏??" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1850.html" class="wp_rp_title">Javascript程序员嘴最脏??</a></li><li ><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="到处都是Unix的胎记" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_title">到处都是Unix的胎记</a></li><li ><a href="https://coolshell.cn/articles/1042.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/06/linux_tutorials-150x150.jpg" alt="Linux/Unix 新手和专家教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1042.html" class="wp_rp_title">Linux/Unix 新手和专家教程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3311.html">几篇技术文章</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3311.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>两本电子书</title>
+		<link>https://coolshell.cn/articles/3270.html</link>
+					<comments>https://coolshell.cn/articles/3270.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 08 Nov 2010 03:47:09 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[book]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[Windows]]></category>
+		<category><![CDATA[Windows Phone 7]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3270</guid>
+
+					<description><![CDATA[<p>Learn Python The Hard Way (pdf) Programming Windows Phone 7 (Charles Petzold) （转...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3270.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3270.html">两本电子书</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://learnpythonthehardway.org/static/LearnPythonTheHardWay.pdf" target="_blank"><strong>Learn Python The Hard Way (pdf)</strong></a></p>
+<p style="text-align: center;"><strong> </strong></p>
+<figure id="attachment_3272" aria-describedby="caption-attachment-3272" style="width: 245px" class="wp-caption aligncenter"><a href="http://learnpythonthehardway.org/static/LearnPythonTheHardWay.pdf"><img decoding="async" loading="lazy" class="size-full wp-image-3272" title="Learn Python The Hard Way" src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way.jpg" alt="" width="245" height="320" srcset="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way.jpg 245w, https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-230x300.jpg 230w, https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-207x270.jpg 207w" sizes="(max-width: 245px) 100vw, 245px" /></a><figcaption id="caption-attachment-3272" class="wp-caption-text">Learn Python The Hard Way</figcaption></figure>
+<p><a href="http://download.microsoft.com/download/5/0/A/50A39509-D015-410F-A8F2-A5511E5A988D/Microsoft_Press_ebook_Programming_Windows_Phone_7_PDF.pdf" target="_blank"><strong>Programming Windows Phone 7 (Charles Petzold)</strong></a></p>
+<p><figure id="attachment_3271" aria-describedby="caption-attachment-3271" style="width: 245px" class="wp-caption aligncenter"><a href="http://download.microsoft.com/download/5/0/A/50A39509-D015-410F-A8F2-A5511E5A988D/Microsoft_Press_ebook_Programming_Windows_Phone_7_PDF.pdf"><img decoding="async" loading="lazy" class="size-full wp-image-3271" title="Programming Windows Phone 7 by Charles Petzold" src="https://coolshell.cn/wp-content/uploads/2010/11/Free-Ebook-Programming-Windows-Phone-7-by-Charles-Petzold.jpg" alt="" width="245" height="299" /></a><figcaption id="caption-attachment-3271" class="wp-caption-text">Programming Windows Phone 7 by Charles Petzold</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-150x150.jpg" alt="一些非常不错的资料" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_title">一些非常不错的资料</a></li><li ><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/22.jpg" alt="免费电子书列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_title">免费电子书列表</a></li><li ><a href="https://coolshell.cn/articles/1157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="Python 自然语言处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1157.html" class="wp_rp_title">Python 自然语言处理</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3270.html">两本电子书</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3270.html/feed</wfw:commentRss>
+			<slash:comments>10</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些非常不错的资料</title>
+		<link>https://coolshell.cn/articles/3192.html</link>
+					<comments>https://coolshell.cn/articles/3192.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 18 Oct 2010 01:38:51 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[All-In-One Framework]]></category>
+		<category><![CDATA[book]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Intel]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[Microsoft]]></category>
+		<category><![CDATA[VB.NET]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3192</guid>
+
+					<description><![CDATA[<p>一、Intel 给开发人员推荐的资料列表（2010年下半年） 其中包含了 硬件：硬件，电源，存储，无线 软件：多线程和多核技术，高性能计算，图形游戏，用户关注 ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3192.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3192.html">一些非常不错的资料</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<h4>一、<a href="http://www.intel.com/technology/rr/RRlist.pdf" target="_blank">Intel 给开发人员推荐的资料列表（2010年下半年）</a></h4>
+<figure id="attachment_3197" aria-describedby="caption-attachment-3197" style="width: 500px" class="wp-caption aligncenter"><a href="http://www.intel.com/technology/rr/RRlist.pdf" target="_blank"><img decoding="async" loading="lazy" class="size-full wp-image-3197 " title="Intel Recommended Books for Developers" src="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers.jpg" alt="" width="500" height="317" srcset="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-300x190.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-426x270.jpg 426w" sizes="(max-width: 500px) 100vw, 500px" /></a><figcaption id="caption-attachment-3197" class="wp-caption-text">Intel Recommended Books for Developers</figcaption></figure>
+<p>其中包含了</p>
+<ul>
+<li>硬件：硬件，电源，存储，无线</li>
+<li>软件：多线程和多核技术，高性能计算，图形游戏，用户关注</li>
+<li>嵌入式：设计，软件，操作系统，安全，优化。</li>
+<li>IT部门：策略和决策，服务器和数据中心，客户端</li>
+</ul>
+<p><span id="more-3192"></span></p>
+<p style="padding-left: 30px;"><span style="color: #ffffff;">－－</span></p>
+<h4>二、<a href="http://jqfundamentals.com/book/" target="_blank">jQuery Fundamentals</a></h4>
+<figure id="attachment_3196" aria-describedby="caption-attachment-3196" style="width: 500px" class="wp-caption aligncenter"><a href="http://jqfundamentals.com/book/" target="_blank"><img decoding="async" loading="lazy" class="size-full wp-image-3196 " title="jQuery Fundamentals" src="https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals.jpg" alt="" width="500" height="314" srcset="https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals-300x188.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a><figcaption id="caption-attachment-3196" class="wp-caption-text">jQuery Fundamentals</figcaption></figure>
+<p>这可能是我见过写得最好的jQuery教程了，大量的示例，只是没有时间和精力，不然一定全部翻译过来。</p>
+<figure id="attachment_3195" aria-describedby="caption-attachment-3195" style="width: 500px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-3195 " title="jQuery Fundamentals - Code Example" src="https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals-Code-Example.jpg" alt="" width="500" height="263" srcset="https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals-Code-Example.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals-Code-Example-300x157.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /><figcaption id="caption-attachment-3195" class="wp-caption-text">jQuery Fundamentals - Code Example</figcaption></figure>
+<p>还有其它关于jQuery的文章，你还可以查看《<a rel="bookmark" href="https://coolshell.cn/articles/2964.html" target="_blank">25个jQuery的编程小抄</a>》</p>
+<p style="padding-left: 30px;"><span style="color: #ffffff;">－－</span></p>
+<h4>三、<a href="http://www.htdp.org/2003-09-26/Book/" target="_blank">How to Design Programs</a></h4>
+<figure id="attachment_3194" aria-describedby="caption-attachment-3194" style="width: 500px" class="wp-caption aligncenter"><a href="http://www.htdp.org/2003-09-26/Book/" target="_blank"><img decoding="async" loading="lazy" class="size-full wp-image-3194 " title="How to Design Programs" src="https://coolshell.cn/wp-content/uploads/2010/10/How-to-Design-Programs.jpg" alt="" width="500" height="344" srcset="https://coolshell.cn/wp-content/uploads/2010/10/How-to-Design-Programs.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/How-to-Design-Programs-300x206.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a><figcaption id="caption-attachment-3194" class="wp-caption-text">How to Design Programs</figcaption></figure>
+<p>想学学如何设计程序吗？英国剑桥大学写的，MIT出版的，希望你能看看，非常不错。</p>
+<p style="padding-left: 30px;"><span style="color: #ffffff;">－－</span></p>
+<h4>四、<a href="http://1code.codeplex.com/" target="_blank">Microsoft All-In-One Code Framework</a></h4>
+<figure id="attachment_3193" aria-describedby="caption-attachment-3193" style="width: 500px" class="wp-caption aligncenter"><a href="http://1code.codeplex.com/" target="_blank"><img decoding="async" loading="lazy" class="size-full wp-image-3193" title="Microsoft All-In-One Code Framework" src="https://coolshell.cn/wp-content/uploads/2010/10/Microsoft-All-In-One-Code-Framework.jpg" alt="" width="500" height="388" srcset="https://coolshell.cn/wp-content/uploads/2010/10/Microsoft-All-In-One-Code-Framework.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/Microsoft-All-In-One-Code-Framework-300x232.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a><figcaption id="caption-attachment-3193" class="wp-caption-text">Microsoft All-In-One Code Framework</figcaption></figure>
+<p>C++/C#/VB.NET的一站式代码和资料，还有coding standard，也是很不错的。</p>
+<p>——————————————————————</p>
+<p>查看《<a rel="bookmark" href="https://coolshell.cn/articles/2775.html">免费电子书列表</a>》查看更多的电子书。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/22.jpg" alt="免费电子书列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_title">免费电子书列表</a></li><li ><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt=".NET代码转换器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_title">.NET代码转换器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3192.html">一些非常不错的资料</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3192.html/feed</wfw:commentRss>
+			<slash:comments>12</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些非常有意思的杂项资源</title>
+		<link>https://coolshell.cn/articles/3013.html</link>
+					<comments>https://coolshell.cn/articles/3013.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 28 Sep 2010 00:38:34 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[GUI]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Structure Synth]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3013</guid>
+
+					<description><![CDATA[<p>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3013.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇文章，这样有利于减轻本站的负载，也有利于节省网络带宽，同样，也就节省了能力和电力，因此也就很环保，很低碳。呵呵。</p>
+<ul>
+<li>先是一个《Windows Internal》第五版的第五章的电子版（英文的），你可以在<a href="http://download.sysinternals.com/Files/WindowsInternals-Ch05.pdf" target="_blank"><strong>这里下载</strong></a>。关于其它一些电子书，你可以看看本站的这篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/240.html">非常不错的编程技术教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/336.html">超过100本的linux免费书籍</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/355.html">20本最好的Linux免费书籍</a>》</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><a href="http://www.3dtin.com/" target="_blank"><strong>http://www.3dtin.com/</strong></a>是一个用纯Javascript搞的一个3D作图的网站，Javascript是越来越强大了。这个演示可以让你看到以后Web应用的潜力。关于<a href="https://coolshell.cn/articles/tag/javascript" target="_blank">Javascript的一些东西</a>，你可以参看本站的这些文章《<a rel="bookmark" href="https://coolshell.cn/articles/2785.html" target="_blank">JS1K 演示</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2276.html" target="_blank">又一个Javascript试验田</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2065.html" target="_blank">一个Windows 3.1的Web网站</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1932.html" target="_blank">哥是玩程序的</a>》。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到这些很酷很炫的东西，大家一定会想到使用Flash，不过，目前的<a href="https://coolshell.cn/articles/2735.html" target="_blank">Flash正在受到HTML5的强力挑战</a>，目前，对于HTML5的展示网站很多，让我们看到了HTML5完全可以做出Flash的样子，比如前些天本站说到的<a href="https://coolshell.cn/articles/2926.html" target="_blank">这个演示</a>，还有给大家展示的<a href="https://coolshell.cn/articles/2998.html" target="_blank">纯HTML5的小游戏</a>，不过，那些都是一些演示和展示罢了。今天在网上看到一个更强大的HTML5游戏，相当有可玩性，大家不妨一去试玩：<strong><a href="http://www.phoboslab.org/biolab/" target="_blank">http://www.phoboslab.org/biolab/</a></strong></li>
+</ul>
+<p><a href="http://www.phoboslab.org/biolab/"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3017" title="一个很不错的HTML5游戏" src="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg" alt="" width="483" height="321" srcset="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg 483w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-300x199.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-406x270.jpg 406w" sizes="(max-width: 483px) 100vw, 483px" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>HTML5 可以应用的还不只是游戏，这不，<a href="http://thechangelog.com/post/1097381443/vexflow-html5-canvas-javascript-library-music-and-guitar" target="_blank">有文章指出</a>，用<a href="http://www.vexflow.com/" target="_blank"><strong>VexFlow</strong></a>还可以很轻松地在网页上发布乐谱。而<a href="http://stepheneisenhauer.com/demos/drummachine/" target="_blank"><strong>这个网页</strong></a>还可以让你制作Hi-PoP音乐。</li>
+</ul>
+<p style="text-align: center;"><a href="http://www.vexflow.com/"><img decoding="async" loading="lazy" src="http://cl.ly/c4f966c6d51cfc9be20b/content" alt="Rendered music" width="530" height="240" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到Web开发，就得要提CSS了，这里有一个在线编辑CSS的网站，很不错，<a href="http://css3.mikeplate.com/" target="_blank"><strong>http://css3.mikeplate.com/</strong></a>。关于CSS和Web开发的一些文章，你可以查看本站的<a href="https://coolshell.cn/articles/tag/css" target="_blank">CSS的Tag</a>。现在，这种在线的东西是越来越多了，比如：《<a rel="bookmark" href="https://coolshell.cn/articles/2271.html" target="_blank">Emacs配色在线生成器</a><span style="font-weight: normal; font-size: 13px;">》、《</span><a rel="bookmark" href="https://coolshell.cn/articles/1883.html" target="_blank">Coderun.com 在线开发IDE</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1830.html" target="_blank">正则表达式生成器</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1611.html" target="_blank">Ajax开发利器UIzard</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/776.html" target="_blank">一个在线的画UML图的网站</a>》。</li>
+</ul>
+<p><span id="more-3013"></span></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起在线服务，就不得不说说在线代码编译的服务，我觉得这种服务相当好，不需要你在本机安装编译器或IDE，想试试某个语言的语法，真接上网就OK，很方便。以前本站向大家介绍过《<a rel="bookmark" href="https://coolshell.cn/articles/1310.html" target="_blank">在线代码编译服务Codepad.org</a>》其支持：C，C++，D，Haskell，Lua，OCaml，PHP，Perl，Plain Text，Python，Ruby，Scheme，Tcl。当然，在这里，向你介绍一个可以运行Go语言的：<strong><a href="http://golang.org/doc/play/" target="_blank">http://golang.org/doc/play/</a></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web开发，很自然的就能想到UI。下面是一个<a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns" target="_blank"><strong>UI的设计Patterns</strong></a>，这篇文章告诉了我们12个比较常用或是经典的图形UI Patterns。关于<a href="https://coolshell.cn/articles/tag/ui" target="_blank">UI方面的话题</a>，你可以参看酷壳的《<a rel="bookmark" href="https://coolshell.cn/articles/363.html" target="_blank">35个强大的UI设计教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1907.html" target="_blank">UI的恶梦</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/2313.html" target="_blank">史上最糟糕的网站</a>》。</li>
+</ul>
+<p><a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns"><img decoding="async" loading="lazy" class="aligncenter" title="12个标准的图形UI设计模式" src="http://theresaneil.files.wordpress.com/2008/12/standard_screen_patterns.png" alt="" width="476" height="705" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web的界面，最让各位WEB开发者痛苦的就是网页兼容性问题，IE是一个恶梦，因为其自己和自己都不兼容，在MSDN上，有这样的一个网页说明了<a href="http://msdn.microsoft.com/en-us/library/cc351024" target="_blank"><strong>从IE5一直到IE9的CSS的兼容性问题</strong></a>，很多很多的表格，头都看大了。当然，以前本站的《<a rel="bookmark" href="https://coolshell.cn/articles/757.html" target="_blank">检查网页浏览器的兼容性</a>》的文章向你介绍过如何查看网站在不同浏览器中和操作系统下的效果（其也是一个在线服务）。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>当然，Web上的开发，问题最大的还是安全问题，我们的Ruby on Rails给出了一个<a href="http://guides.rubyonrails.org/security.html" target="_blank"><strong>Web安全的开发教程</strong></a>，相当不错哦。谈到了几乎所有最有威胁和最常用的网上攻击，这个文档应该是所有Web开发者都需要注意的。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>下面是一个给新手学习linux用的一个桌面（点击图片看大图），其列出了很多常用的命令，以及VI的常用命令。关于VI的一些东西，你可以查看<a href="https://coolshell.cn/articles/tag/vim" target="_blank">本站的这些文章</a>，如：<a rel="bookmark" href="https://coolshell.cn/articles/1651.html" target="_blank">VIM有趣的命令</a>、<a rel="bookmark" href="https://coolshell.cn/articles/894.html" target="_blank">如何在vim中得到你最喜爱的IDE特性</a></li>
+</ul>
+<p style="text-align: center;"><a href="http://i.imgur.com/CJkR9.png"><img decoding="async" loading="lazy" class="aligncenter" title="Linux命令桌面" src="http://i.imgur.com/CJkR9.png" alt="" width="553" height="346" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>最后，给大家介绍一个关于文件格式方面东西，我们知道，很多文件的开头表明着这个文件的类型，所以，有这样的一个网站了维护了这么一个信息列表，其把几乎所有常见的文件头的那段和文件类型相关的Magic Number列了出来，而且还保持更新，非常不错哦，这个网站是：<strong><a href="http://www.garykessler.net/library/file_sigs.html">http://www.garykessler.net/library/file_sigs.html</a><span style="font-weight: normal;">，希望能对你有用哦。</span></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><strong><span style="font-weight: normal;">最最后，给大家介绍一个开源项目，叫<a href="http://structuresynth.sourceforge.net/" target="_blank"><strong>Structure Synth</strong></a>，这个东西可以用来画出一些很酷的图，相当不错，使用起来非常简单，我试用了一下，的确很强大。用一些简单的脚本就可以作出很不错的3D图，下面是他的一个示例，只需要写那么不到10行的代码，很简单。</span></strong></li>
+</ul>
+<p><a href="http://structuresynth.sourceforge.net/index.php"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3018" title="Structure Synth" src="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg" alt="" width="500" height="301" srcset="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth-300x180.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a></p>
+<p style="padding-left: 60px;">想看看，大家用这个东西做什么酷图了吗？上 <a href="http://www.flickr.com/groups/structuresynth/" target="_blank">http://www.flickr.com/groups/structuresynth/</a> 看看吧。</p>
+<p id="pool_4652540301" style="text-align: center;"><a title="structure 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540301/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4029/4652540301_db50832fdc_t.jpg" border="0" alt="structure 作者 Supreet Kumar" width="100" height="56" /></a> <a title="architecture x-ray 2 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540021/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4044/4652540021_0f17294ca5_t.jpg" border="0" alt="architecture x-ray 2 作者 Supreet Kumar" width="100" height="62" /></a> <a title="perspective 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4650270228/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4002/4650270228_8cc69948bc_t.jpg" border="0" alt="perspective 作者 Supreet Kumar" width="100" height="60" /></a> <a title="snake shade 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4649663253/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4042/4649663253_aa041ab239_t.jpg" border="0" alt="snake shade 作者 Supreet Kumar" width="100" height="57" /></a> <a title="thatched beauty 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641732162/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3414/4641732162_e2b078825f_t.jpg" border="0" alt="thatched beauty 作者 Supreet Kumar" width="100" height="63" /></a><br />
+<a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055399/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3353/4641055399_25688820a9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="70" /></a> <a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055019/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4064/4641055019_6ed80cd1b9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="65" /></a> <a title=" 作者 FracturedPixel" href="http://www.flickr.com/photos/cav666/4640849748/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4062/4640849748_0532451842_t.jpg" border="0" alt=" 作者 FracturedPixel" width="100" height="63" /></a> <a title="splash1 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4636427318/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4008/4636427318_c84acf4aa4_t.jpg" border="0" alt="splash1 作者 Supreet Kumar" width="100" height="63" /></a> <a title="joy 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4635820649/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4012/4635820649_720cd6599b_t.jpg" border="0" alt="joy 作者 Supreet Kumar" width="100" height="53" /></a></p>
+<p id="pool_4635820649">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3013.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>实用Android开发工具和资源精选</title>
+		<link>https://coolshell.cn/articles/2853.html</link>
+					<comments>https://coolshell.cn/articles/2853.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Thu, 26 Aug 2010 00:43:01 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[App Inventor]]></category>
+		<category><![CDATA[ebook]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2853</guid>
+
+					<description><![CDATA[<p>出处：A Useful Selection of Android Developer Tools and Resources 在google、开源平台，和来自移...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2853.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2853.html">实用Android开发工具和资源精选</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>出处</strong>：<a href="http://speckyboy.com/2010/08/04/a-useful-selection-of-android-developer-tools-and-resources/">A Useful Selection of Android Developer Tools and Resources</a></p>
+<p>在google、开源平台，和来自移动电话制造商HTC,Samsung和Sony Ericsson的支持下，Android平台在市场占有率上相比去年取得的886%增长！如果我只看增长率，IPhone据统计才有61%的增长。这些数据可以给你关于两个平台流行度的印像，但是事实上，这些数据告诉了智能机开发员的谁才是真正的赢家。在时下，智能机越来越流行，因此成为一个快速增长的Android平台的智能机开发人员将会是一个不错的选择。</p>
+<p>相比较其他的平台，Android不依赖于任何约束第三方应用程序的私有的操作系统（题外话：美国最近<a href="http://www.bbc.co.uk/news/technology-10836692">宣布</a>对于IPhone的破解和越狱是合法行为），Android本身就是开源的。由于开源，Android有巨大的开发社区支持。各种个样的例子和教程，GUI素材，和开发工具下载。几乎所有的都是免费提供的。我们选出接近20个可以免费或开源的，工具，资源，开发指南。希望这些资源能给你的Android应用带来帮助。<br />
+<strong> 相关文章参看:</strong></p>
+<ul>
+<li><a href="http://speckyboy.com/2010/05/10/android-app-developers-gui-kits-icons-fonts-and-tools/">Android App Developers GUI Kits, Icons, Fonts and Tools →</a></li>
+<li><a href="http://speckyboy.com/2010/04/30/iphone-and-ipad-development-gui-kits-stencils-and-icons/">iPhone and iPad Development GUI Kits, Stencils and Icons →</a></li>
+<li><a href="http://speckyboy.com/2010/04/12/mobile-web-and-app-development-testing-and-emulation-tools/">Mobile Web and App Development Testing and Emulation Tools →</a></li>
+<li><a href="http://speckyboy.com/2010/03/08/14-free-mobile-app-development-icon-sets/">14 Free Mobile Application Development Icon Sets →</a></li>
+</ul>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_01.jpg" alt="" /></p>
+<p><span id="more-2853"></span></p>
+<h3><a href="http://andbook.anddev.org/">免费的Android开发人员电子书:andbook</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_02.jpg" alt="" /></p>
+<p>如果你刚步入Android的开发，那么对于第一次开发Android应用程序的你来说，这本书是非常适合的。这本只有62页的PDF电子书里，有简单易懂的入门教程，帮助你在没有任何Android开发知识的背景下，教你开发Android应用程序。<br />
+<a href="http://andbook.anddev.org/">Free Android Developer Ebook: andbook! →</a></p>
+<h3><a href="http://kronox.org/documentacion/Professional_Android_Application_Development.pdf">免费的Android开发人员电子书:专业Android应用程序开发</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_03.jpg" alt="" /></p>
+<p>专业Android应用程序开发PDF电子书，是一本创建移动手机应用程序的上手指南，这本书特点简洁，还有着能帮助你快速构建真实Android移动电话应用程序的典型的例子。本书覆盖了Android手机所有本质特性，并同时展示了Android手机的高级特性。<br />
+<a href="http://kronox.org/documentacion/Professional_Android_Application_Development.pdf">Free Android Developer Ebook: Professional Android Application Development →</a></p>
+<h3>免费和开源的应用程序</h3>
+<ul>
+<li><a href="http://code.google.com/p/apps-for-android/">apps-for-android (Open Source Applications) →<br />
+</a>这个链接中包含了许多实用的开源的Android应用程序。这些应用程序展示了Android的许多特性。</li>
+</ul>
+<ul>
+<li><a href="http://developer.android.com/resources/samples/index.html">List of Sample Android Apps →</a>（<strong>译者注：</strong>我勒个擦！墙掉了，中国Android开发人员杯具了，看来官方不给力啊，这次元还真是不毛之地啊）<br />
+这个Web页面是一个Android开发包中的实例程序列表。使用这个页面上的链接，你可以通过你的浏览器来阅读这些例子程序的源代码。你也可以把这些实例程序下载下来，当你需要的时候，你可以修改并使用他们。</li>
+</ul>
+<ul>
+<li><a href="http://code.google.com/p/android-cookbook/">Android Cookbook (Examples in Cookbook Form) →<br />
+</a>这个站点有很多实用的Android示例程序，你完全可以重用这些例子。</li>
+</ul>
+<ul>
+<li><a href="http://www.openintents.org/en/">OpenIntents →<br />
+</a>OpenIntends 设计和实现了开放式 intents和接口，其使得Android移动应用程序能更紧密的结合在一起。同时OpenIntends免费的提供了更专业和复杂的实例应用程序来演示他们的用法。</li>
+</ul>
+<ul>
+<li><a href="http://www.androidsnippets.org/">Android Snippets (Share Useful Snippets of Source Code) →<br />
+</a>Android Snippets 是一个Android的实用代码段库，这个库是用来分享实用和优秀的Android应用程序代码；如果没有特别的需求，我们可以大量的重用这些代码库。</li>
+</ul>
+<h3><a href="http://www.addictivetips.com/windows-tips/download-google-android-emulator/">Windows上的Android</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_10.jpg" alt="" /></p>
+<p>对于那些想测试驱动Android的开发者，可以使用这个Android模拟器，这个模拟器以单独的应用程序的形式独立运行在Windows PC之上，使用这个模拟器不用下载和完全安装复杂的Android开发包。你甚至可以在这个模拟器上安装和测试Android系统兼容的应用程序。<br />
+<a href="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator on Windows →</a></p>
+<h3><a href="http://developer.android.com/guide/developing/tools/emulator.html">来自应用程序开发入门的Android模拟器</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_11.jpg" alt="" /></p>
+<p>Android的开发包中包含了一个移动设备模拟器。这个模拟器模仿了典型移动设备的硬件和软件特性(当然，不包含打电话)。这个模拟器提供各种个样的导航和控制按键，可以使用你的鼠标和键盘来“按”下这些按键为你的应用程序生成事件。这个模拟器也提供一个屏幕为你显示应用程序。同时，SDK中提供了很多能在模拟器上运行的应用程序。<br />
+<a href="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator from The Developer’s Guide →</a></p>
+<h3><a href="http://www.openintents.org/en/node/23">感应模拟器</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_12.jpg" alt="" /></p>
+<p>感应模拟器是一个JAVA独立应用程序，感应模拟器模拟感应数据并把数据传给Android模拟器。这个感应模拟器可以让你模拟加速度仪器，指南针，和方向感应，这些数据可以用于Android应用程序，并通过感应器进行控制。<br />
+<a href="http://www.openintents.org/en/node/23">SensorSimulator →</a></p>
+<h3><a href="http://github.com/commonsguy/droidex">DroidEx:大（巨）屏上的Android项目</a></h3>
+<p>DroidEx 可以让你附加的Android设备的显示屏内容复制一份到你的开发机屏幕。使用DroidEx来做演示是非常有用的。因为你可以把你的Android设备连接到你的笔记本电脑上或投影仪上，你的客户就可以通过这些设备来看你Android设备上的内容。DroidEx还可以用来演示那些用模拟器不方便演示的内容，比如说GPS或加速度仪器等内容。<br />
+<a href="http://github.com/commonsguy/droidex">DroidEx: Projecting Android on the Big(ger) Screen →</a></p>
+<h3><a href="http://appinventor.googlelabs.com/about/">Android的App Inventor</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_13.jpg" alt="" /><br />
+Android 的App Inventor是来自Google为非开发人员准备的新工具，通过这个工具，非开发人员可以非常容易地在里面创建应用程序。可以通过网站的视屏来预览这个工具的功能特性。(你可以参看酷壳的<a href="https://coolshell.cn/articles/2608.html" target="_blank">这篇文章</a>)</p>
+<p>(<strong>译者注：</strong>这里还有一个youtube视屏，可惜也墙掉了）<br />
+<a href="http://developer.android.com/guide/appendix/faq/commontasks.html"></a></p>
+<h3><a href="http://developer.android.com/guide/appendix/faq/commontasks.html">如何开发Android中的常用任务</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_04.jpg" alt="" /></p>
+<p>这是一个关于Android开发可能遇到的常用任务列表集合，并提供了一个快速、 how-to方式的帮助，来帮助你完成这些任务。</p>
+<p><a href="http://developer.android.com/guide/appendix/faq/commontasks.html">Common Tasks and How to Do Them in Android→</a></p>
+<h3><a href="http://andblogs.net/fastboot/">快速启动小抄</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_14.jpg" alt="" /></p>
+<p>快速启动小抄是一个非常实用和快速的列表，这个列表中罗列一些关于快速启动的相关任务。<br />
+<a href="http://andblogs.net/fastboot/">Fastboot Cheat Sheet →</a></p>
+<h3><a href="http://developer.android.com/guide/practices/ui_guidelines/index.html">UI指导原则</a></h3>
+<p>在这里你可以找一些到官方文章的连接，这些连接来自于“The Developer&#8217;s Guide”。这些文章的内容描述了关于Android可视交互应用程序的UI设计开发的指导原则。</p>
+<ul>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html">Icon Design Guidelines →</a></li>
+<li>图标指导原则描述每类图标的细节，并做关于尺寸，颜色，阴影其他的细节的规范，根据这些规范你的设计的图标可以适用于Android系统。你也可以下载Android图标模板包，这个包里面是一些Photoshop和Illustrator模板和滤镜文件，通过这个模板包你可以更简单的创建满足规范的图标。</li>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html#templatespack">Download the Android Icon Templates Pack</a></li>
+<li>控件设计指导描述了如何设计适合其他主页屏的控件。这个连接会连接到一些图形文件和模板，通过这些模板和文件可以使你设计更简单。</li>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/widget_design.html">Widget Design Guidelines →</a></li>
+<li>Activity和Task设计指导描述了活动的工作方式，并用图解示例演示了Activity，并描述了其重要的底层机制和原理，如多任务系统，Activity重用，intents，Activity栈，和Task。以设计层面的角度覆盖了活动的所有内容。</li>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/activity_task_design.html">Activity and Task Design Guidelines →</a></li>
+<li>菜单设计指导描述了上下文菜单和选项菜单的不同。如何放置菜单项，何时放置屏幕命令，和其他的一些菜单细节。</li>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/widget_design.html">Menu Design Guidelines →</a></li>
+</ul>
+<p><strong><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-1-layouts">理解Android中的用户接口 来自于</a><a href="http://mobiforge.com/">mobiforge.com</a></strong></p>
+<p>这4部分的文档来自于<a href="http://mobiforge.com/">mobiforge.com</a>,文档中包含了组成Android UI的各种要素。文档的第一部分讨论Android中各种各样的有效的的布局。</p>
+<ol>
+<li>
+<ol>
+<li><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-1-layouts">Understanding User Interface in Android – Part 1 →</a></li>
+<li><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-2-views">Understanding User Interface in Android – Part 2 →</a></li>
+<li><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-3-more-views">Understanding User Interface in Android – Part 3 →</a></li>
+<li><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-4-even-more-views">Understanding User Interface in Android – Part 4 →</a></li>
+</ol>
+</li>
+</ol>
+<h3><a href="http://www.androidpatterns.com/">Android UI模式</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_16.jpg" alt="" /></p>
+<p><a href="http://www.androidpatterns.com/">Android UI Patterns →</a></p>
+<h3><a href="http://www.droiddraw.org/" target="_blank">DroidDraw:Android用户接口图形编辑器</a></h3>
+<p style="text-align: left;"><a href="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_19.jpg"><img decoding="async" loading="lazy" class="size-full wp-image-2868 alignnone" title="android_dev_19" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_19.jpg" alt="" width="300" height="223" /></a></p>
+<p>DroidDraw是一个为Android创建图形用户界面的UI设计器。它是一个独立的可执行程序，可以运行在Mac OS X，Windows和Linux上。</p>
+<p><a href="http://www.droiddraw.org/">DroidDraw : Graphical User Interface Editor for Android →</a></p>
+<h3><a href="http://www.smashingmagazine.com/2009/08/18/android-gui-psd-vector-kit/">Android GUI PSD 向量包</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_20.jpg" alt="" /></p>
+<p>Android GUI Starter Kit包里面包含了多个按钮元素和不同接口选项的AndroidGUI内容。这些元素是基于Android1.5 GUI的，并且这些包里面的被提供给开源社区的Android应用程序模型。大部分的GUI元素和手机图例都是使用向量路径制成，所以他们非常地容易被缩放。对于文本AndroidSans包被使用。<br />
+<a href="http://www.smashingmagazine.com/2009/08/18/android-gui-psd-vector-kit/">Android GUI PSD Vector Kit →</a></p>
+<h3><a href="http://unitid.nl/2009/11/fireworks-template-for-android/">Android的Firworks Template</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_22.jpg" alt="" /></p>
+<p>在Fireworks模板中，Android的各种元素被以向量图形的方式被重绘。在目录中，这些元素的名称大多根据Android词汇表被命名。<br />
+<a href="http://unitid.nl/2009/11/fireworks-template-for-android/">Fireworks Template for Android →</a></p>
+<h3><a href="http://www.tomhume.org/2010/01/android-wireframe-templates.html">Android线框模板 </a></h3>
+<p>线框PDF是信纸大小（8.5英寸 * 11英寸）并且各部件都被拉伸。因此你可以非常容易的以纸张原型或拉伸为真实尺寸的方式来使用。如果你没有信纸，你可以用A4纸来打印。<br />
+<a href="http://www.tomhume.org/2010/01/android-wireframe-templates.html">Android Wireframe Templates →</a><br />
+你也可以参考：</p>
+<ul>
+<li><a href="http://speckyboy.com/2010/05/10/android-app-developers-gui-kits-icons-fonts-and-tools/">Android App Developers GUI Kits, Icons, Fonts and Tools →</a></li>
+<li><a href="http://speckyboy.com/2010/04/30/iphone-and-ipad-development-gui-kits-stencils-and-icons/">iPhone and iPad Development GUI Kits, Stencils and Icons →</a></li>
+<li><a href="http://speckyboy.com/2010/04/12/mobile-web-and-app-development-testing-and-emulation-tools/">Mobile Web and App Development Testing and Emulation Tools →</a></li>
+<li><a href="http://speckyboy.com/2010/03/08/14-free-mobile-app-development-icon-sets/">14 Free Mobile Application Development Icon Sets →</a></li>
+<li><a href="http://speckyboy.com/2009/09/15/45-cool-google-android-apps-the-perfect-iphone-replacement/">45+ Cool Google Android Apps – The Perfect iPhone Replacement →</a></li>
+</ul>
+<p><strong>（全文完）</strong><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-150x150.jpg" alt="Google App Inventor " width="150" height="150" /></a><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_title">Google App Inventor </a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2853.html">实用Android开发工具和资源精选</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2853.html/feed</wfw:commentRss>
+			<slash:comments>36</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>免费电子书列表</title>
+		<link>https://coolshell.cn/articles/2775.html</link>
+					<comments>https://coolshell.cn/articles/2775.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Wed, 04 Aug 2010 10:37:59 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[book]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[ebook]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2775</guid>
+
+					<description><![CDATA[<p>在StackOverflow上，有人要打算收集个免费电子书的列表，结果很快就有人分享了一个列表。很不错，我就转过来了。原帖的地址在http://stackove...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2775.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2775.html">免费电子书列表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在StackOverflow上，有人要打算收集个免费电子书的列表，结果很快就有人分享了一个列表。很不错，我就转过来了。原帖的地址在<a href="http://stackoverflow.com/questions/194812/list-of-freely-available-programming-books">http://stackoverflow.com/questions/194812/list-of-freely-available-programming-books</a> （注意：有些连接可能会被墙掉）</p>
+<p>List of Free Programming books (compiled):  <strong>Meta-List</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.htdp.org/2003-09-26/Book/">How to Design Programs: An Introduction to Computing and Programming</a></li>
+<li><a rel="nofollow" href="http://www.coderholic.com/25-free-computer-science-books/">25 Free Computer Science Ebooks</a></li>
+<li><a rel="nofollow" href="http://www.freetechbooks.com/">Free Tech Books</a></li>
+<li><a rel="nofollow" href="http://www.mindviewinc.com/Books/">MindView Inc</a> (List of Free Books)</li>
+<li><a rel="nofollow" href="http://en.wikibooks.org/wiki/Category%3aProgramming">Wikibooks: Programming</a></li>
+<li><a rel="nofollow" href="http://en.wikibooks.org/wiki/Category%3aProgramming"></a><a rel="nofollow" href="http://refcardz.dzone.com/">Cheat Sheets (Free)</a></li>
+<li><a rel="nofollow" href="http://blogs.msdn.com/wriju/archive/2009/01/07/free-ebooks-at-codeplex.aspx">CodePlex List of Free E-Books</a></li>
+<li><a rel="nofollow" href="http://www.booktraining.net/">Book Training &#8211; On Video!</a></li>
+<li><a rel="nofollow" href="http://www.spmn.com/products_guidebooks.html">Sofware Program Managers Network &#8211; Free EBooks</a></li>
+<li><a rel="nofollow" href="http://www.linbai.info/">EBook Share @ linbai.info</a></li>
+<li><a rel="nofollow" href="http://www.freebooksclub.net/">FreeBooksClub.Net</a></li>
+<li><a rel="nofollow" href="http://theassayer.org/">Theassayer.org</a> (Free Online books)</li>
+<li><a rel="nofollow" href="http://oreilly.com/openbook/">O&#8217;Reilly&#8217;s Open Books Project</a></li>
+<li><a rel="nofollow" href="http://www.techbooksforfree.com/">TechBooksForFree.com</a></li>
+<li><a rel="nofollow" href="http://www.galileocomputing.de/katalog/openbook">Galileo Computing</a> (Free Downloadable German Books)</li>
+</ul>
+<p><span id="more-2775"></span><strong>Graphics Programming</strong></p>
+<ul>
+<li>Nvidia <a rel="nofollow" href="http://http.developer.nvidia.com/GPUGems/gpugems_part01.html">GPU Gems 1</a></li>
+<li>Nvidia <a rel="nofollow" href="http://http.developer.nvidia.com/GPUGems2/gpugems2_part01.html">GPU Gems 2</a></li>
+<li>Nvidia <a rel="nofollow" href="http://http.developer.nvidia.com/GPUGems3/gpugems3_part01.html">GPU Gems 3</a></li>
+<li><a rel="nofollow" href="http://www.gamedev.net/reference/articles/article1698.asp">Graphics Programming Black Book</a></li>
+</ul>
+<p><strong>Language Agnostic</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://codebetter.com/files/folders/codebetter_downloads/entry179694.aspx">Foundations of Programming</a> by Karl Seguin</li>
+<li><a rel="nofollow" href="http://scpd.stanford.edu/knuth/index.jsp">Computer Musings</a> (Lectures by Donald Knuth)</li>
+<li><a rel="nofollow" href="http://www.catb.org/esr/writings/cathedral-bazaar/">The Cathedral and the Bazaar</a> (Introduction to Open Source Software)</li>
+<li><a rel="nofollow" href="http://www.codeplex.com/AppArchGuide">Patterns and Practices: Application Architecture Guide 2.0</a></li>
+<li><a rel="nofollow" href="http://www.cl.cam.ac.uk/~rja14/book.html">Security Engineering</a></li>
+<li><a rel="nofollow" href="http://www.dspguide.com/">Digital Signal Processing For Engineers and Scientists</a></li>
+<li><a rel="nofollow" href="http://gettingreal.37signals.com/">Getting Real</a> (Courtesy <a rel="nofollow" href="http://37signals.com/">37 Signals</a>)</li>
+<li><a rel="nofollow" href="http://mitpress.mit.edu/sicp/">Structure and Interpretation of Computer Programs</a></li>
+<li><a rel="nofollow" href="http://www.infoq.com/minibooks/domain-driven-design-quickly">Domain Driven Design Quickly</a></li>
+<li><a rel="nofollow" href="http://homepage.mac.com/s_lott/books/oodesign.html">OO Design</a></li>
+<li><a rel="nofollow" href="http://smartbear.com/codecollab-code-review-book.php">Best Kept Secrets of Peer Code Review</a></li>
+<li><a rel="nofollow" href="http://www.scribd.com/doc/7181362/NASA-Software-Measurement-Guidebook">NASA Software Measurement Handbook</a></li>
+<li><a rel="nofollow" href="http://homepages.inf.ed.ac.uk/dts/pm/Papers/nasa-manage.pdf">NASA Manager Handbook for Software Development</a></li>
+<li><a rel="nofollow" href="http://www.cl.cam.ac.uk/teaching/Lectures/funprog-jrh-1996/">Introduction to Functional Programming</a> &#8211; Class Lectures and Slides</li>
+<li><a rel="nofollow" href="http://www.htdp.org/">How to Design Programs</a> &#8211; MIT Press</li>
+<li><a rel="nofollow" href="http://www.swebok.org/stoneman/trial_1_00.html">Guide to the Software Engineering Body of Knowledge</a> &#8211; IEEE Computer Society Press</li>
+<li><a rel="nofollow" href="http://ocw.mit.edu/OcwWeb/web/home/home/index.htm">Online Course Materials</a> &#8211; MIT</li>
+<li><a rel="nofollow" href="http://www.cs.berkeley.edu/~vazirani/algorithms.html">Algorithms</a> (Draft Copy)</li>
+<li><a rel="nofollow" href="http://dotnetslackers.com/projects/Data-Structures-And-Algorithms/">Data Structures and Algorithms</a></li>
+<li><a rel="nofollow" href="http://www.agileskills.org/download.html.en">Essential Skills for Agile Development</a></li>
+<li><a rel="nofollow" href="http://www.cs.brown.edu/~sk/Publications/Books/ProgLangs/">Programming Languages: Application and Interpretation</a></li>
+<li><a rel="nofollow" href="http://pine.fm/LearnToProgram/">Learn to Program</a></li>
+<li><a rel="nofollow" href="http://www.dreamsongs.com/Files/PatternsOfSoftware.pdf">Patterns of Software: Tales from the Software Community</a></li>
+<li><a rel="nofollow" href="http://freeworld.thc.org/root/phun/unmaintain.html">How to write Unmaintainable Code</a></li>
+<li><a rel="nofollow" href="http://catb.org/esr/writings/taoup/html/">The Art of Unix Programming</a></li>
+<li><a rel="nofollow" href="http://nexus.realtimepublishers.com/dgbcq.php">The Definitive Guide to Building Code Quality</a></li>
+<li><a rel="nofollow" href="http://openbookproject.net/thinkcs/cpp.php">How to Think Like a Computer Scientist</a></li>
+<li><a rel="nofollow" href="http://planning.cs.uiuc.edu/">Planning Algorithms</a></li>
+<li><a rel="nofollow" href="http://greenteapress.com/semaphores/">The Little Book of Semaphores</a></li>
+<li><a rel="nofollow" href="http://www.ii.uib.no/~michal/und/i227/book/book.pdf">Mathematical Logic &#8211; an Introduction</a></li>
+<li><a rel="nofollow" href="http://www.cse.ohio-state.edu/~gurari/theory-bk/theory-bk.html">An Introduction to the Theory of Computation</a></li>
+<li><a rel="nofollow" href="http://devshaped.com/book">Developers Developers Developers Developers</a></li>
+<li><a rel="nofollow" href="http://www.iecc.com/linker/">Linkers and loaders</a></li>
+<li><a rel="nofollow" href="http://beej.us/guide/bgnet/">Beej&#8217;s Guide to Network Programming</a></li>
+<li><a rel="nofollow" href="http://www.infoq.com/minibooks/domain-driven-design-quickly">Domain Driven Design Quickly</a></li>
+<li><a rel="nofollow" href="http://compilers.iecc.com/crenshaw/">Let&#8217;s Build a Compiler</a></li>
+<li><a rel="nofollow" href="http://producingoss.com/">Producing Open Source Software</a></li>
+<li><a rel="nofollow" href="http://www.lindaspaces.com/book/">How to Write Parallel Programs</a></li>
+<li><a rel="nofollow" href="http://www.neildavidson.com/dontjustrollthedice.html">Don&#8217;t Just Roll the Dice</a></li>
+</ul>
+<p><strong>ASP.NET MVC</strong>:</p>
+<ul>
+<li><a rel="nofollow" href="http://weblogs.asp.net/scottgu/archive/2009/03/10/free-asp-net-mvc-ebook-tutorial.aspx">NerdDinner Walkthrough</a></li>
+</ul>
+<p><strong>Assembly Language</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://download.savannah.gnu.org/releases/pgubook/ProgrammingGroundUp-1-0-booksize.pdf">ProgrammingGroundUp</a></li>
+<li><a rel="nofollow" href="http://drpaulcarter.com/pcasm/">Paul Carter&#8217;s Tutorial on x86 Assembly</a></li>
+<li><a rel="nofollow" href="http://www.agner.org/optimize/">Software optimization resources by Agner Fog</a></li>
+</ul>
+<p><strong>Bash</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://tldp.org/LDP/abs/html/">Advanced Bash-Scripting Guide</a></li>
+</ul>
+<p><strong>C/C++</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.knosof.co.uk/cbook/cbook.html">The new C standard &#8211; an annotated reference</a></li>
+<li><a rel="nofollow" href="http://publications.gbdirect.co.uk/c_book/">The C book</a></li>
+<li><a rel="nofollow" href="http://www.mindview.net/Books/TICPP/ThinkingInCPP2e.html">Thinking in C++, Second Edition</a></li>
+<li><a rel="nofollow" href="http://cppannotations.sourceforge.net/">C++ Annotations</a></li>
+<li><a rel="nofollow" href="http://www.agner.org/optimize/">Software optimization resources by Agner Fog</a></li>
+<li><a rel="nofollow" href="http://cartan.cas.suffolk.edu/oopdocbook/opensource/index.html">Introduction to Design Patterns in C++ with Qt 4</a> (Open Publication License)</li>
+</ul>
+<p><strong>C#</strong></p>
+<ul>
+<li>See <strong>.NET</strong> below</li>
+</ul>
+<p><strong>Django</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://djangobook.com/">Djangobook.com</a></li>
+</ul>
+<p><strong>Forth</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://home.iae.nl/users/mhx/sf.html">Starting Forth</a></li>
+</ul>
+<p><strong>Git</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://progit.org/book/">Pro Git</a></li>
+<li><a rel="nofollow" href="http://book.git-scm.com/index.html">The Git Community Book</a></li>
+</ul>
+<p><strong>Haskell</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://learnyouahaskell.com/chapters">Learn You a Haskell</a></li>
+<li><a rel="nofollow" href="http://book.realworldhaskell.org/read/">Real World Haskell</a></li>
+</ul>
+<p><strong>Java</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://java.sun.com/docs/books/tutorial/">Sun&#8217;s Java Tutorials</a></li>
+<li><a rel="nofollow" href="http://www.mindview.net/Books/TIJ/">Thinking in Java</a></li>
+<li><a rel="nofollow" href="http://openbookproject.net/thinkcs/java.php">How to Think Like a Computer Scientist</a></li>
+<li><a rel="nofollow" href="http://www.redbooks.ibm.com/redbooks/SG245118.html">Java Thin-Client Programming</a></li>
+<li><a rel="nofollow" href="http://s3.amazonaws.com/neilbartlett.name/osgibook_preview_20090110.pdf">OSGi in Practice</a> (CreativeCommons Attribution Non-commercial Share Alike License)</li>
+</ul>
+<p><strong>JavaScript</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://eloquentjavascript.net/">Eloquent JavaScript</a></li>
+<li><a rel="nofollow" href="http://www.crockford.com/javascript/">Crockford&#8217;s JavaScript</a></li>
+<li><a rel="nofollow" href="http://www.rebeccamurphey.com/jqfundamentals/">jQuery Fundamentals</a> (starts with JS basics)</li>
+</ul>
+<p><strong>Linux</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.advancedlinuxprogramming.com/">Advanced Linux Programming</a></li>
+</ul>
+<p><strong>Lisp</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.gigamonkeys.com/book/">Practical Common Lisp</a></li>
+<li><a rel="nofollow" href="http://www.paulgraham.com/onlisp.html">On Lisp</a></li>
+<li><a rel="nofollow" href="http://www.paulgraham.com/acl.html">ANSI Common Lisp</a></li>
+<li><a rel="nofollow" href="http://www.cs.cmu.edu/Groups/AI/html/cltl/mirrors.html">Common Lisp the Language, 2nd Edition</a></li>
+<li><a rel="nofollow" href="http://psg.com/~dlamkins/sl/contents.html">Successful Lisp</a></li>
+<li><a rel="nofollow" href="http://letoverlambda.com/index.cl/toc">Let Over Lamda &#8211; 50 Years of Lisp</a></li>
+</ul>
+<p><strong>Lua</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.lua.org/pil/">Programming In Lua</a> (for v5 but still largely relevant)</li>
+</ul>
+<p><strong>Maven</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.maestrodev.com/better-build-maven">Better Builds with Maven</a></li>
+<li><a rel="nofollow" href="http://www.sonatype.com/books/mvnex-book/reference/public-book.html">Maven by Example</a></li>
+<li><a rel="nofollow" href="http://www.sonatype.com/books/maven-book/reference/">Maven: The Definitive Guide</a></li>
+</ul>
+<p><strong>Mercurial</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://hgbook.red-bean.com/">Mercurial: The Definitive Guide</a></li>
+<li><a rel="nofollow" href="http://hginit.com/">HGInit &#8211; Mercurial Tutorial by Joel Spolsky</a></li>
+</ul>
+<p><strong>.NET (C#)</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.programmersheaven.com/2/CSharpBook">Free C# Book</a> Covers C#1.0 and 2.0 (Courtesy of <a rel="nofollow" href="http://www.programmersheaven.com/">Programmers Heaven</a>)</li>
+<li><a rel="nofollow" href="http://www.infoq.com/minibooks/vsnettt">Visual Studio Tips and Tricks</a></li>
+<li><a rel="nofollow" href="http://weblogs.asp.net/zeeshanhirani/archive/2008/12/05/my-christmas-present-to-the-entity-framework-community.aspx">Entity Framework</a> (514 pages)</li>
+<li><a rel="nofollow" href="http://www.charlespetzold.com/dotnet/index.html">Charles Petzold&#8217;s .Net Book 0</a></li>
+<li><a rel="nofollow" href="http://www.albahari.com/threading/">Threading in C#</a></li>
+<li><a rel="nofollow" href="http://www.csharpcourse.com/">C# Yellow Book</a> (Intro to programming)</li>
+<li><a rel="nofollow" href="http://en.wikibooks.org/wiki/C_Sharp_Programming">C# Programming &#8211; Wikibook</a></li>
+<li><a rel="nofollow" href="http://www.techotopia.com/index.php/C_Sharp_Essentials">C# Essentials</a></li>
+<li><a rel="nofollow" href="http://www.brpreiss.com/books/opus6/">Data Structures and Algorithms with Object-Oriented Design Patterns in C#</a></li>
+<li><a rel="nofollow" href="http://downloads.red-gate.com/ebooks/DotNet/illustratedcsharp2008.zip">Illustrated C# 2008</a> (Download) (<strong>.ZIP</strong>) [dead link]</li>
+<li><a rel="nofollow" href="http://www.red-gate.com/products/ants_performance_profiler/be_ahead_of_the_game_ebook.htm?utm_source=simpletalk&amp;utm_medium=email&amp;utm_content=nlv_aheadofgame-ebook&amp;utm_campaign=antsperformanceprofiler">O&#8217;Reilly&#8217;s C# Pocket Reference Manual</a> (<em>Free Ebook courtesy of <a rel="nofollow" href="http://red-gate.com/">Red Gate Software</a></em>) [dead link]</li>
+</ul>
+<p><strong>NoSQL</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://books.couchdb.org/relax/">CouchDB: The Definitive Guide</a></li>
+</ul>
+<p><strong>Objective-C</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://developer.apple.com/DOCUMENTATION/Cocoa/Conceptual/ObjectiveC/">The Objective-C Programming Language</a></li>
+</ul>
+<p><strong>Parrot / Perl 6</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://github.com/perl6/book/">Perl 6</a> (Work in progress)</li>
+</ul>
+<p><strong>Perl</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://hop.perl.plover.com/book/">Higher Order Perl</a></li>
+<li><a rel="nofollow" href="http://www.greenteapress.com/perl/">Perl The Hard Way</a></li>
+<li><a rel="nofollow" href="http://www.extremeperl.org/bk/home">Extreme Perl</a></li>
+<li><a rel="nofollow" href="http://linkmingle.com/list/13-plus-List-of-Free-Great-Perl-Books-available-Online-freebooksandarticles">Perl Free Online EBooks</a> <strong>Meta-List</strong></li>
+<li><a rel="nofollow" href="http://www.masonbook.com/book/">The Mason Book</a></li>
+<li><a rel="nofollow" href="http://modperlbook.org/">Practical mod_perl</a></li>
+<li><a rel="nofollow" href="http://www.perl.org/books/beginning-perl/">Beginning Perl</a></li>
+<li><a rel="nofollow" href="http://www.masonbook.com/book/">Embedding Perl in HTML with Mason</a> (Open Publication License)</li>
+<li><a rel="nofollow" href="http://lwp.interglacial.com/index.html">Perl &amp; LWP</a></li>
+<li><a rel="nofollow" href="http://www.globalspin.com/thebook/">Perl for the Web</a></li>
+<li><a rel="nofollow" href="http://oreilly.com/openbook/webclient/">Web Client Programming with Perl</a></li>
+<li><a rel="nofollow" href="http://github.com/chromatic/modern_perl_book/">Modern Perl 5</a> (Work in progress)</li>
+</ul>
+<p><strong>PHP</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.ipbwiki.com/Practical_PHP_Programming%3aTable_Of_Contents">Practical PHP Programming</a> (Wiki that contains O&#8217;Reilly&#8217;s <em>PHP In a Nutshell</em>)</li>
+<li><a rel="nofollow" href="http://www.survivethedeepend.com/">Zend Framework: Survive the Deep End</a></li>
+</ul>
+<p><strong>PowerShell</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://powershell.com/cs/blogs/ebook/">Mastering PowerShell</a></li>
+</ul>
+<p><strong>Prolog</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.amzi.com/ExpertSystemsInProlog/">Building Expert Systems in Prolog</a></li>
+<li><a rel="nofollow" href="http://www.amzi.com/AdventureInProlog/advfrtop.htm">Adventure in Prolog</a></li>
+<li><a rel="nofollow" href="http://computing.unn.ac.uk/staff/cgpb4/prologbook/">Prolog Programming A First Course</a></li>
+<li><a rel="nofollow" href="http://www.ida.liu.se/~ulfni/lpp/">Logic, Programming and Prolog (2ed)</a></li>
+<li><a rel="nofollow" href="http://www.j-paine.org/prolog/mathnotes/files/pms/pms.html">Introduction to Prolog for Mathematicians</a></li>
+<li><a rel="nofollow" href="http://www.learnprolognow.org/">Learn Prolog Now!</a></li>
+<li><a rel="nofollow" href="http://cs.union.edu/~striegnk/courses/nlp-with-prolog/html/">Natural Language Processing Techniques in Prolog</a></li>
+</ul>
+<p><strong>PostgreSQL</strong></p>
+<ul><a rel="nofollow" href="http://cs.union.edu/~striegnk/courses/nlp-with-prolog/html/"> </a></p>
+<li><a rel="nofollow" href="http://www.commandprompt.com/ppbook/">Practical PostgreSQL</a></li>
+</ul>
+<p><strong>Python</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://diveintopython.org/">Dive Into Python</a></li>
+<li><a rel="nofollow" href="http://diveintopython3.org/">Dive Into Python 3</a></li>
+<li><a rel="nofollow" href="http://www.swaroopch.com/notes/Python">Byte of Python</a></li>
+<li><a rel="nofollow" href="http://homepage.mac.com/s_lott/books/python.html">Building Skills in Python Version 2.5</a></li>
+<li><a rel="nofollow" href="http://linkmingle.com/list/List-of-Free-Online-Python-Books-freebooksandarticles">Python Free Online Ebooks</a> <strong>Meta-List</strong></li>
+<li><a rel="nofollow" href="http://openbookproject.net/pybiblio/">Python Bibliotheca</a></li>
+<li><a rel="nofollow" href="http://www.greenteapress.com/thinkpython/thinkpython.pdf">Think Python</a></li>
+<li><a rel="nofollow" href="http://www.brpreiss.com/books/opus7/html/book.html">Data Structures and Algorithms in Python</a></li>
+<li><a rel="nofollow" href="http://www.greenteapress.com/thinkpython/thinkCSpy/">How to Think Like a Computer Scientist: Learning with Python</a></li>
+<li><a rel="nofollow" href="http://www.openbookproject.net/py4fun/">Python for Fun</a></li>
+<li><a rel="nofollow" href="http://inventwithpython.com/">Invent Your Own Computer Games With Python</a></li>
+<li><a rel="nofollow" href="http://www.mindview.net/Books/TIPython/">Thinking in Python</a></li>
+<li><a rel="nofollow" href="http://djangobook.com/">The Django Book</a></li>
+<li><a title="SWFK" rel="nofollow" href="http://www.briggs.net.nz/log/writing/snake-wrangling-for-kids/">Snake Wrangling For Kids</a></li>
+</ul>
+<p><strong>Ruby</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.ruby-doc.org/docs/ProgrammingRuby/">Programming Ruby</a></li>
+<li><a rel="nofollow" href="http://mislav.uniqpath.com/poignant-guide/">Why&#8217;s (Poignant) Guide to Ruby</a> (<a rel="nofollow" href="http://www.scribd.com/doc/2236084/Whys-Poignant-Guide-to-Ruby">Mirror</a> via <a rel="nofollow" href="http://www.scribd.com/">Scribd</a>)</li>
+<li><a rel="nofollow" href="http://www.humblelittlerubybook.com/">Mr. Neighborly&#8217;s Humble Little Ruby Book</a></li>
+<li><a rel="nofollow" href="http://rubybestpractices.com/">Ruby Best Practices</a></li>
+<li><a rel="nofollow" href="http://macruby.labs.oreilly.com/">MacRuby: The Definitive Guide</a></li>
+<li><a rel="nofollow" href="http://www.railstutorial.org/">Ruby on Rails Tutorial: Learn Rails By Example</a></li>
+</ul>
+<p><strong>Scala</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.scala-lang.org/docu/files/ScalaTutorial.pdf">A Scala Tutorial for Java programmers</a></li>
+<li><a rel="nofollow" href="http://www.scala-lang.org/docu/files/ScalaByExample.pdf">Scala By Example</a></li>
+<li><a rel="nofollow" href="http://programming-scala.labs.oreilly.com/index.html">Programing Scala</a></li>
+<li><a rel="nofollow" href="http://github.com/leithaus/XTrace/tree/monadic/src/main/book/content/">Xtrace</a> (Github)</li>
+<li><a rel="nofollow" href="http://github.com/tjweir/liftbook">List</a> (Github)</li>
+<li><a rel="nofollow" href="http://github.com/leithaus/XTrace/tree/monadic/src/main/book/content/">Pro Scala: Monadic Design Patterns for the Web</a></li>
+<li><a rel="nofollow" href="http://github.com/tjweir/liftbook">Exploring Lift</a> (published earlier as &#8220;The Definitive Guide to Lift&#8221;, <a rel="nofollow" href="http://groups.google.com/group/the-lift-book">pdf</a>)</li>
+</ul>
+<p><strong>Scheme</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.scheme.com/tspl4/">The Scheme Programming Language (Edition 4)</a></li>
+</ul>
+<p><strong>SmallTalk</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://stephane.ducasse.free.fr/FreeBooks.html">SmallTalk Free Ebooks</a> <em>Courtesy of Stéphane Ducasse</em></li>
+<li><a rel="nofollow" href="http://www.squeakbyexample.org/">Squeak By Example</a> (Smalltalk IDE)</li>
+</ul>
+<p><strong>Subversion</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.phptr.com/content/images/0131855182/downloads/Nagel_book.pdf">Subversion Version Control: Using the Subversion Version Control System in Development Projects</a></li>
+</ul>
+<p><strong>*<em>SQL (Implementation agnostic) *</em> </strong></p>
+<li><a rel="nofollow" href="http://www.cs.arizona.edu/people/rts/publications.html">Developing Time-Oriented Database Applications in SQL</a>,Richard T. Snodgrass</li>
+<p><strong>Vim</strong></p>
+<ul>
+<li><a rel="nofollow" href="http://www.swaroopch.com/notes/Vim">A Byte of Vim</a></li>
+</ul>
+<p>你有和我们分享的计算机电子书列表吗？欢迎在回复中和我们分享。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-150x150.jpg" alt="一些非常不错的资料" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_title">一些非常不错的资料</a></li><li ><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-150x150.png" alt="给程序员的VIM速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_title">给程序员的VIM速查卡</a></li><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2775.html">免费电子书列表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2775.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>（免费在线）新书推荐：搜索的用户界面</title>
+		<link>https://coolshell.cn/articles/1163.html</link>
+					<comments>https://coolshell.cn/articles/1163.html#comments</comments>
+		
+		<dc:creator><![CDATA[mailper]]></dc:creator>
+		<pubDate>Thu, 16 Jul 2009 13:23:39 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[GUI]]></category>
+		<category><![CDATA[UI]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1163</guid>
+
+					<description><![CDATA[<p>题外话：剑桥大学出版社很有意思，允许作者把书的全部内容放在网上，例如：Christopher D. Manning, Prabhakar Raghavan an...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1163.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1163.html">（免费在线）新书推荐：搜索的用户界面</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>题外话：剑桥大学出版社很有意思，允许作者把书的全部内容放在网上，例如：<a href="http://nlp.stanford.edu/~manning/">Christopher D. Manning</a>, <a href="http://theory.stanford.edu/people/raghavan/">Prabhakar Raghavan</a> and <a href="http://www-csli.stanford.edu/~hinrich">Hinrich Schütze</a>,<a href="http://www-csli.stanford.edu/~hinrich/information-retrieval-book.html"> </a><em><a href="http://www-csli.stanford.edu/~hinrich/information-retrieval-book.html">Introduction to Information Retrieval</a></em>, Cambridge University Press. 2008.</p>
+<p>《<a href="http://searchuserinterfaces.com/book/">搜索的用户界面</a>》的作者<a href="http://people.ischool.berkeley.edu/~hearst/">Marti Hearst</a>是加州大学伯克利分校研究信息可视化的一位大儒，她有很多带有认知心理学加设计的尝试，在信息检索这门学科里的信息可视化领域很有地位。我斗胆把她的新书的梗概在这里描述一下，习惯看英文的朋友们可以点击链接去看英文原文，不喜欢看英文的朋友们可以有选择的看看我这里的总结，然后硬硬头皮，跳进去啃一些具体章节吧。本书可能收益的人有：对搜索有兴趣的学生，工业界做设计和评估的专业人士，对技术中的人本主义感兴趣的人，书痴。</p>
+<p><span id="more-1163"></span></p>
+<blockquote><p>译文：<a href="http://searchuserinterfaces.com/book/sui_ch0_preface.html">本书综述</a></p>
+<p>本书概括了信息寻找过程中人的方面，并专注于其中被用户界面可以支持的方面。本书描述一些用户界面的一般方法论，尤其是搜索的用户界面以及如何评估好的搜索界面。本书讨论了以下几个领域的研究成果和工业实践： 查询的界定，搜索结果的显示，搜索结果分组，信息内的浏览导航，用户重新界定查询，个人化的搜索，以及更广义上的信息使用和文本分析。大多数的讨论还是和网页搜索引擎相关，但是本书也照顾到了其他类型的搜索。如下章节：</p>
+<ol>
+<li>搜索界面的设计</li>
+<li>评估搜索界面</li>
+<li>信息搜寻的模型</li>
+<li>界定查询</li>
+<li>搜索结果的呈现</li>
+<li>用户重新界定搜索</li>
+<li>支持搜索过程的一些手段：搜索历史，在搜索结果中再搜索，帮助用户理解如何更好搜索</li>
+<li>整合浏览导航和搜索</li>
+<li>搜索过程中的个人化</li>
+<li>搜索界面的可视化（如何呈现搜索结果）</li>
+<li>文本分析中的可视化</li>
+<li>搜索界面中的一些新趋势</li>
+</ol>
+<div id="_mcePaste" style="overflow: hidden; position: absolute; left: -10000px; top: 108px; width: 1px; height: 1px;">本书是以前98年一个经典书的扩充和更新：Modern Information Retrieval, Baeza-Yates and Ribeiro-Neto (Eds.), Addison Wesley</div>
+</blockquote>
+<p>本书是以前98年一个经典书的扩充和更新：<em>Modern Information Retrieval</em>, Baeza-Yates and Ribeiro-Neto (Eds.), Addison Wesley<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3723.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="（麻省理工免费课程）计算机科学和编程导论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3723.html" class="wp_rp_title">（麻省理工免费课程）计算机科学和编程导论</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1163.html">（免费在线）新书推荐：搜索的用户界面</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1163.html/feed</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Python 自然语言处理</title>
+		<link>https://coolshell.cn/articles/1157.html</link>
+					<comments>https://coolshell.cn/articles/1157.html#comments</comments>
+		
+		<dc:creator><![CDATA[mailper]]></dc:creator>
+		<pubDate>Wed, 15 Jul 2009 14:41:56 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[nlp]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1157</guid>
+
+					<description><![CDATA[<p>推荐一本免费的在线电子书，《用Python进行自然语言处理》， 用NLP 工具包（开源免费，Python）来进行文本分析。特别适合初学计算语言学的学生。好像没有...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1157.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1157.html">Python 自然语言处理</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>推荐一本免费的在线电子书，《用Python进行自然语言处理》， 用<a href="http://www.google.com/search?hl=en&amp;q=nlp+toolkit+python">NLP 工具包</a>（开源免费，Python）来进行文本分析。特别适合初学计算语言学的学生。好像没有好的中文切词。当然，免不了需要提一下 Dan Jurafsky 教授，大家可以搜索一下，找找他的讲义。</p>
+<p>简要翻译一下提纲：</p>
+<p><span id="more-1157"></span></p>
+<p>（书的主站点：<a href="http://www.nltk.org/">http://www.nltk.org/</a>）</p>
+<ul>
+<li>序言</li>
+<li>用Python进行语言处理</li>
+<li>使用文本语料库和辞典资源</li>
+<li>处理原始文本</li>
+<li>结构化变成</li>
+<li>词语的分类和标签</li>
+<li>学习文本分类</li>
+<li>从文本中信息抽取</li>
+<li>分析句法结构</li>
+<li>创建基于特征的语法</li>
+<li>分析句子的意思</li>
+<li>管理语言学数据</li>
+<li>后记：直面语言带来的挑战</li>
+</ul>
+<p>Natural Language Processing with Python<span style="font-size: x-small;"><br />
+&#8212; Analyzing Text with the Natural Language Toolkit</span></p>
+<p><span style="font-size: x-small;">Steven Bird, Ewan Klein, and Edward Loper</span></p>
+<dl>
+<dd>0. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch00.html">Preface</a> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch00-extras.html">extras</a>) </dd>
+<dd>1. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch01.html">Language Processing and Python</a> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch01-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">2. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch02.html">Accessing Text Corpora and Lexical Resources</a></span></span> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch02-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">3. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch03.html">Processing Raw Text</a></span></span></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">4. </span></span><a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch04.html"><span style="font-size: 10px;"><span style="font-size: 12px;">Writing Structured Programs</span></span></a> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch04-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">5. </span></span><a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch05.html"><span style="font-size: 10px;"><span style="font-size: 12px;">Categorizing and Tagging Words</span></span></a></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">6. </span></span><a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch06.html"><span style="font-size: 10px;"><span style="font-size: 12px;">Learning to Classify Text</span></span></a> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch06-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">7. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch07.html">Extracting Information from Text</a></span></span></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">8. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch08.html">Analyzing Sentence Structure</a></span></span> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch08-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">9. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch09.html">Building Feature Based Grammars</a></span></span></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">10. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch10.html">Analyzing the Meaning of Sentences</a></span></span> (<a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch10-extras.html">extras</a>) </dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">11. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch11.html">Managing Linguistic Data</a></span></span></dd>
+<dd><span style="font-size: 10px;"><span style="font-size: 12px;">12. <a style="color: navy !important; outline-style: none; outline-width: initial; outline-color: initial;" href="http://nltk.googlecode.com/svn/trunk/doc/book/ch12.html">Afterword: Facing the Language Challenge</a></span></span></dd>
+</dl>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1157.html">Python 自然语言处理</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1157.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Linux/Unix 新手和专家教程</title>
+		<link>https://coolshell.cn/articles/1042.html</link>
+					<comments>https://coolshell.cn/articles/1042.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 21 Jun 2009 02:37:53 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1042</guid>
+
+					<description><![CDATA[<p>你正在找一些高质量的Linux 和 UNIX 的教程吗？如果是，这篇文章会告诉你到哪去找到这些教程。这里我们将给出超过30个相当的不错的 Linux 和 UNI...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1042.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1042.html">Linux/Unix 新手和专家教程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><em><img decoding="async" loading="lazy" class="alignright" src="http://educhoices.org/cimages/multimages/1/linux_tutorials.jpg" alt="Linux" width="192" height="147" /></em>你正在找一些高质量的Linux 和 UNIX 的教程吗？如果是，这篇文章会告诉你到哪去找到这些教程。这里我们将给出超过30个相当的不错的 Linux 和 UNIX 在线的教程。</p>
+<p>需要大家注意的是，他们都是英文的，也许有一些也经被翻译到了中文社区，你可以搜索一下。但不管怎么样，我的建议是应该尽可能的去阅读英文。</p>
+<p> <span id="more-1042"></span></p>
+<h2 id="section--LinuxAndUNIXTrainingForBeginners">Linux 和UNIX 的新手培训教程</h2>
+<p> </p>
+<h3 id="section--FreeLinuxTutorialsForBeginners">免费的新手Linux教程</h3>
+<p> </p>
+<ul>
+<li><a href="http://www.ibm.com/developerworks/linux/newto/">Introduction to Linux</a> &#8211; 这是来自IBM的教程，用于给那些想学习Linux的人。</li>
+<li><a href="http://linux.about.com/c/ec/1.htm">Linux Desktop 101</a> &#8211; 这是一个 14周 课时的教程，主要用于学校里教学生如何在一个PC上运行一个Linux操作系统。</li>
+<li><a href="http://tldp.org/LDP/intro-linux/html/index.html">Hands-On Introduction to Linux</a> &#8211; Machtelt Garrels 的一个格式相当不错的教程。</li>
+<li><a href="http://www.isd.mel.nist.gov/projects/rtlinux/rtutorial-2.0/doc/tutorial.htm">Real Time Linux Introduction</a> &#8211; 一系列的介绍Linux的教程，来自National Institute of Standards and Technology.</li>
+<li><a href="http://www.linux.org/lessons/beginner/index.html">Getting Started with Linux</a> &#8211; 来自Linux Online 的20课时的用于新手的教程。</li>
+<li><a href="http://learnlinux.tsf.org.za/courses/web-fundamentals.html">Linux Fundamentals Course</a> &#8211; 一个相当不错的基础教程，大约使用18个小时，让你知道Linux操作系统的最基础的知识。</li>
+<li><a href="http://www.beginlinux.org/course/view.php?id=15">The 35-Command Tutorial</a> &#8211; 来自BeginLinux.org 的一个最简单的教程，教你使用 35 个Linux用户必需了解的命令。</li>
+<li><a href="http://ocw.novell.com/novell-linux-desktop/getting-started-with-novell-linux-desktop">Getting Started with Linux Desktop</a> &#8211; Novell的自学教程。</li>
+</ul>
+<p> </p>
+<h3 id="section--FreeUNIXTutorialsForBeginners">免费的UNIX 新手教程</h3>
+<p> </p>
+<ul>
+<li><a href="http://www.ee.surrey.ac.uk/Teaching/Unix/">UNIX Tutorial for Beginners</a> &#8211; 来自The University of Surrey的新手指南，告诉你Unix系统最基本的特性。</li>
+<li><a href="http://snap.nlc.dcccd.edu/learn/idaho/unixindex.html">A Basic UNIX Tutorial</a> &#8211; 这是来自 Idaho State University 教程，主要用于Unix计算的基础，其中有一些很不错的示例和练习。</li>
+<li><a href="http://www.devdaily.com/unix/unix-dnld.shtml">UNIX Training Manual</a> &#8211; 这是一个 88页 的培训手册，主要用一些示例来教一个Unix文件系统的相关的命令。严格说来，这并不是一个教程，但也很有用。</li>
+<li><a href="http://www.mcsr.olemiss.edu/unixhelp/commanz/index.html">UNIX Command Tutorial</a> &#8211; 来自University of Mississippi 的教学生如果使用Unix命令和操作系统交互的课程。</li>
+<li><a href="http://www.softlookup.com/tutorial/Unix/index.asp">Learn UNIX Tutorial</a> &#8211; Soft Lookup 的一个全面的 UNIX 教程，完全可以让你从一个新手变成一个高手。</li>
+<li><a href="http://heather.cs.ucdavis.edu/~matloff/UnixAndC/Unix/UnixBareMn.pdf">UNIX &#8211; The Bare Minimum</a> &#8211; 来自 UC Davis 教授，提供了一个简单的UNIX介绍。</li>
+<li><a href="http://www.upscale.utoronto.ca/GeneralInterest/Harrison/LearnLinux/">Learning About UNIX</a> &#8211; 来自University of Toronto，提供了一些UNIX 和Linux 课程笔记。这个课程关注于UNIX 和Linux 工具。</li>
+<li><a href="http://www.unix-manuals.com/tutorials/unix/unix.html">What is UNIX?</a> &#8211; 这个教程提供了一个简单的Unix介绍，以及一个初学者的论坛。</li>
+</ul>
+<p> </p>
+<h2 id="section--LinuxAndUNIXTrainingForExperts">Linux 和 UNIX 专家培训教程</h2>
+<p> </p>
+<h3 id="section--FreeLinuxTutorialsForExperts">免费的Linux高手教程</h3>
+<p> </p>
+<ul>
+<li><a href="http://www.linux.org/lessons/advanced/index.html">Linux Online&#8217;s Course for Advanced Users</a> &#8211; 这是一个来自Linux Online的高级教程，提供了一系Linux最流行的How-To文档。主要是给那些想了解更多关于Linux安装，配置和维护的人。</li>
+<li><a href="http://www.linuxtraining.co.uk/download/new_linux_course_modules.pdf">Linux System Administration Course</a> &#8211; 通过28个课程为Linux系统管理员提供了一个全面的教程。</li>
+<li><a href="http://www.howtoforge.com/howtos/linux/kernel">Kernel Tutorials</a> &#8211; 这是在HowToForge上的一个内核级的教程，这个教程相当不错，如果你要了解Linux的内核，你不能错过这个教程。</li>
+<li><a href="http://lartc.org/lartc.html">Advanced Routing and Traffic Control Tutorial</a> &#8211; 一个关于Linux网络路由，过滤和传输的教程。</li>
+<li><a href="http://ocw.novell.com/suse-linux-enterprise">Linux Enterprise Server Courses</a> &#8211; Novell Training Services 提供给高级用户的培训教程。</li>
+<li><a href="http://learnlinux.tsf.org.za/courses/web-net-admin.html">Linux Network Administration Course</a> &#8211; 来自Shuttleworth Foundation的 Linux 网络管理员的基础课程。</li>
+<li><a href="http://www.advancedlinuxprogramming.com/">Advanced Linux Programming</a> &#8211; 这是一本电子书可以免费下载。这本书主要教程序员们怎么在Linux下做软件和编程序。</li>
+<li><a href="http://www.ibm.com/developerworks/views/linux/libraryview.jsp?type_by=Tutorials">IBM&#8217;s Technical Library</a> &#8211; IBM&#8217;s Technical Library 提供的一组给高级Linux用户的教程。</li>
+</ul>
+<p> </p>
+<h3 id="section--FreeUNIXTutorialsForExperts">免费的UNIX高手教程</h3>
+<p> </p>
+<ul>
+<li><a href="http://www.ussg.iu.edu/UAU/uau.html">UNIX for Advanced Users</a> &#8211; Indiana University的 UNIX Workstation Support Group 提供的一个相当不错的面对UNIX 高级用户的教程。</li>
+<li><a href="http://people.ischool.berkeley.edu/~kevin/unix-tutorial/">Kevin Heard&#8217;s UNIX Tutorial</a> &#8211; Kevin Heard (UC Berkeley) 的一个相当相当不错的三部教程，从Unix的基础开始，以高级话题结束。</li>
+<li><a href="http://members.unine.ch/philippe.renard/unix2.html">Advanced UNIX Commands</a> &#8211; 虽然这是一个命令例表，但他是一个相当不错的索引的速查手册。</li>
+<li><a href="http://users.actcom.co.il/~choo/lupg/tutorials/parallel-programming-theory/parallel-programming-theory.html">Parallel Programming Tutorial</a> &#8211; 这个UNIX 教程面对的是Unix下的并行编程 Parallel Programming。</li>
+<li><a href="http://tldp.org/LDP/abs/html/">Advanced Bash Scripting Guide</a> &#8211; 来自于Linux Document Project 的教程，一个shell编程由浅入深的教程。</li>
+<li><a href="http://www.vtc.com/products/Unix-Shell-Scripting-Advanced-tutorials.htm">UNIX Shell Scripting Advanced</a> &#8211; VTC 有一组视频的 UNIX 的教程。而这一个是指导高级用户如何进行脚本编程。</li>
+<li><a href="http://heather.cs.ucdavis.edu/~matloff/UnixAndC/Unix/CShellII.pdf">Advanced C Shell Programming</a> &#8211; 这是UC Davis 的教程，主要教使用如何使用C shell 和tcsh 进行脚本编程。</li>
+</ul>
+<p>文章：<a href="http://educhoices.org/articles/Useful_Tutorials_on_Linux_and_UNIX_for_Beginners_and_Experts_Alike.html" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/sed-superman-150x150.png" alt="sed 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_title">sed 简明教程</a></li><li ><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/awk-150x150.jpg" alt="AWK 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_title">AWK 简明教程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1042.html">Linux/Unix 新手和专家教程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1042.html/feed</wfw:commentRss>
+			<slash:comments>25</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>电子书：编译器设计基础</title>
+		<link>https://coolshell.cn/articles/799.html</link>
+					<comments>https://coolshell.cn/articles/799.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 11 May 2009 14:20:24 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[Compiler]]></category>
+		<category><![CDATA[ebook]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=799</guid>
+
+					<description><![CDATA[<p>这是一本关于编译器设计原理的书，让我又想起了大学时的《编译原理》还有那长篇长篇的作业，以及几个方法分析器的上机实习。现在基本上都全部还给老师了。 Basics ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/799.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/799.html">电子书：编译器设计基础</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这是一本关于编译器设计原理的书，让我又想起了大学时的《编译原理》还有那长篇长篇的作业，以及几个方法分析器的上机实习。现在基本上都全部还给老师了。</p>
+<p>Basics of Compiler Design<br />
+<a href="http://www.diku.dk/hjemmesider/ansatte/torbenm/Basics/">http://www.diku.dk/hjemmesider/ansatte/torbenm/Basics/</a></p>
+<p><a href="http://www.diku.dk/hjemmesider/ansatte/torbenm/Basics/basics_lulu.pdf"><strong>PDF下载</strong></a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9410.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/figure1-150x150.gif" alt="Unix考古记：一个“遗失”的shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9410.html" class="wp_rp_title">Unix考古记：一个“遗失”的shell</a></li><li ><a href="https://coolshell.cn/articles/8115.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/VEC-vs-vector-150x150.jpg" alt="GCC 用 C++ 来编译" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8115.html" class="wp_rp_title">GCC 用 C++ 来编译</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/799.html">电子书：编译器设计基础</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/799.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>免费电子书：Ruby Complete</title>
+		<link>https://coolshell.cn/articles/591.html</link>
+					<comments>https://coolshell.cn/articles/591.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 20 Apr 2009 15:14:58 +0000</pubDate>
+				<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[ebook]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=591</guid>
+
+					<description><![CDATA[<p>这是一本免费的关于教你如何使用Ruby编程的电子书。作者：Huw Collingbourne， SapphireSteel Software 公司的Techno...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/591.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/591.html">免费电子书：Ruby Complete</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这是一本免费的关于教你如何使用Ruby编程的电子书。作者：Huw Collingbourne， SapphireSteel Software 公司的Technology Directory，他也是一个开发 Visual Studio下的Ruby Steel IDE的程序员。这本书给大家提供非常全面的教程，其涵养了几乎所有主要的Ruby编程的东西。</p>
+<p>每一章的代码都可以被下载。如果你是一个 Ruby In Steel 的用户，那么，你可以在一个单一的Visual Studio solution 中载入这些代码，并可以在集成的 Ruby Console 上运行这些代码，并调试之。</p>
+<p><span id="more-591"></span></p>
+<p>下面这是这本书的一些特性：</p>
+<ul>
+<li>425 页。</li>
+<li>20 章节。</li>
+<li>超过 84,000 个词。</li>
+<li>超过300 个可以运行的示例代码。</li>
+<li>100% 的免费!</li>
+</ul>
+<div class="chapo"><!-- finde_surligneconditionnel--></div>
+<p><!--intro/deck--><img decoding="async" loading="lazy" class="alignnone" title="book-of-ruby-complete" src="http://www.sapphiresteel.com/IMG/png/book-of-ruby-complete.png" alt="" width="685" height="587" /></p>
+<p><a class="spip_in" href="http://www.sapphiresteel.com/IMG/zip/book-of-ruby.zip">下载这本书和其所有的源码</a> (<em>大小2.9MB </em>)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="数据即代码：元驱动编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_title">数据即代码：元驱动编程</a></li><li ><a href="https://coolshell.cn/articles/5709.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="API设计：用流畅接口构造内部DSL" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5709.html" class="wp_rp_title">API设计：用流畅接口构造内部DSL</a></li><li ><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="对象的消息模型" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_title">对象的消息模型</a></li><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/591.html">免费电子书：Ruby Complete</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/591.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

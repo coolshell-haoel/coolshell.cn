@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Ruby | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/category/proglanguage/rubydev/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 09 Aug 2013 11:53:38 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>数据即代码：元驱动编程</title>
+		<link>https://coolshell.cn/articles/10337.html</link>
+					<comments>https://coolshell.cn/articles/10337.html#comments</comments>
+		
+		<dc:creator><![CDATA[Todd]]></dc:creator>
+		<pubDate>Fri, 09 Aug 2013 02:18:31 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[Lisp]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10337</guid>
+
+					<description><![CDATA[<p>（感谢 @文艺复兴记（todd） 投递此文） 几个小伙伴在考虑下面这个各个语言都会遇到的问题： 问题：设计一个命令行参数解析API 一个好的命令行参数解析库一般...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10337.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10337.html">数据即代码：元驱动编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢 <a href="http://weibo.com/weidagang" target="_blank">@文艺复兴记</a>（todd） 投递此文）</strong></p>
+<p>几个小伙伴在考虑下面这个各个语言都会遇到的问题：</p>
+<p><strong>问题：设计一个命令行参数解析API</strong></p>
+<p>一个好的命令行参数解析库一般涉及到这几个常见的方面：</p>
+<p>1) 支持方便地生成帮助信息</p>
+<p>2) 支持子命令，比如：git包含了push, pull, commit等多种子命令</p>
+<p>3) 支持单字符选项、多字符选项、标志选项、参数选项等多种选项和位置参数</p>
+<p>4) 支持选项默认值，比如：&#8211;port选项若未指定认为5037</p>
+<p>5) 支持使用模式，比如：tar命令的-c和-x是互斥选项，属于不同的使用模式</p>
+<p>经过一番考察，小伙伴们发现了这个几个有代表性的API设计：</p>
+<p><strong>1. getopt()：</strong></p>
+<p><a href="http://www.gnu.org/software/libc/manual/html_node/Getopt.html">getopt()</a>是libc的标准函数，很多语言中都能找到它的移植版本。</p>
+<p><span id="more-10337"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+//C
+while ((c = getopt(argc, argv, &quot;ac:d:&quot;)) != -1) {
+    int this_option_optind = optind ? optind : 1;
+    switch (c) {
+    case &#039;a&#039;:
+        printf (&quot;option a&quot;);
+        aopt = 1;
+        break;
+    case &#039;c&#039;:
+        printf (&quot;option c with value &#039;%s&#039;&quot;, optarg);
+        copt = optarg;
+        break;
+    case &#039;d&#039;:
+        printf (&quot;option d with value &#039;%s&#039;&quot;, optarg);
+        dopt = optarg;
+        break;
+    case &#039;?&#039;:
+        break;
+    default:
+        printf (&quot;?? getopt returned character code 0%o ??&quot;, c);
+    }
+}
+</pre>
+<p>getopt()的核心是一个类似printf的格式字符串的命令行参数描述串，如上面的&#8221;ac:d:&#8221;定义了&#8221;a&#8221;, &#8220;c&#8221;，&#8221;d&#8221;3个命令行参数，其中，a是一个标志符不需要参数，&#8221;c&#8221;和&#8221;d&#8221;需要跟参数。getopt()功能非常弱，只支持单个字符的标志选项和参数选项。如果按上面的5点来比对，基本上只能说是勉强支持第3点，其他几项只能靠程序自己来实现了，所以，想直接基于getopt()实现一个像git这样复杂的命令行参数是不可能的，只有自己来做很多的解析工作。小伙伴们看过getopt()之后一致的评价是:图样图森破。</p>
+<p><strong>2. Google gflags</strong></p>
+<p>接着，小伙伴们又发现了<a href="https://code.google.com/p/gflags/">gflags</a>这个Google出品C++命令行参数解析库。</p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">
+//C++
+DEFINE_bool(memory_pool, false, &quot;If use memory pool&quot;);
+DEFINE_bool(daemon, true, &quot;If started as daemon&quot;);
+DEFINE_string(module_id, &quot;&quot;, &quot;Server module id&quot;);
+DEFINE_int32(http_port, 80, &quot;HTTP listen port&quot;);
+DEFINE_int32(https_port, 443, &quot;HTTPS listen port&quot;);
+
+int main(int argc, char** argv) {
+    ::google::ParseCommandLineFlags(&amp;argc, &amp;argv, true);
+
+    printf(&quot;Server module id: %s&quot;, FLAGS_module_id.c_str());
+
+    if (FLAGS_daemon) {
+      printf(&quot;Run as daemon: %d&quot;, FLAGS_daemon);
+    }
+    if (FLAGS_memory_pool) {
+      printf(&quot;Use memory pool: %d&quot;, FLAGS_daemon);
+    }
+
+    Server server;
+
+    return 0;
+}
+</pre>
+<p>小伙伴们看了后不由得感叹“真心好用啊”！的确，gflags简单地通过几个宏就定义了命令行选项，基本上很好的支持了上面提到的1，3，4这几项，比起getopt()来强多了。对于类似cp这样的小命令，gflags应该是够用了，但要达到git这种级别就显得有些单薄了。</p>
+<p><strong>3. Ruby Commander</strong></p>
+<p>接下来小伙伴们又发现了Ruby Commander库：</p>
+<pre data-enlighter-language="ruby" class="EnlighterJSRAW">
+//Ruby
+# :name is optional, otherwise uses the basename of this executable
+program :name, &#039;Foo Bar&#039;
+program :version, &#039;1.0.0&#039;
+program :description, &#039;Stupid command that prints foo or bar.&#039;
+command :bar do |c|
+  c.syntax = &#039;foobar bar [options]&#039;
+  c.description = &#039;Display bar with optional prefix and suffix&#039;
+  c.option &#039;--prefix STRING&#039;, String, &#039;Adds a prefix to bar&#039;
+  c.option &#039;--suffix STRING&#039;, String, &#039;Adds a suffix to bar&#039;
+  c.action do |args, options|
+    options.default :prefix =&gt; &#039;(&#039;, :suffix =&gt; &#039;)&#039;
+    say &quot;#{options.prefix}bar#{options.suffix}&quot;
+  end
+end
+$ foobar bar
+# =&gt; (bar)
+$ foobar bar --suffix &#039;}&#039; --prefix &#039;{&#039;
+# =&gt; {bar}
+</pre>
+<p>Commander库利用Ruby酷炫的语法定义了一种描述命令行参数的内部DSL，看起来相当高端大气上档次。除了上面的第5项之外，其他几项都有很好的支持，可以说Commander库的设计基本达到了git这种级别命令行参数解析的要求。只是，要搞懂Ruby这么炫的语法和这个库的使用方法恐怕就不如getopt()和gflags容易了。有小伙伴当场表示想要学习Ruby，但是也有小伙伴表示再看看其他库再说。</p>
+<p><strong>4. Lisp cmdline库</strong></p>
+<p>接下来，小伙伴们发现了Lisp方言Racket的<a href="http://docs.racket-lang.org/reference/Command-Line_Parsing.html">cmdline库</a>。</p>
+<pre data-enlighter-language="ruby" class="EnlighterJSRAW">
+//Lisp
+(parse-command-line &quot;compile&quot; (current-command-line-arguments)
+  `((once-each
+     [(&quot;-v&quot; &quot;--verbose&quot;)
+      ,(lambda (flag) (verbose-mode #t))
+      (&quot;Compile with verbose messages&quot;)]
+     [(&quot;-p&quot; &quot;--profile&quot;)
+      ,(lambda (flag) (profiling-on #t))
+      (&quot;Compile with profiling&quot;)])
+    (once-any
+     [(&quot;-o&quot; &quot;--optimize-1&quot;)
+      ,(lambda (flag) (optimize-level 1))
+      (&quot;Compile with optimization level 1&quot;)]
+     [(&quot;--optimize-2&quot;)
+      ,(lambda (flag) (optimize-level 2))
+      ((&quot;Compile with optimization level 2,&quot;
+        &quot;which implies all optimizations of level 1&quot;))])
+    (multi
+     [(&quot;-l&quot; &quot;--link-flags&quot;)
+      ,(lambda (flag lf) (link-flags (cons lf (link-flags))))
+      (&quot;Add a flag &lt;lf&gt; for the linker&quot; &quot;lf&quot;)]))
+   (lambda (flag-accum file) file)
+   &#039;(&quot;filename&quot;))
+</pre>
+<p>这是神马浮云啊?括号套括号，看起来很厉害的样子，但又不是很明白。看到这样的设计，有的小伙伴连评价都懒得评价了，但也有的小伙伴对Lisp越发崇拜，表示Lisp就是所谓的终极语言了，没有哪门语言能写出这么不明觉历的代码来！小伙伴们正准备打完收工，突然&#8230;</p>
+<p><strong>5. Node.js的LineParser库</strong></p>
+<p>发现了Node.js的<a href="https://github.com/weidagang/line-parser-js">LineParser库</a>:</p>
+<p>[javascript]<br />
+//JavaScript<br />
+var meta = {<br />
+    program : &#8216;adb&#8217;,<br />
+    name : &#8216;Android Debug Bridge&#8217;,<br />
+    version : &#8216;1.0.3&#8217;,<br />
+    subcommands : [ &#8216;connect&#8217;, &#8216;disconnect&#8217;, &#8216;install&#8217; ],<br />
+    options : {<br />
+        flags : [<br />
+            [ &#8216;h&#8217;, &#8216;help&#8217;, &#8216;print program usage&#8217; ],<br />
+            [ &#8216;r&#8217;, &#8216;reinstall&#8217;, &#8216;reinstall package&#8217; ],<br />
+            [ &#8216;l&#8217;, &#8216;localhost&#8217;, &#8216;localhost&#8217; ]<br />
+        ],<br />
+        parameters : [<br />
+            [ null, &#8216;host&#8217;, &#8216;adb server hostname or IP address&#8217;, null ],<br />
+            [ &#8216;p&#8217;, &#8216;port&#8217;, &#8216;adb server port&#8217;, 5037 ]<br />
+        ]<br />
+    },<br />
+    usages : [<br />
+        [ &#8216;connect&#8217;, [&#8216;host&#8217;, &#8216;[port]&#8217;], null, &#8216;connect to adb server&#8217;, adb_connect ],<br />
+        [ &#8216;connect&#8217;, [ &#8216;l&#8217; ], null, &#8216;connect to the local adb server&#8217;, adb_connect ],<br />
+        [ &#8216;disconnect&#8217;, null, null, &#8216;disconnect from adb server&#8217;, adb_disconnect ],<br />
+        [ &#8216;install&#8217;, [&#8216;r&#8217;], [&#8216;package&#8217;], &#8216;install package&#8217;, adb_install ],<br />
+        [ null, [&#8216;h&#8217;], null, &#8216;help&#8217;, adb_help ],<br />
+    ]<br />
+};</p>
+<p>try {<br />
+    var lineparser = require(&#8216;lineparser&#8217;);<br />
+    var parser = lineparser.init(meta);<br />
+    // adb_install will be invoked<br />
+    parser.parse([&#8216;install&#8217;, &#8216;-r&#8217;, &#8216;/pkgs/bird.apk&#8217;]);<br />
+}<br />
+catch (e) {<br />
+    console.error(e);<br />
+}<br />
+[/javascript]</p>
+<p>天啊！？这是什么？我和小伙伴们彻底惊呆了！短短十几行代码就获得了上面5点的全面支持，重要的是小伙伴们居然一下子就看懂了，没有任何的遮遮掩掩和故弄玄虚。本来以为Ruby和Lisp很酷，小伙伴们都想马上去学Ruby和Lisp了，看到这个代码之后怎么感觉前面全是在装呢？有个小伙伴居然激动得哭着表示：我写代码多年，以为再也没有什么代码可以让我感动，没想到这段代码如此精妙，我不由得要赞叹了，实在是太漂亮了！</p>
+<p>小伙伴们的故事讲完了，您看懂了吗？如果没有看懂的话，正题开始了：</p>
+<p>在绝大多数语言中数据和代码可以说是泾渭分明，习惯C++、Java等主流语言的程序员很少去思考数据和代码之间的关系。与多数语言不同的是Lisp以“数据即代码，代码即数据”著称，Lisp用S表达式统一了数据和代码的形式而独树一帜。Lisp奇怪的S表达式和复杂的宏系统让许多人都感到Lisp很神秘，而多数Lisp教程要么强调函数式编程，要么鼓吹宏如何强大，反而掩盖了Lisp真正本质的东西，为此我曾写过一篇<a href="http://www.cnblogs.com/weidagang2046/archive/2012/06/03/tao_of_lisp.html">《Lisp的永恒之道》</a>介绍Lisp思想。</p>
+<p>设计思想和具体技术的区别在于前者往往可以在不同的环境中以不同的形式展现出来。比如，熟悉函数式编程的程序员在理解了纯函数的优点后即使是用C语言也会更倾向于写出无副作用的函数来，这就是函数式思想在命令式环境的应用。所以，理解Lisp思想一定要能在非Lisp环境应用，才算是融汇贯通。</p>
+<p>如果真正理解了Lisp的本质，那所谓的“数据即代码，代码即数据”一点儿也不神秘，这不就是我们每天打交道的配置文件吗！？如果你还不是很理解的话，我们通过下面几个问题慢慢分析：</p>
+<p>1) 配置的本质是什么？为什么要在程序中使用配置文件？</p>
+<p>不知道你是否意识到了，我们每天都在使用的各种各样的<strong>配置本质上是一种元数据也是一种DSL</strong>，这和Lisp基于S表达式的“数据即代码，代码即数据”没有本质区别。在C++、Java等程序中引入配置文件的目的正是用DSL弥补通用语言表达能力和灵活性的不足。我知道不少人喜欢从计算的角度来看到程序和语言，似乎只有图灵完备的语言如C++、Java、Python等才叫程序设计语言，而类似CSS和HTML这样的东西根本不能叫做程序设计语言。其实，在我看来这种观点过于狭隘，<strong>程序的本质是语义的表达</strong>，而语义表达不一定要是计算。</p>
+<p>2) 配置是数据还是代码？</p>
+<p>很明显，Both!说配置是数据，因为它是声明式的描述，能方便地修改和传输；说配置是代码，因为它在表达逻辑，你的程序实际上就是配置的解释器。</p>
+<p>3) 配置的格式是什么？</p>
+<p>配置的格式是任意的，可以自己定义语法，只要配以相应的解释器就行。不过更简单通用的做法是基于XML、JSON、或S表达式等标准结构，在此之上进一步定义schema。甚至完全不必是文件，在我们的项目中配置经常是放到用关系数据库中的。另外，下面我们还会看到用语言的Literal数据作为配置。</p>
+<p>4) 业务逻辑都可以放到配置中吗？</p>
+<p>这个问题的答案显然是：Yes！我没有遇到过不可以放入配置的逻辑，只是问题在于这样做是否值得，能达到什么效果。对于需要灵活变化，重复出现，有复用价值的东西放入作为配置是明智的选择。这篇文章的主要目的就在于介绍把<strong>主要业务逻辑都放到配置中，再通过程序解释执行配置的设计方法，我称之为：元驱动编程(Meta Driven Programming)</strong>。</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="对象的消息模型" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_title">对象的消息模型</a></li><li ><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/oscar-meyer-wienermobile-150x150.jpg" alt="编程语言汽车" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_title">编程语言汽车</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/10739.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/lua-150x150.gif" alt="Lua简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10739.html" class="wp_rp_title">Lua简明教程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/5709.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="API设计：用流畅接口构造内部DSL" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5709.html" class="wp_rp_title">API设计：用流畅接口构造内部DSL</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10337.html">数据即代码：元驱动编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10337.html/feed</wfw:commentRss>
+			<slash:comments>77</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些非常有意思的杂项资源</title>
+		<link>https://coolshell.cn/articles/3013.html</link>
+					<comments>https://coolshell.cn/articles/3013.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 28 Sep 2010 00:38:34 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[GUI]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Structure Synth]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3013</guid>
+
+					<description><![CDATA[<p>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3013.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇文章，这样有利于减轻本站的负载，也有利于节省网络带宽，同样，也就节省了能力和电力，因此也就很环保，很低碳。呵呵。</p>
+<ul>
+<li>先是一个《Windows Internal》第五版的第五章的电子版（英文的），你可以在<a href="http://download.sysinternals.com/Files/WindowsInternals-Ch05.pdf" target="_blank"><strong>这里下载</strong></a>。关于其它一些电子书，你可以看看本站的这篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/240.html">非常不错的编程技术教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/336.html">超过100本的linux免费书籍</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/355.html">20本最好的Linux免费书籍</a>》</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><a href="http://www.3dtin.com/" target="_blank"><strong>http://www.3dtin.com/</strong></a>是一个用纯Javascript搞的一个3D作图的网站，Javascript是越来越强大了。这个演示可以让你看到以后Web应用的潜力。关于<a href="https://coolshell.cn/articles/tag/javascript" target="_blank">Javascript的一些东西</a>，你可以参看本站的这些文章《<a rel="bookmark" href="https://coolshell.cn/articles/2785.html" target="_blank">JS1K 演示</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2276.html" target="_blank">又一个Javascript试验田</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2065.html" target="_blank">一个Windows 3.1的Web网站</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1932.html" target="_blank">哥是玩程序的</a>》。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到这些很酷很炫的东西，大家一定会想到使用Flash，不过，目前的<a href="https://coolshell.cn/articles/2735.html" target="_blank">Flash正在受到HTML5的强力挑战</a>，目前，对于HTML5的展示网站很多，让我们看到了HTML5完全可以做出Flash的样子，比如前些天本站说到的<a href="https://coolshell.cn/articles/2926.html" target="_blank">这个演示</a>，还有给大家展示的<a href="https://coolshell.cn/articles/2998.html" target="_blank">纯HTML5的小游戏</a>，不过，那些都是一些演示和展示罢了。今天在网上看到一个更强大的HTML5游戏，相当有可玩性，大家不妨一去试玩：<strong><a href="http://www.phoboslab.org/biolab/" target="_blank">http://www.phoboslab.org/biolab/</a></strong></li>
+</ul>
+<p><a href="http://www.phoboslab.org/biolab/"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3017" title="一个很不错的HTML5游戏" src="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg" alt="" width="483" height="321" srcset="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg 483w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-300x199.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-406x270.jpg 406w" sizes="(max-width: 483px) 100vw, 483px" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>HTML5 可以应用的还不只是游戏，这不，<a href="http://thechangelog.com/post/1097381443/vexflow-html5-canvas-javascript-library-music-and-guitar" target="_blank">有文章指出</a>，用<a href="http://www.vexflow.com/" target="_blank"><strong>VexFlow</strong></a>还可以很轻松地在网页上发布乐谱。而<a href="http://stepheneisenhauer.com/demos/drummachine/" target="_blank"><strong>这个网页</strong></a>还可以让你制作Hi-PoP音乐。</li>
+</ul>
+<p style="text-align: center;"><a href="http://www.vexflow.com/"><img decoding="async" loading="lazy" src="http://cl.ly/c4f966c6d51cfc9be20b/content" alt="Rendered music" width="530" height="240" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到Web开发，就得要提CSS了，这里有一个在线编辑CSS的网站，很不错，<a href="http://css3.mikeplate.com/" target="_blank"><strong>http://css3.mikeplate.com/</strong></a>。关于CSS和Web开发的一些文章，你可以查看本站的<a href="https://coolshell.cn/articles/tag/css" target="_blank">CSS的Tag</a>。现在，这种在线的东西是越来越多了，比如：《<a rel="bookmark" href="https://coolshell.cn/articles/2271.html" target="_blank">Emacs配色在线生成器</a><span style="font-weight: normal; font-size: 13px;">》、《</span><a rel="bookmark" href="https://coolshell.cn/articles/1883.html" target="_blank">Coderun.com 在线开发IDE</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1830.html" target="_blank">正则表达式生成器</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1611.html" target="_blank">Ajax开发利器UIzard</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/776.html" target="_blank">一个在线的画UML图的网站</a>》。</li>
+</ul>
+<p><span id="more-3013"></span></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起在线服务，就不得不说说在线代码编译的服务，我觉得这种服务相当好，不需要你在本机安装编译器或IDE，想试试某个语言的语法，真接上网就OK，很方便。以前本站向大家介绍过《<a rel="bookmark" href="https://coolshell.cn/articles/1310.html" target="_blank">在线代码编译服务Codepad.org</a>》其支持：C，C++，D，Haskell，Lua，OCaml，PHP，Perl，Plain Text，Python，Ruby，Scheme，Tcl。当然，在这里，向你介绍一个可以运行Go语言的：<strong><a href="http://golang.org/doc/play/" target="_blank">http://golang.org/doc/play/</a></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web开发，很自然的就能想到UI。下面是一个<a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns" target="_blank"><strong>UI的设计Patterns</strong></a>，这篇文章告诉了我们12个比较常用或是经典的图形UI Patterns。关于<a href="https://coolshell.cn/articles/tag/ui" target="_blank">UI方面的话题</a>，你可以参看酷壳的《<a rel="bookmark" href="https://coolshell.cn/articles/363.html" target="_blank">35个强大的UI设计教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1907.html" target="_blank">UI的恶梦</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/2313.html" target="_blank">史上最糟糕的网站</a>》。</li>
+</ul>
+<p><a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns"><img decoding="async" loading="lazy" class="aligncenter" title="12个标准的图形UI设计模式" src="http://theresaneil.files.wordpress.com/2008/12/standard_screen_patterns.png" alt="" width="476" height="705" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web的界面，最让各位WEB开发者痛苦的就是网页兼容性问题，IE是一个恶梦，因为其自己和自己都不兼容，在MSDN上，有这样的一个网页说明了<a href="http://msdn.microsoft.com/en-us/library/cc351024" target="_blank"><strong>从IE5一直到IE9的CSS的兼容性问题</strong></a>，很多很多的表格，头都看大了。当然，以前本站的《<a rel="bookmark" href="https://coolshell.cn/articles/757.html" target="_blank">检查网页浏览器的兼容性</a>》的文章向你介绍过如何查看网站在不同浏览器中和操作系统下的效果（其也是一个在线服务）。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>当然，Web上的开发，问题最大的还是安全问题，我们的Ruby on Rails给出了一个<a href="http://guides.rubyonrails.org/security.html" target="_blank"><strong>Web安全的开发教程</strong></a>，相当不错哦。谈到了几乎所有最有威胁和最常用的网上攻击，这个文档应该是所有Web开发者都需要注意的。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>下面是一个给新手学习linux用的一个桌面（点击图片看大图），其列出了很多常用的命令，以及VI的常用命令。关于VI的一些东西，你可以查看<a href="https://coolshell.cn/articles/tag/vim" target="_blank">本站的这些文章</a>，如：<a rel="bookmark" href="https://coolshell.cn/articles/1651.html" target="_blank">VIM有趣的命令</a>、<a rel="bookmark" href="https://coolshell.cn/articles/894.html" target="_blank">如何在vim中得到你最喜爱的IDE特性</a></li>
+</ul>
+<p style="text-align: center;"><a href="http://i.imgur.com/CJkR9.png"><img decoding="async" loading="lazy" class="aligncenter" title="Linux命令桌面" src="http://i.imgur.com/CJkR9.png" alt="" width="553" height="346" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>最后，给大家介绍一个关于文件格式方面东西，我们知道，很多文件的开头表明着这个文件的类型，所以，有这样的一个网站了维护了这么一个信息列表，其把几乎所有常见的文件头的那段和文件类型相关的Magic Number列了出来，而且还保持更新，非常不错哦，这个网站是：<strong><a href="http://www.garykessler.net/library/file_sigs.html">http://www.garykessler.net/library/file_sigs.html</a><span style="font-weight: normal;">，希望能对你有用哦。</span></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><strong><span style="font-weight: normal;">最最后，给大家介绍一个开源项目，叫<a href="http://structuresynth.sourceforge.net/" target="_blank"><strong>Structure Synth</strong></a>，这个东西可以用来画出一些很酷的图，相当不错，使用起来非常简单，我试用了一下，的确很强大。用一些简单的脚本就可以作出很不错的3D图，下面是他的一个示例，只需要写那么不到10行的代码，很简单。</span></strong></li>
+</ul>
+<p><a href="http://structuresynth.sourceforge.net/index.php"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3018" title="Structure Synth" src="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg" alt="" width="500" height="301" srcset="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth-300x180.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a></p>
+<p style="padding-left: 60px;">想看看，大家用这个东西做什么酷图了吗？上 <a href="http://www.flickr.com/groups/structuresynth/" target="_blank">http://www.flickr.com/groups/structuresynth/</a> 看看吧。</p>
+<p id="pool_4652540301" style="text-align: center;"><a title="structure 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540301/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4029/4652540301_db50832fdc_t.jpg" border="0" alt="structure 作者 Supreet Kumar" width="100" height="56" /></a> <a title="architecture x-ray 2 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540021/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4044/4652540021_0f17294ca5_t.jpg" border="0" alt="architecture x-ray 2 作者 Supreet Kumar" width="100" height="62" /></a> <a title="perspective 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4650270228/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4002/4650270228_8cc69948bc_t.jpg" border="0" alt="perspective 作者 Supreet Kumar" width="100" height="60" /></a> <a title="snake shade 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4649663253/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4042/4649663253_aa041ab239_t.jpg" border="0" alt="snake shade 作者 Supreet Kumar" width="100" height="57" /></a> <a title="thatched beauty 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641732162/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3414/4641732162_e2b078825f_t.jpg" border="0" alt="thatched beauty 作者 Supreet Kumar" width="100" height="63" /></a><br />
+<a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055399/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3353/4641055399_25688820a9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="70" /></a> <a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055019/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4064/4641055019_6ed80cd1b9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="65" /></a> <a title=" 作者 FracturedPixel" href="http://www.flickr.com/photos/cav666/4640849748/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4062/4640849748_0532451842_t.jpg" border="0" alt=" 作者 FracturedPixel" width="100" height="63" /></a> <a title="splash1 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4636427318/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4008/4636427318_c84acf4aa4_t.jpg" border="0" alt="splash1 作者 Supreet Kumar" width="100" height="63" /></a> <a title="joy 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4635820649/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4012/4635820649_720cd6599b_t.jpg" border="0" alt="joy 作者 Supreet Kumar" width="100" height="53" /></a></p>
+<p id="pool_4635820649">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3013.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>五大基于JVM的脚本语言</title>
+		<link>https://coolshell.cn/articles/2631.html</link>
+					<comments>https://coolshell.cn/articles/2631.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 19 Jul 2010 11:40:42 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Clojure]]></category>
+		<category><![CDATA[Fantom]]></category>
+		<category><![CDATA[Groovy]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[JavaFX]]></category>
+		<category><![CDATA[JRuby]]></category>
+		<category><![CDATA[JVM]]></category>
+		<category><![CDATA[Jython]]></category>
+		<category><![CDATA[NetRexx]]></category>
+		<category><![CDATA[Scala]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2631</guid>
+
+					<description><![CDATA[<p>还记得以前本站的一篇文章《如何在Google App Engine上运行PHP》吗，其实那是借用 Quercus， 一个 100% 的用Java 实现的一个 P...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2631.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2631.html">五大基于JVM的脚本语言</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>还记得以前本站的一篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/531.html" target="_blank">如何在Google App Engine上运行PHP</a>》吗，其实那是借用 <a href="http://www.caucho.com/resin-3.0/quercus/">Quercus</a>， 一个 100% 的用Java 实现的一个 PHP 引擎。今天，这样的东西太多了，能运行在Java的虚拟机JVM上的程序意味着有天然的跨平台性，现在JVM并不单单只能运行Java程序，在JVM上出现了若干使用Java虚拟机运行的脚本程序，比如什么PHP, Python, Ruby等等，这里有一篇<a href="http://infoworld.com/d/developer-world/top-five-scripting-languages-the-jvm-855" target="_blank">文章</a>评论了在JVM上的可以运行的排名前五脚本语言。他们分别是：</p>
+<ol>
+<li><a href="http://groovy.codehaus.org/" target="_blank"> <strong>Groovy</strong></a>。构建在强大的Java语言之上 并添加了从Python，Ruby和Smalltalk等语言中学到的诸多特征，为Java开发者提供了现代最流行的编程语言特性，而且学习成本很低（几乎为零），在开发Web，GUI，数据库或控制台程序时， 通过减少框架性代码 大大提高了开发者的效率。支持单元测试和模拟（对象），可以简化测试。无缝集成 所有已经存在的 Java对象和类库。直接编译成Java字节码，这样可以在任何使用Java的地方 使用Groovy。</li>
+<li><a href="http://jruby.org/" target="_blank"><strong>JRuby</strong></a>。一个纯Java实现的Ruby解释器。通过JRuby，你可以在JVM上直接运行Ruby程序，调用Java的类库。很多Java编写的Ruby IDE都是使用JRuby来解释语法的。</li>
+<li><a href="http://www.scala-lang.org/" target="_blank"> <strong>Scala</strong></a>。一种多范式的编程语言，设计意图是要整合面向对象编程和函数式编程的各种特性。Scala编程语言近来抓住了很多开发者的眼球。它看起来像是一种纯粹的面向对象编程语言，而又无缝地结合了命令式和函数式的编程风格。Scala的名称表明，它还是一种高度可伸缩的语言。Scala的设计始终贯穿着一个理念：创造一种更好地支持组件的语言。</li>
+<li><a href="http://fantom.org/" target="_blank"><strong>Fantom </strong></a>。Fantom 前身是 (Fan) 是一个基于 Java 和 .NET 平台的编程脚本引擎，用来在运行时产生 JVM 和 .NET 平台的字节码，该语言是面向对象的，跟 Groovy 和 JRuby 有点类似，可通过特定的接口来集成 Java 的类库。</li>
+<li><a href="http://www.jython.org/" target="_blank"><strong>Jython</strong></a>。Jython由于继承了Java和Python二者的特性而显得很独特。其是一种完整的语言，而不是一个Java翻译器或仅仅是一个Python编译器，它是一个Python语言在Java中的完全实现。Jython也有很多从CPython中继承的模块库。最有趣的事情是Jython不像CPython或其他任何高级语言，它提供了对其实现语言的一切存取。所以Jython不仅给你提供了Python的库，同时也提供了所有的Java类。这使其有一个巨大的资源库。</li>
+</ol>
+<p><a href="http://www.infoworld.com/d/developer-world/top-five-scripting-languages-the-jvm-855?page=0,1#jvm1"></a></p>
+<p><a href="http://www.infoworld.com/d/developer-world/top-five-scripting-languages-the-jvm-855?page=0,3#jvm4"></a></p>
+<p>下面是一张表格比较了这五大JVM脚本语言：</p>
+<p><span id="more-2631"></span></p>
+<table border="0" align="center">
+<tbody>
+<tr>
+<th></th>
+<th><a href="http://groovy.codehaus.org/" target="_blank"><strong>Groovy</strong></a></th>
+<th><a href="http://jruby.org/" target="_blank"><strong>JRuby</strong></a></th>
+<th><a href="http://www.scala-lang.org/" target="_blank"><strong>Scala</strong></a></th>
+<th><a href="http://fantom.org/" target="_blank"><strong>Fantom</strong></a></th>
+<th><a href="http://www.jython.org/" target="_blank"><strong>Jython</strong></a></th>
+</tr>
+<tr>
+<td><strong>风格类型</strong></td>
+<td>OO / 动态</td>
+<td>OO / 动态</td>
+<td>OO, 过程/ 静态</td>
+<td>OO / 静态</td>
+<td>OO / 动态</td>
+</tr>
+<tr>
+<td><strong>源语言</strong></td>
+<td>Java</td>
+<td>Ruby</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Python</td>
+</tr>
+<tr>
+<td><strong>运行</strong></td>
+<td>编译型</td>
+<td>编译型,<br />
+解释型</td>
+<td>编译型</td>
+<td>半编译型</td>
+<td>编译型</td>
+</tr>
+<tr>
+<td><strong>平台</strong></td>
+<td>JVM</td>
+<td>JVM</td>
+<td>JVM</td>
+<td>JVM, .Net CLR</td>
+<td>JVM</td>
+</tr>
+<tr>
+<td><strong>Java集成</strong></td>
+<td>极好</td>
+<td>极好</td>
+<td>极好</td>
+<td>好</td>
+<td>极好</td>
+</tr>
+<tr>
+<td><strong>运行速度</strong></td>
+<td>好</td>
+<td>好</td>
+<td>极好</td>
+<td>很好</td>
+<td>慢</td>
+</tr>
+<tr>
+<td><strong>工具支持</strong></td>
+<td>广泛</td>
+<td>还可以</td>
+<td>广泛</td>
+<td>几乎没有</td>
+<td>几乎没有</td>
+</tr>
+</tbody>
+</table>
+<p>其它一些JVM的脚本语言也我们可以关注一下，如：<a href="http://clojure.org/" target="_blank"><strong>Clojure</strong></a>, <a href="http://javafx.com/" target="_blank"><strong>JavaFX</strong></a>, 和IBM的 <a href="http://www.ibm.com/software/awdtools/netrexx/" target="_blank"><strong>NetRexx</strong></a>。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="面向GC的Java编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_title">面向GC的Java编程</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li ><a href="https://coolshell.cn/articles/11175.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2631.html">五大基于JVM的脚本语言</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2631.html/feed</wfw:commentRss>
+			<slash:comments>16</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>让Ruby增加30%的性能改进</title>
+		<link>https://coolshell.cn/articles/766.html</link>
+					<comments>https://coolshell.cn/articles/766.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 05 May 2009 15:44:55 +0000</pubDate>
+				<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Performance]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=766</guid>
+
+					<description><![CDATA[<p>一切都和 --enable-pthread 有关 问一下 Ruby 黑客怎么简单地增加一个线程的Ruby应用程序的性能。也许，这些黑客会告诉你，“小伙，每个人都...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/766.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/766.html">让Ruby增加30%的性能改进</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<h4>一切都和 <code>--enable-pthread</code> 有关</h4>
+<p>问一下 Ruby 黑客怎么简单地增加一个线程的Ruby应用程序的性能。也许，这些黑客会告诉你，“<strong>小伙，每个人都知道在编译Ruby的时候你需要使用<code>configure</code> 的 <code>--disable-pthread</code>参数</strong>”。没错，在<code>configure</code> <code>--disable-pthread</code> 可以让你得到大约 30% 性能提高。但是，这是为什么呢？</p>
+<p>所有的这一些我们需要使用 <a href="http://timetobleed.com/hello-world/">strace</a> 工具，这个工具可以打出所有的真实的操作系统的调用。</p>
+<p>下面，是一段我们测试的例程：</p>
+<p><span id="more-766"></span></p>
+<pre data-enlighter-language="ruby" class="EnlighterJSRAW">
+def make_thread
+  Thread.new {
+    a = []
+    10_000_000.times {
+      a &lt;&lt; &quot;a&quot;
+      a.pop
+    }
+  }
+end
+
+t = make_thread
+t1 = make_thread
+
+t.join
+t1.join
+</pre>
+<p>如果我们使用 <code>strace</code> 工具去测试 <code>configure</code> <code>--enable-pthread</code> 版本的Ruby引擎，那么我们可以得到下面这样的结果：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+22:46:16.706136 rt_sigprocmask(SIG_BLOCK, NULL, [], 8 ) = 0 &lt;0.000004&gt;
+22:46:16.706177 rt_sigprocmask(SIG_BLOCK, NULL, [], 8 ) = 0 &lt;0.000004&gt;
+22:46:16.706218 rt_sigprocmask(SIG_BLOCK, NULL, [], 8 ) = 0 &lt;0.000004&gt;
+22:46:16.706259 rt_sigprocmask(SIG_BLOCK, NULL, [], 8 ) = 0 &lt;0.000005&gt;
+22:46:16.706301 rt_sigprocmask(SIG_BLOCK, NULL, [], 8 ) = 0 &lt;0.000004&gt;
+22:46:16.706342 rt_sigprocmask(SIG_BLOCK, NULL, [], 8 ) = 0 &lt;0.000004&gt;
+22:46:16.706383 rt_sigprocmask(SIG_BLOCK, NULL, [], 8 ) = 0 &lt;0.000004&gt;
+</pre>
+<p>你会发现上面的sigprocmask 系统调用一页一页又一页地没完没了的。如果你用 <code>strace -c，你会发现</code>一共大约<strong>20,054,180</strong> 个<code>sigprocmask系统调用<span style="font-family: Georgia;">。但是，如果你是在</span></code><code>--disable-pthread</code> 的Ruby版本下运行，你会发现根本没有那么多的<code>sigprocmask</code> 系统调用（只有 <strong>3</strong> 次，简直就是<strong>天壤之别</strong>）</p>
+<h4>查看一下源代码</h4>
+<p>我们知道 <code>configure</code> 是一个脚本，其主要用来创建一个 <code>config.h</code> 文件，其中有一大堆宏定义 <code>define</code>s ，这些宏定义决定了使用什么样的函数。所以，让我们来比较一下版本 <code>./configure --enable-pthread</code> 和版本<code>./configure --disable-pthread的不同之处吧。</code></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW" data-enlighter-highlight="6,7">
+$ diff config.h config.h.pthread
+&gt; #define _REENTRANT 1
+&gt; #define _THREAD_SAFE 1
+&gt; #define HAVE_LIBPTHREAD 1
+&gt; #define HAVE_NANOSLEEP 1
+&gt; #define HAVE_GETCONTEXT 1
+&gt; #define HAVE_SETCONTEXT 1
+</pre>
+<p>好的，现在我们再 <code>grep</code> 一下Ruby的源代码，我们可以看到只要<code>HAVE_[S/G]ETCONTEXT</code> 被设置了，Ruby 就会调用<code>setcontext()</code> 和<code>getcontext()</code> 这两个系统调用来存取context 的状态，以便异常处理时的切换（通过<code>EXEC_TAG）。</code></p>
+<p>而如果 <code>HAVE_[S/G]ETCONTEXT</code> <strong>没有被定义</strong> <code>的情况下，</code>Ruby 会使用 <code>_setjmp/_longjmp这两个系统调用。</code></p>
+<div><code>我们来看看 <code>_setjmp/_longjmp</code> 的man page:</code></div>
+<blockquote><p>… The _longjmp() and _setjmp() functions shall be equivalent to longjmp() and setjmp(), respectively, with the additional restriction that _longjmp() and _setjmp() shall not manipulate the signal mask…</p></blockquote>
+<p>还有<code>setcontext /getcontext的</code> man page:</p>
+<blockquote><p>… uc_sigmask is the set of signals blocked in this context (see sigprocmask(2)) …</p></blockquote>
+<p>我们可以看到 <code>getcontext</code> 调用每次都要调用<code>sigprocmask</code> 但是<code>_setjmp</code> 不会。</p>
+<h4>补丁</h4>
+<p>请点击 <strong><a href="http://github.com/ice799/matzruby/commit/0b9b69f9653782a33aee2b8937d405eae245b60c" target="_blank">这里</a></strong>获取补丁</p>
+<p>这个补丁增加了一个configure 的参数 <code>--disable-ucontext</code> 其可以让你关闭使用 <code>setcontext或getcontext，你只需要像如下方式使用就好了。</code></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+./configure --disable-ucontext --enable-pthread
+</pre>
+<p>如果你以这种方式编译Ruby，那么，你的程序的性能在同等条件下可能会有30%左右的提升。</p>
+<p>文章：<a href="http://timetobleed.com/fix-a-bug-in-rubys-configurein-and-get-a-30-performance-boost/" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/05/etcd-150x150.png" alt="ETCD的内存问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_title">ETCD的内存问题</a></li><li ><a href="https://coolshell.cn/articles/17381.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/PerfTest-150x150.png" alt="性能测试应该怎么做？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17381.html" class="wp_rp_title">性能测试应该怎么做？</a></li><li ><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li ><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/01/trade-off-150x150.jpg" alt="分布式系统的事务处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_title">分布式系统的事务处理</a></li><li ><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="数据即代码：元驱动编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_title">数据即代码：元驱动编程</a></li><li ><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/图1-3-150x150.jpg" alt="无锁HashMap的原理与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_title">无锁HashMap的原理与实现</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/766.html">让Ruby增加30%的性能改进</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/766.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>免费电子书：Ruby Complete</title>
+		<link>https://coolshell.cn/articles/591.html</link>
+					<comments>https://coolshell.cn/articles/591.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 20 Apr 2009 15:14:58 +0000</pubDate>
+				<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[ebook]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=591</guid>
+
+					<description><![CDATA[<p>这是一本免费的关于教你如何使用Ruby编程的电子书。作者：Huw Collingbourne， SapphireSteel Software 公司的Techno...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/591.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/591.html">免费电子书：Ruby Complete</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这是一本免费的关于教你如何使用Ruby编程的电子书。作者：Huw Collingbourne， SapphireSteel Software 公司的Technology Directory，他也是一个开发 Visual Studio下的Ruby Steel IDE的程序员。这本书给大家提供非常全面的教程，其涵养了几乎所有主要的Ruby编程的东西。</p>
+<p>每一章的代码都可以被下载。如果你是一个 Ruby In Steel 的用户，那么，你可以在一个单一的Visual Studio solution 中载入这些代码，并可以在集成的 Ruby Console 上运行这些代码，并调试之。</p>
+<p><span id="more-591"></span></p>
+<p>下面这是这本书的一些特性：</p>
+<ul>
+<li>425 页。</li>
+<li>20 章节。</li>
+<li>超过 84,000 个词。</li>
+<li>超过300 个可以运行的示例代码。</li>
+<li>100% 的免费!</li>
+</ul>
+<div class="chapo"><!-- finde_surligneconditionnel--></div>
+<p><!--intro/deck--><img decoding="async" loading="lazy" class="alignnone" title="book-of-ruby-complete" src="http://www.sapphiresteel.com/IMG/png/book-of-ruby-complete.png" alt="" width="685" height="587" /></p>
+<p><a class="spip_in" href="http://www.sapphiresteel.com/IMG/zip/book-of-ruby.zip">下载这本书和其所有的源码</a> (<em>大小2.9MB </em>)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="数据即代码：元驱动编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_title">数据即代码：元驱动编程</a></li><li ><a href="https://coolshell.cn/articles/5709.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="API设计：用流畅接口构造内部DSL" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5709.html" class="wp_rp_title">API设计：用流畅接口构造内部DSL</a></li><li ><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="对象的消息模型" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_title">对象的消息模型</a></li><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/591.html">免费电子书：Ruby Complete</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/591.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

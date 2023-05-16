@@ -1,0 +1,2454 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>趣味问题 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/category/funny/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 29 Aug 2018 15:02:26 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Cuckoo Filter：设计与实现</title>
+		<link>https://coolshell.cn/articles/17225.html</link>
+					<comments>https://coolshell.cn/articles/17225.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Wed, 02 Sep 2015 01:18:54 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[数据库]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[filter]]></category>
+		<category><![CDATA[hashing]]></category>
+		<category><![CDATA[海量数据]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17225</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 对于海量数据处理业务，我们通常需要一个索引数据结构，用来帮助查询，快速判断数据记录是否存在，这种数据结构通常又叫过滤器(f...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17225.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17225.html">Cuckoo Filter：设计与实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p><img decoding="async" loading="lazy" class="alignright wp-image-17243 size-medium" src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-300x164.jpg" alt="" width="300" height="164" srcset="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-300x164.jpg 300w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo.jpg 400w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>对于海量数据处理业务，我们通常需要一个索引数据结构，用来帮助查询，快速判断数据记录是否存在，这种数据结构通常又叫过滤器(filter)。考虑这样一个场景，上网的时候需要在浏览器上输入URL，这时浏览器需要去判断这是否一个恶意的网站，它将对本地缓存的成千上万的URL索引进行过滤，如果不存在，就放行，如果（可能）存在，则向远程服务端发起验证请求，并回馈客户端给出警告。</p>
+<p>索引的存储又分为有序和无序，前者使用关联式容器，比如B树，后者使用哈希算法。这两类算法各有优劣：比如，关联式容器时间复杂度稳定O(logN)，且支持范围查询；又比如哈希算法的查询、增删都比较快O(1)，但这是在理想状态下的情形，遇到碰撞严重的情况，哈希算法的时间复杂度会退化到O(n)。因此，选择一个好的哈希算法是很重要的。</p>
+<p>时下一个非常流行的哈希索引结构就是<strong><a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank">bloom filter</a></strong>，它类似于bitmap这样的hashset，所以空间利用率很高。其独特的地方在于它使用多个哈希函数来避免哈希碰撞，如图所示（<a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank">来源wikipedia</a>），bit数组初始化为全0，插入x时，x被3个哈希函数分别映射到3个不同的bit位上并置1，查询x时，只有被这3个函数映射到的bit位全部是1才能说明x可能存在，但凡至少出现一个0表示x肯定不存在。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17242" src="https://coolshell.cn/wp-content/uploads/2015/08/Bloom_filter.png" alt="Bloom_filter" width="649" height="233" srcset="https://coolshell.cn/wp-content/uploads/2015/08/Bloom_filter.png 649w, https://coolshell.cn/wp-content/uploads/2015/08/Bloom_filter-300x108.png 300w" sizes="(max-width: 649px) 100vw, 649px" /></p>
+<p><span id="more-17225"></span></p>
+<p>但是，bloom filter的这种位图模式带来两个问题：一个是<strong>误报（false positives）</strong>，在查询时能提供“一定不存在”，但只能提供“可能存在”，因为存在其它元素被映射到部分相同bit位上，导致该位置1，那么一个不存在的元素可能会被误报成存在；另一个是<strong>漏报（false nagatives）</strong>，同样道理，如果删除了某个元素，导致该映射bit位被置0，那么本来存在的元素会被漏报成不存在。由于后者问题严重得多，所以bloom filter必须确保“definitely no”从而容忍“probably yes”，不允许元素的删除。</p>
+<p>关于元素删除的问题，一个改良方案是对bloom filter引入计数，但这样一来，原来每个bit空间就要扩张成一个计数值，空间效率上又降低了。</p>
+<h4>Cuckoo Hashing</h4>
+<p>为了解决这一问题，本文引入了一种新的哈希算法——<strong>cuckoo filter</strong>，它既可以确保该元素存在的必然性，又可以在不违背此前提下删除任意元素，仅仅比bitmap牺牲了微量空间效率。先说明一下，这个算法的思想来源是一篇<a href="http://www.cs.cmu.edu/~binfan/papers/conext14_cuckoofilter.pdf" target="_blank">CMU论文</a>，笔者按照其思路用C语言做了一个简单实现（<a href="https://github.com/begeekmyfriend/CuckooFilter" target="_blank">Github</a>），附上对一段文本数据进行导入导出的正确性测试。</p>
+<p>接下来我会结合自己的示例代码讲解哈希算法的实现。我们先来看看cuckoo hashing有什么特点，它的哈希函数是成对的（具体的实现可以根据需求设计），每一个元素都是两个，分别映射到两个位置，一个是记录的位置，另一个是备用位置。这个备用位置是处理碰撞时用的，这就要说到cuckoo这个名词的典故了，中文名叫布谷鸟，这种鸟有一种即狡猾又贪婪的习性，它不肯自己筑巢，而是把蛋下到别的鸟巢里，而且它的幼鸟又会比别的鸟早出生，布谷幼鸟天生有一种残忍的动作，幼鸟会拼命把未出生的其它鸟蛋挤出窝巢，今后以便独享“养父母”的食物。借助生物学上这一典故，cuckoo hashing处理碰撞的方法，就是把原来占用位置的这个元素踢走，不过被踢出去的元素还要比鸟蛋幸运，因为它还有一个备用位置可以安置，如果备用位置上还有人，再把它踢走，如此往复。直到被踢的次数达到一个上限，才确认哈希表已满，并执行rehash操作。如下图所示（<a href="http://codecapsule.com/2013/07/20/cuckoo-hashing/" target="_blank">图片来源</a>）：</p>
+<p><a href="http://codecapsule.com/2013/07/20/cuckoo-hashing/"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17244" src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo_preview.jpg" alt="cuckoo_preview" width="720" height="326" srcset="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo_preview.jpg 720w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo_preview-300x136.jpg 300w" sizes="(max-width: 720px) 100vw, 720px" /></a></p>
+<p>&nbsp;</p>
+<p>我们不禁要问发生哈希碰撞之前的空间利用率是多少呢？不幸地告诉你，一维数组的哈希表上跟其它哈希函数没什么区别，也就50%而已。但如果是二维的呢？</p>
+<p>一个改进的哈希表如下图所示，每个桶（bucket）有4路槽位（slot）。当哈希函数映射到同一个bucket中，在其它三路slot未被填满之前，是不会有元素被踢的，这大大缓冲了碰撞的几率。笔者自己的简单实现上测过，采用二维哈希表（4路slot）大约80%的占用率（CMU论文数据据说达到90%以上，应该是扩大了slot关联数目所致）。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-17241" src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing-1024x392.png" alt="cuckoo hashing" width="650" height="249" srcset="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing-1024x392.png 1024w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing-300x115.png 300w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing-900x344.png 900w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing.png 1143w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<h4>Cuckoo Filter设计与实现</h4>
+<p>cuckoo hashing的原理介绍完了，下面就来演示一下笔者自己实现的一个cuckoo filter应用，简单易用为主，不到500行C代码。应用场景是这样的：假设有一段文本数据，我们把它通过cuckoo filter导入到一个虚拟的flash中，再把它导出到另一个文本文件中。flash存储的单元页面是一个log_entry，里面包含了一对key/value，value就是文本数据，key就是这段大小的数据的SHA1值（照理说SHA1是可以通过数据源生成，没必要存储到flash，但这里主要为了测试而故意设计的，万一key和value之间没有推导关系呢）。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#define SECTOR_SIZE    (1 &lt;&lt; 10)
+#define DAT_LEN        (SECTOR_SIZE - 20)  /* minus sha1 size */
+
+/* The log entries store key-value pairs on flash and the
+ * size of each entry is assumed just one sector fit.
+ */
+struct log_entry {
+        uint8_t sha1[20];
+        uint8_t data[DAT_LEN];
+};
+</pre>
+<p>顺便说明一下DAT_LEN设置，之前我们设计了一个虚拟flash（用malloc模拟出来），由于flash的单位是按页大小SECTOR_SIZE读写，这里假设每个log_entry正好一个页大小，当然可以根据实际情况调整。</p>
+<p>以上是flash的存储结构，至于哈希表里的slot有三个成员tag，status和offset，分别是哈希值，状态值和在flash的偏移位置。其中status有三个枚举值：AVAILIBLE，OCCUPIED，DELETED，分别表示这个slot是空闲的，占用的还是被删除的。至于tag，按理说应该有两个哈希值，对应两个哈希函数，但其中一个已经对应bucket的位置上了，所以我们只要保存另一个备用bucket的位置就行了，这样万一被踢，只要用这个tag就可以找到它的另一个安身之所。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+enum { AVAILIBLE, OCCUPIED, DELETED, };
+
+/* The in-memory hash bucket cache is to filter keys (which is assumed SHA1) via
+ * cuckoo hashing function and map keys to log entries stored on flash.
+ */
+struct hash_slot_cache {
+        uint32_t tag : 30;  /* summary of key */
+        uint32_t status : 2;  /* FSM */
+        uint32_t offset;  /* offset on flash memory */
+};
+</pre>
+<p>乍看之下size有点大是吗？没关系，你也可以根据情况调整数据类型大小，比如uint16_t，这里仅仅为了测试正确性。</p>
+<p>至于哈希表以及bucket和slot的创建见初始化代码。buckets是一个二级指针，每个bucket指向4个slot大小的缓存，即4路slot，那么bucket_num也就是slot_num的1/4。这里我们故意把slot_num调小了点，为的是测试rehash的发生。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#define ASSOC_WAY  (4)  /* 4-way association */
+
+struct hash_table {
+    struct hash_slot_cache **buckets;
+    struct hash_slot_cache *slots;
+    uint32_t slot_num;
+    uint32_t bucket_num;
+};
+
+int cuckoo_filter_init(size_t size)
+{
+    ...
+    /* Allocate hash slots */
+    hash_table.slot_num = nvrom_size / SECTOR_SIZE;
+    /* Make rehashing happen */
+    hash_table.slot_num /= 4;
+    hash_table.slots = calloc(hash_table.slot_num, sizeof(struct hash_slot_cache));
+    if (hash_table.slots == NULL) {
+        return -1;
+    }
+
+    /* Allocate hash buckets associated with slots */
+    hash_table.bucket_num = hash_table.slot_num / ASSOC_WAY;
+    hash_table.buckets = malloc(hash_table.bucket_num * sizeof(struct hash_slot_cache *));
+    if (hash_table.buckets == NULL) {
+        free(hash_table.slots);
+        return -1;
+    }
+    for (i = 0; i &lt; hash_table.bucket_num; i++) {
+        hash_table.buckets[i] = &amp;hash_table.slots[i * ASSOC_WAY];
+    }
+}
+</pre>
+<p>下面是哈希函数的设计，这里有两个，前面提到既然key是20字节的SHA1值，我们就可以分别是对key的低32位和高32位进行位运算，只要bucket_num满足2的幂次方，我们就可以将key的一部分同bucket_num &#8211; 1相与，就可以定位到相应的bucket位置上，注意bucket_num随着rehash而增大，哈希函数简单的好处是求哈希值十分快。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#define cuckoo_hash_lsb(key, count)  (((size_t *)(key))[0] &amp; (count - 1))
+#define cuckoo_hash_msb(key, count)  (((size_t *)(key))[1] &amp; (count - 1))
+</pre>
+<p>终于要讲解cuckoo filter最重要的三个操作了——查询、插入还有删除。查询操作是简单的，我们对传进来的参数key进行两次哈希求值tag[0]和tag[1]，并先用tag[0]定位到bucket的位置，从4路slot中再去对比tag[1]。只有比中了tag后，由于只是key的一部分，我们再去从flash中验证完整的key，并把数据在flash中的偏移值read_addr输出返回。相应的，如果bucket[tag[0]]的4路slot都没有比中，我们再去bucket[tag[1]]中比对（代码略），如果还比不中，可以肯定这个key不存在。<strong>这种设计的好处就是减少了不必要的flash读操作，每次比对的是内存中的tag而不需要完整的key。</strong></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static int cuckoo_hash_get(struct hash_table *table, uint8_t *key, uint8_t **read_addr)
+{
+    int i, j;
+    uint8_t *addr;
+    uint32_t tag[2], offset;
+    struct hash_slot_cache *slot;
+
+    tag[0] = cuckoo_hash_lsb(key, table-&gt;bucket_num);
+    tag[1] = cuckoo_hash_msb(key, table-&gt;bucket_num);
+
+    /* Filter the key and verify if it exists. */
+    slot = table-&amp;gt;buckets[tag[0]];
+    for (i = 0; i bucket_num) == slot[i].tag) {
+        if (slot[i].status == OCCUPIED) {
+            offset = slot[i].offset;
+            addr = key_verify(key, offset);
+            if (addr != NULL) {
+                if (read_addr != NULL) {
+                    *read_addr = addr;
+                }
+                break;
+            }
+        } else if (slot[i].status == DELETED) {
+            return DELETED;
+        }
+    }
+    ...
+}</pre>
+<p>接下来先将简单的删除操作，之所以简单是因为delete除了将相应slot的状态值设置一下之外，其实什么都没有干，也就是说它不会真正到flash里面去把数据清除掉。为什么？很简单，没有必要。还有一个原因，flash的写操作之前需要擦除整个页面，这种擦除是会折寿的，<strong>所以很多flash支持随机读，但必须保持顺序写。</strong></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static void cuckoo_hash_delete(struct hash_table *table, uint8_t *key)
+{
+    uint32_t i, j, tag[2];
+    struct hash_slot_cache *slot;
+
+    tag[0] = cuckoo_hash_lsb(key, table-&gt;bucket_num);
+    tag[1] = cuckoo_hash_msb(key, table-&gt;bucket_num);
+
+    slot = table-&gt;buckets[tag[0]];
+    for (i = 0; i bucket_num) == slot[i].tag) {
+        slot[i].status = DELETED;
+        return;
+    }
+    ...
+}</pre>
+<p>了解了flash的读写特性，你就知道为啥插入操作在flash层面要设计成append。不过我们这里不讨论过多flash细节，哈希表层面的插入逻辑其实跟查询差不多，我就不贴代码了。这里要贴的是如何判断并处理碰撞，其实这里也没啥玄机，就是用old_tag和old_offset保存一下临时变量，以便一个元素被踢出去之后还能找到备用的安身之所。但这里会有一个判断，每次踢人都会计数，当alt_cnt大于512时候表示哈希表真的快满了，这时候需要rehash了。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static int cuckoo_hash_collide(struct hash_table *table, uint32_t *tag, uint32_t *p_offset)
+{
+    int i, j, k, alt_cnt;
+    uint32_t old_tag[2], offset, old_offset;
+    struct hash_slot_cache *slot;
+
+    /* Kick out the old bucket and move it to the alternative bucket. */
+    offset = *p_offset;
+    slot = table-&gt;buckets[tag[0]];
+    old_tag[0] = tag[0];
+    old_tag[1] = slot[0].tag;
+    old_offset = slot[0].offset;
+    slot[0].tag = tag[1];
+    slot[0].offset = offset;
+    i = 0 ^ 1;
+    k = 0;
+    alt_cnt = 0;
+
+KICK_OUT:
+    slot = table-&gt;buckets[old_tag[i]];
+    for (j = 0; j &lt; ASSOC_WAY; j++) {
+        if (offset == INVALID_OFFSET &amp;&amp; slot[j].status == DELETED) {
+            slot[j].status = OCCUPIED;
+            slot[j].tag = old_tag[i ^ 1];
+            *p_offset = offset = slot[j].offset;
+            break;
+        } else if (slot[j].status == AVAILIBLE) {
+            slot[j].status = OCCUPIED;
+            slot[j].tag = old_tag[i ^ 1];
+            slot[j].offset = old_offset;
+            break;
+        }
+    }
+
+    if (j == ASSOC_WAY) {
+        if (++alt_cnt &gt; 512) {
+            if (k == ASSOC_WAY - 1) {
+                /* Hash table is almost full and needs to be resized */
+                return 1;
+            } else {
+                k++;
+            }
+        }
+        uint32_t tmp_tag = slot[k].tag;
+        uint32_t tmp_offset = slot[k].offset;
+        slot[k].tag = old_tag[i ^ 1];
+        slot[k].offset = old_offset;
+        old_tag[i ^ 1] = tmp_tag;
+        old_offset = tmp_offset;
+        i ^= 1;
+        goto KICK_OUT;
+    }
+
+    return 0;
+}</pre>
+<p>rehash的逻辑也很简单，无非就是把哈希表中的buckets和slots重新realloc一下，空间扩展一倍，然后再从flash中的key重新插入到新的哈希表里去。这里有个陷阱要注意，<strong>千万不能有相同的key混进来！</strong>虽然cuckoo hashing不像开链法那样会退化成O(n)，但由于每个元素有两个哈希值，而且每次计算的哈希值随着哈希表rehash的规模而不同，相同的key并不能立即检测到冲突，但当相同的key达到一定规模后，噩梦就开始了，由于rehash里面有插入操作，一旦在这里触发碰撞，又会触发rehash，这时就是一个rehash不断递归的过程，由于其中老的内存没释放，新的内存不断重新分配，整个程序就如同陷入DoS攻击一般瘫痪了。<strong>所以每次插入操作前一定要判断一下key是否已经存在过，并且对rehash里的插入使用碰撞断言防止此类情况发生。</strong>笔者在测试中不幸中了这样的彩蛋，调试了大半天才搞清楚原因，搞IT的同学们记住一定要防小人啊~</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static void cuckoo_rehash(struct hash_table *table)
+{
+    ...
+    uint8_t *read_addr = nvrom_base_addr;
+    uint32_t entries = log_entries;
+    while (entries--) {
+        uint8_t key[20];
+        uint32_t offset = read_addr - nvrom_base_addr;
+        for (i = 0; i &amp;lt; 20; i++) {
+            key[i] = flash_read(read_addr);
+            read_addr++;
+        }
+        /* Duplicated keys in hash table which can cause eternal
+         * hashing collision! Be careful of that!
+         */
+        assert(!cuckoo_hash_put(table, key, &amp;offset));
+        if (cuckoo_hash_get(&amp;old_table, key, NULL) == DELETED) {
+            cuckoo_hash_delete(table, key);
+        }
+        read_addr += DAT_LEN;
+    }
+    ...
+}</pre>
+<p>到此为止代码的逻辑还是比较简单，使用效果如何呢？我来帮你找个大文件<a href="https://github.com/unqlite/unqlite/blob/master/unqlite.c" target="_blank">unqlite.c</a>测试一下，这是一个嵌入式数据库源代码，共59959行代码。作为需要导入的文件，编译我们的cuckoo filter，然后执行：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">./cuckoo_db unqlite.c output.c</code></p>
+<p>你会发现生成output.c正好也是59959行代码，一分不差，probably yes终于变成了definitely yes。同时也可以看到，cuckoo filter真的很快！如果你想看hashing的整个过程，可以参照<a href="https://github.com/begeekmyfriend/CuckooFilter/blob/master/README.md" target="_blank">README</a>里把调试宏打开。最后，欢迎给<a href="https://github.com/begeekmyfriend/CuckooFilter" target="_blank">这个小玩意</a>提交PR！</p>
+<h4>参考资料</h4>
+<p>Cuckoo Filter的<a href="http://www.cs.cmu.edu/~binfan/papers/conext14_cuckoofilter.pdf" target="_blank">论文</a>和<a href="http://www.cs.cmu.edu/~binfan/papers/conext14_cuckoofilter.pptx" target="_blank">PPT</a>：Cuckoo Filter: Practically Better Than Bloom<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/538efefbgw1eiz9cvx78fj20rm0fmdi8-150x150.jpg" alt="【活动】解迷题送礼物" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_title">【活动】解迷题送礼物</a></li><li ><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/QR-Code-Overview-150x150.jpeg" alt="二维码的生成细节和原理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_title">二维码的生成细节和原理</a></li><li ><a href="https://coolshell.cn/articles/10427.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation-150x150.jpg" alt="伙伴分配器的一个极简实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10427.html" class="wp_rp_title">伙伴分配器的一个极简实现</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17225.html">Cuckoo Filter：设计与实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17225.html/feed</wfw:commentRss>
+			<slash:comments>37</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>谜题的答案和活动的心得体会</title>
+		<link>https://coolshell.cn/articles/11847.html</link>
+					<comments>https://coolshell.cn/articles/11847.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 05 Aug 2014 23:47:50 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11847</guid>
+
+					<description><![CDATA[<p>我于2014年8月3日周六的上午在微博、twitter、CoolShell上发布了一个和程序员有关的解谜题的活动——【活动】解谜题送礼物。我使用了二级域名fun...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11847.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11847.html">谜题的答案和活动的心得体会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我于2014年8月3日周六的上午在微博、twitter、CoolShell上发布了一个和程序员有关的解谜题的活动——<a title="【活动】解迷题送礼物" href="https://coolshell.cn/articles/11832.html" target="_blank">【活动】解谜题送礼物</a>。我使用了二级域名fun.coolshell.cn做为这次活动的页面。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11848" src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle.png" alt="" width="543" height="206" srcset="https://coolshell.cn/wp-content/uploads/2014/08/puzzle.png 543w, https://coolshell.cn/wp-content/uploads/2014/08/puzzle-300x114.png 300w" sizes="(max-width: 543px) 100vw, 543px" /></p>
+<p>截止这篇文章发布的时候，fun.coolshell.cn的访问量UV大约有4万左右，通关人数大约有200人，但因为在活动的第二天网上就出了一些答题攻略，通过分析，实际靠自己能力通过的人数在130人左右。通过率大约不到4‰的样子。</p>
+<p>在这里我把整个谜题和做这个活动的东西写一下，算是给自己的一个总结。</p>
+<h4>谜题的答案和花絮</h4>
+<p>fun.coolshell.cn上一共有十道谜题，<strong>要设计这些东西还真是费尽脑汁，这让我对那些设计谜题式游戏的人相当敬佩</strong>。</p>
+<p><span id="more-11847"></span></p>
+<p style="padding-left: 30px;"><strong>第0关：</strong>很多人可能一头雾水，完全不知道这是什么，其实只要Google一下，你会知道这是一个叫BrainFuck的语言。在Coolshell.cn上我也介绍了过——《<a title="BT雷人的程序语言" href="https://coolshell.cn/articles/1142.html" target="_blank">BT雷人的程序语言</a>》《<a title="BT雷人的程序语言（大全）" href="https://coolshell.cn/articles/4458.html" target="_blank">BT雷人的程序语言（大全）</a>》，要通过这关，你需要把那段程序编译一下。要编译这段程序其实很简单，Google一个在线的编译器就可以了。（关于其它更多的古怪的编程语言请参看这里：<a href="http://esolangs.org/wiki/Language_list" target="_blank">http://esolangs.org/wiki/Language_list</a>）</p>
+<p style="padding-left: 30px;"><strong>第1关：</strong>这一关也是很简单的，你需要在网页上找到两个数，一个是X，一个是Y，然后求得X和Y的乘积。对于X，你可以观察一下那个数列游戏，对于Y，你可以Google一下就知道了（我在Coolshell的《<a title="如何用最有创造力的方式输出42" href="https://coolshell.cn/articles/11170.html" target="_blank">如何用最有创造力的方式输出42</a>》说过这个事）。</p>
+<p style="padding-left: 30px;"><strong>第2关：</strong>上面显示了一个不一样的键盘，我给了这个键盘的Wikipedia的链接。这个键盘叫Dvorak键，不同于我们的Qwert键。通过这个两个键盘的布局映射，你可以把下面那段读不懂的文字解出来（其实，你还是可以Google，有在线的转换）。把下面那段文字转成Qwert键的，你就会发现这是一段代码，这段代码非常著名，<span style="color: #000000;">是1987年国际<a href="http://www.di-mgt.com.au/src/korn_ioccc.txt" target="_blank">C语言混乱大赛一等奖的一段代码</a>（你可Google “IOCCC 87 unix”）。（关于IOCCC你可以参看Coolshell之前的《<a title="6个变态的C语言Hello World程序" href="https://coolshell.cn/articles/914.html" target="_blank">6个变态的HelloWorld</a>》、《<a title="如何加密/混乱C源代码" href="https://coolshell.cn/articles/933.html" target="_blank">如何混乱代码</a>》、《<a title="如何写出无法维护的代码" href="https://coolshell.cn/articles/4758.html" target="_blank">如何写出无法维护的代码</a>》这几篇文章）</span></p>
+<p style="padding-left: 30px;"><strong>第3关：</strong>扫描二维码以后，你会得到一个码表转换，你可以使用Shell的tr命令来转一下下面的话。转完后你就可以读懂了，读懂了你还需要使用rot13来转一下“shell”（Google一下，你会发现也有在线的转换器，另外还有其它的rot）</p>
+<p style="padding-left: 30px;"><strong>第4关</strong>：这是众多同学被卡在的地方。很多同学吐槽这题太坑了，别忘了这是游戏啊。我问了几个早先通关的同学，他们都说还好了，只要静一下心来多观察一下，你就会找出规律的。这个回文的模式是，一个大写字符和一个数字（顺序不限）把一个小字母套起来。于是，写成正则表达式是：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">([A-Z])([0-9])[a-z]\2\1|([0-9])([A-Z])[a-z]\4\3</code></p>
+<p style="padding-left: 30px;">用shell命令可以很快地找到9个匹配，然后，像“cat”一样，取中间的小写字母组成一个单词。写成Shell命令是：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">grep -o &quot;\([A-Z]\)\([0-9]\)[a-z]\2\1\|\([0-9]\)\([A-Z]\)[a-z]\4\3&quot; cat.txt | sed -E &quot;s/(.)(.)(.)\2\1/\3/g&quot; | awk &#039;{printf(&quot;%s&quot;,$1)}&#039; &amp;&amp; echo &quot;&quot;</code></p>
+<p style="padding-left: 30px;">这题主要考的是你的观察能力和正则表达式。</p>
+<p style="padding-left: 30px;"><strong>第5关</strong>：如果你点了一下图片后，你就知道，这个连接http://fun.coolshell.cn/n/2014返回了一个数字，如果你把这个数字放到那个URL中，不断地替换其中的数字，你会得到一个新的数字。于是你就会得到最终的答案。</p>
+<p style="padding-left: 30px;">这道题本来我是想让大家写程序的，我原来设置了一共512个序列，但是考虑到服务受不了，所以，我把它降到了128个，这样保证你的程序可以在几秒钟内得到结果，而不会对我的服务器造成压力。但是我还是看到好几个同学人肉地copy+paste+回车刷了100多下，得到了最终答案。</p>
+<p style="padding-left: 30px;"><strong>第6关：</strong>通过中序和后序遍历还原一棵二叉树，然后再找到其最深的路径，然后得到一个字符串后，把这个字符串做为一个passcode代入那个openssl的命令行中。你就可以解密密文得到下一关的答案。</p>
+<p style="padding-left: 30px;">这个题，我本想设计得更隐晦一些，用一个“心脏流血”的图片来暗示openssl，然后用别的东西暗示AES-128-CBC，后来想想算了，主要还是考大家在大学里的二叉树的最基本的算法。并介绍一下openssl的shell命令行加解密的方法。</p>
+<p style="padding-left: 30px;">在网上的一些攻略中我看到了大家没有用程序，而是手动地花了一棵树出来。（其实，这设计这道的时候，我本来想设计成随机树，也就每个人看到的答案都不一样，我随机建树并且找最深路径的程序都写好了，但是我最终还是没有这样做，因为这无疑增加我对这个网页游戏的代码复杂度，而我又没有太多的时间，而谜题的各种形式已经够让我花精力的了，你虽然看到了10道题，但是其实我设计了一共有16道题，我反复斟酌，即不想为难大家，又不想太简单和无聊，所以最终release了这十道题）</p>
+<p style="padding-left: 30px;"><strong>第7关：</strong>N皇后问题，这个问题也是大学里的题。9皇后一共有352个解，你需要把这352个解代到那个sha1的公式中（需要上一关用于解密的passcode），这样你就会得到一个解。然后这就是通关口令。</p>
+<p style="padding-left: 30px;">第6关和第7关的算法题你要是不会写的话，Google一下，反正我们是“大自然的搬运工”，不是吗？呵呵。</p>
+<p style="padding-left: 30px;">第7关这题啊，我看到一个同学用穷举的1-9的排序组合的方式来向服务发请求，从123456789开始，我都看SB了，因为这关的通答案是9开头，我勒了个去！你得对我的服务器发多少次请求啊，才能得到一个200的回复啊。TNND。服了。不过这个同学我最终还是给通过了，没有判定成作弊。</p>
+<p style="padding-left: 30px;"><strong>第8关：</strong>Excel的列号编程，这一关写成代码其实并不难的。但我看到网上给的好些答案，大家都是用手算。也OK，这题本身就没有什么难度，但是因为这个26进制是从1开始的，写出来的代码并不非常容易，一些边界条件很容易就break掉了。这题完全考的是编码。把COOLSHELL除以SHELL的数转成字符串。然后就进入最后一关了。</p>
+<p style="padding-left: 30px;">然后，我又见到有个同学用了穷举的方式，TNND，其实每道题都有人在用穷举的方式，我勒个去。他从AAA开始穷举，不一会就穷举出正确答案了。尼玛！</p>
+<p style="padding-left: 30px;"><strong>第9关：</strong>一个猪圈和一个共济会的logo，你Google一下，你就知道答案了。这题纯粹就是介绍知识的。不知道大家有没有去wikipedia上了解了一下这个猪圈密码和共济会是怎么一回事吗？这样的密文叫图片密文，还有很多类似的图片密文的。你知道吗？有相应的字库哦。也有在线的生成器哦。（因为我最近在学各种安全的基础知识，所以了解到了这个东西）</p>
+<p style="padding-left: 30px;"><strong>通关：</strong>于是你就通关了。你会发现你得到了一个helloworld，这个字符串，在我一放出来这个谜题的时候，就有很多人在尝试helloworld就是那段brainfuck的代码的输出。我汗啊。还好我做了一个比较复杂的防作弊检查……</p>
+<p>总体来说，这些关卡都不难，但是你最少也得用2-3个小时。<a href="http://fun.coolshell.cn/top100.html" target="_blank">Top100页面</a>时统计的平均时间是10个半小时。</p>
+<p>再说一个花絮，自从，8月3日上线后，8月4日在网上就有了相关的解答攻略，还是在V2EX上，于是出现了好些只花了几分钟就做完了的人。不过好在事先我就预料到了这个事，事先预备好了“反作弊分析”的脚本，细节不想说太多，反正就是说，我会记录你答案的整个过程和行为，以此来确保TOP100中的人基本都是用自己能力答的，当然，可能会有漏判，但至少也是写过代码的。</p>
+<h4>活动心得</h4>
+<p>因为是第一次做活动，所以有很多感想，下面写下一些做这个活动的心得，供大家参考：</p>
+<p><strong>1）要做好一个这样的解题游戏并不简单</strong>。</p>
+<ul>
+<li><strong>关卡设计：</strong>最花力气的地方就是设计每个关卡，我不能设计得太过隐晦，也不能设计得太过明显。最好是要符合参与者的能力，但又要高于平均以上水平的能力，最好在90%以上。这样会让大家有挑战感，但是又不会有挫败感。这个度相当难把握。总体而言，本次设计的谜题中还有很多可以改进的地方。但这毕竟是我的第一次，也算是我用其来感受一下应该怎么设计游戏。</li>
+</ul>
+<ul>
+<li><strong>游戏黏性：</strong>除了设计谜题，还需要针对用户可能会答错的地方来给用户一些提示，原因也是为了不让用户有挫败感，虽然用户没有答对，但是需要用这些页面来鼓励用户You made some progress，这个很重要。这会让用户对游戏更有粘性，并且更愿意有更多的投入。找到这些地方也不是一件容易的事，因为做为游戏的设计者来说，很难从一个不知到答案的角度去思考。所以需要试玩，在fun.coolshell.cn正式release之前，我找了几个人比较聪明的人来试玩了一下，对这个游戏的帮助很大。</li>
+</ul>
+<ul>
+<li><strong>游戏管理：</strong>这样的一个在线游戏自然会出一些作弊者，为了游戏的公平性，你需要剔除这些作弊者。所以，我设计了一些比较简单的记录用户所有过程的监测的算法。通过cookie和后台的http log来一同分析。这个部分也比较地花时间。我上周六的时候写这些代码写到了凌晨4点，导致脑子不清楚，出了些bug，导致在大家游戏过程中重置cookie等伤害用户体验的事件。所以说啊，不能赶啊，也不能加班啊。</li>
+</ul>
+<p><strong>2）关于怎么做一个活动的感想。</strong></p>
+<ul>
+<li><b>这次活动的背景</b>。首先，想做这个活动的起因是这样的。我一个朋友在微博上做活动——“转发微博或@几个人怎么怎么滴就有机获得什么什么的”，<strong>我在这里把这种活动简称为“转就送”活动</strong>。于是遭到了水军的刷奖品，导致他根本分不清楚哪些是正常人，哪些不是，因为新浪微博上有大量的这要瓣机器人，所以他这次活动最后失败了。我说，你得加点难度啊，要加点智商啊。<strong>而且，我看过太多的活动都是这样的，而且很多公司的活动也是这样的，我觉得太low了</strong>。于是，我就萌生了自己尝试一下的念头。</li>
+</ul>
+<ul>
+<li><strong>我对做活动的理解</strong>。我一直觉得网上那些诸如“转就送”或是“抽奖”这样的活动都比较SB，这些人根本就不知道怎么做活动。这样做活动不需要智商，简单粗暴，效果一点也不好，活动做完了，人就走了，人们马上就忘了。我以为做活动的精髓是这样的：</li>
+</ul>
+<ul>
+<ul>
+<li><strong>真正的价值</strong>。其实，好的活动并不只是物品的价格，而是参与这个过程的感觉和体会。如果你让人觉得这是碰运气的，那么这个活动除了用物品价格来吸引人，也就没别的什么了。<strong>如果这个活动的参与过程是让人有成就感的，要有成就感那么就需要有一定难度的挑战，而且这种挑战也是让众人认可和佩服的，那么这个奖品的价格再小，价值也会很大</strong>。比如：Olympic Game，World Cup之流的，世界顶尖，四年一次，来之不易。这才是活动的价值。本次的fun.coolshell.cn上的活动，我希望让大家在做题的过程中学到一些东西，另外也希望做出来的人有一种成就感。</li>
+</ul>
+</ul>
+<ul>
+<ul>
+<li><strong>让人有回味</strong>。那些简单的“转就送”式的活动不会让人产生任何的回味，只会让人产生很大的反感。就像那些“让你转发，不转就死全家”的东西，相当的让人反感。真正的回味是人们对活动参与过程的讨论和交互。在fun.coolshell.cn上线后，我就看到好几个社区在讨论这些谜题，这就是所谓的回味。<strong>只有人们对过程的回味，对参与的回味，才会让这个活动真正的成功</strong>。</li>
+</ul>
+</ul>
+<ul>
+<ul>
+<li><strong>暴露活动过程</strong>。有挑战的活动，一定要有一个Who&#8217;s Who的东西，而且是随时动态更新的可以让大家查询的，这样才会从另一个侧面激发大家的热情。因为fun.coolshell.cn一开始说了只给前十个人送东西，结果在过程中，我发现了就半天时间就差不多满了，那时我在想，如果没有奖品了，剩下的人还会不会玩了？于是我飞快地开发了一个TOP100的排行榜，让大家可以看得到这个过程，虽然前十以后就没有奖品了，但是，能上这TOP100也不错。于是乎，在没有奖品情况下，依然在激发着大家的解题热情。<strong>有竞争总是一件有意思的事情，因为成就感总是来自竞争</strong>。（注：为什么top100中会有“xxxxxx”的用户，因为一开始我用的是用户提交的name，但是后来有人告诉我，这个名字可能是真名，所以，我就改成了weibo或twitter的ID，而xxxxx则是没有留下微博或twitter的）</li>
+</ul>
+</ul>
+<p>最后吐个槽，<strong>我真的觉得那些“纯靠运气的活动”相当的SB，我看到好些公司的运营部门招了多少个所谓的高学历和高能力的人，结果干出来的运营活动的水平，其实，也就是个有小学文化水平的人就可以做的了</strong>。那些“转就送式的”、“抽奖式的”的活动，是个人都会干，根本不需要高学历的人。</p>
+<h4>其它</h4>
+<p>1）<strong>本次活动中，有一个隐藏关卡，还没有人找出来</strong>。要能达到隐藏关卡，需要完成所有的题目。</p>
+<p>2）<strong>活动的通关页是HelloWorld，这意味着——这仅仅是个开始</strong>。</p>
+<p>最后感谢大家为这个活动付出的时间！</p>
+<p>（全文完）</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/538efefbgw1eiz9cvx78fj20rm0fmdi8-150x150.jpg" alt="【活动】解迷题送礼物" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_title">【活动】解迷题送礼物</a></li><li ><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/sed-superman-150x150.png" alt="sed 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_title">sed 简明教程</a></li><li ><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/awk-150x150.jpg" alt="AWK 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_title">AWK 简明教程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11847.html">谜题的答案和活动的心得体会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11847.html/feed</wfw:commentRss>
+			<slash:comments>98</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>【活动】解迷题送礼物</title>
+		<link>https://coolshell.cn/articles/11832.html</link>
+					<comments>https://coolshell.cn/articles/11832.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 03 Aug 2014 10:52:14 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11832</guid>
+
+					<description><![CDATA[<p>首先，先跟大家道歉一下最近CoolShell大约长达一个多月没有什么更新，原因主要在于，我去看世界杯去了，这一个月的世界杯熬夜看球使我的精力不佳，导致世界杯结束...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11832.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11832.html">【活动】解迷题送礼物</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>首先，先跟大家道歉一下最近CoolShell大约长达一个多月没有什么更新，原因主要在于，我去看世界杯去了，这一个月的世界杯熬夜看球使我的精力不佳，导致世界杯结束后的几个星期也没有缓过来，所以没有更新什么文章。好多朋友写邮件或是在微博上at我催我更新，所以有点惭愧了。</p>
+<p>精神不佳我就不写文章了。于是，世界杯过后，我每天都会抽出每天晚上和周末的一些碎片时间，我仿照一些前端过关的游戏，做了几个和程序员有关的迷题，也是要通关的，不过和前端知识没什么关系。这个游戏我放到了下面这个二级域名下。</p>
+<p style="text-align: center;"><strong><a href="http://fun.coolshell.cn/" target="_blank">http://fun.coolshell.cn/</a></strong></p>
+<p style="text-align: left;"><a href="http://fun.coolshell.cn/"><img decoding="async" loading="lazy" class="aligncenter" src="http://ww2.sinaimg.cn/mw1024/538efefbgw1eiz9cvx78fj20rm0fmdi8.jpg" alt="" width="500" height="281" /></a></p>
+<p style="text-align: left;">有兴趣的朋友可以去玩玩。通关的同学我会送你们《Unix环境高级编程（第三版）》<span style="color: #423009;">（感谢<a style="color: #6c6351;" href="http://weibo.com/n/%E5%87%BA%E7%89%88%E5%9C%88%E9%83%AD%E5%BF%97%E6%95%8F?from=feed&amp;loc=at">@出版圈郭志敏</a> 赞助）或一个马克杯（感谢<a style="color: #6c6351;" href="http://weibo.com/n/linux%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%B2%BE%E9%80%89%E7%BD%91?from=feed&amp;loc=at">@linux命令行精选网</a> 赞助）</span>），因为奖品数量有限，所以，我会送给前十个通关的同学（后面通关的我会随机抽几个）。</p>
+<p style="text-align: left;"><span id="more-11832"></span></p>
+<p style="text-align: center;"><img decoding="async" src="http://ww4.sinaimg.cn/mw1024/538efefbgw1eiz9cwlgybj2058079t8z.jpg" alt="" />  <img decoding="async" loading="lazy" src="http://ww2.sinaimg.cn/mw1024/538efefbgw1eiz9d0qp1dj20c8085dgj.jpg" alt="" width="389" height="259" /></p>
+<p style="text-align: left;">最后说一下这些迷题：</p>
+<p style="text-align: left; padding-left: 30px;">1）目前一共有10个迷题。你通关会出现个Congratulations的页面和一个表单，希望你能提供一下你的联系方式（联系方式只要你的email/weibo/twitter/homepage这样你比较公开的方式）。</p>
+<p style="text-align: left; padding-left: 30px;">2）为了突出fun，所以，这些迷题中有好些基于一些“有趣”的知识的（可能有些知识你是不知道的）。</p>
+<p style="text-align: left; padding-left: 30px;">3）我使用了英文，只希望你对英文不要害怕，英文是程序员最关键的一项技能。（虽然我的英文也一般）</p>
+<p style="text-align: left; padding-left: 30px;">4）你要通关的话，你可能需要很多的Google/Wikipedia，所以，你可能需要翻墙环境。我希望你能经常翻墙。</p>
+<p style="text-align: left; padding-left: 30px;">5）另外，如果要通关的话，你需除了有比较好的观察能力，你还需要对Linux命令行有一些了解，有一半左右的题是需要写代码才能过的，写代码的题中有字符串匹配（正则表达式），网络请求，算法和数据结构，以及一些基础的加密解密知识。</p>
+<p style="text-align: left; padding-left: 30px;">6）这些题并不难，而且谜面提示得应该是非常清楚，不过，你要做完最快也需要2-3个小时，所以，在这里还是谢谢你的时间。</p>
+<p style="text-align: left;">祝大家玩得愉快！</p>
+<p style="text-align: center;"><strong>————更新：2014/8/5————</strong></p>
+<p style="text-align: center;"><span style="color: #cc0000;"><strong>本活动已结果，题的页面还在保留中……</strong></span></p>
+<p style="text-align: left;">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-150x150.jpg" alt="Cuckoo Filter：设计与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_title">Cuckoo Filter：设计与实现</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/QR-Code-Overview-150x150.jpeg" alt="二维码的生成细节和原理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_title">二维码的生成细节和原理</a></li><li ><a href="https://coolshell.cn/articles/10427.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation-150x150.jpg" alt="伙伴分配器的一个极简实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10427.html" class="wp_rp_title">伙伴分配器的一个极简实现</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11832.html">【活动】解迷题送礼物</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11832.html/feed</wfw:commentRss>
+			<slash:comments>107</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何用最有创造力的方式输出42</title>
+		<link>https://coolshell.cn/articles/11170.html</link>
+					<comments>https://coolshell.cn/articles/11170.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 06 Mar 2014 14:42:42 +0000</pubDate>
+				<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[42]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11170</guid>
+
+					<description><![CDATA[<p>酷壳似乎好长时间没有像《编程真难啊》或是《老手是这样教新手编程的》或是像《如何写出无法维护的代码》这样“严肃正经”的文章了，所以，赶在大家还没有向我扔臭鸡蛋前奉...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11170.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11170.html">如何用最有创造力的方式输出42</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2014/03/42-300x240.jpg" alt="" width="300" height="240" class="alignright size-medium wp-image-11216" srcset="https://coolshell.cn/wp-content/uploads/2014/03/42-300x240.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/03/42-338x270.jpg 338w, https://coolshell.cn/wp-content/uploads/2014/03/42.jpg 750w" sizes="(max-width: 300px) 100vw, 300px" />酷壳似乎好长时间没有像《<a title="编程真难啊 - 80,069 人阅读" href="https://coolshell.cn/articles/1391.html">编程真难啊</a>》或是《<a title="老手是这样教新手编程的" href="https://coolshell.cn/articles/2420.html" target="_blank">老手是这样教新手编程的</a>》或是像《<a title="如何写出无法维护的代码" href="https://coolshell.cn/articles/4758.html" target="_blank">如何写出无法维护的代码</a>》这样“严肃正经”的文章了，所以，赶在大家还没有向我扔臭鸡蛋前奉献一篇。这篇文章来自CodeGolf.StackExchange上的《<a href="http://codegolf.stackexchange.com/questions/21835/most-creative-way-to-display-42">Most creative way to display 42</a>》—— 请以最有创造力的方式输出42。于是出现了下面的这些答案（注：精彩的总是留在最后面）</p>
+<h4>人生和宇宙终级问题的答案：42</h4>
+<p>这里，需要介绍一下为什么要输出42。这时因为42是我们人生，世界乃至整个宇宙的终级答案。这要从《银河系漫游指南》（英文名：The Hitchhiker&#8217;s Guide to the Galaxy）说起。这本书是著名英国科幻小说作家Douglas  Adams所著5本银河系漫游指南系列科幻喜剧系列小说中的第一本，改编自他本人为英国广播公司第四电台（BBC Radio 4）所写的广播剧剧本。该书1979年10月12日首次由麦克米伦出版公司（Pan Books）出版，次周成为英国图书销量榜冠军，前3个月内销售超过25万本。截至2005年，这本小说已被翻译成超过30种语言在全世界发行，并且被改编为电视剧、电影、舞台剧等多种艺术形式的作品。</p>
+<p>这本小说中小说中充满尖锐的讽刺和隐喻，被西方科幻爱好者奉为“科幻圣经”。其中有两个关键词，一个是Don&#8217;t Panic，一个是42影响力很大，而其中关于42的故事简介是这样的：</p>
+<p style="padding-left: 30px;">百万年前，老鼠其实是一种超智慧生物，它们建造了一部超级电脑深思Deep Thought，它们问超级电脑，生命、宇宙以及任何事情的终极答案（<i>Answer to Life, the Universe, and Everything</i>）什么，经过了750万年的计算，深思告诉老鼠的后人答案是<b>42</b>，深思解释它只能计算出答案是什么，但答案的原因必须由另一部更高智能的电脑才能解释，而该部电脑就是地球。经过了800万年，就在结果要出来的五分钟前，地球却因为挡在预定兴建的星际间高速公路的路线，被Vogons给毁灭，电脑没有给出最后的结果。</p>
+<p><span id="more-11170"></span></p>
+<p style="padding-left: 30px;">故事里面还说了这个42是6 乘于 9得来。当然，6乘9应该是54，但是因为地球上的电脑被搞坏了，导致主人翁答错了。至于后来有人说6 x 9 = 42是基于13进制，原作者说，完全没有这回事，他就是瞎搞的。</p>
+<p>网上有很多人在猜测42的含义，比如<a href="http://www.douban.com/note/232036705/" target="_blank">douban的这篇文章</a>，但是原作者出来说这他就是随机想了一个，完全没有任何意义。</p>
+<p>对于42来说，数字42和短语，“生命，宇宙以及一切的答案”（<i>Answer to Life, the Universe, and Everything</i>） 已达到在互联网上邪教的地位。在各种技术宅，极客，科学圈有着非同凡响的地位。</p>
+<ul>
+<li>您若在Google输入<a href="http://www.google.com/search?q=the+answer+to+life%2C+the+universe%2C+and+everything" target="_blank" rel="nofollow">the answer to life, the universe, and everything</a>，Google会直接回答42——而且还是用Google计算器算出来的。</li>
+<li>若在<a title="Wolfram Alpha" href="http://zh.wikipedia.org/wiki/Wolfram_Alpha" target="_blank">Wolfram Alpha</a>中输入<a href="http://www.wolframalpha.com/input/?i=Answer+to+the+Ultimate+Question+of+Life%2C+the+Universe%2C+and+Everything" target="_blank" rel="nofollow">Answer to the Ultimate Question of Life, the Universe, and Everything</a>，Wolfram Alpha也会回答42</li>
+<li>若在iPhone/iPad的Siri中问[What&#8217;s the meaning of life?]，Siri也会回答42</li>
+<li><span><span>在</span></span><a title="OpenOffice.org" href="http://en.wikipedia.org/wiki/OpenOffice.org"><span>OpenOffice.org</span></a><span><span>软件，如果您在任何单元格输入spreadsheet=ANTWORT(&#8220;Das Leben, das Universum und der ganze Rest&#8221;) (注：德语的ANSWER(&#8220;life, the universe and everything&#8221;))，结果也会是42。</span></span></li>
+</ul>
+<p>另外，在美剧《Lost》里那个经典的数字序列： 4, 8, 15, 16, 23,42。经Lost的导演确认，最后那个42也是源自《银河系漫游指南》</p>
+<p>好了，言归正传，下面让我们来看一下如何输出42的。</p>
+<h4>Ruby</h4>
+<p><code data-enlighter-language="ruby" class="EnlighterJSRAW"></code>puts (6 * 9).to_s(13)[/h4]</p>
+<p>解释：6 x 9 = 42的表达式（基于13进制）</p>
+<h4>Javascript</h4>
+<p>[javascript]String.prototype.answer = function() {<br />
+    alert(this.charCodeAt(+!&quot;The End of the Universe&quot;));<br />
+};<br />
+&#8216;*&#8217;.answer();[/javascript]</p>
+<p>解释：+!&#8221;The End of the Universe&#8221;的值是0，&#8217;*&#8217;的ASCII码是42</p>
+<p>[javascript]console.log(&quot;Douglas Adams&quot;.length + &quot;born on&quot;.length +<br />
+    [1,1,0,3,1,9,5,2].reduce(<br />
+        function(previousValue, currentValue, index, array){<br />
+            return previousValue + currentValue;<br />
+        }<br />
+    )<br />
+);</p>
+<p> /* [1,1,0,3,1,9,5,2] =&gt; March 11, 1952 */[/javascript]</p>
+<p>解释：Douglas Adams 是一位英国广播剧作家、和音乐家，尤其以《银河系漫游指南》系列作品出名。这部作品以广播剧起家，后来发展成包括五本书的“三部曲”，拍成电视连续剧。亚当斯逝世后还拍成电影。 除《银河系漫游指南》系列外亚当斯还参加了科幻电视连续剧《神秘博士》的拍摄工作，他写了其中的一些剧本。也的生日是 1952 年 3 月 11 日。</p>
+<p>[javascript]alert((!![]+ -~[])*(!![]+ -~[])+&quot;&quot;+(!![]+ -~[]))[/javascript]</p>
+<p>解释：[]是个空，![]就是true，~[]是-1, 于是，表达式就这样出来了。变态！</p>
+<p>[javascript]var ________ = 0.023809523809523808, ____ = 1, ___ = 0, __ = 0, _ = 1;</p>
+<p>       __ &#8211;           ___<br />
+     /_  |0        //     \\<br />
+    /_/   0     //          \\<br />
+   /_/_  |0                //<br />
+  /_/_   |0              //<br />
+ /_/____ |_           //<br />
+/________|0        //<br />
+         |0     //______________[/javascript]</p>
+<p>解释：这个其实是代码混乱的技巧之一，用下划线当变量。你可以参考《<a href="https://coolshell.cn/articles/933.html" target="_blank">如何加密/混乱C源代码</a>》和《<a href="https://coolshell.cn/articles/914.html" target="_blank">6个变态的C语言Hello World程序</a>》</p>
+<h4>Shell</h4>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">echo &quot;what is the universe&quot;|tr &quot;a-z &quot; 0-7-0-729|sed &#039;s/9.//g;s/-/+/&#039;|bc</code></p>
+<p>解释：其中，bc是一个计算器。tr是一个字符转换的命令，比如：<code>echo "good" | tr "good" "test"</code>输出 <code>tsst</code>。也就是说，g-t, o-e, o-s, d-t的映射，o被映了两次，所以，第二次会覆盖第一次。对于上面的<code>tr "a-z " 0-7-0-7-729</code>的意思是：abcdefg分别对应01234567，h对应-，ijklmno对应01234567，p对于2，剩下的包括空格都是9。如果你对tr和sed和bc不熟悉的话，可以man一下，关于sed你可以看一下我的《<a href="https://coolshell.cn/articles/9104.html" target="_blank">sed简明教程</a>》</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">#!/bin/bash
+
+#Vertical Version
+echo $((2#100))
+echo $((2#10))
+
+#Horizontal Version
+echo $((2#000100))$((2#00010))</pre>
+<p>解释：2#100的意思就是说，#左边的数说明是“2进制”，右边的数是二进制数“100”，如16#ff就是16进制的ff，也就是十进制的255</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">echo &quot;obase=13;6*9&quot;|bc|figlet</code></p>
+<p>上面的命令输出：</p>
+<pre style="font-family: 'Consolas','Courier New', Courier, monospace;">
+ _  _  ____
+| || ||___ \
+| || |_ __) |
+|__   _/ __/
+   |_||_____|</pre>
+<p>解释：为了使用figlet命令，你还要去安装一个figlet（<a href="http://www.figlet.org/" target="_blank">http://www.figlet.org/</a>）这是一个让你画ASCII图的命令。</p>
+<h4>Python</h4>
+<p>Windows下，给你画个图：</p>
+<div style="height: 300px; overflow: auto;">
+<pre data-enlighter-language="python" class="EnlighterJSRAW">import win32api, win32con, win32gui
+from time import time, sleep
+import os
+
+w = { 1:[(358, 263), (358, 262), (358, 261), (359, 261), (359, 262), (359, 264), (359, 266), (359, 270), (359, 282),
+     (358, 289), (357, 308), (356, 319), (355, 341), (355, 351), (355, 360), (355, 378), (355, 388), (354, 397),
+     (354, 406), (354, 422), (354, 428), (354, 436), (354, 438), (354, 439), (354, 440), (355, 440), (356, 439),
+     (357, 439), (358, 438), (360, 438), (362, 437), (369, 437), (372, 437), (381, 437), (386, 437), (391, 437),
+     (397, 436), (411, 436), (419, 435), (434, 435), (442, 435), (449, 434), (456, 434), (468, 434), (473, 435),
+     (480, 436), (483, 436), (485, 436), (487, 437), (488, 437), (488, 438), (488, 439), (487, 440), (486, 440),
+     (485, 440), (484, 440), (483, 439), (483, 437), (481, 431), (481, 427), (481, 420), (481, 413), (483, 396),
+     (485, 387), (488, 367), (491, 356), (493, 345), (500, 321), (503, 310), (507, 299), (514, 280), (517, 272),
+     (520, 266), (523, 260), (524, 258), (524, 259), (524, 261), (524, 265), (524, 269), (523, 275), (522, 289),
+     (521, 297), (518, 315), (516, 324), (515, 334), (513, 345), (509, 368), (507, 382), (502, 411), (500, 426),
+     (498, 440), (495, 453), (491, 478), (489, 491), (485, 517), (483, 530), (481, 542), (479, 552), (476, 570),
+     (475, 577), (474, 588), (473, 592), (473, 595), (473, 597), (473, 600), (473, 601), (473, 602), (473, 601),
+     (474, 599), (475, 597), (476, 594), (478, 587)],
+  2:[(632, 305), (634, 306), (636, 309), (639, 314), (641, 319), (645, 330), (647, 337), (649, 353), (649, 362),
+     (649, 372), (649, 384), (645, 409), (639, 436), (636, 448), (632, 459), (627, 470), (623, 479), (613, 497),
+     (608, 503), (599, 512), (595, 514), (591, 514), (587, 513), (581, 504), (578, 498), (576, 483), (575, 476),
+     (575, 469), (579, 454), (582, 447), (591, 436), (595, 432), (600, 430), (605, 429), (617, 432), (624, 437),
+     (639, 448), (646, 455), (654, 461), (662, 469), (679, 484), (686, 491), (702, 504), (710, 509), (718, 512),
+     (727, 514), (744, 515), (752, 515), (767, 512), (774, 510), (779, 508), (783, 505), (788, 499), (789, 495),
+     (789, 486)] }
+
+def d( x1, y1, x2, y2 ):
+    win32api.SetCursorPos((x1, y1))
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+    win32api.SetCursorPos((x2, y2))
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+    sleep(0.01)
+
+def p( l1 ):
+    l2 = [&quot;&quot;]
+    l2.extend(l1)
+    l1.append(&quot;&quot;)
+    l3 = zip(l2, l1)
+    l3.pop(0)
+    l3.pop(-1)
+    for n in l3:
+        d(n[0][0], n[0][1], n[1][0], n[1][2])
+
+os.startfile(&quot;C:\Windows\system32\mspaint.exe&quot;)
+sleep(0.5)
+win32gui.ShowWindow(win32gui.GetForegroundWindow(), win32con.SW_MAXIMIZE)
+sleep(0.5)
+
+for n in w:
+    p(w[n])</pre>
+</div>
+<p>输出：<img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2014/03/1j0va.png" alt="" width="300" height="240" class="aligncenter size-full wp-image-11172" srcset="https://coolshell.cn/wp-content/uploads/2014/03/1j0va.png 499w, https://coolshell.cn/wp-content/uploads/2014/03/1j0va-300x240.png 300w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>lambda表达式 </p>
+<p><code data-enlighter-language="python" class="EnlighterJSRAW">&gt;&gt;&gt; p = lambda x: x%2!=0 and True&lt;&gt;&gt; sum(p(i) for i in range(0,6))</code></p>
+<p>解释：对python的lambda表达式或函数式编程不是很清楚的同学可以看一下《<a href="https://coolshell.cn/articles/10822.html" target="_blank">函数式编程</a>》</p>
+<h4>Java</h4>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">import java.lang.*;
+class answer_to_everything 
+{
+    void static main() 
+    {
+        String s = &quot;Hitchhiker&#039;s Guide to the Galaxy&quot;;
+        String s2 = &quot;Don&#039;tPanic&quot;;
+        String s3 = &quot;The Restaurant at the End of the Universe.&quot;;
+
+        int arthur_dent = s.length();
+        int ford_prefect = s2.length();
+        int zooey_deschanel = s3.length();
+        int vogon_poetry = arthur_dent + ford_prefect;
+
+        System.out.println(&quot;         &quot; + vogon_poetry + &quot;       &quot; + zooey_deschanel + &quot; &quot; + zooey_deschanel); //in case you&#039;re confused, I&#039;m using Zooey to print the big &#039;2&#039;, and Vogons to print the big &#039;4&#039;.
+        System.out.println(&quot;       &quot; + vogon_poetry + vogon_poetry + &quot;     &quot; + zooey_deschanel + &quot;     &quot; + zooey_deschanel);
+        System.out.println(&quot;     &quot; + vogon_poetry + &quot;  &quot; + vogon_poetry + &quot;    &quot; + zooey_deschanel + &quot;       &quot; + zooey_deschanel);
+        System.out.println(&quot;   &quot; + vogon_poetry + &quot;    &quot; + vogon_poetry + &quot;            &quot; + zooey_deschanel);
+        System.out.println(&quot; &quot; + vogon_poetry + &quot;      &quot; + vogon_poetry + &quot;          &quot; + zooey_deschanel);
+        System.out.println(vogon_poetry + &quot; &quot; + vogon_poetry + &quot; &quot; + vogon_poetry + &quot; DA &quot; + vogon_poetry + &quot;     &quot; + zooey_deschanel);
+        System.out.println(&quot;         &quot; + vogon_poetry + &quot;     &quot; + zooey_deschanel);
+        System.out.println(&quot;         &quot; + vogon_poetry + &quot;    &quot; + zooey_deschanel + &quot; &quot; + zooey_deschanel + &quot; &quot; + zooey_deschanel + &quot; &quot; + zooey_deschanel);
+    }
+}</pre>
+<p>上面这段看上去平淡无奇，但其亮点是那三个string，这段代码输出：</p>
+<pre style="font-family: 'Consolas','Courier New', Courier, monospace;">
+         42       42 42
+       4242     42     42
+     42  42    42       42
+   42    42            42
+ 42      42          42
+42 42 42 DA 42     42
+         42     42
+         42    42 42 42 42</pre>
+<p>别忘了Java也可以混乱代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public        class         FourtyTwo{ public
+static         void         main(String[]args)
+{  new        javax                    .swing.
+JFrame        () {{                    setSize
+(42 /(        42/42                    +42/42)
+*42/ (        42/42                    +42/42)
+,42/(42/ 42+42/42)*         42/(42/42+42/42));
+}public void paint(         java.awt .Graphics
+  g){g.drawPolygon(         new int[]{42,42,42
+              + 42+         42,42+
+              42+42         ,42+42
+              +42 +         42,42+
+              42+42         +42,42
+              + 42+         42,42+42+42,42+42,
+              42+42         },new int[]{42,42+
+              42+42         +42,42+42+42+42,42
+
++42+42+42+42+42,                  42+42+
+42+42+42+42,42,42,               42+42+42
+,42 +        42+42              ,42}, (42/
+42+42        /42)*              (42/  42 +
+42/42        + 42/             42 +    42 /
+42+42        /42))            ;g.drawPolygon
+( new        int[]           {42+42+42+42+42,
+42+42        +42 +           42+42      , 42+
+42+42        + 42+          42+42        + 42,
+42+42        +42 +          42+42        +42 +
+42,42+42+42+42+42,         42+42          + 42+
+42+42,42+ 42+42+           42+42          +42 +
+
+42+42,42+42+42+42+42+42+42+42,42+42+42+42+42+42,
+42+42+42+42+42+42,42+42+42+42+42+42+42+42,42+42+
+42+42+42+42+42+42},new int[]{42,42 +42,42+42,42+
+42+42,42+42+42,42+42+42+42+42+42,42+42+42+42+42+
+42,42+42+42+42+42,42+42+42+42+42,42+42+42+42,42+
+42+42+42,42},(42/42+42/42+42/42)*((42/42+42/42)*
+(42/42+42/ 42)));};}.setVisible(42*42*42!=42);}}</pre>
+<h4>C/C++</h4>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include
+int main()
+{
+    printf(&quot;%d&quot;, fprintf( fopen(&quot;/dev/null&quot;,&quot;w&quot;),
+       &quot;so-popularity-contest\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b&quot;) );
+}
+</pre>
+<p>解释：\b是backspace，fprintf的返回值是写成功数据的长度。</p>
+<div style="height: 200px; overflow: auto;">
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include&lt;iostream&gt;
+using namespace std;
+int main()
+{
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)66&lt;&lt;(char)73&lt;&lt;(char)82;
+    cout&lt;&lt;(char)84&lt;&lt;(char)72&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)68&lt;&lt;(char)69;
+    cout&lt;&lt;(char)65&lt;&lt;(char)84&lt;&lt;(char)72;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)95;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)95&lt;&lt;(char)95;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)95;
+    cout&lt;&lt;(char)95&lt;&lt;(char)32&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)47&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)124&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)124&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)47&lt;&lt;(char)32&lt;&lt;(char)47;
+    cout&lt;&lt;(char)124&lt;&lt;(char)32&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)124&lt;&lt;(char)95&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)124&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)47;
+    cout&lt;&lt;(char)32&lt;&lt;(char)47&lt;&lt;(char)32;
+    cout&lt;&lt;(char)124&lt;&lt;(char)49&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)47;
+    cout&lt;&lt;(char)50&lt;&lt;(char)124&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)32&lt;&lt;(char)47&lt;&lt;(char)32;
+    cout&lt;&lt;(char)47&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)124&lt;&lt;(char)57&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)84&lt;&lt;(char)79&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)47&lt;&lt;(char)48;
+    cout&lt;&lt;(char)47&lt;&lt;(char)32&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)47&lt;&lt;(char)32&lt;&lt;(char)47;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)95;
+    cout&lt;&lt;(char)124&lt;&lt;(char)53&lt;&lt;(char)124;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)47&lt;&lt;(char)48&lt;&lt;(char)47;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)124&lt;&lt;(char)95&lt;&lt;(char)95;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)95;
+    cout&lt;&lt;(char)124&lt;&lt;(char)50&lt;&lt;(char)124;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)47;
+    cout&lt;&lt;(char)49&lt;&lt;(char)47&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)124&lt;&lt;(char)32&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)47&lt;&lt;(char)32;
+    cout&lt;&lt;(char)47&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)124&lt;&lt;(char)32&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)47&lt;&lt;(char)32&lt;&lt;(char)47;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)95;
+    cout&lt;&lt;(char)95&lt;&lt;(char)32&lt;&lt;&#039;\n&#039;;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)32;
+    cout&lt;&lt;(char)124&lt;&lt;(char)95&lt;&lt;(char)124;
+    cout&lt;&lt;(char)32&lt;&lt;(char)32&lt;&lt;(char)124;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)95;
+    cout&lt;&lt;(char)95&lt;&lt;(char)95&lt;&lt;(char)95;
+    cout&lt;&lt;(char)95&lt;&lt;(char)124&lt;&lt;&#039;\n&#039;;
+    return 0;
+}  </pre>
+</div>
+<p>输出：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11171" alt="" src="https://coolshell.cn/wp-content/uploads/2014/03/42.png" width="182" height="151" /></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include &lt;stdio.h&gt;
+
+#define six  1+5
+#define nine 8+1
+
+int main()
+{
+    printf(&quot;what do you get when you multiply six by nine?\n&quot;);
+    printf(&quot;%i x %i = %i\n&quot;, six, nine, six*nine);
+}</pre>
+<p>解释：6 x 9 = 42 ???，如果你知道宏只是做简单的字符串替换的话，你就知道six*nine被替换成了1+5*8+1这个表达式了。呵呵。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+        main(c     ,z,_){c==01?
+       main(c+     1,0,c^c):c==2
+      ?z=_[&quot;#&quot;     &quot;#$#%&amp;#%#x&#039;%%&quot;
+     &quot;()&amp;(%%x&quot;             &quot;$%$(&quot;
+    &quot;(&amp;(&quot;&quot;*%x&quot;             &quot;&#039;%%(&quot;
+   &quot;(&amp;(&quot; &quot;+%x&quot;             &quot;&#039;#%(&quot;
+  &quot;(&amp;(&quot;  &quot;%#x&quot;             ],z ?z
+ ==&#039;x&#039;?main(4,_     ,c*5):main(c
+ +1,z,0),main(c    ,z,_+1):00:c
+ ==3?(_+-2)==3?    main(_-1,_,
+         32):(     main(
+         c+1,c     ,((2+
+         c)*(z     -35)+
+         _)[&quot;&quot;     &quot;six&quot;
+         &quot;*ni&quot;     &quot;ne= {   }   &quot;
+         &quot;  ;&quot;     &quot;      _   ( &quot;
+         &quot;) [&quot;     &quot; 3 ]do {;&quot;]==
+         32?32     :043),main(c,z
+         ,_+1)     ):putchar(_);}</pre>
+<p>解释：参看<a href="http://codegolf.stackexchange.com/questions/21835/most-creative-way-to-display-42/21950#21950" target="_blank">原文的这个答案</a>里的How-To一节。</p>
+<h4>Brainfuck</h4>
+<p>代码混乱自然少不了brainfuck语言：（更多的奇葩的编程语言请参考《<a href="https://coolshell.cn/articles/4458.html" target="_blank">那些BT雷人的编程语言</a>》）</p>
+<pre style="font-family: 'Consolas','Courier New', Courier, monospace;"> 
+         +++++          +++[>+>++>
+        +++>++        ++>+++++>+++++
+       +>+++++       ++>+        ++++
+      +++ >+++       ++++        ++>+
+     +++  ++++                   ++>+
+    +++   ++++                  +++>
+   +++    ++++                 ++++
+  +>+     ++++               ++++
+ +++      +>++             ++++
+++++++++>+++++++++       ++++
+++>+++++++++++++++     +<<<
+          <<<<        <<<<
+          <<<<       <-]>
+          >>>>       >>----.++++<<<<<
+          <<>>       >>>>++.--<<<<<<.</pre>
+<p>不过，下面这个BrainFuck更无聊，所以顶在了最佳答案上：</p>
+<pre style="font-family: 'Consolas','Courier New', Courier, monospace;">
+           +++++[>++[>+>+        ++>++++>++++>++++>++++++
+          >++++++>+++++++        ++>+++++++++<<<<<<<<<-]>>
+         >+>+>+> >>>+[<]<        -]>>       >++>-->>+>>++>+
+        >--<<<<  <<<.....         .>            ....<......
+       ...>...   <<.>....                       >.>>>>>.<.
+       <<<<..     ..<....                      >..>>>>>.<
+      .<<<<.      >>>.<<.                     >>>>>.<.<
+      <<<<<       <.>...>                    >>>.>>>.
+     <<<.<        <<<..>>                  .>>>>>.<
+    <.<<<         <<...>>                 >>>.<<<
+   <..<.          ...>...               <<.>..>.
+   >>.<.<<...>>...<<...>>...<         <....>>..
+  .<<<.>.>>..>.<<.......<....        .....>...
+                 <<.>...            .....>...
+                 <......           .>>>.<<..
+                 <<.>...          .....>...<......>.>>.<.<<<
+                 .>......        ..>>...<<....>>.....>.<..>.
+</pre>
+<p>执行上面的代码，你会得到下面的输出：</p>
+<pre style="font-family: 'Consolas','Courier New', Courier, monospace;">
+      ++++         +++
+    +[>++++    ++[>+<-][
+   <]<  -]>   >++    +++
+  +.-   ---   ---    ---
+ --.+++++++         +++
+        +++       .++
+        +++      +.-
+        ---    -----.--.</pre>
+<p>再执行上面的代码，会输出：</p>
+<pre>6*7=42</pre>
+<p>如果6*9=42就完美了，就差一步啊……</p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 - CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11656.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/06/software_development-150x150.png" alt="开发团队的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11656.html" class="wp_rp_title">开发团队的效率</a></li><li ><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-150x150.jpg" alt="Bret Victor &#8211; Learnable Programming" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_title">Bret Victor &#8211; Learnable Programming</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11170.html">如何用最有创造力的方式输出42</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11170.html/feed</wfw:commentRss>
+			<slash:comments>29</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个“蝇量级” C 语言协程库</title>
+		<link>https://coolshell.cn/articles/10975.html</link>
+					<comments>https://coolshell.cn/articles/10975.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Tue, 28 Jan 2014 02:50:41 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[coroutine]]></category>
+		<category><![CDATA[Queue]]></category>
+		<category><![CDATA[yield]]></category>
+		<category><![CDATA[协程]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10975</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 协程(coroutine)顾名思义就是“协作的例程”（co-operative routines）。跟具有操作系统概念的线...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10975.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10975.html">一个“蝇量级” C 语言协程库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>协程(coroutine)顾名思义就是“协作的例程”（co-operative routines）。跟具有操作系统概念的线程不一样，协程是在用户空间利用程序语言的语法语义就能实现逻辑上类似多任务的编程技巧。实际上协程的概念比线程还要早，按照 Knuth 的说法<strong>“子例程是协程的特例”</strong>，一个子例程就是一次子函数调用，那么实际上协程就是类函数一样的程序组件，你可以在一个线程里面轻松创建数十万个协程，就像数十万次函数调用一样。只不过子例程只有一个调用入口起始点，返回之后就结束了，而协程入口既可以是起始点，又可以从上一个返回点继续执行，也就是说协程之间可以通过 yield 方式转移执行权，<strong>对称（symmetric）、平级</strong>地调用对方，而不是像例程那样上下级调用关系。当然 Knuth 的“特例”指的是协程也可以模拟例程那样实现上下级调用关系，这就叫<strong>非对称协程</strong>（asymmetric coroutines）。</p>
+<h4>基于事件驱动模型</h4>
+<p>我们举一个例子来看看一种<strong>对称协程</strong>调用场景，大家最熟悉的“生产者-消费者”事件驱动模型，一个协程负责生产产品并将它们加入队列，另一个负责从队列中取出产品并使用它。为了提高效率，你想一次增加或删除多个产品。伪代码可以是这样的：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># producer coroutine
+loop
+while queue is not full
+  create some new items
+  add the items to queue
+yield to consumer
+
+# consumer coroutine
+loop
+while queue is not empty
+  remove some items from queue
+  use the items
+yield to producer</pre>
+<p><span id="more-10975"></span></p>
+<p>大多数教材上拿这种模型作为多线程的例子，实际上多线程在此的应用还是显得有点“重量级”，由于缺乏 yield 语义，线程之间不得不使用同步机制来避免产生全局资源的竟态，这就不可避免产生了休眠、调度、切换上下文一类的系统开销，而且线程调度还会产生时序上的不确定性。而对于协程来说，“挂起”的概念只不过是转让代码执行权并调用另外的协程，待到转让的协程告一段落后重新得到调用并从挂起点“唤醒”，这种协程间的调用是逻辑上可控的，时序上确定的，可谓一切尽在掌握中。</p>
+<p>当今一些具备协程语义的语言，比较重量级的如C#、erlang、golang，以及轻量级的python、lua、javascript、ruby，还有函数式的scala、scheme等。相比之下，作为原生态语言的 C 反而处于尴尬的地位，原因在于 C 依赖于一种叫做<strong>栈帧</strong>的例程调用，例程内部的状态量和返回值都保留在堆栈上，这意味着生产者和消费者相互之间无法实现平级调用，当然你可以改写成把生产者作为主例程然后将产品作为传递参数调用消费者例程，这样的代码写起来费力不讨好而且看起来会很难受，特别当协程数目达到十万数量级，这种写法就过于僵化了。</p>
+<p>这就引出了协程的概念，<strong>如果将每个协程的上下文（比如程序计数器）保存在其它地方而不是堆栈上，协程之间相互调用时，被调用的协程只要从堆栈以外的地方恢复上次出让点之前的上下文即可，这有点类似于 CPU 的上下文切换，</strong>遗憾的是似乎只有更底层的汇编语言才能做到这一点。</p>
+<p>难道 C 语言只能用多线程吗？幸运的是，C 标准库给我们提供了两种协程调度原语：一种是<a title="http://zh.wikipedia.org/wiki/Setjmp.h" href="http://zh.wikipedia.org/wiki/Setjmp.h" target="_blank"> setjmp/longjmp</a>，另一种是<a title="http://pubs.opengroup.org/onlinepubs/7990989799/xsh/ucontext.h.html" href="http://pubs.opengroup.org/onlinepubs/7990989799/xsh/ucontext.h.html" target="_blank"> ucontext 组件</a>，它们内部（当然是用汇编语言）实现了协程的上下文切换，相较之下前者在应用上会产生相当的不确定性（比如不好封装，具体说明参考联机文档），所以后者应用更广泛一些，网上绝大多数 C 协程库也是基于 ucontext 组件实现的。</p>
+<h4>“蝇量级”的协程库</h4>
+<p>在此，我来介绍一种“蝇量级”的开源 C 协程库 <a title="http://dunkels.com/adam/pt/" href="http://dunkels.com/adam/pt/" target="_blank">protothreads</a>。这是一个全部用 ANSI C 写成的库，之所以称为“蝇量级”的，就是说，实现已经不能再精简了，几乎就是原语级别。事实上 protothreads 整个库不需要链接加载，因为所有源码都是头文件，类似于 STL 这样不依赖任何第三方库，在任何平台上可移植；总共也就 5 个头文件，有效代码量不足 100 行；API 都是宏定义的，所以不存在调用开销；最后，每个协程的空间开销是 2 个字节（是的，你没有看错，就是一个 short 单位的“栈”！）当然这种精简是要以使用上的局限为代价的，接下来的分析会说明这一点。</p>
+<p>先来看看 protothreads 作者，<a title="http://dunkels.com/adam/" href="http://dunkels.com/adam/" target="_blank">Adam Dunkels</a>，一位来自瑞典皇家理工学院的计算机天才帅哥。话说这哥们挺有意思的，写了好多轻量级的作品，都是 BSD 许可证。顺便说一句，轻量级开源软件全世界多如牛毛，可像这位哥们写得如此出名的并不多。比如嵌入式网络操作系统 <a title="http://www.contiki-os.org/" href="http://www.contiki-os.org/" target="_blank">Contiki</a>，国人耳熟能详的 TCP/IP 协议栈 <a title="http://en.wikipedia.org/wiki/UIP_(micro_IP)" href="http://en.wikipedia.org/wiki/UIP_(micro_IP)" target="_blank">uIP</a> 和 <a title="http://savannah.nongnu.org/projects/lwip/" href="http://savannah.nongnu.org/projects/lwip/" target="_blank">lwIP</a> 也是出自其手。上述这些软件都是经过数十年企业级应用的考验，质量之高可想而知。</p>
+<p>很多人会好奇如此“蝇量级”的代码究竟是怎么实现的呢？在分析 protothreads 源码之前，我先来给大家补一补 C 语言的基础课;-^)简而言之，这利用了 C 语言特性上的一个“奇技淫巧”，而且这种技巧恐怕连许多具备十年以上经验的 C 程序员老手都不见得知晓。当然这里先要声明我不是推荐大家都这么用，实际上这是以破坏语言的代码规范为代价，在一些严肃的项目工程中需要谨慎对待，除非你想被炒鱿鱼。</p>
+<h4>C 语言的“yield 语义”</h4>
+<p>下面的教程来自于一位 ARM 工程师、天才黑客 <a title="http://www.chiark.greenend.org.uk/~sgtatham/" href="http://www.chiark.greenend.org.uk/~sgtatham/" target="_blank">Simon Tatham</a>（开源 Telnet/SSH 客户端 <a title="http://www.chiark.greenend.org.uk/~sgtatham/putty/" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/" target="_blank">PuTTY</a> 和汇编器 <a title="http://www.nasm.us/" href="http://www.nasm.us/" target="_blank">NASM</a> 的作者，吐槽一句，PuTTY的源码号称是所有正式项目里最难 hack 的 C，你应该猜到作者是什么语言出身）的博文：<a title="http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html" href="http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html" target="_blank">Coroutines in C</a>。中文译文在<a title="http://www.oschina.net/translate/coroutines-in-c" href="http://www.oschina.net/translate/coroutines-in-c" target="_blank">这里</a>。</p>
+<p>我们知道 python 的 yield 语义功能类似于一种迭代生成器，函数会保留上次的调用状态，并在下次调用时会从上个返回点继续执行。用 C 语言来写就像这样：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  int i;
+  for (i = 0; i &lt; 10; i++)
+    return i;   /* won&#039;t work, but wouldn&#039;t it be nice */
+}</pre>
+<p>连续对它调用 10 次，它能分别返回 0 到 9。该怎样实现呢？可以利用 goto 语句，如果我们在函数中加入一个状态变量，就可以这样实现：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: goto LABEL0;
+    case 1: goto LABEL1;
+  }
+  LABEL0: /* start of function */
+  for (i = 0; i &lt; 10; i++) {
+    state = 1; /* so we will come back to LABEL1 */
+    return i;
+    LABEL1:; /* resume control straight after the return */
+  }
+}</pre>
+<p>这个方法是可行的。我们在所有需要 yield 的位置都加上标签：起始位置加一个，还有所有 return 语句之后都加一个。每个标签用数字编号，我们在状态变量中保存这个编号，这样就能在我们下次调用时告诉我们应该跳到哪个标签上。每次返回前，更新状态变量，指向到正确的标签；不论调用多少次，针对状态变量的 switch 语句都能找到我们要跳转到的位置。</p>
+<p>但这还是难看得很。最糟糕的部分是所有的标签都需要手工维护，还必须保证函数中的标签和开头 switch 语句中的一致。每次新增一个 return 语句，就必须想一个新的标签名并将其加到 switch 语句中；每次删除 return 语句时，同样也必须删除对应的标签。这使得维护代码的工作量增加了一倍。</p>
+<p>仔细想想，其实我们可以不用 switch 语句来决定要跳转到哪里去执行，而是<strong>直接利用 switch 语句本身来实现跳转</strong>：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: /* start of function */
+    for (i = 0; i &lt; 10; i++) {
+      state = 1; /* so we will come back to &quot;case 1&quot; */
+      return i;
+      case 1:; /* resume control straight after the return */
+    }
+  }
+}</pre>
+<p>酷！没想到 switch-case 语句可以这样用，其实说白了 C 语言就是脱胎于汇编语言的，switch-case 跟 if-else 一样，无非就是汇编的条件跳转指令的另类实现而已（这也间接解释了为何汇编程序员经常揶揄 C 语言是“大便一样的代码”）。我们还可以用 __LINE__ 宏使其更加一般化：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: /* start of function */
+    for (i = 0; i &lt; 10; i++) {
+      state = __LINE__ + 2; /* so we will come back to &quot;case __LINE__&quot; */
+      return i;
+      case __LINE__:; /* resume control straight after the return */
+    }
+  }
+}</pre>
+<p>这样一来我们可以用宏提炼出一种范式，封装成组件：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define Begin() static int state=0; switch(state) { case 0:
+#define Yield(x) do { state=__LINE__; return x; case __LINE__:; } while (0)
+#define End() }
+int function(void) {
+  static int i;
+  Begin();
+  for (i = 0; i &lt; 10; i++)
+    Yield(i);
+  End();
+}</pre>
+<p>怎么样，看起来像不像发明了一种全新的语言？<strong>实际上我们利用了 switch-case 的分支跳转特性，以及预编译的 __LINE__ 宏，实现了一种隐式状态机，最终实现了“yield 语义”。</strong></p>
+<p>还有一个问题，当你欢天喜地地将这种鲜为人知的技巧运用到你的项目中，并成功地拿去向你的上司邀功问赏的时候，你的上司会怎样看待你的代码呢？你的宏定义中大括号没有匹配完整，在代码块中包含了未用到的 case，Begin 和 Yield 宏里面不完整的七拼八凑……你简直就是公司里不遵守编码规范的反面榜样！</p>
+<p>别着急，在原文中 Simon Tatham 大牛帮你找到一个坚定的反驳理由，我觉得对程序员来说简直是金玉良言。</p>
+<p>将编程规范用在这里是不对的。文章里给出的示例代码不是很长，也不很复杂，即便以状态机的方式改写还是能够看懂的。但是随着代码越来越长，改写的难度将越来越大，改写对直观性造成的损失也变得相当相当大。</p>
+<p>想一想，一个函数如果包含这样的小代码块：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">case STATE1:
+/* perform some activity */
+if (condition) state = STATE2; else state = STATE3;</pre>
+<p>对于看代码的人说，这和包含下面小代码块的函数没有多大区别：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">LABEL1:
+/* perform some activity */
+if (condition) goto LABEL2; else goto LABEL3;</pre>
+<p>是的，这两个函数的结构在视觉上是一样的，而对于函数中实现的算法，两个函数都一样不利于查看。因为你使用协程的宏而炒你鱿鱼的人，一样会因为你写的函数是由小块的代码和 goto 语句组成而吼着炒了你。只是这次他们没有冤枉你，因为像那样设计的函数会严重扰乱算法的结构。</p>
+<p><strong>编程规范的目标就是为了代码清晰。</strong>如果将一些重要的东西，像 switch、return 以及 case 语句，隐藏到起“障眼”作用的宏中，从编程规范的角度讲，可以说你扰乱了程序的语法结构，并且违背了代码清晰这一要求。但是我们这样做是为了突出程序的算法结构，而算法结构恰恰是看代码的人更想了解的。</p>
+<p><span style="color: #ff0000;"><strong>任何编程规范，坚持牺牲算法清晰度来换取语法清晰度的，都应该重写。</strong></span>如果你的上司因为使用了这一技巧而解雇你，那么在保安把你往外拖的时候要不断告诉他这一点。</p>
+<p>原文作者最后给出了一个 MIT 许可证的 <a title="http://www.chiark.greenend.org.uk/~sgtatham/coroutine.h" href="http://www.chiark.greenend.org.uk/~sgtatham/coroutine.h" target="_blank">coroutine.h</a> 头文件。值得一提的是，正如文中所说，这种协程实现方法有个使用上的局限，就是<strong>协程调度状态的保存依赖于 static 变量，而不是堆栈上的局部变量</strong>，实际上也无法用局部变量（堆栈）来保存状态，这就使得代码不具备可重入性和多线程应用。后来作者补充了一种技巧，就是将局部变量包装成函数参数传入的一个虚构的上下文结构体指针，然后用动态分配的堆来“模拟”堆栈，解决了线程可重入问题。但这样一来反而有损代码清晰，比如所有局部变量都要写成对象成员的引用方式，特别是局部变量很多的时候很麻烦，再比如宏定义 malloc/free 的玩法过于托大，不易控制，搞不好还增加了被炒鱿鱼的风险（只不过这次是你活该）。</p>
+<p>我个人认为，既然协程本身是一种单线程的方案，那么我们应该假定应用环境是单线程的，不存在代码重入问题，所以我们可以大胆地使用 static 变量，维持代码的简洁和可读性。事实上<strong>我们也不应该在多线程环境下考虑使用这么简陋的协程</strong>，非要用的话，前面提到 glibc 的 ucontext 组件也是一种可行的替代方案，它提供了一种协程私有堆栈的上下文，当然这种用法在跨线程上也并非没有限制，请仔细阅读联机文档。</p>
+<h4>Protothreads的上下文</h4>
+<p>感谢 Simon Tatham 的淳淳教诲，接下来我们可以 hack 一下源码了。先来看看实现 protothreads 的数据结构， 实际上它就是协程的<strong>上下文结构体</strong>，用以保存状态变量，相信你很快就明白为何它的“堆栈”只有 2 个字节：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct pt {
+  lc_t lc;
+}</pre>
+<p>里面只有一个 short 类型的变量，实际上它是用来保存上一次出让点的程序计数器。这也映证了协程比线程的灵活之处，就是协程可以是 stackless 的，如果需要实现的功能很单一，比如像生产者-消费者模型那样用来做事件通知，那么实际上协程需要保存的状态变量仅仅是一个程序计数器即可。像 python generator 也是 stackless 的，当然实现一个迭代生成器可能还需要保留上一个迭代值，前面 C 的例子是用 static 变量保存，你也可以设置成员变量添加到上下文结构体里面。如果你真的不确定用协程调度时需要保存多少状态变量，那还是用 ucontext 好了，它的上下文提供了堆栈和信号，但是由用户负责分配资源，详细使用方法见联机文档。。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">typedef struct ucontext {
+  struct ucontext_t *uc_link;
+  sigset_t uc_sigmask;
+  stack_t uc_stack;
+  ...
+} ucontext_t;</pre>
+<h4>Protothreads的原语和组件</h4>
+<p>有点扯远了，回到 protothreads，看看提供的协程“原语”。有两种实现方法，在 ANSI C 下，就是传统的 switch-case 语句：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define LC_INIT（s） s = 0;  // 源码中是有分号的，一个低级 bug，啊哈～
+#define LC_RESUME(s) switch (s) { case 0:
+#define LC_SET(s) s = __LINE__; case __LINE__:
+#define LC_END(s) }
+</pre>
+<p>但这种“原语”有个难以察觉的缺陷：<strong>就是你无法在 LC_RESUME 和 LC_END （或者包含它们的组件）之间的代码中使用 switch-case语句，因为这会引起外围的 switch 跳转错误！</strong>为此，protothreads 又实现了基于 GNU C 的调度“原语”。在 GNU C 下还有一种语法糖叫做标签指针，就是在一个 label 前面加 &amp;&amp;（不是地址的地址，是 GNU 自定义的符号），可以用 void 指针类型保存，然后 goto 跳转：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">typedef void * lc_t；
+#define LC_INIT(s) s = NULL
+#define LC_RESUME(s) \
+  do { \
+    if (s != NULL) { \
+      goto *s; \
+    }
+  } while (0)
+#define LC_CONCAT2(s1, s2) s1##s2
+#define LC_CONCAT(s1, s2) LC_CONCAT2(s1, s2)
+#define LC_SET(s) \
+  do { \
+    LC_CONCAT(LC_LABEL, __LINE__): \
+    （s） = &amp;&amp;LC_CONCAT(LC_LABEL, __LINE__); \
+  } while (0)</pre>
+<p>好了，有了前面的基础知识，理解这些“原语”就是小菜一叠，下面看看如何建立“组件”，同时也是 protothreads API，我们先定义四个退出码作为协程的<strong>调度状态机</strong>：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define PT_WAITING 0
+#define PT_YIELDED 1
+#define PT_EXITED  2
+#define PT_ENDED   3</pre>
+<p>下面这些 API 可直接在应用程序中调用：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/* 初始化一个协程，也即初始化状态变量 */
+#define PT_INIT(pt) LC_INIT((pt)-&gt;lc)
+
+/* 声明一个函数，返回值为 char 即退出码，表示函数体内使用了 proto thread，（个人觉得有些多此一举） */
+#define PT_THREAD(name_args) char name_args
+
+/* 协程入口点， PT_YIELD_FLAG=0表示出让，=1表示不出让，放在 switch 语句前面，下次调用的时候可以跳转到上次出让点继续执行 */
+#define PT_BEGIN(pt) { char PT_YIELD_FLAG = 1; LC_RESUME((pt)-&gt;lc)
+
+/* 协程退出点，至此一个协程算是终止了，清空所有上下文和标志 */
+#define PT_END(pt) LC_END((pt)-&gt;lc); PT_YIELD_FLAG = 0; \
+                   PT_INIT(pt); return PT_ENDED; }
+
+/* 协程出让点，如果此时协程状态变量 lc 已经变为 __LINE__ 跳转过来的，那么 PT_YIELD_FLAG = 1，表示从出让点继续执行。 */
+#define PT_YIELD(pt)        \
+  do {            \
+    PT_YIELD_FLAG = 0;        \
+    LC_SET((pt)-&gt;lc);       \
+    if(PT_YIELD_FLAG == 0) {      \
+      return PT_YIELDED;      \
+    }           \
+  } while(0)
+
+/* 附加出让条件 */
+#define PT_YIELD_UNTIL(pt, cond)    \
+  do {            \
+    PT_YIELD_FLAG = 0;        \
+    LC_SET((pt)-&gt;lc);       \
+    if((PT_YIELD_FLAG == 0) || !(cond)) { \
+      return PT_YIELDED;      \
+    }           \
+  } while(0)
+
+/* 协程阻塞点(blocking),本质上等同于 PT_YIELD_UNTIL，只不过退出码是 PT_WAITING，用来模拟信号量同步 */
+#define PT_WAIT_UNTIL(pt, condition)          \
+  do {            \
+    LC_SET((pt)-&gt;lc);       \
+    if(!(condition)) {        \
+      return PT_WAITING;      \
+    }           \
+  } while(0)
+
+/* 同 PT_WAIT_UNTIL 条件反转 */
+#define PT_WAIT_WHILE(pt, cond)  PT_WAIT_UNTIL((pt), !(cond))
+
+/* 协程调度，调用协程 f 并检查它的退出码，直到协程终止返回 0，否则返回 1。 */
+#define PT_SCHEDULE(f) ((f) &lt; PT_EXITED)
+
+/* 这用于非对称协程，调用者是主协程，pt 是和子协程 thread （可以是多个）关联的上下文句柄，主协程阻塞自己调度子协程，直到所有子协程终止 */
+#define PT_WAIT_THREAD(pt, thread) PT_WAIT_WHILE((pt), PT_SCHEDULE(thread))
+
+/* 用于协程嵌套调度，child 是子协程的上下文句柄 */
+#define PT_SPAWN(pt, child, thread)   \
+  do {            \
+    PT_INIT((child));       \
+    PT_WAIT_THREAD((pt), (thread));   \
+  } while(0)</pre>
+<p>暂时介绍这么多，用户还可以根据自己的需求随意扩展组件，比如实现信号量，你会发现脱离了操作系统环境下的信号量竟是如此简单：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct pt_sem {
+  unsigned int count;
+};
+
+#define PT_SEM_INIT(s, c) (s)-&gt;count = c
+
+#define PT_SEM_WAIT(pt, s)  \
+  do {            \
+    PT_WAIT_UNTIL(pt, (s)-&gt;count &gt; 0);    \
+    --(s)-&gt;count;       \
+  } while(0)
+
+#define PT_SEM_SIGNAL(pt, s) ++(s)-&gt;count</pre>
+<p>这些应该不需要我多说了吧，呵呵，让我们回到最初例举的生产者-消费者模型，看看protothreads表现怎样。</p>
+<h4>Protothreads实战</h4>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include &quot;pt-sem.h&quot;
+
+#define NUM_ITEMS 32
+#define BUFSIZE 8
+
+static struct pt_sem mutex, full, empty;
+
+PT_THREAD(producer(struct pt *pt))
+{
+  static int produced;
+
+  PT_BEGIN(pt);
+  for (produced = 0; produced &lt; NUM_ITEMS; ++produced) {
+    PT_SEM_WAIT(pt, &amp;full);
+    PT_SEM_WAIT(pt, &amp;mutex);
+    add_to_buffer(produce_item());
+    PT_SEM_SIGNAL(pt, &amp;mutex);
+    PT_SEM_SIGNAL(pt, &amp;empty);
+  }
+  PT_END(pt);
+}
+
+PT_THREAD(consumer(struct pt *pt))
+{
+  static int consumed;
+
+  PT_BEGIN(pt);
+  for (consumed = 0; consumed &lt; NUM_ITEMS; ++consumed) {
+    PT_SEM_WAIT(pt, &amp;empty);
+    PT_SEM_WAIT(pt, &amp;mutex);
+    consume_item(get_from_buffer());
+    PT_SEM_SIGNAL(pt, &amp;mutex);
+    PT_SEM_SIGNAL(pt, &amp;full);
+  }
+  PT_END(pt);
+}
+
+PT_THREAD(driver_thread(struct pt *pt))
+{
+  static struct pt pt_producer, pt_consumer;
+
+  PT_BEGIN(pt);
+  PT_SEM_INIT(&amp;empty, 0);
+  PT_SEM_INIT(&amp;full, BUFSIZE);
+  PT_SEM_INIT(&amp;mutex, 1);
+  PT_INIT(&amp;pt_producer);
+  PT_INIT(&amp;pt_consumer);
+  PT_WAIT_THREAD(pt, producer(&amp;pt_producer) &amp; consumer(&amp;pt_consumer));
+  PT_END(pt);
+}</pre>
+<p>源码包中的 example-buffer.c 包含了可运行的完整示例，我就不全部贴了。整体框架就是一个 asymmetric coroutines，包括一个主协程 driver_thread 和两个子协程 producer 和 consumer ，其实不用多说大家也懂的，代码非常清晰直观。我们完全可以通过单线程实现一个简单的事件处理需求，你可以任意添加数十万个协程，几乎不会引起任何额外的系统开销和资源占用。唯一需要留意的地方就是没有一个局部变量，因为 protothreads 是 stackless 的，但这不是问题，首先我们已经假定运行环境是单线程的，其次在一个简化的需求下也用不了多少“局部变量”。如果在协程出让时需要保存一些额外的状态量，像迭代生成器，只要数目和大小都是确定并且可控的话，自行扩展协程上下文结构体即可。</p>
+<p>当然这不是说 protothreads 是万能的，它只是贡献了一种模型，你要使用它首先就得学会适应它。下面列举一些 protothreads 的使用限制：</p>
+<ul>
+<li>由于协程是stackless的，尽量不要使用局部变量，除非该变量对于协程状态是无关紧要的，同理可推，协程所在的代码是不可重入的。</li>
+</ul>
+<ul>
+<li>如果协程使用 switch-case 原语封装的组件，那么禁止在实际应用中使用 switch-case 语句，除非用 GNU C 语法中的标签指针替代。</li>
+</ul>
+<ul>
+<li>一个协程内部可以调用其它例程，比如库函数或系统调用，但必须保证该例程是非阻塞的，否则所在线程内的所有协程都将被阻塞。毕竟线程才是执行的最小单位，协程不过是按“时间片轮度”的例程而已。</li>
+</ul>
+<p>官网上还例举了更多<a title="http://dunkels.com/adam/pt/examples.html" href="http://dunkels.com/adam/pt/examples.html" target="_blank">实例</a>，都非常实用。另外，一个叫 Craig Graham 的工程师扩展了 pt.h，使得 protothreads 支持 sleep/wake/kill 等操作，文件在此 <a title="http://dunkels.com/adam/download/graham-pt.h" href="http://dunkels.com/adam/download/graham-pt.h" target="_blank">graham-pt.h</a>。</p>
+<h4>协程库 DIY 攻略</h4>
+<p>看到这里，手养的你是否想迫不及待地 DIY 一个协程组件呢？哪怕很多动态语言本身已经支持了协程语义，很多 C 程序员仍然倾向于自己实现组件，网上很多开源代码底层用的主要还是 glibc 的 ucontext 组件，毕竟提供堆栈的协程组件使用起来更加通用方便。你可以自己写一个调度器，然后模拟线程上下文，再然后……你就能搞出一个跨平台的COS了（笑）。GNU Pth 线程库就是这么实现的，其原作者德国人 <a title="http://engelschall.com/" href="http://engelschall.com/" target="_blank">Ralf S. Engelschall</a> （又是个开源大牛，还写了 <a title="http://engelschall.com/software-artist.php" href="http://engelschall.com/software-artist.php" target="_blank">OpenSSL 等许多作品</a>）就写了一篇<a title="http://xmailserver.org/rse-pmt.pdf" href="http://xmailserver.org/rse-pmt.pdf" target="_blank">论文</a>教大家如何实现一个线程库。另外 protothreads 官网上也有一大堆<a title="http://dunkels.com/adam/pt/links.html" href="http://dunkels.com/adam/pt/links.html" target="_blank">推荐阅读</a>。Have fun！</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10975.html">一个“蝇量级” C 语言协程库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10975.html/feed</wfw:commentRss>
+			<slash:comments>54</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>伙伴分配器的一个极简实现</title>
+		<link>https://coolshell.cn/articles/10427.html</link>
+					<comments>https://coolshell.cn/articles/10427.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Wed, 09 Oct 2013 15:10:42 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Buddy]]></category>
+		<category><![CDATA[内存管理]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10427</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 提起buddy system相信很多人不会陌生，它是一种经典的内存分配算法，大名鼎鼎的Linux底层的内存管理用的就是它。...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10427.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10427.html">伙伴分配器的一个极简实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>提起buddy system相信很多人不会陌生，它是一种经典的内存分配算法，大名鼎鼎的Linux底层的内存管理用的就是它。这里不探讨内核这么复杂实现，而仅仅是将该算法抽象提取出来，同时给出一份及其简洁的源码实现，以便定制扩展。</p>
+<p>伙伴分配的实质就是一种特殊的<strong>“分离适配”</strong>，即将内存按2的幂进行划分，相当于分离出若干个块大小一致的空闲链表，搜索该链表并给出同需求最佳匹配的大小。其优点是快速搜索合并（O(logN)时间复杂度）以及低外部碎片（最佳适配best-fit）；其缺点是内部碎片，因为按2的幂划分块，如果碰上66单位大小，那么必须划分128单位大小的块。但若需求本身就按2的幂分配，比如可以先分配若干个内存池，在其基础上进一步细分就很有吸引力了。</p>
+<p>可以在<a href="http://en.wikipedia.org/wiki/Buddy_memory_allocation" target="_blank">维基百科</a>上找到该算法的描述，大体如是：</p>
+<p><strong>分配内存：</strong></p>
+<p>1.寻找大小合适的内存块（大于等于所需大小并且最接近2的幂，比如需要27，实际分配32）</p>
+<p style="padding-left: 30px;">1.如果找到了，分配给应用程序。<br />
+2.如果没找到，分出合适的内存块。</p>
+<p style="padding-left: 60px;">1.对半分离出高于所需大小的空闲内存块<br />
+2.如果分到最低限度，分配这个大小。<br />
+3.回溯到步骤1（寻找合适大小的块）<br />
+4.重复该步骤直到一个合适的块</p>
+<p><span id="more-10427"></span></p>
+<p><strong>释放内存：</strong></p>
+<p>1.释放该内存块</p>
+<p style="padding-left: 30px;">1.寻找相邻的块，看其是否释放了。<br />
+2.如果相邻块也释放了，合并这两个块，重复上述步骤直到遇上未释放的相邻块，或者达到最高上限（即所有内存都释放了）。</p>
+<p>上面这段文字对你来说可能看起来很费劲，没事，我们看个内存分配和释放的示意图你就知道了：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10504" alt="" src="https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation.jpg" width="598" height="346" srcset="https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation.jpg 598w, https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation-300x174.jpg 300w, https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation-467x270.jpg 467w" sizes="(max-width: 598px) 100vw, 598px" /></p>
+<p>上图中，首先我们假设我们一个内存块有1024K，当我们需要给A分配70K内存的时候，</p>
+<ol>
+<li>我们发现1024K的一半大于70K，然后我们就把1024K的内存分成两半，一半512K。</li>
+<li>然后我们发现512K的一半仍然大于70K，于是我们再把512K的内存再分成两半，一半是128K。</li>
+<li>此时，我们发现128K的一半小于70K，于是我们就分配为A分配128K的内存。</li>
+</ol>
+<p>后面的，B，C，D都这样，而释放内存时，则会把相邻的块一步一步地合并起来（合并也必需按分裂的逆操作进行合并）。</p>
+<p>我们可以看见，这样的算法，用二叉树这个数据结构来实现再合适不过了。</p>
+<p>我在网上分别找到<a href="https://github.com/cloudwu/buddy" target="_blank">cloudwu</a>和<a href="https://github.com/wuwenbin/buddy2">wuwenbin</a>写的两份开源实现和测试用例。实际上后一份是对前一份的精简和优化，本文打算从后一份入手讲解，<strong>因为这份实现真正体现了“极简”二字，追求突破常规的，极致简单的设计。</strong>网友对其评价甚高，甚至可用作教科书标准实现，看完之后回过头来看cloudwu的代码就容易理解了。</p>
+<p>分配器的整体思想是，通过一个数组形式的完全二叉树来监控管理内存，二叉树的节点用于标记相应内存块的使用状态，高层节点对应大的块，低层节点对应小的块，在分配和释放中我们就通过这些节点的标记属性来进行块的分离合并。如图所示，假设总大小为16单位的内存，我们就建立一个深度为5的满二叉树，根节点从数组下标[0]开始，监控大小16的块；它的左右孩子节点下标[1~2]，监控大小8的块；第三层节点下标[3~6]监控大小4的块……依此类推。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-10502" alt="" src="https://coolshell.cn/wp-content/uploads/2013/10/伙伴分配器.jpg" width="591" height="347" srcset="https://coolshell.cn/wp-content/uploads/2013/10/伙伴分配器.jpg 844w, https://coolshell.cn/wp-content/uploads/2013/10/伙伴分配器-300x176.jpg 300w" sizes="(max-width: 591px) 100vw, 591px" /></p>
+<p>在分配阶段，首先要搜索大小适配的块，假设第一次分配3，转换成2的幂是4，我们先要对整个内存进行对半切割，从16切割到4需要两步，那么从下标[0]节点开始深度搜索到下标[3]的节点并将其标记为已分配。第二次再分配3那么就标记下标[4]的节点。第三次分配6，即大小为8，那么搜索下标[2]的节点，因为下标[1]所对应的块被下标[3~4]占用了。</p>
+<p>在释放阶段，我们依次释放上述第一次和第二次分配的块，即先释放[3]再释放[4]，当释放下标[4]节点后，我们发现之前释放的[3]是相邻的，于是我们立马将这两个节点进行合并，这样一来下次分配大小8的时候，我们就可以搜索到下标[1]适配了。若进一步释放下标[2]，同[1]合并后整个内存就回归到初始状态。</p>
+<p>还是看一下源码实现吧，首先是伙伴分配器的数据结构：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct buddy2 {
+  unsigned size;
+  unsigned longest[1];
+};</pre>
+<p>这里的成员size表明管理内存的总单元数目（测试用例中是32），成员longest就是二叉树的节点标记，表明所对应的内存块的空闲单位，<strong>在下文中会分析这是整个算法中最精妙的设计。</strong>此处数组大小为1表明这是可以向后扩展的（注：在GCC环境下你可以写成longest[0]，不占用空间，这里是出于可移植性考虑），我们在分配器初始化的buddy2_new可以看到这种用法。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct buddy2* buddy2_new( int size ) {
+  struct buddy2* self;
+  unsigned node_size;
+  int i;
+
+  if (size &lt; 1 || !IS_POWER_OF_2(size))
+    return NULL;
+
+  self = (struct buddy2*)ALLOC( 2 * size * sizeof(unsigned));
+  self-&gt;size = size;
+  node_size = size * 2;
+
+  for (i = 0; i &lt; 2 * size - 1; ++i) {
+    if (IS_POWER_OF_2(i+1))
+      node_size /= 2;
+    self-&gt;longest[i] = node_size;
+  }
+  return self;
+}</pre>
+<p>整个分配器的大小就是满二叉树节点数目，即所需管理内存单元数目的2倍。一个节点对应4个字节，longest记录了节点所对应的的内存块大小。</p>
+<p>内存分配的alloc中，入参是分配器指针和需要分配的大小，返回值是内存块索引。alloc函数首先将size调整到2的幂大小，并检查是否超过最大限度。然后进行适配搜索，深度优先遍历，当找到对应节点后，<strong>将其longest标记为0，即分离适配的块出来，</strong>并转换为内存块索引offset返回，依据二叉树排列序号，比如内存总体大小32，我们找到节点下标[8]，内存块对应大小是4，则offset = (8+1)*4-32 = 4，那么分配内存块就从索引4开始往后4个单位。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int buddy2_alloc(struct buddy2* self, int size) {
+  unsigned index = 0;
+  unsigned node_size;
+  unsigned offset = 0;
+
+  if (self==NULL)
+    return -1;
+
+  if (size &lt;= 0)
+    size = 1;
+  else if (!IS_POWER_OF_2(size))
+    size = fixsize(size);
+
+  if (self-&gt;longest[index] &lt; size)
+    return -1;
+
+  for(node_size = self-&gt;size; node_size != size; node_size /= 2 ) {
+    if (self-&gt;longest[LEFT_LEAF(index)] &gt;= size)
+      index = LEFT_LEAF(index);
+    else
+      index = RIGHT_LEAF(index);
+  }
+
+  self-&gt;longest[index] = 0;
+  offset = (index + 1) * node_size - self-&gt;size;
+
+  while (index) {
+    index = PARENT(index);
+    self-&gt;longest[index] =
+      MAX(self-&gt;longest[LEFT_LEAF(index)], self-&gt;longest[RIGHT_LEAF(index)]);
+  }
+
+  return offset;
+}</pre>
+<p>在函数返回之前需要回溯，因为小块内存被占用，大块就不能分配了，比如下标[8]标记为0分离出来，那么其父节点下标[0]、[1]、[3]也需要相应大小的分离。<strong>将它们的longest进行折扣计算，取左右子树较大值，</strong>下标[3]取4，下标[1]取8，下标[0]取16，表明其对应的最大空闲值。</p>
+<p>在内存释放的free接口，我们只要传入之前分配的内存地址索引，并确保它是有效值。之后就跟alloc做反向回溯，从最后的节点开始一直往上找到longest为0的节点，即当初分配块所适配的大小和位置。<strong>我们将longest恢复到原来满状态的值。继续向上回溯，检查是否存在合并的块，依据就是左右子树longest的值相加是否等于原空闲块满状态的大小，如果能够合并，就将父节点longest标记为相加的和</strong>（多么简单！）。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">void buddy2_free(struct buddy2* self, int offset) {
+  unsigned node_size, index = 0;
+  unsigned left_longest, right_longest;
+
+  assert(self &amp;&amp; offset &gt;= 0 &amp;&amp; offset &lt; size);
+
+  node_size = 1;
+  index = offset + self-&gt;size - 1;
+
+  for (; self-&gt;longest[index] ; index = PARENT(index)) {
+    node_size *= 2;
+    if (index == 0)
+      return;
+  }
+
+  self-&gt;longest[index] = node_size;
+
+  while (index) {
+    index = PARENT(index);
+    node_size *= 2;
+
+    left_longest = self-&gt;longest[LEFT_LEAF(index)];
+    right_longest = self-&gt;longest[RIGHT_LEAF(index)];
+
+    if (left_longest + right_longest == node_size)
+      self-&gt;longest[index] = node_size;
+    else
+      self-&gt;longest[index] = MAX(left_longest, right_longest);
+  }
+}</pre>
+<p>上面两个成对alloc/free接口的时间复杂度都是O(logN)，保证了程序运行性能。然而这段程序设计的独特之处就在于<strong>使用加权来标记内存空闲状态，而不是一般的有限状态机，实际上longest既可以表示权重又可以表示状态，状态机就毫无必要了，所谓“少即是多”嘛！</strong>反观cloudwu的实现，将节点标记为UNUSED/USED/SPLIT/FULL四个状态机，反而会带来额外的条件判断和管理实现，而且还不如数值那样精确。从逻辑流程上看，wuwenbin的实现简洁明了如同教科书一般，特别是左右子树的走向，内存块的分离合并，块索引到节点下标的转换都是一步到位，不像cloudwu充斥了大量二叉树的深度和长度的间接计算，让代码变得晦涩难读，这些都是longest的功劳。<strong>一个“极简”的设计往往在于你想不到的突破常规思维的地方。</strong></p>
+<p>这份代码唯一的缺陷就是longest的大小是4字节，内存消耗大。但<a href="http://blog.codingnow.com/2011/12/buddy_memory_allocation.html" target="_blank">cloudwu的博客</a>上有人提议用logN来保存值，这样就能实现uint8_t大小了，<strong>看，又是一个“极简”的设计！</strong></p>
+<p>说实话，很难在网上找到比这更简约更优雅的buddy system实现了——至少在Google上如此。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-150x150.jpg" alt="Cuckoo Filter：设计与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_title">Cuckoo Filter：设计与实现</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/538efefbgw1eiz9cvx78fj20rm0fmdi8-150x150.jpg" alt="【活动】解迷题送礼物" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_title">【活动】解迷题送礼物</a></li><li ><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/QR-Code-Overview-150x150.jpeg" alt="二维码的生成细节和原理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_title">二维码的生成细节和原理</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10427.html">伙伴分配器的一个极简实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10427.html/feed</wfw:commentRss>
+			<slash:comments>55</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个fork的面试题</title>
+		<link>https://coolshell.cn/articles/7965.html</link>
+					<comments>https://coolshell.cn/articles/7965.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 01 Aug 2012 00:20:46 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[fork]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7965</guid>
+
+					<description><![CDATA[<p>前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7965.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7965.html">一个fork的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：</p>
+<p><strong>题目：请问下面的程序一共输出多少个“-”？</strong></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(void)
+{
+   int i;
+   for(i=0; i&lt;2; i++){
+      fork();
+      printf(&quot;-&quot;);
+   }
+
+   wait(NULL);
+   wait(NULL);
+
+   return 0;
+}
+</pre>
+<p>如果你对fork()的机制比较熟悉的话，这个题并不难，输出应该是6个“-”，但是，实际上这个程序会很tricky地输出8个“-”。</p>
+<p>要讲清这个题，我们首先需要知道fork()系统调用的特性，</p>
+<p><span id="more-7965"></span></p>
+<ul>
+<li>fork()系统调用是Unix下以自身进程创建子进程的系统调用，一次调用，两次返回，如果返回是0，则是子进程，如果返回值&gt;0，则是父进程（返回值是子进程的pid），这是众为周知的。</li>
+</ul>
+<ul>
+<li>还有一个很重要的东西是，在fork()的调用处，整个父进程空间会原模原样地复制到子进程中，包括指令，变量值，程序调用栈，环境变量，缓冲区，等等。</li>
+</ul>
+<p>所以，上面的那个程序为什么会输入8个“-”，这是因为printf(&#8220;-&#8220;);语句有buffer，所以，对于上述程序，printf(&#8220;-&#8220;);把“-”放到了缓存中，并没有真正的输出（参看《<a title="C语言的谜题" href="https://coolshell.cn/articles/945.html" target="_blank">C语言的迷题</a>》中的第一题），<strong>在fork的时候，缓存被复制到了子进程空间</strong>，所以，就多了两个，就成了8个，而不是6个。</p>
+<p>另外，多说一下，我们知道，Unix下的设备有“<a href="http://en.wikipedia.org/wiki/Device_file#Block_devices" target="_blank">块设备</a>”和“<a href="http://en.wikipedia.org/wiki/Device_file#Character_devices" target="_blank">字符设备</a>”的概念，所谓块设备，就是以一块一块的数据存取的设备，字符设备是一次存取一个字符的设备。磁盘、内存都是块设备，字符设备如键盘和串口。<strong>块设备一般都有缓存，而字符设备一般都没有缓存</strong>。</p>
+<p>对于上面的问题，我们如果修改一下上面的printf的那条语句为：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">printf(&quot;-\n&quot;);</code></p>
+<p>或是</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW"> printf(&quot;-&quot;);
+fflush(stdout);</pre>
+<p>就没有问题了（就是6个“-”了），因为程序遇到“\n”，或是EOF，或是缓中区满，或是文件描述符关闭，或是主动flush，或是程序退出，就会把数据刷出缓冲区。需要注意的是，标准输出是行缓冲，所以遇到“\n”的时候会刷出缓冲区，但对于磁盘这个块设备来说，“\n”并不会引起缓冲区刷出的动作，那是全缓冲，你可以使用setvbuf来设置缓冲区大小，或是用fflush刷缓存。</p>
+<p>我估计有些朋友可能对于fork()还不是很了解，那么我们把上面的程序改成下面这样：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+int main(void)
+{
+   int i;
+   for(i=0; i&lt;2; i++){
+      fork();
+      //注意：下面的printf有“\n”
+      printf(&quot;ppid=%d, pid=%d, i=%d \n&quot;, getppid(), getpid(), i);
+   }
+   sleep(10); //让进程停留十秒，这样我们可以用pstree查看一下进程树
+   return 0;
+}
+</pre>
+<p>于是，上面这段程序会输出下面的结果，（注：编译出的可执行的程序名为fork）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">ppid=8858, pid=8518, i=0
+ppid=8858, pid=8518, i=1
+ppid=8518, pid=8519, i=0
+ppid=8518, pid=8519, i=1
+ppid=8518, pid=8520, i=1
+ppid=8519, pid=8521, i=1
+
+$ pstree -p | grep fork
+|-bash(8858)-+-fork(8518)-+-fork(8519)---fork(8521)
+|            |            `-fork(8520)</pre>
+<p>面对这样的图你可能还是看不懂，没事，我好事做到底，画个图给你看看：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7968" title="fork 程序调用图" src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg.jpg" alt="" width="620" height="407" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg.jpg 620w, https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-300x197.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-411x270.jpg 411w" sizes="(max-width: 620px) 100vw, 620px" /></p>
+<p>注意：上图中的我用了几个色彩，相同颜色的是同一个进程。于是，我们的pstree的图示就可以成为下面这个样子：（下图中的颜色与上图对应）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7969" title="fork进程树" src="https://coolshell.cn/wp-content/uploads/2012/07/fork02.jpg" alt="" width="437" height="97" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork02.jpg 437w, https://coolshell.cn/wp-content/uploads/2012/07/fork02-300x66.jpg 300w" sizes="(max-width: 437px) 100vw, 437px" /></p>
+<p>这样，对于printf(&#8220;-&#8220;);这个语句，我们就可以很清楚的知道，哪个子进程复制了父进程标准输出缓中区里的的内容，而导致了多次输出了。（如下图所示，就是我阴影并双边框了那两个子进程）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7970" title="fork程序执行图" src="https://coolshell.cn/wp-content/uploads/2012/07/fork03.jpg" alt="" width="626" height="415" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork03.jpg 626w, https://coolshell.cn/wp-content/uploads/2012/07/fork03-300x198.jpg 300w" sizes="(max-width: 626px) 100vw, 626px" /></p>
+<p>现在你明白了吧。（另，对于图中的我本人拙劣的配色，请见谅!）</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="到处都是Unix的胎记" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_title">到处都是Unix的胎记</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7965.html">一个fork的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7965.html/feed</wfw:commentRss>
+			<slash:comments>223</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>神奇的CSS形状</title>
+		<link>https://coolshell.cn/articles/6913.html</link>
+					<comments>https://coolshell.cn/articles/6913.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Sat, 24 Mar 2012 12:35:41 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[CSS]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6913</guid>
+
+					<description><![CDATA[<p>【感谢 Neo 投递本文 – 微博帐号：@_锟_ 】 在StackOverflow上有这么一个问题，有位同学在http://css-tricks.com/exa...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6913.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6913.html">神奇的CSS形状</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>【<span style="color: #cc0000;">感谢 Neo 投递本文 – 微博帐号</span>：<a title="_锟_" href="http://weibo.com/gandalfthegrey" target="_blank">@_锟_</a> 】</p>
+<p style="text-align: left;">在StackOverflow上有这么一个问题，有位同学在<a href="http://css-tricks.com/examples/ShapesOfCSS/">http://css-tricks.com/examples/ShapesOfCSS/ </a> 找到一些使用CSS做的形状，其中一位同学对下面的这个形状充满了疑问。</p>
+<p style="text-align: left;">形状是：</p>
+<p style="text-align: left;"><img decoding="async" loading="lazy" class="size-full wp-image-6914" src="https://coolshell.cn/wp-content/uploads/2012/03/a.png" alt="" width="103" height="102" /></p>
+<p style="text-align: left;">代码是：</p>
+<pre data-enlighter-language="css" class="EnlighterJSRAW">
+#triangle-up {
+width: 0;
+height: 0;
+border-left: 50px solid transparent;
+border-right: 50px solid transparent;
+border-bottom: 100px solid red;
+}
+</pre>
+<p>这位同学就提问啦，为啥这么这么几句就能画出一个三角形呢？<br />
+于是呢，有高人出现，这个高人图文并茂的解释了这个三角的成因</p>
+<p><span id="more-6913"></span><br />
+首先呢，我们需要了解HTML标记的Box Model（盒模型），这个例子中呢我们将content，padding都看作content。忽略掉margin。那么一个盒模型就是下图</p>
+<p style="text-align: left;"><img decoding="async" loading="lazy" class="size-full wp-image-6915" src="https://coolshell.cn/wp-content/uploads/2012/03/b.png" alt="" width="340" height="266" srcset="https://coolshell.cn/wp-content/uploads/2012/03/b.png 340w, https://coolshell.cn/wp-content/uploads/2012/03/b-300x234.png 300w" sizes="(max-width: 340px) 100vw, 340px" /></p>
+<p>中间是内容，然后是4条边。每一条边都有宽度。<br />
+根据上面CSS的定义，没有border-top（顶边）的情形下 ,我们的图形如下：</p>
+<p style="text-align: left;"><img decoding="async" loading="lazy" class="size-full wp-image-6916" src="https://coolshell.cn/wp-content/uploads/2012/03/c.png" alt="" width="340" height="266" srcset="https://coolshell.cn/wp-content/uploads/2012/03/c.png 340w, https://coolshell.cn/wp-content/uploads/2012/03/c-300x234.png 300w" sizes="(max-width: 340px) 100vw, 340px" /></p>
+<p>width设置为0后 ，内容没有了就成为下图：</p>
+<p style="text-align: left;"><img decoding="async" loading="lazy" class="size-full wp-image-6917" src="https://coolshell.cn/wp-content/uploads/2012/03/d.png" alt="" width="340" height="266" srcset="https://coolshell.cn/wp-content/uploads/2012/03/d.png 340w, https://coolshell.cn/wp-content/uploads/2012/03/d-300x234.png 300w" sizes="(max-width: 340px) 100vw, 340px" /></p>
+<p>height也设置为0，只有底边了。</p>
+<p style="text-align: left;"><img decoding="async" loading="lazy" class="size-full wp-image-6918" src="https://coolshell.cn/wp-content/uploads/2012/03/e.png" alt="" width="200" height="122" /></p>
+<p>然后两条边都是设置为透明，最后我们就得到了</p>
+<p style="text-align: left;"><img decoding="async" loading="lazy" class="size-full wp-image-6919" src="https://coolshell.cn/wp-content/uploads/2012/03/f.png" alt="" width="200" height="122" /></p>
+<p>这个属于奇技淫巧，但是也说明CSS的强大，没有做不到只有想不到。另外<a href="http://css-tricks.com/examples/ShapesOfCSS/">http://css-tricks.com/examples/ShapesOfCSS/ </a>还能找到很多其他的形状，感兴趣的同学可以自己去看。还有酷壳以前的这篇文章《<a title="CSS图形" href="https://coolshell.cn/articles/5164.html" target="_blank">CSS实现的各种形状</a>》<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="Web开发中需要了解的东西" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_title">Web开发中需要了解的东西</a></li><li ><a href="https://coolshell.cn/articles/5164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="CSS图形" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5164.html" class="wp_rp_title">CSS图形</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6913.html">神奇的CSS形状</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6913.html/feed</wfw:commentRss>
+			<slash:comments>21</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>软件真的好难做啊</title>
+		<link>https://coolshell.cn/articles/4811.html</link>
+					<comments>https://coolshell.cn/articles/4811.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 10 Jun 2011 00:45:17 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4811</guid>
+
+					<description><![CDATA[<p>还记得以前本站的那一篇“编程好难啊”吗，那是一篇众程序员调侃程序新手的文章，有恶搞的成分在里面。今天要和大家说的这个事没有一些恶搞和调侃的意思，是比较严肃的话题...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4811.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4811.html">软件真的好难做啊</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>还记得以前本站的那一篇“<a title="编程真难啊" href="https://coolshell.cn/articles/1391.html" target="_blank">编程好难啊</a>”吗，那是一篇众程序员调侃程序新手的文章，有恶搞的成分在里面。今天要和大家说的这个事没有一些恶搞和调侃的意思，是比较严肃的话题，你一定可以从中收获一些东西。这个话题来自StackOverflow上的一个问题——<a title="Cycle in family tree software" href="http://stackoverflow.com/questions/6163683/cycles-in-family-tree-software" target="_blank">Cycle in Family Tree Software</a>，这个程序员问了下面这个问题：</p>
+<blockquote><p>我是一个写家族族谱软件的程序员（我用的是C++和Qt），这个软件基本上没有什么问题，直到有一天有个用户报告了一个bug。这个问题是这样的——<strong>我这个用户和他女儿生了两个孩子</strong>。</p>
+<p>于是，我程序员的一些断言和硬性条件导致程序报错，因为我的程序在处理这个关系的时候，其发现X即是Y的爸爸，又是Y的爷爷，所以只能报错。</p>
+<p>请问，<strong>在不需要移除我的断言和数据验证的情况下，</strong><strong>我怎么才能解决这个问题</strong>？</p></blockquote>
+<p>看到这里，请重点阅读一下下面的两点：</p>
+<ul>
+<li>如果你看到这里开始兴奋了，请你为你阴暗的心理去面壁反省10分钟，因为这是一个很技术的问题。</li>
+<li>如果你开始陷入了深深的思考如何解决这个问题，那么你绝对是一个合格的程序员，因为你已陷入技术已经很深了，有点呆了。</li>
+</ul>
+<p>我在前面说过，“<strong>这个是一个严肃的话题，你可以从中收获一些东西</strong>”，当然，我并不希望你来收获乱伦的知识和心得，酷壳是一个技术博客，应该是收获技术方面的东西。</p>
+<p><span id="more-4811"></span></p>
+<p>从技术的角度上来说，这是我们经常在设计软件时犯的错误——</p>
+<h4><strong>1）作了错误的假设</strong>（Assumption）</h4>
+<p>Assumption是软件设计的重大天敌，Assumption的动词Assume意为Ass u me &#8211; Ass you and me 。你的假设做得越多，你的设计就越不靠谱。这里的假设是——我们以为family tree是一个tree，其实并不是tree。<strong>Assumption是魔鬼</strong>。</p>
+<p>还有一些经典的Assumption如下所示</p>
+<ul>
+<li>最著名的就是那个y2k臭虫。</li>
+<li>不要以为没有2月30日，在瑞典1712年有2月30日</li>
+<li>一分钟有60秒？闰秒呢？</li>
+<li>双胞胎的生日是同一天吗？</li>
+<li>双胞胎的父亲是同一个？</li>
+<li>性别只有男和女？</li>
+<li>婚姻只能是异性？ 关于这一点，推荐一篇强文——<a href="http://qntm.org/gay" target="_blank">Gay marriage: the database engineering perspective</a> (同性婚姻：数据库工程)</li>
+</ul>
+<h4><strong>2）没有认真分析用户案例</strong>（Use Case）</h4>
+<p>在设计软件时，我们需要考虑各种各样的用户案例，比如如下的东西：</p>
+<ul>
+<li>私生子的问题</li>
+<li>一夫多妻或一妻多夫，同父异母，同母异父</li>
+<li>就算一夫多妻制违反法律，也会有离异再婚的情况</li>
+<li>同性恋的问题，虽然不能繁衍，但可以领养。</li>
+<li>换妻活动</li>
+<li>各种乱伦关系——这种东西那个民族都不少，尤其是古时候，比如：
+<ul>
+<li>先后嫁了两个人其是父子关系（昭君）</li>
+<li>达尔文同学和他的表妹，爱因斯坦的二婚是和他的表姐，埃及艳后嫁了她的弟弟，……</li>
+<li>顺治同学娶了四个老婆，这四个人还是一家人：姑姑，侄女，妹妹，女儿。（<a href="http://blog.sina.com.cn/s/blog_5e62ac110100onwa.html" target="_blank">参看这里</a>）</li>
+<li>刘邦同学的母后干出来的事，相当变态（<a href="http://bbs.tiexue.net/post2_5114346_1.html" target="_blank">参看这里</a>）</li>
+<li>中国古代的“扒灰老” （类似于楼主那个问题的Use Case）</li>
+</ul>
+</li>
+</ul>
+<p><strong>不想再列下去了，人类真TMD恶心，有点要吐了</strong>。</p>
+<p style="text-align: center;">——————————为了缓解一下恶心的气氛，请允许我插入一个搞笑短文——————————</p>
+<blockquote><p>一位自杀者在他的遗书里讲述了他自杀的原因，听起来实在让人头痛。遗书这样写道：“我和一个寡妇结了婚，她有一个已成年的女儿，我父亲跟我妻子带过来的女儿结了婚。所以我父亲就成了我的女婿，女儿就成了我的后母，我管父亲叫爸爸，而我父亲也管我叫爸爸；我女儿管我叫爸爸，但我却管她叫妈妈；我还得管我妻子叫姥姥，因为她是我后母的母亲。不久我女儿，也就是我后母生了一个儿子，他是我同父异母的弟弟，他也得管我叫姥爷，因为他也是我的外孙。后来我妻子，也就是我姥姥生了一个儿子，他是我后母的弟弟，我是他的外甥，所以儿子管我叫爸爸，我管儿子叫舅舅。另外我是我妻子，也就是我姥姥的外孙，同时也是我姥姥的丈夫，所已我也是我的外祖父。又因为我妻子是我的外祖母，我的儿子，也就是我的舅舅是我的弟弟和我女儿的弟弟，所以我……我的天哪，这么复杂的关系实在让我伤透了脑筋，我只有一死才能得以解脱……”</p></blockquote>
+<p style="text-align: center;">————————————————————————插入完毕————————————————————</p>
+<p style="text-align: left;">看完上面这个短文，不知道你是否和我一样，觉得这么一个简单的程序将是如此难做啊。<strong>另外，我决定在下一次的面试中让应聘者来设计Family Tree的程序</strong>。</p>
+<p style="text-align: left;">我又说多了，现在还是让我们回到技术上来。除了上面那几个观点，我在回复中还看到了如入一些有意思的回复：</p>
+<ul>
+<li>“我的软件没有bug，是你的生活有bug”——让我想到了<a title="程序员惯用的解释(Top 25)" href="https://coolshell.cn/articles/1174.html" target="_blank">程序员惯用的借口</a></li>
+<li>“算法中不应该加太多的限制，限制多了反而让算法不灵活。”</li>
+<li>“移除断言，并不代表就不出错，对于这种rare case，我们最好给一个Warning提醒用户，让用户确认确实是这样的。”</li>
+<li>“关于解决这个问题，移除那个断言，如果显示上会有问题的话，那就复制一下有不同关系的人就可以了”</li>
+<li>“你真的应该想想你的软件的价值是什么？市场在哪里？你真的要照顾这样的用户吗？”</li>
+</ul>
+<p>挺好的，相信你对软件开发又学到了一些东西。</p>
+<p><span style="color: #cc0000;"><strong>（转载时请勿用于商业目的，并请注明作者和出处）</strong></span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li><li ><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="多些时间能少写些代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_title">多些时间能少写些代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4811.html">软件真的好难做啊</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4811.html/feed</wfw:commentRss>
+			<slash:comments>79</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>面试题：火车运煤问题</title>
+		<link>https://coolshell.cn/articles/4429.html</link>
+					<comments>https://coolshell.cn/articles/4429.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 11 Apr 2011 01:01:31 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4429</guid>
+
+					<description><![CDATA[<p>这个可能是一个比较经典的智力题了，和以前的那个《赛马问题》很相似，其题目如下： 你是山西的一个煤老板，你在矿区开采了有3000吨煤需要运送到市场上去卖，从你的矿...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4429.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4429.html">面试题：火车运煤问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-1209" title="Question" src="https://coolshell.cn/wp-content/uploads/2009/07/Question.jpg" alt="" width="158" height="158" srcset="https://coolshell.cn/wp-content/uploads/2009/07/Question.jpg 158w, https://coolshell.cn/wp-content/uploads/2009/07/Question-150x150.jpg 150w" sizes="(max-width: 158px) 100vw, 158px" />这个可能是一个比较经典的智力题了，和以前的那个《<a title="面试题：赛马问题" href="https://coolshell.cn/articles/1202.html" target="_blank">赛马问题</a>》很相似，其题目如下：</p>
+<p style="padding-left: 30px;"><strong><span style="color: #008000;">你是山西的一个煤老板，你在矿区开采了有3000吨煤需要运送到市场上去卖，从你的矿区到市场有1000公里，你手里有一列烧煤的火车，这个火车最多只能装1000吨煤，且其能耗比较大——每一公里需要耗一吨煤。请问，作为一个懂编程的煤老板的你，你会怎么运送才能运最多的煤到集市？</span></strong></p>
+<p>这道题一开始看上去好像是无解的，因为你的火车每一公里就要消耗一吨煤，而到目的地有1000公里，而火车最多只能装1000吨媒。如果你的火车可以全部装下，到目的地也会被全部烧光，一丁点也不剩。所以，很多人的第一反应都是觉得这个不太可能。</p>
+<p>如果你一开始就觉得不太可能的话，这是很正常的。不过我不知道你还会不会继续思考下去，如果你不想思考下去了，那么我很为你担忧，因为你可能并不是一个不善于思考的人，而是一个畏难的人，还有可能是一个容易放弃的人。这对于你做好 一个需要大量思考的工作的程序员来说可能并不适合。</p>
+<p>我一开始也觉得不可能，后来想了一想，想到一个解法可以最多运送500吨煤到市场，方法如下：（<span style="color: #ff0000;">希望你先自己想一想再查看这个答案</span>）<br />
+<span id="more-4429"></span><br />
+<script>// <![CDATA[
+function showAnswer(){
+    document.getElementById('answer').style.display = '';
+}
+// ]]&gt;</script><br />
+【<a href="javascript:showAnswer();"><strong>查看答案</strong></a>】</p>
+<div id="answer" style="display: none; background-color: #eeeeee; padding: 10px 0px 5px 10px; border-style: dashed;">
+<ol>
+<li>装1000吨煤，走250公里，扔下500吨煤，回矿山。</li>
+<li>装1000吨煤，走到250公里处，拿起250吨煤继续向前到500公里处，扔下500吨煤，回矿山。此时火车上还有250吨，再加上在250公里处还有250吨煤，所以，火车是可以回矿山的。</li>
+<li>装上最后1000吨煤，走到500公里处，装上那里的500吨煤，然后一直走到目的。</li>
+</ol>
+<p>于是，你最多可以运送500吨煤到市场（当然，火车也回不去了，因为那矿山没有煤了）</p>
+</div>
+<p>好像这样很不错的了，不过还有更好的方法能运更多的媒过去。你知道这个方法吗？可以提示的是，就是以上述这个方法的思路。我先暂时不把答案放上来，你可以自己想想。过两天我把答案放上来。</p>
+<p>&nbsp;</p>
+<p><strong>更新（2011年4月17日）</strong>：大家都很聪明，533是应该是最优解，大家用了很多种方法阐述了这一过程，我最初的想法和朋友<a href="https://coolshell.cn/articles/4429.html#comment-44698" target="_blank">xPacificCoolShell</a>的一致！很高兴看到有更为科学的解法，受教了。另外，还有一些朋友提出火车不能随时随地调头的实际情况，非常不错，所以，以后这题不能用火车运煤了，可能是用马运草更好一点了。;)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4429.html">面试题：火车运煤问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4429.html/feed</wfw:commentRss>
+			<slash:comments>335</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>又一个有趣的面试题</title>
+		<link>https://coolshell.cn/articles/4162.html</link>
+					<comments>https://coolshell.cn/articles/4162.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 02 Apr 2011 03:22:03 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4162</guid>
+
+					<description><![CDATA[<p>大家还记得前些天的那个火柴棍式的面试题吗？很有趣吧。下面是我今天在StackExchange上看到的一个有趣的面试题。大家不妨一起来思考一下。问题如下—— 有两...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4162.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4162.html">又一个有趣的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>大家还记得前些天的那个<a title="“火柴棍式”程序员面试题" href="https://coolshell.cn/articles/3961.html" target="_blank">火柴棍式的面试题</a>吗？很有趣吧。下面是我今天在StackExchange上看到的一个<a href="http://programmers.stackexchange.com/questions/64132/interesting-interview-question" target="_blank">有趣的面试题</a>。大家不妨一起来思考一下。问题如下——</p>
+<p>有两个相同功能代码如下，<strong>请在在A，B，C是什么的情况下，请给出三个原因case 1比case 2快，还有三个原因case 2会比case 1要执行的快。</strong>（不考虑编译器优化）</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+for (i=0; i&lt;N; ++i){
+    A;
+    B;
+    C;
+}</pre>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+for (i=0; i&lt;N; ++i){
+    A;
+}
+for (i=0; i&lt;N; ++i){
+    B;
+}
+for (i=0; i&lt;N; ++i){
+    C;
+}</pre>
+<p>我的第一个反应是——</p>
+<p><span id="more-4162"></span></p>
+<ul>
+<li>case1 要快一些，因为只有一个i++的i&lt;N的操作，而case 2却有三个，这在点上，case 1就比case 2要快。</li>
+<li>case2如果要快的话，有一个原因是，A, B, C其中一个需要去先获得一个资源（比如一个锁），在case1下，每次都要去拿这个资源，而case2下，只需要拿一次然后。但这个可能是不对的，因为我无法想出一个相同的语句块放在case 1中会和放在case 2中有差别。（不过可能比较接近了）</li>
+</ul>
+<p>继续思考：这个题有点像是“<strong>同步和异步</strong>”的问题，case 1是同步，case 2是异步，所以，异步快于同步，也许可以从这个方向出发，写出A, B, C的语句块。</p>
+<p>不过，其要三个原因啊。<strong>各位，你们有想法吗</strong>？</p>
+<p><strong>&#8212;-更新 1&#8212;-</strong></p>
+<p>刚才在twitter上与人讨论，发现又有一种情况，case 2要比case 1要快。比如，A, B, C分别访问是不同的内存块（数组），那么case 1就得在不同的内存块上来回切换寻址，而case2则可以连续地访问内存块。访问连续的内存效率要高。尤其是三块大内存。</p>
+<p><strong>&#8212;-更新 2&#8212;</strong></p>
+<p>正如本贴评论中所说的，CPU的cache也是其中一个因素。大家对底层知识了解的都很不错啊。赞一个。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="C++面试中string类的一种正确写法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_title">C++面试中string类的一种正确写法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4162.html">又一个有趣的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4162.html/feed</wfw:commentRss>
+			<slash:comments>71</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“火柴棍式”程序员面试题</title>
+		<link>https://coolshell.cn/articles/3961.html</link>
+					<comments>https://coolshell.cn/articles/3961.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 21 Mar 2011 00:28:31 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3961</guid>
+
+					<description><![CDATA[<p>有时候，有些面试题是很是无厘头，这不，又有一个，还记得小时候玩的的“火柴棍游戏”吗，就是移动一根火柴棍改变一个图或字的游戏。程序面试居然也可以这么玩，看看下面这...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3961.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3961.html">“火柴棍式”程序员面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>有时候，有些面试题是很是无厘头，这不，又有一个，还记得小时候玩的的“火柴棍游戏”吗，就是移动一根火柴棍改变一个图或字的游戏。程序面试居然也可以这么玩，看看下面这个火柴棍式的程序面试题吧。</p>
+<p>下面是一个C程序，其想要输出20个减号，不过，粗心的程序员把代码写错了，你需要把下面的代码修改正确，不过，<strong>你只能增加或是修改其中的一个字符</strong>，请你给出三种答案。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int n = 20;
+
+for(int i = 0; i &lt; n; i--){
+    printf(&quot;-&quot;);
+}</pre>
+<p>不要以为这题不是很难，我相信你并不那么容易能找到3种方法。我觉得，如果你能在10分钟内找出这三种方法，说明你真的很聪明，而且反应很快。当然，15分钟内也不赖。不过，你要是30分钟内找不到三种方法，当然，不说明你笨了，最多就是你的反应还不够快。嘿嘿。就当是玩玩吧。</p>
+<p>下面是我的答案：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+//第一种解法：在for循环中给n加一个负号
+for(int i = 0; i &lt; -n; i--)
+
+//第二种解法：把 n 初始化成 -20
+int n = -20;
+
+//第三种解法：把for循环中的 i 初始化成40
+for(int i = 40; i &lt; n; i--)
+</pre>
+<p>不过，我要告诉你，<span style="color: #cc0000;">以上这些答案都不对（我就知道你会偷看答案的）</span>，不过，顺着这些思路走很接近了。呵呵。</p>
+<p>下面是正确答案——</p>
+<p><span id="more-3961"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+//第一种解法：在for循环中给 i 加一个负号
+for(int i = 0; -i &lt; n; i--)
+
+//第二种解法：在for循环中把 i-- 变成 n--
+for(int i = 0; i &lt; n; n--)
+
+//第三种解法：把for循环中的 &lt; 变成 +
+for(int i = 0; i + n; i--)
+</pre>
+<p>其它相关的变种题如下：</p>
+<ul>
+<li>通过修改、增加一个字符，让其输出21个减号</li>
+<li>通过修改、增加一个字符，让其只输出1个减号</li>
+<li>通过修改、增加一个字符，让其不输出减号</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="C++面试中string类的一种正确写法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_title">C++面试中string类的一种正确写法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3961.html">“火柴棍式”程序员面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3961.html/feed</wfw:commentRss>
+			<slash:comments>2728</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>打印质数的各种算法</title>
+		<link>https://coolshell.cn/articles/3738.html</link>
+					<comments>https://coolshell.cn/articles/3738.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 28 Feb 2011 01:14:10 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Coding]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[Template]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3738</guid>
+
+					<description><![CDATA[<p>打印质数的算法应该是学习计算机编程的一个经典的问题，在这里想给大家展示一些方法，相信这些方法会对你的编程有一定的启发作用。请你注意几点， 实际应用和教学应用有很...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3738.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3738.html">打印质数的各种算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>打印质数的算法应该是学习计算机编程的一个经典的问题，在这里想给大家展示一些方法，相信这些方法会对你的编程有一定的启发作用。请你注意几点，</p>
+<ul>
+<li>实际应用和教学应用有很大的差别。</li>
+<li>最后的那个使用编译时而不是运行时的方法大家可以重点看看。</li>
+</ul>
+<h4>教科书的示例</h4>
+<p>首先，先给一个教科书的示例。下面这个示例应该是教科书（至少是我上大学时的教科学）中算法复杂度最好的例子了。其想法很简单，先写一个判断是否是质数的函数isPrime()，然后从1到n分别调用isPrime()函数来检查。检查是否是质数的算法是核心，其简单的使用从2到n的开根的数作为除数。这样的算法复杂度几乎是O(n*log(n))，看上去不错，但其实很不经济。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#include &lt;iostream&gt;
+using namespace std;
+
+bool isPrime(int nr)
+{
+    for (int d = 2; (d * d) &lt; (nr + 1); ++d){
+        if (!(nr % d)){
+            return false;
+        }
+     }
+    return true;
+}
+
+int main (int argc, char * const argv[])
+{
+    for (int i = 0; i &lt; 50; ++i){
+        if (isPrime(i)){
+            cout &lt;&lt; i &lt;&lt; endl;
+        }
+    }
+}
+</pre>
+<h4><span id="more-3738"></span>较好的算法</h4>
+<p>我们知道，我们的算法如果写成线性算法，也就是O(n)，已经算是不错了，但是最好的是O(Log(n))的算法，这是一个对数级的算法，著名的二分取中（Binary Search）正是O(Log(n))的算法。<strong>通常来说，O(Log(n))的算法都是以排除法做为手段的</strong>。所以，找质数的算法完全可以采用排除法的方式。如下所示，这种算法的复杂度是<em>O</em><em>(n(log(logn)))。</em></p>
+<p><strong>示例：打印30以内的质数</strong></p>
+<p>一、初始化如下列表。</p>
+<pre> 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30</pre>
+<p>二、把第一个数（2）取出来，去掉所有可以被2整除的数。</p>
+<pre> 2  3     5     7     9    11    13    15    17    19    21    23    25    27    29</pre>
+<p>三、取第二个数（3），去掉所有可以被 3整除的数。</p>
+<pre> 2  3     5     7          11    13          17    19          23    25          29</pre>
+<p>四、取第三个数（5），因为4已经被去除了，再去掉所有可以被5整除的数。</p>
+<pre> 2  3     5     7          11    13          17    19          23                29</pre>
+<p>接下来的数是7，但是7的平方是49，其大于了30，所以我们可以停止计算了。剩下的数就是所有的质数了。</p>
+<h4>实际应用的算法</h4>
+<p>实际应用中，我们通常不会使用上述的两种算法，因为那是理论学院派的算法。实际中的算法是，我把质数事先就计算好，放在一个文件中，然后在程序启动时（注意是在启动时读这个文件，而不是运行时每调用一次就读一次文件），读取这个文件，然后打印出来就可以了。如果需要查找的化，二分查找或是hash表查找将会获得巨大的性能提升。当然，这样的方法对于空间来说比前面两个都要消耗得大，但是你可以有O(log(n))或是O(1)的时间复杂度。</p>
+<p>所以，我想在这里提醒大家——<strong>实际和理论的的方法很不一样的</strong>，千万不要读书读成书呆子。在游戏编程的世界里，大量的数据都不是运行计算的，而都是写在文件中的。比如，一个火焰效果，一个人物跑动的动作，都是事先写在文件中的。</p>
+<h4>使用编译时而不是运行时</h4>
+<p>下面这个例子（本例参考于<a href="http://www.intermediaware.com/blog/846/hack-of-the-day-fast-prime-numbers" target="_blank">这里</a>）你需要注意了，这是一个高级用法，使用模式来在编译时计算质数，而不是运行时。这种技术使用了C++编译器对模板的特化时的处理来生成自己相要的结果。这种方法在技术上是相当Cool的，但并不一定实用，这里只是想像大家展示这种用法。这是C++的最骨灰级的用法了。</p>
+<p>请看下面的两个模板类，第一个模板以递归的方式检查是否是质数，第二个方法是递归的退出条件（当N=1时），对于模板的重载，请参看相关的C++书籍。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+template&lt;int N, int D = N - 1&gt;
+struct isPrime {
+    enum {
+        result = (N % D) &amp;&amp; isPrime&lt;N, D-1&gt;::result
+    };
+};
+
+template&lt;int N&gt;
+struct isPrime&lt;N, 1&gt; {
+    enum {
+        result = true
+    };
+};
+</pre>
+<p>于是，通过这个模板，我们可以使用下面的代码来检查是否是质数：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+if (isPrime&lt;3&gt;::result)
+    cout &lt;&lt; &quot;Guess what: 3 is a prime!&quot;;
+</pre>
+<p>下一步，我们需要打出一个区间内的质数，所以，我们需要继续设计我们的print模板。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+template&lt;int N, bool ISPRIME&gt;
+struct printIfPrime {
+    static inline void print() {}
+};
+
+template &lt;int N&gt;
+struct printIfPrime&lt;N, true&gt; {
+    static inline void print() {
+        std::cout &lt;&lt; N &lt;&lt; endl;
+    }
+};
+</pre>
+<p>从上面的代码中，我们可以看到，我们的第一个实际是什么也没做，而第二个有输出，注意第二个的模板参数中有一个true，其意味着那个质数的判断。于是我们就可以给出下面的代码来尝试着打印出一段区间内的质数：（<strong>请不要编译！！</strong>因为那会让编译器进入无限循环中，原因是printPrimes会不停地调用自己永不停止）</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+template&lt;int N, int MAX&gt;
+struct printPrimes {
+    static inline void print()
+    {
+        printIfPrime&lt;N, isPrime&lt;N&gt;::result&gt;::print();
+        printPrimes&lt;N + 1, MAX&gt;::print();
+    }
+};
+</pre>
+<p>为了避免这个问题，你需要再加一个模板类，如下所示。这样当N变成MAX的时候，递归就结束了。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+template&lt;int N&gt;
+struct printPrimes&lt;N, N&gt; {
+    static inline void print() {
+        printIfPrime&lt;N, isPrime&lt;N&gt;::result&gt;::print();
+    }
+};
+</pre>
+<p>最后，让我们来看看最终的调用：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+int main (int argc, char * const argv[])
+{
+    printPrimes&lt;2, 40&gt;::print();
+    return 0;
+}
+</pre>
+<p>这个方法很NB，但是有两个问题：</p>
+<ul>
+<li>比较耗编译时间。</li>
+<li>不能在运行时输入MAX的值。</li>
+</ul>
+<p>不过，相信这种玩法会启动你很多的编程思路。</p>
+<p>当然，还有以前说过的那个——《<span style="font-weight: bold;"><a title="检查素数的正则表达式" rel="bookmark" href="https://coolshell.cn/articles/2704.html" target="_blank">检查素数的正则表达式</a></span>》</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="http://coolshell.cn/articles/1857.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="C 语言整型谜题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/1857.html" class="wp_rp_title">C 语言整型谜题</a></li><li ><a href="http://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="http://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="http://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="http://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3738.html">打印质数的各种算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3738.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>140个Google的面试题</title>
+		<link>https://coolshell.cn/articles/3345.html</link>
+					<comments>https://coolshell.cn/articles/3345.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 02 Dec 2010 00:44:24 +0000</pubDate>
+				<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3345</guid>
+
+					<description><![CDATA[<p>来源：http://blog.seattleinterviewcoach.com/2009/02/140-google-interview-questions....</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3345.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3345.html">140个Google的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>来源：<a href="http://blog.seattleinterviewcoach.com/2009/02/140-google-interview-questions.html" target="_blank">http://blog.seattleinterviewcoach.com/2009/02/140-google-interview-questions.html</a>（墙）<br />
+<img decoding="async" loading="lazy" class="alignright size-medium wp-image-3349" title="Google 面试题 " src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-300x225.jpg" alt="" width="210" height="158" srcset="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-300x225.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-360x270.jpg 360w, https://coolshell.cn/wp-content/uploads/2010/12/googlequestion.jpg 400w" sizes="(max-width: 210px) 100vw, 210px" /></p>
+<div>某猎头收集了140多个Google的面试题，都张到他的Blog中了，主要是下面这些职位的，因为被墙，且无任何敏感信息，所以，我原文搬过来了。</div>
+<div>
+<ul>
+<li>Product Marketing Manager</li>
+<li>Product Manager</li>
+<li>Software Engineer</li>
+<li>Software Engineer in Test</li>
+<li>Quantitative Compensation Analyst</li>
+<li>Engineering Manager</li>
+<li>AdWords Associate</li>
+</ul>
+</div>
+<p>这篇Blog例举了Google用来面试下面这几个职位的面试题。很多不是很容易回答，不过都比较经典与变态，是Google，Microsoft，Amazon之类的公司的风格。对于本文，我没有翻译，因为我相信，英文问题是最好的。不过对于有些问题，我做了一些注释，不一定对，但希望对你有帮助启发。对于一些问题，如果你百思不得其解，可以Google一下，StackOverflow或是Wikipedia上可能会给你非常全面的答案。</p>
+<p><span id="more-3345"></span></p>
+<div><strong>Product Marketing Manager</strong></div>
+<div>
+<div>
+<ul>
+<li>Why do you want to join Google?</li>
+<li>What do you know about Google&#8217;s product and technology?</li>
+<li>If you are Product Manager for Google&#8217;s Adwords, how do you plan to market this?</li>
+<li>What would you say during an AdWords or AdSense product seminar?</li>
+<li>Who are Google&#8217;s competitors, and how does Google compete with them?</li>
+<li>Have you ever used Google&#8217;s products? Gmail?</li>
+<li>What&#8217;s a creative way of marketing Google&#8217;s brand name and product?</li>
+<li>If you are the product marketing manager for Google&#8217;s Gmail product, how do you plan to market it so as to achieve 100 million customers in 6 months?</li>
+<li>How much money you think Google makes daily from Gmail ads?</li>
+<li>Name a piece of technology you’ve read about recently. Now tell me your own creative execution for an ad for that product.</li>
+<li>Say an advertiser makes $0.10 every time someone clicks on their ad.  Only 20% of people who visit the site click on their ad.  How many people need to visit the site for the advertiser to make $20?<span style="white-space: pre;"> </span></li>
+<li>Estimate the number of students who are college seniors, attend four-year schools, and graduate with a job in the United States every year.</li>
+</ul>
+</div>
+</div>
+<div><strong>Product Manager</strong></div>
+<div>
+<div>
+<ul>
+<li>How would you boost the GMail subscription base?</li>
+<li>What is the most efficient way to sort a million integers?  （陈皓：merge sort）</li>
+<li>How would you re-position Google&#8217;s offerings to counteract competitive threats from Microsoft?</li>
+<li>How many golf balls can fit in a school bus? （陈皓：这种题一般来说是考你的解题思路的，注意，你不能单纯地把高尔夫球当成一个小立方体，其是一个圆球，堆起来的时候应该是错开的——也就是三个相邻的球的圆心是个等边三角形）</li>
+<li>You are shrunk to the height of a nickel and your mass is proportionally reduced so as to maintain your original density. You are then thrown into an empty glass blender. The blades will start moving in 60 seconds. What do you do?</li>
+<li>How much should you charge to wash all the windows in Seattle?</li>
+<li>How would you find out if a machine’s stack grows up or down in memory?</li>
+<li>Explain a database in three sentences to your eight-year-old nephew. （陈皓：用三句话向8岁的侄子解释什么是数据库，考你的表达能力了）</li>
+<li>How many times a day does a clock’s hands overlap?（陈皓：经典的时钟问题）</li>
+<li>You have to get from point A to point B. You don’t know if you can get there. What would you do?</li>
+<li>Imagine you have a closet full of shirts. It’s very hard to find a shirt. So what can you do to organize your shirts for easy retrieval? （陈皓：很不错的一道题，不要以为分类查询很容易，想想图书馆图书的分类查询问题吧。另外，你处想想如何在你在你的衣柜里实现一个相当于Hash表或是一个Tree之类的数据结构）</li>
+<li>Every man in a village of 100 married couples has cheated on his wife. Every wife in the village instantly knows when a man other than her husband has cheated, but does not know when her own husband has. The village has a law that does not allow for adultery. Any wife who can prove that her husband is unfaithful must kill him that very day. The women of the village would never disobey this law. One day, the queen of the village visits and announces that at least one husband has been unfaithful. What happens? （陈皓：这个问题很有限制级，哈哈，非常搞的一个问题，注意wife们的递归，这类的问题是经典的分布式通讯问题，上网搜 一搜吧。）</li>
+<li>In a country in which people only want boys, every family continues to have children until they have a boy. If they have a girl, they have another child. If they have a boy, they stop. What is the proportion of boys to girls in the country?（陈皓：第一反应是——这个国家是中国。一个概率问题，其实，无论你怎么生，50%的概率是永远不变的。）</li>
+<li>If the probability of observing a car in 30 minutes on a highway is 0.95, what is the probability of observing a car in 10 minutes (assuming constant default probability)?</li>
+<li>If you look at a clock and the time is 3:15, what is the angle between the hour and the minute hands? (The answer to this is not zero!)</li>
+<li>Four people need to cross a rickety rope bridge to get back to their camp at night. Unfortunately, they only have one flashlight and it only has enough light left for seventeen minutes. The bridge is too dangerous to cross without a flashlight, and it&#8217;s only strong enough to support two people at any given time. Each of the campers walks at a different speed. One can cross the bridge in 1 minute, another in 2 minutes, the third in 5 minutes, and the slow poke takes 10 minutes to cross. How do the campers make it across in 17 minutes?（陈皓：经典的过桥问题）</li>
+<li>You are at a party with a friend and 10 people are present including you and the friend. your friend makes you a wager that for every person you find that has the same birthday as you, you get $1; for every person he finds that does not have the same birthday as you, he gets $2. would you accept the wager?</li>
+<li>How many piano tuners are there in the entire world?</li>
+<li>You have eight balls all of the same size. 7 of them weigh the same, and one of them weighs slightly more. How can you find the ball that is heavier by using a balance and only two weighings?（陈皓：经典的称重问题。这样的问题花样很多，不过都不难回答）</li>
+<li>You have five pirates, ranked from 5 to 1 in descending order. The top pirate has the right to propose how 100 gold coins should be divided among them. But the others get to vote on his plan, and if fewer than half agree with him, he gets killed. How should he allocate the gold in order to maximize his share but live to enjoy it? (Hint: One pirate ends up with 98 percent of the gold.)</li>
+<li>You are given 2 eggs. You have access to a 100-story building. Eggs can be very hard or very fragile means it may break if dropped from the first floor or may not even break if dropped from 100th floor. Both eggs are identical. You need to figure out the highest floor of a 100-story building an egg can be dropped without breaking. The question is how many drops you need to make. You are allowed to break 2 eggs in the process. （陈皓：从3的倍数的楼层开始扔，比如3，6，9，12&#8230;..，如果鸡蛋在3n层碎了，那到在3n-1层扔第二个鸡蛋，如果没碎，则最高不碎楼层为3n-1，否则为3n-2）</li>
+<li>Describe a technical problem you had and how you solved it.</li>
+<li>How would you design a simple search engine?</li>
+<li>Design an evacuation plan for San Francisco.</li>
+<li>There&#8217;s a latency problem in South Africa. Diagnose it. （陈皓：这个问题完全是在考你的解决问题的能力。没有明确的答案。不过，解决性能问题的第一步通常是找出瓶颈，找瓶颈有很多种方法，工具，二分查，时间记录等等。）</li>
+<li>What are three long term challenges facing Google?</li>
+<li>Name three non-Google websites that you visit often and like.  What do you like about the user interface and design?  Choose one of the three sites and comment on what new feature or project you would work on.  How would you design it?</li>
+<li>If there is only one elevator in the building, how would you change the design?  How about if there are only two elevators in the building? （陈皓：经典的电梯设计问题，这种问题千变万化，主要是考你的设计能力和需求变化的适变能力，与此相似的是酒店订房系统。）</li>
+<li>How many vacuum’s are made per year in USA?</li>
+</ul>
+</div>
+</div>
+<div>
+<div><strong>Software Engineer</strong></div>
+<div>
+<div>
+<ul>
+<li>Why are manhole covers round? （陈皓：为什么下水井盖是圆的？这是有N种答案的，上Wiki看看吧）</li>
+<li>What is the difference between a mutex and a semaphore?  Which one would you use to protect access to an increment operation?</li>
+<li>A man pushed his car to a hotel and lost his fortune. What happened? （陈皓：脑筋急转弯？他在玩大富翁游戏？！！）</li>
+<li>Explain the significance of &#8220;dead beef&#8221;.（陈皓：要是你看到的是16进制 DEAD BEEF，你会觉得这是什么？IPv6的地址？）</li>
+<li>Write a C program which measures the the speed of a context switch on a UNIX/Linux system.</li>
+<li>Given a function which produces a random integer in the range 1 to 5, write a function which produces a random integer in the range 1 to 7.（陈皓：上StackOverflow看看吧，经典的问题）</li>
+<li>Describe the algorithm for a depth-first graph traversal.</li>
+<li>Design a class library for writing card games. （陈皓：用一系列的类来设计一个扑克游戏，设计题）</li>
+<li>You need to check that your friend, Bob, has your correct phone number, but you cannot ask him directly. You must write a the question on a card which and give it to Eve who will take the card to Bob and return the answer to you. What must you write on the card, besides the question, to ensure Bob can encode the message so that Eve cannot read your phone number?（陈皓：协议+数字加密，我试想了一个，纸条上可以这样写，“Bob，请把我的手机号以MD5算法加密后的字符串，比对下面的字符串——XXXXXX，它们是一样的吗？”）</li>
+<li>How are cookies passed in the HTTP protocol?</li>
+<li>Design the SQL database tables for a car rental database.</li>
+<li>Write a regular expression which matches a email address. （陈皓：上StackOverflow查相当的问题吧。）</li>
+<li>Write a function f(a, b) which takes two character string arguments and returns a string containing only the characters found in both strings in the order of a. Write a version which is order N-squared and one which is order N.（陈皓：算法题，不难，不说了。一个O(n^2)和一个O(n)的算法复杂度）</li>
+<li>You are given a the source to a application which is crashing when run. After running it 10 times in a debugger, you find it never crashes in the same place. The application is single threaded, and uses only the C standard library. What programming errors could be causing this crash? How would you test each one? （陈皓：和随机数有关系？或是时间？）</li>
+<li>Explain how congestion control works in the TCP protocol.</li>
+<li>In Java, what is the difference between final, finally, and finalize?</li>
+<li>What is multithreaded programming? What is a deadlock?</li>
+<li>Write a function (with helper functions if needed) called to Excel that takes an excel column value (A,B,C,D…AA,AB,AC,… AAA..) and returns a corresponding integer value (A=1,B=2,… AA=26..).</li>
+<li>You have a stream of infinite queries (ie: real time Google search queries that people are entering). Describe how you would go about finding a good estimate of 1000 samples from this never ending set of data and then write code for it.</li>
+<li>Tree search algorithms. Write BFS and DFS code, explain run time and space requirements. Modify the code to handle trees with weighted edges and loops with BFS and DFS, make the code print out path to goal state.</li>
+<li>You are given a list of numbers. When you reach the end of the list you will come back to the beginning of the list (a circular list). Write the most efficient algorithm to find the minimum # in this list. Find any given # in the list. The numbers in the list are always increasing but you don’t know where the circular list begins, ie: 38, 40, 55, 89, 6, 13, 20, 23, 36. （陈皓：循环排序数组的二分查找问题）</li>
+<li>Describe the data structure that is used to manage memory. (stack)</li>
+<li>What&#8217;s the difference between local and global variables?</li>
+<li>If you have 1 million integers, how would you sort them efficiently? (modify a specific sorting algorithm to solve this)</li>
+<li>In Java, what is the difference between static, final, and const. (if you don&#8217;t know Java they will ask something similar for C or C++).</li>
+<li>Talk about your class projects or work projects (pick something easy)… then describe how you could make them more efficient (in terms of algorithms).</li>
+<li>Suppose you have an NxN matrix of positive and negative integers. Write some code that finds the sub-matrix with the maximum sum of its elements.（陈皓：以前见过一维数组的这个问题，现在是二维的。感觉应该是把二维的第一行的最大和的区间算出来，然后再在这个基础之上进行二维的分析。思路应该是这个，不过具体的算法还需要想一想）</li>
+<li>Write some code to reverse a string.</li>
+<li>Implement division (without using the divide operator, obviously).（陈皓：想一想手算除法的过程。）</li>
+<li>Write some code to find all permutations of the letters in a particular string.</li>
+<li>What method would you use to look up a word in a dictionary? （陈皓：使用排序，哈希，树等算法和数据结构）</li>
+<li>Imagine you have a closet full of shirts. It’s very hard to find a shirt. So what can you do to organize your shirts for easy retrieval?</li>
+<li>You have eight balls all of the same size. 7 of them weigh the same, and one of them weighs slightly more. How can you fine the ball that is heavier by using a balance and only two weighings?</li>
+<li>What is the C-language command for opening a connection with a foreign host over the internet?</li>
+<li>Design and describe a system/application that will most efficiently produce a report of the top 1 million Google search requests. These are the particulars: 1) You are given 12 servers to work with. They are all dual-processor machines with 4Gb of RAM, 4x400GB hard drives and networked together.(Basically, nothing more than high-end PC’s) 2) The log data has already been cleaned for you. It consists of 100 Billion log lines, broken down into 12 320 GB files of 40-byte search terms per line. 3) You can use only custom written applications or available free open-source software.</li>
+<li>There is an array A[N] of N numbers. You have to compose an array Output[N] such that Output[i] will be equal to multiplication of all the elements of A[N] except A[i]. For example Output[0] will be multiplication of A[1] to A[N-1] and Output[1] will be multiplication of A[0] and from A[2] to A[N-1]. Solve it without division operator and in O(n).（陈皓：注意其不能使用除法。算法思路是这样的，把output[i]=a[i]左边的乘积 x a[i]右边的乘积，所以，我们可以分两个循环，第一次先把A[i]左边的乘积放在Output[i]中，第二次把A[i]右边的乘积算出来。我们先看第一次的循环，使用迭代累积的方式，代码如下：for(r=1; i=0; i&lt;n-1; i++){ Output[i]=r; r*=a[i]; }，看明白了吧。第二次的循环我就不说了，方法一样的。）</li>
+<li>There is a linked list of numbers of length N. N is very large and you don’t know N. You have to write a function that will return k random numbers from the list. Numbers should be completely random. Hint: 1. Use random function rand() (returns a number between 0 and 1) and irand() (return either 0 or 1) 2. It should be done in O(n).（陈皓：本题其实不难。在遍历链表的同时一边生成随机数，一边记录最大的K个随机数和其链接地址。）</li>
+<li>Find or determine non existence of a number in a sorted list of N numbers where the numbers range over M, M&gt;&gt; N and N large enough to span multiple disks. Algorithm to beat O(log n) bonus points for constant time algorithm.（陈皓：使用bitmap，如果一个长整形有64位，那么我们可以使用M/64个bitmap）</li>
+<li>You are given a game of Tic Tac Toe. You have to write a function in which you pass the whole game and name of a player. The function will return whether the player has won the game or not. First you to decide which data structure you will use for the game. You need to tell the algorithm first and then need to write the code. Note: Some position may be blank in the game। So your data structure should consider this condition also.</li>
+<li>You are given an array [a1 To an] and we have to construct another array [b1 To bn] where bi = a1*a2*&#8230;*an/ai. you are allowed to use only constant space and the time complexity is O(n). No divisions are allowed.（陈皓：前面说过了）</li>
+<li>How do you put a Binary Search Tree in an array in a efficient manner. Hint :: If the node is stored at the ith position and its children are at 2i and 2i+1(I mean level order wise)Its not the most efficient way.（陈皓：按顺序遍历树）</li>
+<li>How do you find out the fifth maximum element in an Binary Search Tree in efficient manner. Note: You should not use use any extra space. i.e sorting Binary Search Tree and storing the results in an array and listing out the fifth element.</li>
+<li>Given a Data Structure having first n integers and next n chars. A = i1 i2 i3 &#8230; iN c1 c2 c3 &#8230; cN.Write an in-place algorithm to rearrange the elements of the array ass A = i1 c1 i2 c2 &#8230; in cn（陈皓：这个算法其实就是从中间开始交换元素，代码：for(i=n-1; i&gt;1; i++) {  for(j=i; j&lt;2*n-i; j+=2) { swap(a[j], a[j+1]); } }，不好意思写在同一行上了。）</li>
+<li>Given two sequences of items, find the items whose absolute number increases or decreases the most when comparing one sequence with the other by reading the sequence only once.</li>
+<li>Given That One of the strings is very very long , and the other one could be of various sizes. Windowing will result in O(N+M) solution but could it be better? May be NlogM or even better?</li>
+<li>How many lines can be drawn in a 2D plane such that they are equidistant from 3 non-collinear points?</li>
+<li>Let&#8217;s say you have to construct Google maps from scratch and guide a person standing on Gateway of India (Mumbai) to India Gate(Delhi). How do you do the same?</li>
+<li>Given that you have one string of length N and M small strings of length L. How do you efficiently find the occurrence of each small string in the larger one?</li>
+<li>Given a binary tree, programmatically you need to prove it is a binary search tree.</li>
+<li>You are given a small sorted list of numbers, and a very very long sorted list of numbers &#8211; so long that it had to be put on a disk in different blocks. How would you find those short list numbers in the bigger one?</li>
+<li>Suppose you have given N companies, and we want to eventually merge them into one big company. How many ways are theres to merge?</li>
+<li>Given a file of 4 billion 32-bit integers, how to find one that appears at least twice? （陈皓：我能想到的是拆分成若干个小数组，排序，然后一点点归并起来）</li>
+<li>Write a program for displaying the ten most frequent words in a file such that your program should be efficient in all complexity measures.（陈皓：你可能需要看看这篇文章<a href="http://www.cs.rutgers.edu/~farach/pubs/FrequentStream.pdf" target="_blank"><span style="text-decoration: underline;">Finding Frequent Items in Data Streams</span></a>）</li>
+<li>Design a stack. We want to push, pop, and also, retrieve the minimum element in constant time.</li>
+<li>Given a set of coin denominators, find the minimum number of coins to give a certain amount of change.（陈皓：你应该查看一下这篇文章：<a href="http://www.algorithmist.com/index.php/Coin_Change" target="_blank"><span style="text-decoration: underline;">Coin Change Problem</span></a>）</li>
+<li>Given an array, i) find the longest continuous increasing subsequence. ii) find the longest increasing subsequence.（陈皓：这个题不难，O(n)算法是边遍历边记录当前最大的连续的长度。）</li>
+<li>Suppose we have N companies, and we want to eventually merge them into one big company. How many ways are there to merge?</li>
+<li>Write a function to find the middle node of a single link list. （陈皓：我能想到的算法是——设置两个指针p1和p2，每一次，p1走两步，p2走一步，这样，当p1走到最后时，p2就在中间）</li>
+<li>Given two binary trees, write a compare function to check if they are equal or not. Being equal means that they have the same value and same structure.（陈皓：这个很简单，使用递归算法。）</li>
+<li>Implement put/get methods of a fixed size cache with LRU replacement algorithm.</li>
+<li>You are given with three sorted arrays ( in ascending order), you are required to find a triplet ( one element from each array) such that distance is minimum. Distance is defined like this : If a[i], b[j] and c[k] are three elements then distance=max(abs(a[i]-b[j]),abs(a[i]-c[k]),abs(b[j]-c[k]))&#8221; Please give a solution in O(n) time complexity（陈皓：三个指针，a, b, c分别指向三个数组头，假设：a[0]&lt;b[0]&lt;c[0]，推进a直到a[i]&gt;b[0]，计算 abs(a[i-1] &#8211; c[0])，把结果保存在min中。现在情况变成找 a[i], b[0],c[0]，重复上述过程，如果有一个新的值比min要小，那就取代现有的min。）</li>
+<li>How does C++ deal with constructors and deconstructors of a class and its child class?</li>
+<li>Write a function that flips the bits inside a byte (either in C++ or Java). Write an algorithm that take a list of n words, and an integer m, and retrieves the mth most frequent word in that list.</li>
+<li>What&#8217;s 2 to the power of 64?</li>
+<li>Given that you have one string of length N and M small strings of length L. How do you efficiently find the occurrence of each small string in the larger one? （陈皓：我能想到的是——把那M个小字串排个序，然后遍历大字串，并在那M个字串中以二分取中的方式查找。）</li>
+<li>How do you find out the fifth maximum element in an Binary Search Tree in efficient manner.</li>
+<li>Suppose we have N companies, and we want to eventually merge them into one big company. How many ways are there to merge?</li>
+<li>There is linked list of millions of node and you do not know the length of it. Write a function which will return a random number from the list.</li>
+<li>You need to check that your friend, Bob, has your correct phone number, but you cannot ask him directly. You must write a the question on a card which and give it to Eve who will take the card to Bob and return the answer to you. What must you write on the card, besides the question, to ensure Bob can encode the message so that Eve cannot read your phone number?</li>
+<li>How long it would take to sort 1 trillion numbers? Come up with a good estimate.</li>
+<li>Order the functions in order of their asymptotic performance: 1) 2^n 2) n^100 3) n! 4) n^n</li>
+<li>There are some data represented by(x,y,z). Now we want to find the Kth least data. We say (x1, y1, z1) &gt; (x2, y2, z2) when value(x1, y1, z1) &gt; value(x2, y2, z2) where value(x,y,z) = (2^x)*(3^y)*(5^z). Now we can not get it by calculating value(x,y,z) or through other indirect calculations as lg(value(x,y,z)). How to solve it?</li>
+<li>How many degrees are there in the angle between the hour and minute hands of a clock when the time is a quarter past three?</li>
+<li>Given an array whose elements are sorted, return the index of a the first occurrence of a specific integer. Do this in sub-linear time. I.e. do not just go through each element searching for that element.</li>
+<li>Given two linked lists, return the intersection of the two lists: i.e. return a list containing only the elements that occur in both of the input lists. （陈皓：把第一个链表存入hash表，然后遍历第二个链表。不知道还没有更好的方法。）</li>
+<li>What&#8217;s the difference between a hashtable and a hashmap?</li>
+<li>If a person dials a sequence of numbers on the telephone, what possible words/strings can be formed from the letters associated with those numbers?（陈皓：这个问题和美国的电话有关系，大家可以试着想一下我们发短信的手机，按数字键出字母，一个组合的数学问题。）</li>
+<li>How would you reverse the image on an n by n matrix where each pixel is represented by a bit?</li>
+<li>Create a fast cached storage mechanism that, given a limitation on the amount of cache memory, will ensure that only the least recently used items are discarded when the cache memory is reached when inserting a new item. It supports 2 functions: String get(T t) and void put(String k, T t).</li>
+<li>Create a cost model that allows Google to make purchasing decisions on to compare the cost of purchasing more RAM memory for their servers vs. buying more disk space.</li>
+<li>Design an algorithm to play a game of Frogger and then code the solution. The object of the game is to direct a frog to avoid cars while crossing a busy road. You may represent a road lane via an array. Generalize the solution for an N-lane road.</li>
+<li>What sort would you use if you had a large data set on disk and a small amount of ram to work with?</li>
+<li>What sort would you use if you required tight max time bounds and wanted highly regular performance.</li>
+<li>How would you store 1 million phone numbers?（陈皓：试想电话是有区段的，可以把区段统一保存，Flyweight设计模式）</li>
+<li>Design a 2D dungeon crawling game. It must allow for various items in the maze &#8211; walls, objects, and computer-controlled characters. (The focus was on the class structures, and how to optimize the experience for the user as s/he travels through the dungeon.)</li>
+<li>What is the size of the C structure below on a 32-bit system? On a 64-bit? （陈皓：注意编译器的对齐）</li>
+</ul>
+<p style="padding-left: 90px;">struct foo {</p>
+<div style="padding-left: 90px;">char a;</div>
+<div style="padding-left: 90px;">char* b;</div>
+<div style="padding-left: 90px;">};</div>
+</div>
+</div>
+<div><strong>Software Engineer in Test</strong></div>
+<div>
+<ul>
+<li>Efficiently implement 3 stacks in a single array.</li>
+<li>Given an array of integers which is circularly sorted, how do you find a given integer.</li>
+<li>Write a program to find depth of binary search tree without using recursion.</li>
+<li>Find the maximum rectangle (in terms of area) under a histogram in linear time.</li>
+<li>Most phones now have full keyboards. Before there there three letters mapped to a number button. Describe how you would go about implementing spelling and word suggestions as people type.</li>
+<li>Describe recursive mergesort and its runtime. Write an iterative version in C++/Java/Python.</li>
+<li>How would you determine if someone has won a game of tic-tac-toe on a board of any size?</li>
+<li>Given an array of numbers, replace each number with the product of all the numbers in the array except the number itself *without* using division.</li>
+<li>Create a cache with fast look up that only stores the N most recently accessed items.</li>
+<li>How to design a search engine? If each document contains a set of keywords, and is associated with a numeric attribute, how to build indices?</li>
+<li>Given two files that has list of words (one per line), write a program to show the intersection.</li>
+<li>What kind of data structure would you use to index annagrams of words? e.g. if there exists the word &#8220;top&#8221; in the database, the query for &#8220;pot&#8221; should list that.</li>
+</ul>
+<div>
+<div><strong>Quantitative Compensation Analyst</strong></div>
+</div>
+</div>
+<div>
+<ul>
+<li>What is the yearly standard deviation of a stock given the monthly standard deviation?</li>
+<li>How many resumes does Google receive each year for software engineering?</li>
+<li>Anywhere in the world, where would you open up a new Google office and how would you figure out compensation for all the employees at this new office?</li>
+<li>What is the probability of breaking a stick into 3 pieces and forming a triangle?</li>
+</ul>
+</div>
+<div><strong>Engineering Manager</strong></div>
+<div>
+<ul>
+<li>You&#8217;re the captain of a pirate ship, and your crew gets to vote on how the gold is divided up. If fewer than half of the pirates agree with you, you die. How do you recommend apportioning the gold in such a way that you get a good share of the booty, but still survive?</li>
+</ul>
+</div>
+<div><strong>AdWords Associate</strong></div>
+<div>
+<ul>
+<li>How would you work with an advertiser who was not seeing the benefits of the AdWords relationship due to poor conversions?</li>
+<li>How would you deal with an angry or frustrated advertisers on the phone?</li>
+</ul>
+</div>
+<div><span style="font-size: small;"><em>Sources</em></span></div>
+<div style="padding-left: 30px;"><span><span style="font-size: small;"><a href="http://news.ycombinator.com/item?id=266663" target="_blank">http://news.ycombinator.com/item?id=266663</a> </span></span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://tihomir.org/crazy-questions-at-google-job-interview/" target="_blank">http://tihomir.org/crazy-questions-at-google-job-interview/</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://www.drizzle.com/~jpaint/google.html" target="_blank">http://www.drizzle.com/~jpaint/google.html</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://www.gamedev.net/community/forums/topic.asp?topic_id=299692" target="_blank">http://www.gamedev.net/community/forums/topic.asp?topic_id=299692</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://careers.cse.sc.edu/googleinterview" target="_blank">http://careers.cse.sc.edu/googleinterview</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://job-interview.blogspot.com/2005/02/google-interview-product-marketing.html" target="_blank">http://job-interview.blogspot.com/2005/02/google-interview-product-marketing.html</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://www.theregister.co.uk/2007/01/05/google_interview_tales/" target="_blank">http://www.theregister.co.uk/2007/01/05/google_interview_tales/</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://money.cnn.com/2007/08/29/technology/brain_teasers.biz2/index.htm" target="_blank">http://money.cnn.com/2007/08/29/technology/brain_teasers.biz2/index.htm</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://money.cnn.com/2007/08/29/technology/brain_teasers.biz2/index.htm" target="_blank">http://blogs.lessthandot.com/index.php/ITProfessionals/EthicsIT/google-interview-questions</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://placementsindia.blogspot.com/2007/09/google-top-interview-puzzles.html" target="_blank">http://placementsindia.blogspot.com/2007/09/google-top-interview-puzzles.html</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://linkmingle.com/user/interview_questions/google_interview_questions" target="_blank">http://linkmingle.com/user/interview_questions/google_interview_questions</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://discuss.joelonsoftware.com/default.asp?interview.11.626758.33" target="_blank">http://discuss.joelonsoftware.com/default.asp?interview.11.626758.33</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://mindcipher.com/puzzle/78-clock-works" target="_blank">http://mindcipher.com/puzzle/78-clock-works</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://www.glassdoor.com" target="_blank">http://www.glassdoor.com</a></span></div>
+<div style="padding-left: 30px;">
+<div><span style="font-size: small;"><a href="http://bluepixel.ca/blog/?p=69" target="_blank">http://bluepixel.ca/blog/?p=69</a></span></div>
+<div><span style="font-size: small;"> </span><span style="font-size: small;"><a href="http://www.businessinsider.com/my-nightmare-interviews-with-google-2009-11" target="_blank">http://www.businessinsider.com/my-nightmare-interviews-with-google-2009-11</a></span></div>
+<div><span style="font-size: small;"><br />
+</span></div>
+</div>
+</div>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-150x150.jpg" alt="为什么我反对纯算法面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_title">为什么我反对纯算法面试题</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="给程序员新手的一些建议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_title">给程序员新手的一些建议</a></li><li ><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="再谈“我是怎么招聘程序员的”（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（上）</a></li><li ><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="再谈“我是怎么招聘程序员的”（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（下）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3345.html">140个Google的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3345.html/feed</wfw:commentRss>
+			<slash:comments>27</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>chmod -x chmod的N种解法</title>
+		<link>https://coolshell.cn/articles/3136.html</link>
+					<comments>https://coolshell.cn/articles/3136.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 13 Oct 2010 00:42:37 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[chomd]]></category>
+		<category><![CDATA[cpio]]></category>
+		<category><![CDATA[Emacs]]></category>
+		<category><![CDATA[tar]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3136</guid>
+
+					<description><![CDATA[<p>在SlidesShare.net上有这么一个幻灯片，其说了如下的一个面试题： 如果某天你的Unix/Linux系统上的chomd命令被某人去掉了x属性（执行属性...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3136.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3136.html">chmod -x chmod的N种解法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在SlidesShare.net上有这么<a href="http://www.slideshare.net/cog/chmod-x-chmod" target="_blank">一个幻灯片</a>，其说了如下的一个面试题：</p>
+<blockquote><p>如果某天你的Unix/Linux系统上的chomd命令被某人去掉了x属性（执行属性），<br />
+那么，你如何恢复呢？</p></blockquote>
+<p>下面是一些答案：</p>
+<p><strong>1）重新安装</strong>。对于Debian的系统：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">sudo apt-get install --reinstall coreutils</code></p>
+<p><strong>2）使用语言级的chmod</strong>。</p>
+<ul>
+<li>Perl：perl-e &#8216;chmod 0755, &#8220;/bin/chmod&#8221;&#8216;</li>
+<li>Python：python -c &#8220;import os;os.chmod(&#8216;/bin/chmod&#8217;, 0755)&#8221;</li>
+<li>Node.js：require(&#8220;fs&#8221;).chmodSync(&#8220;/bin/chmod&#8221;, 0755);</li>
+<li>C程序：</li>
+</ul>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include &lt;sys/types.h&gt;
+#include&lt;sys/stat.h&gt;
+void main()
+{
+chmod(&quot;/bin/chmod&quot;, 0000755);
+}</pre>
+<p><span id="more-3136"></span></p>
+<p><strong>3）使用已有的可执行文件。</strong></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$cat - &gt; chmod.c
+void main(){}
+^D
+
+$cc chmod.c
+$cat /bin/chmod &gt; a.out
+$./a.out 0755 /bin/chmod
+</pre>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$cp true &gt; new_chmod
+$cat /bin/chmod &gt; new_chmod
+$./new_chmod 0755 /bin/chmod
+</pre>
+<p><strong>4）使用GNU tar命令</strong></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$tar --mode 0755 -cf chmod.tar /bin/chmod
+$tar xvf chmod.tar</pre>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">tar --mode 755 -cvf - chmod | tar -xvf -</code></p>
+<p><strong>5）使用cpio</strong> （第19到24字节为file mode &#8211; <a href="http://4bxf.sl.pt" target="_blank">http://4bxf.sl.pt</a>）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+echo chmod |
+cpio -o |
+perl -pe &#039;s/^(.{21}).../${1}755/&#039; |
+cpio -i -u</pre>
+<p><strong>6）使用hardcore</strong></p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">alias chmod=&#039;/lib/ld-2.11.1.so ./chmod&#039;</code></p>
+<p><strong>7）使用Emacs</strong></p>
+<blockquote><p>Ctrl+x b &gt; * scratch*<br />
+(set-file-modes &#8220;/bin/chmod&#8221; (string-to-number &#8220;0755&#8221; 8))<br />
+Ctrl+j</p></blockquote>
+<p>嗯，挺强大的，不过为什么不用install命令呢？</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">install -m 755 /bin/chmod /tmp/chmod
+mv /tmp/chmod /bin/chmod</pre>
+<p>各位，你的方法呢？</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3437.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/ediff-small-150x150.png" alt="一些杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3437.html" class="wp_rp_title">一些杂项资源</a></li><li ><a href="https://coolshell.cn/articles/3125.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/horrorstories.txt-150x150.jpg" alt="主流文本编辑器学习曲线" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3125.html" class="wp_rp_title">主流文本编辑器学习曲线</a></li><li ><a href="https://coolshell.cn/articles/2271.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/03/emacs_color_theme-150x150.jpg" alt="Emacs配色在线生成器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2271.html" class="wp_rp_title">Emacs配色在线生成器</a></li><li ><a href="https://coolshell.cn/articles/1640.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="文件备份的几个简单命令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1640.html" class="wp_rp_title">文件备份的几个简单命令</a></li><li ><a href="https://coolshell.cn/articles/1231.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="Javascripts加密库" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1231.html" class="wp_rp_title">Javascripts加密库</a></li><li ><a href="https://coolshell.cn/articles/1837.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/eclim-150x150.png" alt="Eclipse 和 Vim" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1837.html" class="wp_rp_title">Eclipse 和 Vim</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3136.html">chmod -x chmod的N种解法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3136.html/feed</wfw:commentRss>
+			<slash:comments>22</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

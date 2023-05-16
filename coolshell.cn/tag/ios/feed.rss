@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>iOS | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/ios/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 14 Apr 2015 02:50:09 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>关于移动端的钓鱼式攻击</title>
+		<link>https://coolshell.cn/articles/17066.html</link>
+					<comments>https://coolshell.cn/articles/17066.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 14 Apr 2015 00:13:23 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17066</guid>
+
+					<description><![CDATA[<p>今天，在微博上看了一篇《微信和淘宝到底是谁封谁》的文章，我觉得文章中逻辑错乱，所以，我发了一篇关于这篇文章逻辑问题的长微博。后面，我被原博主冷嘲热讽了一番，说是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17066.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17066.html">关于移动端的钓鱼式攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-17069" src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1.jpg" alt="phishing-1" width="300" height="300" srcset="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1.jpg 300w, https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg 150w, https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-200x200.jpg 200w, https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-270x270.jpg 270w" sizes="(max-width: 300px) 100vw, 300px" />今天，在微博上看了一篇《<a href="http://weibo.com/p/1001603830475402664763" target="_blank">微信和淘宝到底是谁封谁</a>》的文章，我觉得文章中逻辑错乱，所以，我发了一篇<a href="http://weibo.com/p/1001603831131286939079" target="_blank">关于这篇文章逻辑问题的长微博</a>。后面，我被原博主冷嘲热讽了一番，说是什么鸡汤啊，什么我与某某之流的人在一起混淆视听啊，等等。并且也有一些网友找我讨论一下相关的钓鱼式攻击的技术问题。所以，我想写下这篇纯技术文章，因为我对那些商业利益上的东西不关心，所以，只谈技术，这样最简单。</p>
+<p>首先说明一下，<strong>我个人不是一个安全专家，也不是一个移动开发专家，按道理来说，这篇文章不应该我来写，但是我就试一试，请原谅我的无知，也期待抛砖引玉了，希望安全的同学斧正</strong>。</p>
+<p>关于钓鱼式攻击，其实是通过一种社会工程学的方式来愚弄用户的攻击式，攻击者通常会模仿一个用户信任的网站来偷取用户的机密信息，比如用户密码或是信用卡。一般来说，攻击者会通过邮件和实时通信工具完成，给被攻击者发送一个高仿的网站，然后让用户看不出来与正统网站的差别，然后收集用户的机密数据。</p>
+<h4>移动端钓鱼攻击点分析</h4>
+<p>因为钓鱼式攻击并不新鲜，所以我这里只讲移动方面的。</p>
+<p>在移动端，这个事情会更容易干，因为移动端有如下特点：</p>
+<ul>
+<li>移动端的UI只能有一个应用占据整个屏幕，你只能看到一个应用，而且用户屏幕小，能显示的信息有限，比如浏览器里的网址是显示不全的。这会给钓鱼攻击有很多可乘之机。</li>
+</ul>
+<ul>
+<li>移动端的平台有其安全的设计。每个应用都是隔离开的，一个应用无法获取另一个应用的数据。而且应用的下载基本上来说都是来自合法的地方。比如iOS的设备通过App Store下载，每个程序都有自己的签名保证不会被篡改。而且移动端的的应用有各种权限配置，这样也能很大程度提高安全性。</li>
+</ul>
+<ul>
+<li>移动端的APP有些有些是收费的，所以自然会有盗版需求，虽然在平台上做了一些安全设计，但是并不完美。用户可以越狱，可以root。这给恶意软件有了可乘之机。</li>
+</ul>
+<p>下面我们来分析下移动端的用户操作，我们重点关注用户控制权的切换过程（因为这是攻击点）</p>
+<p><span id="more-17066"></span></p>
+<p>在移动设备上，基本上来说，用户的控制切换有四种：</p>
+<ul>
+<li>从一个APP切到另一个APP，也就是我们所谓的唤出APP。</li>
+<li>从一个APP唤出一个Web，常见为一个嵌入式的WebView或是一个浏览器</li>
+<li>从一个Web唤出一个APP，这需要浏览器支持一些非标准的HTTP协议，比如skype://之类的。</li>
+<li>从一个Web到另一个Web，这和Web上的方式差不多。</li>
+</ul>
+<p>基本上来说，<strong>黑客的攻击从来都是找这样的转换环节来做文章的，并且需要一个用户非常熟悉的场景（这样用户才会放松警惕）</strong>。</p>
+<p>通过观察移动APP的特性，我们可以知道，当用户控制切换时，有下面的这些特性：</p>
+<ul>
+<li>到另一个APP时，需要用户登录（如果登录的session过期了）</li>
+<li>当支付的时候，需要用户输入支付信息（信用卡信息、支持密码）</li>
+</ul>
+<p>那么用户在移动APP上经常做的事是什么？</p>
+<ul>
+<li><strong>社交分享</strong>：分享到微博，分享到微信等等，分享的时候，可能需要你输入用户名和口令。</li>
+</ul>
+<ul>
+<li><strong>应用内购</strong>：一般来说APP会有两种，一种免费的，一种是收费的，大量的用户都是下载免费的，然后通过什么“开通更多关卡”、“去广告”、“买道具”之类的东西，让用户输入支付信息。Apple的支付的时候也会要用户输入Apple ID的密码。</li>
+</ul>
+<ul>
+<li><strong>点击链接</strong>：有时候，我们收到短信，或是二维码，或是一个微信微博，会让我们去点击一个网站链接，这个网站链接要么就是打开一个网页，要么就是启动应用，要么就是跳转到应用市场去下载应用（如果你没安装）。</li>
+</ul>
+<p>所以，一个好的钓鱼式攻击一定会从这些地方入手，然后高仿UI以及交互流程，这个交互流程和用户日常操作的完全一样，让用户无法察觉。任何方式的钓鱼攻击简单来说，会有两种：</p>
+<ul>
+<li><strong>一种是直接攻击：</strong>你下载了一个恶意的APP，或是打开了一个恶意的冒牌APP。</li>
+<li><strong>一种是中间人攻击：</strong>用户控制权转换时的两端都是正规应用，但是中间的过程不是正常的。</li>
+</ul>
+<h4>攻击方式</h4>
+<p>下面是一些常见的攻击方式：</p>
+<h5>从一个应用唤起另一个应用的方式</h5>
+<p><strong>直接攻击</strong></p>
+<p>当你点击一个社交分享按钮，或是一个支付按钮的时候。就会转到一个页面，这个页面需要你输入用户机密信息（密码或是支付信息），然后再唤起真正的APP。</p>
+<p>一个有恶意的APP可能会让你放松警惕，因为，这个你在安装这个APP的时候，你会发现这个APP根本不需要任何的权限（Android上的），甚至连网络访问的权限都不要，因为在Android下，App可以通过别的组件访问互联网，比如：恶意应用可能创建一个MediaPlayer Object，然后就可以通过这个对象访问一个URL然后把偷到的信息发送出去。</p>
+<p>你的手机要被安装一个恶意的应用并不难，同样通过社工的方式，比如：盗版，色情，伪装成客服等等通过人性的弱点让你去一些非受信的市场上安装。iOS设备上的应用也可以不用通过App Store安装（通过itms-services协议，可以通过safari浏览器直接在IOS设备上安装应用程序）。</p>
+<p>还有，人们都是贪小便宜的人，所以，会到某些地方买一些便宜的手机（比如淘宝），现在的高仿手机，翻新的二手手机对于一般人甚至安全专家来说完全没有识别能力。这些手机中有很大可能藏有恶意程序。你千万不要以为你格式化手机就OK了。今天（2015年4月14日）早上CCTV2台的“第一时间”就说了一个案例，你可以看看。另外，你可以看看相关的新闻。（另外，你把你的旧手机卖了也要小心，因为你的数据就在里面，旧手机已经成了一个灰色产业链）</p>
+<p>另外，Apple的App需要有一个review过程，这个过程对大众是神秘的，但我觉得应该会包括安全方面的review。不过，这个审核过程可能也有空子可以钻。比如：在review的时候，这个应用完全正常，但在用户使用的时候，会自己从网站下载一些自己的配置文件而改变行为（更为直接的就是访问外部网页时在审核时和在用户应用时可能完全不一样，Apple应该完全没有能力审核应用要访问的外部站点）</p>
+<p><strong>中间人攻击</strong></p>
+<p>我们知道，一个APP唤起另一个APP好多都是用url-scheme的，也就是某种协议，审核这样的协议非常简单，所以如果有恶意的东西在里面基本上很容易看到。但是，如果某些APP并没有注册自己的url-scheme，或是没有被安装，反而，另一个有恶意的APP注册了这个scheme，那么，就会导致恶意的APP被唤起来了（<span style="color: #ff0000;"><strong>这就是我为什么在我的微博中说，如果用户没有安装淘宝的客户端，那么，让微信唤起淘宝的客户端时，有可能是另一个有恶意的APP。但是很多人不懂这个事。<span style="color: #000000;">在iOS下，两个APP通讯正确的做法是“钥匙串机制”</span></strong></span>）。</p>
+<p>当然如果有两个应用被注册了同一个scheme，那么，iOS和Android会给出一个选择，让用户来选（注：iOS的系统有可能会直接跳某个 App 上去，不同版本的跳规则不明确，可以认为是随机跳转）。于是乎，恶意的APP就要努力的让自己比正规的APP看起来更像个正规的APP就可以了。</p>
+<p>在Android平台上，这个事可能更变态，只要恶意的应用有两个权限，一个是随手机操作系统在后台启动，一个是task list（然而这两个权限都是一般权限）。这样一来，当你进行两个APP切换时，恶意程序可以通过task list权限监控到，然后自己马上先于正规的app出现，等到收集完用户数据后简单的退出就好了。这个方式只需要你的程序能在10ms以内反应过来（最佳是5ms左右），人的肉眼根本看不出来。（在iOS设备下，除了jail break后的iPhone可以这么干，正常的都iPhone还没有找到这样的攻击方式）</p>
+<h5>在一个应用内内嵌Web的方式</h5>
+<p>这种方式更容易攻击了，现在很多很多应用都是内嵌的Web的形式，你完全不知道打开的网页的网站是什么，因为这些内嵌的WebView你连地址都看不见。而且无论是iOS或Android，其WebView都可以执行任何的Javascript代码，就算显示URL，URL也可能是被混乱过的，你也看不全，你也很容易上当。当然，那些使用带SSL证书的支持HTTPS的网站（尤其是EV证书）可以在地址栏上显示一个绿色的标记表示你访问的就是正确网址，但是并不是所有的浏览器都会这样，比如iPhone的Safari并没有这个提示，所以，你一定要用Chrome。</p>
+<p>更狠的是就算你打开的是一个正确的URL，你依然可能被中间人攻击。尤其是这个网站使用了明文的HTTP协议，而你又喜欢蹭那些免费的WiFi，于是很容易给把服务器返回给你的网页中做修改，比如，修改网页中login表单或是支付表单提交的网站（想想天朝的网络运营商给你访问的正常的网页弹广告这事吧）</p>
+<p>关于DNS劫持，有些人觉得这事可能遇不上，因为这是一个全网的问题，如果你有这样的想法你就错了。还是那样，你爱占便宜，蹭上那些没有密码的WiFi，你完不知道，你连上去的那个WiFi会设置什么样的DNS服务器，你输入了www.taobao.com，但你打开的网站根本就是不是淘定，而是一个钓鱼网站。你会知道你打开的是错的了么？基本不可能。所以，安全点的网站都是要用HTTPS，但是还是那句话，iPhone的Safari并不会提示你打开网站的SSL证书合不合法（事实上，在手机上的很多浏览器都不会这提示，只有Chrome会）。</p>
+<p>关于攻击的方式我不想讲太多，还有很多高级+猥琐的方式我也不是完全知道，知道了我也不说，不然，教人犯罪了。</p>
+<p>关于从Web端唤起APP是和，APP唤醒APP的攻击方式基本一样。我就不说了。</p>
+<h4>怎么防范钓鱼式攻击</h4>
+<p>首先，我们要知道，钓鱼式攻击是一件非常难搞的事。要搞定这个事，一般来说需要四个方面：<strong>立法层面</strong>、<strong>用户培训层面</strong>、<strong>宣传层面</strong>、与<strong>技术保全措施层面</strong>。</p>
+<p><strong>教育方面</strong></p>
+<p>打击网钓的策略之一，是试着培养人们识别网钓，并教导怎样处理这些问题。只需要稍稍修改人们浏览习惯的方式，很多问题都可以避免。随着人们越来越认识到网钓者所使用的社会工程学技俩，传统的网钓欺诈技术可能在未来过时。</p>
+<ul>
+<li>对别人发来的链接要小心，尤其是让你输入机密信息的链接要小心检查。</li>
+</ul>
+<ul>
+<li>到正规的地方买手机，不要贪图小便宜。旧手机在卖前要“物理删除”数据。</li>
+</ul>
+<ul>
+<li>不要对手机越狱，不要root。</li>
+</ul>
+<ul>
+<li>不要从非信任的地方下载软件。</li>
+</ul>
+<ul>
+<li>要小心免费的WiFi。</li>
+</ul>
+<ul>
+<li>输入机密数据的时候一定要小心检查。</li>
+</ul>
+<ul>
+<li>多依赖一些不同的安全体系，比如：网上支付不要只依赖支付宝，尽量使用信用卡（信用卡千万不要设密码），这样就算是被钓鱼了，你还有一个银行安全的缓冲地带——可以不承认交易。</li>
+</ul>
+<ul>
+<li>现在使用手机的频率越来越高，所以，我非常建议你使用更为安全的iPhone手机，一定要打开“查找我的iPhone”功能，然后设上开机密码。iPhone手机可以做到手机丢失了别人都无法使用，包括刷机都刷不了（iOS7以上版本）</li>
+</ul>
+<ul>
+<li>对于一些关键网站，开启两步验证，这样就算你的用户名和密码被钓走了，还有一个动态手机口令做为登录的关卡。</li>
+</ul>
+<p><strong>技术方面</strong></p>
+<ul>
+<li>利用SSL证书来保证从浏览器到网站的访问是现在采用比较多的方式，也是在理论上可行的方式。现代的浏览器都会在URL上放上一个锁的标志，对于EV证书，你会看到浏览器的URL是绿色的（很容易分辨）</li>
+</ul>
+<ul>
+<li>另外，像firefox浏览器有一个petname的插件，你可以为你常上的网站设置一些标签。这样，当你打开钓鱼网站的时候，你会发现这些标签没有显示出来，那就有问题了。</li>
+</ul>
+<ul>
+<li>关于SSL的CA认证机构，你需要管理好你浏览的那些根证书，有些根证书你需要删掉。</li>
+</ul>
+<ul>
+<li>还有一种打击网钓的流行作法是保持一份已知的网钓网站名单，并随时更新。比如<a href="https://www.phishtank.com/" target="_blank">PhishTank</a>，以及<a href="http://www.apac.cn" target="_blank">中国防钓鱼网站联盟</a>。</li>
+</ul>
+<ul>
+<li>增加式登录方式。这种方式被美国银行采用，就是说，你可以上传一个你自己知道的图片，而当你打开登录页面里时，输入了自己的用户名后，你会看到你设置的这个图片被显示出来。如果没有或是显示错了，表示你打开的是钓鱼网站。</li>
+</ul>
+<ul>
+<li>两步验证，通过用户自设密码+手机动态口令登录（好些网站都在使用Google Authenticator的方式，这有点像公司VPN的动态口令）。</li>
+</ul>
+<p>上述都是PC Web上的防范，然而我们的手机移动端做的并不够好，移动端的安全还是要加油。</p>
+<p><strong>安全风控方面</strong></p>
+<p><strong>什么叫安全风控，说白了就是拿钱出来赔偿给被骗的用户，大家相信我，这个事情在基本上所有的公司都会做的</strong>，也就是说，无论你怎么做安全也无法保证绝对的安全，你只能缓解或是降低用户被骗的数量或概率。所以，几乎所有的公司都会有一笔钱专门用来赔偿。</p>
+<p>在西方国家，用户体验很好，我说一个故事，我有一个妹妹在英国，有一天她到ATM上取钱，取完钱后忘了把卡取出，结果后面的人把她的卡里的钱取走了，于是她报了警，等警察做完笔录后，她给银行的客服打了个电话说明了情况，本想冻结银行卡的，但是银行方面二话不说就赔偿了她所有的损失。为什么英国的巴克莱银行这么痛快，是因为他们有风控基金，专门用来处理这样的事的。</p>
+<p>在中国，其实银行和一些大的公司都有这笔安全风控基金，但是，要你非常坚持不懈地申诉，他们才会赔给你，而且还不是全部。要全部的话，我估计你要做一个“刁民”，否则欺负你，没道理。</p>
+<h4>关于微信和淘宝</h4>
+<p>微信和淘宝到底是谁先屏蔽谁我并不关心，这里面的商业利益我也不关心，微信是不是支持卖东西我也不关心。我关心的是寒冬文章中所说的微信上有淘宝钓鱼的安全问题。</p>
+<p>从技术上来说，我觉得要微信和淘宝一起干这事，单方都不行，需要两边的安全专家一起讨论（如果需要，我可以帮你们约）。我这里给一个可能很不成熟的方案，算是抛砖引玉（我不考虑你们之间的商业竞争，我只从用户的角度出发，客户第一）：</p>
+<blockquote><p><strong>我觉得，从业务上来说，淘宝可以在微信上有一个官方的商城。而淘宝的商家，需要取得微信的认证后入住，才能分享相关的商品或店家链接，对此，商家入住，我觉得可通过微信的服务账号与淘宝的商家后台集成可以做到。</strong></p>
+<p><strong>然后，商家也好，买家也好，他们分享商品只能通过微信官方的商城或是商家的服务账号分享出去，而分享出去的商品信息可以是一个比较unique的形式（比如有一个不能伪造的官方认证的标签），而用户的支付可以通过内置的微信支付也可以通过内置的支付宝（通过唤起App并不是一个好的方式，还是应该你们在服务端进行相互的通信）。</strong></p>
+<p><strong>然后微信和淘宝双方通过宣传手段告诉全社会，微信里的商品什么才是正规的，才不是钓鱼的，并给教育用户更为安全地使用手机。</strong></p></blockquote>
+<p>P.S. 我虽然这么说，但从我个人来说，我非常理解微信为了让用户有很好的体验而不让微信成为一个四处都是营销商品的地方。所以，我从个人来说，希望微信不要成为一个商家的营销地。另外，我也知道阿里对移动端的看重，所以，上述的方案虽然对用户体验和安全都比较好，但是从目前商业利益的情况看来基本无法实现。不过我这里也只是抛砖引玉了。</p>
+<p>面对安全和用户这两个事，<strong>你们两个中国最大的互联网公司，应该带头做好榜样，你们都是不缺钱的公司，应该更多的承担起社会的责任，真正为用户做点什么，而不是整天想着流量入口，互相屏蔽，互相指责，想着自己能有多少用户，这TMD太LOW了，和你们的地位完全不符。所以，从站在用户的角度上来说，我希望微信和淘宝都能站在用户的角度上思考问题，一起合作来真正的为用户更好的服务。</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/01/iStock-1175502114-150x150.png" alt="网络数字身份认证术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_title">网络数字身份认证术</a></li><li ><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200-1-150x150.png" alt="HTTP API 认证授权术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_title">HTTP API 认证授权术</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/17607.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-150x150.jpg" alt="从 MongoDB “赎金事件” 看安全问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17607.html" class="wp_rp_title">从 MongoDB “赎金事件” 看安全问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17066.html">关于移动端的钓鱼式攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17066.html/feed</wfw:commentRss>
+			<slash:comments>55</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>DHH 谈混合移动应用开发</title>
+		<link>https://coolshell.cn/articles/12225.html</link>
+					<comments>https://coolshell.cn/articles/12225.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Mon, 15 Dec 2014 02:57:20 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Hybrid]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[WebView]]></category>
+		<category><![CDATA[移动开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12225</guid>
+
+					<description><![CDATA[<p>&#160; David，Ruby on Rails 作者，37signals 合伙人 畅销书作家、演说家、赛车手、业余摄影师、顾家好男人 &#160; 37s...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12225.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12225.html">DHH 谈混合移动应用开发</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>&nbsp;</p>
+<p style="text-align: right;"><img decoding="async" loading="lazy" class="paddging: 10px; 20px; alignright wp-image-16861" src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="1053-DHH" width="80" height="80" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg 150w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-300x300.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-200x200.jpg 200w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-270x270.jpg 270w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH.jpg 451w" sizes="(max-width: 80px) 100vw, 80px" />David，Ruby on Rails 作者，37signals 合伙人</p>
+<p style="text-align: right;">畅销书作家、演说家、赛车手、业余摄影师、顾家好男人</p>
+<p>&nbsp;</p>
+<p><a href="http://37signals.com/" target="_blank">37signals</a> 在2013年2月发布了 Basecamp 的 iPhone app，在此之前我们就使用原生开发（native）还是混合开发（hybrid）做了许多尝试。在2012年项目启动的时候，大多数人都倾向于原生开发。</p>
+<p>Facebook 在2012年发布了他们新的 iOS app，为了获得更好的用户体验，他们放弃了原来的 HTML5 混合开发方式。考虑到2010～2011年的时候，HTML 在移动端的性能确实不尽如人意，这个决定在当时看来也在情理之中。2010年的时候我们觉得 iPhone 3G/3GS 够眩够快，但按照现在的标准来看它们就太慢了。因此在为移动应用开发做架构设计时，我们需要考虑新的移动设备的计算能力，而不是那些老的过时的设备。</p>
+<h4>移动开发架构设计不需要过多考虑设备的性能</h4>
+<p>我们从一些测试中得出的一个结论是：现在的移动设备计算能力都很强，运行原生应用和 HTML 应用的效果差别不大，而 HTML 开发的成本则要比原生开发小得多。</p>
+<p>当然这个结论在某些领域并不太适用。如果你要开发一个 3D 游戏，原生开发方式能够带来更好的游戏体验。但如果你的移动应用象 Basecamp 一样侧重信息处理，为了降低开发成本，你就可以考虑混合开发方式。我们就是如此，下面是我们三代移动产品的发展轨迹：</p>
+<p><span id="more-12225"></span></p>
+<h4>第一代产品：原生外壳(native shell)＋嵌套WebView</h4>
+<p><img decoding="async" loading="lazy" class="alignright wp-image-16868 size-medium" src="https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones-300x242.jpg" alt="1159-basecamp-app-phones" width="300" height="242" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones-300x242.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones.jpg 660w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>这个版本就是一个简单的原生外壳负责界面导航，嵌套一个 WebView 来显示 Basecamp Rail application，显示的基本上都是我们移动网站页面，再加上一些特殊的样式。</p>
+<p>在移动网站的页面上嵌套一个原生的壳，听起来还是 Web 页面，但实际带给用户的体验确是非常不同。用户可以在 Apple App Store 找到我们的 app，他们一旦登录 app 后可以再也不用重新登录（移动版本的 Safari 似乎会经常清空 cookie，让你不得不重新登录）。我们的 app 大受欢迎，用户评分在4和5之间。</p>
+<p>整个 app 由一名程序员和一名设计师开发，成本不高，因为我们可以在已有的移动网站的基础上开发。</p>
+<p>如果我们当初开发完全原生的 app，用10个人的团队1年半的时间也未必能完成。</p>
+<p>&nbsp;</p>
+<h4>第二代产品：原生外壳＋原生导航界面</h4>
+<p><img decoding="async" loading="lazy" class="alignright wp-image-16869 size-medium" src="https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed-187x300.png" alt="1543-unnamed" width="187" height="300" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed-187x300.png 187w, https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed.png 562w" sizes="(max-width: 187px) 100vw, 187px" /></p>
+<p>几个月前发布的 Basecamp Android app 是我们的第二代产品，我们在其中做了大量的改进。</p>
+<p>从第一代 iPhone app 中我们感受到了原生导航界面的威力，所以在 Android 版本中，我们由 HTML 页面导航转向了原生导航界面。我们从 HTML 页面生成原生导航界面，用户体验更加流畅，原生界面和 HTML 页面的体验差别越来越小，甚至很难区分哪些是原生部分，哪些是 HTML 。</p>
+<p>Android 版本是由一两个程序员和一个设计师开发（50%投入）完成的。我们重用了移动站点和 iPhone app 中使用的所有 webview，大大提高了开发效率，同时用户也很买账，超过1000名用户打了4.5~5的高分。</p>
+<p>很多公司在抱怨他们的 iOS 移动项目进展缓慢，Android 项目似乎更是如此。或许他们已经习惯了 iOS 项目的开发流程，也许是因为 Android 的屏幕碎片化问题，但是这些对我们来说那都不是事。我们推出的 Android app 表现良好，重用了95%的代码，开发团队也一直保持在小规模。</p>
+<p>&nbsp;</p>
+<h4>因地制宜地运用原生开发方式</h4>
+<p>目前我们正在开发第三代产品，发布的平台暂时保密，不过你应该也不难猜到。在前两代产品中，我们增加了原生导航界面的使用，同时进一步确定了以 webview 为核心的整体架构。在第三代产品中，我们将因地制宜地选择需要使用原生开发的功能，好钢要用在刀刃上。</p>
+<p>从之前的100% HTML，到现在的90% HTML +10%原生，我们会选择最值得做原生开发的那10%的部分，最终目的是让 app 原生部分和 HTML 部分的体验没有太大区别。</p>
+<p>&nbsp;</p>
+<h4>混合开发模式使用的技术</h4>
+<p>混合开发模式在技术很简单，主要是处理 webview 的集成、Web 页面的加载，以及原生内容和 HTML 内容之间的交叉链接，其实可能比你想像的还要简单得多。</p>
+<p>HTML 方面，我们的 Rails Web 应用支持 Web 和移动两大平台，其中 <a href="http://edgeguides.rubyonrails.org/4_1_release_notes.html#action-pack-variants" target="_blank">Rails 4.1 feature of variants</a> 起了很大的作用。</p>
+<p>这也很大程度上有助于我们发布新功能。设想一下如果我们每次需要更新这么多平台：Rails desktop app, a Rails API app, a client-side MVC app, a mobile web wrapper app, an Android app, and an iPhone app，像我们这样只有10个程序员和7个设计师的公司根本无力承担如此巨大的工作量。</p>
+<p>除了工作量的减轻，bug 修复效率也提高了，因为大部分的代码逻辑是在 Web 服务器端，我们可以随时修改代码并发布，不用通过 Apple App Store 的审批流程。所以我们的移动 app 和 Web 应用一样，也是持续部署。</p>
+<p>就如我之前提到的，混合模式开发并不适用于所有情况。在2010年以前，那时手机的处理能力都不强，所以 HTML/JS 的体验并不好，用户也不喜欢。但是时过境迁，现在手机的处理能力大大提高了，HTML/JS 的性能也不再是一个问题。</p>
+<p>&nbsp;</p>
+<h4>混合开发模式对原生开发模式的挑战</h4>
+<p>混合开发模式在降低开发复杂度方面有它的优势，如果你的产品是以显示和处理信息为主，我认为都可以不同程度地采用这个模式。</p>
+<p>对于小型团队和公司而言，并不一定需要采用 iOS 原生 app 先行的模式。使用混合模式，不需要你重头开发一个 app，这样可以降低维护成本，将来扩展到其他平台也更为方便。</p>
+<p>当然我知道会有很多人质疑这个模式，或许因为他们的 app 中有很多地方需要原生开发（也许仅仅是他们自己这样认为罢了）。又或许他们已经花了很多时间让 app 里的 UITableView 看起来非常漂亮，以致如果其他地方不这样的话显得不是太完美。再或许大公司就是喜欢耗时耗力的原生开发，有钱就是这么任性。</p>
+<p>无论怎样，混合开发当下应该能够成为我们移动开发策略的一个选择。如果你认为这是一个好的选择，那么恭喜你，尽情愉快地玩耍吧！</p>
+<p>&nbsp;</p>
+<p><em>原文链接：<a href="https://signalvnoise.com/posts/3743?utm_campaign=iOS_Dev_Weekly_Issue_175&amp;utm_medium=email&amp;utm_source=iOS%2BDev%2BWeekly" target="_blank">Hybrid sweet spot: Native navigation, web content</a></em></p>
+<p>&nbsp;</p>
+<p>下面补充一些 David 答读者问：</p>
+<p>&nbsp;</p>
+<p>Mike Waite @ 2014-05-08：我很好奇你是如何决定哪些功能要用原生开发？<br />
+David @ 2014-05-08：主要靠感觉，这毕竟不是一门科学。如果你感觉你app的某一部分如果用原生开发会更好些，可以尝试做快速原型（spike）。很多时候我们通过这种方式证明我们的想法其实是错的。当然如果你需要使用到手机上的功能如：摄像和其他设备时，HTML目前还不太适用，不过永远也不要把话说死。</p>
+<p>&nbsp;</p>
+<p>Mike Parsons @ 2014-05-08：好文。很好奇你们是否使用 PhoneGap 或者 Cordova 这样的框架，或者你们自己开发了一个？<br />
+David @ 2014-05-08：我们没有使用任何框架。（此处省去xxx字）</p>
+<p>&nbsp;</p>
+<p>Derick @ 2014-05-08：你怎样解决 Android 浏览器渲染速度慢的问题？这也是 Android 平台上更多人倾向开发原生app得原因。<br />
+David @ 2014-05-08：不知道你这个结论是近期的还是以前的？Basecamp 的 Android app 在我的 Nexus 5 和 HTC One 上面运行得非常流畅。<br />
+Derick @ 2014-05-08：就是最近。我猜测可能和你使用JavaScript的多少有关系。因为以我个人的经验，Android 上 JavaScript 的运行速度非常慢。如果你感兴趣可以看看下面的文章：<a href="https://www.timroes.de/2013/11/23/old-webview-vs-chromium-webview/" target="_blank">https://www.timroes.de/2013/11/23/old-webview-vs-chromium-webview/</a><br />
+David @ 2014-05-08：我们使用了很多JavaScript，当然没有 Web MVC 客户端用得那样多。另外我们使用了 Turbolinks ：）</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/html6-150x150.jpeg" alt="HTML6 展望" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_title">HTML6 展望</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12225.html">DHH 谈混合移动应用开发</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12225.html/feed</wfw:commentRss>
+			<slash:comments>27</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Google Inbox如何跨平台重用代码？</title>
+		<link>https://coolshell.cn/articles/12136.html</link>
+					<comments>https://coolshell.cn/articles/12136.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Wed, 26 Nov 2014 00:03:17 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[移动应用]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12136</guid>
+
+					<description><![CDATA[<p>原文链接《How Google Inbox shares 70% of its code across Android, iOS, and the Web》 开...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12136.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12136.html">Google Inbox如何跨平台重用代码？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>原文链接《<a href="http://arstechnica.com/information-technology/2014/11/how-google-inbox-shares-70-of-its-code-across-android-ios-and-the-web" target="_blank">How Google Inbox shares 70% of its code across Android, iOS, and the Web</a>》</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264.jpg"><img decoding="async" loading="lazy" class="size-medium wp-image-12137 alignright" src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-300x123.jpg" alt="inbox2-640x264" width="300" height="123" /></a></p>
+<p>开发一个移动应用在当下并不是一件容易的事情。如果想要获得最多的用户，你的应用通常需要覆盖 iOS, Android, 和 Web 三大平台。这就意味着同一个应用需要开发三个版本，使用 Objective-C 或者 Swift 开发 iOS 版本，使用 Java 开发 Android 版本，使用 JavaScript/CSS/HTML5 开发 Web 版本。工作量增大的同时也意味着有更多的 bug 需要修复。</p>
+<p>这个问题也是 Google 在开发 Google Inbox 时致力要解决的。在最近发布的这款应用中，Google 使用了一些工具实现了70%的代码跨平台复用。</p>
+<p>Google Inbox 覆盖 iOS, Android, Web 三个平台，它们使用的是同一个后台代码逻辑，只是前端的用户体验和平台相关特性的实现有所不同。Google 自主开发了一套辅助工具将 Android 版本的 Java 代码逻辑编译为 Objective-C (针对 iOS 平台) 和 JavaScript (针对 Web 浏览器)。 Java 到 JavaScript 的编译由 Google Web Toolkit SDK 完成，Java 到 Objective-C 的编译则由 J2ObjC （<a href="j2objc.org">j2objc.org</a>）来完成。</p>
+<p>J2ObjC 是一个开源项目，由 Google 在2013年发布。Google Sheets (Google Docs 中的电子表格部分) 也使用了 J2ObjC，而 Google Inbox 则是目前使用 J2Objc 最多的 Google 项目。</p>
+<p>Google Inbox 复用的代码逻辑包括：对话 (conversations)，提醒 (reminders)，联系人 (contacts)。还有网络相关功能和离线同步。这些代码逻辑的复用节省了大量的时间和成本。</p>
+<p>在产品设计时，Google 将这些可复用功能划分为抽象的逻辑概念，比如：提醒的逻辑放在 &#8220;reminder.java&#8221; 中，可以被 Android UI 调用。对 iOS 版本而言，J2ObjC 将 &#8220;reminder.java&#8221; 编译成 Objective-C 代码，再由 iOS UI 调用。</p>
+<p>Google 没有跨平台编译 UI 部分的代码，因为不同平台的UI特性各有不同，盲目统一会导致非常糟糕的用户体验。代码复用只是针对可以共享的后台逻辑，前端的UI实现是完全原生 (native) 的。这与 Xamarin (一个基于 Microsoft C# 的跨平台移动开发工具) 提出的概念类似。</p>
+<p>跨平台代码复用通常会带来一些性能上的问题。Garrick Toubassi，Engineering Director 和 Google Inbox 项目组成员，对此表示： “性能上的影响如果有的话，也可以说是微不足道的。我们做过大量的性能测试。因为没有加入额外的中间层来处理跨平台兼容性，所有代码最后都是平台原生代码。J2ObjC 编译生成的目标代码和 Java 源代码拥有大致相同的对象数量和对象图谱复杂度 (object graph complexity) ”。</p>
+<p>Google 使用的整套方法解决了跨平台移动开发中的一个很重要的问题，同时也推进了安卓先行 (Android-first) 的移动开发策略。</p>
+<p>更多 Google Inbox 文章请猛戳 <a href="http://gmailblog.blogspot.com.au/2014/11/going-under-hood-of-inbox.html">Gmail 官方博客</a>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="Android将允许纯C/C++开发应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_title">Android将允许纯C/C++开发应用</a></li><li ><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-150x150.jpg" alt="Google App Inventor " width="150" height="150" /></a><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_title">Google App Inventor </a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12136.html">Google Inbox如何跨平台重用代码？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12136.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>10个必需的iOS开发工具和资源</title>
+		<link>https://coolshell.cn/articles/5089.html</link>
+					<comments>https://coolshell.cn/articles/5089.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 02 Aug 2011 00:40:11 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[iPad]]></category>
+		<category><![CDATA[iPhone]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5089</guid>
+
+					<description><![CDATA[<p>界面总不是一件很容易事，尤其是iPhone/iPad的界面，做过iOS开发的程序员，一定会感到开发iPhone/iPad的界面是一件多么不容易的事。下面的文章来...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5089.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5089.html">10个必需的iOS开发工具和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>界面总不是一件很容易事，尤其是iPhone/iPad的界面，做过iOS开发的程序员，一定会感到开发iPhone/iPad的界面是一件多么不容易的事。下面的文章来自<a href="http://alexefish.com/post/15967480885/10-essential-ios-developer-tools-resources" target="_blank">10 Essential iOS Developer Tools &amp; Resources</a>，这个文章介绍了十个iOS开发的基础性工具和资源，其一定会很有效地帮你做iOS的开发。（在这里，我再闲扯一句，虽然Android的开发好像整整XML文件界面就出来了，其明显比iOS的开发要容易很多，但是我还是觉得iOS的生命力要强过Android，看看Android今天的应用就知道，有时候入门门槛低不是一些好事，大多数的程序员搞出来的Android代码和软件简直令人作呕，就像不是每个人都能烧得手好菜一样。（“<a title="食客还是大厨" href="https://coolshell.cn/articles/3589.html" target="_blank">食客与大厨</a>”，也许偏激，但值得你我思考），又把蛋扯远了）</p>
+<h4>1. Omnigraffle + Ultimate iPhone Stencil</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/omni.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-293" title="omni" src="https://coolshell.cn/wp-content/uploads/2011/08/omni.jpeg" alt="" width="695" height="120" /></a></p>
+<p><a href="http://www.omnigroup.com/products/omnigraffle/" target="_blank">Omnigraffle</a> 是一个很强大的像Microsoft Viso的一个软件，其只能于运行在Mac OS X和iPad平台之上。它曾获得2002年的苹果设计奖。在这里，你可以下载 <a href="http://graffletopia.com/stencils/413" target="_blank">Ultimate iPhone Stencil</a> ，然后使用Omnigraffle 来非常快地制作你的iPhone应用的演示界面。（查看了一下Omnigraffle 的iPad版，真贵，$49.99。作者居然推荐买，TNND，一看就是托）。</p>
+<p><a href="http://www.omnigroup.com/products/omnigraffle/" target="_blank">Omnigraffle Link</a>, <a href="http://graffletopia.com/stencils/413" target="_blank">Ultimate iPhone Stencil Link</a></p>
+<p><span id="more-5089"></span></p>
+<h4>2. Glyphish Icons</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/glphy.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-295" title="glphy" src="https://coolshell.cn/wp-content/uploads/2011/08/glphy.jpeg" alt="" width="695" height="120" /></a></p>
+<p>你可能能从上面的这些图标中看到Flipboard 和 Twitter 在iOS上的应用使用了其中的一些图标。是的，这些个小图标对你的开发很有帮助。作者强烈推荐你花$25去购买 <a href="http://glyphish.com/" target="_blank">Glyphish</a> 的Pro版。当然啦，你都能花$99/year开发iOS的程序，你还怕花这区区的25刀？</p>
+<p><a href="http://glyphish.com/" target="_blank">Glypish Link</a></p>
+<h4>3. teehan + lax iPhone 4 GUI PSD</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/teehan.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-296" title="teehan" src="https://coolshell.cn/wp-content/uploads/2011/08/teehan.jpeg" alt="" width="695" height="120" /></a></p>
+<p>teehan+lax 是一个加拿大多伦多的代理商。他们经常发布一些他们自己内部用的资源， <a href="http://www.teehanlax.com/downloads/iphone-4-guid-psd-retina-display/" target="_blank">iPhone 4 GUI PSD</a> 就是其中的一个，这是一个PSD资源文件其包括了iPhone 4的UI 视图控制和一般的UI元件。这是免费让你下载的。</p>
+<p><a href="http://www.teehanlax.com/blog/iphone-4-gui-psd-retina-display/" target="_blank">teehan + lax iPhone 4 GUI PSD Link</a></p>
+<h4>4. Stanford University iPhone Development Lectures</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/stanford.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-297" title="stanford" src="https://coolshell.cn/wp-content/uploads/2011/08/stanford.jpeg" alt="" width="695" height="120" /></a></p>
+<p>斯坦福大学iPhone开发教程，这可能是iOS开发者的圣经级的课程了，你可以从 iTunes U上下载，当然，国内的各大门户公开课也有这个视频，还有中文字幕。比如网易公开课：<a href="http://v.163.com/special/opencourse/iphonekaifa.html">http://v.163.com/special/opencourse/iphonekaifa.html</a></p>
+<p><a href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewPodcast?id=384233225" target="_blank">iTunes U Link</a></p>
+<h4>5. 71 Squared</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/71sq.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-298" title="71sq" src="https://coolshell.cn/wp-content/uploads/2011/08/71sq.jpeg" alt="" width="695" height="120" /></a></p>
+<p>如果你要搞iPhone的游戏开发，那么你可看看 <a href="http://www.71squared.com/iphone-tutorials/" target="_blank">71 Squared</a> 上的资源和教程，让你从零开始搞iPhone游戏。不知道你有没有听说过 Tiny Wings 这个由 Andreas Illiger 开发的很漂亮的并获得很大成功的游戏？Andreas 就是从这个网站上学习开发的。这个网站的的资源太丰富了，你绝对不能错过。</p>
+<p><a href="http://www.71squared.com/iphone-tutorials/" target="_blank">71 Squared Link</a></p>
+<h4>6. Charles</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/charles.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-302" title="charles" src="https://coolshell.cn/wp-content/uploads/2011/08/charles.jpeg" alt="" width="695" height="120" /></a></p>
+<p>如果你想让你的应用发出一个HTTP请求，并通过仿真器来调试，这恐怕是一件很难的事。 <a href="http://www.charlesproxy.com/" target="_blank">Charles</a> 是这样一个工具其强在让你看到所有的和互联网交互的请求。这个无价的工具可以让你节省巨大的时间来debug你的应用。当然，要价$50啊，很不便宜，但是还是那句话，$99刀一年你都花了，你还在乎这点钱？嘿嘿嘿</p>
+<p><a href="http://www.charlesproxy.com/" target="_blank">Charles Link</a></p>
+<h2>7. ASIHTTPRequest</h2>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/asihttp.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-303" title="asihttp" src="https://coolshell.cn/wp-content/uploads/2011/08/asihttp.jpeg" alt="" width="695" height="120" /></a></p>
+<p>和 Charles一样， <a href="http://allseeing-i.com/ASIHTTPRequest/" target="_blank">ASIHTTPRequest</a> 也是一个强大的封装其由 CFNetwork API构造。如果你想要从你的iPhone上调用一个Web API，那么 <a href="http://allseeing-i.com/ASIHTTPRequest/" target="_blank">ASIHTTPRequest</a> 一定会省你很多事。这个东西的文档极端的不错，并有成千上万的有用的功能几乎覆盖了所有的事，比如： PUT, DELETE, GET, POST 全都没有问题。</p>
+<p><a href="http://allseeing-i.com/ASIHTTPRequest/" target="_blank">ASIHTTPRequest Link</a></p>
+<h2>8. Stack Overflow</h2>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/stackoverflow2.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-313" title="stackoverflow2" src="https://coolshell.cn/wp-content/uploads/2011/08/stackoverflow2.jpeg" alt="" width="695" height="120" /></a></p>
+<p>Stack Overflow 这个东西不用说了吧。我个人认为这是这个世界上最佳的问问题的地方，就算你不问，你就上去查一查，你也能看到一大堆已经有人问过的问题。通过问题来加深认识，是进阶的要做的事。在stakeoverflow面前，什么CSDN，it-pub，等等国内的技术问题解决网站完全不值一题。</p>
+<p><a href="http://stackoverflow.com/" target="_blank">Stack Overflow Link</a></p>
+<h4>9. MBProgressHUD</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/mbprogress.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-307" title="mbprogress" src="https://coolshell.cn/wp-content/uploads/2011/08/mbprogress.jpeg" alt="" width="695" height="120" /></a></p>
+<p>MBProgressHUD 是一个用来做没有文档的 UIProgressHUD UIKit 类的替代品。其就是用来显示一个正在下载中的指示器。这个东西很容易使用，并且有很好的文档，你需要几分钟就可以把其集成到你的应用中。你可以到 <a href="https://github.com/jdg/MBProgressHUD" target="_blank">github repository</a>上查看其资料。作者号称其99%的应用都使用了这个东西。</p>
+<p><a href="https://github.com/jdg/MBProgressHUD" target="_blank">MBProgressHUD Link</a></p>
+<h4>10. Apple Documentation</h4>
+<p><a href="https://coolshell.cn/wp-content/uploads/2011/08/iosdev.jpeg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-308" title="iosdev" src="https://coolshell.cn/wp-content/uploads/2011/08/iosdev.jpeg" alt="" width="695" height="120" /></a></p>
+<p>作者说，最后一个资源也是最好的一个，那就是苹果的官方文档 <a href="http://developer.apple.com/devcenter/ios/index.action" target="_blank">Apple Documentation</a>，示例代码，视频，各种类的参考文档，你在开发过程中绝对无法离开它。在你去Stack Overflow和Google的时候，你应该先去看看这个文档。</p>
+<p><a href="http://developer.apple.com/devcenter/ios/index.action" target="_blank">iOS Documentation Link</a></p>
+<p>上面是原作者介绍的一些资源，看起来是给初学者用的，我也是初学者，在<strong>这里想问一下各位熟悉iOS开发的大拿，在这个基础上，你们有没有什么推荐？</strong></p>
+<p><em><strong>&#8212;-更新 2011/8/3，新浪微博上我以前的一个同事给了大家下面的推荐&#8212;-</strong></em></p>
+<p>//<a href="http://weibo.com/n/%E6%9D%8E%E6%9D%A8iBabyNote">@李杨iBabyNote</a>：加上Three20吧，一个非常好的的开源iphone UI library. facebook 用的，品质有保证。 还有tweetero (Open Source Twitter App for iPhone),国内sina/qq微博 API 基本copy twitter. 所以想做iphone上和围脖相关的应用可以参考此代码<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2719.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="苹果开发工具Xcode 4 第二预览版" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2719.html" class="wp_rp_title">苹果开发工具Xcode 4 第二预览版</a></li><li ><a href="https://coolshell.cn/articles/2913.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/1-150x150.png" alt="消费者的消费观" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2913.html" class="wp_rp_title">消费者的消费观</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail-150x150.png" alt="由苹果的低级Bug想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_title">由苹果的低级Bug想到的</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5089.html">10个必需的iOS开发工具和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5089.html/feed</wfw:commentRss>
+			<slash:comments>30</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

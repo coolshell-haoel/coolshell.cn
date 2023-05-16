@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Firefox | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/firefox/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 13 Sep 2010 14:58:05 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Mozilla的一个BUG</title>
+		<link>https://coolshell.cn/articles/2936.html</link>
+					<comments>https://coolshell.cn/articles/2936.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 13 Sep 2010 23:57:12 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Firefox]]></category>
+		<category><![CDATA[Mozilla]]></category>
+		<category><![CDATA[V8]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2936</guid>
+
+					<description><![CDATA[<p>以前，本站给大家介绍过一些BUG，如：《谷歌Chrome取消”http://”》，《Go语言的Issue 9》和《telnet的一个Bug》。今天，和大家再说一...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2936.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2936.html">Mozilla的一个BUG</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前，本站给大家介绍过一些BUG，如：《<a rel="bookmark" href="https://coolshell.cn/articles/2367.html" target="_blank">谷歌Chrome取消”http://”</a>》，《<a rel="bookmark" href="https://coolshell.cn/articles/1781.html" target="_blank">Go语言的Issue 9</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/2352.html" target="_blank">telnet的一个Bug</a>》。今天，和大家再说一个Mozilla的Bug，这个Bug的网址在这里：<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=579522" target="_blank">https://bugzilla.mozilla.org/show_bug.cgi?id=579522</a></p>
+<p>这个Bug的标题是这样的：“Buy cots for the JS interns” （为JS实习生买一些轻便小床），并说明“This bug is not actually a joke.”，这个BUG估计是在抱怨在Mozilla工作的实习生太辛苦了。在后面的跟贴中，很多人都提到了V8，呵呵。看来，大家还是在嘲笑Mozilla更多一些，大家不妨前往一看。</p>
+<p>Mozilla的firefox还是很让人失望的，作为一个Linux下默认的浏览器，其居然让Firefox的Windows版比Linux版更强大，在firefox 4.0 beta中居然出现了Windows Only的东东，着着实实地伤了很多firefox的粉丝的心，正因为这个，整个社区都开始BS并嘲笑Mozilla，并转投Chrome阵营。</p>
+<p>当然，最后这个BUG被fix了，有图为证：</p>
+<p><figure id="attachment_2937" aria-describedby="caption-attachment-2937" style="width: 560px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-2937  " title="Mozilla的Bug fixing" src="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla.jpg" alt="" width="560" height="420" srcset="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla.jpg 800w, https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-300x225.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-768x576.jpg 768w, https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-360x270.jpg 360w" sizes="(max-width: 560px) 100vw, 560px" /><figcaption id="caption-attachment-2937" class="wp-caption-text">Mozilla的Bug fixing</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="浏览器正则表达式检查插件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_title">浏览器正则表达式检查插件</a></li><li ><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/01/browser_history-150x150.jpg" alt="一个浏览器市场占有量的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_title">一个浏览器市场占有量的图</a></li><li ><a href="https://coolshell.cn/articles/1714.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="Firefox插件WebMail Notifier" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1714.html" class="wp_rp_title">Firefox插件WebMail Notifier</a></li><li ><a href="https://coolshell.cn/articles/5292.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="弱爆程序员的特征值" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5292.html" class="wp_rp_title">弱爆程序员的特征值</a></li><li ><a href="https://coolshell.cn/articles/3480.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/01/OB-LP754_bestjo_D_20110104181820-150x150.jpg" alt="一些有意思的网站和贴子" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3480.html" class="wp_rp_title">一些有意思的网站和贴子</a></li><li ><a href="https://coolshell.cn/articles/737.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/snake-150x150.jpg" alt="某Python实现的尾部递归" width="150" height="150" /></a><a href="https://coolshell.cn/articles/737.html" class="wp_rp_title">某Python实现的尾部递归</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2936.html">Mozilla的一个BUG</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2936.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>浏览器正则表达式检查插件</title>
+		<link>https://coolshell.cn/articles/2667.html</link>
+					<comments>https://coolshell.cn/articles/2667.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 20 Jul 2010 00:10:40 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Chrome]]></category>
+		<category><![CDATA[Firefox]]></category>
+		<category><![CDATA[正则表达式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2667</guid>
+
+					<description><![CDATA[<p>以前本站介绍过一个在线的《正则表达式生成器》，下面是两个在浏览器中检查正则表达式的插件，Firefox的和Chrome的，希望对你有用。 1）Firefox：R...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2667.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2667.html">浏览器正则表达式检查插件</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前本站介绍过一个在线的《<a rel="bookmark" href="https://coolshell.cn/articles/1830.html" target="_blank">正则表达式生成器</a>》，下面是两个在浏览器中检查正则表达式的插件，Firefox的和Chrome的，希望对你有用。</p>
+<h3>1）Firefox：<a href="https://addons.mozilla.org/en-US/firefox/addon/2077/" target="_blank">Regular Expressions Tester</a></h3>
+<figure style="width: 448px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" title="Firefox正规则表达式检查插件Regular Expressions Tester" src="http://sebastianzartner.de/new/resources/images/RExT/main.png" alt="" width="448" height="489" /><figcaption class="wp-caption-text">Firefox正规则表达式检查插件Regular Expressions Tester</figcaption></figure>
+<h3></h3>
+<h3>2）Chrome：<a href="https://chrome.google.com/extensions/detail/pgnkpcgniljiolidjmodgfljeomjjiha" target="_blank">Regular Expression Checker</a></h3>
+<p><span id="more-2667"></span></p>
+<p><figure style="width: 544px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" title="Chrome正规则表达式检查插件Regular Expression Checker" src="https://chrome.google.com/extensions/img/pgnkpcgniljiolidjmodgfljeomjjiha/1264182031.53/screenshot_big/2001" alt="" width="544" height="580" /><figcaption class="wp-caption-text">Chrome正规则表达式检查插件Regular Expression Checker</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-150x150.jpg" alt="Mozilla的一个BUG" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_title">Mozilla的一个BUG</a></li><li ><a href="https://coolshell.cn/articles/2704.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="检查素数的正则表达式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2704.html" class="wp_rp_title">检查素数的正则表达式</a></li><li ><a href="https://coolshell.cn/articles/2367.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/URL-BAR-150x150.png" alt="谷歌Chrome取消&#8221;http://&#8221;" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2367.html" class="wp_rp_title">谷歌Chrome取消&#8221;http://&#8221;</a></li><li ><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/01/browser_history-150x150.jpg" alt="一个浏览器市场占有量的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_title">一个浏览器市场占有量的图</a></li><li ><a href="https://coolshell.cn/articles/1830.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="正则表达式生成器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1830.html" class="wp_rp_title">正则表达式生成器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2667.html">浏览器正则表达式检查插件</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2667.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个浏览器市场占有量的图</title>
+		<link>https://coolshell.cn/articles/2069.html</link>
+					<comments>https://coolshell.cn/articles/2069.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 25 Jan 2010 06:24:18 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Firefox]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2069</guid>
+
+					<description><![CDATA[<p>下面这个网站是一个关于Web浏览器的市场占有量的图： http://www.michaelvandaniker.com/labs/browserVisualiz...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2069.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2069.html">一个浏览器市场占有量的图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面这个网站是一个关于Web浏览器的市场占有量的图：</p>
+<p style="text-align: center;"><a href="http://www.michaelvandaniker.com/labs/browserVisualization/" target="_blank">http://www.michaelvandaniker.com/labs/browserVisualization/</a></p>
+<p style="text-align: left;">这个图是从2002年到2009年，也许未来还会更新，把鼠标移到每个弧上你可以看到那个浏览器的的占有量的百分比。如下图：</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2010/01/browser_history.jpg"><img decoding="async" loading="lazy" title="浏览器市场占有量图" src="https://coolshell.cn/wp-content/uploads/2010/01/browser_history.jpg" alt="" width="500" height="396" /></a> </p>
+<p>这个图本来没有什么，但制作者把其做成了一个圆弧形，这样，看下来就有些不一样了。你还没有看出来？让我们来对比一下这个图和FireFox的logo吧。</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2010/01/firefoxlogo.jpg"><img decoding="async" loading="lazy" title="firefox的logo比较" src="https://coolshell.cn/wp-content/uploads/2010/01/firefoxlogo.jpg" alt="" width="400" height="210" /></a></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-150x150.jpg" alt="Mozilla的一个BUG" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_title">Mozilla的一个BUG</a></li><li ><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="浏览器正则表达式检查插件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_title">浏览器正则表达式检查插件</a></li><li ><a href="https://coolshell.cn/articles/1714.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="Firefox插件WebMail Notifier" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1714.html" class="wp_rp_title">Firefox插件WebMail Notifier</a></li><li ><a href="https://coolshell.cn/articles/1889.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/sql.where_.clause-150x150.jpg" alt="SQL的Where语句" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1889.html" class="wp_rp_title">SQL的Where语句</a></li><li ><a href="https://coolshell.cn/articles/2039.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="CPU的性价比" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2039.html" class="wp_rp_title">CPU的性价比</a></li><li ><a href="https://coolshell.cn/articles/360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="Linux C 编程一站式学习" width="150" height="150" /></a><a href="https://coolshell.cn/articles/360.html" class="wp_rp_title">Linux C 编程一站式学习</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2069.html">一个浏览器市场占有量的图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2069.html/feed</wfw:commentRss>
+			<slash:comments>15</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Firefox插件WebMail Notifier</title>
+		<link>https://coolshell.cn/articles/1714.html</link>
+					<comments>https://coolshell.cn/articles/1714.html#comments</comments>
+		
+		<dc:creator><![CDATA[joe]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2009 03:36:20 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Firefox]]></category>
+		<category><![CDATA[WebMail Notifier]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1714</guid>
+
+					<description><![CDATA[<p>当你的邮箱有新邮件时，WebMail Notifier此插件会自动提醒你。 支持：gmail, yahoo, hotmail, daum, naver, emp...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1714.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1714.html">Firefox插件WebMail Notifier</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>当你的邮箱有新邮件时，WebMail Notifier此插件会自动提醒你。</p>
+<p>支持：gmail, yahoo, hotmail, daum, naver, empas, nate等。</p>
+<div id="addon-summary-wrapper">
+<table border="0" summary="附加组件信息">
+<tbody>
+<tr>
+<td rowspan="8"> <img decoding="async" src="https://addons.mozilla.org/en-US/firefox/images/t/15233/1184587092" alt="" /></td>
+</tr>
+<tr>
+<th>版本</th>
+<td>1.5.3</td>
+</tr>
+<tr>
+<th>兼容版本</th>
+<td>Firefox: 1.5 – 3.7a1pre</td>
+</tr>
+<tr>
+<th>已更新</th>
+<td><span title="2009 年 10 月  8 日 08:16">2009 年 10 月 8 日 </span></td>
+</tr>
+<tr>
+<th>开发者</th>
+<td><a href="https://addons.mozilla.org/zh-CN/firefox/user/104093" target=_blank>Byungwook Kang</a></td>
+</tr>
+<tr>
+<th>主页</th>
+<td><strong><a href="http://webmailnotifier.mozdev.org/" target=_blank>http://webmailnotifier.mozdev.org/</a> </strong></td>
+</tr>
+<tr>
+<th>评分</th>
+<td><span title="评分 4 超过了 5 星">评分 4 超过了 5 星 </span><a href="https://addons.mozilla.org/zh-CN/firefox/addon/4490#reviews" target=_blank><strong>728</strong> 条意见 </a></td>
+</tr>
+<tr>
+<th>下载次数</th>
+<td><strong>3,239,874 </strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>查看：<a href="https://addons.mozilla.org/zh-CN/firefox/addon/4490" target="_blank">https://addons.mozilla.org/zh-CN/firefox/addon/4490</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-150x150.jpg" alt="Mozilla的一个BUG" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_title">Mozilla的一个BUG</a></li><li ><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="浏览器正则表达式检查插件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_title">浏览器正则表达式检查插件</a></li><li ><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/01/browser_history-150x150.jpg" alt="一个浏览器市场占有量的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_title">一个浏览器市场占有量的图</a></li><li ><a href="https://coolshell.cn/articles/8309.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="C/C++语言中闭包的探究及比较" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8309.html" class="wp_rp_title">C/C++语言中闭包的探究及比较</a></li><li ><a href="https://coolshell.cn/articles/546.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="有效编程的14件事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/546.html" class="wp_rp_title">有效编程的14件事</a></li><li ><a href="https://coolshell.cn/articles/4576.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="Linux 2.6.39-rc3的一个插曲" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4576.html" class="wp_rp_title">Linux 2.6.39-rc3的一个插曲</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1714.html">Firefox插件WebMail Notifier</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1714.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

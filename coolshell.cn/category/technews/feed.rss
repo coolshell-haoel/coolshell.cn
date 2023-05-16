@@ -1,0 +1,1483 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>技术新闻 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/category/technews/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 13 Feb 2023 13:28:05 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>我看ChatGPT: 为啥谷歌掉了千亿美金</title>
+		<link>https://coolshell.cn/articles/22398.html</link>
+					<comments>https://coolshell.cn/articles/22398.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 11 Feb 2023 16:31:16 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[ChatGPT]]></category>
+		<category><![CDATA[Google]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22398</guid>
+
+					<description><![CDATA[<p>两个月前，我试着想用 ChatGPT 帮我写篇文章《eBPF 介绍》，结果错误百出，导致我又要从头改一遍，从那天我觉得 ChatGPT 生成的内容完全不靠谱，所...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22398.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22398.html">我看ChatGPT: 为啥谷歌掉了千亿美金</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-22405" src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-300x200.jpg" alt="" width="300" height="200" srcset="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-300x200.jpg 300w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-768x511.jpg 768w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-406x270.jpg 406w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.jpg 900w" sizes="(max-width: 300px) 100vw, 300px" />两个月前，我试着想用 ChatGPT 帮我写篇文章《<a title="eBPF 介绍" href="https://coolshell.cn/articles/22320.html">eBPF 介绍</a>》，结果错误百出，导致我又要从头改一遍，从那天我觉得 ChatGPT 生成的内容完全不靠谱，所以，从那天开始我说我不会再用 ChatGPT 来写文章（这篇文章不是由 ChatGPT 生成），因为，在试过一段时间后，我对 ChatGTP 有基于如下的认识：</p>
+<ol>
+<li><strong>ChatGPT 不是基于事实，是基于语言模型的</strong>，事实对他来说不重要，对他重要的是他能读懂你的问题，并按照一定的套路回答你的问题。</li>
+<li><strong>因为是基于套路的回答，所以，他并不能保证内容是对的，他的目标是找到漂亮的精彩的套路</strong>，于是，你会发现，他的内容组织能力和表述还不错，但是只要你认真玩上一段时间，你会发现，ChatGPT 那些表述的套路其实也比较平常一般。它的很多回答其实都不深，只能在表面上。就像 Github 的 Copilot 一样，写不了什么高级的代码，只能帮你写一些常规格式化的代码（当然，这也够了）</li>
+</ol>
+<figure id="attachment_22417" aria-describedby="caption-attachment-22417" style="width: 640px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22417 size-large" src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-1024x853.jpg" alt="" width="640" height="533" srcset="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-1024x853.jpg 1024w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-300x250.jpg 300w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-768x640.jpg 768w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example-324x270.jpg 324w, https://coolshell.cn/wp-content/uploads/2023/02/chatgpt.example.jpg 1220w" sizes="(max-width: 640px) 100vw, 640px" /><figcaption id="caption-attachment-22417" class="wp-caption-text">ChatGPT 就是一个语言模型，如果不给他足够的数据和信息，它基本就是在胡编乱造</figcaption></figure>
+<p>所以，基于上面这两个点认识，以发展的眼光来看问题，我觉得 ChatGPT 这类的 AI 可以成为一个小助理，他的确可以干掉那些初级的脑力工作者，但是，还干不掉专业的人士，这个我估计未来也很难，不过，这也很帅了，因为大量普通的工作的确也很让人费时间和精力，<strong>但是有个前提条件——就是ChatGPT所产生的内容必需是真实可靠的，没有这个前提条件的话，那就什么用也没有了</strong>。</p>
+<p>今天，我想从另外一个角度来谈谈 ChatGPT，尤其是我在Youtube上看完了微软的发布会《<a href="https://youtu.be/rOeRWRJ16yY" target="_blank" rel="noopener">Introducing your copilot for the web: AI-powered Bing and Microsoft Edge</a> 》，才真正意识到Google 的市值为什么会掉了1000亿美元，是的，<strong>谷歌的搜索引擎的霸主位置受到了前所未有的挑战</strong>……</p>
+<p><span id="more-22398"></span></p>
+<p>我们先来分析一下搜索引擎解决了什么样的用户问题，在我看来搜索引擎解决了如下的问题：</p>
+<ul>
+<li><strong>知识或信息索引</strong>。查新闻，查股票，查历史，查文档，找答案……</li>
+<li><strong>找服务提供商</strong>。找卖东西的电商，找帮你修东西的服务，找软件……</li>
+<li><strong>信息的准确和可靠</strong>。搜索引擎的rank算法保证了最准确、最有用、最权威的信息出现在最前面……（作恶的百度不在此列）</li>
+</ul>
+<p>基本上就是上面这几个，搜索引擎在上面这几件事上作的很好，但是，还是有一些东西搜索引擎做的并不好，如：</p>
+<ul>
+<li><strong>搜索引擎是基于关键词的，不是基于语义的</strong>。所以，搜索引擎并不知道你的真实需求，因此，你会不可避免地要干下面的事，
+<ul>
+<li>你经常要不断地增加或调整不同的关键词来提高查询信息的准确度……</li>
+<li>你经常要在你查找的信息中进行二次或多次过滤和筛选……</li>
+</ul>
+</li>
+<li><strong>搜索引擎是只能呈现内容，无法解读内容</strong>。所以，你找到相关的链接后，你还要花大量的时间来阅读理解，经常性的你不可避免的要干下面的事：
+<ul>
+<li>打开一个链接，读到了一大半后，发现你要的内容不在其中，只能关掉再打开一个……</li>
+<li>你想要的内容是在的，但是太晦涩，看不懂，太费解，你要找小白友好的版本……</li>
+<li>你想要的内容不完整，你需要在很多个链接和网页上做拼图游戏……</li>
+<li>内容是无法结构化的展示的，你搜到的东西全都是碎片信息</li>
+</ul>
+</li>
+<li><strong>搜索引擎没有上下文关联，两次搜索是没有关系的</strong>。也就是说，人知道的越多，问题也就越多，所以，我们经常会面临下面的问题：
+<ul>
+<li>随着我了解的越多，我的信息搜索的会出现分支，这个分支只有我自己的管理，搜索引擎是不关心的，导致我每次都相当于从头开始……</li>
+<li>你做计划的时候，你需要从多个不同的搜索中获取你想要的东西，最终组合成你定制化的东西，比如做旅游计划……</li>
+</ul>
+</li>
+</ul>
+<p>好了，我们知道，<strong>ChatGPT 这类的技术主要是用来根据用户的需求来按一定的套路来“生成内容”的</strong>，只是其中的内容并不怎么可靠，那么，如果把搜索引擎里靠谱的内容交给 ChatGPT 呢？那么，这会是一个多么强大的搜索引擎啊，完全就是下一代的搜索引擎，上面的那些问题完全都可以解决了：</p>
+<ul>
+<li>你可以打一段话给搜索引擎，ChatGPT 是读得懂语义的。</li>
+<li>因为知道语义，于是在众多搜过结果中，他更知道哪些是你想要的内容。</li>
+<li>ChatGPT 可以帮你生成 <a href="https://en.wikipedia.org/wiki/TL;DR" target="_blank" rel="noopener">TL;DR</a>，把长文中的要求总结出来形成更易读的短文</li>
+<li>ChatGPT 可以帮你整理内容，在多个网页中帮你整合和结构化内容</li>
+<li>ChatGPT 可以有上下文对话，你可以让他帮你不断通过更多的关键词搜索信息，并在同一个主题下生成、组织和优化内容</li>
+</ul>
+<p><strong>一旦 ChatGPT 利用上了搜索引擎内容准确和靠谱的优势，那么，ChatGPT 的能力就完全被释放出来了，所以，带 ChatGPT 的搜索引擎，就是真正的“如虎添翼”！</strong></p>
+<p>因此，微软的 Bing + ChatGPT，成为了 Google 有史以来最大的挑战者，我感觉——所有跟信息或是文字处理相关的软件应用和服务，都会因为 ChatGPT 而且全部重新洗一次牌的，这应该会是新一轮的技术革命……<strong>Copilot 一定会成为下一代软件和应用的标配！</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder-150x150.png" alt="PFIF网上寻人协议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_title">PFIF网上寻人协议</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/5701.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="SteveY对Amazon和Google平台的吐槽" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5701.html" class="wp_rp_title">SteveY对Amazon和Google平台的吐槽</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/3806.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/C_String-150x150.jpg" alt="Google图片搜索下的的C String" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3806.html" class="wp_rp_title">Google图片搜索下的的C String</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22398.html">我看ChatGPT: 为啥谷歌掉了千亿美金</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22398.html/feed</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“一把梭：REST API 全用 POST”</title>
+		<link>https://coolshell.cn/articles/22173.html</link>
+					<comments>https://coolshell.cn/articles/22173.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 13 Feb 2022 04:28:47 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Restful]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22173</guid>
+
+					<description><![CDATA[<p>写这篇文章的原因主要还是因为V2EX上的这个贴子，这个贴子中说—— “对接同事的接口，他定义的所有接口都是 post 请求，理由是 https 用 post 更...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22173.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22173.html">“一把梭：REST API 全用 POST”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-22176" src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-300x169.png" alt="" width="325" height="183" srcset="https://coolshell.cn/wp-content/uploads/2022/02/http_method-300x169.png 300w, https://coolshell.cn/wp-content/uploads/2022/02/http_method-1024x576.png 1024w, https://coolshell.cn/wp-content/uploads/2022/02/http_method-768x432.png 768w, https://coolshell.cn/wp-content/uploads/2022/02/http_method-480x270.png 480w, https://coolshell.cn/wp-content/uploads/2022/02/http_method.png 1200w" sizes="(max-width: 325px) 100vw, 325px" /></p>
+<p>写这篇文章的原因主要还是因为V2EX上的这个<a href="https://www.v2ex.com/t/830030?p=1" target="_blank" rel="noopener">贴子</a>，这个贴子中说——</p>
+<blockquote><p>“对接同事的接口，他定义的所有接口都是 post 请求，理由是 https 用 post 更安全，之前习惯使用 restful api ，如果说 https 只有 post 请求是安全的话？那为啥还需要 get 、put 、delete ？我该如何反驳他。”</p></blockquote>
+<p>然后该贴中大量的回复大概有这么几种论调，1）POST挺好的，就应该这么干，沟通少，2）一把梭，早点干完早点回家，3）吵赢了又怎么样？工作而已，优雅不能当饭吃。虽然评论没有一边倒，但是也有大量的人支持。然后，我在Twitter上嘲讽了一下，用POST干一切就像看到了来你家装修工人说，“老子干活就是用钉子钉一切，什么螺丝、螺栓、卡扣、插销……通通不用，钉枪一把梭，方便，快捷，安全，干完早回家……不过，还是有一些网友觉得用POST挺好的，而且可以节约时间。所以，正好，我在《<a title="我做系统架构的一些原则" href="https://coolshell.cn/articles/21672.html" target="_blank" rel="noopener">我做系统架构的原则</a>》中的“<a href="https://coolshell.cn/articles/21672.html#%E5%8E%9F%E5%88%99%E4%BA%94%EF%BC%9A%E5%88%B6%E5%AE%9A%E5%B9%B6%E9%81%B5%E5%BE%AA%E6%9C%8D%E4%BB%8E%E6%A0%87%E5%87%86%E3%80%81%E8%A7%84%E8%8C%83%E5%92%8C%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5" target="_blank" rel="noopener">原则五</a>”中反对API返回码无论对错全是200的返回那，我专门写下这一篇文章，以正视听。</p>
+<p>这篇文章主要分成下面这几个部分：</p>
+<ol>
+<li>为什么要用不同的HTTP动词？</li>
+<li>Restful 进行复杂查询</li>
+<li>几个主要问题的回应
+<ul>
+<li>POST 更安全吗？</li>
+<li>全用 POST 可以节省时间沟通少吗？</li>
+<li>早点回家的正确姿势</li>
+<li>工作而已，优雅不能当饭吃</li>
+</ul>
+</li>
+</ol>
+<p><span id="more-22173"></span></p>
+<h4>为什么要用不同的HTTP动词</h4>
+<p>编程世界通常来说有两种逻辑：“<strong>业务逻辑</strong>” 和 “<strong>控制逻辑</strong>”。</p>
+<ul>
+<li><strong>业务逻辑</strong>。就是你实现业务需求的功能的代码，就是跟用户需求强相关的代码。比如，把用户提交的数据保存起来，查询用户的数据，完成一个订单交易，为用户退款……等等，这些是业务逻辑</li>
+<li><strong>控制逻辑</strong>。就是我们用于控制程序运行的非功能性的代码。比如，用于控制程序循环的变量和条件，使用多线程或分布式的技术，使用HTTP/TCP协议，使用什么样数据库，什么样的中间件……等等，这些跟用户需求完全没关系的东西。</li>
+</ul>
+<p>网络协议也是一样的，一般来说，<strong>几乎所有的主流网络协议都有两个部分，一个是协议头，一个是协议体。协议头中是协议自己要用的数据，协议体才是用户的数据。所以，协议头主要是用于协议的控制逻辑，而协议体则是业务逻辑。</strong></p>
+<p>HTTP的动词（或是Method）是在协议头中，所以，其主要用于控制逻辑。</p>
+<p dir="auto">下面是HTTP的动词规范，一般来说，REST API 需要开发人员严格遵循下面的标准规范（参看<a href="https://www.rfc-editor.org/rfc/rfc7231#section-4.2.2" target="_blank" rel="noopener">RFC7231 章节4.2.2 &#8211; Idempotent Methods</a>）</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+<th>幂等</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>用于查询操作，对应于数据库的 <code>select</code> 操作</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>用于所有的信息更新，对应于数据库的 <code>update </code>操作</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎︎</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>用于更新操作，对应于数据库的 <code>delete</code> 操作</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎︎</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>用于新增操作，对应于数据库的 <code>insert</code> 操作</td>
+<td style="text-align: center;">✘</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>用于返回一个资源对象的“元数据”，或是用于探测API是否健康</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>用于局部信息的更新，对应于数据库的 <code>update</code> 操作</td>
+<td style="text-align: center;">✘</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>获取API的相关的信息。</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎</td>
+</tr>
+</tbody>
+</table>
+<p>其中，<code>PUT</code> 和 <code>PACTH</code> 都是更新业务资源信息，如果资源对象不存在则可以新建一个，但他们两者的区别是，<code>PUT</code> 用于更新一个业务对象的所有完整信息，就像是我们通过表单提交所有的数据，而 <code>PACTH</code> 则对更为API化的数据更新操作，只需要更需要更新的字段（参看 <a href="http://tools.ietf.org/html/rfc5789" rel="nofollow">RFC 5789</a> ）。</p>
+<p>当然，现实世界中，可能并不一定严格地按照数据库操作的CRUD来理解API，比如，你有一个登录的API <code>/login</code> 你觉得这个API应该是 <code>GET</code> ，<code>POST</code>，<code>PUT</code> 还是 <code>PATCH</code> ?登录的时候用户需要输入用户名和密码，然后跟数据库里的对比（select操作）后反回一个登录的session token，然后这个token作为用户登录的状态令牌。如果按上面表格来说，应该是 select 操作进行 <code>GET</code> ，但是从语义上来说，登录并不是查询信息，应该是用户状态的更新或是新增操作（新增session），所以还是应该使用 <code>POST</code>，而 <code>/logout</code> 你可以使用 <code>DELETE</code> 。<strong>这里相说明一下，不要机械地通过数据库的CRUD来对应这些动词，很多时候，还是要分析一下业务语义。</strong></p>
+<p><strong>另外，我们注意到，在这个表格的最后一列中加入了“是否幂等”的，API的幂等对于控制逻辑来说是一件很重要的事。</strong>所谓幂等，就是该API执行多次和执行一次的结果是完全一样的，没有副作用。</p>
+<ul>
+<li><code>POST</code> 用于新增加数据，比如，新增一个交易订单，这肯定不能是幂等的</li>
+<li><code>DELETE</code> 用于删除数据，一个数据删除多次和删除一次的结果是一样的，所以，是幂等的</li>
+<li><code>PUT</code> 用于全部数更新，所以，是幂等的。</li>
+<li><code>PATCH</code>用于局部更新，比如，更新某个字段 cnt = cnt+1，明显不可能是幂等操作。</li>
+</ul>
+<p>幂等这个特性对于远程调用是一件非常关键的事，就是说，远程调用有很多时候会因为网络原因导致调用timeout，对于timeout的请求，我们是无法知道服务端是否已经是收到请求并执行了，此时，我们不能贸然重试请求，对于不是幂等的调用来说，这会是灾难性的。比如像转帐这样的业务逻辑，转一次和转多次结果是不一样的，如果重新的话有可能就会多转了一次。所以，这个时候，如果你的API遵从了HTTP动词的规范，那么你写起程序来就可以明白在哪些动词下可以重试，而在哪些动词下不能重试。如果你把所有的API都用POST来表达的话，就完全失控了。</p>
+<p>除了幂等这样的控制逻辑之外，你可能还会有如下的这些控制逻辑的需求：</p>
+<ul>
+<li><strong>缓存</strong>。通过CDN或是网关对API进行缓存，很显然，我们要在查询<code>GET</code> 操作上建议缓存。</li>
+<li><strong>流控</strong>。你可以通过HTTP的动词进行更粒度的流控，比如：限制API的请用频率，在读操作上和写操作上应该是不一样的。</li>
+<li><strong>路由</strong>。比如：写请求路由到写服务上，读请求路由到读服务上。</li>
+<li><strong>权限</strong>。可以获得更细粒度的权限控制和审计。</li>
+<li><strong>监控</strong>。因为不同的方法的API的性能都不一样，所以，可以区分做性能分析。</li>
+<li><strong>压测</strong>。当你需要压力测试API时，如果没有动词的区分的话，我相信你的压力测试很难搞吧。</li>
+<li>……等等</li>
+</ul>
+<p>也许，你会说，我的业务太简单了，没有必要搞这么复杂。OK，没有问题，但<strong>是我觉得你最差的情况下，也是需要做到“读写分离”的，就是说，至少要有两个动词，<code>GET</code> 表示是读操作，<code>POST</code>表示是写操作。</strong></p>
+<h4>Restful 复杂查询</h4>
+<p>一般来说，对于查询类的API，主要就是要完成四种操作：排序，过滤，搜索，分页。下面是一些相关的规范。参考于两个我觉得写的最好的Restful API的规范文档，<a href="https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md" target="_blank" rel="noopener">Microsoft REST API Guidelines</a>，<a href="https://github.com/paypal/api-standards/blob/master/api-style-guide.md" target="_blank" rel="noopener">Paypal API Design Guidelines</a>。</p>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>排序</strong>。对于结果集的排序，使用 <code>sort</code> 关键字，以及 <code>{field_name}|{asc|desc},{field_name}|{asc|desc}</code> 的相关语法。比如，某API需要返回公司的列表，并按照某些字段排序，如：<code>GET /admin/companies?sort=rank|asc</code> 或是 <code>GET /admin/companies?sort=rank|asc,zip_code|desc</code></p>
+</li>
+<li>
+<p dir="auto"><strong>过滤</strong>。对于结果集的过滤，使用 <code>filter</code> 关键字，以及 <code>{field_name} op{value}</code> 的语法。比如： <code>GET /companies?category=banking&amp;location=china</code> 。但是，有些时候，我们需要更为灵活的表达式，我们就需要在URL上构造我们的表达式。这里需要定义六个比较操作：<code>=</code>，<code>&lt;</code>，<code>&gt;</code>，<code>&lt;=</code>，<code>&gt;=</code>，以及三个逻辑操作：<code>and</code>，<code>or</code>，<code>not</code>。（表达式中的一些特殊字符需要做一定的转义，比如：<code>&gt;=</code> 转成 <code>ge</code>）于是，我们就会有如下的查询表达式：<code>GET /products?$filter=name eq 'Milk' and price lt 2.55</code> 查找所有的价柗小于2.55的牛奶。</p>
+</li>
+<li>
+<p dir="auto"><strong>搜索</strong>。对于相关的搜索，使用 <code>search</code> 关键字，以及关键词。如：<code>GET /books/search?description=algorithm</code> 或是直接就是全文搜索 <code>GET /books/search?key=algorithm</code> 。</p>
+</li>
+<li>
+<p dir="auto"><strong>分页</strong>。对于结果集进行分页处理，分页必需是一个默认行为，这样不会产生大量的返回数据。</p>
+<ul dir="auto">
+<li>使用<code>page</code>和<code>per_page</code>代表页码和每页数据量，比如：<code>GET /books?page=3&amp;per_page=20</code>。</li>
+<li><strong>可选</strong>。上面提到的<code>page</code>方式为使用相对位置来获取数据，可能会存在两个问题：性能（大数据量）与数据偏差（高频更新）。此时可以使用绝对位置来获取数据：事先记录下当前已获取数据里最后一条数据的<code>ID</code>、<code>时间</code>等信息，以此获取 “<strong>该ID之前的数据</strong>” 或 “<strong>该时刻之前的数据</strong>”。示例：<code>GET /news?max_id=23454345&amp;per_page=20</code> 或 <code>GET /news?published_before=2011-01-01T00:00:00Z&amp;per_page=20</code>。
+<p dir="auto">
+</li>
+</ul>
+</li>
+</ul>
+<p dir="auto"><strong>注意：这里需要注意一下，在理论上来说<code>GET</code>是可以带 body 的，但是很多程序的类库或是中间件并不支持 GET 带 body，导致你只能用 POST 来传递参数。这里的原则是：</strong></p>
+<ol dir="auto">
+<li>
+<p dir="auto"><strong>对于简单的查询，很多参数都设计在 restful API 的路径上了，而 filter/sort/pagination 也不会带来很多的复杂，所以应该使用 <code>GET</code> </strong></p>
+</li>
+<li><strong>对于复杂的查询来说，可能会有很复杂的查询参数，比如：ElasticSearch 上的 <code>index/_search</code>里的 DSL，你也应该尽可能的使用 <code>GET</code>，而不是<code>POST</code> 除非客观条件上不支持<code>GET</code>。ElasticSearch 的<a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/_empty_search.html" target="_blank" rel="noopener">官方文档</a>里也是这么说的。</strong></li>
+</ol>
+<blockquote><p>The authors of Elasticsearch prefer using GET for a search request because they feel that it describes the action—​retrieving information—​better than the POST verb. （我们推荐使用 GET而不是 POST，因为语义更清楚）However, because GET with a request body is not universally supported, the search API also accepts POST requests （除非你的类库或是服务器不支持 GET带参数 ，你再用POST，我们两个都支持）</p>
+<p><strong>陈皓注：但是在 ElasticSearch 7.11 后，GET 也不支持 body 了。这是 ElasticSearch 的设计和实现不对应了。</strong></p></blockquote>
+<div id="message-accessories-1073072655571370085" class="container-2sjPya">
+<div class="messageAttachment-CZp8Iv messageAttachmentNoJustify-lIzP9c">
+<div class="imageContent-3Av-9c embedWrapper-1MtIDg attachmentContentItem-UKeiCx">
+<div class="imageContainer-10XenG">
+<div class="imageWrapper-oMkQl4 imageZoom-3yLCXY clickable-LksVCf">另外，对于一些更为复杂的操作，建议通过分别调用多个API的方式来完成，虽然这样会增加网络请求的次数，但是这样的可以让后端程序和数据耦合度更小，更容易成为微服务的架构。</div>
+</div>
+</div>
+</div>
+</div>
+<p>最后，如果你想在Rest中使用像GraphQL那样的查询语言，你可以考虑一下类似 <a href="https://www.odata.org/" target="_blank" rel="noopener">OData</a> 的解决方案。OData 是 Open Data Protocol 的缩写，最初由 Microsoft 于 2007 年开发。它是一种开放协议，使您能够以简单和标准的方式创建和使用可查询和可互操作的 RESTful API。</p>
+<h4>几个主要问题的回应</h4>
+<p>下面是对几个问题的直接回应，如果大家需要我回应更多的问题，可以在后面留言，我会把问题和我的回应添加到下面。</p>
+<h5>1）为什么API 要Restful，并符合规范？</h5>
+<p><strong>Restful API算是一个HTTP的规范和标准了，你要说是最佳实践也好，总之，它是一个全世界对HTTP API的一个共识。在这个共识上，你可以无成本地享受很多的技术红利，比如：CDN，API网关，服务治理，监控……等等。这些都是可以让你大幅度降低研发成本，避免踩坑的原因。</strong></p>
+<h5>2）为什么“过早优化”不适用于API设计？</h5>
+<p>因为API是一种契约，一旦被使用上，就很难再变更了，就算你发行新的版本的API，你还要驱动各种调用方升级他们的调用方式。所以，接口设计就像数据库模式设计一下，一旦设计好了，未来再变更就比较难了。所以，还是要好好设计。正如前面我给的几个文档——<a href="https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md" target="_blank" rel="noopener">Microsoft REST API Guidelines</a>，<a href="https://github.com/paypal/api-standards/blob/master/api-style-guide.md" target="_blank" rel="noopener">Paypal API Design Guidelines</a> 或是 <a href="https://cloud.google.com/apis/design" target="_blank" rel="noopener">Google API Design Guide</a> 都是让你好好设计API的不错的 Guidelines.</p>
+<h5>3）POST 更安全吗？</h5>
+<p>不会。</p>
+<p>很多同学以为 <code>GET</code> 的请求数据在URL中，而 <code>POST</code> 的则不是，所以以为 <code>POST</code> 更安全。不是这样的，整个请求的HTTP URL PATH会全部封装在HTTP的协议头中。只要是HTTPS，就是安全的。当然，有些网关如nginx会把URL打到日志中，或是会放在浏览器的历史记录中，所以有人会说 <code>GET</code> 请求不安全，但是，<code>POST</code> 也没有好到哪里去，在 <a href="https://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank" rel="noopener">CSRF</a> 这个最常见的安全问题上，则完全就是针对 <code>POST</code> 的。  安全是一件很复杂的事，无论你用哪方法或动词都会不能代表你会更安全。</p>
+<p>另外，</p>
+<ul>
+<li>如果你要 防止你的 <code>GET</code> 上有敏感信息，应该加个密，这个跟 <code>POST</code>是一样的。</li>
+<li>如果你要防止 <code>GET</code> 会被中间人修改，你应该做一个URL签名。（通常来说， 我们都在 <code>GET</code> 上做签名，<code>POST</code> 就忘做了）</li>
+<li>如果你要防止有人发一些恶意链接来 hack 你的用户（传说中的 <code>GET</code> 不如 <code>POST</code> 安全的一个问题），你应该用 HMAC 之类的认证技术做好认证（参看 <a title="HTTP API 认证授权术" href="https://coolshell.cn/articles/19395.html" target="_blank" rel="noopener">HTTP API 认证授权术</a>）。</li>
+</ul>
+<p>总之，你要明白，<code>GET</code> 和 <code>POST</code> 的安全问题都一样的，不要有谁比谁更安全，然后你就可以掉以轻心的这样的想法，安全都是要很严肃对待的。</p>
+<h5>4）全用 POST 可以节省时间减少沟通吗？</h5>
+<p>不但不会，反而更糟糕。</p>
+<p>说这种话的人，我感觉是不会思考问题。</p>
+<ul>
+<li>其一，为API赋于不同的动词，这个几乎不需要时间。把CRUD写在不同的函数下也是一种很好的编程风格。另外现在几乎所有的开发框架都支持很快速的CRUD的开发，比如Spring Boot，写数据库的CRUD基本上就不需要写SQL语言相关的查询代码，非常之方便。</li>
+<li>其二，使用规范的方式，可以节约新加入团队人员的学习成本，而且可以大大减少跨团队的沟能成本。规范和标准其实就是在节约团队时间提升整体效率的，这个我们整个人类进行协作的基础。所以，这个世界上有很多的标准，你只要照着这个标准来，你的所生产的零件就可以适配到其它厂商的产品上。而不需要相互沟通。</li>
+<li>其三，全用POST接口一把梭，不规范不标准，使用你的这个山寨API的人就得来不断的问你，反而增加了沟通。另外，也许你开发业务功能很快了，但是你在做控制逻辑的时候，你就要返工了，从长期上来讲，你的欠下了技术债，这个债反而导致了更大的成本。</li>
+</ul>
+<h5>5）早点回家的正确姿势</h5>
+<p>不要以为你回家早就没事了，如果你的代码有这样那样的问题，别人看懂，或是出误用了你的代码出了问题，那么，你早回家有什么意义呢？你一样要被打扰，甚至被叫到公司来处理问题。所以，你应该做的是为了“长期的早回家”，而不是“短期的早回家”，要像长期的早回家，通常来说是这样的：</p>
+<ul>
+<li><strong>把代码组织设计好，有更好的扩展性</strong>。这样在面对新需求的时候，你就可以做到少改代码，甚至不改代码。这样你才可能早回家。不然，每次需求一来，你得重新写，你怎么可能早回家？</li>
+<li><strong>你的代码质量是不错的，有不错的文档和注释</strong>。所以，别人不会老有问题来找你，或是你下班后，叫你来处理问题。甚至任何人都可以很容易地接手你的代码，这样你才可能真正不被打扰</li>
+</ul>
+<h5>6）工作而已，优雅不能当饭吃</h5>
+<p>回应两点：</p>
+<p>其一，遵循个规范而已，把“正常”叫“优雅”，可见标准有多低。这么低的标准也只能“为了吃饭而生存了”。</p>
+<p>其二，<strong>作为一个“职业程序员”，要学会热爱和尊重自己的职业，热爱自己职业最重要的就是不要让外行人看扁这个职业，自己都不尊重这个职业，你让别人怎么尊重？尊重自己的职业，不仅仅只是能够获得让人羡慕的报酬，而更是要让自己的这个职业的更有含金量</strong>。</p>
+<p><strong>希望大家都能尊重自己从事的这个职业，成为真正的职业化的程序员，而不是一个码农！</strong></p>
+<figure id="attachment_22177" aria-describedby="caption-attachment-22177" style="width: 834px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22177 size-full" src="https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75.jpeg" alt="" width="834" height="319" srcset="https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75.jpeg 834w, https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75-300x115.jpeg 300w, https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75-768x294.jpeg 768w, https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75-604x231.jpeg 604w" sizes="(max-width: 834px) 100vw, 834px" /><figcaption id="caption-attachment-22177" class="wp-caption-text">你的工作给你权力，而只有你的行为才会给你尊重</figcaption></figure>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/12/open-your-creative-mind-150x150.jpg" alt="别让自己“墙”了自己" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_title">别让自己“墙”了自己</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22173.html">“一把梭：REST API 全用 POST”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22173.html/feed</wfw:commentRss>
+			<slash:comments>119</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>谈谈公司对员工的监控</title>
+		<link>https://coolshell.cn/articles/22157.html</link>
+					<comments>https://coolshell.cn/articles/22157.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 12 Feb 2022 07:50:06 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22157</guid>
+
+					<description><![CDATA[<p>今天看到微博上有一个热点事件， 是一个关于某公司做的一个监控员工离职倾向的软件，从截图中可以看到员工访问招聘网站的次数，还有投递的简历以及搜索的关建词等等信息，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22157.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22157.html">谈谈公司对员工的监控</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今天看到微博上有一个热点事件， 是一个关于某公司做的一个监控员工离职倾向的软件，从截图中可以看到员工访问招聘网站的次数，还有投递的简历以及搜索的关建词等等信息，通过这些信息分析员工的离职倾向。然后我发一个微博，说了一下，我以前工作过的公司无论外国公司还是中国公司都有这样的情况，收到一些人来问我相关的情况，所以，我想还是写篇文章详细地说一下，我对这种事情的看法。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2022/02/monitoring.jpeg"><img decoding="async" loading="lazy" class="aligncenter wp-image-22159 size-large" src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-1024x534.jpeg" alt="" width="640" height="334" srcset="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-1024x534.jpeg 1024w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring-300x156.jpeg 300w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring-768x400.jpeg 768w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring-1536x801.jpeg 1536w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring-518x270.jpeg 518w, https://coolshell.cn/wp-content/uploads/2022/02/monitoring.jpeg 1920w" sizes="(max-width: 640px) 100vw, 640px" /></a></p>
+<p>本文分成下面个部分：</p>
+<ul>
+<li>公司监控员工的技术手段有哪些？</li>
+<li>为什么要监控员工？</li>
+<li>外企和国企有什么不一样？</li>
+<li>我对此事的看法</li>
+</ul>
+<p><span id="more-22157"></span></p>
+<h4>技术手段</h4>
+<p>下面是我经历过的几个手段：</p>
+<p>1）<strong>通过网络嗅探的方式</strong>。也就是说，你只要上了公司的网络，你个人设备上的通讯信息就可以被人以网络抓包+分析的方式进行分析。当然，这样的手段已经不怎么好用了，因为现在的网络基本上都是HTTPS加密的，网络嗅探的方式只能知道你访问了什么IP，对于其中的数据是没有办法知道的。</p>
+<p>2）<strong>通过使用公司提供的软硬件工具</strong>。你使用公司的电子邮箱，浏览器（或是公司的代理服务器），通讯工具（包括语音电话），手机办公应用……等来处理你的个人事宜的时候，必然会被监控。这样，你只需要不要使用公司的软件来处理自己的私事就好了。</p>
+<p>3）<strong>通过安装一个监控程序</strong>。这个是最可怕的了，因为无论你加不加密都没用了。一般来说，你不安装这个程序，你就没有办法连上网络，包括公司内网和外网。这个监控程序，会收集你电脑或手机上能够收集的到的所有的信息，比如，你的网络信息，按键操作，录屏，软件数据……等等。</p>
+<p>4）<strong>办公区监控</strong>。我见过的还有使用摄像头，在会议室中安装声音和视频监控设备，对整个办公区内发生所有的事情进行监控。</p>
+<p><strong>5）通过爬虫。</strong>通过爬虫分析员工的社交平台上的各种言论，包括招聘网站。除了公司需要分布和自己相关的舆情，同样也开始监控员工的行为和价值观等。这已经不是监控隐私信息了……</p>
+<h4>公司监控的目的</h4>
+<p>公司监控的目的最早就是为了防止自己公司内的数据和信息外泄，所以，他们害怕自己的员工访问了什么不合适的网站，或是下载了什么有恶意的软件，或是不小心发错了邮件。另外一些公司也会使用外包人员，所以，对于外部编制的人员更需要有信息泄漏防范的安全需求。当然，也害怕有一些商业间谍或是自己的员工被收买了窃取公司内部的敏感信息。尤其是对于一些本身就是做数据的公司，如我以前呆过的Thomson Reuters，这家公司主要是卖金融数据的，所以，对信息泄漏是非常注重的，其就是需要在员工的电脑上安装监控软件。</p>
+<p>还有一些劳动密集型的工作，比如在Amazon里的仓库里工作的人，公司会监控员工的工作量，以此来评估员工的工作绩效。对于用监控软件来评估程序员的工作量，我到今天仅见过监控外包人员的，在中国，外包人员需要使用甲方的电脑进行签到和签退，以及相关的工作。除了上述的信息安全目前，还能够看到员工的工作时长的情况。</p>
+<p><strong>所以，一般来说，公司监控的目的主要是为了自己的信息安全，还有员工的工作量评估，一般来说，不会涉及员工的隐私</strong>。</p>
+<p>但是，随着收集的数据越来越多，有些公司发现还可以做更多的事，比如，上述的员工离职倾向的分析。<strong>还有一些公司还会收集员工在外网的数据，比如你在社交平台上的各种言论，来分析你对公司的忠诚度和你的价值观取向……</strong>我个人觉得这些已经令人不耻了。</p>
+<h4>外企与国企不同之处</h4>
+<p>我经历过的公司中，外国公司和中国公司都有监控的经历，这里说一下他们的不一样之处。<strong>最大的不一样的地方是，外国公司会让你有知情权，而中国公司则完全没有</strong>。</p>
+<p>我记得我进入Thomson Reuters 公司的时候，公司要求签署一份监控的知情的同意书，其中用中英文写的，就是说，你授权公司监控你的如下这些信息：1）上网记录，2）下载的软件，3）工作电脑，4）公司的座机电话，5）会议室和办公区的语音和视频监控……大概有两页A4纸，然后也说明了这些数据公司仅用于信息安全的风控，不用于个人隐私分析等等……并且会符合法律要求保护员工的这些数据不外泄……这些条款都经得起法律的推敲。这样的协议是需要员工签字的，并且对双方都有法律约束的。</p>
+<p>中国的公司则不会告诉你他们会监控你哪些数据，而这些数据拿来做什么。 我记得我在某公司工作的时候，就有员工发现自己访问自己的gmail的录屏被公司收集后的愤怒……</p>
+<h4>我对此事的看法</h4>
+<p>一方面，我对于公司通过使用监控软件监控员工的行为我是能够理解的，但是，<strong>应该让员工有知情权，并和员工明确一个监控的信息和范围，包括收集的数据的用途和安全措施，以及数据多长时间销毁的协议。</strong>如果没有这个协议的话，我觉得本质上就是一种流氓行为。</p>
+<p>另一方面，针对监控员离职的倾向来说，我实在不知道有什么意义？公司你知道了又能如何呢？你是要找员工作思想工作，还是要给员工更好的待遇，还是直接开掉？<strong>如果你对自己的企业有信心，你就不必担心员工会离开，如果你的企业有问题，你为什么不把心思花在建设自己的企业上来呢？安装这样的监控软件对于企业没有什么帮助，反而只会让你的企业的形象更low……</strong></p>
+<p>再仔细想想，<strong>员工有一万种方法泄漏你公司的信息，无论你怎么监控，只要他想，他总是能够找到方法的，不是么？如何让找到或是培养有职业操守的员工，如何管理自己企业的商业信息，如何建立一个更好的企业文化让员工更有归属感，成为企业的共同体，一同维护共同利益，为企业着想，这不才是公司真正应该干的事吗？！</strong>监控员工充分暴露了这样的企业没有一个好的企业文化，不懂得高级的管理，所以，只能靠监控这样的手段来管理企业了……这样的企业不去也罢了。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/12/open-your-creative-mind-150x150.jpg" alt="别让自己“墙”了自己" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_title">别让自己“墙”了自己</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22157.html">谈谈公司对员工的监控</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22157.html/feed</wfw:commentRss>
+			<slash:comments>26</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>从Gitlab误删除数据库想到的</title>
+		<link>https://coolshell.cn/articles/17680.html</link>
+					<comments>https://coolshell.cn/articles/17680.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 02 Feb 2017 08:11:28 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[Gitlab]]></category>
+		<category><![CDATA[High Availability]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[分布式]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17680</guid>
+
+					<description><![CDATA[<p>昨天，Gitlab.com发生了一个大事，某同学误删了数据库，这个事看似是个低级错误，不过，因为Gitlab把整个过程的细节都全部暴露出来了，所以，可以看到很多...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17680.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17680.html">从Gitlab误删除数据库想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-17685" src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600.jpg" width="300" height="215" srcset="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600.jpg 439w, https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-300x215.jpg 300w, https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-377x270.jpg 377w" sizes="(max-width: 300px) 100vw, 300px" />昨天，Gitlab.com发生了一个大事，某同学误删了数据库，这个事看似是个低级错误，不过，因为Gitlab把整个过程的细节都全部暴露出来了，所以，可以看到很多东西，而对于类似这样的事情，我自己以前也干过，而在最近的两公司中我也见过（Amazon中见过一次，阿里中见过至少四次），正好通过这个事来说说一下自己的一些感想和观点吧。<strong>我先放个观点：你觉得有备份系统就不会丢数据了吗？</strong></p>
+<h4>事件回顾</h4>
+<p>整个事件的回顾Gitlab.com在第一时间就放到了<a href="https://docs.google.com/document/d/1GCK53YDcBWQveod9kfzW-VCxIABGiryG7_z_6jHdVik/pub" target="_blank">Google Doc上</a>，事后，又发了<a href="https://about.gitlab.com/2017/02/01/gitlab-dot-com-database-incident/" target="_blank">一篇Blog</a>来说明这个事，在这里，我简单的回顾一下这个事件的过程。</p>
+<p>首先，一个叫YP的同学在给gitlab的线上数据库做一些负载均衡的工作，在做这个工作时的时候突发了一个情况，Gitlab被DDoS攻击，数据库的使用飙高，在block完攻击者的IP后，发现有个staging的数据库(db2.staging)已经落后生产库4GB的数据，于是YP同学在Fix这个staging库的同步问题的时候，发现db2.staging有各种问题都和主库无法同步，在这个时候，YP同学已经工作的很晚了，在尝试过多个方法后，发现db2.staging都hang在那里，无法同步，于是他想把db2.staging的数据库删除了，这样全新启动一个新的复制，结果呢，删除数据库的命令错误的敲在了生产环境上（db1.cluster），结果导致整个生产数据库被误删除。（<strong>陈皓注：这个失败基本上就是 “工作时间过长” + “在多数终端窗口中切换中迷失掉了”</strong>）</p>
+<p><span id="more-17680"></span></p>
+<p>在恢复的过程中，他们发现只有db1.staging的数据库可以用于恢复，而其它的5种备份机制都不可用，第一个是数据库的同步，没有同步webhook，第二个是对硬盘的快照，没有对数据库做，第三个是用pg_dump的备份，发现版本不对（用9.2的版本去dump 9.6的数据）导致没有dump出数据，第四个S3的备份，完全没有备份上，第五个是相关的备份流程是问题百出的，只有几个粗糙的人肉的脚本和糟糕的文档，也就是说，不但是是人肉的，而且还是完全不可执行的。（<strong>陈皓注：就算是这些备份机制都work，其实也有问题，因为这些备份大多数基本上都是24小时干一次，所以，要从这些备份恢复也一定是是要丢数据的了，只有第一个数据库同步才会实时一些</strong>）</p>
+<p>最终，gitlab从db1.staging上把6个小时前的数据copy回来，结果发现速度非常的慢，备份结点只有60Mbits/S，拷了很长时间（<strong>陈皓注：为什么不把db1.staging给直接变成生产机？因为那台机器的性能很差</strong>）。数据现在的恢复了，不过，因为恢复的数据是6小时前的，所以，有如下的数据丢失掉了：</p>
+<ul class="ul1">
+<li class="li1"><span class="s2">粗略估计，有4613 的项目， 74 forks,  和 350 imports 丢失了；但是，因为Git仓库还在，所以，可以从Git仓库反向推导数据库中的数据，但是，项目中的issues等就完全丢失了。</span></li>
+<li class="li1"><span class="s2">大约有±4979 提交记录丢失了（陈皓注：估计也可以用git仓库中反向恢复）。</span></li>
+<li class="li1"><span class="s2">可能有 707  用户丢失了，这个数据来自Kibana的日志。</span></li>
+<li class="li2"><span class="s4">在1月31日17:20 后的Webhooks 丢失了。</span></li>
+</ul>
+<p>因为Gitlab把整个事件的细节公开了出来，所以，也得到了很多外部的帮助，2nd Quadrant的CTO &#8211; <span class="s1"><a href="https://www.linkedin.com/in/simonat2ndquadrantdotcom" target="_blank">Simon Riggs</a> 在他的blog上也发布文章 <a href="http://blog.2ndquadrant.com/dataloss-at-gitlab/" target="_blank">Dataloss at Gitlab </a>给了一些非常不错的建议：</span></p>
+<ul>
+<li>关于PostgreSQL 9.6的数据同步hang住的问题，可能有一些Bug，正在fix中。</li>
+<li>PostgreSQL有4GB的同步滞后是正常的，这不是什么问题。</li>
+<li>正常的停止从结点，会让主结点自动释放WALSender的链接数，所以，不应该重新配置主结点的 max_wal_senders 参数。但是，停止从结点时，主结点的复数连接数不会很快的被释放，而新启动的从结点又会消耗更多的链接数。他认为，Gitlab配置的32个链接数太高了，通常来说，2到4个就足够了。</li>
+<li>另外，之前gitlab配置的max_connections=8000太高了，现在降到2000个是合理的。</li>
+<li>pg_basebackup 会先在主结点上建一个checkpoint，然后再开始同步，这个过程大约需要4分钟。</li>
+<li>手动的删除数据库目录是非常危险的操作，这个事应该交给程序来做。推荐使用刚release 的 <a href="https://www.2ndquadrant.com/en/resources/repmgr/" target="_blank">repmgr</a></li>
+<li>恢复备份也是非常重要的，所以，也应该用相应的程序来做。推荐使用 <a href="https://www.2ndquadrant.com/en/resources/barman/" target="_blank">barman</a> （其支持S3）</li>
+<li>测试备份和恢复是一个很重要的过程。</li>
+</ul>
+<p>看这个样子，估计也有一定的原因是——Gitlab的同学对PostgreSQL不是很熟悉。</p>
+<p>随后，Gitlab在其网站上也开了一系列的issues，其issues列表在这里 <a href="https://gitlab.com/gitlab-com/www-gitlab-com/issues/1108" target="_blank">Write post-mortem</a> (这个列表可能还会在不断更新中)</p>
+<ul class="ul1">
+<li class="li1"><span class="s1"><span class="s2"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1094">infrastructure#1094</a> &#8211; Update PS1 across all hosts to more clearly differentiate between hosts and environments</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1095">infrastructure#1095</a> &#8211; Prometheus monitoring for backups</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1096">infrastructure#1096</a> &#8211; Set PostgreSQL&#8217;s max_connections to a sane value</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1097">infrastructure#1097</a> &#8211; Investigate Point in time recovery &amp; continuous archiving for PostgreSQL</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1098">infrastructure#1098</a> &#8211; Hourly LVM snapshots of the production databases</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1099">infrastructure#1099</a> &#8211; Azure disk snapshots of production databases</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1100">infrastructure#1100</a> &#8211; Move staging to the ARM environment</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1101">infrastructure#1101</a> &#8211; Recover production replica(s)</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1102">infrastructure#1102</a> &#8211; Automated testing of recovering PostgreSQL database backups</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1103">infrastructure#1103</a> &#8211; Improve PostgreSQL replication documentation/runbooks</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1104">infrastructure#1104</a> &#8211; Kick out SSH users inactive for N minutes</span></span></li>
+<li class="li2"><span class="s5"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1105">infrastructure#1105</a> &#8211; Investigate pgbarman for creating PostgreSQL backups</span></span></li>
+</ul>
+<p>从上面的这个列表中，我们可以看到一些改进措施了。挺好的，不过我觉得还不是很够。</p>
+<h4>相关的思考</h4>
+<p>因为类似这样的事，我以前也干过（误删除过数据库，在多个终端窗口中迷失掉了自己所操作的机器……），而且我在amazon里也见过一次，在阿里内至少见过四次以上（在阿里人肉运维的误操作的事故是我见过最多的），但是我无法在这里公开分享，私下可以分享。在这里，我只想从非技术和技术两个方面分享一下我的经验和认识。</p>
+<h5>技术方面</h5>
+<p><strong>人肉运维</strong></p>
+<p>一直以来，我都觉得直接到生产线上敲命令是一种非常不好的习惯。我认为，<strong>一个公司的运维能力的强弱和你上线上环境敲命令是有关的，你越是喜欢上线敲命令你的运维能力就越弱，越是通过自动化来处理问题，你的运维能力就越强</strong>。理由如下：</p>
+<p style="padding-left: 30px;">其一，如果说对代码的改动都是一次发布的话，那么，对生产环境的任何改动（包括硬件、操作系统、网络、软件配置……），也都算是一次发布。那么这样的发布就应该走发布系统和发布流程，要被很好的测试、上线和回滚计划。关键是，走发布过程是可以被记录、追踪和回溯的，而在线上敲命令是完全无法追踪的。没人知道你敲了什么命令。</p>
+<p style="padding-left: 30px;">其二，真正良性的运维能力是——人管代码，代码管机器，而不是人管机器。你敲了什么命令没人知道，但是你写个工具做变更线上系统，这个工具干了什么事，看看工具的源码就知道了。</p>
+<p>另外、有人说，以后不要用rm了，要用mv，还有人说，以后干这样的事时，一个人干，另一个人在旁边看，还有人说，要有一个checklist的强制流程做线上的变更，还有人说要增加一个权限系统。我觉得，这些虽然可以work，但是依然不好，再由如下：</p>
+<p style="padding-left: 30px;">其一、如果要解决一个事情需要加更多的人来做的事，那这事就做成劳动密集型了。今天我们的科技就是在努力消除人力成本，而不是在增加人力成本。而做为一个技术人员，解决问题的最好方式是努力使用技术手段，而不是使用更多的人肉手段。<strong>人类区别于动物的差别就是会发明和使用现代化的工具，而不是使用更多的人力</strong>。另外，<strong>这不仅仅因为是，人都是会有这样或那样的问题（疲惫、情绪化、急燥、冲动……），而机器是单一无脑不知疲惫的，更是因为，机器干活的效率和速度是比人肉高出N多倍的</strong>。</p>
+<p style="padding-left: 30px;">其二、增加一个权限系统或是别的一个watch dog的系统完全是在开倒车，权限系统中的权限谁来维护和审批？不仅仅是因为多出来的系统需要多出来的维护，关键是这个事就没有把问题解决在root上。除了为社会解决就业问题，别无好处，故障依然会发生，有权限的人一样会误操作。对于Gitlab这个问题，正如2nd Quadrant的CTO建议的那样，你需要的是一个自动化的备份和恢复的工具，而不是一个权限系统。</p>
+<p style="padding-left: 30px;">其三、像使用mv而不rm，搞一个checklist和一个更重的流程，更糟糕。这里的逻辑很简单，因为，1）这些规则需要人去学习和记忆，本质上来说，你本来就不相信人，所以你搞出了一些规则和流程，而这些规则和流程的执行，又依赖于人，换汤不换药，2）另外，<strong>写在纸面上的东西都是不可执行的，可以执行的就是只有程序，所以，为什么不把checklist和流程写成代码呢</strong>？（你可能会说程序也会犯错，是的，程序的错误是consistent，而人的错误是inconsistent）</p>
+<p>最关键的是，<strong>数据丢失有各种各样的情况，不单单只是人员的误操作，比如，掉电、磁盘损坏、中病毒等等，在这些情况下，你设计的那些想流程、规则、人肉检查、权限系统、checklist等等统统都不管用了，这个时候，你觉得应该怎么做呢？是的，你会发现，你不得不用更好的技术去设计出一个高可用的系统！别无它法。</strong></p>
+<h4>关于备份</h4>
+<p>一个系统是需要做数据备份的，但是，你会发现，<strong>Gitlab这个事中，就算所有的备份都可用，也不可避免地会有数据的丢失，或是也会有很多问题</strong>。理由如下：</p>
+<p style="padding-left: 30px;">1）备份通常来说都是周期性的，所以，如果你的数据丢失了，从你最近的备份恢复数据里，从备份时间到故障时间的数据都丢失了。</p>
+<p style="padding-left: 30px;">2）备份的数据会有版本不兼容的问题。比如，在你上次备份数据到故障期间，你对数据的scheme做了一次改动，或是你对数据做了一些调整，那么，你备份的数据就会和你线上的程序出现不兼容的情况。</p>
+<p style="padding-left: 30px;">3）有一些公司或是银行有灾备的数据中心，但是灾备的数据中心没有一天live过。等真正灾难来临需要live的时候，你就会发现，各种问题让你live不起来。你可以读一读几年前的这篇报道好好感受一下《<a href="http://finance.sina.com.cn/money/bank/20140804/091219903553.shtml" target="_blank">以史为鉴 宁夏银行7月系统瘫痪最新解析</a>》</p>
+<p>所以，在灾难来临的时候，你会发现你所设计精良的“备份系统”或是“灾备系统”就算是平时可以工作，但也会导致数据丢失，而且可能长期不用的备份系统很难恢复（比如应用、工具、数据的版本不兼容等问题）。</p>
+<p>我之前写过一篇《<a href="https://coolshell.cn/articles/10910.html" target="_blank">分布式系统的事务处理</a>》，你还记得下面这张图吗？看看 Data Loss 那一行的，在Backups, Master/Slave 和 Master/Master的架构下，都是会丢的。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10942" src="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg" alt="" width="566" height="255" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg 566w, https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter-300x135.jpg 300w" sizes="(max-width: 566px) 100vw, 566px" /></p>
+<p>所以说，<strong>如果你要让你的备份系统随时都可以用，那么你就要让它随时都Live着</strong>，而随时都Live着的多结点系统，基本上就是一个分布式的高可用的系统。因为<strong>，数据丢失的原因有很多种，比如掉电、磁盘损坏、中病毒等等，而那些流程、规则、人肉检查、权限系统、checklist等等都只是让人不要误操作，都不管用，这个时候，你不得不用更好的技术去设计出一个高可用的系统！别无它法。（重要的事，得再说一篇）</strong></p>
+<p>另外，你可以参看我的另一篇《<a href="https://coolshell.cn/articles/17459.html" target="_blank">关于高可用系统</a>》，这篇文章中以MySQL为例，数据库的replication也只能达到 两个9。</p>
+<p><strong>AWS 的 S3 的的高可用是4个加11个9的持久性（</strong>所谓11个9的持久性durability，AWS是这样定义的，如果你存了1万个对象，那么丢一个的时间是1000万年<strong>），这意味着，不仅仅只是硬盘坏，机器掉电，整个机房挂了，其保证可以承受有两个设施的数据丢失，数据还是可用的。试想，如果你把数据的可用性通过技术做到了这个份上，那么，你还怕被人误删一个结点上的数据吗？</strong></p>
+<h5>非技术方面</h5>
+<p><strong>故障反思</strong></p>
+<p>一般说来，故障都需要反思，在Amazon，S2以上的故障都需要写COE（Correction of Errors），其中一节就是需要Ask 5 Whys，我发现在Gitlab的故障回顾的blog中第一段中也有说要在今天写个Ask 5 Whys。关于Ask 5 Whys，其实并不是亚马逊的玩法，这还是算一个业内常用的玩法，也就是说不断的为自己为为什么，直到找到问题的概本原因，这会逼着所有的当事人去学习和深究很多东西。在Wikipedia上有相关的词条 <a href="https://en.wikipedia.org/wiki/5_Whys" target="_blank">5 Whys</a>，其中罗列了14条规则：</p>
+<ol>
+<li>你需要找到正确的团队来完成这个故障反思。</li>
+<li>使用纸或白板而不是电脑。</li>
+<li>写下整个问题的过程，确保每个人都能看懂。</li>
+<li>区别原因和症状。</li>
+<li>特别注意因果关系。</li>
+<li>说明Root Cause以及相关的证据。</li>
+<li>5个为什么的答案需要是精确的。</li>
+<li>寻找问题根源的步骤，而不是直接跳到结论。</li>
+<li>要基础客观的事实、数据和知识。</li>
+<li>评估过程而不是人。</li>
+<li>千万不要把“人为失误”或是“工作不注意”当成问题的根源。</li>
+<li>培养信任和真诚的气氛和文化。</li>
+<li>不断的问“为什么”直到问题的根源被找到。这样可以保证同一个坑不会掉进去两次。<sup id="cite_ref-7" class="reference"></sup></li>
+<li>当你给出“为什么”的答案时，你应该从用户的角度来回答。</li>
+</ol>
+<p><strong>工程师文化</strong></p>
+<p>上述的这些观点，其实，我在我的以住的博客中都讲过很多遍了，你可以参看《<a href="https://coolshell.cn/articles/17497.html" target="_blank">什么是工程师文化？</a>》以及《<a href="https://coolshell.cn/articles/11656.html" target="_blank">开发团队的效率</a>》。其实，说白了就是这么一个事——<strong>如果你是一个技术公司，你就会更多的相信技术而不是管理。相信技术会用技术来解决问题，相信管理，那就只会有制度、流程和价值观来解决问题</strong>。</p>
+<p>这个道理很简单，<strong>数据丢失有各种各样的情况，不单单只是人员的误操作，比如，掉电、磁盘损坏、中病毒等等，在这些情况下，你设计的那些流程、规则、人肉检查、权限系统、checklist等等统统都不管用，这个时候，你觉得应该怎么做呢？是的，你会发现，你不得不用更好的技术去设计出一个高可用的系统！别无它法。（重要的事得说三遍）</strong></p>
+<p><strong>事件公开</strong></p>
+<p>很多公司基本上都是这样的套路，首先是极力掩盖，如果掩盖不了了就开始撒谎，撒不了谎了，就“文过饰非”、“避重就轻”、“转移视线”。然而，面对危机的最佳方法就是——“多一些真诚，少一些套路”，<strong>所谓的“多一些真诚”的最佳实践就是——“透明公开所有的信息”</strong>，Gitlab此次的这个事给大家树立了非常好的榜样。AWS也会把自己所有的故障和细节都批露出来。</p>
+<p><strong>事情本来就做错了，而公开所有的细节，会让大众少很多猜测的空间，有利于抵制流言和黑公关，同时，还会赢得大众的理解和支持</strong>。看看Gitlab这次还去YouTube上直播整个修复过程，是件很了不起的事，大家可以到他们的blog上看看，对于这样的透明和公开，一片好评。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li><li ><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="多些时间能少写些代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_title">多些时间能少写些代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17680.html">从Gitlab误删除数据库想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17680.html/feed</wfw:commentRss>
+			<slash:comments>67</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>从 MongoDB “赎金事件” 看安全问题</title>
+		<link>https://coolshell.cn/articles/17607.html</link>
+					<comments>https://coolshell.cn/articles/17607.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 07 Jan 2017 09:11:28 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Bitcoin]]></category>
+		<category><![CDATA[MongoDB]]></category>
+		<category><![CDATA[ransom]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17607</guid>
+
+					<description><![CDATA[<p>今天上午（2017年1月7日），我的微信群中同时出现了两个MongoDB被黑掉要赎金的情况，于是在调查过程中，发现了这个事件。这个事件应该是2017年开年的第一...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17607.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17607.html">从 MongoDB “赎金事件” 看安全问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-sup_wechat_big wp-image-17621" src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-360x200.jpg" alt="" width="360" height="200" />今天上午（2017年1月7日），我的微信群中同时出现了两个MongoDB被黑掉要赎金的情况，于是在调查过程中，发现了这个事件。这个事件应该是2017年开年的第一次比较大的安全事件吧，发现国内居然没有什么报道，国内安全圈也没有什么动静（当然，他们也许知道，只是不想说吧），Anyway，让我这个非安全领域的人来帮补补位。</p>
+<h4>事件回顾</h4>
+<p>这个事情应该是从2017年1月3日进入公众视野的，是由安全圈的大拿 Victor Gevers （网名：<a href="https://twitter.com/0xDUDE" target="_blank">0xDUDE</a>，<span class="js-display-url"><a class="twitter-timeline-link" dir="ltr" title="http://GDI.foundation" href="http://GDI.foundation" target="_blank" rel="nofollow noopener" data-expanded-url="http://GDI.foundation">GDI.foundation</a> </span>的Chairman），其实，他早在2016年12月27日就发现了一些在互联网上用户的MongoDB没有任何的保护措施，被攻击者把数据库删除了，并留下了一个叫 WARNING 的数据库，这张表的内容如下：</p>
+<pre><code class="language-sql">{
+    "_id" : ObjectId("5859a0370b8e49f123fcc7da"),
+    "mail" : "harak1r1@sigaint.org",
+    "note" : "SEND 0.2 BTC TO THIS ADDRESS 13zaxGVjj9MNc2jyvDRhLyYpkCh323MsMq AND CONTACT THIS EMAIL WITH YOUR IP OF YOUR SERVER TO RECOVER YOUR DATABASE !"
+}</code></pre>
+<p>基本上如下所示：</p>
+<p><span id="more-17607"></span></p>
+<figure id="attachment_17609" aria-describedby="caption-attachment-17609" style="width: 646px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-17609" src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-ransom.png" alt="MongoDB ransom demand (via Victor Gevers)" width="646" height="332" srcset="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-ransom.png 646w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-ransom-300x154.png 300w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-ransom-525x270.png 525w" sizes="(max-width: 646px) 100vw, 646px" /><figcaption id="caption-attachment-17609" class="wp-caption-text">MongoDB ransom demand (via Victor Gevers)</figcaption></figure>
+<p>说白了就是黑客留下的东西——<strong>老子把你的MongoDB里的数据库给转走了，如果你要你的数据的话，给我0.2个的比特币（大约USD200）</strong>。然后，他的twitter上不断地发布这个“赎金事件”的跟踪报道。与此同时，中国区的V2EX上也发现了相关的攻击问题 《<a href="https://www.v2ex.com/t/331887" target="_blank">自己装的 mongo 没有设置密码结果被黑了</a>》</p>
+<p>然后，在接下来的几天内，全球大约有1800个MongoDB的数据库被黑，这个行为来自一个叫 Harak1r1 的黑客组织（这个组织似乎就好黑MongoDB，据说他们历史上干了近8500个MongoDB的数据库，几乎都是在祼奔的MongoDB）。</p>
+<p>不过，这个组织干了两天后就停手了，可能是因为这事已经引起了全球科技媒体的注意，产生了大量的报道（如果你在Google News里查一下“<a href="https://www.google.com/webhp?sourceid=chrome-instant&amp;ion=1&amp;espv=2&amp;ie=UTF-8#q=mongodb+ransom&amp;newwindow=1&amp;tbm=nws" target="_blank">mongodb ransom</a>”，你会看到大量的报道（中文社区中，只有<a href="https://unwire.pro/2017/01/05/2000-mongodb-ransom/security/" target="_blank">台湾有相关的报道</a>）），他们也许是不敢再搞下去了。</p>
+<p>不过，很快，有几个copycats开始接着干，</p>
+<p>马上跟进的是 own3d ，他们留下的数据库的名字叫 WARNING_ALERT，他们至少干掉了 930个MongoDB，赎金0.5个比特币（USD500），至少有3个用户付费了</p>
+<p>然后是0704341626asdf，他们留下的数据库名字叫PWNED，他们至少干掉了740个MongoDB，赎金0.15个比特币（USD150），看看他们在数据库里留下的文字——<strong>你的MongoDB没有任何的认证，并且暴露在公网里（你TMD是怎么想的？）……</strong></p>
+<figure id="attachment_17610" aria-describedby="caption-attachment-17610" style="width: 616px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-17610" src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-Group-3.jpg" alt="0704341626asdf group ransom note (via Victor Gerves)" width="616" height="236" srcset="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-Group-3.jpg 616w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-Group-3-300x115.jpg 300w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-Group-3-604x231.jpg 604w" sizes="(max-width: 616px) 100vw, 616px" /><figcaption id="caption-attachment-17610" class="wp-caption-text">0704341626asdf group ransom note (via Victor Gerves)</figcaption></figure>
+<p>就在这两天，有两个新的黑客也来了</p>
+<ul>
+<li>先是kraken0，发现到现在1天了，干了13个MongoDB，赎金 0.1个比特币。</li>
+<li>然后是 3lix1r，发现到现在5个小时，干了17个MongoDB，赎金0.25比特币。</li>
+</ul>
+<p>BBC新闻也于昨天报道了这一情况——《<a href="http://www.bbc.com/news/technology-38521973" target="_blank">Web databases hit in ransom attacks</a>》，现在这个事情应该是一个Big News了。</p>
+<h4>关于MongoDB的安全</h4>
+<p>安全问题从来都是需要多方面一起努力，但是安全问题最大的短板就是在用户这边。这次的这个事，说白了，就是用户没有给MongoDB设置上用户名和口令，然后还把服务公开到了公网上。</p>
+<p>是的，这个安全事件，相当的匪夷所思，为什么这些用户要在公网上祼奔自己的数据库？他们的脑子是怎么想的？</p>
+<p>让我们去看一下Shodan上可以看到的有多少个在暴露在公网上而且没有防范的MongoDB？我了个去！<strong>4万7千个，还是很触目惊心的</strong>（下图来自我刚刚创建的 <a href="https://www.shodan.io/report/h0bgF6zM" target="_blank">Shodan关于MongoDB的报表</a>）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-large wp-image-17614" src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Shodan-1024x485.png" alt="" width="640" height="303" srcset="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Shodan-1024x485.png 1024w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Shodan-300x142.png 300w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Shodan-768x364.png 768w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Shodan-570x270.png 570w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Shodan.png 1124w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>&nbsp;</p>
+<p>那么，怎么会有这么多的对外暴露的MongoDB？看了一下Shodan的报告，发现主要还是来自公有云平台，Amazon，Alibaba，Digital Ocean，OVH，Azure 的云平台上有很多这样的服务。不过，像AWS这样的云平台，有很完善的默认安全组设置和VPC是可以不把这样的后端服务暴露到公有云上的，为什么还会有那么多？</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-17616" src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Org.png" width="650" height="403" srcset="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Org.png 867w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Org-300x186.png 300w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Org-768x476.png 768w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Org-436x270.png 436w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<p>&nbsp;</p>
+<p>这么大量的暴露在公网上的服务是怎么回事？有人发现（参看这篇文章《<a href="https://blog.shodan.io/its-the-data-stupid/" target="_blank">It&#8217;s the Data, Stupid!</a>》 ），MongoDB历史上一直都是把侦听端口绑在所有的IP上的，这个问题在5年前（2011年11月）就报给了MongoDB (<a href="https://jira.mongodb.org/browse/SERVER-4216" target="_blank">SERVER-4216</a>)，结果2014年4月才解决掉。所以，他觉得可能似乎 MongoDB的 2.6之前的版本都会默认上侦听在0.0.0.0 。</p>
+<p>于是我做了一个小试验，到我的Ubuntu 14.04上去 <code>apt-get install mongodb</code>（2.4.9版），然后我在<code>/etc/mongodb.conf</code> 文件中，看到了默认的配置是127.0.0.1，mongod启动也侦听在了127.0.0.1这台机器上。一切正常。不过，可能是时过境迁，debain的安装包里已加上了这个默认配置文件。不管怎么样，MongoDB似乎是有一些问题的。</p>
+<p>再到Shodan上看到相关的在公网裸奔的MongoDB的版本如下，发现3.x的也是主流：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-17615" src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Version.png" width="650" height="410" srcset="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Version.png 888w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Version-300x189.png 300w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Version-768x484.png 768w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Version-428x270.png 428w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<p>&nbsp;</p>
+<p>虽然，3.x的版本成为了主流，但是似乎，还是有很多人把MongoDB的服务开到了互联网上来，而且可以随意访问。</p>
+<p><strong>你看，我在阿里云随便找了几台机器，一登就登上去了。</strong></p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-17617" src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Aliyun.png" width="300" height="587" srcset="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Aliyun.png 640w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Aliyun-153x300.png 153w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Aliyun-523x1024.png 523w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Aliyun-138x270.png 138w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>真是如那些黑客中的邮件所说的：WTF，你们是怎么想的？</p>
+<h4>后续的反思</h4>
+<p>为什么还是有这么多的MongoDB在公网上祼奔呢？难道有这么多的用户都是小白？这个原因，是什么呢？我觉得可能会是如下两个原因：</p>
+<p style="padding-left: 30px;">1）一是技术人员下载了mongod的软包，一般来说，mongodb的压缩包只有binary文件 ，没有配置文件 ，所以直接解开后运行，结果就没有安全认证，也绑在了公网上。也许，MongoDB这么做的原因就是为了可以快速上手，不要在环境上花太多的时间，这个有助于软件方面的推广。但是，这样可能就坑了更多的人。</p>
+<p style="padding-left: 30px;">2）因为MongoDB是后端基础服务，所以，需要很多内部机器防问，按道理呢，应该绑定在内网IP上，但是呢，可能是技术人员不小心，绑在了0.0.0.0的IP上。</p>
+<p>那么，这个问题在云平台上是否可以更好的解决呢？</p>
+<p><strong>关于公网的IP。</strong>一般来说，公有云平台上的虚拟主机都会有一个公网的IP地址，老实说，这并不是一个好的方法，因为有很多主机是不需要暴露到公网上的，所以，也就不需要使用公网IP，于是，就会出现弹性IP或虚拟路由器以及VPC这样的虚拟网络服务，这样用户在公有云就可以很容易的组网，也就没有必要每台机器都需要一个公网IP，使用云平台，最好还是使用组网方案比较好的平台。</p>
+<p><strong>关于安全组</strong>。在AWS上，你开一台EC2，会有一个非常严格的安全组——只暴露22端口，其它的全部对外网关闭。这样做，其实是可以帮用户防止一下不小心把不必要的服务Open到公网上。按道理来说，AWS上应该是帮用户防了这些的。但是，AWS上的MongoDB祼奔的机器数量是最多的，估计和AWS的EC2的 基数有关系吧（据说AWS有千万台左右的EC2了）</p>
+<p>最后，提醒大家一下，被黑了也不要去付赎金，因为目前来说没有任何证据证明黑客们真正保存了你的数据，因为，被黑的服务器太多了，估计有几百T的数据，估计是不会为你保存的。下面也是Victor Gevers的提示：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17619" src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Twitter.png" alt="" width="507" height="213" srcset="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Twitter.png 507w, https://coolshell.cn/wp-content/uploads/2017/01/MongoDB_Twitter-300x126.png 300w" sizes="(max-width: 507px) 100vw, 507px" /></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/11973.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-150x150.jpg" alt="bash代码注入的安全漏洞" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11973.html" class="wp_rp_title">bash代码注入的安全漏洞</a></li><li ><a href="http://coolshell.cn/articles/6976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/61e04755jw1drlo96bsktj-150x150.jpg" alt="谈谈数据安全和云存储" width="150" height="150" /></a><a href="http://coolshell.cn/articles/6976.html" class="wp_rp_title">谈谈数据安全和云存储</a></li><li ><a href="http://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li><li ><a href="http://coolshell.cn/articles/11021.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/Github-Security-150x150.png" alt="从“黑掉Github”学Web安全开发" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11021.html" class="wp_rp_title">从“黑掉Github”学Web安全开发</a></li><li ><a href="http://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="http://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="http://coolshell.cn/articles/6424.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/6.jpg" alt="Hash Collision DoS 问题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/6424.html" class="wp_rp_title">Hash Collision DoS 问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17607.html">从 MongoDB “赎金事件” 看安全问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17607.html/feed</wfw:commentRss>
+			<slash:comments>44</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>bash代码注入的安全漏洞</title>
+		<link>https://coolshell.cn/articles/11973.html</link>
+					<comments>https://coolshell.cn/articles/11973.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 27 Sep 2014 23:56:46 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[env]]></category>
+		<category><![CDATA[export]]></category>
+		<category><![CDATA[安全]]></category>
+		<category><![CDATA[安全补丁]]></category>
+		<category><![CDATA[环境变量]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11973</guid>
+
+					<description><![CDATA[<p>很多人或许对上半年发生的安全问题“心脏流血”（Heartbleed Bug）事件记忆颇深，这两天，又出现了另外一个“毁灭级”的漏洞——Bash软件安全漏洞。这个...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11973.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11973.html">bash代码注入的安全漏洞</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-11979" src="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-300x152.jpg" alt="bashbug" width="300" height="152" srcset="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-300x152.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/09/bashbug.jpg 315w" sizes="(max-width: 300px) 100vw, 300px" />很多人或许对上半年发生的安全问题“心脏流血”（Heartbleed Bug）事件记忆颇深，这两天，又出现了另外一个“毁灭级”的漏洞——Bash软件安全漏洞。这个漏洞由法国GNU/Linux爱好者Stéphane Chazelas所发现。随后，美国电脑紧急应变中心（US-CERT）、红帽以及多家从事安全的公司于周三（北京时间9月24日）发出警告。 关于这个安全漏洞的细节可参看美国政府计算安全的这两个漏洞披露：<a href="http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-6271">CVE-2014-6271</a> 和 <a href="http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-7169">CVE-2014-7169</a>。</p>
+<p>这个漏洞其实是非常经典的“注入式攻击”，也就是可以向 bash注入一段命令，从bash1.14 到4.3都存在这样的漏洞。我们先来看一下这个安全问题的症状。</p>
+<h4>Shellshock (CVE-2014-6271)</h4>
+<p>下面是一个简单的测试：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ env VAR=&#039;() { :;}; echo Bash is vulnerable!&#039; bash -c &quot;echo Bash Test&quot;</code></p>
+<p>如果你发现上面这个命令在你的bash下有这样的输出，那你就说明你的bash是有漏洞的：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW" data-enlighter-highlight="1">Bash is vulnerable!
+Bash Test</pre>
+<p>简单地看一下，其实就是向环境变量中注入了一段代码 <strong>echo Bash is vulnerable</strong>。关于其中的原理我会在后面给出。</p>
+<p>很快，CVE-2014-6271的官方补丁出来的了——<a href="https://lists.gnu.org/archive/html/bug-bash/2014-09/msg00081.html" target="_blank">Bash-4.3 Official Patch 25</a>。</p>
+<p><span id="more-11973"></span></p>
+<h4>AfterShock &#8211; CVE-2014-7169 （又叫Incomplete fix to Shellshock）</h4>
+<p>但随后，马上有人在Twitter上发贴——<a href="http://twitter.com/taviso/statuses/514887394294652929" target="_blank">说这是一个不完整的fix</a>，并给出了相关的攻击方法。</p>
+<p><a href="http://twitter.com/taviso/statuses/514887394294652929" target="_blank"><img decoding="async" loading="lazy" class="aligncenter size-medium wp-image-11974" src="https://coolshell.cn/wp-content/uploads/2014/09/bash-300x153.jpg" alt="" width="300" height="153" srcset="https://coolshell.cn/wp-content/uploads/2014/09/bash-300x153.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/09/bash.jpg 582w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>也就是下面这段测试代码（注意，其中的sh在linux下等价于bash）：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">env X=&#039;() { (a)=&gt;\&#039; sh -c &quot;echo date&quot;; cat echo</code></p>
+<p>上面这段代码运行起来会报错，但是它要的就是报错，报错后会在你在当前目录下生成一个echo的文件，这个文件的内容是一个时间文本。下面是上面 这段命令执行出来的样子。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ env X=&#039;() { (a)=&gt;\&#039; sh -c &quot;echo date&quot;; cat echo
+sh: X: line 1: syntax error near unexpected token `=&#039;
+sh: X: line 1: `&#039;
+sh: error importing function definition for `X&#039;
+Sat Sep 27 22:06:29 CST 2014</pre>
+<p>这段测试脚本代码相当的诡异，就像“天书”一样，我会在后面详细说明这段代码的原理。</p>
+<h4>原理和技术细节</h4>
+<p>要说清楚这个原理和细节，我们需要从 bash的环境变量开始说起。</p>
+<h5>bash的环境变量</h5>
+<p>环境变量大家知道吧，这个不用我普及了吧。环境变量是操作系统运行shell中的变量，很多程序会通过环境变量改变自己的执行行为。在bash中要定义一个环境变量的语法很简单（注：=号的前后不能有空格）：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ var=&quot;hello world&quot;</code></p>
+<p>然后你就可以使用这个变量了，比如：echo $var什么的。但是，我们要知道，这个变量只是一个当前shell的“局部变量”，只在当前的shell进程中可以访问，这个shell进程fork出来的进程是访问不到的。</p>
+<p>你可以做这样的测试：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ var=&quot;hello coolshell&quot;
+$ echo $var
+hello coolshell
+$ bash
+$ echo $var
+</pre>
+<p>上面的测试中，第三个命令执行了一个bash，也就是开了一个bash的子进程，你就会发现var不能访问了。</p>
+<p>为了要让shell的子进程可以访问，我们需要export一下：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ export var=&quot;hello coolshell&quot;</code></p>
+<p>这样，这个环境变量就会在其子进程中可见了。</p>
+<p>如果你要查看一下有哪些环境变量可以在子进程中可见（也就是是否被export了），你可使用<strong>env</strong>命令。不过，env命令也可以用来定义export的环境变量。如下所示：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ env var=&quot;hello haoel&quot;</code></p>
+<p>有了这些基础知识还不够，我们还要知道一个基础知识——shell的函数。</p>
+<h5>bash的函数</h5>
+<p>在bash下定义一个函数很简单，如下所示：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ foo(){ echo &quot;hello coolshell&quot;; }
+$ foo
+hello coolshell</pre>
+<p>有了上面的环境变量的基础知识后，你一定会想试试这个函数是否可以在子进程中调用，答案当然是不行的。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ foo(){ echo &quot;hello coolshell&quot;; }
+$ foo
+hello coolshell
+$ bash
+$ foo
+bash: foo: command not found</pre>
+<p>你看，和环境变量是一样的，如果要在子进程中可以访问的话，那么，还是一样的，需要export，export有个参数 -f，意思是export一个函数。如：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW" data-enlighter-highlight="4">$ foo(){ echo &quot;hello coolshell&quot;; }
+$ foo
+hello coolshell
+$ export -f foo
+$ bash
+$ foo
+hello coolshell</pre>
+<p>好了，我讲了这么半天的基础知识，别烦，懂了这些，你才会很容易地理解这两个漏洞是怎么回事。</p>
+<p>好，现在要进入正题。</p>
+<h5>bash的bug</h5>
+<p>从上面我们可以看到，bash的变量和函数用了一模一样的机制，如果你用env命令看一下export出来的东西，你会看到上面我们定义的变量和函数都在，如下所示（我省略了其它的环境变量）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ env
+var=hello coolshell
+foo=() { echo &quot;hello coolshell&quot;
+}</pre>
+<p>原来，都用同样的方式啊——<strong>无论是函数还是变量都是变量啊</strong>。于是，看都不用看bash的源代码，聪明的黑客就能猜得到——<strong>bash判断一个环境变量是不是一个函数，就看它的值是否以&#8221;()&#8221;开始</strong>。于是，一股邪念涌上心头。</p>
+<p>黑客定义了这样的环境变量（注：() 和 { 间的空格不能少）：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ export X=&#039;() { echo &quot;inside X&quot;; }; echo &quot;outside X&quot;;&#039;</code></p>
+<p>env一下，你会看到X已经在了：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ env
+X=(){ echo &quot;inside X&quot;; }; echo &quot;outside X&quot;;</pre>
+<p>然后，<strong>当我们在当前的bash shell进程下产生一个bash的子进程时，新的子进程会读取父进程的所有export的环境变量，并复制到自己的进程空间中，很明显，上面的X变量的函数的后面还注入了一条命令：echo &#8220;outside X&#8221;，这会在父进程向子进程复制的过程中被执行吗？</strong>（关于fork相关的东西你可以看一下我以前写的《<a title="一个fork的面试题" href="https://coolshell.cn/articles/7965.html" target="_blank">fork的一个面试题</a>》）</p>
+<p>答案是肯定的。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ export X=&#039;() { echo &quot;inside X&quot;; }; echo &quot;outside X&quot;;&#039;
+$ bash
+outside X</pre>
+<p>你看，一个代码注入就这样完成了。这就是bash的bug—— <strong>函数体外面的代码被默认地执行了</strong>。</p>
+<p>我们并不一定非要像上面那样创建另一个bash的子进程，我们可以使用bash -c的参数来执行一个bash子进程命令。就像这个安全漏洞的测试脚本一样：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">env VAR=&#039;() { :;}; echo Bash is vulnerable!&#039; bash -c &quot;echo Bash Test&quot;</code></p>
+<p>其中，() { :;} 中的冒号就相当于/bin/true，返回true并退出。而bash -c其实就是在spawn一个bash的echo的子进程，用于触发函数体外的echo命令。所以，更为友好一点的测试脚本应该是：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">env VAR=&#039;() { :;}; echo Bash is vulnerable!&#039; bash -c &quot;echo 如果你看到了vulnerable字样说明你的bash有安全问题&quot;</code></p>
+<p>OK，你应该明白这个漏洞是怎么一回事了吧。</p>
+<h4>bash漏洞的影响有多大</h4>
+<p>在网上看到好多人说这个漏洞不大，还说这个事只有那些陈旧的执行CGI脚本的网站才会有，现在已经没有网站用CGI了。我靠，这真是无知者无畏啊。</p>
+<p>我举个例子，如果你的网站中有调用操作系统的shell命令，比如你用PHP执行个exec之类的东西。这样的需求是有的，特别是对于一些需要和操作系统交互的重要的后台用于系统管理的程序。于是就会开一个bash的进程来执行。</p>
+<p>我们还知道，现在的HTTP服务器基本上都是以子进程式的，所以，其中必然会存在export 一些环境变量的事，而有的环境变量的值是从用户端来的，比如：HTTP_USER_AGENT这样的环境变量，只由浏览器发出的。其实这个变量你想写成什么就写成什么。</p>
+<p>于是，我可以把这个HTTP_USER_AGENT的环境变量设置成上述的测试脚本，只不过，我会把echo Bash is vulnerable!这个东西换成别的更为凶残的命令。呵呵。</p>
+<p>关于这个漏洞会影响哪些已有的系统，你可以自己Google，几乎所有的报告这个漏洞的文章都说了（比如：<a href="https://securityblog.redhat.com/2014/09/24/bash-specially-crafted-environment-variables-code-injection-attack/" target="_blank">这篇</a>，<a href="https://www.digitalocean.com/community/tutorials/how-to-protect-your-server-against-the-shellshock-bash-vulnerability" target="_blank">这篇</a>），我这里就不复述了。</p>
+<p>注：如果你要看看你的网站有没有这样的问题，你可以用这个在线工具测试一下：<a href="http://shellshock.brandonpotter.com/">&#8216;ShellShock&#8217; Bash Vulnerability CVE-2014-6271 Test Tool</a>。</p>
+<p>现在，你知道这事可能会很大了吧。还不赶快去打补丁。（注，yum update bash 把bash版本升级到 4.1.2-15.el6_5.2 ，<!-- <strong>但是这个版本还没有fix CVE-2014-7169，载止本文发布之时，目前还没有正式的CVE-2014-7169的补丁，你可以<a href="https://access.redhat.com/security/cve/CVE-2014-7169" target="_blank">关注Redhat的官方关于CVE-2014-7169 的 ticket</a></strong>--> ）</p>
+<h4>关于 AfterShock &#8211; CVE-2014-7169 测试脚本的解释</h4>
+<p>很多同学没有看懂下面这个测试脚本是什么意思，我这里解释一下。</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">env X=&#039;() { (a)=&gt;\&#039; sh -c &quot;echo date&quot;; cat echo</code></p>
+<ul>
+<li>X='() { (a)=&gt;\&#8217; 这个不用说了，定义一个X的环境变量。但是，这个函数不完整啊，是的，这是故意的。另外你一定要注意，\&#8217;不是为了单引号的转义，X这个变量的值就是 <strong>() { (a)=&gt;\</strong></li>
+</ul>
+<ul>
+<li>其中的 (a)=这个东西目的就是为了让bash的解释器出错（语法错误）。</li>
+</ul>
+<ul>
+<li>语法出错后，在缓冲区中就会只剩下了 “&gt;\”这两个字符。</li>
+</ul>
+<ul>
+<li>于是，这个神奇的bash会把后面的命令echo date换个行放到这个缓冲区中，然后执行。</li>
+</ul>
+<p>相当于在shell 下执行了下面这个命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ &gt;\
+echo date</pre>
+<p>如果你了解bash，你会知道 \ 是用于命令行上换行的，于是相当于执行了：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW"> $ &gt;echo date</code></p>
+<p>这不就是一个重定向么？上述的命令相当于：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ date &gt; echo </code></p>
+<p>于是，你的当前目录下会出现一个echo的文件，这个文件的内容就是date命令的输出。</p>
+<p><strong>能发现这个种玩法的人真是个变态，完全是为bash的源代码量身定制的一个攻击</strong>。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="http://coolshell.cn/articles/1399.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/09/bashprompts-hurring-150x150.jpg" alt="8个实用而有趣Bash命令提示行" width="150" height="150" /></a><a href="http://coolshell.cn/articles/1399.html" class="wp_rp_title">8个实用而有趣Bash命令提示行</a></li><li ><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="http://coolshell.cn/articles/11021.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/Github-Security-150x150.png" alt="从“黑掉Github”学Web安全开发" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11021.html" class="wp_rp_title">从“黑掉Github”学Web安全开发</a></li><li ><a href="http://coolshell.cn/articles/11466.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/04/c99-150x150.jpg" alt="C语言的整型溢出问题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11466.html" class="wp_rp_title">C语言的整型溢出问题</a></li><li ><a href="http://coolshell.cn/articles/6976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/61e04755jw1drlo96bsktj-150x150.jpg" alt="谈谈数据安全和云存储" width="150" height="150" /></a><a href="http://coolshell.cn/articles/6976.html" class="wp_rp_title">谈谈数据安全和云存储</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11973.html">bash代码注入的安全漏洞</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11973.html/feed</wfw:commentRss>
+			<slash:comments>136</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Bret Victor &#8211; Inventing on Principle</title>
+		<link>https://coolshell.cn/articles/6775.html</link>
+					<comments>https://coolshell.cn/articles/6775.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 09 Mar 2012 00:38:48 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[Bret Victor]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6775</guid>
+
+					<description><![CDATA[<p>Bret Victor（简历） &#8211; 苹果公司的UI交互设计师（大神级的人），在 CUSEC（Canadian University Software...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6775.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6775.html">Bret Victor – Inventing on Principle</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://worrydream.com" target="_blank">Bret Victor</a>（<a href="http://worrydream.com/#!/cv/bret_victor_resume.pdf" target="_blank">简历</a>） &#8211; 苹果公司的UI交互设计师（大神级的人），在 <a href="http://cusec.net" target="_blank">CUSEC</a>（<em>Canadian University Software Engineering Conference</em>） 上做了一个题为 “Inventing on Principle” 的演讲（<a href="http://vimeo.com/36579366" target="_blank">vimeo视频链接</a>），这个演讲中展示了五个示例：</p>
+<ul>
+<li>用程序画树。如何把程序绘图变成实时的，如何把程序和图映射起来。</li>
+<li>游戏调试。在实时编程的基础上，可以更容易的让你看到程序参数对游戏的调整，甚至对游戏过程的可视化调试。</li>
+<li>算法调试。在写二分查找算法时可以实时看到程序的执行过程。边写边看到。</li>
+<li>电路图。可以实时地看到电路图中各个部件的对1/0信号的处理。</li>
+<li>动画。一种比flash制作动画更NB 的方法。</li>
+</ul>
+<p>下面是优酷上的视频——你一定会被示例中的那些编程工具所震撼！</p>
+<p><center><embed src="http://player.youku.com/player.php/sid/XMzUyOTIyNzg0/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></center></p>
+<p>不过，Bret并不是在说什么编程，也不是在说什么技术，他是在说 How to live your life。</p>
+<p><span id="more-6775"></span></p>
+<p>他认为，在我们的生活当中，我们听到太多的诸如：“跟随你的喜好”、“跟随你的兴趣”，“跟随你的热情”之类的东西，但他更认为，更应该是“跟随一个原则 follow you principle”，他认为真正能让你把事做正确的不是你的喜好，不是你的兴趣，也不是热情，而一个做事的原则。在这个演讲中Bret介绍了他自己的原则和他人的原则，供你参考和并找到你的原则从而live in your life。</p>
+<p>Bret的原则是，他觉得人总是会有很多想法，而把这些想法变成现实是一件非常重要的事，也是最难的事。他觉得当我们在写代码实现一个东西的时候，在实现一个游戏，算法，电路，动画的时候，人很难把自己脑海里的东西映射成现实的东西，因为一个想法变成现实，需要反反复复的调整，如果看不见，就没办法调整。而我们在写好程序，需要编译程序，运行程序，才能看到结果，之后，有些东西发现并不满意，需要做调整，于是需要猜着去改一下程序，再编译运行，再看结果，于是，这个调整的过程相当令人痛苦，因为代码里的那些数字，我需要一点一点地去试，调大调小，总是不能调到我们想要的结果，从而让人无法正常思考。所以，他的原则是——<strong>创造者需要对自己的创造的东西有实时的反馈</strong>。于是出现了视频中的实时编程的那些示例。（其实，这个东西和Firebug很相似，我还记得以前和朋友说过，如果写C/C++程序也能有像Firebug的这种工具就好了，现在果然离实现不远了）</p>
+<p>Bret说起他的动机的时候，他说，他把这个事当成了一种责任而不是一种机会。他说，这就好像我们听到的：审查机制，性别歧视，环境破坏，违反人权等这些问题，绝大多数人是不会把这些事当成一个机会的，而那些有责任感的人会把解决这些问题当作一种责任。同样，当他看到我们被工具或环境限制住了我们创造东西的过程时，他并不觉得这是一个可以发明更好的产品的机会，甚至这是开创自己事业的机会，或是对社会做贡献的机会。他认为想法相当的宝贵，如果一个好的想法推动不了的时候，他会很难受，就像看到一场灾难一样，他觉得，让大家的想法能够顺的进行，这是他的一个责任。</p>
+<p>后面他，举到了很多人的例子，</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Larry_Tesler" target="_blank">Larry Tesler</a> &#8211; 著名的计算机科学家，前苹果的首席科学家，图形界面的创造者（在“<a title="SteveY对Amazon和Google平台的长篇大论" href="https://coolshell.cn/articles/5701.html" target="_blank">SteveY对Amazon和Google平台的长篇大论</a>”中提到过他）。他在70年代看到人们在使用电脑文本编辑器时，需要按某个键进入某种模式（Mode），然后才能输入（VI）。他觉得这样操作起来很复杂，也很不舒服，所以，他为自己设定了一个原则——“Don&#8217;t Mode Me In”，他做了很多尝试，做了一个叫Gypsy的文档编辑器，可以通过拖拽移动字符，而且他还发明了复制粘贴，对于一个没有使用过电脑的人来说，只需半个小时的训练就可以输入文字了。Larry把消除模式设置成了自己的原则或责任。他的个人主页是：http://www.nomodes.com，他的Twitter是 @nomodes，甚至他的车牌也是nomodes.</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Elizabeth_Cady_Stanton" target="_blank">Elizabeth Cady Stanton</a>，100年前的一个美国的女权主义者，当时，她主张妇女的各项权益，比如参与投票，所有人都以为他疯了，今天看来，她是对的，她消除了性别歧视。这和Larry 很相似，他们都看到了一种文化上的错误，并要预见到了未来的样子，他们都为自己设定了一个原则或是信仰，而去为之奋斗。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Doug_Engelbart" target="_blank">Doug Engelbart</a>，美国发明家，瑞典人和挪威人后裔。最广为人知的是他发明了鼠标，另外他的小组是人机交互的先锋，开发了超文本系统、网络计算机，以及图形用户界面的先驱；并致力于倡导运用计算机和网络，来协同解决世界上日益增长的紧急而又复杂的问题。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Alan_Kay" target="_blank">Alan Kay</a>，美国计算机科学家，在面向对象编程和窗口式图形用户界面方面作出了先驱性贡献。2003年获得图灵奖。目前担任Viewpoints研究院院长，加州大学伯克利分校兼职教授。曾任Apple公司院士，惠普公司资深院士。他有一句尽人皆知的名言——预测未来的最好办法就是创造未来。他相信如果小孩能够熟练掌握电脑，如果写程序是和读书写字一样成为基础知识，那么人们就掌握了一种新的方式去思考，新的方式去了解世界。他所有发明的东西都基于他自己的原则或信条。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Richard_Stallman" target="_blank">Richard Stallman</a>，是美国自由软件运动的精神领袖、GNU计划以及自由软件基金会（Free Software Foundation）的创立者。作为一个著名的黑客，他的主要成就包括Emacs及后来的GNU Emacs，GNU C 编译器及GDB 调试器。他所写作的GNU通用公共许可证（GNU GPL）是世上最广为采用的自由软件许可证，为copyleft观念开拓出一条崭新的道路。他的原则，是软件必须是自由的，他认为软件的自由是关乎道义上的对错的，关系到人类的自由。他没车没房没结婚没孩子，也不用手机，但他有非常忠实自由的信条和责任感。</p>
+<p>Bret通过这些例子继续强调——他并不是要大家样做，他只是给大家一个选择。你可以成为一个非常优秀的工程师，非常熟练地掌握了一些技术，你也可以为这个社会做很多贡献，这是成为一个工匠的路，也是大多数人走的路。不过旁边还有一条路，值得去走，那就是解决问题的路，这条路往一头走是创业者，往另一头走是学者，但你需要找到一个你自己的原则，你可能需要很长时间才能找到你的原则，Bret说他花了10年才搞清楚他的原则是什么。</p>
+<p>个人以为，Bret所说这个原则也好，信条也好，是一种对自己创造力有引导性质的原则和信条，并不是那些已有的原则或信条，否则那只不过是在跟从了，所以，这些原则和信条应该是新的东西，是自己悟出来的东西，这样的原则和信条会导致你有一种责任感向正确的方向去创造。当然，这些原则也不是那些非常笼统和模糊的东西，比如，要创业开公司，要设计出有更好的用户体验的东西，要创造有很多用户使用的产品，或是有更好的收入什么的。其应该是明确的，有指导性的，就像Bret他自己的信条一样——“创造者需要即时的反馈”，就像他演示的那样，当你在一行一行修改你的代码的时候，你可以立即看到代码运行的过程和效果。这个原则可以指导着他要对一切达不到这个原则的东西负责，并引导着他知道应该做什么，不应该做什么，从而去创造新的东西，解决问题。</p>
+<p>当然，世界是多元的，每个人都有每个人自己的原则。不同的原则必然会把你导到不同的路上。不管你是否同意，视频中的那些演示是相当令人震撼的。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-150x150.jpg" alt="Bret Victor &#8211; Learnable Programming" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_title">Bret Victor &#8211; Learnable Programming</a></li><li ><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="多些时间能少写些代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_title">多些时间能少写些代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6775.html">Bret Victor – Inventing on Principle</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6775.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Quora使用到的技术</title>
+		<link>https://coolshell.cn/articles/4939.html</link>
+					<comments>https://coolshell.cn/articles/4939.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 04 Jul 2011 00:35:37 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Facebook]]></category>
+		<category><![CDATA[MySQL]]></category>
+		<category><![CDATA[Nginx]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[Quora]]></category>
+		<category><![CDATA[StackExchange]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4939</guid>
+
+					<description><![CDATA[<p>以前向大家介绍过Stack Exchange的系统架构和Facebook的系统架构，今天和大家说说Quora的。本文主要参考了Phil Whelan的这篇文章《...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4939.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4939.html">Quora使用到的技术</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前向大家介绍过<a title="Stack Exchange 的架构" href="https://coolshell.cn/articles/3721.html" target="_blank">Stack Exchange的系统架构</a>和<a title="Facebook 的系统架构" href="https://coolshell.cn/articles/4549.html" target="_blank">Facebook的系统架构</a>，今天和大家说说Quora的。本文主要参考了<a title="Phil Whelan" href="http://www.philwhln.com/author/admin/">Phil Whelan</a>的这篇文章《<a href="http://www.philwhln.com/quoras-technology-examined" target="_blank">Quora&#8217;s Technology Examined</a>》。关于Quora是个什么网站我就不多说了，国内对他的C2C网站叫“知乎”。呵呵。我们还是来看看Quora的技术吧。</p>
+<h4>Search-Box</h4>
+<p>Quora只能搜索问题，主题标签，用户名，和主题标题。没有全文搜索，所以，你无法搜索问题和答案的内容。而搜索中使用前缀搜索方式，比如你输入mi，则Microsoft会马上出来。其搜索还会有一些非常简单的模糊匹配的算法。另外，如果有重复的问题，其中一个问题会自动跳转到另一个问题，但是在搜索中还是会出现。搜索中没有拼写检查。</p>
+<p>一开始，他们使用的是一个开源的搜索服务器，叫<a href="http://sphinxsearch.com/">Sphinx</a>。其支持上述的那些功能。现在他们不用这个技术了，因为<a href="http://www.quora.com/What-is-the-best-open-source-solution-for-implementing-fast-auto-complete" target="_blank">受到了一些限制</a>。他们做了一个比较新的解决方案，这个算法由Python实现。</p>
+<p><strong>参看</strong>：<a href="http://www.quora.com/What-libraries-does-Quora-use-for-search"><img decoding="async" loading="lazy" src="http://www.quora.com/favicon.ico" alt="" width="16" height="16" />What libraries does Quora use for search?</a></p>
+<h4>实时查询</h4>
+<p>Quora的查询是非常高速的，其查询请求是通过AJAX的GET请求发送的，结果返回用的是JSON数据格式，但他们解析JSON是在服务器端，而不是通过浏览器的javascript。这么做的原因可能是他们想高亮搜索关键词，似乎使用Client端的Javascript非常不好做。</p>
+<p>Quora的即时搜索好像比较暴力，如果你输入Microsoft（一共9个字符），你会看到其会像后端发送9次查询——每按一个键一次，无论你敲这个单词的速底有多快，每输入一个字符都会发一个请求给后台。对于这样的看上去没有效率的对后台的请求，后台的服务器端会来控制相关的前台请求，所以，就算是前台这样做，也不会增加服务器端的负载，因为后台会做相关的处理。</p>
+<p>Quora的搜索使用HTTP长连接，当你开始敲查询的时候，连接就建立了，这个连接会持续在那里，你下次搜索的时候会继续使用这个连接，除非你60秒没有动作了。</p>
+<p><strong>参看</strong>：<a href="http://www.quora.com/Quora-product/Is-Quora-going-to-implement-full-text-search"><img decoding="async" loading="lazy" src="http://www.quora.com/favicon.ico" alt="" width="16" height="16" />Is Quora going to implement full-text search?</a></p>
+<p><span id="more-4939"></span></p>
+<h4 id="webnode2-and-livenode">Webnode2 和 LiveNode</h4>
+<p>Webnode2 和 LiveNode 是 Quora 内部的系统，其用来管理内容。Webnode2  生成 HTML, CSS 和 JavaScript 并且和 LiveNode 紧紧地耦合在一起，Webnode2主要是用来管理内容在网页上显示的，LiveNode主要是用来做动态网页内容更新的。Charlie Cheever 说，如果他可以从新开始，他 <a href="http://www.quora.com/What-limitations-has-Quora-encountered-due-to-LiveNode-WebNode#answers" target="_blank">第一件事要做的就是重写整个LiveNode</a>.</p>
+<p>Quora的工程师看上去对他们搞的这些东西非常的满意，并且 <a href="http://www.quora.com/What-limitations-has-Quora-encountered-due-to-LiveNode-WebNode#answers">他们也在努力地找到这些东西的弱点</a>。有一个有意思的关于LiveNode的问题是，如果A和B同时正在看相当的一个问题，那么用户A的一些交互动作会影响B的页面。例如，如果A顶了一下某个答案，那么这个答案可能会往上移动。这样的一个显示变化会通过AJAX更新B的浏览器。如果B此时展开了评论，可能会受到影响。</p>
+<p><a href="http://www.quora.com/What-is-LiveNode-written-in">LiveNode 由这些东西写成：</a>Python, C++, and JavaScript. <a href="http://jquery.com/">jQuery</a> ，<a href="http://cython.org/">Cython</a>也用到了。</p>
+<p>因为Quora <a href="http://www.quora.com/Is-Quora-planning-on-open-sourcing-LiveNode">想要对他们的LiveNode开源</a> 并准备把他们的代码分开，做这个事可能需要太多的工作和时间。</p>
+<p>Charlie Cheever 指出 WebNode2 和 <a href="http://www.quora.com/Quora-Infrastructure/What-is-webnode2">有一个叫做 “free and easy website builder” 的 Webnode 的 webnode.com</a> 没有任何的关系。</p>
+<p><strong>参考</strong>：<a href="http://www.quora.com/Quora-product/Is-Quora-going-to-implement-full-text-search"><img decoding="async" loading="lazy" src="http://www.quora.com/favicon.ico" alt="" width="16" height="16" /></a> <a href="http://www.quora.com/Shreyes-Seshasai/Tech-Talk-Webnode2-and-LiveNode" target="_blank">Tech Talk &#8211; Webnode2 and LiveNode</a></p>
+<h4>Amazon Web Service</h4>
+<p>Quora全部host在AWS的EC2和S3上，这对于这些刚刚起步的快速发展的公司非常关键，因为你可以省去了很多硬件和维护的成本。（建一个数据中心并不是所有公司都能干的事）。Quora的操作系统使用Ubuntu Linux，这是非常容易部署和管理。</p>
+<p>其静态页使用了Amazon的CDN的 <a href="http://aws.amazon.com/cloudfront/" target="_blank">Cloudfront</a>服务分发，CloudFront用于所有的静态图片, CSS 和JavaScript。<a href="http://www.quora.com/How-is-Quora-doing-image-uploads-to-Amazon-S3" target="_blank">图片先传到 EC2 服务器</a>，使用 <a href="http://aws.amazon.com/code/134" target="_blank">Pyhon S3 <acronym title="Application Programming Interface ">API</acronym></a> 处理后后传到 S3。</p>
+<h4 id="haproxy-load-balancing">HAProxy Load-Balancing</h4>
+<p><a href="http://haproxy.1wt.eu/" target="_blank">HAProxy </a>作为前端负载均衡服务器，反向代理服务器是 Nginx，Nginx 后面则是 Pylons (<a href="http://spacepants.org/blog/pylons-paste-stack">Pylons + Paste</a>) , 承担动态 Web 请求。</p>
+<p><a href="http://pylonshq.com/">Pylons</a>，是一个轻量级的Web框架，通常都是在Nginx后面使用。选用Pylons就像你在春节先饺子当主食一样。他们把Pylons中的template和ORM取走而使用自己的技术（由Python写成），这个地方就是 <a href="http://www.quora.com/What-languages-and-frameworks-were-used-to-code-Quora">LiveNode 和 WebNode2的地方</a>。</p>
+<h4>Python</h4>
+<p>从facebook出来的Charlie 和 Adam选用了Python而不是PHP。正如Adam指出的——“<a href="http://www.quora.com/Why-did-Quora-choose-Python-for-its-development">Facebook is stuck on that for legacy reasons, not because it is the best choice right now</a>”（Facebook使用PHP并不是因为其好，而是因为历史原因的问题），当然他们也不会使用C#，因为那样一来就会引入一堆微软的东西。当然，也不会是Java，因为Python要比Java更容易写出代码，Scala太年轻了，还需要考验。Ruby看上来很像Python，但是他们对Ruby没有过多的经验。最终还是Python胜出。当然，他们知道Python的弱点是性能和速度，所以，他们在需要速度和性能的地方使用了C/C++。 他们使用Python的版本是2.6。</p>
+<p>使用Python的另一个原因是Python的数据结构和JSON可以很好的映射起来。代码易读性很高。而且有很多的库，调试器和重载器。Quora的B/S结构几乎完全通过JSON进行数据交互。</p>
+<p>他们<a href="http://www.quora.com/Adam-DAngelo/What-version-of-Python-are-you-programming-in-and-what-IDE-do-you-use" target="_blank">没有使用IDE</a>，他们使用得最多的是Emacs，一看就知道这是一个个人的选择，随着他们开发团队的扩大，这个事会得到改变的。</p>
+<p>另外，他们提到了<a href="http://codespeak.net/pypy/dist/pypy/doc/">PyPy</a>，一个让 Python更快更灵活的项目。</p>
+<h4 id="thrift">Thrift</h4>
+<p><a href="http://incubator.apache.org/thrift/">Thrift</a> 用于后端服务器间的通讯。Thrift  服务由 C++开发。<a href="https://coolshell.cn/articles/4549.html" target="_blank">Facebook同样使用了这个技术</a>。</p>
+<p><strong>参考</strong>：<a href="http://www.quora.com/Why-would-you-write-a-Thrift-service-in-C"><img decoding="async" loading="lazy" src="http://www.quora.com/favicon.ico" alt="" width="16" height="16" />Why would you write a Thrift service in C++?</a></p>
+<h4 id="tornado">Tornado</h4>
+<p><a href="http://www.tornadoweb.org/">Tornado</a> web 框架用于实时更新，其运行在Comet 服务器上，其用来处理大量的需要长时间poll和push更新的网络连接。</p>
+<h4 id="long-polling-comet">Long Polling (Comet)</h4>
+<p>Quora的网页并不是简单的显示，每一个页面都需要更新，或是创建问题，答案和评论。所以，他们使用了Long Polling而不是传统的Polling，传统的Polling需要浏览器一端不停地重复地向服务器询问——“有更新吗？”，服务器说没有，于是过一会浏览大再问，现在呢？服务器说，还是没有，浏览器过一会又问，现在呢？服务器说，还没好。这样一来，就好像让我们的客户端放到了驾驶室里，这显然是有问题的，因为只有服务器知道什么时候会有更新。而且浏览器这么干，很快会让服务器的负载加上去。</p>
+<p>Long polling 也就是我们熟知的 <a href="http://en.wikipedia.org/wiki/Comet_(programming)">Comet</a>，其让服务器来控制这些事，让客服端等在那里听服务器的响应。在client和 server的会话对于两者是是相同的，而不是client需要等着然后向服务器查询。服务器端可以把一个连接打开很长时间（比如：60秒），在这段时间里，服务器会查看是否有相应的东西需要更新，如果有的话，就发给浏览器。如果没有的话，就等下一次的client询问。可见，这种服务器等一会再响应的方法可以让浏览器少发几次查询。</p>
+<p>对于long-polling 的最好的地方是，可以降低浏览器和客户端间来来回回的次数。让服务器端来控制时间，所以，内容更新可能会只是几个毫秒，或是几十秒。 服务器端也可以积攒一堆更新后，一次发给浏览器。这样做会更有效率。</p>
+<p>但是，这个方法的黑暗面是——这会让服务器端出现大量的TCP链接，想一想，Quora也是百万级用户的应用了，只需要10%的在线用户，你就需要一个可以处理10万并发量的架构。注意，如果一个用户在其浏览器里打开了多个Quora网页的话，那么，这个链接器会是非常致命的。</p>
+<p>当然，好的消息是已经有一些技术专门为Long Polling设计，这些技术可以让你在那些等待的连接中只会消耗非常非常少的内存（因为那些等待连接并不需要所有的资源）。例如：Nginx 是一个单线程的事件驱动的小型服务器，每一个链接只花非常小的内存。每一个Nginx的进程只会在一个时候处理一个连接。这意味着其很容易扩展成一个可以处理成千上的并发量的服务架构。</p>
+<p><strong>参考</strong>：<a href="http://www.quora.com/How-do-you-push-messages-back-to-a-web-browser-client-through-AJAX-Is-there-any-way-to-do-this-without-having-the-client-constantly-polling-the-server-for-updates"><img decoding="async" loading="lazy" src="http://www.quora.com/favicon.ico" alt="" width="16" height="16" />How do you push messages back to a web-browser client through AJAX? Is there any way to do this without having the client constantly polling the server for updates?</a></p>
+<h4 id="mysql">MySQL</h4>
+<p>就像Adam D’Angelo 的老东家facebook一样，，Quora重度使用MySQL。对于，把数据库里的数据分区是最需要做的事。他们的行事原则是，尽可能的把数据放在一台机器上，使用hash主键把大规模的数据存放到多个数据库中。坚决不用表连接。Adam参考了FriendFeed的一篇文章<a href="http://bret.appspot.com/entry/how-friendfeed-uses-mysql">How FriendFeed uses MySQL to store schema-less data</a>，<a href="http://www.quora.com/NoSQL/In-what-parts-of-a-social-site-with-concert-listings-should-one-use-a-NoSQL-DB-versus-a-SQL-DB">并说</a>你不应该在你的社区还没有100万用户的时候使用NoSQL 数据库。</p>
+<p>并不只是Quora和FriendFeed使用MySQL，Google，Twitter，Facebook都在使用MySQL.</p>
+<p>参考：<a href="http://www.quora.com/How-does-one-evaluate-if-a-database-is-efficient-enough-to-not-crash-as-its-put-under-increasing-load"><img decoding="async" loading="lazy" src="http://www.quora.com/favicon.ico" alt="" width="16" height="16" />How does one evaluate if a database is efficient enough to not crash as it’s put under increasing load?</a></p>
+<h4 id="memcached">Memcached</h4>
+<p><a href="http://memcached.org/">Memcached</a> 用于 MySQL的前端缓存。</p>
+<h4 id="git">Git</h4>
+<p><a href="http://git-scm.com/">Git</a> <a href="http://www.quora.com/What-languages-and-frameworks-were-used-to-code-Quora">是他们的源码版本控制工具</a>.</p>
+<h4 id="javascript-placement">JavaScript Placement</h4>
+<p>如果你看一下Quora的网页源码，你会看到其JavaScript总是在页面的最后。 Charlie Cheever<a href="http://www.quora.com/Why-is-the-Quora-website-so-fast">建议</a> 这会让你的页面显得载入得很快，因为其先显示内容，然后在载入Javascript。</p>
+<h4 id="charlie-cheever-follows-14-rules-for-faster-loading-web-sites">Charlie Cheever 遵从 “14 Rules for Faster-Loading Web Sites”</h4>
+<p>Steve Souders,  High Performance Web Sites 和 Even Faster Web Sites的作者，其列了一些 <a href="http://stevesouders.com/hpws/rules.php">rules让你网页更快的原则</a>。 Charlie Cheever 的 Quora 创始人提到这些过，这应该也是Quora的速度的原因。</p>
+<blockquote><p>“One resource we used as a guide is Steve Souders’ list of rules for high performance websites:<a href="http://stevesouders.com/hpws/rules.php">http://stevesouders.com/hpws/rules.php</a>”<br />
+<small><a href="http://www.quora.com/Why-is-the-Quora-website-so-fast">– Charlie Cheever, Quora</a></small></p></blockquote>
+<div>
+<div>Steve Souders的14条规则是——<a href="http://www.amazon.com/gp/product/0596529309?ie=UTF8&amp;tag=getafil-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0596529309"><img decoding="async" class="alignright" src="https://images-na.ssl-images-amazon.com/images/I/41COtT-V1UL._SL160_.jpg" border="0" alt="" /></a><a href="http://www.amazon.com/gp/product/0596522304?ie=UTF8&amp;tag=getafil-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0596522304"><br />
+</a>&nbsp;</p>
+<ul>
+<li>Make Fewer HTTP Requests</li>
+<li>Use a Content Delivery Network</li>
+<li>Add an Expires Header</li>
+<li>Gzip Components</li>
+<li>Put Stylesheets at the Top</li>
+<li>Put Scripts at the Bottom</li>
+<li><a href="http://www.amazon.com/gp/product/0596522304?ie=UTF8&amp;tag=getafil-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0596522304"><img decoding="async" class="alignright" src="https://images-na.ssl-images-amazon.com/images/I/41vfOvQugoL._SL160_.jpg" border="0" alt="" /></a>Avoid CSS Expressions</li>
+<li>Make JavaScript and CSS External</li>
+<li>Reduce DNS Lookups</li>
+<li>Minify JavaScript</li>
+<li>Avoid Redirects</li>
+<li>Remove Duplicate Scripts</li>
+<li>Configure ETags</li>
+<li>Make AJAX Cacheable</li>
+</ul>
+</div>
+</div>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="Facebook 的系统架构" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4549.html" class="wp_rp_title">Facebook 的系统架构</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18140.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/09/react_patent-360x200-1-150x150.jpg" alt="关于Facebook 的 React 专利许可证" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18140.html" class="wp_rp_title">关于Facebook 的 React 专利许可证</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4939.html">Quora使用到的技术</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4939.html/feed</wfw:commentRss>
+			<slash:comments>48</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Facebook 的系统架构</title>
+		<link>https://coolshell.cn/articles/4549.html</link>
+					<comments>https://coolshell.cn/articles/4549.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 25 Apr 2011 05:39:26 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Facebook]]></category>
+		<category><![CDATA[StackExchange]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4549</guid>
+
+					<description><![CDATA[<p>来源：http://www.quora.com/What-is-Facebooks-architecture （由Micha?l Figuière回答） 根据我...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4549.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4549.html">Facebook 的系统架构</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>来源</strong>：<a title="What is Facebook's Architecture?" href="http://www.quora.com/What-is-Facebooks-architecture" target="_blank">http://www.quora.com/What-is-Facebooks-architecture</a> （由<a href="http://www.quora.com/Micha%C3%ABl-Figui%C3%A8re">Micha?l Figuière</a>回答）</p>
+<p>根据我现有的阅读和谈话，我所理解的今天Facebook的架构如下：</p>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>Web 前端是由 PHP 写的。Facebook 的 <a href=" http://developers.facebook.com/blog/post/358" target="_blank">HipHop </a>[1] 会把PHP转成 C++ 并用 g++编译，这样就可以为模板和Web逻贺业务层提供高的性能。</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>业务逻辑以Service的形式存在，其使用<a href="http://thrift.apache.org/" target="_blank">Thrift </a>[2]。这些Service根据需求的不同由PHP，C++或Java实现（也可以用到了其它的一些语言……）</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>用Java写的Services没有用到任何一个企业级的应用服务器，但用到了Facebook自己的定制的应用服务器。看上去好像是重新发明轮子，但是这些Services只被暴露给Thrift使用（绝大所数是这样），Tomcat太重量级了，即使是Jetty也可能太过了点，其附加值对Facebook所需要的没有意义。</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>持久化由MySQL, <a href="http://memcached.org/" target="_blank">Memcached </a>[3], Facebook 的 <a href="http://cassandra.apache.org/" target="_blank">Cassandra </a>[4], Hadoop 的 <a href="http://hbase.apache.org/" target="_blank">HBase </a>[5] 完成。Memcached 使用了MySQL的内存Cache。Facebook 工程师承认他们的Cassandra 使用正在减少，因为他们更喜欢HBase，因为它的更简单的一致性模型，以到其MapReduce能力。</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>离线处理使用Hadoop 和 Hive。</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>日志，点击，feeds数据使用<a href="https://github.com/facebook/scribe" target="_blank">Scribe </a>[6]，把其聚合并存在 HDFS，其使用<a href="http://hadoopblog.blogspot.com/2009/06/hdfs-scribe-integration.html" target="_blank">Scribe-HDFS </a>[7]，因而允许使用MapReduce进行扩展分析。</li>
+</ul>
+<p><span id="more-4549"></span></p>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li><a href="http://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919" target="_blank">BigPipe </a>[8] 是他们的定制技术，用来加速页面显示。</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li><a href="http://www.varnish-cache.org/" target="_blank">Varnish Cache</a> [9]用作HTTP代理。他们用这个的原因是<a href="http://www.varnish-software.com/customers/facebook" target="_blank">高速和有效率</a>。 [10].</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>用来搞定用户<a href="http://www.facebook.com/note.php?note_id=76191543919" target="_blank">上传的十亿张照片的存储</a>，其由Haystack处理，Facebook自己开发了一个Ad-Hoc存储方案，其主要做了一些低层优化和“仅追加”写技术 [11].</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>Facebook Messages 使用了自己的架构，其明显地构建在了一个动态集群的基础架构上。业务逻辑和持久化被封装在一个所谓的&#8217;Cell&#8217;。每个‘Cell’都处理一部分用户，新的‘Cell’可以因为访问热度被添加[12]。 持久化归档使用HBase [13]。</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>Facebook Messages 的搜索引擎由存储在HBase中的一个倒置索引的构建。 [14]</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>Facebook 搜索引擎实现细节据我所知目前是未知状态。</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>Typeahead 搜索使用了一个定制的存储和检索逻辑。 [15]</li>
+</ul>
+<ul style="margin: 5px 0px 0px 1.6em; padding: 0px; list-style-type: disc;">
+<li>Chat 基于一个Epoll 服务器，这个服务器由Erlang 开发，由Thrift存取 [16]</li>
+</ul>
+<p>关于那些供给给上述组件的资源，下面是一些信息和数量，但是有一些是未知的：</p>
+<ul>
+<li>Facebook估计有超过60,000 台服务器[16]。他们最新的数据中心在俄勒冈州的Prineville，其基于完全自定设计的硬件[17] 那是最近才公开的 <a href="http://opencompute.org" target="_blank">Open Compute 项目</a>[18]。</li>
+</ul>
+<ul>
+<li>300 TB 的数据存在 Memcached 中处理 [19]</li>
+</ul>
+<ul>
+<li>他们的Hadoop 和 Hive 集群由3000 服务器组成，每台服务器有8个核，32GB的内存，12TB的硬盘，全部有2万4千个CPU的核，96TB内存和36PB的硬盘。 [20]</li>
+</ul>
+<ul>
+<li>每天有1000亿的点击量，500亿张照片， 3 万亿个对象被 Cache，每天130TB的日志（<a href="http://www.facebook.com/note.php?note_id=409881258919" target="_blank">2010年7月的数据</a>） [21]</li>
+</ul>
+<p><strong>参考引用</strong></p>
+<p>[1] <em style="margin: 0px; padding: 0px;">HipHop for PHP</em>: <a href="http://developers.facebook.com/blog/post/358">http://developers.facebook.com/blog/post/358</a><br style="margin: 0px; padding: 0px;" />[2] <em style="margin: 0px; padding: 0px;">Thrift</em>: <a href="http://thrift.apache.org/">http://thrift.apache.org/</a><br style="margin: 0px; padding: 0px;" />[3] <em style="margin: 0px; padding: 0px;">Memcached</em>: <a href="http://memcached.org/">http://memcached.org/</a><br style="margin: 0px; padding: 0px;" />[4] <em style="margin: 0px; padding: 0px;">Cassandra</em>: <a href="http://cassandra.apache.org/">http://cassandra.apache.org/</a><br style="margin: 0px; padding: 0px;" />[5] <em style="margin: 0px; padding: 0px;">HBase</em>: <a href="http://hbase.apache.org/">http://hbase.apache.org/</a><br style="margin: 0px; padding: 0px;" />[6] <em style="margin: 0px; padding: 0px;">Scribe</em>: <a href="https://github.com/facebook/scribe">https://github.com/facebook/scribe</a><br style="margin: 0px; padding: 0px;" />[7] <em style="margin: 0px; padding: 0px;">Scribe-HDFS</em>: <a href="http://hadoopblog.blogspot.com/2009/06/hdfs-scribe-integration.html">http://hadoopblog.blogspot.com/2009/06/hdfs-scribe-integration.html</a><br style="margin: 0px; padding: 0px;" />[8] <em style="margin: 0px; padding: 0px;">BigPipe</em>: <a href="http://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919">http://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919</a><br style="margin: 0px; padding: 0px;" />[9] <em style="margin: 0px; padding: 0px;">Varnish Cache</em>: <a href="http://www.varnish-cache.org/">http://www.varnish-cache.org/</a><br style="margin: 0px; padding: 0px;" />[10] <em style="margin: 0px; padding: 0px;">Facebook goes for Varnish</em>: <a href="http://www.varnish-software.com/customers/facebook">http://www.varnish-software.com/customers/facebook</a><br style="margin: 0px; padding: 0px;" />[11] <em style="margin: 0px; padding: 0px;">Needle in a haystack</em>: efficient storage of billions of photos: <a href="http://www.facebook.com/note.php?note_id=76191543919">http://www.facebook.com/note.php?note_id=76191543919</a><br style="margin: 0px; padding: 0px;" />[12] <em style="margin: 0px; padding: 0px;">Scaling the Messages Application Back End</em>: <a href="http://www.facebook.com/note.php?note_id=10150148835363920">http://www.facebook.com/note.php?note_id=10150148835363920</a><br style="margin: 0px; padding: 0px;" />[13] <em style="margin: 0px; padding: 0px;">The Underlying Technology of Messages</em>: <a href="https://www.facebook.com/note.php?note_id=454991608919">https://www.facebook.com/note.php?note_id=454991608919</a><br style="margin: 0px; padding: 0px;" />[14] <em style="margin: 0px; padding: 0px;">The Underlying Technology of Messages Tech Talk</em>: <a href="http://www.facebook.com/video/video.php?v=690851516105">http://www.facebook.com/video/video.php?v=690851516105</a><br style="margin: 0px; padding: 0px;" />[15] <em style="margin: 0px; padding: 0px;">Facebook&#8217;s typeahead search architecture</em>: <a href="http://www.facebook.com/video/video.php?v=432864835468">http://www.facebook.com/video/video.php?v=432864835468</a><br style="margin: 0px; padding: 0px;" />[16] <em style="margin: 0px; padding: 0px;">Facebook Chat</em>: <a href="http://www.facebook.com/note.php?note_id=14218138919">http://www.facebook.com/note.php?note_id=14218138919</a><br style="margin: 0px; padding: 0px;" />[17] <em style="margin: 0px; padding: 0px;">Who has the most Web Servers?</em>: <a href="http://www.datacenterknowledge.com/archives/2009/05/14/whos-got-the-most-web-servers/">http://www.datacenterknowledge.com/archives/2009/05/14/whos-got-the-most-web-servers/</a><br style="margin: 0px; padding: 0px;" />[18] B<em style="margin: 0px; padding: 0px;">uilding Efficient Data Centers with the Open Compute Project</em>: <a href="http://www.facebook.com/note.php?note_id=10150144039563920">http://www.facebook.com/note.php?note_id=10150144039563920</a><br style="margin: 0px; padding: 0px;" />[19] <em style="margin: 0px; padding: 0px;">Open Compute Project</em>: <a href="http://opencompute.org/">http://opencompute.org/</a><br style="margin: 0px; padding: 0px;" />[20] <em style="margin: 0px; padding: 0px;">Facebook&#8217;s architecture presentation at Devoxx 2010</em>: <a href="http://www.devoxx.com">http://www.devoxx.com</a><br style="margin: 0px; padding: 0px;" />[21] <em style="margin: 0px; padding: 0px;">Scaling Facebook to 500 millions users and beyond</em>: <a href="http://www.facebook.com/note.php?note_id=409881258919">http://www.facebook.com/note.php?note_id=409881258919</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Quora使用到的技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_title">Quora使用到的技术</a></li><li ><a href="https://coolshell.cn/articles/18140.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/09/react_patent-360x200-1-150x150.jpg" alt="关于Facebook 的 React 专利许可证" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18140.html" class="wp_rp_title">关于Facebook 的 React 专利许可证</a></li><li ><a href="https://coolshell.cn/articles/7448.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="扎克伯格的一封信：关于Facebook IPO" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7448.html" class="wp_rp_title">扎克伯格的一封信：关于Facebook IPO</a></li><li ><a href="https://coolshell.cn/articles/3721.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="Stack Exchange 的架构" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3721.html" class="wp_rp_title">Stack Exchange 的架构</a></li><li ><a href="https://coolshell.cn/articles/3396.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/Visualizing-Friendships-on-Facebook-150x150.png" alt="Facebook全球关系网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3396.html" class="wp_rp_title">Facebook全球关系网</a></li><li ><a href="https://coolshell.cn/articles/990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="编程中的命名设计那点事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/990.html" class="wp_rp_title">编程中的命名设计那点事</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4549.html">Facebook 的系统架构</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4549.html/feed</wfw:commentRss>
+			<slash:comments>49</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>中国仍是IE6的重灾区</title>
+		<link>https://coolshell.cn/articles/3921.html</link>
+					<comments>https://coolshell.cn/articles/3921.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 10 Mar 2011 00:41:05 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[IE]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3921</guid>
+
+					<description><![CDATA[<p>“IE6于10年前诞生，现在应该是我们同IE6告别的时候了。”微软公司日前推出IE6倒计时网站（the Internet Explorer 6 Countdow...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3921.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3921.html">中国仍是IE6的重灾区</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>“IE6于10年前诞生，现在应该是我们同IE6告别的时候了。”微软公司日前推出IE6倒计时网站（the Internet Explorer 6 Countdown，网址为<span style="color: #0066cc;"><a href="http://www.ie6countdown.com/" target="_blank">www.ie6countdown.com</a></span>），旨在尽早淘汰IE6，让用户升级到新版IE浏览器。</p>
+<p>值得注意一点的是，在这张百分比图上所显示的目前仍在使用IE6浏览器上网的百分比第一的是中国——34.5%，这个符合我国国情——什么都要争第一。我国人口世界第一占全世界1/4，网民也是世界第一，还在使用IE6的网民占全世界的1/3，可以我国网民的严重落后。根据<a href="http://www.cnnic.net.cn/dtygg/dtgg/201101/t20110118_20250.html" target="_blank">CNNIC今年的报告</a>，我国现有4.5亿网民，34%也就是1.5亿用户，也就是说你身边每三个人中就有一个在用IE6。而中国的IE6网民占全世界使用IE6网民的一半。</p>
+<p>另外，我发现亚洲是重灾区啊，包括中日韩台印都很猛啊，看来微软在亚洲的营销的确不错。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3922" title="IE6 Countdown" src="https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown.png" alt="" width="495" height="365" srcset="https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown.png 495w, https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown-300x221.png 300w, https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown-366x270.png 366w" sizes="(max-width: 495px) 100vw, 495px" /></p>
+<p>我查看了一下Coolshell.cn的2011年到今天为止访问统计，排名第一是的Chrome(41.5%)，第二位的是Firefox(23.22%)，第三位的是IE8(10.7%)，第四位的是IE6(4.8%)。IE6的IP数有6400+。</p>
+<p>看来，在我国程序员这个人群中，越来越多的人使用Chrome+Firefox，挺喜人的，但是IE6还有4.8%，还不如土耳其，马来西亚，印尼等国家。<br />
+<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/affc-image1-150x150.png" alt="微软用新浪来当反面教材" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_title">微软用新浪来当反面教材</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3921.html">中国仍是IE6的重灾区</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3921.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>微软用新浪来当反面教材</title>
+		<link>https://coolshell.cn/articles/3872.html</link>
+					<comments>https://coolshell.cn/articles/3872.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 03 Mar 2011 00:30:49 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Sina]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3872</guid>
+
+					<description><![CDATA[<p>微软的IE的Blog发布了这样一篇文章，以此来展示IE9是如何过滤广告和ActiveX控件的功能。其使用了“新浪”来做为反面案例，新浪并不是第一次成为反面案例了...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3872.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3872.html">微软用新浪来当反面教材</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="text-align: left;">微软的<a href="http://blogs.msdn.com/b/ie/" target="_blank">IE的Blog</a>发布了这样<a href="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image1.png" target="_blank">一篇文章</a>，以此来展示IE9是如何过滤广告和ActiveX控件的功能。其使用了“新浪”来做为反面案例，新浪并不是第一次成为反面案例了，之前就有人用新浪等网站来表明<a title="为什么中国的网页设计那么烂？" href="https://coolshell.cn/articles/3605.html" target="_blank">中国的网站的设计是怎么个烂法</a>。呵呵。伟大的新浪。</p>
+<p>下面是新浪的在IE9下没有开启过滤的样子，我们要吧看到满天飞的flash，广告，还有视频……</p>
+<div class="mceTemp mceIEcenter" style="text-align: left;">
+<dl class="wp-caption aligncenter" style="width: 575px;">
+<dt class="wp-caption-dt"><a href="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image1.png"><img decoding="async" loading="lazy" class="  " title="新浪网站没有使用IE9的过滤功能" src="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image1.png" alt="新浪网站没有使用IE9的过滤功能" width="565" height="411" /></a></dt>
+<dd class="wp-caption-dd">新浪网站没有使用IE9的过滤功能</dd>
+</dl>
+</div>
+<p style="text-align: left;">下面是开启了过滤功能后的新浪网页（个人感觉还是那么乱，没办法底子太差了）</p>
+<p style="text-align: left;"><span id="more-3872"></span></p>
+<figure style="width: 565px" class="wp-caption aligncenter"><a href="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image2.png"><img decoding="async" loading="lazy" class="  " title="IE9开启了ActiveX过滤功能后的新浪网页" src="http://ie.microsoft.com/testdrive/IEBlog/2011/Feb/affc-image2.png" alt="IE9开启了ActiveX过滤功能后的新浪网页" width="565" height="411" /></a><figcaption class="wp-caption-text">IE9开启了ActiveX过滤功能后的新浪网页</figcaption></figure>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="国内微博和Twitter的最大不同" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_title">国内微博和Twitter的最大不同</a></li><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3872.html">微软用新浪来当反面教材</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3872.html/feed</wfw:commentRss>
+			<slash:comments>28</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Stack Exchange 的架构</title>
+		<link>https://coolshell.cn/articles/3721.html</link>
+					<comments>https://coolshell.cn/articles/3721.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 23 Feb 2011 05:31:04 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[StackExchange]]></category>
+		<category><![CDATA[StackOverflow]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3721</guid>
+
+					<description><![CDATA[<p>近日，Stack Exchange系统管理员blog上发布了一篇关于Stack Exchange的架构一瞥，其包括了Stack Overflow, Server...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3721.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3721.html">Stack Exchange 的架构</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>近日，Stack Exchange系统管理员blog上发布了一篇关于<a href="http://blog.serverfault.com/post/stack-exchanges-architecture-in-bullet-points/" target="_blank">Stack Exchange的架构一瞥</a>，其包括了Stack Overflow, Server Fault 和 Super User的 Stack Exchange 网络。注意最后一个关于人员的配置。希望能给大家一些相关的参考。</p>
+<h4>网络流量</h4>
+<ul>
+<li>每月9千5百万个PV</li>
+<li>每秒800 HTTP 请求</li>
+<li>每秒180 DNS 请求</li>
+<li>每秒55Mb 的带宽</li>
+</ul>
+<h4>数据中心</h4>
+<ul>
+<li>1 机柜 位于俄勒冈的 <a href="http://www.peakinternet.com/">Peak Internet</a> (用于<a href="http://chat.stackexchange.com/">chat</a> 和<a href="http://data.stackexchange.com/">Data Explorer</a>)</li>
+<li>2 机框 位于 纽约的 <a href="http://www.peer1.com/">Peer 1</a> ( 用于其它的 Stack Exchange Network)</li>
+</ul>
+<p><span id="more-3721"></span></p>
+<h4>生产服务器</h4>
+<ul>
+<li>12 Web Servers (Windows Server 2008 R2)</li>
+<li>2 Database Servers (Windows Server 2008 R2 and SQL Server 2008 R2)</li>
+<li>2 Load Balancers (Ubuntu Server and HAProxy)</li>
+<li>2 Caching Servers (Redis on CentOS)</li>
+<li>1 Router / Firewall (Ubuntu Server)</li>
+<li>3 DNS Servers (Bind on CentOS)</li>
+</ul>
+<p>(生产服务器不含故障备份和管理服务器)</p>
+<h4>使用了的相关的软件和技术</h4>
+<ul>
+<li><a href="http://www.microsoft.com/net/">C# / .NET</a></li>
+<li><a href="http://www.microsoft.com/windowsserver2008/en/us/default.aspx">Windows Server 2008 R2</a></li>
+<li><a href="http://www.microsoft.com/sqlserver/en/us/default.aspx">SQL Server 2008 R2</a></li>
+<li><a href="http://www.ubuntu.com/server">Ubuntu Server</a></li>
+<li><a href="http://www.centos.org/">CentOS</a></li>
+<li><a href="http://haproxy.1wt.eu/">HAProxy</a> 用于负载均衡</li>
+<li><a href="http://redis.io/">Redis</a> 用于缓存</li>
+<li><a href="http://sourceforge.net/projects/ccnet/">CruiseControl.NET</a> 用于做builds</li>
+<li><a href="http://lucene.apache.org/lucene.net/">Lucene.NET</a> 用于搜索</li>
+<li><a href="http://www.bacula.org/en/">Bacula</a> 用于做备份</li>
+<li><a href="http://www.nagios.org/">Nagios</a> (with n2rrd and drraw plugins) 用于系统监控</li>
+<li><a href="http://www.splunk.com/">Splunk</a> 用于日志</li>
+<li><a href="http://www.red-gate.com/products/dba/sql-monitor/">SQL Monitor from Red Gate</a> 用于监控SQL Server</li>
+<li><a href="http://mercurial.selenic.com/">Mercurial</a> / <a href="http://www.fogcreek.com/kiln/">Kiln</a> 用于源码管理</li>
+<li><a href="http://www.isc.org/software/bind">Bind</a> 用于 DNS</li>
+</ul>
+<h4>程序员和系统管理员</h4>
+<ul>
+<li>14 程序员</li>
+<li>2 系统管理员</li>
+</ul>
+<p><span>（全文完）</span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5075.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/Time-changes-in-year-1927-for-China-–-ShanghaiS-150x150.png" alt="你确信你了解时间吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5075.html" class="wp_rp_title">你确信你了解时间吗？</a></li><li ><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Quora使用到的技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4939.html" class="wp_rp_title">Quora使用到的技术</a></li><li ><a href="https://coolshell.cn/articles/4549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="Facebook 的系统架构" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4549.html" class="wp_rp_title">Facebook 的系统架构</a></li><li ><a href="https://coolshell.cn/articles/2529.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/6.jpg" alt="StackOverflow的404错误页" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2529.html" class="wp_rp_title">StackOverflow的404错误页</a></li><li ><a href="https://coolshell.cn/articles/1242.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="23,148,855,308,184,500" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1242.html" class="wp_rp_title">23,148,855,308,184,500</a></li><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3721.html">Stack Exchange 的架构</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3721.html/feed</wfw:commentRss>
+			<slash:comments>21</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何“加密”你的email地址</title>
+		<link>https://coolshell.cn/articles/3595.html</link>
+					<comments>https://coolshell.cn/articles/3595.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 27 Jan 2011 05:03:06 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[email]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3595</guid>
+
+					<description><![CDATA[<p>现在在网上要小心，无论是保护好你的用户名和帐号，还是我们的电子邮件地址。在网上有很多爬虫程序专爬我们的电子邮件地址，一量被爬中了，那么你的邮箱里就是一堆又一堆的...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3595.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3595.html">如何“加密”你的email地址</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>现在在网上要小心，无论是<a href="https://coolshell.cn/articles/2428.html" target="_blank">保护好你的用户名和帐号</a>，还是我们的电子邮件地址。在网上有很多爬虫程序专爬我们的电子邮件地址，一量被爬中了，那么你的邮箱里就是一堆又一堆的垃圾邮件，就好像我的haoel(at)hotmail.com一样，在7、8年前，每天几千封的垃圾邮件。现在hotmail的垃圾邮件过滤得好一些了，不过也有每天40封左右的垃圾邮件。但是我们在自己的网页上又需要发布自己的email地址。所以我们需要搞乱我们的邮件地址，就像那种非常规的<a href="https://coolshell.cn/articles/933.html" target="_blank">搞乱代码一样</a>。不过，我们还需要能认人读的出来。</p>
+<p>一般来说，在网上现在很普遍的做法是——</p>
+<ul>
+<li>1）用图片，可以用PHP动态生成那个验证码式的。</li>
+<li>2）把@变成at，把点变成dot，如 haoel(at)hotmail(dot)com之类的。</li>
+<li>3）把a变成@，写成haoel@hotm@mail.com</li>
+</ul>
+<p>不过这些还是能被爬到，用图片的方法不利于用户拷贝粘贴。下面介绍几种方法：</p>
+<h4>第一种：使用CSS样式</h4>
+<p><strong>反转字序</strong></p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+span.codedirection { unicode-bidi:bidi-override; direction: rtl; }
+&lt;p&gt;&lt;span&gt;moc.liamtoh@leoah&lt;/span&gt;&lt;/p&gt;</pre>
+<p><span id="more-3595"></span></p>
+<p><strong>加入些不显示的字符串</strong></p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">p span.hide { display:none; }
+&lt;p&gt;foo@bar&lt;span class=&quot;hide&quot;&gt;null&lt;/span&gt;.baz&lt;/p&gt;</pre>
+<h4>第二种：使用Javascript</h4>
+<p>最为简单的方法是：</p>
+<p>[javascript]document.write(&quot;haoel&quot; + &quot;@&quot; + &quot;hotmail&quot; + &quot;.&quot; + &quot;com&quot;);[/javascript]</p>
+<p>或是：</p>
+<p>[javascript]&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&lt;!&#8211;<br />
+	var string1 = &quot;@&quot;;<br />
+	var string2 = &quot;haoel&quot;;<br />
+	var string3 = &quot;hotmail.com&quot;;<br />
+	var string4 = string2 + string1 + string3;<br />
+	document.write(&quot;&lt;a href=&quot; + &quot;mail&quot; + &quot;to:&quot; + string2 + string1 + string3 + &quot;&gt;&quot; + string4 + &quot;&lt;/a&gt;&quot;);<br />
+//&#8211;&gt;<br />
+&lt;/script&gt;[/javascript]</p>
+<p>不过更为强大的是使用ROT13加密，这里有一个<a href="http://rot13.de/" target="_blank">ROT13的在线工具</a>，或是使用PHP的ROT13的函数<a href="http://ch2.php.net/str_rot13" target="_blank">str_rot13</a>。</p>
+<p>[javascript]&lt;script type=”text/javascript”&gt;<br />
+document.write(“&lt;n uers=\&quot;znvygb:unbry@ubgznvy.pbz\&quot;&gt;”.replace(/[a-zA-Z]/g,<br />
+function(c){return String.fromCharCode((c&lt;=”Z”?90:122)&gt;=(c=c.charCodeAt(0)+13)?c:c-26);}));<br />
+&lt;/script&gt;陈皓的电子邮件&lt;/a&gt;[/javascript]</p>
+<p>这些方法还是很有效果的。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3595.html">如何“加密”你的email地址</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3595.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>AES加密算法动画演示</title>
+		<link>https://coolshell.cn/articles/3161.html</link>
+					<comments>https://coolshell.cn/articles/3161.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 15 Oct 2010 02:13:00 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[AES]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3161</guid>
+
+					<description><![CDATA[<p>波士顿大学的Howard Straubing做了这么一个动画来展示AES加密算法的演示，挺不错的。 点击这里看全屏 （转载本站文章请注明作者和出处 酷 壳 &#...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3161.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3161.html">AES加密算法动画演示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>波士顿大学的<a href="http://www.cs.bc.edu/~straubin/" target=_blank>Howard Straubing</a>做了这么一个动画来展示AES加密算法的演示，挺不错的。</p>
+<p><embed type="application/x-shockwave-flash" width="680" height="400" src="https://coolshell.cn/wp-content/uploads/2010/10/rijndael_ingles2004.swf" quality="high" align="middle"></embed></p>
+<p><center><br />
+<a href="https://coolshell.cn/wp-content/uploads/2010/10/rijndael_ingles2004.swf" target=_blank>点击这里看全屏</a><br />
+</center><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/1824.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="C语言和sh脚本的杂交代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1824.html" class="wp_rp_title">C语言和sh脚本的杂交代码</a></li><li ><a href="https://coolshell.cn/articles/3231.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="你和你的工作" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3231.html" class="wp_rp_title">你和你的工作</a></li><li ><a href="https://coolshell.cn/articles/5044.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/hat-150x150.jpeg" alt="为什么Scrum不行？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5044.html" class="wp_rp_title">为什么Scrum不行？</a></li><li ><a href="https://coolshell.cn/articles/1081.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="十个让你变成糟糕的程序员的行为" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1081.html" class="wp_rp_title">十个让你变成糟糕的程序员的行为</a></li><li ><a href="https://coolshell.cn/articles/2497.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="把Flash转成Javascript/HTML5" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2497.html" class="wp_rp_title">把Flash转成Javascript/HTML5</a></li><li ><a href="https://coolshell.cn/articles/2097.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/02/keyboard-150x150.jpg" alt="如何修改微软人体工学键盘的Zoom键" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2097.html" class="wp_rp_title">如何修改微软人体工学键盘的Zoom键</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3161.html">AES加密算法动画演示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3161.html/feed</wfw:commentRss>
+			<slash:comments>16</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>苹果开发工具Xcode 4 第二预览版</title>
+		<link>https://coolshell.cn/articles/2719.html</link>
+					<comments>https://coolshell.cn/articles/2719.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 23 Jul 2010 09:40:00 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[Interface Builder]]></category>
+		<category><![CDATA[iPad]]></category>
+		<category><![CDATA[iPhone]]></category>
+		<category><![CDATA[LLVM]]></category>
+		<category><![CDATA[Mac]]></category>
+		<category><![CDATA[Xcode]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2719</guid>
+
+					<description><![CDATA[<p>今天，苹果公司向开发者发布Xcode 4 Preview 2，这是一个IDE用来开发在Mac，iPhone，iPad上应用程序的工具。在这个第二预览版中，主要有...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2719.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2719.html">苹果开发工具Xcode 4 第二预览版</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今天，苹果公司向开发者发布Xcode 4 Preview 2，这是一个IDE用来开发在Mac，iPhone，iPad上应用程序的工具。在这个第二预览版中，主要有以下新的功能：</p>
+<ul>
+<li>这个版本不像以往的版本有太多的窗口，其把以前那些窗口督统一起来，只有一个窗口。</li>
+<li>集成了Interface Builder（以前这个东东和Xcode是两个东西）</li>
+<li>Xcode Assistant 可以让你的设计和代码同时呈现。</li>
+<li>LLVM Compiler 2.0。LLVM是下一代的编译器，其完全支持C，C++和Objective C，而且编译的速度和编译成的执行速度都快于GCC。同时也引入了LLDB做为新的调试器。</li>
+<li>多版本编译。这个功能可以让你在IDE中编译两个版本的代码，而且可以和Subversion或Git集成。</li>
+</ul>
+<p>你可以访问 <a href="http://developer.apple.com/technologies/tools/whats-new.html" target="_blank">What&#8217;s New</a> 来看看具体的细节。</p>
+<p><figure style="width: 651px" class="wp-caption aligncenter"><a href="http://developer.apple.com/technologies/tools/whats-new.html"><img decoding="async" loading="lazy" title="苹果开发工具Xcode 4 Preview 2" src="http://devimages.apple.com/technologies/tools/images/new_single_window20100721.jpg" alt="" width="651" height="409" /></a><figcaption class="wp-caption-text">苹果开发工具Xcode 4 Preview 2</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5089.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="10个必需的iOS开发工具和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5089.html" class="wp_rp_title">10个必需的iOS开发工具和资源</a></li><li ><a href="https://coolshell.cn/articles/2913.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/1-150x150.png" alt="消费者的消费观" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2913.html" class="wp_rp_title">消费者的消费观</a></li><li ><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/apple_goto_fail-150x150.png" alt="由苹果的低级Bug想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11112.html" class="wp_rp_title">由苹果的低级Bug想到的</a></li><li ><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-150x150.png" alt="抄袭，腾讯 和 产品 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_title">抄袭，腾讯 和 产品 </a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li><li ><a href="https://coolshell.cn/articles/5901.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="腾讯，竞争力 和 用户体验" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5901.html" class="wp_rp_title">腾讯，竞争力 和 用户体验</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2719.html">苹果开发工具Xcode 4 第二预览版</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2719.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

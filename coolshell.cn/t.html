@@ -1,0 +1,279 @@
+<html>
+<head>
+<title>async test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="c97041baecb3b56a27169bc7-text/javascript" src="t.js" charset="utf-8"></script>
+<script type="c97041baecb3b56a27169bc7-text/javascript" src="asyncseries.js"></script>
+</head>
+<body>
+<table border="1" style="font-size:12px;border:0px;">
+<tr valign="top">
+<td style="background:#CFCFCF">
+<p>我在酷壳上开了个Web服务（十进制转十六进制）并提供JS API （可以跨站使用）。</p>
+<p><b>【问题：用此API打印出从1到30的十进制转十六制的对应表（最好按顺序打印）】</b></p>
+<p>下面是一些问题详情：</p>
+<p><b>注意</b>：
+<ul>
+<li> 图片中代码有错：recursive_solution(total)应为recursive_solution(0) ）</li>
+<li> xss_rpc_call并不规范，xss_rpc_call2是更为规范的API（其中动用了动态回调函数）</li>
+<li> 你无权修改我的API</li>
+</ul>
+</p>
+<p align="center"><img src="http://ww2.sinaimg.cn/large/538efefbjw1e2f9zbwcr3j.jpg" width="442" height="400"></p>
+</td>
+<td>
+<input name="hi" type="button" value="原始问题" onclick="if (!window.__cfRLUnblockHandlers) return false; problem_test()" data-cf-modified-c97041baecb3b56a27169bc7-><br> <br>
+<div id="coolshell_problem"></div>
+</td>
+<td>
+<input name="hi" type="button" value="闭包(APIv2)" onclick="if (!window.__cfRLUnblockHandlers) return false; closure_solution()" data-cf-modified-c97041baecb3b56a27169bc7-> <br>
+By <a href="https://weibo.com/haoel" target="_blank">@左耳朵耗子</a>
+<div id="coolshell_closure"></div>
+</td>
+<td>
+<input name="hi" type="button" value="递归式(APIv1)" onclick="if (!window.__cfRLUnblockHandlers) return false; recursive_solution(0)" data-cf-modified-c97041baecb3b56a27169bc7-> <br>
+By <a href="https://weibo.com/haoel" target="_blank">@左耳朵耗子</a>
+<div id="coolshell_recursive"></div>
+</td>
+<td>
+<input name="hi" type="button" value="自制Async(APIv1)" onclick="if (!window.__cfRLUnblockHandlers) return false; async_solution()" data-cf-modified-c97041baecb3b56a27169bc7-> <br>
+By <a href="https://weibo.com/enginespot" target="_blank">@enginespot</a>
+<div id="coolshell_async"></div>
+</td>
+<td>
+<input name="hi" type="button" value="数组(APIv2)" onclick="if (!window.__cfRLUnblockHandlers) return false; array_solution()" data-cf-modified-c97041baecb3b56a27169bc7-> <br>
+By <a href="https://weibo.com/dszeratul" target="_blank">@雪飞霜舞</a>
+<div id="coolshell_array"></div>
+</td>
+<td>
+<input name="hi" type="button" value="数组优化(APIv2)" onclick="if (!window.__cfRLUnblockHandlers) return false; array_asap_solution()" data-cf-modified-c97041baecb3b56a27169bc7-> <br>
+By <a href="https://weibo.com/arttechdesign" target="_blank">@尤小右(<a href="https://sketch.evanyou.me/async_asap.html" target="_blank">博文</a>)</a>
+<div id="coolshell_array_asap"></div>
+</td>
+<td>
+<input name="hi" type="button" value="数组优化2(APIv2)" onclick="if (!window.__cfRLUnblockHandlers) return false; array2_solution()" data-cf-modified-c97041baecb3b56a27169bc7-> <br>
+By <a href="https://weibo.com/finian" target="_blank">@finian</a> &
+<a href="https://weibo.com/ottomao" target="_blank">@茅晓锋Otto</a>
+<div id="coolshell_array2"></div>
+</td>
+<td>
+<input name="hi" type="button" value="性能+超时(API2)" onclick="if (!window.__cfRLUnblockHandlers) return false; timeout_solution()" data-cf-modified-c97041baecb3b56a27169bc7-> <br>
+By <a href="https://weibo.com/u/2262263711" target="_blank">@rockyoung</a>
+<div id="coolshell_timeout"></div>
+</td>
+</tr>
+</table>
+<script src="cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="c97041baecb3b56a27169bc7-|49" defer></script></body>
+</html>
+<script type="c97041baecb3b56a27169bc7-text/javascript">
+
+var total = 30;
+
+function display_result(id, text)
+{
+    var div = document.getElementById(id);
+    var new_div = document.createElement("div");
+    new_div.appendChild(document.createTextNode(text));
+    div.appendChild(new_div);
+}
+
+function problem_test()
+{
+    for (var i = 0; i < total; i++) {
+
+        var tmp = i;
+        xss_rpc_call(i, function(result){
+            display_result ("coolshell_problem", i + "," + result); 
+        });
+    }
+}
+
+function closure_solution()
+{
+    for (var i = 0; i < total; i++) {
+
+        (function(x){
+            xss_rpc_call2(x, function(result){
+                display_result ("coolshell_closure", x + "," + result); 
+            });
+        })(i);
+    }
+}
+
+
+
+function recursive_solution(i)
+{
+    if (i>=total) return;
+
+    xss_rpc_call(i, function(result){
+        display_result ("coolshell_recursive", i + "," + result); 
+
+        recursive_solution(i+1);
+    });
+}
+
+
+function async_solution(){
+    var async = new Async();
+    for (var i = 0; i < total; i++) {
+        async.series((function (index) {
+            xss_rpc_call(index, function (result) {
+                display_result ("coolshell_async", index + "," + result); 
+                async.callback();
+            });
+        }).bind(null, i));
+    }
+}
+
+function array_solution(){
+    var temp = new Array(total), 
+        n = total;
+    for (var i = 0; i < total; i++) {
+        var cb = (function(j){
+            return function(result){
+                n--;
+                temp[j] = result;
+                if(n == 0){
+                    while(temp.length){
+                        display_result ("coolshell_array", (n++) + "," + temp.shift()); 
+                    }                    
+                }
+            };
+        })(i);
+        xss_rpc_call2(i, cb);
+    }
+}
+
+function array_asap_solution () 
+{
+    var x = total;
+
+    var responses = [],
+        displayed = [];
+
+    for (var i = 0; i < x; i++) {
+        (function (i) {
+            var now = Date.now();
+            xss_rpc_call2(i, function (res) {
+
+                responses[i] = {
+                    res: res,
+                    sent: now
+                };
+
+                // only display if
+                // - this is the first request
+                // or
+                // - the previous request has been displayed
+                if (i == 0 || displayed[i-1]) {
+                    display(i);
+                }
+            })
+        })(i)
+    }
+
+    function display (i) {
+
+         display_result('coolshell_array_asap', i + ',' + responses[i].res); 
+
+         displayed[i] = true;
+
+         if (i === x - 1) {
+             // all done.
+         } else if (responses[i+1]) {
+             // recursively display the next request if it has been received.
+             display(i+1);
+         }
+     }
+
+}
+
+
+
+function array2_solution() 
+{
+  var results = [];
+  var rIndex = 0;
+  function handleResult( result, i ) {
+    results[i] = result;
+    while ( results[rIndex] ) {
+      display_result('coolshell_array2', rIndex+','+results[rIndex++] );
+    }
+  }
+  
+  for ( var i = 0; i < total; i++ ) {
+    ( function( i ) {
+      xss_rpc_call2( i + 1, function( result ) {
+        handleResult( result, i );
+      } );
+    } )( i );
+  }
+}
+
+
+//“闭包（改良API）”无法保证将response按顺序处理，“递归”无法利用异步加载的优势，“自制Async”的效率其实不高，“数组（改良API）”必须等到所有response返回就位才能开始按序处理（会有一定的等待时间），以上这些在加大测试数据量（这里我加到100）、模拟低速网络环境下会比较明显。
+
+function timeout_solution() 
+{
+    var temp = new Array(total),
+        // synq {FUN} 用来延迟执行
+        // @delay 被延迟执行的func
+        // @judge 执行delay的判断func
+        // @limit 最大的延时时间毫秒数
+        // @timeout 超时处理func
+        synq = function (delay, judge, limit, timeout) {
+            var c,
+            t = 0,
+            stoper = function(){
+                clearTimeout(c);
+            },
+            runner = function(){
+                if ( !judge() ) {
+                    if ( t < limit ) {
+                        t ++;
+                        c = setTimeout(runner, 1);
+                    } else {
+                        stoper();
+                        timeout();
+                    }
+                } else {
+                    stoper();
+                    delay();
+                }
+            };
+            runner();
+        };
+    for (var i = 0; i < total; i++) {
+        var callback = (function(j){
+            return function (result) {
+                temp[j] = result;
+                if (j == 0) {
+                    display_result("coolshell_timeout", j + "," + result);
+                    temp[j] = "done";
+                } else {
+                    synq(function(){
+                            display_result("coolshell_timeout", j + "," + result);
+                            temp[j] = "done";
+                        }, function(){
+                            if (temp[j-1] == "done") {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }, 20000, function(){
+                            display_result("coolshell_timeout", + j + ",REQUEST TIMEOUT!");
+                            temp[j] = "done";
+                            //...or other timeout meansure to do
+                        });
+                }
+            };
+        })(i);
+        xss_rpc_call2(i, callback);
+    }
+}
+
+
+
+
+</script>

@@ -1,0 +1,1402 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Game | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/game/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 11 Jul 2012 03:03:37 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>28个Unix/Linux的命令行神器</title>
+		<link>https://coolshell.cn/articles/7829.html</link>
+					<comments>https://coolshell.cn/articles/7829.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 11 Jul 2012 00:10:11 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[CLI]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Performance]]></category>
+		<category><![CDATA[rsync]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7829</guid>
+
+					<description><![CDATA[<p>下面是Kristóf Kovács收集的28个Unix/Linux下的28个命令行下的工具（原文链接），有一些是大家熟悉的，有一些是非常有用的，有一些是不为人知...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7829.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7829.html">28个Unix/Linux的命令行神器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是<a href="http://kkovacs.eu/" target="_blank">Kristóf Kovács</a>收集的28个Unix/Linux下的28个命令行下的工具（<a href="http://kkovacs.eu/cool-but-obscure-unix-tools" target="_blank">原文链接</a>），有一些是大家熟悉的，有一些是非常有用的，有一些是不为人知的。这些工具都非常不错，希望每个人都知道。本篇文章还在<a href="http://news.ycombinator.com/item?id=2567186" target="_blank">Hacker News上被讨论</a>，你可以过去看看。我以作者的原文中加入了官网链接和一些说明。</p>
+<div class="alpha grid_6">
+<h4>dstat &amp; sar</h4>
+<p>iostat, vmstat, ifstat 三合一的工具，用来查看系统性能（我在《<a title="性能调优攻略" href="https://coolshell.cn/articles/7490.html" target="_blank">性能调优攻略</a>》中提到过那三个xxstat工具）。</p>
+<p>官方网站：<a href="http://dag.wieers.com/rpm/packages/dstat/" target="_blank">http://dag.wieers.com/rpm/packages/dstat/</a></p>
+<p>你可以这样使用：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">alias dstat=&#039;dstat -cdlmnpsy&#039;</code></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot.png" alt="dstat screenshot" width="400" height="326" /></p>
+<h4 class="caption_text">slurm</h4>
+</div>
+<p>查看网络流量的一个工具</p>
+<p>官方网站：<em>  <a href="https://computing.llnl.gov/linux/slurm/" target="_blank">Simple Linux Utility for Resource Management</a></em></p>
+<p><span id="more-7829"></span></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/slurm_screenshot.png" alt="slurm screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>vim &amp; emacs</h4>
+<p>真正程序员的代码编辑器。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/vim_screenshot.png" alt="vim screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>screen, dtach, tmux, byobu</h4>
+<p>你是不是经常需要 SSH 或者 telent 远程登录到 Linux 服务器？你是不是经常为一些长时间运行的任务而头疼，比如系统备份、ftp 传输等等。通常情况下我们都是为每一个这样的任务开一个远程终端窗口，因为他们执行的时间太长了。必须等待它执行完毕，在此期间可不能关掉窗口或者断开连接，否则这个任务就会被杀掉，一切半途而废了。</p>
+<p><a href="http://www.gnu.org/software/screen/" target="_blank"><strong>Screen</strong></a>是一个可以在多个进程之间多路复用一个物理终端的窗口管理器。Screen中有会话的概念，用户可以在一个screen会话中创建多个screen窗口，在每一个screen窗口中就像操作一个真实的telnet/SSH连接窗口那样。请参看IBM DeveloperWorks的这篇文章《<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-screen/" target="_blank">使用 screen 管理你的远程会话</a>》</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/gnu_screen_screenshot.png" alt="gnu screen screenshot" width="400" height="326" /></p>
+<p><a href="http://dtach.sourceforge.net/" target="_blank"><strong>dtach</strong> </a>是用来模拟screen的detach的功能的小工具，其可以让你随意地attach到各种会话上 。下图为dtach+dvtm的样子。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7861" title="dtach+dvtm" src="https://coolshell.cn/wp-content/uploads/2012/07/dtach+dvtm.png" alt="" width="500" height="477" srcset="https://coolshell.cn/wp-content/uploads/2012/07/dtach+dvtm.png 500w, https://coolshell.cn/wp-content/uploads/2012/07/dtach+dvtm-300x286.png 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p><strong><a title="http://tmux.sourceforge.net/" href="http://tmux.sourceforge.net/" rel="nofollow">tmux</a></strong>是一个优秀的终端复用软件，类似<a title="http://www.gnu.org/software/screen/" href="http://www.gnu.org/software/screen/" rel="nofollow">GNU Screen</a>，但来自于OpenBSD，采用BSD授权。使用它最直观的好处就是，通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“浪费”多余的终端来连接这台远程主机；当然其功能远不止于此。与screen相比的优点：可以横向和纵向分割窗口，且窗格可以自由移动和调整大小。可在多个缓冲区进行复制和粘贴，支持跨窗口搜索；非正常断线后不需重新detach；……  有人说——<strong>与tmux相比，screen简直弱爆了</strong>。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7860" title="tmux" src="https://coolshell.cn/wp-content/uploads/2012/07/tmux3.png" alt="" width="650" height="404" srcset="https://coolshell.cn/wp-content/uploads/2012/07/tmux3.png 650w, https://coolshell.cn/wp-content/uploads/2012/07/tmux3-300x186.png 300w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<div class="align_right">
+<p><a href="https://launchpad.net/byobu/" target="_blank"><strong>byobu</strong></a>是Ubuntu开发的，在Screen的基础上进行包装，使其更加易用的一个工具。最新的Byobu，已经是基于Tmux作为后端了。可通过“byobu-tmux”这个命令行前端来接受各种与tmux一模一样的参数来控制它。Byobu的细节做的非常好，效果图如下：<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7864" title="byobu-tmux" src="https://coolshell.cn/wp-content/uploads/2012/07/byobu-tmux.jpg" alt="" width="650" height="406" srcset="https://coolshell.cn/wp-content/uploads/2012/07/byobu-tmux.jpg 650w, https://coolshell.cn/wp-content/uploads/2012/07/byobu-tmux-300x187.jpg 300w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<p class="caption_text">
+</div>
+<h4>multitail</h4>
+<p>MultiTail是个用来实现同时监控多个文档、类似tail命令的功能的软件。他和tail的区别就是他会在控制台中打开多个窗口，这样使同时监控多个日志文档成为可能。他还可以看log文件的统计，合并log文件，过滤log文件，分屏，……。</p>
+<p>官网：<a href="http://www.vanheusden.com/multitail/">http://www.vanheusden.com/multitail/</a></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/multitail_screenshot.png" alt="multitail screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>tpp</h4>
+<p>终端下的PPT，要是在某某大会上用这个演示PPT，就太TMD的Geek了。</p>
+<p>官网：<a href="http://www.ngolde.de/tpp.html">http://www.ngolde.de/tpp.html</a></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/tpp_screenshot.png" alt="tpp screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>xargs &amp; parallel</h4>
+<p>Executes tasks from input (even multithread).</p>
+<p>xargs 是一个比较古老的命令，有简单的并行功能，这个不说了。<span>对于</span><a href="http://www.gnu.org/software/parallel/"><span>GNU parallel</span></a><span> ( </span><a href="http://savannah.gnu.org/projects/parallel"><span>online manpage</span></a><span><span> )来说，它不仅能够处理本机上多执行绪，还能分散至远端电脑协助处理。</span><span>而使用GNU parallel前，要先确定本机有安装GNU parallel / ssh / rsync，远端电脑也要安装ssh。</span></span></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/xargs_screenshot.png" alt="xargs screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>duplicity &amp; rsyncrypto</h4>
+<p><a href="http://duplicity.nongnu.org/" target="_blank">Duplicity</a>是使用rsync算法加密的高效率备份软件，Duplicity支持目录加密生产和格式上传到远程或本地文件服务器。</p>
+<p><a href="http://rsyncrypto.lingnu.com/index.php/Home_Page" target="_blank">rsyncrypto</a> 就是 rsync + encryption。对于rsync的算法可参看酷壳的<a title="rsync 的核心算法" href="https://coolshell.cn/articles/7425.html" target="_blank">rsync核心算法</a>。</p>
+<p>Encrypting backup tools.</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/duplicity_screenshot.png" alt="duplicity screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>nethack &amp; slash&#8217;em</h4>
+<p><a href="http://www.nethack.org/" target="_blank">NetHack</a>（<a href="http://zh.wikipedia.org/zh/NetHack" target="_blank">Wiki</a>），20年历史的古老电脑游戏。没有声音，没有漂亮的界面，不过这个游戏真的很有意思。网上有个家伙说：<strong>如果你一生只做一件事情，那么玩NetHack</strong>。这句话很惹眼，但也让人觉得这个游戏很复杂不容易上手。其实，这个游戏很虽然很复杂，却容易上手。虽然玩通关很难，但上手很容易。NetHack上有许多复杂的规则，&#8221;the DevTeam thinks of everything&#8221;（开发团队想到了所有的事情)。各种各样的怪物，各种各样的武器&#8230;.，有许多spoilers文件来说明其规则。除了每次开始随机生成的地图，每次玩游戏，你也都会碰到奇怪的事情: 因为喝了一种药水，变成了机器人;因为踢坏了商店的门被要求高价赔偿;你的狗为你偷来了商店的东西&#8230;.. 这有点象人生，你不能完全了解这个世界，但你仍然可以选择自己的面对方式。</p>
+<p>网上有许多文章所这是最好的电脑游戏或最好的电脑游戏之一。也许是因为它开放的源代码让人赞赏，古老的历史让人宽容，复杂的规则让人敬畏。虽然它不是当前流行的游戏，但它比任何一个当前流行的游戏都更有可能再经受20年的考验。</p>
+<p><a href="http://www.slashem.org" target="_blank">Slash&#8217;EM</a> 也是一个基于NetHack的经典游戏。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/nethack_screenshot.png" alt="nethack screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>lftp</h4>
+<p>利用<a href="http://lftp.yar.ru/" target="_blank">lftp</a>命令行ftp工具进行网站数据的增量备份，镜像，就像使用rsync一样。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/lftp_screenshot.png" alt="lftp screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>ack</h4>
+<p><a href="http://betterthangrep.com/"><span>ack</span></a><span>是一个perl脚本，是grep的一个可选替换品。其可以对匹配字符有高亮显示。是为程序员专门设计的，默认递归搜索，省提供多种文件类型供选。</span></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/ack_screenshot.png" alt="ack screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>calcurse &amp; remind + wyrd</h4>
+<p><a href="http://calcurse.org/" target="_blank">calcurse</a>是一个命令行下的日历和日程软件。<a href="http://www.roaringpenguin.com/products/remind" target="_blank">remind</a> + <a href="http://pessimization.com/software/wyrd/" target="_blank">wyrd</a>也很类似。关于日历，我不得不提一个<a title="Linux的cycle日历（你懂的）" href="https://coolshell.cn/articles/3489.html" target="_blank">Linux的Cycle日历</a>，也是一个神器，呵呵。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/calcurse_screenshot.png" alt="calcurse screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>newsbeuter &amp; rsstail</h4>
+<p><a href="http://newsbeuter.org/" target="_blank">newsbeuter </a>和 <a href="http://www.vanheusden.com/rsstail/" target="_blank">rsstail</a> 是命令行下RSS的阅读工具。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/newsbeuter_screenshot.png" alt="newsbeuter screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>powertop</h4>
+<p><a title="做个环保主义的程序员" href="https://coolshell.cn/articles/7186.html" target="_blank">做个环保的程序员</a>，看看自己的电脑里哪些程序费电。<a href="https://01.org/powertop/" target="_blank">PowerTOP</a> 是一个让 Intel 平台的笔记本电脑节省电源的 Linux 工具。此工具由 Intel 公司发布。它可以帮助用户找出那些耗电量大的程序，通过修复或者关闭那些应用程序或进程，从而为用户节省电源。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/powertop_screenshot.png" alt="powertop screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+</div>
+<div class="omega grid_6">
+<h4>htop &amp; iotop</h4>
+<p><a href="http://htop.sourceforge.net/" target="_blank">htop</a> 和 <a href="http://guichaz.free.fr/iotop/" target="_blank">iotop</a>  用来查看进程，内存和IO负载。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/htop_screenshot.png" alt="htop screenshot" width="400" height="326" /></p>
+</div>
+<h4>ttyrec &amp; ipbt</h4>
+<p><a href="http://0xcc.net/ttyrec/index.html.en" target="_blank">ttyrec</a> 是一个 tty 控制台录制程序，其所录制的数据文件可以使用与之配套的 ttyplay 播放。不管是你在 tty 中的各种操作，还是在 tty 中耳熟能详的软件，都可进行录制。</p>
+<p><a href="http://www.chiark.greenend.org.uk/~sgtatham/ipbt/" target="_blank">ipbt</a> 是一个用来回放 ttyrec 所录制的控制台输入过程的工具。</p>
+<p>与此类似的还有<a href="http://shelr.tv/" target="_blank">Shelr</a> 和 <a href="http://sourceforge.net/projects/termrec/" target="_blank">termrec </a></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/ipbt_screenshot.png" alt="ipbt screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>rsync</h4>
+<p>通过SSH进行文件同步的经典工具（<a title="rsync 的核心算法" href="https://coolshell.cn/articles/7425.html" target="_blank">核心算法</a>）</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/rsync_screenshot.png" alt="rsync screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>mtr</h4>
+<p><a href="http://www.bitwizard.nl/mtr/" target="_blank">MTR</a> &#8211; traceroute 2.0，其是把 traceroute 和 ping 集成在一块的一个小工具 用于诊断网络。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/mtr_screenshot.png" alt="mtr screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>socat &amp; netpipes</h4>
+<p><a href="http://www.dest-unreach.org/socat/" target="_blank">socat</a>是一个多功能的网络工具，名字来由是” Socket CAT”，可以看作是netcat的N倍加强版。</p>
+<p><a href="http://web.purplefrog.com/~thoth/netpipes/" target="_blank">netpipes</a> 和socat一样，主要是用来在命令行来进行socket操作的命令，这样你就可以在Shell脚本下行进socket网络通讯了。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/socat_screenshot.png" alt="socat screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>iftop &amp; iptraf</h4>
+<p><a href="http://www.ex-parrot.com/~pdw/iftop/" target="_blank">iftop</a>和<a href="http://iptraf.seul.org/" target="_blank">iptraf</a>可以用来查看当前网络链接的一些流量情况。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/iftop_screenshot.png" alt="iftop screenshot" width="400" height="326" /></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7867" title="iptraf-tcpudp" src="https://coolshell.cn/wp-content/uploads/2012/07/iptraf-tcpudp.gif" alt="" width="562" height="354" srcset="https://coolshell.cn/wp-content/uploads/2012/07/iptraf-tcpudp.gif 562w, https://coolshell.cn/wp-content/uploads/2012/07/iptraf-tcpudp-300x188.gif 300w" sizes="(max-width: 562px) 100vw, 562px" /></p>
+<p class="caption_text">
+</div>
+<h4>siege &amp; tsung</h4>
+<p><a href="http://www.joedog.org/siege-home/" target="_blank">Siege</a>是一个压力测试和评测工具，设计用于WEB开发这评估应用在压力下的承受能力：可以根据配置对一个WEB站点进行多用户的并发访问，记录每个用户所有请求过程的相应时间，并在一定数量的并发访问下重复进行。</p>
+<p><a href="http://tsung.erlang-projects.org/" target="_blank">Tsung</a> 是一个压力测试工具，可以测试包括HTTP, WebDAV, PostgreSQL, MySQL, LDAP, and XMPP/Jabber等服务器。针对 HTTP 测试，Tsung 支持 HTTP 1.0/1.1 ，包含一个代理模式的会话记录、支持 GET、POST 和 PUT 以及 DELETE 方法，支持 Cookie 和基本的 WWW 认证，同时还支持 SSL。</p>
+<p>参看：<a title="十个免费的Web压力测试工具" href="https://coolshell.cn/articles/2589.html" target="_blank">十个免费的Web压力测试工具</a></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/siege_screenshot.png" alt="siege screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>ledger</h4>
+<p><a href="http://ledger-cli.org/" target="_blank">ledger</a> 一个命令行下记帐的小工具。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/ledger_screenshot.png" alt="ledger screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>taskwarrior</h4>
+<p><a href="http://taskwarrior.org/projects/show/taskwarrior" target="_blank">TaskWarrior</a> 是一个基于命令行的 TODO 列表管理工具。主要功能包括：标签、彩色表格输出、报表和图形、大量的命令、底层API、多用户文件锁等功能。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/taskwarrior_screenshot.png" alt="taskwarrior screenshot" width="400" height="326" /></p>
+<p>下图是TaskWarrior 2.0的界面：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7868" title="TaskWarrior2.0" src="https://coolshell.cn/wp-content/uploads/2012/07/TaskWarrior2.0.png" alt="" width="395" height="480" srcset="https://coolshell.cn/wp-content/uploads/2012/07/TaskWarrior2.0.png 395w, https://coolshell.cn/wp-content/uploads/2012/07/TaskWarrior2.0-246x300.png 246w" sizes="(max-width: 395px) 100vw, 395px" /></p>
+<p class="caption_text">
+</div>
+<h4>curl</h4>
+<p><a href="http://curl.haxx.se/" target="_blank">cURL</a>是一个利用URL语法在命令行下工作的文件传输工具，1997年首次发行。它支持文件上传和下载，所以是综合传输工具，但按传统，习惯称cURL为下载工具。cURL还包含了用于程序开发的libcurl。cURL支援的通訊協定有FTP、FTPS、HTTP、HTTPS、TFTP、SFTP、Gopher、SCP、Telnet、DICT、FILE、LDAP、LDAPS、IMAP、POP3、SMTP和RTSP。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/curl_screenshot.png" alt="curl screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>rtorrent &amp; aria2</h4>
+<p><a href="http://libtorrent.rakshasa.no/" target="_blank">rTorrent</a> 是一个非常简洁、优秀、非常轻量的BT客户端. 它使用了 ncurses 库以 C++ 编写, 因此它完全基于文本并在终端中运行. 将 rTorrent 用在安装有 GNU Screen 和 Secure Shell 的低端系统上作为远程的 BT 客户端是非常理想的。</p>
+<p><a href="http://aria2.sourceforge.net/">aria2</a> 是 Linux 下一个不错的高速下载工具。由于它具有分段下载引擎，所以支持从多个地址或者从一个地址的多个连接来下载同一个文件。这样自然就大大加快了文件的下载速度。aria2 也具有断点续传功能，这使你随时能够恢复已经中断的文件下载。除了支持一般的 http(s) 和 ftp 协议外，aria2 还支持 BitTorrent 协议。这意味着，你也可以使用 aria2 来下载 torrent 文件。</p>
+<div class="align_right">
+<p class="caption_text"> <img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/rtorrent_screenshot.png" alt="rtorrent screenshot" width="400" height="326" /></p>
+</div>
+<h4>ttytter &amp; earthquake</h4>
+<p><a href="http://www.floodgap.com/software/ttytter" target="_blank">TTYtter</a> 是一个Perl写的命令行上发Twitter的工具，可以进行所有其他平台客户端能进行的事情，当然，支持中文。脚本控、CLI控、终端控、Perl控的最愛。</p>
+<p><a href="https://github.com/jugyo/earthquake" target="_blank">Earthquake</a>也是一个命令行上的Twitter客户端。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/ttytter_screenshot.png" alt="ttytter screenshot" width="400" height="326" /></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7870" title="earthquake" src="https://coolshell.cn/wp-content/uploads/2012/07/earthquake.jpg" alt="" width="550" height="314" srcset="https://coolshell.cn/wp-content/uploads/2012/07/earthquake.jpg 550w, https://coolshell.cn/wp-content/uploads/2012/07/earthquake-300x171.jpg 300w" sizes="(max-width: 550px) 100vw, 550px" /></p>
+<p class="caption_text">
+</div>
+<h4>vifm &amp; ranger</h4>
+<p><a href="http://vifm.sourceforge.net/" target="_blank">Vifm</a> 基于ncurses的文件管理器，DOS风格，用键盘操作。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/vifm_screenshot.png" alt="vifm screenshot" width="400" height="326" /></p>
+<p><a href="http://savannah.nongnu.org/projects/ranger" target="_blank">Ranger</a>用 Python 完成，默认为使用 Vim 风格的按键绑定，比如 hjkl（上下左右），dd（剪切），yy（复制）等等。功能很全，扩展/可配置性也非常不错。类似MacOS X下Finder（文件管理器）的多列文件管理方式。支持多标签页。实时预览文本文件和目录。</p>
+<div class="align_right">
+<p class="caption_text"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7871" title="ranger" src="https://coolshell.cn/wp-content/uploads/2012/07/ranger.png" alt="" width="668" height="340" srcset="https://coolshell.cn/wp-content/uploads/2012/07/ranger.png 668w, https://coolshell.cn/wp-content/uploads/2012/07/ranger-300x152.png 300w" sizes="(max-width: 668px) 100vw, 668px" /></p>
+</div>
+<h4>cowsay &amp; sl</h4>
+<p><a href="http://www.nog.net/~tony/warez/cowsay.shtml" target="_blank">cowsay </a> 不说了，如下所示，哈哈哈。还有xcowsay，你可以自己搜一搜。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/cowsay_screenshot.png" alt="cowsay screenshot" width="400" height="326" /></p>
+<p class="caption_text"> sl是什么？ls？，呵呵，你会经常把ls 打成sl吗？如果是的话，这个东西可以让你娱乐一下，你会看到一辆火车呼啸而过~~，相当拉风。你可以使用sudo apt-get install sl 安装。</p>
+<p class="caption_text"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7872" title="sl" src="https://coolshell.cn/wp-content/uploads/2012/07/sl.jpg" alt="" width="500" height="254" srcset="https://coolshell.cn/wp-content/uploads/2012/07/sl.jpg 500w, https://coolshell.cn/wp-content/uploads/2012/07/sl-300x152.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p class="caption_text">最后，再介绍一个命令中linuxlogo，你可以使用 sudo apt-get install linuxlogo来安装，然后，就可以使用linuxlogo -L<br />
+来看一下各种Linux的logo了</p>
+<p class="caption_text"><img decoding="async" loading="lazy" class="aligncenter" title="linuxlogo" src="https://coolshell.cn/wp-content/uploads/2012/07/linuxlogo.jpg" alt="" width="450" height="371" /></p>
+<p class="caption_text">（全文完）</p>
+</div>
+</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/sed-superman-150x150.png" alt="sed 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_title">sed 简明教程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7829.html">28个Unix/Linux的命令行神器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7829.html/feed</wfw:commentRss>
+			<slash:comments>120</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些文章资源和趣闻</title>
+		<link>https://coolshell.cn/articles/5537.html</link>
+					<comments>https://coolshell.cn/articles/5537.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 24 Nov 2011 04:39:04 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[design pattern]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5537</guid>
+
+					<description><![CDATA[<p>下面是我这段时间来收集的一些有意思的东西。本站这样的文章还很多，如这个，这个，这个。 Javascript Garden，这是学习Javascript最好的网站...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5537.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5537.html">一些文章资源和趣闻</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是我这段时间来收集的一些有意思的东西。本站这样的文章还很多，如<a title="一些文章和各种资源" href="https://coolshell.cn/articles/5224.html" target="_blank">这个</a>，<a href="https://coolshell.cn/articles/3013.html" target="_blank">这个</a>，<a href="https://coolshell.cn/articles/3903.html" target="_blank">这个</a>。</p>
+<p>Javascript Garden，这是学习Javascript最好的网站了。<a href="http://bonsaiden.github.com/JavaScript-Garden">http://bonsaiden.github.com/JavaScript-Garden</a>，这个文档由两具StackOverflow的人写成, <a href="http://stackoverflow.com/users/170224/ivo-wetzel">Ivo Wetzel</a>(Writing) 和 <a href="http://stackoverflow.com/users/313758/yi-jiang">Zhang Yi Jiang</a> (Design)，表示敬意。</p>
+<p>想看看Web开发有哪些技术吗？你得看看这个网站：<a href="http://stackparts.com/">http://stackparts.com/</a>，他对目前几乎所有Web上用得到的技术都分了个类。下面是个抓图。</p>
+<p><a href="http://stackparts.com"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-5950" title="各种Web开发用到的技术" src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_.png" alt="" width="513" height="414" srcset="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_.png 513w, https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-300x242.png 300w, https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-335x270.png 335w" sizes="(max-width: 513px) 100vw, 513px" /></a></p>
+<p>Mozilla的安全编程规范 <a href="https://wiki.mozilla.org/WebAppSec/Secure_Coding_Guidelines">https://wiki.mozilla.org/WebAppSec/Secure_Coding_Guidelines</a> <a href="http://research.microsoft.com/apps/dp/sq.aspx?a=47204&amp;sq=dl#a=!77148!80820!132314!81593!77135!103269!77072!138731!77112!131133!149403!77128!78088!143130!77023!139171!138997!141118&amp;p=1&amp;ps=36">Downloads associated to Software development</a></p>
+<p>PHP,Perl, Ruby, Python语法比较<a href="http://hyperpolyglot.org/scripting?utm_source">http://hyperpolyglot.org/scripting?utm_source</a></p>
+<p><span id="more-5537"></span></p>
+<p>图形游戏编程的电子书 <a href="http://ploobs.com.br/?p=766">http://ploobs.com.br/?p=766</a></p>
+<p>图形编程黑皮书：<a href="http://drdobbs.com/high-performance-computing/184404919" target="_blank">http://drdobbs.com/high-performance-computing/184404919</a></p>
+<p><a href="http://www.dpfiles.com/dpfileswiki/index.php?title=Black_Art_of_3D_Game_Programming:_Writing_Your_Own_High-Speed_3D_Polygon_Video_Games_in_C" target="_blank">Black Art of 3D Game Programming: Writing Your Own High-Speed 3D Polygon Video Games in C </a></p>
+<p>想学设计模式吗？这是一个非常好的网站：<a href="http://www.vincehuston.org/dp/">http://www.vincehuston.org/dp/</a> 以元素周期表的形式把23个经典模式列出来，让我想到了这几天在看的美剧Breaking Bad，呵呵。</p>
+<p><img decoding="async" loading="lazy" class="alignnone aligncenter" title="设计模式元素周期表" src="http://www.vincehuston.org/images/GoF_full_medium.png" alt="" width="450" height="331" /></p>
+<p>Learn C the Hard Way <a href="http://c.learncodethehardway.org/book/" target="_blank">http://c.learncodethehardway.org/book/</a></p>
+<p>Learn Ruby the Hard Way <a href="http://ruby.learncodethehardway.org/book/">http://ruby.learncodethehardway.org/book/</a></p>
+<p>Learn Python the Hard Way <a href="http://learnpythonthehardway.org/">http://learnpythonthehardway.org/</a></p>
+<p>Learn SQL the Hard Way <a href="http://sql.learncodethehardway.org/book/">http://sql.learncodethehardway.org/book/</a></p>
+<p>Linux基础学习：</p>
+<ul>
+<li><a title="Linux Fundamentals, Part 2" href="http://www.funtoo.org/wiki/Linux_Fundamentals,_Part_1" target="_blank">Linux Fundamentals, Part 1</a></li>
+<li><a title="Linux Fundamentals, Part 2" href="http://www.funtoo.org/wiki/Linux_Fundamentals,_Part_2">Linux Fundamentals, Part 2</a></li>
+<li><a title="Linux Fundamentals, Part 3" href="http://www.funtoo.org/wiki/Linux_Fundamentals,_Part_3">Linux Fundamentals, Part 3</a></li>
+<li><a title="Linux Fundamentals, Part 4" href="http://www.funtoo.org/wiki/Linux_Fundamentals,_Part_4">Linux Fundamentals, Part 4</a></li>
+</ul>
+<div>相了解GIF吗？这里有篇不错的文章：<a href="http://matthewflickinger.com/lab/whatsinagif/bits_and_bytes.asp" target="_blank">http://matthewflickinger.com/lab/whatsinagif/bits_and_bytes.asp</a></div>
+<div>如何在PC上通过VirtualBox装一个Android操作系统。 <a href="http://www.javacodegeeks.com/2010/06/install-android-os-on-pc-with.html" target="_blank">http://www.javacodegeeks.com/2010/06/install-android-os-on-pc-with.html</a> 不过这篇文章有点老了，是去年的，最新的方式是使用<a href="http://www.android-x86.org/" target="_blank">Android-x86</a>这个项目。</div>
+<p>一些你可能不知道的git的tips：<a href="http://mislav.uniqpath.com/2010/07/git-tips/">http://mislav.uniqpath.com/2010/07/git-tips/</a></p>
+<p>一个给C/C++程序员用的Vim Plugin，我试用了一下，不是很好用。不过也许你会喜欢：<a href="http://www.fortystones.com/vim-plugins-c-cplusplus-developer/">http://www.fortystones.com/vim-plugins-c-cplusplus-developer/</a></p>
+<p>数独游戏的程序算法，140个字节的一段javascript程序： <a href="https://gist.github.com/1230481/95f6facb74f51d089bea87eba0f470cf3bbed83a" target="_blank">https://gist.github.com/1230481/95f6facb74f51d089bea87eba0f470cf3bbed83a</a></p>
+<p>一个教你用HTML5做一个画图版的教程：<a href="http://www.primaryobjects.com/CMS/Article134.aspx">http://www.primaryobjects.com/CMS/Article134.aspx</a> 其示例在这里 <a href="http://www.primaryobjects.com/paint/">http://www.primaryobjects.com/paint/</a></p>
+<p><img decoding="async" loading="lazy" class="alignnone aligncenter" src="https://lh5.googleusercontent.com/-z17zh24rw4k/TmrH2wrPSRI/AAAAAAAAADQ/Az9W5Lge3Ok/h301/Untitled-1.gif" alt="" width="376" height="301" /></p>
+<p>这里又是一个HTML5的演示 <a href="http://www.spielzeugz.de/html5/sticky-thing/">http://www.spielzeugz.de/html5/sticky-thing/</a>，一个物理的会粘在浏览器边框上的小方块，在iPad里演示相当有意思。只是其代码好像被搞得非常地不易读，不过，你可以试试这个工具来整理代码：<a href="http://jsbeautifier.org/">http://jsbeautifier.org/</a>，但是变量命名还是会让你毫无头绪。</p>
+<p>HTML5的一个很炫的示例：<a href="http://lights.elliegoulding.com/" target="_blank">http://lights.elliegoulding.com/</a>  你可以用鼠标巡航，点左键加速（另，那位朋友知道其背景音乐？）</p>
+<p style="text-align: center;"><a href="http://lights.elliegoulding.com/"><img decoding="async" loading="lazy" class="size-full wp-image-5951 aligncenter" title="lights" src="https://coolshell.cn/wp-content/uploads/2011/11/lights.jpg" alt="" width="600" height="322" srcset="https://coolshell.cn/wp-content/uploads/2011/11/lights.jpg 600w, https://coolshell.cn/wp-content/uploads/2011/11/lights-300x161.jpg 300w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p>想用HTML5做股票图吗？看看这个库：<a href="http://www.rocketcharts.com/">http://www.rocketcharts.com/</a></p>
+<div>
+<div><img decoding="async" class="aligncenter" src="http://www.rocketcharts.com/img/rocketcharts.png" alt="" /></div>
+</div>
+<p>一个7K的js，可以让你的HTML的列表很灵活的分类，排序，搜索，过滤：<a href="http://listjs.com/">http://listjs.com/</a></p>
+<p>一个OOP的PHP处理图片的类库：<a href="http://imagine.readthedocs.org/">http://imagine.readthedocs.org</a></p>
+<p><img decoding="async" loading="lazy" class="aligncenter" src="http://imagine.readthedocs.org/en/latest/_static/logo.png" alt="" width="280" height="140" /></p>
+<p>一个Javascript实现的H.264解码器。<a href="https://github.com/mbebenita/Broadway">https://github.com/mbebenita/Broadway</a> （<a href="http://mbebenita.github.com/Broadway/broadway.html" target="_blank">演示地址</a> &#8211; 请用firefox打开，download速度可能很慢）不过，其是用Android C实现的，然后把C转成Javascript的代码。如果你想知道如何把C代码转成Javascript，你可以看看这个项目：<a href="https://github.com/kripken/emscripten">https://github.com/kripken/emscripten</a> &#8211; LLVM-to-JavaScript compiler。（变态！）</p>
+<p>一个可以画流程图的Javascript lib &#8211; WireIt：<a href="http://neyric.github.com/wireit/">http://neyric.github.com/wireit/</a></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-5952" title="wireit" src="https://coolshell.cn/wp-content/uploads/2011/11/wireit.png" alt="" width="411" height="283" srcset="https://coolshell.cn/wp-content/uploads/2011/11/wireit.png 411w, https://coolshell.cn/wp-content/uploads/2011/11/wireit-300x206.png 300w" sizes="(max-width: 411px) 100vw, 411px" /></p>
+<p>这是一个网站，仅用CSS，没有JS，没有图片做的N多公司的logo。但其可以用纯CSS做个动画，你可以看看：<a href="http://www.ecsspert.com/atari.php" target="_blank">http://www.ecsspert.com/atari.php</a> 研究了一下发现其用到了  <span class="Apple-style-span" style="font-family: monospace; font-size: 12px; line-height: 18px; white-space: pre;">-webkit-animation</span>。</p>
+<p>一个用bash处理JSON的脚本：<a href="https://github.com/rcrowley/json.sh" target="_blank">https://github.com/rcrowley/json.sh</a></p>
+<p>微软VS中的Debug Canvas,相当的不错啊。<a href="http://msdn.microsoft.com/en-us/devlabs/debuggercanvas">http://msdn.microsoft.com/en-us/devlabs/debuggercanvas</a>，可惜只在 Visual Studio Ultimate里。</p>
+<p>介绍一下很有意思的Firefox插件<a href="https://addons.mozilla.org/en-US/firefox/addon/tilt/" target="_blank"> Titl 3D</a>，其项目主页在 <a href="https://github.com/victorporof/Tilt">https://github.com/victorporof/Tilt</a>。这个插件使用WebGL可以3D地显示网页，安装好插件后，简单地按一下Ctrl+Shift+M就可以了。下面我用其显示了新浪微博和WebQQ。目前的功能不是很多，但是这个插件简直是太cool了——可以大胆的设想一下以后会不会有3D的网页。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="tile3d_weibo" src="https://coolshell.cn/wp-content/uploads/2011/11/tile3d_weibo.png" alt="" width="650" height="331" /></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-5810" title="tile3d_webqq" src="https://coolshell.cn/wp-content/uploads/2011/11/tile3d_webqq.png" alt="" width="650" height="331" srcset="https://coolshell.cn/wp-content/uploads/2011/11/tile3d_webqq.png 650w, https://coolshell.cn/wp-content/uploads/2011/11/tile3d_webqq-300x152.png 300w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<p>最后，在网上看到一个笑话，如下：</p>
+<p>这是给程序员们女朋友的建议。如果某程序员要和你分手，你可以参照这位国外程序员女友的作法——“你可以在facebook和twitter上拉黑我，也可以不回我的短信，但是，你永远不可能阻止我对你在Reddit上发的所有的贴投反对票！FUCK YOU ！”</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-5953" title="生气的女友" src="https://coolshell.cn/wp-content/uploads/2011/11/1z2qalh.png" alt="" width="499" height="78" srcset="https://coolshell.cn/wp-content/uploads/2011/11/1z2qalh.png 499w, https://coolshell.cn/wp-content/uploads/2011/11/1z2qalh-300x46.png 300w" sizes="(max-width: 499px) 100vw, 499px" /></p>
+<p>就这些，希望对你会喜欢。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="JS游戏引擎列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_title">JS游戏引擎列表</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5537.html">一些文章资源和趣闻</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5537.html/feed</wfw:commentRss>
+			<slash:comments>81</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的贴子和工具</title>
+		<link>https://coolshell.cn/articles/3903.html</link>
+					<comments>https://coolshell.cn/articles/3903.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 04 Mar 2011 00:25:39 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[CSS3]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[iPhone]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3903</guid>
+
+					<description><![CDATA[<p>又到了介绍各种杂项的时候了，正如以前的这三篇（这篇，这篇，和这篇）文章一样，本篇文章也给你介绍一些最近出现的一些有趣的东西。希望你能喜欢。 先说找工作吧，电影《...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3903.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3903.html">一些有意思的贴子和工具</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>又到了介绍各种杂项的时候了，正如以前的这三篇（<a title="一些非常有意思的杂项资源" href="https://coolshell.cn/articles/3013.html" target="_blank">这篇</a>，<a title="一些杂项资源" href="https://coolshell.cn/articles/3437.html" target="_blank">这篇</a>，和<a title="一些有意思的网站和贴子" href="https://coolshell.cn/articles/3480.html" target="_blank">这篇</a>）文章一样，本篇文章也给你介绍一些最近出现的一些有趣的东西。希望你能喜欢。</p>
+<p>先说找工作吧，电影《<a title="社交网络（豆瓣）" href="http://movie.douban.com/subject/3205624/" target="_blank">该页无法显示</a>》里的那个<a href="http://www.facebook.com" target="_blank">facebook</a>主页上的<strong><a title="FaceBook的招聘题" href="http://www.facebook.com/careers/puzzles.php" target="_blank">招聘网页</a></strong>上是列了一堆问题，你可以去看看，你可以使用c/c++，Erlang，Haskell，Java，Perl，Python，PHP，Ruby来解题，不过只接受Unix/Linux下的版本， 不接受Windows的版本。无独有偶，<a href="http://www.dropbox.com/" target="_blank">DropBox</a>的<strong><a title="DropBox的招聘题 " href="http://www.dropbox.com/jobs/challenges" target="_blank">招聘网页</a></strong>上也是些算法题，大家可以过去看看，不过需要翻墙。（现在，对于美国互联网企业来说，如果你没有被<a title="中国的C2C模式" href="https://coolshell.cn/articles/3820.html" target="_blank">C2C</a>，说明你根本不存在，如果你没有被墙，说明你还不算成功）</p>
+<p>接下来给大家介绍一些文档和教程吧，都是英文的。</p>
+<ul>
+<li><strong><a href="http://www.harding.edu/fmccown/java_csharp_comparison.html" target="_blank">Java和C#的完整比较</a></strong>。这是一个相当完整的比较Java和C#语言的网页。很有意思，有助于你了解Java和C#的各种特性和不同。</li>
+</ul>
+<ul>
+<li><strong><a href="http://use-the-index-luke.com/" target="_blank">SQL 性能调优</a></strong>。这个文档覆盖了<em>IBM DB2</em>, <em>MySQL</em>, <em>Oracle</em>,<em>PostgreSQL</em> 和 <em>Microsoft SQL Server</em>。不过这个电子书还没有写完，你可以使用其<a href="http://use-the-index-luke.com/blog/feed" target="_blank">RSS</a>, <a href="http://twitter.com/MarkusWinand">twitter</a> 或 <a title="Like on Facebook" href="http://www.facebook.com/plugins/like.php?href=http://www.facebook.com/pages/Use-The-Index-Luke/157726730906717?ref%3Dts&amp;layout=standard&amp;show_faces=true&amp;width=250&amp;action=like&amp;colorscheme=light&amp;height=80">Facebook</a> 来跟踪其进度。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.cleveralgorithms.com/" target="_blank">Clever Algorithms</a></strong>。这个电子书也是免费的。其主要面向一些AI和面向自然的算法，一共45个。其包括概率随机算法，迭代进化算法，物理算法，可能性算法，蚂蚁蜜蜂式算法，免疫算法，神经算法等。里面大量的高等数学公式对我来说我已经看不懂了。不过，我相信这个电子书非常适合搞理论研究的人，或是需要抄袭一篇论文以顺利毕业的人使用。</li>
+</ul>
+<ul>
+<li><strong><a href="http://blog.gingertech.net/wp-content/uploads/2011/01/LCA_MM_AVProc2011/#slide1" target="_blank">HTML5 Audio &amp; Video 处理</a></strong>。这是一组在线的幻灯片，请使用键盘光标键翻页。这是一组带着各种演示的幻灯片，对于你要学习HTML5的声音和视频相关的知识很有帮助。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.mikeash.com/pyblog/friday-qa-2010-12-31-c-macro-tips-and-tricks.html" target="_blank">C 语言的宏</a></strong>。你想知道C语的宏有哪些有些意思的用法吗？这篇文档不会让你失望的。其由浅入深地向你介绍了宏的各种用法。</li>
+</ul>
+<ul>
+<li><strong><a href="http://stringoftheseus.com/blog/2011/01/10/api-sorting-algorithms/" target="_blank">各种语言的排序算法</a></strong>。你想知道各种语言其默认的排序算法用的是<a title="一个排序算法比较的网站" href="https://coolshell.cn/articles/399.html" target="_blank">哪种排序算法</a>吗？看看这篇文章吧。</li>
+</ul>
+<ul>
+<li><strong><a href="http://fixplz.blourp.com/blog/=phys" target="_blank">物理模拟F#教程</a></strong>。相信你一定玩过那种游戏，画一个任意形状的石头，其会从天上落下以砸下面的一个东西，这个教程用.NET的F#向大家说明了这种东西怎么去做。（<a href="http://fixplz.blourp.com/blog/img/fsphys.rar" target="_blank">演示程序</a>）</li>
+</ul>
+<p><span id="more-3903"></span></p>
+<ul>
+<li><strong><a href="http://www.helixsoft.nl/articles/circle/sincos.htm" target="_blank">Sin &amp; Cos游戏教程</a></strong>。这篇文章向你介绍了一些游戏编程的技术。</li>
+</ul>
+<ul>
+<li><strong><a href="http://damienradtke.org/unofficial-introduction-to-gnome-application-dev/" target="_blank">GNOME开发介绍</a></strong>。这是一个非官方的介绍GNOME应用开发的教程，简单清楚，很适合初学者。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.korokithakis.net/tutorials/python" target="_blank">10分钟学会Python</a></strong>。是的，也许你和我一样，很恨这样几天就学好一门语言的书，比如：<a title="“21天教你学会C++”" href="https://coolshell.cn/articles/2250.html" target="_blank">21天学好C++</a>。这个更夸张，10分钟。TNND。不过，当我看了一下后，我觉得其很适合初学者对Python有一个感性的认识。</li>
+</ul>
+<ul>
+<li><strong><a href="http://nicolasgallagher.com/css-drop-shadows-without-images/" target="_blank">CSS阴影教程</a></strong>。这是一篇教你种CSS做出种式样式的阴影效果的教程，这里是<a href="http://nicolasgallagher.com/css-drop-shadows-without-images/demo/" target="_blank">演示</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://gergo.erdi.hu/blog/2011-02-13-developing_iphone_applications_in_haskell___a_tutorial/" target="_blank">用Haskell开发iPhone应用</a></strong>。这是一个教程序，告诉你如何用Haskell开发iOS的应用程序。</li>
+</ul>
+<p>下面，再让我给你介绍一些和Web开发相关的开源的库。</p>
+<ul>
+<li><strong><a href="http://www.photon-project.com/" target="_blank">Photon</a></strong>。这是一个号称高性能的轻量级的PHP应用服务器框架。号称比Zend，Symfony和mod_php快3-10倍。</li>
+</ul>
+<ul>
+<li><strong><a href="http://web.chemdoodle.com/" target="_blank">ChemDoodle</a></strong>。这是一个用来画一些化学分子式的基于HTML5的类库和API，支持2D/3D，很强大。兼容于所有产商的支持HTML5的浏览器。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.limejs.com/" target="_blank">LimeJS</a></strong>。这个JS库可以让你方便得制作一些触摸屏的小游戏。<a href="http://www.limejs.com/static/roundball/index.html" target="_blank">演示一</a>，<a href="http://www.limejs.com/static/zlizer/index.html" target="_blank">演示二</a>。（<a title="JS游戏引擎列表" href="https://coolshell.cn/articles/3516.html" target="_blank">一些游戏相关的JS</a>）</li>
+</ul>
+<ul>
+<li><strong><a href="https://github.com/ruidlopes/spellcheckthejs" target="_blank">拼写检查</a></strong>。这是一个英文拼写检查的JS。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.clips.ua.ac.be/pages/pattern" target="_blank">Pattern</a></strong>。这是东东很强大，用于做Web挖掘，其有一组工具用来从Google, Twitter, Wikipedia，Web爬虫，HTML上获得数据，并进行文本分析和数据图形化显示。你可以上这里看看<a href="http://www.clips.ua.ac.be/demos" target="_blank">相关演示</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.appcelerator.com/products/titanium-mobile-application-development/">Titanium Mobile</a></strong>。你想让你的代码同时支持iPhone和Android吗？这是一个跨平台的开发工具。这里有<a href="http://agiliq.com/blog/2011/02/iphoneandroid-application-development-using-titani/" target="_blank">一个教程</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://css3buttons.michaelhenriksen.dk/" target="_blank">CSS3的按钮</a></strong>。这里可以去下载一个CSS3的库，里面有N多的按钮风格，感觉都很酷。</li>
+</ul>
+<p>接下来，介绍一些小工具。</p>
+<ul>
+<li><strong><a href="http://caniuse.com/" target="_blank">Web兼容性表</a></strong>。你想看看各种浏览器对HTML5，CSS3，SVG的支持吗？这个网站可以让你看到所有的主流浏览器的兼容表。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.qgrep.com/" target="_blank">qgrep</a></strong>。嫌grep不够快吗？试试qgrep吧，支持OSX,  Linux 和 Windows。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.cam.hi-ho.ne.jp/oishi/indexen.html" target="_blank">XKeymacs</a></strong>。你有Emacs情结吗？如果有的话，试试这个工具吧，在windows里到处c-x c-c, c-x c-s, c-p, c-n什么什么的。挺有意思的。好吧，不是有意思，是BT。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.sublimetext.com/blog/articles/sublime-text-2-public-alpha" target="_blank">Sublime Text 2</a></strong>。虽然目前只是Alpha版本，但是这个看上去真的很不错。尤其是用来查看代码。支持Windows, Linux和OSX。</li>
+</ul>
+<ul>
+<li><strong><a href="http://code.google.com/p/vs-android/" target="_blank">VS-Android</a></strong>。这个项目让你可以在Visual Studio 2010的IDE下开发Android NDK C/C++的程序。</li>
+</ul>
+<p>其它东西。</p>
+<ul>
+<li><strong><a href="http://rigaux.org/language-study/scripting-language/" target="_blank">脚本语言排名</a></strong>。这个网页不但对所有的脚本语言进行了排名，还对一些操作进行了比较。</li>
+</ul>
+<ul>
+<li>HTML5的3D演示，这里有几个HTML5的3D演示，你可以看看，<a title="sketch/" href="http://hakim.se/experiments/html5/sketch/#1966de71" target="_blank">演示一</a>，<a title="蛋白质分子式" href="http://jolecule.appspot.com/pdb/1mbo#view:4mfct8" target="_blank">演示二</a>，<a title="立方体" href="http://dl.dropbox.com/u/59304/labs/cubeStable.html" target="_blank">演示三</a>，<a title="坦克游戏" href="http://dl.dropbox.com/u/59304/labs/tankGame.html" target="_blank">演示四</a>。</li>
+</ul>
+<ul>
+<li>说到Web上的3D，你可能需要看看Adobe的<a title="Molehill APIs" href="http://labs.adobe.com/technologies/flashplatformruntimes/incubator/features/molehill.html" target="_blank">Molehill (3D GPU accelerated) APIs</a>，这里有一篇<a href="http://www.bytearray.org/?p=2810" target="_blank">介绍文章</a>。</li>
+</ul>
+<ul>
+<li>还记得那个<a title="流体力学的演示" href="https://coolshell.cn/articles/3421.html" target="_blank">流体力学的演示</a>吗？现在有人把其做到了<a href="http://www.infi.nl/blog/view/id/98/Liquid_on_iPhone_and_iPad" target="_blank">iPhone/iPad上</a>。</li>
+</ul>
+<p>就这么多吧，也许没什么意思，那也请你见谅了。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3903.html">一些有意思的贴子和工具</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3903.html/feed</wfw:commentRss>
+			<slash:comments>24</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>JS游戏引擎列表</title>
+		<link>https://coolshell.cn/articles/3516.html</link>
+					<comments>https://coolshell.cn/articles/3516.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 20 Jan 2011 02:43:08 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3516</guid>
+
+					<description><![CDATA[<p>这里有一个网址收集了关于JS游戏引擎开发库的一个列表，转过来。关于使用JS和HTML5做的一些小游戏，可参见《HTML5 小游戏展示》 游戏引擎 Name La...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3516.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3516.html">JS游戏引擎列表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这里有一个<a href="https://gist.github.com/768272" target="_blank">网址</a>收集了关于JS游戏引擎开发库的一个列表，转过来。关于使用JS和HTML5做的一些小游戏，可参见《<a rel="bookmark" href="https://coolshell.cn/articles/2998.html" target="_blank">HTML5 小游戏展示</a>》</p>
+<h4>游戏引擎</h4>
+<table>
+<tbody>
+<tr>
+<th align="left">Name</th>
+<th align="left">Latest Release</th>
+<th align="left">License</th>
+<th align="left">Type</th>
+<th align="left">Notes</th>
+</tr>
+<tr>
+<td align="left"><a href="http://renderengine.com/">The Render Engine</a></td>
+<td align="left">1.5.3</td>
+<td align="left">MIT</td>
+<td align="left"></td>
+<td align="left">跨浏览器; 大规模 API; 开源. <a href="http://renderengine.com/features.php">2</a></td>
+</tr>
+<tr>
+<td align="left"><a href="http://gamequery.onaluf.org/">gameQuery</a></td>
+<td align="left">0.5.1</td>
+<td align="left">CC BY-SA 2.5</td>
+<td align="left"></td>
+<td align="left">和 jQuery 一起使用</td>
+</tr>
+<tr>
+<td align="left"><a href="http://game.tyler-dewitt.com/">gTile</a></td>
+<td align="left">0.0.1</td>
+<td align="left"></td>
+<td align="left">Tile based</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.kesiev.com/akihabara/">Akihabara</a></td>
+<td align="left">1.3</td>
+<td align="left">GPL2/MIT</td>
+<td align="left">Classic Repro</td>
+<td align="left">基于JS+HTML5的街机风格的游戏 <a href="https://github.com/kesiev/akihabara">3</a></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.lukewallin.co.uk/?go=engine">The Javascript 2D Game Engine</a></td>
+<td align="left"></td>
+<td align="left">GPL</td>
+<td align="left"></td>
+<td align="left">注重于重力、物理、碰撞检测方面，使用HTML5 Canvas 和IE的ExplorerCanvas 低CPU消耗. <a href="http://www.lukewallin.co.uk/?go=engine">4</a></td>
+</tr>
+<tr>
+<td align="left"><a href="http://gogomakeplay.com/gmp">The GMP Javascript Game Engine</a></td>
+<td align="left">1.7.4 (2010-10-31)</td>
+<td align="left">GPL2/MIT</td>
+<td align="left"></td>
+<td align="left">注重于数度的操作简化，&#8221;easy to learn and use&#8221; <a href="http://gogomakeplay.com/gmp">5</a></td>
+</tr>
+<tr>
+<td align="left"><a href="http://craftyjs.com/">Crafty</a></td>
+<td align="left">0.1</td>
+<td align="left">GPL/MIT</td>
+<td align="left"></td>
+<td align="left">轻量级和模块化。 <a href="http://craftyjs.com/">6</a></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.effectgames.com/effect/">Effect Games</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.propulsionjs.com/">PropulsionJS</a></td>
+<td align="left">1.1</td>
+<td align="left">MIT</td>
+<td align="left"></td>
+<td align="left">使用 HTML5 Canvas. <a href="http://www.propulsionjs.com/">7</a></td>
+</tr>
+<tr>
+<td align="left"><a href="http://flax.ie/category/flax-game-engine/">Flax</a></td>
+<td align="left"></td>
+<td align="left">Apache 2.0</td>
+<td align="left"></td>
+<td align="left">还没有released。使用 GWT 和 HTML5。关注于Linux和Mac OS上的Web游戏开发。<a href="http://flax.ie/about/">8</a></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/giancarlo/j5g3">j5g3</a></td>
+<td align="left"></td>
+<td align="left">GPLv3</td>
+<td align="left"></td>
+<td align="left">还在开发过程中</td>
+</tr>
+<tr>
+<td align="left"><a href="http://sites.google.com/site/cssgameengine/">cssgameengine</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">用于初学者。</td>
+</tr>
+</tbody>
+</table>
+<p><span id="more-3516"></span></p>
+<table>
+<tbody>
+<tr>
+<td align="left"><a href="http://mccormick.cx/projects/jsGameSoup/">jsGameSoup</a></td>
+<td align="left">v74</td>
+<td align="left">LGPLv3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.sean.co.uk/a/webdesign/javascript_gamelib/javascript_gamelib.shtm">Javascript Gamelib</a></td>
+<td align="left">2.10</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.sarien.net/source">Sarien.net interpreter</a></td>
+<td align="left"></td>
+<td align="left">GPL</td>
+<td align="left">2D Adventure</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://code.google.com/p/jgen/">jGen</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Isometric</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.isogenicengine.com/home/">Isogenic Engine</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Isometric</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://gammajs.org/">GammaJS</a></td>
+<td align="left">1.0</td>
+<td align="left">MIT</td>
+<td align="left">2.5D Platform</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.codeproject.com/KB/scripting/TomsHallsJavascriptGame.aspx">Tom&#8217;s Halls</a></td>
+<td align="left">3.0</td>
+<td align="left"></td>
+<td align="left">Platform</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/lostdecade/diggy">Diggy</a></td>
+<td align="left"></td>
+<td align="left">BSD</td>
+<td align="left"></td>
+<td align="left">基于 DHTML, 正在暂停中</td>
+</tr>
+<tr>
+<td align="left"><a href="http://impactjs.com/">Impact</a></td>
+<td align="left"></td>
+<td align="left">Commercial ($99)</td>
+<td align="left">2D</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://rocketpack.fi/engine/">Rocket Engine</a></td>
+<td align="left"></td>
+<td align="left">Commercial</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.wonderlandblog.com/wonderland/2010/04/aves-an-html-javascript-game-engine.html">Aves</a></td>
+<td align="left"></td>
+<td align="left">Commercial?</td>
+<td align="left"></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/vonkow/Rosewood">Rosewood</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">2D</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/RyanWilliams/cocos2d-javascript">Cocos2D</a></td>
+<td align="left"></td>
+<td align="left">BSD</td>
+<td align="left">2D</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://gamejs.org/">GameJS</a></td>
+<td align="left"></td>
+<td align="left">MIT</td>
+<td align="left">2D</td>
+<td align="left">CommonJs; 可以和 RingoJs server 整合，很像 PyGame; 仅支持Canvas;</td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.getxc.org/">xc.js</a></td>
+<td align="left"></td>
+<td align="left">BSD</td>
+<td align="left">2D</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://code.google.com/p/vegalib/">vegalib</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">LPGL</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://sourceforge.net/projects/clanfx/">ClanFX</a></td>
+<td align="left">0.0.1</td>
+<td align="left"></td>
+<td align="left">Tile based</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://canvex.lazyilluminati.com/">Canvex</a></td>
+<td align="left"></td>
+<td align="left">FPS</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/Osmose/bdge">bdge</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><a href="https://github.com/Osmose/Sub-C-Adventure">Demo</a></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/mcgrue/js-verge">js-verge</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">2D</td>
+<td align="left"><a href="http://spriteright.com/">Demo</a></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/BillyWM/FlixelJS">FlixelJS</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">2D</td>
+<td align="left"><a href="http://billy.wenge-murphy.com/flixel-js/testgame.html">Demo</a> Port of Flixel (Flash) to JS. <a href="http://flixel.org/forums/index.php?topic=2859.0">Announcement thread</a>.</td>
+</tr>
+<tr>
+<td align="left"><a href="http://unity3d.com/">Unity3D</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">Commercial (free version too)</td>
+<td align="left">JS backend</td>
+</tr>
+</tbody>
+</table>
+<h4>3D 引擎</h4>
+<p>相比起成熟的游戏引擎来说，这些引擎没有包括诸如AI、声音、游戏逻辑、网络等等功能，不过，你可以使用别的一些JS库来辅助完成这些功能。</p>
+<table>
+<tbody>
+<tr>
+<th align="left">Name</th>
+<th align="left">Latest Release</th>
+<th align="left">License</th>
+<th align="left">Notes</th>
+</tr>
+<tr>
+<td align="left"><a href="http://deanm.github.com/pre3d/">Pre3d</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"><a href="http://www.chromeexperiments.com/detail/monster/">Demo</a></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/mrdoob/three.js">three.js</a></td>
+<td align="left"></td>
+<td align="left">MIT</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.c3dl.org/">C3DL</a></td>
+<td align="left">2.1 (?)</td>
+<td align="left">MIT</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.ambiera.com/copperlicht/">CopperLicht</a></td>
+<td align="left">1.3.2 (?)</td>
+<td align="left"></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.wxs.ca/js3d/">JS3D</a></td>
+<td align="left">0.1a (2007-02-05)</td>
+<td align="left">GPL</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.flashsandy.org/">Sandy 3D</a></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">由Haxe编辑成 JS</td>
+</tr>
+<tr>
+<td align="left"><a href="http://code.google.com/p/o3d/">O3D</a></td>
+<td align="left"></td>
+<td>BSD</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://www.glge.org/">GLGE</a></td>
+<td align="left">0.5.2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://spidergl.org/">SpiderGL</a></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>碰撞检测</h4>
+<ul>
+<li><a href="http://code.google.com/p/box2dweb/">http://code.google.com/p/box2dweb/</a> &#8211; 由 <a href="http://www.box2d.org/">Box2D</a> 移植成 JS</li>
+</ul>
+<h4>动画</h4>
+<table>
+<tbody>
+<tr>
+<th align="left">Name</th>
+<th align="left">Latest Release</th>
+<th align="left">License</th>
+<th align="left">Notes</th>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/batiste/sprite.js">sprite.js</a></td>
+<td align="left"></td>
+<td align="left"><a href="https://github.com/batiste/sprite.js/blob/master/LICENSE">VIEW</a></td>
+<td align="left">Created with goal of having common JS framework for dsktop and web. <a href="http://www.htmlgoodies.com/daily_news/article.php/417990">1</a></td>
+</tr>
+</tbody>
+</table>
+<h4>声音</h4>
+<ul>
+<li><a href="http://www.schillmania.com/projects/soundmanager2/">SoundManager2</a></li>
+</ul>
+<h4>图形</h4>
+<h3>Canvas</h3>
+<table>
+<tbody>
+<tr>
+<th align="left">Name</th>
+<th align="left">Size (KB)</th>
+<th align="left">License</th>
+<th align="left">IE</th>
+<th align="left">SVG</th>
+<th align="left">Docs</th>
+<th align="left">Notes</th>
+</tr>
+<tr>
+<td align="left"><a href="http://code.google.com/p/canto-js/">canto.js</a></td>
+<td align="left">56</td>
+<td align="left"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://github.com/kangax/fabric.js/">fabric.js</a></td>
+<td align="left">97</td>
+<td align="left"></td>
+<td align="left">yes</td>
+<td align="left">yes</td>
+<td align="left">yes</td>
+<td align="left"><a href="http://kangax.github.com/fabric.js/test/demo/">Demo</a></td>
+</tr>
+<tr>
+<td align="left"><a href="http://github.com/rsandor/gury/blob/master/gury.js">gury.js</a></td>
+<td align="left">10</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">yes</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://code.google.com/p/cakejs/">CAKE</a></td>
+<td align="left">211</td>
+<td align="left"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://forvar.de/js/mcl/">Mootools Canvas Library (MCL)</a></td>
+<td align="left">8</td>
+<td align="left"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="https://canvastoolkit.codeplex.com/">HTML5 Canvas Library</a></td>
+<td align="left">12</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://code.google.com/p/layered-canvas-library/">Layered Canvas Library (LCL)</a></td>
+<td align="left">21</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://github.com/davidbrooks/Artisan">Artisan.js</a></td>
+<td align="left">17</td>
+<td align="left"></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://code.google.com/p/canvg/">canvg</a></td>
+<td align="left">78.3</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">yes</td>
+<td align="left">no</td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://github.com/F1LT3R/burst">burst</a></td>
+<td align="left">56</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">yes</td>
+<td align="left">没有维护了</td>
+</tr>
+<tr>
+<td align="left"><a href="http://easeljs.com/">easel.js</a></td>
+<td align="left">33</td>
+<td align="left">MIT</td>
+<td align="left">no</td>
+<td align="left">no</td>
+<td align="left">yes</td>
+<td align="left">尝试像Flash的DisplayList 一样在 Canvas 上创建图形。</td>
+</tr>
+<tr>
+<td align="left"><a href="http://processingjs.org/">processing.js</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="http://github.com/hapticdata/toxiclibsjs">toxiclibsjs</a></td>
+<td align="left"></td>
+<td align="left">LPGL2.1</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">和 processing.js 结合和很好</td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/hyperandroid/CAAT/">CAAT</a></td>
+<td align="left"></td>
+<td align="left">MIT</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/michael/unveil">Unveil.js</a></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="left"><a href="https://github.com/biilly/doodle-js">doodle.js</a></td>
+<td align="left"></td>
+<td align="left">BSD</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>注意，文件尺寸比较并不一定准确，因为有些lib并没有压缩过。</p>
+<ul>
+<li><a href="http://www.quasimondo.com/StackBlurForCanvas/StackBlurDemo.html">Stackblur</a> &#8211; 在 Canvas 上实现模糊的效果</li>
+<li><a href="http://www.pixastic.com/">Pixastic</a> &#8211; 简单的图片操作</li>
+<li><a href="http://raphaeljs.com/">Raphaël</a> &#8211; 进行一些矢量图以及一些变化操作，能看<a href="https://coolshell.cn/articles/3107.html" target="_blank">这篇文章</a></li>
+<li><a href="https://github.com/meltingice/CamanJS">CamanJS</a> &#8211; Canvas上的一些滤镜</li>
+<li><a href="https://github.com/millermedeiros/CanvasContext2DWrapper">CanvasContext2DWrapper</a> &#8211; Method chaining for Canvas</li>
+</ul>
+<h3>WebGL</h3>
+<ul>
+<li><a href="https://github.com/onegeek/webglu">WebGLU</a> &#8211; WebGL helpers</li>
+</ul>
+<h3>Color</h3>
+<ul>
+<li><a href="https://github.com/eligrey/color.js">color.js</a> &#8211; 颜色管理工具。 MIT</li>
+</ul>
+<h4>Math</h4>
+<ul>
+<li><a href="http://sylvester.jcoglan.com/">Sylvester</a> &#8211; 数组和矩阵</li>
+</ul>
+<h4>其它</h4>
+<ul>
+<li><a href="http://www.playmycode.com/">PlayMyCode</a> &#8211; 在线游戏社区。使用 Quby (像Ruby) 编译成JavaScript.</li>
+<li><a href="http://www.spheredev.org/">Sphere RPG Engine</a> &#8211; 为 RPG 游戏设计。使用 JavaScript</li>
+<li><a href="http://playtomic.com/">playtomic</a> &#8211; Commercial service providing analytics, leaderboards etc. services for games. Provides HTML5/JS API in addition to AS2/AS3 ones.</li>
+</ul>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3516.html">JS游戏引擎列表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3516.html/feed</wfw:commentRss>
+			<slash:comments>88</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>游戏Flash vs HTML5</title>
+		<link>https://coolshell.cn/articles/3267.html</link>
+					<comments>https://coolshell.cn/articles/3267.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 05 Nov 2010 03:16:25 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[HTML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3267</guid>
+
+					<description><![CDATA[<p>下面这个网页上做一个乒乓游戏，左边是Flash，右边是HTML5，很有趣。这也算是一个Flash和HTML5通讯的例子吧。 http://labs.codeco...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3267.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3267.html">游戏Flash vs HTML5</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面这个网页上做一个乒乓游戏，左边是Flash，右边是HTML5，很有趣。这也算是一个Flash和HTML5通讯的例子吧。</p>
+<p style="text-align: center;"><a href="http://labs.codecomputerlove.com/FlashVsHtml5/" target="_blank">http://labs.codecomputerlove.com/FlashVsHtml5/</a></p>
+<p style="text-align: center;">
+<p style="text-align: left;"><a href="http://labs.codecomputerlove.com/FlashVsHtml5/"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3268" title="flash vs html5" src="https://coolshell.cn/wp-content/uploads/2010/11/flash_vs_html5.jpg" alt="" width="521" height="347" srcset="https://coolshell.cn/wp-content/uploads/2010/11/flash_vs_html5.jpg 521w, https://coolshell.cn/wp-content/uploads/2010/11/flash_vs_html5-300x200.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/11/flash_vs_html5-405x270.jpg 405w" sizes="(max-width: 521px) 100vw, 521px" /></a></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="JS游戏引擎列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_title">JS游戏引擎列表</a></li><li ><a href="https://coolshell.cn/articles/3421.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/Liquid-150x150.jpg" alt="流体力学的演示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3421.html" class="wp_rp_title">流体力学的演示</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3267.html">游戏Flash vs HTML5</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3267.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>HTML5 小游戏展示</title>
+		<link>https://coolshell.cn/articles/2998.html</link>
+					<comments>https://coolshell.cn/articles/2998.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 21 Sep 2010 10:48:51 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2998</guid>
+
+					<description><![CDATA[<p>使用 HTML5 的 Canvas可以搞出一些很有趣的东西，如2D图形，位图，动画等。而使用Javascript来操作这些东西，可以设计出很多的小游戏。 下面是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2998.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2998.html">HTML5 小游戏展示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>使用 HTML5 的 Canvas可以搞出一些很有趣的东西，如2D图形，位图，动画等。而使用Javascript来操作这些东西，可以设计出很多的小游戏。 下面是一些用HTML5做出来的小游戏，让我想得了我小时候的那些游戏。</p>
+<p>顺祝大家中秋节快乐！以及进入史上最混乱的长假调休。呵呵。</p>
+<h4><a rel="nofollow" href="http://hakim.se/experiments/html5/sinuous/01/" target="_blank">Sinuous</a></h4>
+<p>小心被红点撞上。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-4.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.nihilogic.dk/labs/mariokart/" target="_blank">超级玛丽卡丁车</a></h4>
+<p>A small but fun racing game built in html5 canvas and javascript.</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-1.jpg" alt="" /></p>
+<p><span id="more-2998"></span></p>
+<h4><a rel="nofollow" href="http://arandomurl.com/2010/07/25/html5-pacman.html" target="_blank">吃豆</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-5.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.benjoffe.com/code/games/torus/" target="_blank">圆环俄罗斯方块</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-2.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.kevs3d.co.uk/dev/asteroids/" target="_blank">Asteroids</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-3.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.paulbrunt.co.uk/bert/" target="_blank">Bert’s Breakdown</a></h4>
+<p>很不错的游戏，漂亮的界面以及不错的关卡设置。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-6.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://reas.com/twitch/" target="_blank">TWITCH</a></h4>
+<p>TWITCH是一个解题性质的游戏。试试看你有多快。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-7.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://29a.ch/jswars/" target="_blank">JS Wars</a></h4>
+<p>一个经典的空战游戏。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-8.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.yvoschaap.com/chainrxn/" target="_blank">Chain Reaction</a></h4>
+<p>一个简单又容易上瘾的游戏。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-9.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://grenlibre.fr/demo/same/" target="_blank">Same Game</a></h4>
+<p>这个游戏相信大家都会玩，把相同颜色的连在一起。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-10.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.wiicade.com/playJSGame.aspx?gameID=1317&amp;gameName=Coverfire" target="_blank">Coverfire</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-11.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.mattpelham.com/racing/" target="_blank">JQuery Racing</a></h4>
+<p>靠！这个游戏很耐完，我相信你一定会在上面花很多时间。 jQuery 做的。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-12.jpg" alt="" /></p>
+<h3><a rel="nofollow" href="http://joncom.be/experiments/thrust/">Thrust</a></h3>
+<p>经典的八位图游戏。让我想起了《<a title="史上最烂的超级玛丽" href="https://coolshell.cn/articles/2834.html" target="_blank">史上最烂的超级玛丽</a>》</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-13.jpg" alt="" /></p>
+<h3><a rel="nofollow" href="http://aduros.emufarmers.com/easel/">俄罗斯方块</a></h3>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-14.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://alteredqualia.com/cubeout/" target="_blank">3D 俄罗斯方块 – Cubeout</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-15.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://dougx.net/plunder/plunder.html" target="_blank">Galatic Plunder</a></h4>
+<p>这个游戏使用了Canvas 和 Audio，主要是为了证明，没有Flash，用HTML5一样行。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-16.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://10k.aneventapart.com/Uploads/62/" target="_blank">Lines</a></h4>
+<p>很简单的游戏，我老看到办公室里很多人在玩。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-17.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://10k.aneventapart.com/Uploads/392/" target="_blank">RGB Invaders</a></h4>
+<p>小蜜蜂。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-18.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.agent8ball.com/" target="_blank">Agent 008 Ball</a></h4>
+<p>受不了了，还有台球。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-19.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.somethinghitme.com/projects/jslander/" target="_blank">JSLander</a></h4>
+<p>一个飞船着陆游戏。速度不要起过去6，不然就坠毁了。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-20.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://10k.aneventapart.com/Uploads/27/" target="_blank">Rainbow Blocks</a></h4>
+<p>SameGame 和JT的另一种变种。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-21.jpg" alt="" /></p>
+<p><strong>文章</strong>：<a href="http://blog.insicdesigns.com/2010/09/showcase-of-games-developed-using-html5-canvas/">http://blog.insicdesigns.com/2010/09/showcase-of-games-developed-using-html5-canvas/</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="JS游戏引擎列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_title">JS游戏引擎列表</a></li><li ><a href="https://coolshell.cn/articles/3267.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/flash_vs_html5-150x150.jpg" alt="游戏Flash vs HTML5" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3267.html" class="wp_rp_title">游戏Flash vs HTML5</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2998.html">HTML5 小游戏展示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2998.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>史上最烂的超级玛丽</title>
+		<link>https://coolshell.cn/articles/2834.html</link>
+					<comments>https://coolshell.cn/articles/2834.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 23 Aug 2010 07:20:21 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2834</guid>
+
+					<description><![CDATA[<p>啥也不说了，自己访问一下吧，F是跳，D是加速，回车的是开始，还挺好玩，简单是简单了点，但好歹也是用Java写的，也是Web的，呵呵。 http://meatfi...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2834.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2834.html">史上最烂的超级玛丽</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>啥也不说了，自己访问一下吧，F是跳，D是加速，回车的是开始，还挺好玩，简单是简单了点，但好歹也是用Java写的，也是Web的，呵呵。</p>
+<p style="text-align: center;"><a href="http://meatfighter.com/mario/mario.html" target="_blank">http://meatfighter.com/mario/mario.html</a></p>
+<p><a href="http://meatfighter.com/mario/mario.html"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2835" title="Super Mario" src="https://coolshell.cn/wp-content/uploads/2010/08/super_mario.jpg" alt="史上最烂的超级玛丽" width="300" height="267" /></a></p>
+<p>你还见过更烂的吗？<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2834.html">史上最烂的超级玛丽</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2834.html/feed</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Google吃豆游戏Logo的源码</title>
+		<link>https://coolshell.cn/articles/2466.html</link>
+					<comments>https://coolshell.cn/articles/2466.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 22 May 2010 15:42:10 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[Logo]]></category>
+		<category><![CDATA[PacMan]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2466</guid>
+
+					<description><![CDATA[<p>这两天，Google的logo换成了那个经典的吃豆游戏，很强大，也引发了大众的热议。如果你想要其源代码的话，你可以到这里下载：http://github.com...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2466.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2466.html">Google吃豆游戏Logo的源码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这两天，Google的logo换成了那个经典的吃豆游戏，很强大，也引发了大众的热议。如果你想要其源代码的话，你可以到这里下载：<span style="font-family: Consolas, Monaco, 'Courier New', Courier, monospace; line-height: 18px; font-size: 14px; white-space: pre;"><a href="http://github.com/macek/google_pacman" target="_blank"><strong>http://github.com/macek/google_pacman</strong></a></span>。而在线演示在这里：<span style="font-family: Consolas, Monaco, 'Courier New', Courier, monospace; line-height: 18px; font-size: 12px; white-space: pre;"><a href="http://macek.github.com/google_pacman/">http://macek.github.com/google_pacman/</a>。</span></p>
+<figure id="attachment_2467" aria-describedby="caption-attachment-2467" style="width: 554px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-2467" title="Google 吃豆游戏 Logo" src="https://coolshell.cn/wp-content/uploads/2010/05/google_pacman.jpg" alt="Google 吃豆游戏 Logo" width="554" height="186" srcset="https://coolshell.cn/wp-content/uploads/2010/05/google_pacman.jpg 554w, https://coolshell.cn/wp-content/uploads/2010/05/google_pacman-300x101.jpg 300w" sizes="(max-width: 554px) 100vw, 554px" /><figcaption id="caption-attachment-2467" class="wp-caption-text">Google 吃豆游戏 Logo</figcaption></figure>
+<p>需要注意的是，那个源程序在你的本机是不会有声音的，因为这跟flash的设置有关系，如果你需要有游戏声音，你还需要有以下的设置：</p>
+<pre>  1. 打开 Adobe Flash Control Panel:
+     <a href="http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html" target="_blank">http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html</a>
+  2. 点击 <code data-enlighter-language="raw" class="EnlighterJSRAW">Edit Locations</code>
+  3. 点击 <code data-enlighter-language="raw" class="EnlighterJSRAW">Add Location</code>
+  4. 浏览你的 <code data-enlighter-language="raw" class="EnlighterJSRAW">google_pacman</code> 目录
+  5. 点击 <code data-enlighter-language="raw" class="EnlighterJSRAW">Add</code></pre>
+<p>需要注意的是，这个源程序并不是Google官方发布的，只不过是某些好事者的网友发布的，不知道在日后的<a href="http://www.google.com/logos/index.html" target="_blank">Google的Logo归档</a>中是否会见到这个Logo。顺便说一下，根据 <a href="http://googleblog.blogspot.com/2010/05/celebrating-pac-mans-30th-birthday.html" target="_blank">Google官方BLOG</a>，这个程序是由 Marcin Wichary 和 Ryan Germick做的。真是又应了那句话——“如果一个应用能被Javascript实现，那么其最终会被Javascript实现”。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-150x150.jpg" alt="我看ChatGPT: 为啥谷歌掉了千亿美金" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_title">我看ChatGPT: 为啥谷歌掉了千亿美金</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder-150x150.png" alt="PFIF网上寻人协议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_title">PFIF网上寻人协议</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2466.html">Google吃豆游戏Logo的源码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2466.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>5个不错的3D素材网站</title>
+		<link>https://coolshell.cn/articles/796.html</link>
+					<comments>https://coolshell.cn/articles/796.html#respond</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 11 May 2009 14:14:47 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[3D]]></category>
+		<category><![CDATA[Game]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=796</guid>
+
+					<description><![CDATA[<p>你也许并不是一个创建3D图形的好手，你也许只能创建一些原始的东西，如：停止或灯炮标志等等这些小孩子玩的东西。而我们现实世界则需要更复杂更牛的东西，比如说一个人物...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/796.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/796.html">5个不错的3D素材网站</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>你也许并不是一个创建3D图形的好手，你也许只能创建一些原始的东西，如：停止或灯炮标志等等这些小孩子玩的东西。而我们现实世界则需要更复杂更牛的东西，比如说一个人物，一个机车等等。这里有史上最好的5个网站，你可以通过这些网站找到你想要的模型，这些3D的模型或资源对你开发游戏一定会有很大的帮助。</p>
+<h3><a href="http://www.3drt.com/">3DRT</a></h3>
+<p>这是一个迄今为止最好的站点。不仅仅因为这个站点有很多非常专业的模型，而且这个站点在收费方面还不是太坏——经常会有一些折扣。几乎，所有的模型都是动两国的，而且他们还是有皮肤的。他们有各式各样样的格式，并且提供PSD文件，这样方便你创建自己的皮肤。</p>
+<p><span id="more-796"></span></p>
+<h3><a href="http://www.garagegames.com/products/browse/artpacks">Garage Games</a></h3>
+<p>在 Garage Games，一些艺术包也有非常“漂亮”的价格，有一些相当不错，但也有一些普普通通。这些东西完全取决于艺术家们怎么去创作他们的。这个站点并不提供很多的格式。另外，在 Garage Games上，你还能找到很多不错的声音素材。</p>
+<h3><a href="http://www.fpscreator.com/">FPS Creator</a></h3>
+<p>这个站点有很多相当不错的模型和声音。所有的素材都是动画的和有皮肤的。所有的都是基于FPS creator格式的和可以被转换成其它格式的 .X 格式。有一个很不错的是，这些FPS 模型（手臂和火枪）包括了很多的乱七八糟的生物和敌人，这些东西几乎可以用来直接用于游戏了。</p>
+<h3><a href="http://www.realmcrafter.com/store/home.php?cat=250">Realm Crafter Packs</a></h3>
+<p>这里的模式是中等质量的。他们并不是最好的，不过他们的价格可能是比较低的。几乎所有的模型都是有动画的并有一些不同的格式。有一些模式只是静态的而没有动画。</p>
+<h3><a href="http://www.tridinaut.com/products.htm">Tridinaut</a></h3>
+<p>如果你想一些中世纪的武器，那么这个站点会给你提供很多这类的玩意。质量非常好，而且所有的模型现在还在免费。如果你给上 $50-$100 美金，他们会给你制作你想要的东西，这些人的确非常不错。</p>
+<p>希望你觉得这5个站点对你的游戏编程的工作很有用。</p>
+<p>文章：<a href="http://www.omahagamedev.com/?p=12" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="JS游戏引擎列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_title">JS游戏引擎列表</a></li><li ><a href="https://coolshell.cn/articles/3267.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/flash_vs_html5-150x150.jpg" alt="游戏Flash vs HTML5" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3267.html" class="wp_rp_title">游戏Flash vs HTML5</a></li><li ><a href="https://coolshell.cn/articles/2998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="HTML5 小游戏展示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2998.html" class="wp_rp_title">HTML5 小游戏展示</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/796.html">5个不错的3D素材网站</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/796.html/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

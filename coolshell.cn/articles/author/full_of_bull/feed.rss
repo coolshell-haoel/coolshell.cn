@@ -1,0 +1,2314 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Leo | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/articles/author/full_of_bull/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 02 Sep 2015 03:20:38 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Cuckoo Filter：设计与实现</title>
+		<link>https://coolshell.cn/articles/17225.html</link>
+					<comments>https://coolshell.cn/articles/17225.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Wed, 02 Sep 2015 01:18:54 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[数据库]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[filter]]></category>
+		<category><![CDATA[hashing]]></category>
+		<category><![CDATA[海量数据]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17225</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 对于海量数据处理业务，我们通常需要一个索引数据结构，用来帮助查询，快速判断数据记录是否存在，这种数据结构通常又叫过滤器(f...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17225.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17225.html">Cuckoo Filter：设计与实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p><img decoding="async" loading="lazy" class="alignright wp-image-17243 size-medium" src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-300x164.jpg" alt="" width="300" height="164" srcset="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-300x164.jpg 300w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo.jpg 400w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>对于海量数据处理业务，我们通常需要一个索引数据结构，用来帮助查询，快速判断数据记录是否存在，这种数据结构通常又叫过滤器(filter)。考虑这样一个场景，上网的时候需要在浏览器上输入URL，这时浏览器需要去判断这是否一个恶意的网站，它将对本地缓存的成千上万的URL索引进行过滤，如果不存在，就放行，如果（可能）存在，则向远程服务端发起验证请求，并回馈客户端给出警告。</p>
+<p>索引的存储又分为有序和无序，前者使用关联式容器，比如B树，后者使用哈希算法。这两类算法各有优劣：比如，关联式容器时间复杂度稳定O(logN)，且支持范围查询；又比如哈希算法的查询、增删都比较快O(1)，但这是在理想状态下的情形，遇到碰撞严重的情况，哈希算法的时间复杂度会退化到O(n)。因此，选择一个好的哈希算法是很重要的。</p>
+<p>时下一个非常流行的哈希索引结构就是<strong><a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank">bloom filter</a></strong>，它类似于bitmap这样的hashset，所以空间利用率很高。其独特的地方在于它使用多个哈希函数来避免哈希碰撞，如图所示（<a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank">来源wikipedia</a>），bit数组初始化为全0，插入x时，x被3个哈希函数分别映射到3个不同的bit位上并置1，查询x时，只有被这3个函数映射到的bit位全部是1才能说明x可能存在，但凡至少出现一个0表示x肯定不存在。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17242" src="https://coolshell.cn/wp-content/uploads/2015/08/Bloom_filter.png" alt="Bloom_filter" width="649" height="233" srcset="https://coolshell.cn/wp-content/uploads/2015/08/Bloom_filter.png 649w, https://coolshell.cn/wp-content/uploads/2015/08/Bloom_filter-300x108.png 300w" sizes="(max-width: 649px) 100vw, 649px" /></p>
+<p><span id="more-17225"></span></p>
+<p>但是，bloom filter的这种位图模式带来两个问题：一个是<strong>误报（false positives）</strong>，在查询时能提供“一定不存在”，但只能提供“可能存在”，因为存在其它元素被映射到部分相同bit位上，导致该位置1，那么一个不存在的元素可能会被误报成存在；另一个是<strong>漏报（false nagatives）</strong>，同样道理，如果删除了某个元素，导致该映射bit位被置0，那么本来存在的元素会被漏报成不存在。由于后者问题严重得多，所以bloom filter必须确保“definitely no”从而容忍“probably yes”，不允许元素的删除。</p>
+<p>关于元素删除的问题，一个改良方案是对bloom filter引入计数，但这样一来，原来每个bit空间就要扩张成一个计数值，空间效率上又降低了。</p>
+<h4>Cuckoo Hashing</h4>
+<p>为了解决这一问题，本文引入了一种新的哈希算法——<strong>cuckoo filter</strong>，它既可以确保该元素存在的必然性，又可以在不违背此前提下删除任意元素，仅仅比bitmap牺牲了微量空间效率。先说明一下，这个算法的思想来源是一篇<a href="http://www.cs.cmu.edu/~binfan/papers/conext14_cuckoofilter.pdf" target="_blank">CMU论文</a>，笔者按照其思路用C语言做了一个简单实现（<a href="https://github.com/begeekmyfriend/CuckooFilter" target="_blank">Github</a>），附上对一段文本数据进行导入导出的正确性测试。</p>
+<p>接下来我会结合自己的示例代码讲解哈希算法的实现。我们先来看看cuckoo hashing有什么特点，它的哈希函数是成对的（具体的实现可以根据需求设计），每一个元素都是两个，分别映射到两个位置，一个是记录的位置，另一个是备用位置。这个备用位置是处理碰撞时用的，这就要说到cuckoo这个名词的典故了，中文名叫布谷鸟，这种鸟有一种即狡猾又贪婪的习性，它不肯自己筑巢，而是把蛋下到别的鸟巢里，而且它的幼鸟又会比别的鸟早出生，布谷幼鸟天生有一种残忍的动作，幼鸟会拼命把未出生的其它鸟蛋挤出窝巢，今后以便独享“养父母”的食物。借助生物学上这一典故，cuckoo hashing处理碰撞的方法，就是把原来占用位置的这个元素踢走，不过被踢出去的元素还要比鸟蛋幸运，因为它还有一个备用位置可以安置，如果备用位置上还有人，再把它踢走，如此往复。直到被踢的次数达到一个上限，才确认哈希表已满，并执行rehash操作。如下图所示（<a href="http://codecapsule.com/2013/07/20/cuckoo-hashing/" target="_blank">图片来源</a>）：</p>
+<p><a href="http://codecapsule.com/2013/07/20/cuckoo-hashing/"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17244" src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo_preview.jpg" alt="cuckoo_preview" width="720" height="326" srcset="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo_preview.jpg 720w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo_preview-300x136.jpg 300w" sizes="(max-width: 720px) 100vw, 720px" /></a></p>
+<p>&nbsp;</p>
+<p>我们不禁要问发生哈希碰撞之前的空间利用率是多少呢？不幸地告诉你，一维数组的哈希表上跟其它哈希函数没什么区别，也就50%而已。但如果是二维的呢？</p>
+<p>一个改进的哈希表如下图所示，每个桶（bucket）有4路槽位（slot）。当哈希函数映射到同一个bucket中，在其它三路slot未被填满之前，是不会有元素被踢的，这大大缓冲了碰撞的几率。笔者自己的简单实现上测过，采用二维哈希表（4路slot）大约80%的占用率（CMU论文数据据说达到90%以上，应该是扩大了slot关联数目所致）。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-17241" src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing-1024x392.png" alt="cuckoo hashing" width="650" height="249" srcset="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing-1024x392.png 1024w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing-300x115.png 300w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing-900x344.png 900w, https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-hashing.png 1143w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<h4>Cuckoo Filter设计与实现</h4>
+<p>cuckoo hashing的原理介绍完了，下面就来演示一下笔者自己实现的一个cuckoo filter应用，简单易用为主，不到500行C代码。应用场景是这样的：假设有一段文本数据，我们把它通过cuckoo filter导入到一个虚拟的flash中，再把它导出到另一个文本文件中。flash存储的单元页面是一个log_entry，里面包含了一对key/value，value就是文本数据，key就是这段大小的数据的SHA1值（照理说SHA1是可以通过数据源生成，没必要存储到flash，但这里主要为了测试而故意设计的，万一key和value之间没有推导关系呢）。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#define SECTOR_SIZE    (1 &lt;&lt; 10)
+#define DAT_LEN        (SECTOR_SIZE - 20)  /* minus sha1 size */
+
+/* The log entries store key-value pairs on flash and the
+ * size of each entry is assumed just one sector fit.
+ */
+struct log_entry {
+        uint8_t sha1[20];
+        uint8_t data[DAT_LEN];
+};
+</pre>
+<p>顺便说明一下DAT_LEN设置，之前我们设计了一个虚拟flash（用malloc模拟出来），由于flash的单位是按页大小SECTOR_SIZE读写，这里假设每个log_entry正好一个页大小，当然可以根据实际情况调整。</p>
+<p>以上是flash的存储结构，至于哈希表里的slot有三个成员tag，status和offset，分别是哈希值，状态值和在flash的偏移位置。其中status有三个枚举值：AVAILIBLE，OCCUPIED，DELETED，分别表示这个slot是空闲的，占用的还是被删除的。至于tag，按理说应该有两个哈希值，对应两个哈希函数，但其中一个已经对应bucket的位置上了，所以我们只要保存另一个备用bucket的位置就行了，这样万一被踢，只要用这个tag就可以找到它的另一个安身之所。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+enum { AVAILIBLE, OCCUPIED, DELETED, };
+
+/* The in-memory hash bucket cache is to filter keys (which is assumed SHA1) via
+ * cuckoo hashing function and map keys to log entries stored on flash.
+ */
+struct hash_slot_cache {
+        uint32_t tag : 30;  /* summary of key */
+        uint32_t status : 2;  /* FSM */
+        uint32_t offset;  /* offset on flash memory */
+};
+</pre>
+<p>乍看之下size有点大是吗？没关系，你也可以根据情况调整数据类型大小，比如uint16_t，这里仅仅为了测试正确性。</p>
+<p>至于哈希表以及bucket和slot的创建见初始化代码。buckets是一个二级指针，每个bucket指向4个slot大小的缓存，即4路slot，那么bucket_num也就是slot_num的1/4。这里我们故意把slot_num调小了点，为的是测试rehash的发生。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#define ASSOC_WAY  (4)  /* 4-way association */
+
+struct hash_table {
+    struct hash_slot_cache **buckets;
+    struct hash_slot_cache *slots;
+    uint32_t slot_num;
+    uint32_t bucket_num;
+};
+
+int cuckoo_filter_init(size_t size)
+{
+    ...
+    /* Allocate hash slots */
+    hash_table.slot_num = nvrom_size / SECTOR_SIZE;
+    /* Make rehashing happen */
+    hash_table.slot_num /= 4;
+    hash_table.slots = calloc(hash_table.slot_num, sizeof(struct hash_slot_cache));
+    if (hash_table.slots == NULL) {
+        return -1;
+    }
+
+    /* Allocate hash buckets associated with slots */
+    hash_table.bucket_num = hash_table.slot_num / ASSOC_WAY;
+    hash_table.buckets = malloc(hash_table.bucket_num * sizeof(struct hash_slot_cache *));
+    if (hash_table.buckets == NULL) {
+        free(hash_table.slots);
+        return -1;
+    }
+    for (i = 0; i &lt; hash_table.bucket_num; i++) {
+        hash_table.buckets[i] = &amp;hash_table.slots[i * ASSOC_WAY];
+    }
+}
+</pre>
+<p>下面是哈希函数的设计，这里有两个，前面提到既然key是20字节的SHA1值，我们就可以分别是对key的低32位和高32位进行位运算，只要bucket_num满足2的幂次方，我们就可以将key的一部分同bucket_num &#8211; 1相与，就可以定位到相应的bucket位置上，注意bucket_num随着rehash而增大，哈希函数简单的好处是求哈希值十分快。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#define cuckoo_hash_lsb(key, count)  (((size_t *)(key))[0] &amp; (count - 1))
+#define cuckoo_hash_msb(key, count)  (((size_t *)(key))[1] &amp; (count - 1))
+</pre>
+<p>终于要讲解cuckoo filter最重要的三个操作了——查询、插入还有删除。查询操作是简单的，我们对传进来的参数key进行两次哈希求值tag[0]和tag[1]，并先用tag[0]定位到bucket的位置，从4路slot中再去对比tag[1]。只有比中了tag后，由于只是key的一部分，我们再去从flash中验证完整的key，并把数据在flash中的偏移值read_addr输出返回。相应的，如果bucket[tag[0]]的4路slot都没有比中，我们再去bucket[tag[1]]中比对（代码略），如果还比不中，可以肯定这个key不存在。<strong>这种设计的好处就是减少了不必要的flash读操作，每次比对的是内存中的tag而不需要完整的key。</strong></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static int cuckoo_hash_get(struct hash_table *table, uint8_t *key, uint8_t **read_addr)
+{
+    int i, j;
+    uint8_t *addr;
+    uint32_t tag[2], offset;
+    struct hash_slot_cache *slot;
+
+    tag[0] = cuckoo_hash_lsb(key, table-&gt;bucket_num);
+    tag[1] = cuckoo_hash_msb(key, table-&gt;bucket_num);
+
+    /* Filter the key and verify if it exists. */
+    slot = table-&amp;gt;buckets[tag[0]];
+    for (i = 0; i bucket_num) == slot[i].tag) {
+        if (slot[i].status == OCCUPIED) {
+            offset = slot[i].offset;
+            addr = key_verify(key, offset);
+            if (addr != NULL) {
+                if (read_addr != NULL) {
+                    *read_addr = addr;
+                }
+                break;
+            }
+        } else if (slot[i].status == DELETED) {
+            return DELETED;
+        }
+    }
+    ...
+}</pre>
+<p>接下来先将简单的删除操作，之所以简单是因为delete除了将相应slot的状态值设置一下之外，其实什么都没有干，也就是说它不会真正到flash里面去把数据清除掉。为什么？很简单，没有必要。还有一个原因，flash的写操作之前需要擦除整个页面，这种擦除是会折寿的，<strong>所以很多flash支持随机读，但必须保持顺序写。</strong></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static void cuckoo_hash_delete(struct hash_table *table, uint8_t *key)
+{
+    uint32_t i, j, tag[2];
+    struct hash_slot_cache *slot;
+
+    tag[0] = cuckoo_hash_lsb(key, table-&gt;bucket_num);
+    tag[1] = cuckoo_hash_msb(key, table-&gt;bucket_num);
+
+    slot = table-&gt;buckets[tag[0]];
+    for (i = 0; i bucket_num) == slot[i].tag) {
+        slot[i].status = DELETED;
+        return;
+    }
+    ...
+}</pre>
+<p>了解了flash的读写特性，你就知道为啥插入操作在flash层面要设计成append。不过我们这里不讨论过多flash细节，哈希表层面的插入逻辑其实跟查询差不多，我就不贴代码了。这里要贴的是如何判断并处理碰撞，其实这里也没啥玄机，就是用old_tag和old_offset保存一下临时变量，以便一个元素被踢出去之后还能找到备用的安身之所。但这里会有一个判断，每次踢人都会计数，当alt_cnt大于512时候表示哈希表真的快满了，这时候需要rehash了。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static int cuckoo_hash_collide(struct hash_table *table, uint32_t *tag, uint32_t *p_offset)
+{
+    int i, j, k, alt_cnt;
+    uint32_t old_tag[2], offset, old_offset;
+    struct hash_slot_cache *slot;
+
+    /* Kick out the old bucket and move it to the alternative bucket. */
+    offset = *p_offset;
+    slot = table-&gt;buckets[tag[0]];
+    old_tag[0] = tag[0];
+    old_tag[1] = slot[0].tag;
+    old_offset = slot[0].offset;
+    slot[0].tag = tag[1];
+    slot[0].offset = offset;
+    i = 0 ^ 1;
+    k = 0;
+    alt_cnt = 0;
+
+KICK_OUT:
+    slot = table-&gt;buckets[old_tag[i]];
+    for (j = 0; j &lt; ASSOC_WAY; j++) {
+        if (offset == INVALID_OFFSET &amp;&amp; slot[j].status == DELETED) {
+            slot[j].status = OCCUPIED;
+            slot[j].tag = old_tag[i ^ 1];
+            *p_offset = offset = slot[j].offset;
+            break;
+        } else if (slot[j].status == AVAILIBLE) {
+            slot[j].status = OCCUPIED;
+            slot[j].tag = old_tag[i ^ 1];
+            slot[j].offset = old_offset;
+            break;
+        }
+    }
+
+    if (j == ASSOC_WAY) {
+        if (++alt_cnt &gt; 512) {
+            if (k == ASSOC_WAY - 1) {
+                /* Hash table is almost full and needs to be resized */
+                return 1;
+            } else {
+                k++;
+            }
+        }
+        uint32_t tmp_tag = slot[k].tag;
+        uint32_t tmp_offset = slot[k].offset;
+        slot[k].tag = old_tag[i ^ 1];
+        slot[k].offset = old_offset;
+        old_tag[i ^ 1] = tmp_tag;
+        old_offset = tmp_offset;
+        i ^= 1;
+        goto KICK_OUT;
+    }
+
+    return 0;
+}</pre>
+<p>rehash的逻辑也很简单，无非就是把哈希表中的buckets和slots重新realloc一下，空间扩展一倍，然后再从flash中的key重新插入到新的哈希表里去。这里有个陷阱要注意，<strong>千万不能有相同的key混进来！</strong>虽然cuckoo hashing不像开链法那样会退化成O(n)，但由于每个元素有两个哈希值，而且每次计算的哈希值随着哈希表rehash的规模而不同，相同的key并不能立即检测到冲突，但当相同的key达到一定规模后，噩梦就开始了，由于rehash里面有插入操作，一旦在这里触发碰撞，又会触发rehash，这时就是一个rehash不断递归的过程，由于其中老的内存没释放，新的内存不断重新分配，整个程序就如同陷入DoS攻击一般瘫痪了。<strong>所以每次插入操作前一定要判断一下key是否已经存在过，并且对rehash里的插入使用碰撞断言防止此类情况发生。</strong>笔者在测试中不幸中了这样的彩蛋，调试了大半天才搞清楚原因，搞IT的同学们记住一定要防小人啊~</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">static void cuckoo_rehash(struct hash_table *table)
+{
+    ...
+    uint8_t *read_addr = nvrom_base_addr;
+    uint32_t entries = log_entries;
+    while (entries--) {
+        uint8_t key[20];
+        uint32_t offset = read_addr - nvrom_base_addr;
+        for (i = 0; i &amp;lt; 20; i++) {
+            key[i] = flash_read(read_addr);
+            read_addr++;
+        }
+        /* Duplicated keys in hash table which can cause eternal
+         * hashing collision! Be careful of that!
+         */
+        assert(!cuckoo_hash_put(table, key, &amp;offset));
+        if (cuckoo_hash_get(&amp;old_table, key, NULL) == DELETED) {
+            cuckoo_hash_delete(table, key);
+        }
+        read_addr += DAT_LEN;
+    }
+    ...
+}</pre>
+<p>到此为止代码的逻辑还是比较简单，使用效果如何呢？我来帮你找个大文件<a href="https://github.com/unqlite/unqlite/blob/master/unqlite.c" target="_blank">unqlite.c</a>测试一下，这是一个嵌入式数据库源代码，共59959行代码。作为需要导入的文件，编译我们的cuckoo filter，然后执行：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">./cuckoo_db unqlite.c output.c</code></p>
+<p>你会发现生成output.c正好也是59959行代码，一分不差，probably yes终于变成了definitely yes。同时也可以看到，cuckoo filter真的很快！如果你想看hashing的整个过程，可以参照<a href="https://github.com/begeekmyfriend/CuckooFilter/blob/master/README.md" target="_blank">README</a>里把调试宏打开。最后，欢迎给<a href="https://github.com/begeekmyfriend/CuckooFilter" target="_blank">这个小玩意</a>提交PR！</p>
+<h4>参考资料</h4>
+<p>Cuckoo Filter的<a href="http://www.cs.cmu.edu/~binfan/papers/conext14_cuckoofilter.pdf" target="_blank">论文</a>和<a href="http://www.cs.cmu.edu/~binfan/papers/conext14_cuckoofilter.pptx" target="_blank">PPT</a>：Cuckoo Filter: Practically Better Than Bloom<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/538efefbgw1eiz9cvx78fj20rm0fmdi8-150x150.jpg" alt="【活动】解迷题送礼物" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_title">【活动】解迷题送礼物</a></li><li ><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/QR-Code-Overview-150x150.jpeg" alt="二维码的生成细节和原理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_title">二维码的生成细节和原理</a></li><li ><a href="https://coolshell.cn/articles/10427.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation-150x150.jpg" alt="伙伴分配器的一个极简实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10427.html" class="wp_rp_title">伙伴分配器的一个极简实现</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17225.html">Cuckoo Filter：设计与实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17225.html/feed</wfw:commentRss>
+			<slash:comments>37</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Linus：为何对象引用计数必须是原子的</title>
+		<link>https://coolshell.cn/articles/16910.html</link>
+					<comments>https://coolshell.cn/articles/16910.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Wed, 31 Dec 2014 01:59:33 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Atomic]]></category>
+		<category><![CDATA[Concurrency]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[lock-free]]></category>
+		<category><![CDATA[Parallelism]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=16910</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） Linus大神又在rant了！这次的吐槽对象是时下很火热的并行技术(parellism)，并直截了当地表示并行计算是浪费所...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/16910.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/16910.html">Linus：为何对象引用计数必须是原子的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>Linus大神又在rant了！这次的吐槽对象是时下很火热的<strong>并行技术(parellism)</strong>，并直截了当地表示<a title="并行计算基本上就是浪费大家的时间" href="http://www.vaikan.com/linus-parallel-computing-is-a-huge-waste-of-everybodys-time/" target="_blank">并行计算是浪费所有人时间</a>(<a href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146227">&#8220;The whole &#8220;let&#8217;s parallelize&#8221; thing is a huge waste of everybody&#8217;s time.&#8221;</a>)。大致意思是说<strong>乱序性能快、提高缓存容量、降功耗</strong>。当然笔者不打算正面讨论并行的是是非非（过于宏伟的主题），因为Linus在另一则<a title="reference counting" href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146183" target="_blank">帖子</a>中举了对象<strong>引用计数(reference counting)</strong>的例子来说明并行的复杂性。</p>
+<p>在Linus回复之前有人指出<strong>对象需要锁机制的情况下，引用计数的原子性问题：</strong></p>
+<blockquote><p>Since it is being accessed in a multi-threaded way, via multiple access paths, generally it needs its own mutex &#8212; otherwise, reference counting would not be required to be atomic and a lock of a higher-level object would suffice.</p>
+<p>由于（对象）通过多线程方式及多种获取渠道，一般而言它需要自身维护一个互斥锁——否则引用计数就不要求是原子的，一个更高层次的对象锁足矣。</p></blockquote>
+<p>而Linus不那么认为：</p>
+<blockquote><p>The problem with reference counts is that you often need to take them *before* you take the lock that protects the object data.</p>
+<p>引用计数的问题在于你经常需要在对象数据<strong>上锁保护之前</strong>完成它。</p></blockquote>
+<p>The thing is, you have two different cases:</p>
+<p>问题有两种情况：</p>
+<p style="padding-left: 30px;"><strong>&#8211; object *reference* 对象引用</strong></p>
+<p style="padding-left: 30px;"><strong>&#8211; object data 对象数据</strong></p>
+<p>and they have completely different locking.</p>
+<p><strong>它们锁机制是完全不一样的。</strong></p>
+<p><span id="more-16910"></span></p>
+<p>Object data locking is generally per-object. Well, unless you don&#8217;t have huge scalability issues, in which case you may have some external bigger lock (extreme case: one single global lock).</p>
+<p>对象数据保护一般是一个对象拥有一个锁，假设你没有海量扩展性问题，不然你需要一些外部大一点的锁（极端的例子，一个对象一个全局锁）。</p>
+<p>But object *referencing* is mostly about finding the object (and removing/freeing it). Is it on a hash chain? Is it in a tree? Linked list? When the reference count goes down to zero, it&#8217;s not the object data that you need to protect (the object is not used by anything else, so there&#8217;s nothing to protect!), it&#8217;s the ways to find the object you need to protect.</p>
+<p>但对象引用主要关于对象的寻找（移除或释放），它是否在哈希链，一棵树或者链表上。<strong>当对象引用计数降为零，你要保护的不是对象数据，因为对象没有在其它地方使用，你要保护的是对象的寻找操作。</strong></p>
+<p>And the lock for the lookup operation cannot be in the object, because &#8211; by definition &#8211; you don&#8217;t know what the object is! You&#8217;re trying to look it up, after all.</p>
+<p>而且查询操作的锁不可能在对象内部，因为根据定义，你还不知道这是什么对象，你在尝试寻找它。</p>
+<p>So generally you have a lock that protects the lookup operation some way, and the reference count needs to be atomic with respect to that lock.</p>
+<p>因此一般你要对查询操作上锁，而且引用计数相对<strong>那个锁</strong>来说是原子的（译者注：查询锁不是引用计数所在的对象所有，不能保护对象引用计数，后面会解释为何引用计数变更时其所在对象不能上锁）。</p>
+<p>And yes, that lock may well be sufficient, and now you&#8217;re back to non-atomic reference counts. But you usually don&#8217;t have just one way to look things up: you might have pointers from other objects (and that pointer is protected by the object locking of the other object), but there may be multiple such objects that point to this (which is why you have a reference count in the first place!)</p>
+<p>当然这个锁是充分有效的，现在假设引用计数是非原子的，但你常常不仅仅使用一种方式来查询：你可能拥有其它对象的指针（这个指针又被其它对象的对象锁给保护起来），但同时还会有多个对象指向它（这就是为何你第一时间需要引用计数的理由）。</p>
+<p>See what happens? There is no longer one single lock for lookup. Imagine walking a graph of objects, where objects have pointers to each other. Each pointer implies a reference to an object, but as you walk the graph, you have to release the lock from the source object, so you have to take a new reference to the object you are now entering.</p>
+<p>看看会发生什么？查询不止存在一个锁保护。你可以想象走过一张对象流程图，其中对象存在指向其它对象的指针，每个指针暗含了一次对象引用，但当你走过这个流程图，你必须释放源对象的锁，而你进入新对象时又必须增加一次引用。</p>
+<p>And in order to avoid deadlocks, you can not in the general case take the lock of the new object first &#8211; you have to release the lock on the source object, because otherwise (in a complex graph), how do you avoid simple ABBA deadlock?</p>
+<p>而且为了避免死锁，你一般不能立即对新对象上锁——你必须释放源对象的锁，否则在一个复杂流程图里，你如何避免<strong>ABBA死锁</strong>（译者注：假设两个线程，一个是A-&gt;B，另一个B-&gt;;A，当线程一给A上锁，线程二给B上锁，此时两者谁也无法释放对方的锁）？</p>
+<p>So atomic reference counts fix that. They work because when you move from object A to object B, you can do this:</p>
+<p>原子引用计数修正了这一点，当你从对象A到对象B，你会这样做：</p>
+<p>(a) you have a reference count to A, and you can lock A</p>
+<p style="padding-left: 30px;">对象A增加一次引用计数，并上锁。</p>
+<p>(b) once object A is locked, the pointer from A to B is stable, and you know you have a reference to B (because of that pointer from A to B)</p>
+<p style="padding-left: 30px;">对象A一旦上锁，A指向B的指针就是稳定的，于是你知道你引用了对象B。</p>
+<p>(c) but you cannot take the object lock for B (ABBA deadlock) while holding the lock on A</p>
+<p style="padding-left: 30px;">但你不能在对象A上锁期间给B上锁（ABBA死锁）。</p>
+<p>(d) increment the atomic reference count on B</p>
+<p style="padding-left: 30px;">对象B增加一次原子引用计数。</p>
+<p>(e) now you can drop the lock on A (you&#8217;re &#8220;exiting&#8221; A)</p>
+<p style="padding-left: 30px;">现在你可以扔掉对象A的锁（退出对象A）。</p>
+<p>(f) your reference count means that B cannot go away from under you despite unlocking A, so now you can lock B.</p>
+<p style="padding-left: 30px;">对象B的原子引用计数意味着即使给A解锁期间，B也不会失联，现在你可以给B上锁。</p>
+<p>See? Atomic reference counts make this kind of situation possible. Yes, you want to avoid the overhead if at all possible (for example, maybe you have a strict ordering of objects, so you know you can walk from A to B, and never walk from B to A, so there is no ABBA deadlock, and you can just lock B while still holding the lock on A).</p>
+<p>看见了吗？原子引用计数使这种情况成为可能。是的，你想尽一切办法避免这种代价，比如，你也许把对象写成严格顺序的，这样你可以从A到B，绝不会从B到A，如此就不存在ABBA死锁了，你也就可以在A上锁期间给B上锁了。</p>
+<p>But if you don&#8217;t have some kind of forced ordering, and if you have multiple ways to reach an object (and again &#8211; why have reference counts in the first place if that isn&#8217;t true!) then atomic reference counts really are the simple and sane answer.</p>
+<p>但如果你无法做到这种强迫序列，如果你有多种方式接触一个对象（再一次强调，这是第一时间使用引用计数的理由），这样，原子引用计数就是简单又理智的答案。</p>
+<p>If you think atomic refcounts are unnecessary, that&#8217;s a big flag that you don&#8217;t actually understand the complexities of locking.</p>
+<p><strong>如果你认为原子引用计数是不必要的，这就大大说明你实际上不了解锁机制的复杂性。</strong></p>
+<p>Trust me, concurrency is hard. There&#8217;s a reason all the examples of &#8220;look how easy it is to parallelize things&#8221; tend to use simple arrays and don&#8217;t ever have allocations or freeing of the objects.</p>
+<p>相信我，<strong>并发设计是困难的。</strong>所有关于“并行化如此容易”的理由都倾向于使用简单数组操作做例子，甚至不包含对象的分配和释放。</p>
+<p>People who think that the future is highly parallel are invariably completely unaware of just how hard concurrency really is. They&#8217;ve seen Linpack, they&#8217;ve seen all those wonderful examples of sorting an array in parallel, they&#8217;ve seen all these things that have absolutely no actual real complexity &#8211; and often very limited real usefulness.</p>
+<p>那些认为未来是高度并行化的人一成不变地完全没有意识到并发设计是多么困难。他们只见过<a title="Linpack" href="http://en.wikipedia.org/wiki/LINPACK" target="_blank">Linpack</a>，他们只见过并行技术中关于数组排序的一切精妙例子，他们只见过一切绝不算真正复杂的事物——对真正的用处经常是非常有限的。</p>
+<p>（译者注：当然，我无意借大神之口把技术宗教化。实际上Linus又在另一篇<a title="评价" href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146198" target="_blank">帖子</a>中综合了对并行的评价。）</p>
+<p>Oh, I agree. My example was the simple case. The really complex cases are much worse.</p>
+<p>哦，我同意。我的例子还算简单，真正复杂的用例更糟糕。</p>
+<p>I seriously don&#8217;t believe that the future is parallel. People who think you can solve it with compilers or programming languages (or better programmers) are so far out to lunch that it&#8217;s not even funny.</p>
+<p>我严重不相信未来是并行的。有人认为你可以通过编译器，编程语言或者更好的程序员来解决问题，他们目前都是神志不清，没意识到这一点都不有趣。</p>
+<p>Parallelism works well in simplified cases with fairly clear interfaces and models. You find parallelism in servers with independent queries, in HPC, in kernels, in databases. And even there, people work really hard to make it work at all, and tend to expressly limit their models to be more amenable to it (eg databases do some things much better than others, so DB admins make sure that they lay out their data in order to cater to the limitations).</p>
+<p>并行计算可以在简化的用例以及具备清晰的接口和模型上正常工作。你发现并行在服务器上独立查询里，在高性能计算(High-performance computing)里，在内核里，在数据库里。即使如此，人们还得花很大力气才能使它工作，并且还要明确限制他们的模型来尽更多义务（例如数据库要想做得更好，数据库管理员得确保数据得到合理安排来迎合局限性）。</p>
+<p>Of course, other programming models can work. Neural networks are inherently very parallel indeed. And you don&#8217;t need smarter programmers to program them either..</p>
+<p>当然，其它编程模型倒能派上用场，神经网络(neural networking)天生就是非常并行化的，你不需要更聪明的程序员为之写代码。</p>
+<h4>参考资料</h4>
+<ul>
+<li><a title="Real World Technologies" href="http://www.realworldtech.com/" target="_blank">Real World Technologies</a>：Linus常去“灌水”的一个论坛，讨论未来机器架构（看名字就知道Linus技术偏好，及其之前对虚拟化技术(virtualization)的<a title="virtualization is evil" href="http://www.networkworld.com/article/2220440/opensource-subnet/torvalds-says---virtualization-is-evil-.html" target="_blank">吐槽</a>）</li>
+<li><a title="多线程程序中操作的原子性" href="http://www.parallellabs.com/2010/04/15/atomic-operation-in-multithreaded-application/" target="_blank">多线程程序中操作的原子性</a>：解释为什么i++不是原子操作</li>
+<li><a title="Concurrency Is Not Parallelism" href="http://www.vaikan.com/docs/Concurrency-is-not-Parallelism" target="_blank"> Concurrency Is Not Parallelism</a>：Go语言之父Rob Pike幻灯片解释“并发”与“并行”概念上的区别</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="对九个超级程序员的采访" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_title">对九个超级程序员的采访</a></li><li ><a href="https://coolshell.cn/articles/6790.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/o_conditional_update_1-150x150.png" alt="多版本并发控制(MVCC)在分布式系统中的应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6790.html" class="wp_rp_title">多版本并发控制(MVCC)在分布式系统中的应用</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/1619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/Linus_windows_7-150x150.jpg" alt="Windows 7 的新粉丝 Linus Torvalds" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1619.html" class="wp_rp_title">Windows 7 的新粉丝 Linus Torvalds</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/16910.html">Linus：为何对象引用计数必须是原子的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/16910.html/feed</wfw:commentRss>
+			<slash:comments>37</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>State Threads 回调终结者</title>
+		<link>https://coolshell.cn/articles/12012.html</link>
+					<comments>https://coolshell.cn/articles/12012.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Sun, 12 Oct 2014 14:48:57 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[coroutine]]></category>
+		<category><![CDATA[EDSM]]></category>
+		<category><![CDATA[IA]]></category>
+		<category><![CDATA[process]]></category>
+		<category><![CDATA[thread]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[协程]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12012</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 上回写了篇《一个“蝇量级”C语言协程库》，推荐了一下Protothreads，通过coroutine模拟了用户级别的mul...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12012.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12012.html">State Threads 回调终结者</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>上回写了篇<a title="一个“蝇量级” C 语言协程库" href="https://coolshell.cn/articles/10975.html" target="_blank">《一个“蝇量级”C语言协程库》</a>，推荐了一下<a title="Protothreads" href="http://dunkels.com/adam/pt/" target="_blank">Protothreads</a>，通过coroutine模拟了用户级别的multi-threading模型，虽然本身足够“轻”，杜绝了系统开销，但这个库本身应用场合主要是内存限制的嵌入式领域，提供原生态组件太少，使用限制太多，比如依赖其它调用产生阻塞等。</p>
+<p>这回又替大家在开源界淘了个宝，推荐一个轻量级网络应用框架<strong>State Threads</strong>（以下简称ST），总共也就3000行C代码，跟Protothreads不同在于ST针对的就是<strong>高性能可扩展服务器</strong>领域（值得一提的是Protothreads官网<a title="参考链接" href="http://dunkels.com/adam/pt/links.html" target="_blank">参考链接</a>上第一条就是ST的官网）。在其<a title="FAQ" href="http://state-threads.sourceforge.net/docs/faq.html" target="_blank">FAQ</a>页面上一句引用&#8221;Perfection is achieved not when there is nothing more to add, but rather when there is nothing more to take away.&#8221;可以视为开发人员对ST源码质量的自信。</p>
+<h4>历史渊源</h4>
+<p>首先介绍一下这个库的历史渊源，从代码贡献者来看，ST不是个人作品，而是有着雄厚的商业支持和应用背景，比如服务器领域，在<a href="http://state-threads.sourceforge.net/news.html" target="_blank">这里</a>你可以看到ST曾作为Apache的多核应用模块发布。其诞生最初是由网景（Netscape）公司的MSPR（Netscape Portable Runtime library）项目中剥离出来，后由SGI（Silicon Graphic Inc）还有Yahoo!公司（前者是主力）开发维护的独立线程库。历史版本方面，作为<a title="SourceForge" href="http://sourceforge.net/projects/state-threads/files/" target="_blank">SourceForge</a>上开源项目，由2001年发布v1.0以来一直到2009年v1.9稳定版后未再变动。在平台移植方面，从Makefile的配置选项中可知ST支持多种Unix-like平台，还有专门针对Win32的源码改写。源码例子中，提供了web server、proxy以及dns三种编程实例供参考。可以说代码质量应该是相当的稳定和可靠的。</p>
+<p><span id="more-12012"></span></p>
+<p>至于许可证方面，有必要略作说明。出于历史原因，网景最初发布时选择了MPL1.1许可证，而后SGI在维护中又混进了GPLv2许可证，照理说这两种许可证是互不兼容的（MPL1.1后续版本是GPL兼容的），也就是说用双许可证打包发布理论上是非法无效的，见GNU官网上<a title="GPL兼容" href="http://www.gnu.org/licenses/license-list.html#MPL" target="_blank">MPL兼容性</a>一节。但这里有值得商榷的地方，因为文中又提及，根据MPL1.1中某条款第13节，如果整段或部分代码允许采用另一许可证作为备用（alternate）选择，比如GPL及其兼容，那么整个库的许可证就可视为GPL兼容的。如此一来所谓GPL兼容性一般解释为你不能在GPLv2的代码中混入MPL1.1，而不是说你不能在MPL1.1代码中混入GPLv2，也就是说GPLv2在MPL1.1之后是可以接受的，事实上SGI就采用了后面的做法，尚未引起版权上的纠纷。为此我还考证了一下FAQ上<a title="license" href="http://state-threads.sourceforge.net/docs/faq.html" target="_blank">license</a>一节的说法，说ST既可以在MPL和GPL之间选择一种，也可以继续用双许可证，还补了一句在non-free项目使用上也没有限制，但对ST源码所做改动必须对用户可见。在源码文件中的SGI的附加声明还解释了将ST转为GPL代码的做法，就是可以删除前面MPL的声明，否则后续用户仍可以在两者之间二选一。个人觉得既然SGI都这样发话了，那么可解释为反之删除GPL的声明继续采用MPL也是可以接受的，如果你对双许可证承诺仍不放心的话。</p>
+<h4>基于事件驱动状态机（EDSM）</h4>
+<p>好了，下面该进入技术性话题了。前面说了ST的目标是<strong>高性能可扩展</strong>，其技术特征一言以蔽之就是</p>
+<blockquote><p><strong>&#8220;It combines the simplicity of the multi-threaded programming paradigm, in which one thread supports each simultaneous connection, with the performance and scalability of an event-driven state machine (EDSM) architecture.&#8221;</strong></p></blockquote>
+<p>我们先来纵向比较ST与传统的EDSM区别，再来横向比较与其它线程库（比如Pthread）的区别（注：以下图片全部来自<a title="ST FAQ" href="http://state-threads.sourceforge.net/docs/faq.html" target="_blank">State Threads Library FAQ</a>）。</p>
+<p>传统EDSM最常见的方式就是I/O事件的<strong>异步回调</strong>。基本上都会有一个叫做dispatcher的单线程主循环（又叫event loop），用户通过向dispatcher注册回调函数（又叫event handler）来实现异步通知，从而不必在原地空耗资源干等，在dispatcher主循环中通过select()/poll()系统调用来等待各种I/O事件的发生，当内核检测到事件触发并且数据可达或可用时，select()/poll()会返回从而使dispatcher调用相应的回调函数来对处理用户的请求。所以异步回调与其说是通知，不如说用委托更恰当。</p>
+<p>整个过程都是单线程的。<strong>这种处理本质上就是将一堆互不相交（disjoint）的回调实现同步控制，就像串联在一个顺序链表上。</strong>见图1，黑色的双箭头表示I/O事件复用，回调是个筐，里面装着对各种请求的处理（当然不是每个请求都有回调，一个请求也可以对应不同的回调），每个回调被串联起来由dispatcher激活。这里请求等价于thread的概念（不是操作系统的线程），只不过“上下文切换”（context switch）发生在每个回调结束之时（假设不同请求对应不同回调），注册下一个回调以待事件触发时恢复其它请求的处理。至于dispatcher的执行状态（execute state）可作为回调函数的参数保存和传递。</p>
+<p><img decoding="async" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/10/edsm.gif" alt="EDSM" /></p>
+<p>异步回调的缺陷在于<strong>难以实现和扩展</strong>，虽然已经有libevent这样的通用库，以及其它actor/reacotor的设计模式及其框架，但正如Dean Gaudet（Apache开发者）所说：“其内在的复杂性——<strong>将线性思维分解成一堆回调的负担</strong>（breaking up linear thought into a bucketload of callbacks）——仍然存在”。从上图可见，<strong>回调之间请求例程不是连续的，比如回调之间的切换会打断部分请求，又比如有新的请求需要重新注册。</strong></p>
+<p><strong>ST本质上仍然是基于EDSM模型，但旨在取代传统的异步回调方式。</strong>ST将请求抽象为thread概念以更接近自然编程模式（所谓的linear thought吧，就像操作系统的线程之间切换那样自然）。ST的调度器（scheduler）对于用户来说是透明的，不像dispatcher那种将执行状态（execute state）暴露给回调方式。每个thread的现场环境可以保存在栈上（一段连续的大小确定的内存空间），由C的运行环境管理。从图2看到，<strong>ST的threads可以并发地线性地处理I/O事件，模型比异步回调简单得多。</strong></p>
+<p><img decoding="async" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/10/st_edsm.gif" alt="State Threads" /></p>
+<p>这里稍微解释一下ST调度工作原理，ST运行环境维护了四种队列，分别是IOQ、RUNQ、SLEEPQ以及ZOMBIEQ，<strong>当每个thread处于不同队列中对应不同的状态（ST顾名思义所谓thread状态机）。</strong>比如polling请求的时候，当前thread就加入IOQ表示等待事件（如果有timeout同时会被放到SLEEPQ中），当事件触发时，thread就从IOQ（如果有timeout同时会从SLEEPQ）移除并转移到RUNQ等待被调度，成为当前的running thread，相当于操作系统的就绪队列，跟传统EDSM对应起来就是注册回调以及激活回调。再比如模拟同步控制wait/sleep/lock的时候，当前thread会被放入SLEEPQ，直到被唤醒或者超时再次进入RUNQ以待调度。</p>
+<p><strong>ST的调度具备性能与内存双重优点</strong>：在性能上，ST实现自己的setjmp/longjmp来模拟调度，无任何系统开销，并且context（就是jmp_buf）针对不同平台和架构用底层语言实现的，可移植性媲美libc。下面放一段代码解释一下调度实现：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/*
+ * Switch away from the current thread context by saving its state 
+ * and calling the thread scheduler
+ */
+#define _ST_SWITCH_CONTEXT(_thread)       \
+    ST_BEGIN_MACRO                        \
+    if (!MD_SETJMP((_thread)-&gt;context)) { \
+      _st_vp_schedule();                  \
+    }                                     \
+    ST_END_MACRO
+
+/*
+ * Restore a thread context that was saved by _ST_SWITCH_CONTEXT 
+ * or initialized by _ST_INIT_CONTEXT
+ */
+#define _ST_RESTORE_CONTEXT(_thread)   \
+    ST_BEGIN_MACRO                     \
+    _ST_SET_CURRENT_THREAD(_thread);   \
+    MD_LONGJMP((_thread)-&gt;context, 1); \
+    ST_END_MACRO
+
+void _st_vp_schedule(void)
+{
+    _st_thread_t *thread;
+
+    if (_ST_RUNQ.next != &amp;_ST_RUNQ) {
+        /* Pull thread off of the run queue */
+        thread = _ST_THREAD_PTR(_ST_RUNQ.next);
+        _ST_DEL_RUNQ(thread);
+    } else {
+        /* If there are no threads to run, switch to the idle thread */
+        thread = _st_this_vp.idle_thread;
+    }
+    ST_ASSERT(thread-&gt;state == _ST_ST_RUNNABLE);
+
+    /* Resume the thread */
+    thread-&gt;state = _ST_ST_RUNNING;
+    _ST_RESTORE_CONTEXT(thread);
+}
+</pre>
+<p>如果你熟悉setjmp/longjmp的用法，你就知道当前thread在调用MD_SETJMP将现场上下文保存在jmp_buf中并返回返回0，然后自己调用_st_vp_schedule()将自己调度出去。调度器先从RUNQ上找，如果队列为空就找idle thread，这是在整个ST初始化时创建的一个特殊thread，然后将当前线程设为自己，再调用MD_LONGJMP切换到其上次调用MD_SETJMP的地方，从thread-&gt;context恢复现场并返回1，该thread就接着往下执行了。<strong>整个过程就同EDSM一样发生在操作系统单线程下，所以没有任何系统开销与阻塞。</strong></p>
+<p><strong>其实真正的阻塞是发生在等待I/O事件复用上，也就是select()/poll()，这是整个ST唯一的系统调用。</strong>ST当前的状态是，整个环境处于空闲状态，所有threads的请求处理都已经完成，也就是RUNQ为空。这时在_st_idle_thread_start维护了一个主循环（类似于event loop），主要负责三种任务：1.对IOQ所有thread进行I/O复用检测；2.对SLEEPQ进行超时检查；3.将idle thread调度出去，代码如下：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+void *_st_idle_thread_start(void *arg)
+{
+    _st_thread_t *me = _ST_CURRENT_THREAD();
+
+    while (_st_active_count &gt; 0) {
+        /* Idle vp till I/O is ready or the smallest timeout expired */
+        _ST_VP_IDLE();
+
+        /* Check sleep queue for expired threads */
+        _st_vp_check_clock();
+
+        me-&gt;state = _ST_ST_RUNNABLE;
+        _ST_SWITCH_CONTEXT(me);
+    }
+
+    /* No more threads */
+    exit(0);
+
+    /* NOTREACHED */
+    return NULL;
+}</pre>
+<p>这里的me就是idle thread，因为_st_idle_thread_start就是创建idle thread的启动点，每从上次_ST_SWITCH_CONTEXT()切换回来的时候，接着在_ST_VP_IDLE()里轮询I/O事件的发生，一旦检测到发生了别的thread事件或者SLEEPQ里面发生超时，再用_ST_SWITCH_CONTEXT()把自己切换出去，如果此时RUNQ中非空的话就切换到队列第一个thread。这里主循环是不会退出的。</p>
+<p>在内存方面，<strong>ST的执行状态作为局部变量保存在栈上，而不是像回调需要动态分配，</strong>用户可能分别这样使用thread模式和callback模式：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/* thread land */
+int foo()
+{
+    int local1;
+    int local2;
+    do_some_io();
+}
+
+/* callback land */
+struct foo_data {
+    int local1;
+    int local2;
+};
+
+void foo_cb(void *arg)
+{
+    struct foo_data *locals = arg;
+    ...
+}
+
+void foo()
+{
+    struct foo_data *locals = malloc(sizeof(struct foo_data));
+    register(foo_cb, locals);
+}
+</pre>
+<h4>基于Mult-Threading范式</h4>
+<p>同样基于multi-threading编程范式，ST同其它线程库又有和有点呢？比如Posix Thread（以下简称PThread）是个通用的线程库，它是<strong>将用户级线程（thread）同内核执行对象（kernel execution entity，有些书又叫lightweight processes）做了1:1或m:n映射，</strong>从而实现multi-threading模式。<strong>而ST是单线程（n:1映射），它的thread实际上就是协程（coroutine）。</strong>通常的网络应用上，多线程范式绕不开操作系统，但在某些特定的服务器领域，线程间的共享资源会带来额外复杂度，锁、竞态、并发、文件句柄、全局变量、管道、信号等，面对这些Pthread的灵活性会大打折扣。<strong>而ST的调度是精确的，它只会在明确的I/O和同步函数调用点上发生上下文切换，这正是协程的特性，如此一来ST就不需要互斥保护了，进而也可以放心使用任何静态变量和不可重入库函数了</strong>（这在同样作为协程的Protothreads里是不允许的，因为那是stack-less的，无法保存上下文），极大的简化了编程和调试同时增加了性能。</p>
+<p>对于同样用户级线程如GNU Pth和MIT Phread比起来呢？有两点，一是ST的thread是<strong>无优先级的非抢占式调度</strong>，也就是说ST基于EDSM的，每个thread都是事件或数据驱动，迟早会把自己调度出去，而且调度点是明确的，并非按时间片来的，从而简化了thread管理；二是ST会<strong>忽略所有信号处理</strong>，在_st_io_init中会把sigact.sa_handler设为SIG_IGN，这样做是因为将thread资源最小化，避免了signal mask及其系统调用（在ucontext上是避免不了的）。但这并不意味着ST就不能处理信号，实际上ST建议将信号写入pipe的方式转化为普通I/O事件处理，示例详见<a title="signal handling" href="http://state-threads.sourceforge.net/docs/notes.html#signals" target="_blank">这里</a>。</p>
+<p>这里顺便说一句，<strong>C语言实现的协程据我所知只有三种方式</strong>：Protothread为代表利用switch-case语义跳转，以ST为代表不依赖libc的setjmp/longjmp上下文切换，以及依赖glibc的ucontext接口（<a title="云风的coroutine" href="https://github.com/cloudwu/coroutine" target="_blank">云风的coroutine</a>）。第一种最轻，但受限最大，第三种耗资源性能慢（陈皓注：glibc的ucontext接口的实现中有一个和信号有关的系统调用，所以会慢，估计在一些情况下会比pthread还慢），目前看来ST是最好使的。</p>
+<h4>基于多核环境</h4>
+<p>下面来聊聊ST在多核环境下的应用。服务器领域多核的优势在于实现了物理上真正的并发，所以如何充分利用系统优势也是线程库的一大难点。这对ST来说也许正是它的拿手好戏，前面提及ST曾作为Apache的多核引擎模块发布。这里要补充一下前面漏掉的ST的一个重要概念——<strong>虚拟处理器</strong>（virtual processor，简称vp），见图3，多个cpu通过内核的SMP模拟出多个“核”（core），一个core对应一个内核任务（kernel task），同时对应一个用户进程（process），一个process对应ST的一个vp，每个vp下就是ST的thread（是协程不是线程），结合前面所述，vp初始化先创建idle thread，然后根据I/O事件驱动其它threads，这就是ST的多核架构。</p>
+<p><img decoding="async" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/10/st_app.gif" alt="multi-core" /></p>
+<p>这里要指出的是，<strong>ST只负责自身thread调度，进程管理是应用程序的事情，</strong>也就是说由用户来决定fork多少进程，每个进程分配多少资源，如何进行IPC等。这种架构的好处就是每个vp有自己独立的空间，避免了资源同步竞态（比如杜绝了多进程里的多线程这样混乱的模型）。我们知道这种<strong>基于进程的架构是非常健壮的，一个进程奔溃不会影响到其它进程，同时充分利用多核硬件的高并发。</strong>同时对于具体逻辑业务使用vp里的thread处理，这是基于EDSM的，如此一来做到了<strong>逻辑业务与内核执行对象之间的解耦</strong>，没必要因为1K个连接去创建1K的进程。这就是ST的扩展性和灵活性。</p>
+<h4>使用限制</h4>
+<p>ST的主要限制在于，应用程序所有I/O操作必须使用ST提供的API，因为只有这样thread才能被调度器管理，并且避免阻塞。</p>
+<p>另一个限制在于thread调试，这本身不容易，好在v1.9的ST提供了DEBUG参数，使用TREADQ以及_st_iterate_threads接口检测thread调度情况，用户还可自定义_st_show_thread_stack接口dump每个thread的栈，在GDB使能_st_iterate_threads_flag变量，这些都在Readme中对调试方法有具体说明。按下不表。</p>
+<h4>总结</h4>
+<p>这篇文章写得有点短了，主要是通过对比来介绍ST的，其实还有大段原理可以讲，大段源码以及实战用例可以贴，但这一下子又写不过来，ST还是有点技术含量的。说白了，<strong>ST的核心思想就是利用multi-threading的简单优雅范式胜过传统异步回调的复杂晦涩实现，又利用EDSM的性能和解耦架构避免了multi-threading在系统上的开销和暗礁。</strong>学习ST告诉我们一个道理：<strong>未来技术的趋势永远都是融合的。</strong></p>
+<h4>参考</h4>
+<ul>
+<li>在<a title="sourceforge源码" href="http://sourceforge.net/projects/state-threads/files/" target="_blank">SourceForge</a>以及<a title="github源码" href="https://github.com/winlinvip/state-threads" target="_blank">github</a>上的源码：前者有历史版本及win32版本，后者只有v1.9。</li>
+</ul>
+<ul>
+<li><a title="State Threads for Internet Applications" href="http://state-threads.sourceforge.net/docs/st.html" target="_blank">State Threads for Internet Applications</a>：介绍原理的，值得一看，<a title="中文翻译" href="http://blog.csdn.net/win_lin/article/details/8242653" target="_blank">这里</a>有篇中文翻译附加单元测试（在单CPU 512M内存上创建数万个thread，CPU占用率约5%，内存约4.3K/thread）。</li>
+</ul>
+<ul>
+<li><a title="State Threads Library FAQ" href="http://state-threads.sourceforge.net/docs/faq.html" target="_blank">State Threads Library FAQ</a>：本文基于此而写。</li>
+</ul>
+<ul>
+<li><a title="API手册" href="http://state-threads.sourceforge.net/docs/reference.html" target="_blank">Complete reference</a>：API完全手册。</li>
+</ul>
+<ul>
+<li><a title="注意事项" href="http://state-threads.sourceforge.net/docs/notes.html" target="_blank">Programing Notes</a>：编程注意事项，包括信号处理，IPC，非网络I/O事件等。</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/10975.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="一个“蝇量级” C 语言协程库" width="150" height="150" /></a><a href="http://coolshell.cn/articles/10975.html" class="wp_rp_title">一个“蝇量级” C 语言协程库</a></li><li ><a href="http://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li><li ><a href="http://coolshell.cn/articles/5987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何设计“找回用户帐号”功能" width="150" height="150" /></a><a href="http://coolshell.cn/articles/5987.html" class="wp_rp_title">如何设计“找回用户帐号”功能</a></li><li ><a href="http://coolshell.cn/articles/8309.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="C/C++语言中闭包的探究及比较" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8309.html" class="wp_rp_title">C/C++语言中闭包的探究及比较</a></li><li ><a href="http://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12012.html">State Threads 回调终结者</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12012.html/feed</wfw:commentRss>
+			<slash:comments>50</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个“蝇量级” C 语言协程库</title>
+		<link>https://coolshell.cn/articles/10975.html</link>
+					<comments>https://coolshell.cn/articles/10975.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Tue, 28 Jan 2014 02:50:41 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[coroutine]]></category>
+		<category><![CDATA[Queue]]></category>
+		<category><![CDATA[yield]]></category>
+		<category><![CDATA[协程]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10975</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 协程(coroutine)顾名思义就是“协作的例程”（co-operative routines）。跟具有操作系统概念的线...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10975.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10975.html">一个“蝇量级” C 语言协程库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>协程(coroutine)顾名思义就是“协作的例程”（co-operative routines）。跟具有操作系统概念的线程不一样，协程是在用户空间利用程序语言的语法语义就能实现逻辑上类似多任务的编程技巧。实际上协程的概念比线程还要早，按照 Knuth 的说法<strong>“子例程是协程的特例”</strong>，一个子例程就是一次子函数调用，那么实际上协程就是类函数一样的程序组件，你可以在一个线程里面轻松创建数十万个协程，就像数十万次函数调用一样。只不过子例程只有一个调用入口起始点，返回之后就结束了，而协程入口既可以是起始点，又可以从上一个返回点继续执行，也就是说协程之间可以通过 yield 方式转移执行权，<strong>对称（symmetric）、平级</strong>地调用对方，而不是像例程那样上下级调用关系。当然 Knuth 的“特例”指的是协程也可以模拟例程那样实现上下级调用关系，这就叫<strong>非对称协程</strong>（asymmetric coroutines）。</p>
+<h4>基于事件驱动模型</h4>
+<p>我们举一个例子来看看一种<strong>对称协程</strong>调用场景，大家最熟悉的“生产者-消费者”事件驱动模型，一个协程负责生产产品并将它们加入队列，另一个负责从队列中取出产品并使用它。为了提高效率，你想一次增加或删除多个产品。伪代码可以是这样的：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># producer coroutine
+loop
+while queue is not full
+  create some new items
+  add the items to queue
+yield to consumer
+
+# consumer coroutine
+loop
+while queue is not empty
+  remove some items from queue
+  use the items
+yield to producer</pre>
+<p><span id="more-10975"></span></p>
+<p>大多数教材上拿这种模型作为多线程的例子，实际上多线程在此的应用还是显得有点“重量级”，由于缺乏 yield 语义，线程之间不得不使用同步机制来避免产生全局资源的竟态，这就不可避免产生了休眠、调度、切换上下文一类的系统开销，而且线程调度还会产生时序上的不确定性。而对于协程来说，“挂起”的概念只不过是转让代码执行权并调用另外的协程，待到转让的协程告一段落后重新得到调用并从挂起点“唤醒”，这种协程间的调用是逻辑上可控的，时序上确定的，可谓一切尽在掌握中。</p>
+<p>当今一些具备协程语义的语言，比较重量级的如C#、erlang、golang，以及轻量级的python、lua、javascript、ruby，还有函数式的scala、scheme等。相比之下，作为原生态语言的 C 反而处于尴尬的地位，原因在于 C 依赖于一种叫做<strong>栈帧</strong>的例程调用，例程内部的状态量和返回值都保留在堆栈上，这意味着生产者和消费者相互之间无法实现平级调用，当然你可以改写成把生产者作为主例程然后将产品作为传递参数调用消费者例程，这样的代码写起来费力不讨好而且看起来会很难受，特别当协程数目达到十万数量级，这种写法就过于僵化了。</p>
+<p>这就引出了协程的概念，<strong>如果将每个协程的上下文（比如程序计数器）保存在其它地方而不是堆栈上，协程之间相互调用时，被调用的协程只要从堆栈以外的地方恢复上次出让点之前的上下文即可，这有点类似于 CPU 的上下文切换，</strong>遗憾的是似乎只有更底层的汇编语言才能做到这一点。</p>
+<p>难道 C 语言只能用多线程吗？幸运的是，C 标准库给我们提供了两种协程调度原语：一种是<a title="http://zh.wikipedia.org/wiki/Setjmp.h" href="http://zh.wikipedia.org/wiki/Setjmp.h" target="_blank"> setjmp/longjmp</a>，另一种是<a title="http://pubs.opengroup.org/onlinepubs/7990989799/xsh/ucontext.h.html" href="http://pubs.opengroup.org/onlinepubs/7990989799/xsh/ucontext.h.html" target="_blank"> ucontext 组件</a>，它们内部（当然是用汇编语言）实现了协程的上下文切换，相较之下前者在应用上会产生相当的不确定性（比如不好封装，具体说明参考联机文档），所以后者应用更广泛一些，网上绝大多数 C 协程库也是基于 ucontext 组件实现的。</p>
+<h4>“蝇量级”的协程库</h4>
+<p>在此，我来介绍一种“蝇量级”的开源 C 协程库 <a title="http://dunkels.com/adam/pt/" href="http://dunkels.com/adam/pt/" target="_blank">protothreads</a>。这是一个全部用 ANSI C 写成的库，之所以称为“蝇量级”的，就是说，实现已经不能再精简了，几乎就是原语级别。事实上 protothreads 整个库不需要链接加载，因为所有源码都是头文件，类似于 STL 这样不依赖任何第三方库，在任何平台上可移植；总共也就 5 个头文件，有效代码量不足 100 行；API 都是宏定义的，所以不存在调用开销；最后，每个协程的空间开销是 2 个字节（是的，你没有看错，就是一个 short 单位的“栈”！）当然这种精简是要以使用上的局限为代价的，接下来的分析会说明这一点。</p>
+<p>先来看看 protothreads 作者，<a title="http://dunkels.com/adam/" href="http://dunkels.com/adam/" target="_blank">Adam Dunkels</a>，一位来自瑞典皇家理工学院的计算机天才帅哥。话说这哥们挺有意思的，写了好多轻量级的作品，都是 BSD 许可证。顺便说一句，轻量级开源软件全世界多如牛毛，可像这位哥们写得如此出名的并不多。比如嵌入式网络操作系统 <a title="http://www.contiki-os.org/" href="http://www.contiki-os.org/" target="_blank">Contiki</a>，国人耳熟能详的 TCP/IP 协议栈 <a title="http://en.wikipedia.org/wiki/UIP_(micro_IP)" href="http://en.wikipedia.org/wiki/UIP_(micro_IP)" target="_blank">uIP</a> 和 <a title="http://savannah.nongnu.org/projects/lwip/" href="http://savannah.nongnu.org/projects/lwip/" target="_blank">lwIP</a> 也是出自其手。上述这些软件都是经过数十年企业级应用的考验，质量之高可想而知。</p>
+<p>很多人会好奇如此“蝇量级”的代码究竟是怎么实现的呢？在分析 protothreads 源码之前，我先来给大家补一补 C 语言的基础课;-^)简而言之，这利用了 C 语言特性上的一个“奇技淫巧”，而且这种技巧恐怕连许多具备十年以上经验的 C 程序员老手都不见得知晓。当然这里先要声明我不是推荐大家都这么用，实际上这是以破坏语言的代码规范为代价，在一些严肃的项目工程中需要谨慎对待，除非你想被炒鱿鱼。</p>
+<h4>C 语言的“yield 语义”</h4>
+<p>下面的教程来自于一位 ARM 工程师、天才黑客 <a title="http://www.chiark.greenend.org.uk/~sgtatham/" href="http://www.chiark.greenend.org.uk/~sgtatham/" target="_blank">Simon Tatham</a>（开源 Telnet/SSH 客户端 <a title="http://www.chiark.greenend.org.uk/~sgtatham/putty/" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/" target="_blank">PuTTY</a> 和汇编器 <a title="http://www.nasm.us/" href="http://www.nasm.us/" target="_blank">NASM</a> 的作者，吐槽一句，PuTTY的源码号称是所有正式项目里最难 hack 的 C，你应该猜到作者是什么语言出身）的博文：<a title="http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html" href="http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html" target="_blank">Coroutines in C</a>。中文译文在<a title="http://www.oschina.net/translate/coroutines-in-c" href="http://www.oschina.net/translate/coroutines-in-c" target="_blank">这里</a>。</p>
+<p>我们知道 python 的 yield 语义功能类似于一种迭代生成器，函数会保留上次的调用状态，并在下次调用时会从上个返回点继续执行。用 C 语言来写就像这样：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  int i;
+  for (i = 0; i &lt; 10; i++)
+    return i;   /* won&#039;t work, but wouldn&#039;t it be nice */
+}</pre>
+<p>连续对它调用 10 次，它能分别返回 0 到 9。该怎样实现呢？可以利用 goto 语句，如果我们在函数中加入一个状态变量，就可以这样实现：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: goto LABEL0;
+    case 1: goto LABEL1;
+  }
+  LABEL0: /* start of function */
+  for (i = 0; i &lt; 10; i++) {
+    state = 1; /* so we will come back to LABEL1 */
+    return i;
+    LABEL1:; /* resume control straight after the return */
+  }
+}</pre>
+<p>这个方法是可行的。我们在所有需要 yield 的位置都加上标签：起始位置加一个，还有所有 return 语句之后都加一个。每个标签用数字编号，我们在状态变量中保存这个编号，这样就能在我们下次调用时告诉我们应该跳到哪个标签上。每次返回前，更新状态变量，指向到正确的标签；不论调用多少次，针对状态变量的 switch 语句都能找到我们要跳转到的位置。</p>
+<p>但这还是难看得很。最糟糕的部分是所有的标签都需要手工维护，还必须保证函数中的标签和开头 switch 语句中的一致。每次新增一个 return 语句，就必须想一个新的标签名并将其加到 switch 语句中；每次删除 return 语句时，同样也必须删除对应的标签。这使得维护代码的工作量增加了一倍。</p>
+<p>仔细想想，其实我们可以不用 switch 语句来决定要跳转到哪里去执行，而是<strong>直接利用 switch 语句本身来实现跳转</strong>：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: /* start of function */
+    for (i = 0; i &lt; 10; i++) {
+      state = 1; /* so we will come back to &quot;case 1&quot; */
+      return i;
+      case 1:; /* resume control straight after the return */
+    }
+  }
+}</pre>
+<p>酷！没想到 switch-case 语句可以这样用，其实说白了 C 语言就是脱胎于汇编语言的，switch-case 跟 if-else 一样，无非就是汇编的条件跳转指令的另类实现而已（这也间接解释了为何汇编程序员经常揶揄 C 语言是“大便一样的代码”）。我们还可以用 __LINE__ 宏使其更加一般化：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: /* start of function */
+    for (i = 0; i &lt; 10; i++) {
+      state = __LINE__ + 2; /* so we will come back to &quot;case __LINE__&quot; */
+      return i;
+      case __LINE__:; /* resume control straight after the return */
+    }
+  }
+}</pre>
+<p>这样一来我们可以用宏提炼出一种范式，封装成组件：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define Begin() static int state=0; switch(state) { case 0:
+#define Yield(x) do { state=__LINE__; return x; case __LINE__:; } while (0)
+#define End() }
+int function(void) {
+  static int i;
+  Begin();
+  for (i = 0; i &lt; 10; i++)
+    Yield(i);
+  End();
+}</pre>
+<p>怎么样，看起来像不像发明了一种全新的语言？<strong>实际上我们利用了 switch-case 的分支跳转特性，以及预编译的 __LINE__ 宏，实现了一种隐式状态机，最终实现了“yield 语义”。</strong></p>
+<p>还有一个问题，当你欢天喜地地将这种鲜为人知的技巧运用到你的项目中，并成功地拿去向你的上司邀功问赏的时候，你的上司会怎样看待你的代码呢？你的宏定义中大括号没有匹配完整，在代码块中包含了未用到的 case，Begin 和 Yield 宏里面不完整的七拼八凑……你简直就是公司里不遵守编码规范的反面榜样！</p>
+<p>别着急，在原文中 Simon Tatham 大牛帮你找到一个坚定的反驳理由，我觉得对程序员来说简直是金玉良言。</p>
+<p>将编程规范用在这里是不对的。文章里给出的示例代码不是很长，也不很复杂，即便以状态机的方式改写还是能够看懂的。但是随着代码越来越长，改写的难度将越来越大，改写对直观性造成的损失也变得相当相当大。</p>
+<p>想一想，一个函数如果包含这样的小代码块：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">case STATE1:
+/* perform some activity */
+if (condition) state = STATE2; else state = STATE3;</pre>
+<p>对于看代码的人说，这和包含下面小代码块的函数没有多大区别：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">LABEL1:
+/* perform some activity */
+if (condition) goto LABEL2; else goto LABEL3;</pre>
+<p>是的，这两个函数的结构在视觉上是一样的，而对于函数中实现的算法，两个函数都一样不利于查看。因为你使用协程的宏而炒你鱿鱼的人，一样会因为你写的函数是由小块的代码和 goto 语句组成而吼着炒了你。只是这次他们没有冤枉你，因为像那样设计的函数会严重扰乱算法的结构。</p>
+<p><strong>编程规范的目标就是为了代码清晰。</strong>如果将一些重要的东西，像 switch、return 以及 case 语句，隐藏到起“障眼”作用的宏中，从编程规范的角度讲，可以说你扰乱了程序的语法结构，并且违背了代码清晰这一要求。但是我们这样做是为了突出程序的算法结构，而算法结构恰恰是看代码的人更想了解的。</p>
+<p><span style="color: #ff0000;"><strong>任何编程规范，坚持牺牲算法清晰度来换取语法清晰度的，都应该重写。</strong></span>如果你的上司因为使用了这一技巧而解雇你，那么在保安把你往外拖的时候要不断告诉他这一点。</p>
+<p>原文作者最后给出了一个 MIT 许可证的 <a title="http://www.chiark.greenend.org.uk/~sgtatham/coroutine.h" href="http://www.chiark.greenend.org.uk/~sgtatham/coroutine.h" target="_blank">coroutine.h</a> 头文件。值得一提的是，正如文中所说，这种协程实现方法有个使用上的局限，就是<strong>协程调度状态的保存依赖于 static 变量，而不是堆栈上的局部变量</strong>，实际上也无法用局部变量（堆栈）来保存状态，这就使得代码不具备可重入性和多线程应用。后来作者补充了一种技巧，就是将局部变量包装成函数参数传入的一个虚构的上下文结构体指针，然后用动态分配的堆来“模拟”堆栈，解决了线程可重入问题。但这样一来反而有损代码清晰，比如所有局部变量都要写成对象成员的引用方式，特别是局部变量很多的时候很麻烦，再比如宏定义 malloc/free 的玩法过于托大，不易控制，搞不好还增加了被炒鱿鱼的风险（只不过这次是你活该）。</p>
+<p>我个人认为，既然协程本身是一种单线程的方案，那么我们应该假定应用环境是单线程的，不存在代码重入问题，所以我们可以大胆地使用 static 变量，维持代码的简洁和可读性。事实上<strong>我们也不应该在多线程环境下考虑使用这么简陋的协程</strong>，非要用的话，前面提到 glibc 的 ucontext 组件也是一种可行的替代方案，它提供了一种协程私有堆栈的上下文，当然这种用法在跨线程上也并非没有限制，请仔细阅读联机文档。</p>
+<h4>Protothreads的上下文</h4>
+<p>感谢 Simon Tatham 的淳淳教诲，接下来我们可以 hack 一下源码了。先来看看实现 protothreads 的数据结构， 实际上它就是协程的<strong>上下文结构体</strong>，用以保存状态变量，相信你很快就明白为何它的“堆栈”只有 2 个字节：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct pt {
+  lc_t lc;
+}</pre>
+<p>里面只有一个 short 类型的变量，实际上它是用来保存上一次出让点的程序计数器。这也映证了协程比线程的灵活之处，就是协程可以是 stackless 的，如果需要实现的功能很单一，比如像生产者-消费者模型那样用来做事件通知，那么实际上协程需要保存的状态变量仅仅是一个程序计数器即可。像 python generator 也是 stackless 的，当然实现一个迭代生成器可能还需要保留上一个迭代值，前面 C 的例子是用 static 变量保存，你也可以设置成员变量添加到上下文结构体里面。如果你真的不确定用协程调度时需要保存多少状态变量，那还是用 ucontext 好了，它的上下文提供了堆栈和信号，但是由用户负责分配资源，详细使用方法见联机文档。。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">typedef struct ucontext {
+  struct ucontext_t *uc_link;
+  sigset_t uc_sigmask;
+  stack_t uc_stack;
+  ...
+} ucontext_t;</pre>
+<h4>Protothreads的原语和组件</h4>
+<p>有点扯远了，回到 protothreads，看看提供的协程“原语”。有两种实现方法，在 ANSI C 下，就是传统的 switch-case 语句：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define LC_INIT（s） s = 0;  // 源码中是有分号的，一个低级 bug，啊哈～
+#define LC_RESUME(s) switch (s) { case 0:
+#define LC_SET(s) s = __LINE__; case __LINE__:
+#define LC_END(s) }
+</pre>
+<p>但这种“原语”有个难以察觉的缺陷：<strong>就是你无法在 LC_RESUME 和 LC_END （或者包含它们的组件）之间的代码中使用 switch-case语句，因为这会引起外围的 switch 跳转错误！</strong>为此，protothreads 又实现了基于 GNU C 的调度“原语”。在 GNU C 下还有一种语法糖叫做标签指针，就是在一个 label 前面加 &amp;&amp;（不是地址的地址，是 GNU 自定义的符号），可以用 void 指针类型保存，然后 goto 跳转：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">typedef void * lc_t；
+#define LC_INIT(s) s = NULL
+#define LC_RESUME(s) \
+  do { \
+    if (s != NULL) { \
+      goto *s; \
+    }
+  } while (0)
+#define LC_CONCAT2(s1, s2) s1##s2
+#define LC_CONCAT(s1, s2) LC_CONCAT2(s1, s2)
+#define LC_SET(s) \
+  do { \
+    LC_CONCAT(LC_LABEL, __LINE__): \
+    （s） = &amp;&amp;LC_CONCAT(LC_LABEL, __LINE__); \
+  } while (0)</pre>
+<p>好了，有了前面的基础知识，理解这些“原语”就是小菜一叠，下面看看如何建立“组件”，同时也是 protothreads API，我们先定义四个退出码作为协程的<strong>调度状态机</strong>：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define PT_WAITING 0
+#define PT_YIELDED 1
+#define PT_EXITED  2
+#define PT_ENDED   3</pre>
+<p>下面这些 API 可直接在应用程序中调用：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/* 初始化一个协程，也即初始化状态变量 */
+#define PT_INIT(pt) LC_INIT((pt)-&gt;lc)
+
+/* 声明一个函数，返回值为 char 即退出码，表示函数体内使用了 proto thread，（个人觉得有些多此一举） */
+#define PT_THREAD(name_args) char name_args
+
+/* 协程入口点， PT_YIELD_FLAG=0表示出让，=1表示不出让，放在 switch 语句前面，下次调用的时候可以跳转到上次出让点继续执行 */
+#define PT_BEGIN(pt) { char PT_YIELD_FLAG = 1; LC_RESUME((pt)-&gt;lc)
+
+/* 协程退出点，至此一个协程算是终止了，清空所有上下文和标志 */
+#define PT_END(pt) LC_END((pt)-&gt;lc); PT_YIELD_FLAG = 0; \
+                   PT_INIT(pt); return PT_ENDED; }
+
+/* 协程出让点，如果此时协程状态变量 lc 已经变为 __LINE__ 跳转过来的，那么 PT_YIELD_FLAG = 1，表示从出让点继续执行。 */
+#define PT_YIELD(pt)        \
+  do {            \
+    PT_YIELD_FLAG = 0;        \
+    LC_SET((pt)-&gt;lc);       \
+    if(PT_YIELD_FLAG == 0) {      \
+      return PT_YIELDED;      \
+    }           \
+  } while(0)
+
+/* 附加出让条件 */
+#define PT_YIELD_UNTIL(pt, cond)    \
+  do {            \
+    PT_YIELD_FLAG = 0;        \
+    LC_SET((pt)-&gt;lc);       \
+    if((PT_YIELD_FLAG == 0) || !(cond)) { \
+      return PT_YIELDED;      \
+    }           \
+  } while(0)
+
+/* 协程阻塞点(blocking),本质上等同于 PT_YIELD_UNTIL，只不过退出码是 PT_WAITING，用来模拟信号量同步 */
+#define PT_WAIT_UNTIL(pt, condition)          \
+  do {            \
+    LC_SET((pt)-&gt;lc);       \
+    if(!(condition)) {        \
+      return PT_WAITING;      \
+    }           \
+  } while(0)
+
+/* 同 PT_WAIT_UNTIL 条件反转 */
+#define PT_WAIT_WHILE(pt, cond)  PT_WAIT_UNTIL((pt), !(cond))
+
+/* 协程调度，调用协程 f 并检查它的退出码，直到协程终止返回 0，否则返回 1。 */
+#define PT_SCHEDULE(f) ((f) &lt; PT_EXITED)
+
+/* 这用于非对称协程，调用者是主协程，pt 是和子协程 thread （可以是多个）关联的上下文句柄，主协程阻塞自己调度子协程，直到所有子协程终止 */
+#define PT_WAIT_THREAD(pt, thread) PT_WAIT_WHILE((pt), PT_SCHEDULE(thread))
+
+/* 用于协程嵌套调度，child 是子协程的上下文句柄 */
+#define PT_SPAWN(pt, child, thread)   \
+  do {            \
+    PT_INIT((child));       \
+    PT_WAIT_THREAD((pt), (thread));   \
+  } while(0)</pre>
+<p>暂时介绍这么多，用户还可以根据自己的需求随意扩展组件，比如实现信号量，你会发现脱离了操作系统环境下的信号量竟是如此简单：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct pt_sem {
+  unsigned int count;
+};
+
+#define PT_SEM_INIT(s, c) (s)-&gt;count = c
+
+#define PT_SEM_WAIT(pt, s)  \
+  do {            \
+    PT_WAIT_UNTIL(pt, (s)-&gt;count &gt; 0);    \
+    --(s)-&gt;count;       \
+  } while(0)
+
+#define PT_SEM_SIGNAL(pt, s) ++(s)-&gt;count</pre>
+<p>这些应该不需要我多说了吧，呵呵，让我们回到最初例举的生产者-消费者模型，看看protothreads表现怎样。</p>
+<h4>Protothreads实战</h4>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include &quot;pt-sem.h&quot;
+
+#define NUM_ITEMS 32
+#define BUFSIZE 8
+
+static struct pt_sem mutex, full, empty;
+
+PT_THREAD(producer(struct pt *pt))
+{
+  static int produced;
+
+  PT_BEGIN(pt);
+  for (produced = 0; produced &lt; NUM_ITEMS; ++produced) {
+    PT_SEM_WAIT(pt, &amp;full);
+    PT_SEM_WAIT(pt, &amp;mutex);
+    add_to_buffer(produce_item());
+    PT_SEM_SIGNAL(pt, &amp;mutex);
+    PT_SEM_SIGNAL(pt, &amp;empty);
+  }
+  PT_END(pt);
+}
+
+PT_THREAD(consumer(struct pt *pt))
+{
+  static int consumed;
+
+  PT_BEGIN(pt);
+  for (consumed = 0; consumed &lt; NUM_ITEMS; ++consumed) {
+    PT_SEM_WAIT(pt, &amp;empty);
+    PT_SEM_WAIT(pt, &amp;mutex);
+    consume_item(get_from_buffer());
+    PT_SEM_SIGNAL(pt, &amp;mutex);
+    PT_SEM_SIGNAL(pt, &amp;full);
+  }
+  PT_END(pt);
+}
+
+PT_THREAD(driver_thread(struct pt *pt))
+{
+  static struct pt pt_producer, pt_consumer;
+
+  PT_BEGIN(pt);
+  PT_SEM_INIT(&amp;empty, 0);
+  PT_SEM_INIT(&amp;full, BUFSIZE);
+  PT_SEM_INIT(&amp;mutex, 1);
+  PT_INIT(&amp;pt_producer);
+  PT_INIT(&amp;pt_consumer);
+  PT_WAIT_THREAD(pt, producer(&amp;pt_producer) &amp; consumer(&amp;pt_consumer));
+  PT_END(pt);
+}</pre>
+<p>源码包中的 example-buffer.c 包含了可运行的完整示例，我就不全部贴了。整体框架就是一个 asymmetric coroutines，包括一个主协程 driver_thread 和两个子协程 producer 和 consumer ，其实不用多说大家也懂的，代码非常清晰直观。我们完全可以通过单线程实现一个简单的事件处理需求，你可以任意添加数十万个协程，几乎不会引起任何额外的系统开销和资源占用。唯一需要留意的地方就是没有一个局部变量，因为 protothreads 是 stackless 的，但这不是问题，首先我们已经假定运行环境是单线程的，其次在一个简化的需求下也用不了多少“局部变量”。如果在协程出让时需要保存一些额外的状态量，像迭代生成器，只要数目和大小都是确定并且可控的话，自行扩展协程上下文结构体即可。</p>
+<p>当然这不是说 protothreads 是万能的，它只是贡献了一种模型，你要使用它首先就得学会适应它。下面列举一些 protothreads 的使用限制：</p>
+<ul>
+<li>由于协程是stackless的，尽量不要使用局部变量，除非该变量对于协程状态是无关紧要的，同理可推，协程所在的代码是不可重入的。</li>
+</ul>
+<ul>
+<li>如果协程使用 switch-case 原语封装的组件，那么禁止在实际应用中使用 switch-case 语句，除非用 GNU C 语法中的标签指针替代。</li>
+</ul>
+<ul>
+<li>一个协程内部可以调用其它例程，比如库函数或系统调用，但必须保证该例程是非阻塞的，否则所在线程内的所有协程都将被阻塞。毕竟线程才是执行的最小单位，协程不过是按“时间片轮度”的例程而已。</li>
+</ul>
+<p>官网上还例举了更多<a title="http://dunkels.com/adam/pt/examples.html" href="http://dunkels.com/adam/pt/examples.html" target="_blank">实例</a>，都非常实用。另外，一个叫 Craig Graham 的工程师扩展了 pt.h，使得 protothreads 支持 sleep/wake/kill 等操作，文件在此 <a title="http://dunkels.com/adam/download/graham-pt.h" href="http://dunkels.com/adam/download/graham-pt.h" target="_blank">graham-pt.h</a>。</p>
+<h4>协程库 DIY 攻略</h4>
+<p>看到这里，手养的你是否想迫不及待地 DIY 一个协程组件呢？哪怕很多动态语言本身已经支持了协程语义，很多 C 程序员仍然倾向于自己实现组件，网上很多开源代码底层用的主要还是 glibc 的 ucontext 组件，毕竟提供堆栈的协程组件使用起来更加通用方便。你可以自己写一个调度器，然后模拟线程上下文，再然后……你就能搞出一个跨平台的COS了（笑）。GNU Pth 线程库就是这么实现的，其原作者德国人 <a title="http://engelschall.com/" href="http://engelschall.com/" target="_blank">Ralf S. Engelschall</a> （又是个开源大牛，还写了 <a title="http://engelschall.com/software-artist.php" href="http://engelschall.com/software-artist.php" target="_blank">OpenSSL 等许多作品</a>）就写了一篇<a title="http://xmailserver.org/rse-pmt.pdf" href="http://xmailserver.org/rse-pmt.pdf" target="_blank">论文</a>教大家如何实现一个线程库。另外 protothreads 官网上也有一大堆<a title="http://dunkels.com/adam/pt/links.html" href="http://dunkels.com/adam/pt/links.html" target="_blank">推荐阅读</a>。Have fun！</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10975.html">一个“蝇量级” C 语言协程库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10975.html/feed</wfw:commentRss>
+			<slash:comments>54</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>伙伴分配器的一个极简实现</title>
+		<link>https://coolshell.cn/articles/10427.html</link>
+					<comments>https://coolshell.cn/articles/10427.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Wed, 09 Oct 2013 15:10:42 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Buddy]]></category>
+		<category><![CDATA[内存管理]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10427</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 提起buddy system相信很多人不会陌生，它是一种经典的内存分配算法，大名鼎鼎的Linux底层的内存管理用的就是它。...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10427.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10427.html">伙伴分配器的一个极简实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>提起buddy system相信很多人不会陌生，它是一种经典的内存分配算法，大名鼎鼎的Linux底层的内存管理用的就是它。这里不探讨内核这么复杂实现，而仅仅是将该算法抽象提取出来，同时给出一份及其简洁的源码实现，以便定制扩展。</p>
+<p>伙伴分配的实质就是一种特殊的<strong>“分离适配”</strong>，即将内存按2的幂进行划分，相当于分离出若干个块大小一致的空闲链表，搜索该链表并给出同需求最佳匹配的大小。其优点是快速搜索合并（O(logN)时间复杂度）以及低外部碎片（最佳适配best-fit）；其缺点是内部碎片，因为按2的幂划分块，如果碰上66单位大小，那么必须划分128单位大小的块。但若需求本身就按2的幂分配，比如可以先分配若干个内存池，在其基础上进一步细分就很有吸引力了。</p>
+<p>可以在<a href="http://en.wikipedia.org/wiki/Buddy_memory_allocation" target="_blank">维基百科</a>上找到该算法的描述，大体如是：</p>
+<p><strong>分配内存：</strong></p>
+<p>1.寻找大小合适的内存块（大于等于所需大小并且最接近2的幂，比如需要27，实际分配32）</p>
+<p style="padding-left: 30px;">1.如果找到了，分配给应用程序。<br />
+2.如果没找到，分出合适的内存块。</p>
+<p style="padding-left: 60px;">1.对半分离出高于所需大小的空闲内存块<br />
+2.如果分到最低限度，分配这个大小。<br />
+3.回溯到步骤1（寻找合适大小的块）<br />
+4.重复该步骤直到一个合适的块</p>
+<p><span id="more-10427"></span></p>
+<p><strong>释放内存：</strong></p>
+<p>1.释放该内存块</p>
+<p style="padding-left: 30px;">1.寻找相邻的块，看其是否释放了。<br />
+2.如果相邻块也释放了，合并这两个块，重复上述步骤直到遇上未释放的相邻块，或者达到最高上限（即所有内存都释放了）。</p>
+<p>上面这段文字对你来说可能看起来很费劲，没事，我们看个内存分配和释放的示意图你就知道了：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10504" alt="" src="https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation.jpg" width="598" height="346" srcset="https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation.jpg 598w, https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation-300x174.jpg 300w, https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation-467x270.jpg 467w" sizes="(max-width: 598px) 100vw, 598px" /></p>
+<p>上图中，首先我们假设我们一个内存块有1024K，当我们需要给A分配70K内存的时候，</p>
+<ol>
+<li>我们发现1024K的一半大于70K，然后我们就把1024K的内存分成两半，一半512K。</li>
+<li>然后我们发现512K的一半仍然大于70K，于是我们再把512K的内存再分成两半，一半是128K。</li>
+<li>此时，我们发现128K的一半小于70K，于是我们就分配为A分配128K的内存。</li>
+</ol>
+<p>后面的，B，C，D都这样，而释放内存时，则会把相邻的块一步一步地合并起来（合并也必需按分裂的逆操作进行合并）。</p>
+<p>我们可以看见，这样的算法，用二叉树这个数据结构来实现再合适不过了。</p>
+<p>我在网上分别找到<a href="https://github.com/cloudwu/buddy" target="_blank">cloudwu</a>和<a href="https://github.com/wuwenbin/buddy2">wuwenbin</a>写的两份开源实现和测试用例。实际上后一份是对前一份的精简和优化，本文打算从后一份入手讲解，<strong>因为这份实现真正体现了“极简”二字，追求突破常规的，极致简单的设计。</strong>网友对其评价甚高，甚至可用作教科书标准实现，看完之后回过头来看cloudwu的代码就容易理解了。</p>
+<p>分配器的整体思想是，通过一个数组形式的完全二叉树来监控管理内存，二叉树的节点用于标记相应内存块的使用状态，高层节点对应大的块，低层节点对应小的块，在分配和释放中我们就通过这些节点的标记属性来进行块的分离合并。如图所示，假设总大小为16单位的内存，我们就建立一个深度为5的满二叉树，根节点从数组下标[0]开始，监控大小16的块；它的左右孩子节点下标[1~2]，监控大小8的块；第三层节点下标[3~6]监控大小4的块……依此类推。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-10502" alt="" src="https://coolshell.cn/wp-content/uploads/2013/10/伙伴分配器.jpg" width="591" height="347" srcset="https://coolshell.cn/wp-content/uploads/2013/10/伙伴分配器.jpg 844w, https://coolshell.cn/wp-content/uploads/2013/10/伙伴分配器-300x176.jpg 300w" sizes="(max-width: 591px) 100vw, 591px" /></p>
+<p>在分配阶段，首先要搜索大小适配的块，假设第一次分配3，转换成2的幂是4，我们先要对整个内存进行对半切割，从16切割到4需要两步，那么从下标[0]节点开始深度搜索到下标[3]的节点并将其标记为已分配。第二次再分配3那么就标记下标[4]的节点。第三次分配6，即大小为8，那么搜索下标[2]的节点，因为下标[1]所对应的块被下标[3~4]占用了。</p>
+<p>在释放阶段，我们依次释放上述第一次和第二次分配的块，即先释放[3]再释放[4]，当释放下标[4]节点后，我们发现之前释放的[3]是相邻的，于是我们立马将这两个节点进行合并，这样一来下次分配大小8的时候，我们就可以搜索到下标[1]适配了。若进一步释放下标[2]，同[1]合并后整个内存就回归到初始状态。</p>
+<p>还是看一下源码实现吧，首先是伙伴分配器的数据结构：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct buddy2 {
+  unsigned size;
+  unsigned longest[1];
+};</pre>
+<p>这里的成员size表明管理内存的总单元数目（测试用例中是32），成员longest就是二叉树的节点标记，表明所对应的内存块的空闲单位，<strong>在下文中会分析这是整个算法中最精妙的设计。</strong>此处数组大小为1表明这是可以向后扩展的（注：在GCC环境下你可以写成longest[0]，不占用空间，这里是出于可移植性考虑），我们在分配器初始化的buddy2_new可以看到这种用法。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct buddy2* buddy2_new( int size ) {
+  struct buddy2* self;
+  unsigned node_size;
+  int i;
+
+  if (size &lt; 1 || !IS_POWER_OF_2(size))
+    return NULL;
+
+  self = (struct buddy2*)ALLOC( 2 * size * sizeof(unsigned));
+  self-&gt;size = size;
+  node_size = size * 2;
+
+  for (i = 0; i &lt; 2 * size - 1; ++i) {
+    if (IS_POWER_OF_2(i+1))
+      node_size /= 2;
+    self-&gt;longest[i] = node_size;
+  }
+  return self;
+}</pre>
+<p>整个分配器的大小就是满二叉树节点数目，即所需管理内存单元数目的2倍。一个节点对应4个字节，longest记录了节点所对应的的内存块大小。</p>
+<p>内存分配的alloc中，入参是分配器指针和需要分配的大小，返回值是内存块索引。alloc函数首先将size调整到2的幂大小，并检查是否超过最大限度。然后进行适配搜索，深度优先遍历，当找到对应节点后，<strong>将其longest标记为0，即分离适配的块出来，</strong>并转换为内存块索引offset返回，依据二叉树排列序号，比如内存总体大小32，我们找到节点下标[8]，内存块对应大小是4，则offset = (8+1)*4-32 = 4，那么分配内存块就从索引4开始往后4个单位。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int buddy2_alloc(struct buddy2* self, int size) {
+  unsigned index = 0;
+  unsigned node_size;
+  unsigned offset = 0;
+
+  if (self==NULL)
+    return -1;
+
+  if (size &lt;= 0)
+    size = 1;
+  else if (!IS_POWER_OF_2(size))
+    size = fixsize(size);
+
+  if (self-&gt;longest[index] &lt; size)
+    return -1;
+
+  for(node_size = self-&gt;size; node_size != size; node_size /= 2 ) {
+    if (self-&gt;longest[LEFT_LEAF(index)] &gt;= size)
+      index = LEFT_LEAF(index);
+    else
+      index = RIGHT_LEAF(index);
+  }
+
+  self-&gt;longest[index] = 0;
+  offset = (index + 1) * node_size - self-&gt;size;
+
+  while (index) {
+    index = PARENT(index);
+    self-&gt;longest[index] =
+      MAX(self-&gt;longest[LEFT_LEAF(index)], self-&gt;longest[RIGHT_LEAF(index)]);
+  }
+
+  return offset;
+}</pre>
+<p>在函数返回之前需要回溯，因为小块内存被占用，大块就不能分配了，比如下标[8]标记为0分离出来，那么其父节点下标[0]、[1]、[3]也需要相应大小的分离。<strong>将它们的longest进行折扣计算，取左右子树较大值，</strong>下标[3]取4，下标[1]取8，下标[0]取16，表明其对应的最大空闲值。</p>
+<p>在内存释放的free接口，我们只要传入之前分配的内存地址索引，并确保它是有效值。之后就跟alloc做反向回溯，从最后的节点开始一直往上找到longest为0的节点，即当初分配块所适配的大小和位置。<strong>我们将longest恢复到原来满状态的值。继续向上回溯，检查是否存在合并的块，依据就是左右子树longest的值相加是否等于原空闲块满状态的大小，如果能够合并，就将父节点longest标记为相加的和</strong>（多么简单！）。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">void buddy2_free(struct buddy2* self, int offset) {
+  unsigned node_size, index = 0;
+  unsigned left_longest, right_longest;
+
+  assert(self &amp;&amp; offset &gt;= 0 &amp;&amp; offset &lt; size);
+
+  node_size = 1;
+  index = offset + self-&gt;size - 1;
+
+  for (; self-&gt;longest[index] ; index = PARENT(index)) {
+    node_size *= 2;
+    if (index == 0)
+      return;
+  }
+
+  self-&gt;longest[index] = node_size;
+
+  while (index) {
+    index = PARENT(index);
+    node_size *= 2;
+
+    left_longest = self-&gt;longest[LEFT_LEAF(index)];
+    right_longest = self-&gt;longest[RIGHT_LEAF(index)];
+
+    if (left_longest + right_longest == node_size)
+      self-&gt;longest[index] = node_size;
+    else
+      self-&gt;longest[index] = MAX(left_longest, right_longest);
+  }
+}</pre>
+<p>上面两个成对alloc/free接口的时间复杂度都是O(logN)，保证了程序运行性能。然而这段程序设计的独特之处就在于<strong>使用加权来标记内存空闲状态，而不是一般的有限状态机，实际上longest既可以表示权重又可以表示状态，状态机就毫无必要了，所谓“少即是多”嘛！</strong>反观cloudwu的实现，将节点标记为UNUSED/USED/SPLIT/FULL四个状态机，反而会带来额外的条件判断和管理实现，而且还不如数值那样精确。从逻辑流程上看，wuwenbin的实现简洁明了如同教科书一般，特别是左右子树的走向，内存块的分离合并，块索引到节点下标的转换都是一步到位，不像cloudwu充斥了大量二叉树的深度和长度的间接计算，让代码变得晦涩难读，这些都是longest的功劳。<strong>一个“极简”的设计往往在于你想不到的突破常规思维的地方。</strong></p>
+<p>这份代码唯一的缺陷就是longest的大小是4字节，内存消耗大。但<a href="http://blog.codingnow.com/2011/12/buddy_memory_allocation.html" target="_blank">cloudwu的博客</a>上有人提议用logN来保存值，这样就能实现uint8_t大小了，<strong>看，又是一个“极简”的设计！</strong></p>
+<p>说实话，很难在网上找到比这更简约更优雅的buddy system实现了——至少在Google上如此。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-150x150.jpg" alt="Cuckoo Filter：设计与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_title">Cuckoo Filter：设计与实现</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/538efefbgw1eiz9cvx78fj20rm0fmdi8-150x150.jpg" alt="【活动】解迷题送礼物" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_title">【活动】解迷题送礼物</a></li><li ><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/QR-Code-Overview-150x150.jpeg" alt="二维码的生成细节和原理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_title">二维码的生成细节和原理</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10427.html">伙伴分配器的一个极简实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10427.html/feed</wfw:commentRss>
+			<slash:comments>55</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>7个示例科普CPU Cache</title>
+		<link>https://coolshell.cn/articles/10249.html</link>
+					<comments>https://coolshell.cn/articles/10249.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Tue, 30 Jul 2013 01:05:38 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[cache]]></category>
+		<category><![CDATA[CPU]]></category>
+		<category><![CDATA[并发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10249</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 翻译投稿） CPU cache一直是理解计算机体系架构的重要知识点，也是并发编程设计中的技术难点，而且相关参考资料如同过江之鲫，浩...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10249.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10249.html">7个示例科普CPU Cache</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 翻译投稿）</strong></p>
+<p>CPU cache一直是理解计算机体系架构的重要知识点，也是并发编程设计中的技术难点，而且相关参考资料如同过江之鲫，浩瀚繁星，阅之如临深渊，味同嚼蜡，三言两语难以入门。正好网上有人推荐了微软大牛Igor Ostrovsky一篇博文<strong>《漫游处理器缓存效应》</strong>，文章不仅仅用7个最简单的源码示例就将CPU cache的原理娓娓道来，还附加图表量化分析做数学上的佐证，个人感觉这种案例教学的切入方式绝对是俺的菜，故而忍不住贸然译之，以飨列位看官。</p>
+<p>原文地址：<a href="http://igoro.com/archive/gallery-of-processor-cache-effects/">Gallery of Processor Cache Effects</a></p>
+<p>大多数读者都知道cache是一种快速小型的内存，用以存储最近访问内存位置。这种描述合理而准确，但是更多地了解一些处理器缓存工作中的“烦人”细节对于理解程序运行性能有很大帮助。</p>
+<p>在这篇博客中，我将运用代码示例来详解cache工作的方方面面，以及对现实世界中程序运行产生的影响。</p>
+<p>下面的例子都是用C#写的，但语言的选择同程序运行状况以及得出的结论几乎没什么影响。</p>
+<h4>示例1：内存访问和运行</h4>
+<p>你认为相较于循环1，循环2会运行多快？</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int[] arr = new int[64 * 1024 * 1024];
+
+// Loop 1
+for (int i = 0; i &lt; arr.Length; i++) arr[i] *= 3;
+
+// Loop 2
+for (int i = 0; i &lt; arr.Length; i += 16) arr[i] *= 3;</pre>
+<p><span id="more-10249"></span></p>
+<p>第一个循环将数组的每个值乘3，第二个循环将每16个值乘3，第二个循环只做了第一个约6%的工作，但在现代机器上，两者几乎运行相同时间：在我机器上分别是80毫秒和78毫秒。</p>
+<p>两个循环花费相同时间的原因跟内存有关。<strong>循环执行时间长短由数组的内存访问次数决定的，而非整型数的乘法运算次数。</strong>经过下面对第二个示例的解释，你会发现硬件对这两个循环的主存访问次数是相同的。</p>
+<h4>示例2：缓存行的影响</h4>
+<p>让我们进一步探索这个例子。我们将尝试不同的循环步长，而不仅仅是1和16。</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">for (int i = 0; i &lt; arr.Length; i += K) arr[i] *= 3;</code></p>
+<p>下图为该循环在不同步长(K)下的运行时间：</p>
+<p><img decoding="async" class="aligncenter" alt="running times of this loop for different step values (K)" src="http://igoro.com/wordpress/wp-content/uploads/2010/01/image6.png" /></p>
+<p>注意当步长在1到16范围内，循环运行时间几乎不变。但从16开始，每次步长加倍，运行时间减半。</p>
+<p>背后的原因是今天的CPU不再是按字节访问内存，而是以64字节为单位的块(chunk)拿取，称为一个缓存行(cache line)。当你读一个特定的内存地址，整个缓存行将从主存换入缓存，并且访问同一个缓存行内的其它值的开销是很小的。</p>
+<p>由于16个整型数占用64字节（一个缓存行），for循环步长在1到16之间必定接触到相同数目的缓存行：即数组中所有的缓存行。当步长为32，我们只有大约每两个缓存行接触一次，当步长为64，只有每四个接触一次。</p>
+<p>理解缓存行对某些类型的程序优化而言可能很重要。比如，数据字节对齐可能决定一次操作接触1个还是2个缓存行。那上面的例子来说，很显然操作不对齐的数据将损失一半性能。</p>
+<h4>示例3：L1和L2缓存大小</h4>
+<p>今天的计算机具有两级或三级缓存，通常叫做L1、L2以及可能的L3（译者注：如果你不明白什么叫二级缓存，可以参考<a href="https://coolshell.cn/articles/3236.html" target="_blank">这篇精悍的博文</a>lol）。如果你想知道不同缓存的大小，你可以使用系统内部工具<a href="http://technet.microsoft.com/en-us/sysinternals/cc835722.aspx" target="_blank">CoreInfo</a>，或者Windows API调用<a href="http://msdn.microsoft.com/en-us/library/ms683194(VS.85).aspx" target="_blank">GetLogicalProcessorInfo</a>。两者都将告诉你缓存行以及缓存本身的大小。</p>
+<p>在我的机器上，CoreInfo现实我有一个32KB的L1数据缓存，一个32KB的L1指令缓存，还有一个4MB大小L2数据缓存。L1缓存是处理器独享的，L2缓存是成对处理器共享的。</p>
+<p>Logical Processor to Cache Map:<br />
+*&#8212; Data Cache 0, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+*&#8212; Instruction Cache 0, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+-*&#8211; Data Cache 1, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+-*&#8211; Instruction Cache 1, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+**&#8211; Unified Cache 0, Level 2, 4 MB, Assoc 16, LineSize 64<br />
+&#8211;*- Data Cache 2, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+&#8211;*- Instruction Cache 2, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+&#8212;* Data Cache 3, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+&#8212;* Instruction Cache 3, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+&#8211;** Unified Cache 1, Level 2, 4 MB, Assoc 16, LineSize 64</p>
+<p>（译者注：作者平台是四核机，所以L1编号为0~3，数据/指令各一个，L2只有数据缓存，两个处理器共享一个，编号0~1。关联性字段在后面例子说明。）</p>
+<p>让我们通过一个实验来验证这些数字。遍历一个整型数组，每16个值自增1——一种节约地方式改变每个缓存行。当遍历到最后一个值，就重头开始。我们将使用不同的数组大小，可以看到当数组溢出一级缓存大小，程序运行的性能将急剧滑落。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int steps = 64 * 1024 * 1024;
+// Arbitrary number of steps
+int lengthMod = arr.Length - 1;
+for (int i = 0; i &lt; steps; i++)
+{
+    arr[(i * 16) &amp; lengthMod]++; // (x &amp; lengthMod) is equal to (x % arr.Length)
+}</pre>
+<p>下图是运行时间图表：<br />
+<img decoding="async" class="aligncenter" alt="cache size" src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image.png" /></p>
+<p>你可以看到在32KB和4MB之后性能明显滑落——正好是我机器上L1和L2缓存大小。</p>
+<h4>示例4：指令级别并发</h4>
+<p>现在让我们看一看不同的东西。下面两个循环中你以为哪个较快？</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int steps = 256 * 1024 * 1024;
+int[] a = new int[2];
+
+// Loop 1
+for (int i=0; i&lt;steps; i++) { a[0]++; a[0]++; }
+
+// Loop 2
+for (int i=0; i&lt;steps; i++) { a[0]++; a[1]++; }</pre>
+<p>结果是第二个循环约比第一个快一倍，至少在我测试的机器上。为什么呢？这跟两个循环体内的操作指令依赖性有关。</p>
+<p>第一个循环体内，操作做是相互依赖的（译者注：下一次依赖于前一次）：<br />
+<img decoding="async" class="aligncenter" alt="same value dependency" src="http://igoro.com/wordpress/wp-content/uploads/2010/01/image.png" /><br />
+但第二个例子中，依赖性就不同了：<br />
+<img decoding="async" class="aligncenter" alt="different values dependency" src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image2.png" /></p>
+<p>现代处理器中对不同部分指令拥有一点并发性（译者注：跟流水线有关，比如Pentium处理器就有U/V两条流水线，后面说明）。这使得CPU在同一时刻访问L1两处内存位置，或者执行两次简单算术操作。在第一个循环中，处理器无法发掘这种指令级别的并发性，但第二个循环中就可以。</p>
+<p>[原文更新]：许多人在reddit上询问有关编译器优化的问题，像{ a[0]++; a[0]++; }能否优化为{ a[0]+=2; }。实际上，C#编译器和CLR JIT没有做优化——在数组访问方面。我用release模式编译了所有测试（使用优化选项），但我查询了JIT汇编语言证实优化并未影响结果。</p>
+<h4>示例5：缓存关联性</h4>
+<p>缓存设计的一个关键决定是确保每个主存块(chunk)能够存储在任何一个缓存槽里，或者只是其中一些（译者注：此处一个槽位就是一个缓存行）。</p>
+<p>有三种方式将缓存槽映射到主存块中：</p>
+<ol>
+<li><strong>直接映射(Direct mapped cache)</strong><br />
+每个内存块只能映射到一个特定的缓存槽。一个简单的方案是通过块索引chunk_index映射到对应的槽位(chunk_index % cache_slots)。被映射到同一内存槽上的两个内存块是不能同时换入缓存的。（译者注：chunk_index可以通过物理地址/缓存行字节计算得到）</li>
+<li><strong>N路组关联(N-way set associative cache)</strong><br />
+每个内存块能够被映射到N路特定缓存槽中的任意一路。比如一个16路缓存，每个内存块能够被映射到16路不同的缓存槽。一般地，具有一定相同低bit位地址的内存块将共享16路缓存槽。（译者注：相同低位地址表明相距一定单元大小的连续内存）</li>
+<li><strong>完全关联(Fully associative cache)</strong><br />
+每个内存块能够被映射到任意一个缓存槽。操作效果上相当于一个散列表。</li>
+</ol>
+<p>直接映射缓存会引发冲突——当多个值竞争同一个缓存槽，它们将相互驱逐对方，导致命中率暴跌。另一方面，完全关联缓存过于复杂，并且硬件实现上昂贵。N路组关联是处理器缓存的典型方案，它在电路实现简化和高命中率之间取得了良好的折中。</p>
+<p><img decoding="async" class="aligncenter" alt="完全关联与多路关联的cache映射" src="http://my.csdn.net/uploads/201204/18/1334757273_8141.png" /><br />
+（此图由译者给出，直接映射和完全关联可以看做N路组关联的两个极端，从图中可知当N=1时，即直接映射；当N取最大值时，即完全关联。读者可以自行想象直接映射图例，具体表述见参考资料。）</p>
+<p>举个例子，4MB大小的L2缓存在我机器上是16路关联。所有64字节内存块将分割为不同组，映射到同一组的内存块将竞争L2缓存里的16路槽位。</p>
+<p>L2缓存有65,536个缓存行（译者注：4MB/64），每个组需要16路缓存行，我们将获得4096个集。这样一来，块属于哪个组取决于块索引的低12位bit(2^12=4096)。<strong>因此缓存行对应的物理地址凡是以262,144字节(4096*64)的倍数区分的，将竞争同一个缓存槽。我机器上最多维持16个这样的缓存槽。</strong>（译者注：请结合上图中的2路关联延伸理解，一个块索引对应64字节，chunk0对应组0中的任意一路槽位，chunk1对应组1中的任意一路槽位，以此类推chunk4095对应组4095中的任意一路槽位，chunk0和chunk4096地址的低12bit是相同的，所以chunk4096、chunk8192将同chunk0竞争组0中的槽位，它们之间的地址相差262,144字节的倍数，而最多可以进行16次竞争，否则就要驱逐一个chunk）。</p>
+<p>为了使得缓存关联效果更加明了，我需要重复地访问同一组中的16个以上的元素，通过如下方法证明：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">public static long UpdateEveryKthByte(byte[] arr, int K)
+{
+    Stopwatch sw = Stopwatch.StartNew();
+    const int rep = 1024*1024; // Number of iterations – arbitrary
+    int p = 0;
+    for (int i = 0; i &lt; rep; i++)
+    {
+        arr[p]++;
+        p += K;
+        if (p &gt;= arr.Length) p = 0;
+    }
+    sw.Stop();
+    return sw.ElapsedMilliseconds;
+}</pre>
+<p>该方法每次在数组中迭代K个值，当到达末尾时从头开始。循环在运行足够长（2^20次）之后停止。</p>
+<p>我使用不同的数组大小（每次增加1MB）和不同的步长传入UpdateEveryKthByte()。以下是绘制的图表，蓝色代表运行较长时间，白色代表较短时间：<br />
+<img decoding="async" class="aligncenter" alt="timing" src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image_thumb1_opt.png" /><br />
+蓝色区域（较长时间）表明当我们重复数组迭代时，更新的值无法同时放在缓存中。浅蓝色区域对应80毫秒，白色区域对应10毫秒。</p>
+<p>让我们来解释一下图表中蓝色部分：</p>
+<p><strong>1.为何有垂直线？</strong>垂直线表明步长值过多接触到同一组中内存位置（大于16次）。在这些次数里，我的机器无法同时将接触过的值放到16路关联缓存中。</p>
+<p>一些糟糕的步长值为2的幂：256和512。举个例子，考虑512步长遍历8MB数组，存在32个元素以相距262,144字节空间分布，所有32个元素都会在循环遍历中更新到，因为512能够整除262,144（译者注：此处一个步长代表一个字节）。</p>
+<p>由于32大于16，这32个元素将一直竞争缓存里的16路槽位。</p>
+<p>（译者注：为何512步长的垂直线比256步长颜色更深？在同样足够多的步数下，512比256访问到存在竞争的块索引次数多一倍。比如跨越262,144字节边界512需要512步，而256需要1024步。那么当步数为2^20时，512访问了2048次存在竞争的块而256只有1024次。最差情况下步长为262,144的倍数，因为每次循环都会引发一个缓存行驱逐。）</p>
+<p>有些不是2的幂的步长运行时间长仅仅是运气不好，最终访问到的是同一组中不成比例的许多元素，这些步长值同样显示为蓝线。</p>
+<p><strong>2.为何垂直线在4MB数组长度的地方停止？</strong>因为对于小于等于4MB的数组，16路关联缓存相当于完全关联缓存。</p>
+<p>一个16路关联缓存最多能够维护16个以262,144字节分隔的缓存行，4MB内组17或更多的缓存行都没有对齐在262,144字节边界上，因为16*262,144=4,194,304。</p>
+<p><strong>3.为何左上角出现蓝色三角？</strong>在三角区域内，我们无法在缓存中同时存放所有必要的数据，不是出于关联性，而仅仅是因为L2缓存大小所限。</p>
+<p>举个例子，考虑步长128遍历16MB数组，数组中每128字节更新一次，这意味着我们一次接触两个64字节内存块。为了存储16MB数组中每两个缓存行，我们需要8MB大小缓存。但我的机器中只有4MB缓存（译者注：这意味着必然存在冲突从而延时）。</p>
+<p>即使我机器中4MB缓存是全关联，仍无法同时存放8MB数据。</p>
+<p><strong>4.为何三角最左边部分是褪色的？</strong>注意左边0~64字节部分——正好一个缓存行！就像上面示例1和2所说，额外访问相同缓存行的数据几乎没有开销。比如说，步长为16字节，它需要4步到达下一个缓存行，也就是说4次内存访问只有1次开销。</p>
+<p>在相同循环次数下的所有测试用例中，采取省力步长的运行时间来得短。</p>
+<p>将图表延伸后的模型：<br />
+<img decoding="async" class="aligncenter" alt="timing2" src="http://igoro.com/wordpress/wp-content/uploads/2010/02/assoc_big_thumb1_opt.png" /></p>
+<p>缓存关联性理解起来有趣而且确能被证实，但对于本文探讨的其它问题比起来，它肯定不会是你编程时所首先需要考虑的问题。</p>
+<h4>示例6：缓存行的伪共享(false-sharing)</h4>
+<p>在多核机器上，缓存遇到了另一个问题——一致性。不同的处理器拥有完全或部分分离的缓存。在我的机器上，L1缓存是分离的（这很普遍），而我有两对处理器，每一对共享一个L2缓存。这随着具体情况而不同，如果一个现代多核机器上拥有多级缓存，那么快速小型的缓存将被处理器独占。</p>
+<p><strong>当一个处理器改变了属于它自己缓存中的一个值，其它处理器就再也无法使用它自己原来的值，因为其对应的内存位置将被刷新(invalidate)到所有缓存。而且由于缓存操作是以缓存行而不是字节为粒度，所有缓存中整个缓存行将被刷新！</strong></p>
+<p>为证明这个问题，考虑如下例子：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">private static int[] s_counter = new int[1024];
+private void UpdateCounter(int position)
+{
+    for (int j = 0; j &lt; 100000000; j++)
+    {
+        s_counter[position] = s_counter[position] + 3;
+    }
+}</pre>
+<p>在我的四核机上，如果我通过四个线程传入参数0,1,2,3并调用UpdateCounter，所有线程将花费4.3秒。</p>
+<p>另一方面，如果我传入16,32,48,64，整个操作进花费0.28秒！</p>
+<p>为何会这样？第一个例子中的四个值很可能在同一个缓存行里，每次一个处理器增加计数，这四个计数所在的缓存行将被刷新，而其它处理器在下一次访问它们各自的计数（译者注：注意数组是private属性，每个线程独占）将失去命中(miss)一个缓存。这种多线程行为有效地禁止了缓存功能，削弱了程序性能。</p>
+<h4>示例7：硬件复杂性</h4>
+<p>即使你懂得了缓存的工作基础，有时候硬件行为仍会使你惊讶。不用处理器在工作时有不同的优化、探试和微妙的细节。</p>
+<p>有些处理器上，L1缓存能够并发处理两路访问，如果访问是来自不同的存储体，而对同一存储体的访问只能串行处理。而且处理器聪明的优化策略也会使你感到惊讶，比如在伪共享的例子中，以前在一些没有微调的机器上运行表现并不良好，但我家里的机器能够对最简单的例子进行优化来减少缓存刷新。</p>
+<p>下面是一个“硬件怪事”的奇怪例子：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">private static int A, B, C, D, E, F, G;
+private static void Weirdness()
+{
+    for (int i = 0; i &lt; 200000000; i++)
+    {
+        // do something...
+    }
+}</pre>
+<p>当我在循环体内进行三种不同操作，我得到如下运行时间：</p>
+<p><strong>           操作</strong>                    <strong>时间</strong><br />
+A++; B++; C++; D++;     719 ms<br />
+A++; C++; E++; G++;     448 ms<br />
+A++; C++;                      518 ms</p>
+<p>增加A,B,C,D字段比增加A,C,E,G字段花费更长时间，更奇怪的是，增加A,C两个字段比增加A,C,E,G执行更久！</p>
+<p>我无法肯定这些数字背后的原因，但我怀疑这跟存储体有关，如果有人能够解释这些数字，我将洗耳恭听。</p>
+<p>这个例子的教训是，你很难完全预测硬件的行为。你可以预测很多事情，但最终，衡量及验证你的假设非常重要。</p>
+<h4>关于第7个例子的一个回帖</h4>
+<p>Goz：我询问Intel的工程师最后的例子，得到以下答复：</p>
+<p>“很显然这涉及到执行单元里指令是怎样终止的，机器处理存储-命中-加载的速度，以及如何快速且优雅地处理试探性执行的循环展开（比如是否由于内部冲突而多次循环）。但这意味着你需要非常细致的流水线跟踪器和模拟器才能弄明白。在纸上预测流水线里的乱序指令是无比困难的工作，就算是设计芯片的人也一样。对于门外汉来说，没门，抱歉！”</p>
+<h4>P.S.个人感悟——局部性原理和流水线并发</h4>
+<p>程序的运行存在<strong>时间和空间上的局部性</strong>，前者是指只要内存中的值被换入缓存，今后一段时间内会被多次引用，后者是指该内存附近的值也被换入缓存。如果在编程中特别注意运用局部性原理，就会获得性能上的回报。</p>
+<p>比如<strong>C语言中应该尽量减少静态变量的引用，</strong>这是因为静态变量存储在全局数据段，在一个被反复调用的函数体内，引用该变量需要对缓存多次换入换出，而如果是分配在堆栈上的局部变量，函数每次调用CPU只要从缓存中就能找到它了，因为堆栈的重复利用率高。</p>
+<p>再比如<strong>循环体内的代码要尽量精简，</strong>因为代码是放在指令缓存里的，而指令缓存都是一级缓存，只有几K字节大小，如果对某段代码需要多次读取，而这段代码又跨越一个L1缓存大小，那么缓存优势将荡然无存。</p>
+<p>关于<strong>CPU的流水线(pipeline)并发性</strong>简单说说，Intel Pentium处理器有两条流水线U和V，每条流水线可各自独立地读写缓存，所以可以在一个时钟周期内同时执行两条指令。但这两条流水线不是对等的，U流水线可以处理所有指令集，V流水线只能处理简单指令。</p>
+<p>CPU指令通常被分为四类，第一类是常用的简单指令，像mov, nop, push, pop, add, sub, and, or, xor, inc, dec, cmp, lea，可以在任意一条流水线执行，只要相互之间不存在依赖性，完全可以做到指令并发。</p>
+<p>第二类指令需要同别的流水线配合，像一些进位和移位操作，这类指令如果在U流水线中，那么别的指令可以在V流水线并发运行，如果在V流水线中，那么U流水线是暂停的。</p>
+<p>第三类指令是一些跳转指令，如cmp,call以及条件分支，它们同第二类相反，当工作在V流水线时才能通U流水线协作，否则只能独占CPU。</p>
+<p>第四类指令是其它复杂的指令，一般不常用，因为它们都只能独占CPU。</p>
+<p>如果是汇编级别编程，<strong>要达到指令级别并发，必须要注重指令之间的配对。</strong>尽量使用第一类指令，避免第四类，还要在顺序上减少上下文依赖。</p>
+<h4>参考资料</h4>
+<p>wiki上的CPU cache解析（<a href="http://zh.wikipedia.org/zh-cn/CPU%E7%BC%93%E5%AD%98" target="_blank">中文版</a>）（<a href="https://en.wikipedia.org/wiki/CPU_cache" target="_blank">英文版</a>）。</p>
+<p>上海交通大学师生制作的一个关于<a href="http://yoursunny.com/study/EI209/?topic=cache" target="_blank">cache映射功能、命中率计算</a>的教学演示程序，模拟了不同关联模式下cache的映射和命中几率，形象直观。</p>
+<p>网易数据库大牛<a href="http://weibo.com/u/2216172320" target="_blank">@何_登成</a>自制PPT<a href="http://vdisk.weibo.com/s/dBzv2sibdUB8" target="_blank">《CPU Cache and Memory Ordering》</a>，信息量超大！</p>
+<p>南京大学计算机教学<a href="http://cs.nju.edu.cn/swang/CompArchOrg_12F/slides/lecture09.pdf" target="_blank">公开PPT</a>，温馨提示，地址域名里面改变字段&#8221;lecture&#8221;后面的数字编号可切换课程;-)</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20793.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/cpu_512x512-150x150.png" alt="与程序员相关的CPU缓存知识" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20793.html" class="wp_rp_title">与程序员相关的CPU缓存知识</a></li><li ><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/cache-150x150.png" alt="缓存更新的套路" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_title">缓存更新的套路</a></li><li ><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/图1-3-150x150.jpg" alt="无锁HashMap的原理与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_title">无锁HashMap的原理与实现</a></li><li ><a href="https://coolshell.cn/articles/9606.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/race_condition-150x150.jpg" alt="疫苗：Java HashMap的死循环" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9606.html" class="wp_rp_title">疫苗：Java HashMap的死循环</a></li><li ><a href="https://coolshell.cn/articles/2039.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="CPU的性价比" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2039.html" class="wp_rp_title">CPU的性价比</a></li><li ><a href="https://coolshell.cn/articles/2998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="HTML5 小游戏展示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2998.html" class="wp_rp_title">HTML5 小游戏展示</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10249.html">7个示例科普CPU Cache</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10249.html/feed</wfw:commentRss>
+			<slash:comments>73</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>C语言全局变量那些事儿</title>
+		<link>https://coolshell.cn/articles/10115.html</link>
+					<comments>https://coolshell.cn/articles/10115.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Sun, 21 Jul 2013 13:16:33 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[C++]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10115</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 作为一名程序员，如果说沉迷一门编程语言算作一种乐趣的话，那么与此同时反过来去黑一门编程语言就是这种乐趣的升华。今天我们就来...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10115.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10115.html">C语言全局变量那些事儿</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>作为一名程序员，如果说沉迷一门编程语言算作一种乐趣的话，那么与此同时反过来去黑一门编程语言就是这种乐趣的升华。今天我们就来黑一把C语言，好好展示一下这门经典语言令人抓狂的一面。</p>
+<p>我们知道，全局变量是C语言语法和语义中一个很重要的知识点，首先它的存在意义需要从三个不同角度去理解：对于程序员来说，它是一个记录内容的<strong>变量(variable)</strong>；对于编译/链接器来说，它是一个需要解析的<strong>符号(symbol)</strong>；对于计算机来说，它可能是具有地址的一块<strong>内存(memory)</strong>。其次是语法/语义：从作用域上看，带static关键字的全局变量范围只能限定在文件里，否则会外联到整个模块和项目中；从生存期来看，它是静态的，贯穿整个程序或模块运行期间（<span style="color: #ff0000;"><strong>注意，正是跨单元访问和持续生存周期这两个特点使得全局变量往往成为一段受攻击代码的突破口，了解这一点十分重要</strong></span>）；从空间分配上看，定义且初始化的全局变量在编译时在数据段(.data)分配空间，定义但未初始化的全局变量<strong>暂存(tentative definition)</strong>在.bss段，编译时自动清零，而仅仅是声明的全局变量只能算个符号，寄存在编译器的符号表内，不会分配空间，直到链接或者运行时再重定向到相应的地址上。</p>
+<p>我们将向您展现一下，<strong>非static限定全局变量</strong>在编译/链接以及程序运行时会发生哪些有趣的事情，顺便可以对C编译器/链接器的解析原理管中窥豹。以下示例对ANSI C和GNU C标准都有效，笔者的编译环境是Ubuntu下的GCC-4.4.3。</p>
+<p><span id="more-10115"></span></p>
+<h4>第一个例子</h4>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/* t.h */
+#ifndef _H_
+#define _H_
+int a;
+#endif
+
+/* foo.c */
+#include &lt;stdio.h&gt;
+#include &quot;t.h&quot;
+
+struct {
+   char a;
+   int b;
+} b = { 2, 4 };
+
+int main();
+
+void foo()
+{
+    printf(&quot;foo:\t(&amp;a)=0x%08x\n\t(&amp;b)=0x%08x\n
+        \tsizeof(b)=%d\n\tb.a=%d\n\tb.b=%d\n\tmain:0x%08x\n&quot;,
+        &amp;a, &amp;b, sizeof b, b.a, b.b, main);
+}
+
+/* main.c */
+#include &lt;stdio.h&gt;
+#include &quot;t.h&quot;
+
+int b;
+int c;
+
+int main()
+{
+    foo();
+    printf(&quot;main:\t(&amp;a)=0x%08x\n\t(&amp;b)=0x%08x\n
+        \t(&amp;c)=0x%08x\n\tsize(b)=%d\n\tb=%d\n\tc=%d\n&quot;,
+        &amp;a, &amp;b, &amp;c, sizeof b, b, c);
+	return 0;
+}
+</pre>
+<p>Makefile如下：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+test: main.o foo.o
+	gcc -o test main.o foo.o
+
+main.o: main.c
+foo.o: foo.c
+
+clean:
+	rm *.o test
+</pre>
+<p>运行情况：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+foo:	(&amp;a)=0x0804a024
+	(&amp;b)=0x0804a014
+	sizeof(b)=8
+	b.a=2
+	b.b=4
+	main:0x080483e4
+main:	(&amp;a)=0x0804a024
+	(&amp;b)=0x0804a014
+	(&amp;c)=0x0804a028
+	size(b)=4
+	b=2
+	c=0
+</pre>
+<p>这个项目里我们定义了四个全局变量，t.h头文件定义了一个整型a，main.c里定义了两个整型b和c并且未初始化，foo.c里定义了一个初始化了的结构体，还定义了一个main的函数指针变量。由于C语言每个源文件单独编译，所以t.h分别包含了两次，所以int a就被定义了两次。两个源文件里变量b和函数指针变量main被重复定义了，实际上可以看做代码段的地址。但编译器并未报错，只给出一条警告：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">/usr/bin/ld: Warning: size of symbol &#039;b&#039; changed from 4 in main.o to 8 in foo.o</code></p>
+<p>运行程序发现，main.c打印中b大小是4个字节，而foo.c是8个字节，因为sizeof关键字是编译时决议，而源文件中对b类型定义不一样。但令人惊奇的是无论是在main.c还是foo.c中，a和b都是相同的地址，也就是说，a和b被定义了两次，b还是不同类型，但内存映像中只有一份拷贝。我们还看到，main.c中b的值居然就是foo.c中结构体第一个成员变量b.a的值，这证实了前面的推断——<strong>即便存在多次定义，内存中只有一份初始化的拷贝。</strong>另外在这里c是置身事外的一个独立变量。</p>
+<p>为何会这样呢？这涉及到<strong>C编译器对多重定义的全局符号的解析和链接。</strong>在编译阶段，编译器将全局符号信息隐含地编码在可重定位目标文件的符号表里。这里有个<strong>“强符号(strong)”</strong>和<strong>“弱符号(weak)”</strong>的概念——前者指的是定义并且初始化了的变量，比如foo.c里的结构体b，后者指的是未定义或者定义但未初始化的变量，比如main.c里的整型b和c，还有两个源文件都包含头文件里的a。当符号被多重定义时，GNU链接器(ld)使用以下规则决议：</p>
+<ul>
+<li>不允许出现多个相同强符号。</li>
+</ul>
+<ul>
+<li>如果有一个强符号和多个弱符号，则选择强符号。</li>
+</ul>
+<ul>
+<li>如果有多个弱符号，那么先决议到size最大的那个，如果同样大小，则按照链接顺序选择第一个。</li>
+</ul>
+<p>像上面这个例子中，全局变量a和b存在重复定义。如果我们将main.c中的b初始化赋值，那么就存在两个强符号而违反了规则一，编译器报错。如果满足规则二，则仅仅提出警告，实际运行时决议的是foo.c中的强符号。而变量a都是弱符号，所以只选择一个（按照目标文件链接时的顺序）。</p>
+<p>事实上，这种规则是C语言里的一个大坑，编译器对这种全局变量多重定义的“纵容”很可能会无端修改某个变量，导致程序不确定行为。如果你还没有意识到事态严重性，我再举个例子。</p>
+<h4>第二个例子</h4>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/* foo.c */
+#include &lt;stdio.h&gt;;
+
+struct {
+    int a;
+    int b;
+} b = { 2, 4 };
+
+int main();
+
+void foo()
+{
+    printf(&quot;foo:\t(&amp;b)=0x%08x\n\tsizeof(b)=%d\n
+        \tb.a=%d\n\tb.b=%d\n\tmain:0x%08x\n&quot;,
+        &amp;b, sizeof b, b.a, b.b, main);
+}
+
+/* main.c */
+#include &lt;stdio.h&gt;
+
+int b;
+int c;
+
+int main()
+{
+    if (0 == fork()) {
+        sleep(1);
+        b = 1;
+        printf(&quot;child:\tsleep(1)\n\t(&amp;b):0x%08x\n
+            \t(&amp;c)=0x%08x\n\tsizeof(b)=%d\n\tset b=%d\n\tc=%d\n&quot;,
+            &amp;b, &amp;c, sizeof b, b, c);
+        foo();
+    } else {
+        foo();
+        printf(&quot;parent:\t(&amp;b)=0x%08x\n\t(&amp;c)=0x%08x\n
+            \tsizeof(b)=%d\n\tb=%d\n\tc=%d\n\twait child...\n&quot;,
+            &amp;b, &amp;c, sizeof b, b, c);
+        wait(-1);
+        printf(&quot;parent:\tchild over\n\t(&amp;b)=0x%08x\n
+            \t(&amp;c)=0x%08x\n\tsizeof(b)=%d\n\tb=%d\n\tc=%d\n&quot;,
+            &amp;b, &amp;c, sizeof b, b, c);
+    }
+    return 0;
+}</pre>
+<p>运行情况如下：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+foo:	(&amp;b)=0x0804a020
+	sizeof(b)=8
+	b.a=2
+	b.b=4
+	main:0x080484c8
+parent:	(&amp;b)=0x0804a020
+	(&amp;c)=0x0804a034
+	sizeof(b)=4
+	b=2
+	c=0
+	wait child...
+child:	sleep(1)
+	(&amp;b):0x0804a020
+	(&amp;c)=0x0804a034
+	sizeof(b)=4
+	set b=1
+	c=0
+foo:	(&amp;b)=0x0804a020
+	sizeof(b)=8
+	b.a=1
+	b.b=4
+	main:0x080484c8
+parent:	child over
+	(&amp;b)=0x0804a020
+	(&amp;c)=0x0804a034
+	sizeof(b)=4
+	b=2
+	c=0
+</pre>
+<p>（说明一点，运行情况是直接输出到stdout的打印，笔者曾经将./test输出重定向到log中，结果发现打印的执行序列不一致，所以采用默认输出。）</p>
+<p>这是一个<strong>多进程环境</strong>，首先我们看到无论父进程还是子进程，main.c还是foo.c，全局变量b和c的地址仍然是一致的（当然只是个<strong>逻辑地址</strong>），而且对b的大小不同模块仍然有不同的决议。这里值得注意的是，我们在子进程中对变量b进行赋值动作，从此子进程本身包括foo()调用中，整型b以及结构体成员b.a的值都是1，而父进程中整型b和结构体成员b.a的值仍是2，但它们显示的逻辑地址仍是一致的。</p>
+<p>个人认为可以这样解释，fork创建新进程时，子进程获得了父进程上下文“镜像”（自然包括全局变量），虚拟地址相同但属于不同的进程空间，而且此时真正映射的物理地址中只有一份拷贝，所以b的值是相同的（都是2）。随后子进程对b改写，触发了操作系统的<strong>写时拷贝(copy on write)</strong>机制，这时物理内存中才产生真正的两份拷贝，分别映射到不同进程空间的虚拟地址上，但虚拟地址的值本身仍然不变，这对于应用程序来说是透明的，具有隐瞒性。</p>
+<p>还有一点值得注意，这个示例编译时没有出现第一个示例的警告，即对变量b的sizeof决议，笔者也不知道为什么，或许是GCC的一个bug？</p>
+<h4>第三个例子</h4>
+<p>这个例子代码同上一个一致，只不过我们将foo.c做成一个静态链接库libfoo.a进行链接，这里只给出Makefile的改动。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+test: main.o foo.o
+	ar rcs libfoo.a foo.o
+	gcc -static -o test main.o libfoo.a
+
+main.o: main.c
+foo.o: foo.c
+
+clean:
+	rm -f *.o test
+</pre>
+<p>运行情况如下：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+foo:	(&amp;b)=0x080ca008
+	sizeof(b)=8
+	b.a=2
+	b.b=4
+	main:0x08048250
+parent:	(&amp;b)=0x080ca008
+	(&amp;c)=0x080cc084
+	sizeof(b)=4
+	b=2
+	c=0
+	wait child...
+child:	sleep(1)
+	(&amp;b):0x080ca008
+	(&amp;c)=0x080cc084
+	sizeof(b)=4
+	set b=1
+	c=0
+foo:	(&amp;b)=0x080ca008
+	sizeof(b)=8
+	b.a=1
+	b.b=4
+	main:0x08048250
+parent:	child over
+	(&amp;b)=0x080ca008
+	(&amp;c)=0x080cc084
+	sizeof(b)=4
+	b=2
+	c=0
+</pre>
+<p>从这个例子看不出有啥差别，只不过使用<strong>静态链接</strong>后，全局变量加载的地址有所改变，b和c的地址之间似乎相隔更远了些。不过这次编译器倒是给出了变量b的sizeof决议警告。</p>
+<p>到此为止，有些人可能会对上面的例子嗤之以鼻，觉得这不过是列举了C语言的某些特性而已，算不上黑。有些人认为既然如此，对于一切全局变量要么用static限死，要么定义同时初始化，杜绝弱符号，以便在编译时报错检测出来。只要小心地使用，C语言还是很完美的嘛~对于抱这样想法的人，我只想说，请你在夜深人静的时候竖起耳朵仔细聆听，你很可能听到Dennis Richie在九泉之下邪恶的笑声——不，与其说是嘲笑，不如说是诅咒……</p>
+<h4>第四个例子</h4>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/* foo.c */
+#include &lt;stdio.h&gt;
+
+const struct {
+    int a;
+    int b;
+} b = { 3, 3 };
+
+int main();
+
+void foo()
+{
+    b.a = 4;
+    b.b = 4;
+    printf(&quot;foo:\t(&amp;b)=0x%08x\n\tsizeof(b)=%d\n
+        \tb.a=%d\n\tb.b=%d\n\tmain:0x%08x\n&quot;,
+        &amp;b, sizeof b, b.a, b.b, main);
+}
+
+/* t1.c */
+#include &lt;stdio.h&gt;
+
+int b = 1;
+int c = 1;
+
+int main()
+{
+    int count = 5;
+    while (count-- &gt; 0) {
+        t2();
+        foo();
+        printf(&quot;t1:\t(&amp;b)=0x%08x\n\t(&amp;c)=0x%08x\n
+            \tsizeof(b)=%d\n\tb=%d\n\tc=%d\n&quot;,
+            &amp;b, &amp;c, sizeof b, b, c);
+        sleep(1);
+    }
+    return 0;
+}
+
+/* t2.c */
+#include &lt;stdio.h&gt;
+
+int b;
+int c;
+
+int t2()
+{
+    printf(&quot;t2:\t(&amp;b)=0x%08x\n\t(&amp;c)=0x%08x\n
+        \tsizeof(b)=%d\n\tb=%d\n\tc=%d\n&quot;,
+        &amp;b, &amp;c, sizeof b, b, c);
+    return 0;
+}</pre>
+<p>Makefile脚本：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">export LD_LIBRARY_PATH:=.
+
+all: test
+	./test
+
+test: t1.o t2.o
+	gcc -shared -fPIC -o libfoo.so foo.c
+	gcc -o test t1.o t2.o -L. -lfoo
+
+t1.o: t1.c
+t2.o: t2.c
+
+.PHONY:clean
+clean:
+	rm -f *.o *.so test*
+</pre>
+<p>执行结果：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+./test
+t2:	(&amp;b)=0x0804a01c
+	(&amp;c)=0x0804a020
+	sizeof(b)=4
+	b=1
+	c=1
+foo:	(&amp;b)=0x0804a01c
+	sizeof(b)=8
+	b.a=4
+	b.b=4
+	main:0x08048564
+t1:	(&amp;b)=0x0804a01c
+	(&amp;c)=0x0804a020
+	sizeof(b)=4
+	b=4
+	c=4
+t2:	(&amp;b)=0x0804a01c
+	(&amp;c)=0x0804a020
+	sizeof(b)=4
+	b=4
+	c=4
+foo:	(&amp;b)=0x0804a01c
+	sizeof(b)=8
+	b.a=4
+	b.b=4
+	main:0x08048564
+t1:	(&amp;b)=0x0804a01c
+	(&amp;c)=0x0804a020
+	sizeof(b)=4
+	b=4
+	c=4
+	...</pre>
+<p>其实前面几个例子只是开胃小菜而已，真正的大坑终于出现了！而且这次编译器既没报错也没警告，但我们确实眼睁睁地看到作为main()中强符号的b被改写了，而且一旁的c也“躺枪”了。眼尖的读者发现，这次foo.c是作为动态链接库运行时加载的，当t1第一次调用t2时，libfoo.so还未加载，一旦调用了foo函数，b立马中弹，而且<strong>c的地址居然还相邻着b，这使得c一同中弹了。</strong>不过笔者有些无法解释这种行为的原因，有种说法是强符号的全局变量在数据段中是连续分布的（相应地弱符号暂存在.bss段或者符号表里），或许可以上报GNU的编译器开发小组。</p>
+<p>另外笔者尝试过将t1.c中的b和c定义前面加上<strong>const限定词</strong>，编译器仍然默认通过，但程序在main()中第一次调用foo()时触发了Segment fault异常导致奔溃，在foo.c里使用指针改写它也一样。<strong>推断这是GCC对const常量所在地址启用了类似操作系统写保护机制，但我无法确定早期版本的GCC是否会让这个const常量被改写而程序不会奔溃。</strong></p>
+<p>至于<strong>volatile关键词</strong>之于全局变量，自测似乎没有影响。</p>
+<p>怎么样？看了最后一个例子是否有点“不明觉厉”呢？C语言在你心目中是否还是当初那个“纯洁”、“干净”、“行为一致”的姑娘呢？也许趁着你不注意的时候她会偷偷给你戴顶绿帽，这一切都是通过全局变量，特别在动态链接的环境下，就算全部定义成强符号仍然无法为编译器所察觉。而一些IT界“恐怖分子”也经常<strong>将恶意代码包装成全局变量注入到root权限下存在漏洞的操作序列中，</strong>就像著名的栈溢出攻击那样。某一天当你傻傻地看着一个程序出现未定义的行为却无法定位原因的时候，请不要忘记Richie大爷那来自九泉之下最深沉的“问候”~</p>
+<p>或许有些人会偷换概念，把这一切归咎于编译器和链接器身上，认为这同语言无关，但我要提醒你，正是编译/链接器的行为支撑了整个语言的语法和语义。你可以反过来思考一下为何C的胞弟C++推出<strong>“命名空间(namespace)”</strong>的概念，或者你可以使用其它高级语言，对于重定义的全局变量是否能通过编译这一关。</p>
+<p>所以请时刻谨记，<span style="color: #ff0000;"><strong>C是一门很恐怖的语言！</strong></span></p>
+<p>P.S.题外话写在最后。我无意挑起语言之争，只是就事论事地去<strong>“黑(hack)</strong><strong>”</strong>一门语言而已，而且要黑就要黑得有理有力有层次，还要带点娱乐精神。其实黑一门语言并非什么尖端复杂的技术，个人觉得起码要做到两点：</p>
+<ul>
+<li><strong>亲自动手写测试程序。</strong>动手写测试程序是开发人员必备的基础技能，只有现成的代码才能让人心服口服，那些只会停留在口头上的争论只能算作cheap hack。</li>
+</ul>
+<ul>
+<li><strong>测试程序不能依赖于不成熟的代码。</strong>软件开发99%以上的bug都是基于不合格(substandard)开发人员导致，这并不能怪罪于语言以及编译器本身。使用诸如#define TRUE FALSE或者#define NULL 1之类的trick来黑C语言只能证明此人很有娱乐精神而不是真正的&#8221;hack value&#8221;，拿老北京梨园行当里的一句话——“那是下三滥的玩意儿”。</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/11466.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/04/c99-150x150.jpg" alt="C语言的整型溢出问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11466.html" class="wp_rp_title">C语言的整型溢出问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10115.html">C语言全局变量那些事儿</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10115.html/feed</wfw:commentRss>
+			<slash:comments>92</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Alan Cox：大教堂、市集与市议会</title>
+		<link>https://coolshell.cn/articles/9917.html</link>
+					<comments>https://coolshell.cn/articles/9917.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Mon, 08 Jul 2013 07:42:27 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Alan Cox]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9917</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 在网上搜到的Cox大叔于1998年在开源社区写的一篇文章，当时很轰动，明眼人一看就知道是针对ESR那篇《大教堂与市集》，从...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9917.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9917.html">Alan Cox：大教堂、市集与市议会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>在网上搜到的Cox大叔于1998年在开源社区写的一篇文章，当时很轰动，明眼人一看就知道是针对ESR那篇《大教堂与市集》，从中可见Alan在项目管理风格上乃至个人性格上都与ESR、Linus等人不同之处。顺便说一句，Alan现在出于“家庭原因”已经离开了Linux项目，他曾经评价Linus是<a href="http://apolyton.net/showthread.php/130212-Linus-Torvalds-is-a-terrible-engineer-Alan-Cox" target="_blank">a good developer but a terrible engineer</a>，甚至在Google+上直接说Linus就是一a*sh**e。不管如何，两位曾经十余年里并肩战斗惺惺相惜的大牛就此分道扬镳还是惹人唏嘘。</p>
+<p>言归正传，以下为slashdot收录的英文原文：<a href="http://news.slashdot.org/story/98/10/13/1423253/featurecathedrals-bazaars-and-the-town-council" target="_blank">Cathedrals, Bazaars and the Town Council</a>。</p>
+<p>以下是一些我对市集模式的想法，我认为这值得分享，这种模式会教你如何完全毁掉一个自由软件项目。我还举了一个我称之为“市议会”(Town Council)效应的实例（虽然那些市议员们可不这么认为，注：此处指Linux项目开发者）。</p>
+<p>关于软件开发人员，你必须去了解一些情况。首先要了解的是真正优秀的程序员相对来说并不普遍，不仅如此，在很多其它专业领域里“真正的程序员”和一些捣乱的家伙之间的区别要比“伟大”和“普通”之间的区别要大得多，研究表明生产效率上最好的同其余的比重是30:1。</p>
+<p>其次，你需要了解的是一大堆妄想型码农(wannabe programmer)总是善于发表意见。其中很多人患上了一种叫做“流行性热词”(buzzword)疾病，或者对他们“非黑即白”(one true path)的思考方式有着特殊的偏执，网上很多讨论都是廉价的。</p>
+<p><span id="more-9917"></span></p>
+<p>第三个关于软件项目的事情就是我们所谓的“闲杂人员”(the masses)。他们不是编程人员，而在其它方面有着大量贡献——文档编辑、用户支持，以及对那类经常争论你应该获得许可证才能上网的人的说服工作。</p>
+<p>我想以Linux 8086（注，Intel设计的16位处理器架构）为例来说明如何将整个工程全部搞砸。将Linux的一个子集移植到8086上大体是这世上最无聊的活动之一。整件事的发起就像个笑话并走向失控。</p>
+<p>只有极少数真正的程序员会将时间及其良好的精神状态（或许那是假的）花费在那些唯一价值在于“黑客精神”(Hack Value)的项目上，故而在任何时候那种项目也就两三个核心贡献人员而已。</p>
+<p>不幸的是大批人认为将Linux运行在8086上是干净的，为此义不容辞地想要“入伙”。这类人大多属于妄想型码农之流，以至于连闲杂人员在一个安全距离之外都会沾染上这个项目的“愚蠢”因子。</p>
+<p>问题的导火索在于一大批充满（大多善意的）危险的一知半解的人们的意识观念——不是代码，而是意识观念。他们似乎很懂得如何去编程，但很多人连“Hello World”这样的C程序都不会。他们花了几星期时间去争论并投票该使用什么编译器，甚至在项目开展一年后还在争论是否去写个充分完美的编译器。他们热衷于辩论如何生成大量二进制文件，却又对内核swapper（注，即idle task）设计一无所知。</p>
+<p>Linux 8086项目仍然进行着，真正的开发人员将邮件列表里许多其他成员加入到清除文件(kill files)中，以便他们之间可以顺畅地通过邮件列表沟通，只因半吊子打酱油的家伙实在太多了。这一切不再是市集模式，而是形成了一个核心小组，对圈子里许多人而言这是一种礼貌用语。在这种情形下人们不可避免地处于被动位置。</p>
+<p>像Linux这种基于用户/程序员的项目成长缓慢，虽然它是靠着一群贡献代码的人得以成长起来，但这些人的背景要么是从原始的Minix（注，一种微内核操作系统）黑客社区起家，要么通过艰难的方式不断从头学起。随着项目增长，人们本应该形成一个“Linux内核结构规划管理委员会”，而不是掉入将人们招来唤去，不将失败视为问题的怪圈，用Linus的话来说就是“给我看源码”。</p>
+<p>如果有人陷入困境，他可以发帖询问，在这之前包括现在很大程度上都基于人们正常地拥有时间并具备知识来回复他。在Linux 8086的案例中，开发人员很长一段时间身陷囹圄。假使主动活跃的程序员对只有潜在用处的妄想型码农的比例更高一点的话，我们就可以将一些杂音转化成生产力。项目也就获得更多有用的程序员，他们可以轮流向他人传授经验，任何学习活动都会让你变得更好，哪怕只有一些少量实习生。</p>
+<p>一些人会认为你无法将那些“次要程序员”(lesser programmer)训练成真正的程序员。就Linux项目的个人经验而言，很多人员只要获得一丁点儿的帮助和自信鼓励都将成为世界上最好的开发人员之一。只要帮助和鼓励足够多，很多人就能成功。</p>
+<p>Linux 8086总算大部分从“侵扰”中恢复过来，可至今仍是个不起眼的小项目。你可以从CVS目录树上下载这个由Alistair Riddich领导的项目，他做了很多优秀的工作。随着市议员的撤出，人们可以询问、参与并改善这个项目。</p>
+<p>我们从这个项目，还有其它相同命运的早期Linux 16位处理器项目（有的已死）中很清楚地学到以下几点教训。</p>
+<ul>
+<li>从项目一开始就发布源代码。哪怕不是很有用也无关紧要，将市议会排序分类的最好方式就是发布源代码并告知人们。Linux、KDE以及GNOME都遵循这种方式并获益良多。你可以花一辈子时间去争论怎样写代码才是正确的。只要代码公布，人们（不管水平怎样）都会把玩它。</li>
+</ul>
+<ul>
+<li>要欣赏那些给一点帮助就会对项目做出巨大贡献的人。如果他们最初的补丁有错误，不要盛气凌人，向其解释问题出在哪里并给出解决方案的建议，或者可以查询解决方法的地方。解答真正的问题，帮助别人，你所花费的一分一秒都会成十倍地回报在项目上，对社会也会带来无法估量的好处。[注]</li>
+</ul>
+<ul>
+<li>不要忘记那些非开发人员。我难过地发现许多人问起“前5名最重要的内核成员”时却极少涉及在所有人中最重要的一些——他们负责维护网站，更新日志和邮件列表，还有编辑文档，这些都是同等重要。<br />
+Linus那句“给我看源代码”对真正的项目来说是个狭隘的视角。当你听到人们说“我很想帮忙，可我不会编程”，那么他可以从事文档编写。当人们说“但英语不是我的第一语言”，这时你需要的是一位文档编辑或另一门语言翻译者。</li>
+</ul>
+<ul>
+<li>尝试将有用的人从杂音中分离出来，将有意愿帮忙的人从一大堆无聊评论中分离出来是很难的。在Linux 8086项目中我的确错误地放弃了这一目标，如何将那些只会空谈而又无所事事的人弄走是一门学问。</li>
+</ul>
+<p>下次碰到人们在项目上投票，或者问题讨论了一个月才实现这类情况，给予他们警告。这样才能使人正确地解决问题。在你看来如果一些稀奇古怪的事务不顾一切地运行着，要求他们给你发个补丁，只要能够生效的话。</p>
+<p>小心地说“我们应该怎样”之类的话，对“我该如何做”这样的人伸出援手。</p>
+<p>Alan</p>
+<p>[注]这段话举个例子说明一下。Linux IPv6源码作者以前在葡萄牙上网聊天，只会简单讨论和问一些基本问题。我们助其弄明白一些内核原理之后，他写了大约75%的IPv6协议栈代码，他最近受聘于美国思科公司。</p>
+<p>附录一：一篇针对本文的<a href="http://tech.groups.yahoo.com/group/java-os-project/message/2358?var=1&amp;p=1" target="_blank">吐槽贴</a></p>
+<p>附录二：2009年Cox回复Torvalds的<a href="https://lkml.org/lkml/2009/7/28/375" target="_blank">邮件</a>，事情起因是Cox的一个tty patch导致<a href="https://lkml.org/lkml/2009/7/11/125" target="_blank">kdesu(KDE project&#8217;s su utility)</a>程序无法工作，该问题争论长达两个星期，此后Alan离开了Linux项目投奔Intel。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/1278.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="Linus Torvalds 语录 Top 10" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1278.html" class="wp_rp_title">Linus Torvalds 语录 Top 10</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9917.html">Alan Cox：大教堂、市集与市议会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9917.html/feed</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Alan Cox：单向链表中prev指针的妙用</title>
+		<link>https://coolshell.cn/articles/9859.html</link>
+					<comments>https://coolshell.cn/articles/9859.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Sun, 30 Jun 2013 04:27:04 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Alan Cox]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[TCP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9859</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 之前发过一篇二级指针操作单向链表的例子，显示了C语言指针的灵活性，这次再探讨一个指针操作链表的例子，而且是一种完全不同的用...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9859.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9859.html">Alan Cox：单向链表中prev指针的妙用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><figure id="attachment_9906" aria-describedby="caption-attachment-9906" style="width: 200px" class="wp-caption alignright"><img decoding="async" loading="lazy" class="size-medium wp-image-9906" title="Alan Cox" alt="Alan Cox" src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-200x300.jpg" width="200" height="300" srcset="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-200x300.jpg 200w, https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-180x270.jpg 180w, https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox.jpg 667w" sizes="(max-width: 200px) 100vw, 200px" /><figcaption id="caption-attachment-9906" class="wp-caption-text">Alan Cox</figcaption></figure></p>
+<p><span style="color: #cc0000;"><strong> （感谢网友 </strong></span><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><span style="color: #cc0000;"><strong> 投稿）</strong></span></p>
+<p>之前发过一篇<a href="https://coolshell.cn/articles/8990.html" target="_blank">二级指针操作单向链表</a>的例子，显示了C语言指针的灵活性，这次再探讨一个指针操作链表的例子，而且是一种完全不同的用法。</p>
+<p>这个例子是linux-1.2.13网络协议栈里的，关于链表遍历&#038;数据拷贝的一处实现。源文件是/net/inet/dev.c，你可以从<a href="https://www.kernel.org/pub/linux/kernel/v1.2/" target="_blank">kernel.org</a>官网上下载。</p>
+<p>从最早的0.96c版本开始，linux网络部分一直采取TCP/IP协议族实现，这是最为广泛应用的网络协议，整个架构就是经典的OSI七层模型的描述，其中dev.c是属于链路层实现。从功能上看，其位于网络设备驱动程序和网络层协议实现模块之间，作为二者之间的数据包传输通道，一种接口模块而存在——对驱动层的接口函数netif_rx, 以及对网络层的接口函数net_bh。前者提供给驱动模块的中断例程调用，用于链路数据帧的封装；后者作为驱动中断例程<strong>底半部(buttom half)</strong>，用于对数据帧的解析处理并向上层传送。</p>
+<p>为了便于理解，这里补充一下网络通信原理和linux驱动中断机制的背景知识。从最底层的物理层说起，当主机和路由器相互之间进行通信的时候，在物理介质上（同轴、光纤等）以电平信号进行传输。主机或路由器的<strong>硬件接口（网卡）</strong>负责收发这些信号，当信号发送到接口，再由内置的<strong>调制解调器(modem)</strong>将数字信号转换成二进制码，这样才能驻留在主机的硬件缓存中。这时接口（网卡）设备驱动程序将通过<strong>硬中断</strong>来获取硬件缓存中的数据，驱动程序是操作系统中负责直接同硬件设备打交道的模块，硬中断的触发是初始化时通过设置控制寄存器实现的，用于通知驱动程序硬件缓存中有新的数据到来。linux卡设备驱动就是在<strong>中断处理例程(ISR)</strong>中将硬件缓存数据拷贝到内核缓存中，打包成数据链路帧进行解析处理，再向上分发到各种协议层。由于ISR上下文是原子性的、中断屏蔽的，整个步骤又较为繁琐，因此全部放在ISR中处理会影响到其它中断响应实时性，于是linux有实现一种bottom half的<strong>软中断</strong>处理机制，将整个ISR一分为二，前半部上下文屏蔽所有中断，专门处理紧急的、实时性强的事务，如拷贝硬件缓存并打包封装，后半部上下文没有屏蔽中断（但代码不可重入），用于处理比较耗时且非紧急事务，包括数据帧的解析处理和分发。下面要讲的net_bh就属于后半部。</p>
+<p>我们主要关心的是将链路帧分发到协议层那一段逻辑，下面摘自net_bh函数中的一段代码：</p>
+<p><span id="more-9859"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">526 void net_bh(void *tmp)
+527 {
+       ...
+577
+578    /*
+579    * We got a packet ID.  Now loop over the &quot;known protocols&quot;
+580    * table (which is actually a linked list, but this will
+581    * change soon if I get my way- FvK), and forward the packet
+582    * to anyone who wants it.
+583    *
+584    * [FvK didn&#039;t get his way but he is right this ought to be
+585    * hashed so we typically get a single hit. The speed cost
+586    * here is minimal but no doubt adds up at the 4,000+ pkts/second
+587    * rate we can hit flat out]
+588    */
+589   pt_prev = NULL;
+590   for (ptype = ptype_base; ptype != NULL; ptype = ptype-&gt;next)
+591   {
+592    if ((ptype-&gt;type == type || ptype-&gt;type == htons(ETH_P_ALL)) &amp;&amp; (!ptype-&gt;dev || ptype-&gt;dev==skb-&gt;dev))
+593    {
+594      /*
+595      * We already have a match queued. Deliver
+596      * to it and then remember the new match
+597      */
+598      if(pt_prev)
+599      {
+600        struct sk_buff *skb2;
+601        skb2=skb_clone(skb, GFP_ATOMIC);
+602        /*
+603        * Kick the protocol handler. This should be fast
+604        * and efficient code.
+605        */
+606        if(skb2)
+607          pt_prev-&gt;func(skb2, skb-&gt;dev, pt_prev);
+608      }
+609      /* Remember the current last to do */
+610      pt_prev=ptype;
+611    }
+612   } /* End of protocol list loop */
+613   /*
+614   * Is there a last item to send to ?
+615   */
+616   if(pt_prev)
+617     pt_prev-&gt;func(skb, skb-&gt;dev, pt_prev);
+618   /*
+619    *  Has an unknown packet has been received ?
+620    */
+621   else
+622     kfree_skb(skb, FREE_WRITE);
+623
+      ...
+640 }</pre>
+<p>在此稍稍解说一下数据结构，skb就是内核缓存中sock数据封装，协议栈里从链路层到传输层都会用到，只不过封装格式不同，主要是对<strong>协议首部(header)</strong>的由下而上层层剥离（反之由上而下是层层创建），在此你只需理解为一个链路数据帧即可。这段代码的逻辑是解析skb中的协议字段，从协议类型链表（由ptype_base维护）中查询对应的协议节点进行函数指针func回调，以便将数据帧分发到相应的协议层（如ARP、IP、8022、8023等）。</p>
+<p>第一眼看上去是不是有点奇怪？这段代码竟然用一个pt_prev指针去维护ptype链表中前一个节点，从而产生了额外的条件分支判断，咋一看是否多了很多“余”了？回顾一下那篇<a href="https://coolshell.cn/articles/8990.html" target="_blank">二级指针操作单向链表</a>的博文，简直完全是反其道而行之的。如果把pt_prev去掉，代码可以精简为：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">  for (ptype = ptype_base; ptype != NULL; ptype = ptype-&gt;next)
+  {
+    if ((ptype-&gt;type == type || ptype-&gt;type == htons(ETH_P_ALL)) &amp;&amp; (!ptype-&gt;dev || ptype-&gt;dev==skb-&gt;dev))
+    {
+        /*
+        * We already have a match queued. Deliver
+        * to it and then remember the new match
+        */
+        struct sk_buff *skb2;
+        skb2=skb_clone(skb, GFP_ATOMIC);
+        /*
+        * Kick the protocol handler. This should be fast
+        * and efficient code.
+        */
+        if(skb2)
+            pt_prev-&gt;func(skb2, skb-&gt;dev, pt_prev);
+    }
+} /* End of protocol list loop */
+
+kfree_skb(skb, FREE_WRITE);</pre>
+<p>咋看一下“干净”了很多，不是吗？但我们要记住一点，凡是网上发布的linux内核源代码，都是都是经过众多黑客高手们重重检视并验证过的，人家这么写肯定有十分充足的理由，所以不要太过于相信自己的直觉了，让我们再好好review一下代码吧！看看这段循环里做了什么事情？特别是第592~611行。</p>
+<p>由于从网络上拷贝过来skb是唯一的，而分发的协议对象可能是多个，所以在回调之前要做一次clone动作（注意这里是深度拷贝，相当于一次kmalloc）。分发之后还需要调用kfree_skb释放掉原始skb数据块，它的历史使命到此完成了，没有保留的必要（第622行）。<strong>注意，这两个动作都是存在内核开销的。</strong></p>
+<p>然而这里为啥要pt_prev维护一个后向节点呢？这是有深意的，它的作用就是将当前匹配协议项的回调操作延时了。举个例子，如果链表遍历中找到某个匹配项，当前循环仅仅用pt_prev去记录这个匹配项，除此之外不做任何事情，待到下一次匹配项找到时，才去做上一个匹配项pt_prev的回调操作，直到循环结束，才会去做最后的匹配项的回调（当然pt_prev==NULL表示没有一次匹配，直接释放掉），所以这是一种<strong>拖延战术</strong>。有什么好处呢？就是比原先节省了很多不必要的操作。那么哪些操作是不必要的呢？这里我们逆向思考一下，我们看到clone是在协议字段匹配并且pt_prev!=NULL的前提条件下执行的，而kfree是在pt_prev==NULL的前提条件下执行的。在此可以假设一下，如果ptype链表中存在N项协议与之匹配，那么这段代码只会执行N-1次clone，而没有pt_prev时将会执行N次clone和1次kfree，再如果ptype链表中有且仅有一项协议与之匹配，那么整个循环既不会执行到第601行的clone，也不会执行到第622行的kfree。</p>
+<p>也就是说，<strong>当整个链表至少有一项匹配的一般情况下，pt_prev存在比没有时减少了一次clone和一次kfree的开销；只有全部不匹配的最差情况下，两者都只做一次kfree动作，持平。这就是延迟策略产生的效益</strong>。</p>
+<p>熟悉TCP/IP协议族的开发人员应该知道<strong>MTU（最大传输单元）</strong>这个概念，遵循不同协议的MTU值是不同的。比如以太网帧MTU是1500个字节，802.3帧MTU是1492字节，PPP链路帧MTU是269字节，而超通道MTU理论上是65535字节。要知道在一个高速吞吐量通信网络环境下，在大块数据分片传输线路里，在内核级别代码中，减少一处系统开销意味着什么？</p>
+<p>其实我们完全可以抛开一切网络协议相关知识，这不过是一段极其普通的单向链表操作而已，逻辑并不复杂。但是看看人家顶级黑客是怎么思考和coding的，对比一下自己写过的代码，多少次数据处理是用一个简单的for循环匆匆敷衍了事而没有进一步思考其中的粗陋和不合理之处？面对真正的编程高手这种“心计”与“城府”，你是不是有种莫名不安感？你会怀疑你真的了解怎么去使用和操作C语言中基本的链表数据结构么？如果答案是肯定的，那就开始颤抖吧（哈，别误会，其实上面这段话不过是笔者的自我告解罢了）~~~</p>
+<p>最后，让我们感谢尊敬的<a href="http://en.wikipedia.org/wiki/Alan_Cox" target="_blank">Alan Cox</a>大大对Linux社区卓越精细、无与伦比的贡献！（Alan是图中中部戴红帽子的那位）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" alt="Linux Kernel Team" src="http://old.lwn.net/images/ks/group2.jpg" width="704" height="323" /></p>
+<p><strong>附注：</strong></p>
+<p>最新的Linux-2.6.x版本中协议栈实现部分变动很大，但/net/core/dev.c的netif_receive_skb函数里仍然保留了pt_prev这种用法，目的是一样的，都是为了减少一次系统开销的优化操作。</p>
+<p>关于Alan，他在斯旺西大学工作时，在学校服务器上安装了一个早期的linux版本，供学校使用。他修正了许多的问题，重写了网络系统中的许多部份。随后成为linux内核开发小组中的重要成员。<a href="http://en.wikipedia.org/wiki/Alan_Cox" target="_blank">Alan Cox</a>负责维持2.2版，在2.4版上拥有自己的分支（在版本号上会冠上ac，如 2.4.13-ac1）。他的分支版本非常稳定，修正许多错误，许多厂商都使用他的版本。在他去进修工商管理硕士之前，涉入许多linux内核开发的事务，在社群中有很高的地位，有时会被视为是Linus之下的第二号领导者。</p>
+<p>不过，今年1月28日的时候，Alan因为家庭原因宣布退出Linux项目了，下面是他Google+的声明：</p>
+<blockquote><p>“I’m leaving the Linux world and Intel for a bit for family reasons, I’m aware that ‘family reasons’ is usually management speak for ‘I think the boss is an asshole’ but I’d like to assure everyone that while I frequently think Linus is an asshole (and therefore very good as kernel dictator) I am departing quite genuinely for family reasons and not because I’ve fallen out with Linus or Intel or anyone else. Far from it I’ve had great fun working there.”</p></blockquote>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9859.html">Alan Cox：单向链表中prev指针的妙用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9859.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Unix考古记：一个“遗失”的shell</title>
+		<link>https://coolshell.cn/articles/9410.html</link>
+					<comments>https://coolshell.cn/articles/9410.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Fri, 26 Apr 2013 14:29:56 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Compiler]]></category>
+		<category><![CDATA[Interpreter]]></category>
+		<category><![CDATA[Ken Thompson]]></category>
+		<category><![CDATA[Shell]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9410</guid>
+
+					<description><![CDATA[<p>(感谢网友Leo投递此文) 谨以此文纪念伟大的计算机科学巨匠Ken Thompson和Dennis Ritchie，并同时向其他所有为Unix发展做出贡献的黑客...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9410.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9410.html">Unix考古记：一个“遗失”的shell</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><span style="color: #cc0000;"><strong>(感谢网友Leo投递此文)</strong></span></p>
+<p>谨以此文纪念伟大的计算机科学巨匠<a href="http://en.wikipedia.org/wiki/Ken_Thompson" target="_blank">Ken Thompson</a>和<a href="http://en.wikipedia.org/wiki/Dennis_Ritchie" target="_blank">Dennis Ritchie</a>，并同时向其他所有为Unix发展做出贡献的黑客致敬。</p>
+<h4>历史的尘埃</h4>
+<p>Unix作为一个举世闻名的操作系统已有40余年的历史，围绕着这个古老的操作系统的发展又衍生出了一系列外围软件生态群，其中一个非常重要的组件就是shell。<strong>它是操作系统最外层的接口，负责直接面向用户交互并提供内核服务，</strong>包括命令行接口(CLI)或图形界面接口(GUI)两种形式。以CLI为例，它提供一套命令规范，是一种解释性语言，将用户输入经过解释器(interpreter)输出使其转化成真正的系统调用，实现人机交互的功能。</p>
+<p>和操作系统一样，shell也经历了一个漫长的演变史。如今大部分资料讲述最古老的shell都是从1977年的<a href="http://en.wikipedia.org/wiki/Bourne_shell" target="_blank">Bourne Shell</a>说起的，它最初移植到<a href="http://en.wikipedia.org/wiki/Version_7_Unix" target="_blank">Unix V7</a>上，被追认整个shell家族成员的鼻祖，后来的种群都是从其身上分支出来的。</p>
+<p><img decoding="async" class="aligncenter" alt="Linux shells since 1977 " src="https://www.ibm.com/developerworks/linux/library/l-linux-shells/figure1.gif" /></p>
+<p>对于1977年之前的历史很多资料大多一笔带过或略过不提。事实上，第一个移植到Unix上的shell却不是<a href="http://en.wikipedia.org/wiki/Stephen_Richard_Bourne" target="_blank">Steve Bourne</a>写的，早在1975年5月，贝尔实验室就对外发布了第一个广泛传播的Unix版本——<a href="http://en.wikipedia.org/wiki/UNIX_V6" target="_blank">Unix V6</a>（之前开发的版本只供内部研究之用），其根目录下的/bin/sh是第一个Unix自带的shell，由Ken Thompson写的，因此也被称为<a href="http://en.wikipedia.org/wiki/Thompson_shell" target="_blank">Thompson Shell</a>。甚至，更早可以追溯到1971年的时候，Thompson Shell就作为一个独立于内核的应用程序而实现了，只不过从1975年正式问世到1977年被取代，短短两年的寿命使得它很少为大多数人所认识。</p>
+<p><span id="more-9410"></span></p>
+<p>关于Thompson Shell被取代的原因在后文中会给出说明，这里着重介绍一下该shell本身的一些技术细节。坦白讲，关于Thompson Shell的资料有点稀缺，但至少还能从网上找到<a href="http://minnie.tuhs.org/Archive/PDP-11/Distributions/research/Dennis_v6/" target="_blank">源代码</a>和<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man" target="_blank">在线文档</a>。Thompson Shell本身是由一个不足900行代码的解释器和一些外部命令工具组件(utilities)构成，用<a href="http://en.wikipedia.org/wiki/K%26R_C#K.26R_C" target="_blank">K&amp;R C</a>写成，下面给出各个组件的相关源码和文档链接。</p>
+<ul>
+<li><strong>解释器sh</strong>：解析各种shell命令，包括内置命令和外部命令；源码sh.c；安装路径/bin/sh；手册<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/sh.1" target="_blank">sh(1)</a>。</li>
+</ul>
+<ul>
+<li><strong>内置命令</strong>手册包括<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/chdir.1" target="_blank">chdir(1)</a>，<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/login.1" target="_blank">login(1)</a>，<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/newgrp.1" target="_blank">newgrp(1)</a>，<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/shift.1" target="_blank">shift(1)</a>，<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/wait.1" target="_blank">wait(1)</a>。</li>
+</ul>
+<p>下面是外部命令：</p>
+<ul>
+<li><strong>exit命令</strong>：退出一个文件；源码exit.c；安装路径/bin/exit；手册<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/exit.1" target="_blank">exit(1)</a>。</li>
+</ul>
+<ul>
+<li><strong>goto命令</strong>：在一个文件内跳转shell控制流程；源码goto.c；安装路径/bin/goto；手册<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/goto.1" target="_blank">goto(1)</a>。</li>
+</ul>
+<ul>
+<li><strong>if命令</strong>：条件判断表达式，是test命令的前身；源码if.c；安装路径/bin/if), 手册<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/if.1" target="_blank">if(1)</a>。</li>
+</ul>
+<ul>
+<li><strong>glob命令</strong>：扩展命令参数通配符；源码glob.c；安装路径/etc/glob；手册<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man8/glob.8" target="_blank">glob(8)</a>。</li>
+</ul>
+<h4>命令结构和规范</h4>
+<p>尽管后来遭“埋汰”，Thompson Shell仍有着不容否认的历史地位，其最大的价值在于<strong>它奠定了shell命令语言结构和规范的基础，而且其解释器具有跨平台的可移植性，并影响到了后来包括Bourne Shell在内的各种脚本语言设计实现。</strong>下面我们就以其中5个特性重温一些大家已经耳熟能详的命令规范，你也可以通过<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/sh.1" target="_blank">sh(1)</a>手册查看原始资料。</p>
+<ul>
+<li><strong>过滤器/管道线(filter/pipeline)。</strong>这绝对是要载入Unix史册的发明，创立者是<a href="http://en.wikipedia.org/wiki/Douglas_McIlroy" target="_blank">Douglas McIlroy</a>，Thompson Shell引入并实现了这个伟大的概念——一个或多个命令组成一根过滤器的链条，由&#8217;|&#8217;或&#8217;^&#8217;符号分隔。除最后一个命令之外，每个命令的标准输出都被作为下一个命令的标准输入。这样每个命令都作为一个独立的进程来运行，并通过管道与邻近的进程相连接。圆括弧内的命令序列整体上可以替代单个命令作为过滤器实现，比如用户可以输入&#8221;(A;B)|C&#8221;。</li>
+</ul>
+<ul>
+<li><strong>命令序列和后台进程。</strong>分号&#8217;;&#8217;指示多个命令序列化执行。&#8217;&amp;&#8217;符号指示该命令在后台异步执行，使得前面的管道线不必等待其终止，仅仅报告一个进程id，这样用户以后可以通过kill命令与它通信。有益于进程管理。</li>
+</ul>
+<ul>
+<li><strong>I/O重定向。</strong>它利用了Unix设计上的一个重要特性——<strong>一切皆文件</strong>，用三个符号表示：&#8221;重定向输出，如果文件不存在则创建它，如果文件存在则截断它；&#8217;&gt;&gt;&#8217;追加模式重定向输出，如果文件不存在则创建它，如果文件存在则追加输出至末尾处。</li>
+</ul>
+<ul>
+<li><strong>通配符扩展(globbing)。</strong>通配符的概念源自于正则表达式，使得解释器智能地处理用户不完全输入，比如记不清文件名、一次性输入多个文件等。&#8217;?&#8217;匹配任意单一字符；&#8217;*&#8217;匹配任意字符串（包括空串）；成对'[&#8216;和&#8217;]&#8217;定义了字符集合一个类，可匹配方括号内任意成员，用&#8217;-&#8216;两端可指定一系列连续字符匹配范围。</li>
+</ul>
+<ul>
+<li><strong>参数传递。</strong>这里主要引入了位置参数和选项参数的概念：&#8217;$n&#8217;指示shell调用的第n个参数替代；还定义了两个选项参数&#8217;-t&#8217;和&#8217;-c&#8217;，前者用于交互，导致shell从标准输入中读入一行作为用户执行的系统命令，后者指示shell将附带的下一个参数作为命令执行（可正确处理换行符），是对&#8217;-t&#8217;的补充，特别是调用者已经读取了命令其中某些字符的情况下。如果不带选项参数则直接读取文件名</li>
+</ul>
+<h4>解释器的原理与实现</h4>
+<p>接下来马上要进入核心部分了，为了搞懂shell解释器原理，我们要对其整个工作流程做个描述（这里给出一份带注解的sh.c源码剖析）。读过《编译原理》的同学知道，解释器的实现跟编译器差不多，只不过省略了生成目标代码这一步，直接将用户输入（shell命令）转化成输出（系统调用）。<strong>软件前端是一致的，包括预处理、词法扫描、语法分析和语义分析，最后还要附加一个进程管理。</strong>当然相较于现代编译器，Thompson Shell解释器在算法和规模上都要简单得多，不过原理上是相通的，何况年代上要比Lex &amp; Yacc还要早。麻雀虽小，五脏俱全，对于初学者来说，从Thompson Shell去入手编译原理或许不失为一种好选择。</p>
+<h4>预处理(preprocessor)</h4>
+<p>同C预处理器需要事先将源代码中包含的宏和头文件展开一样，Thompson Shell首先需要处理命令中的<strong>选项参数</strong>和<strong>位置参数</strong>。选项参数有两种&#8217;-t&#8217;和&#8217;-c&#8217;，决定了shell从标准输入还是参数缓存中读取字符（见<a href="http://minnie.tuhs.org/cgi-bin/utree.pl?file=V6/usr/man/man1/sh.1" target="_blank">sh(1)</a>）。此外字符序列中还要处理<strong>反斜杠&#8217;\&#8217;</strong>，判断是转义字符还是行接续符，前者对下一个字符设置引用标识，表明做普通字符处理，后者将紧邻其后换行符过滤掉。</p>
+<p>位置参数是<strong>美元符号&#8217;$&#8217;</strong>打头的，后带一个数字，如&#8217;$n&#8217;，预处理器对shell命令参数从头开始计数，返回数字n指定的参数位置。如果遇上double&#8217;$$&#8217;，则表示当前的进程标识，调用getpid()获取。</p>
+<p>注意到预处理器需要一次读取多个字符，这样就会多读一个不必要的字符。对此解释器提供了一种<strong>预读(peek)</strong>方式，即每次从输入流读取一个字符时，放入一个预读缓存里（只有一个int大小的堆栈），也叫<strong>回退(push back)</strong>。此后先从预读缓存中读取，如果缓存被读完，则从输入流中读取。</p>
+<h4>词法扫描(lexical scanning)</h4>
+<p>经过预处理后的字符序列将被切割成为一系列<strong>词法记号(token)</strong>，安置在token列表中，扫描器将对以下几类字符做如下处理。</p>
+<ul>
+<li><strong>空格和tab</strong>：简单过滤。</li>
+</ul>
+<ul>
+<li><strong>引号</strong>：需要成对出现，字符本身被过滤，一对引号之间所有字符都被设置引用标识，作为一个token。</li>
+</ul>
+<ul>
+<li><strong>元字符</strong>：如&#8217;&amp;&#8217;，&#8217;|&#8217;等，字符本身作为一个单独token。</li>
+</ul>
+<ul>
+<li><strong>其他字符</strong>：一律填充token，直到碰上以上字符分隔为止。</li>
+</ul>
+<p>举一个例子，当我们输入命令&#8221;(ls; cat tail) &gt;junk&#8221;，那么token列表映像将是这样的：</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-9537" alt="" src="https://coolshell.cn/wp-content/uploads/2013/04/图1.jpg" width="523" height="176" srcset="https://coolshell.cn/wp-content/uploads/2013/04/图1.jpg 872w, https://coolshell.cn/wp-content/uploads/2013/04/图1-300x101.jpg 300w" sizes="(max-width: 523px) 100vw, 523px" /></p>
+<h4>语法分析(syntax parser)</h4>
+<p>语法分析就是将token列表中的元素作为<strong>表达式(expression)</strong>并以节点为单位构建语法树，简单命令是一个表达式，而复合命令以及命令序列是多个表达式的组合。Thompson Shell中以简单数组作为语法树的容器，实际上这是结构体的一种变形，只不过每个成员字段大小都一样（都是sizeof int）而已。一个语法树节点最多有6个字段（大小根据类型可变），分别是</p>
+<ul>
+<li><strong>DTYP（节点类型）</strong>：每个节点都有唯一的类型，又分为四种——TCOM（简单命令）、TPAR（复合命令）、TFIL（过滤器/管道线）、TLST（命令序列）。</li>
+</ul>
+<ul>
+<li><strong>DLEF（左子树节点）</strong>：相当于链表指针，根据DTYP定义有所不同。如过滤器类型左子树节点为前一个命令的输出重定向文件，右子树节点为后一个命令的输入重定向文件。</li>
+</ul>
+<ul>
+<li><strong>DRIG（右子树节点）</strong>：同上。</li>
+</ul>
+<ul>
+<li><strong>DFLG（节点属性）</strong>：这是个标志位(flag)，决定该节点包含命令的属性以及以什么样的状态执行。</li>
+</ul>
+<ul>
+<li><strong>DSPR（子命令）</strong>：两重含义，对于简单命令，该字段为空；对于复合命令，该字段指向子语法树节点。</li>
+</ul>
+<ul>
+<li><strong>DCOM（命令字符）</strong>：引用命令字符序列。</li>
+</ul>
+<p>语法树节点生成顺序根据token列表中每个元素的<strong>优先级(priority)</strong>而定，首先遍历整个列表，找到优先级最高的token作为根节点，再分别生成左右子树，这是一种最简单的<strong>自顶向下(top-down)</strong>解决方案。各个token优先级视DTYP字段而定</p>
+<table class="aligncenter" width="367" border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top" width="91">
+<p align="center">优先级</p>
+</td>
+<td valign="top" width="180">
+<p align="center">Token</p>
+</td>
+<td valign="top" width="96">
+<p align="center">DTYP</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="91">
+<p align="center">第一级</p>
+</td>
+<td valign="top" width="180">
+<p align="center">&#8216;&amp;&#8217;  &#8216;;&#8217;  &#8216;\n&#8217;</p>
+</td>
+<td valign="top" width="96">
+<p align="center">TLST</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="91">
+<p align="center">第二级</p>
+</td>
+<td valign="top" width="180">
+<p align="center">&#8216;|&#8217;  &#8216;^&#8217;</p>
+</td>
+<td valign="top" width="96">
+<p align="center">TFIL</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="91">
+<p align="center">第三级</p>
+</td>
+<td valign="top" width="180">
+<p align="center"> &#8216;(&#8216;  &#8216;)&#8217;</p>
+</td>
+<td valign="top" width="96">
+<p align="center">TPAR</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="91">
+<p align="center">第四级</p>
+</td>
+<td valign="top" width="180">
+<p align="center">其它字符</p>
+</td>
+<td valign="top" width="96">
+<p align="center">TCOM</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>语法树的构建过程中还使用了一种基于<strong>“有限状态机(finite-state machine)”</strong>的动态规划算法，其实现是将整个逻辑流程划分为四个状态：syntax、syn1、syn2、syn3，对应于上面token优先级，程序在每个状态下都生成一个相应类型的节点，同时还生成四种策略，以决议下一步将转移到何种状态（根据优先级搜索对应的token）。这个四种策略分别是</p>
+<ul>
+<li><strong>生成左子树</strong>：左边token列表递进到下层状态。</li>
+</ul>
+<ul>
+<li><strong>生成右子树</strong>：右边token列表并回溯到上层状态或递归调用。</li>
+</ul>
+<ul>
+<li><strong>找不到对应token</strong>：保持原有token列表递进到下层状态。</li>
+</ul>
+<ul>
+<li><strong>生成节点</strong>：直接返回节点。</li>
+</ul>
+<p>当我们遍历完整个token列表后，程序总是能返回最初的调用点，即根节点上，从而生成一棵完整的语法树。这种算法的好处是<strong>程序员不必关注具体实现的每个细枝末节，只要关注相应的状态并制定对应的转移策略即可。</strong>还值得一提的是每个转移策略都是发生在赋值语句或返回语句上，并使用函数实参保存临时变量，这样就避免了调用次数过多导致堆栈溢出。</p>
+<p>依旧举两个个例子，比如命令&#8221;A &amp; ; B | C&#8221;对应的语法树</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-9538" alt="" src="https://coolshell.cn/wp-content/uploads/2013/04/图2.jpg" width="350" height="264" srcset="https://coolshell.cn/wp-content/uploads/2013/04/图2.jpg 546w, https://coolshell.cn/wp-content/uploads/2013/04/图2-300x226.jpg 300w" sizes="(max-width: 350px) 100vw, 350px" /></p>
+<p>命令&#8221;(A ; B) | C&#8221;对应的语法树：</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-9539" alt="" src="https://coolshell.cn/wp-content/uploads/2013/04/图3.jpg" width="350" height="345" srcset="https://coolshell.cn/wp-content/uploads/2013/04/图3.jpg 584w, https://coolshell.cn/wp-content/uploads/2013/04/图3-300x295.jpg 300w" sizes="(max-width: 350px) 100vw, 350px" /></p>
+<h4>语义分析(Semantic Analyzer)</h4>
+<p>语法分析仅仅停留在token表达式合法性层面上，它并不知道该表达式是否有意义，比如哪些命令是要后台运行，哪些命令的I/O被重定向到管道线上，通配符该如何扩展等等，这时候要靠语义分析了。这里的“语义”体现在对特殊字符的动态处理以及语法树节点的字段设置，根据<strong>上下文(context)</strong>而定。比如对于元字符&#8217;&gt;&#8217;，我们要判断输出重定向到哪个文件，是截断还是追加。对于通配符&#8217;?&#8217;、&#8217;*&#8217;和'[&#8230;]&#8217;，我们要决定对哪些字符进行扩展，这些在/etc/glob中专门处理。对于语法树节点，除了自身固有属性之外，还需要继承上层节点的属性，以及下推属性到下层子树节点，下面列了一张表格说明。</p>
+<table border="1" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="top" width="67">
+<p align="center">DTYP</p>
+</td>
+<td valign="top" width="217">
+<p align="center">DLEF/DRIG</p>
+</td>
+<td valign="top" width="227">
+<p align="center">DFLG</p>
+</td>
+<td valign="top" width="57">
+<p align="center">DSPR</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="67">
+<p align="center">TLST</p>
+</td>
+<td valign="top" width="217">可以为空，也可以是其它节点，类型可以是TLST/TFIL/TCOM</td>
+<td valign="top" width="227">自身属性为0；如果带&#8217;&amp;&#8217;，则下推属性FINT|FAND|FPRS到左右子树（忽略信号、后台异步，打印pid）</td>
+<td valign="top" width="57">空</td>
+</tr>
+<tr>
+<td valign="top" width="67">
+<p align="center">TFIL</p>
+</td>
+<td valign="top" width="217">必须同时存在、，类型只能是TCOM或TPAR</td>
+<td valign="top" width="227">自身属性继承自上层TLST；下推FPIN到左子树节点；下推FPOU到右子树节点。</td>
+<td valign="top" width="57">空</td>
+</tr>
+<tr>
+<td valign="top" width="67">
+<p align="center">TPAR</p>
+</td>
+<td valign="top" width="217">空</td>
+<td rowspan="2" valign="top" width="227">继承上层的TLST和TFIL；如果是追加模式重定向输出，加上FCAT；如果是复合命令中最后一个子命令，加上FPAR， 将不会fork子进程。</td>
+<td valign="top" width="57">子命令</td>
+</tr>
+<tr>
+<td valign="top" width="67">
+<p align="center">TCOM</p>
+</td>
+<td valign="top" width="217">左子树节点为输入重定向文件，右子树为节点输出重定向文件。</td>
+<td valign="top" width="57">空</td>
+</tr>
+</tbody>
+</table>
+<h4>执行命令(Executor)</h4>
+<p>当前面一系列步骤之后，如果错误计数为0，则解释器从语法树的根节点开始，<strong>深度优先遍历</strong>所有节点，并根据前面语法和语义分析得到的类型和属性，一一执行所包含的命令，以生成最后的系统调用。</p>
+<p>对于<strong>命令序列(TLST)节点</strong>，从左至右顺序执行子树节点命令。</p>
+<p>对于<strong>过滤器(TFIL)节点</strong>，创建管道文件句柄，作为左右子树的重定向文件。</p>
+<p>对于<strong>简单命令(TCOM)和复合命令(TPAR)节点</strong>，首先筛选出系统内置命令(built-in)，对于剩下的外部命令则fork一个子进程执行它。如果是复合命令中最后一个子命令，那么仍在原来的进程上执行而不必创建新进程。可执行文件路径按先后顺序搜索：①本地路径；②/bin；③/usr/bin。</p>
+<p><strong>多进程环境下，特别要注意文件句柄管理</strong>。命令间共享标准输入输出设备之外，还会重定向到管道线，而父进程在fork之后子进程会获取一份文件句柄拷贝，所以<span style="color: #ff0000;"><strong>父进程必须在fork之后立即关闭闲置的管道线句柄（如果有的话）以免造成资源泄漏，子进程也将在重定向之后关闭管道线句柄。</strong></span></p>
+<p>对于<strong>后台命令</strong>需要打印pid，但不需要响应中断信号，父进程也不必等待子进程终止。其余进程命令执行中可捕获中断信号，并转入相应的处理函数。</p>
+<p>解释器用内置的errno全局变量保存进程终止状态，并生成<strong>终止报告(termination report)</strong>，系统调用wait()用于返回终止进程的pid并输出报告消息索引。</p>
+<h4>孰优孰劣</h4>
+<p>尽管Thompson Shell是一款优秀的命令解释器，还产生了多项历史创举，但遗憾的是依然得不到命运女神的垂青，这要归咎于其自身的缺陷——<strong>功能单一、命令分散、控制流过于简单，尚无法用来编写脚本(script)</strong>。随着Unix日益壮大，它已经无法应付趋于繁杂的编程项目了。那时还出现了一个叫<a href="http://en.wikipedia.org/wiki/John_Mashey" target="_blank">John Mashey</a>的人写的<a href="http://en.wikipedia.org/wiki/PWB_shell" target="_blank">PWB Shell</a>（又叫做Mashey Shell），基于Thompson Shell做了些改进，扩展了命令集，增加了shell变量，还增加了if-then-else-endif，for，while等控制逻辑。不幸的是它比Thompson Shell更短命，因为1977年它遇上了一个强劲的对手。</p>
+<p>没错，那就是Bourne Shell，它的主要优点是真正实现了结构化脚本编程，比之前的shell实现得都要好，更要命的是它与前两个shell都不兼容，于是一场标准化的论战开始了。在<a href="http://en.wikipedia.org/wiki/David_Korn_(computer_scientist)" target="_blank">David G. Korn</a>（<a href="http://en.wikipedia.org/wiki/Korn_shell" target="_blank">ksh</a>作者）写的<a href="http://www.in-ulm.de/~mascheck/bourne/korn.html" target="_blank">&#8220;ksh &#8211; An Extensible High Level Language&#8221;</a>一文中提及，Steve Bourne和John Mashey在三次连续的Unix用户组集会上争论他们各自的理由。在这些集会之间，各自增进他们的shell来拥有对方的功能。还设立了一个委员会来选择标准shell，最终还是选择了Bourne shell作为标准。</p>
+<p>于是从Unix V7开始就有了前面所说的&#8221;Bourne Shell Family&#8221;。然而历史上没有完美的技术，随着八、九十年代操作系统迅猛发展，针对Bourne Shell的诟病也越来越多了。在解释器本身实现上，我看到网上一个对其评价是<a href="http://lwn.net/Articles/471015/" target="_blank">&#8220;universally considered to be one of the most horrible C code ever written&#8221;</a>，至于原因去看一下mac.h就知道了，包括基本运算符、关键字在内的大量宏定义使得整个代码看上去简直不是C写的，也许Bourne是想把解释器打造成自己独特的风格吧，也难怪后来的bash以<strong>&#8220;born again&#8221;</strong>命名就是对其祖先的戏谑性调侃。另外<a href="http://www.in-ulm.de/~mascheck/bourne/segv.html" target="_blank">内存管理</a>上的一些毛病带来平台可移植性问题，至于其中的技术细节有点高级，超出本文范畴。</p>
+<h4>Thompson Again Shell?</h4>
+<p>虽然历史没有给Thompson Shell一个机会，但它并非就此同Unix V6那样一同沦为开源博物馆上的古老“化石”。作为出自顶级黑客之手的作品，作为伴随Unix那样伟大操作系统一同曾经流行计算机的产物，至今仍受国内外程序员的缅怀，或将其改写，或为其作注。比如国外一个站点<a href="http://v6shell.org/" target="_blank">v6shell.org</a>上就实现了一个免费开源的可移植性shell，它兼容并扩充原来的Thompson Shell并且可用来做脚本编程。再比如中国程序员<a href="http://blog.chinaunix.net/uid-20106293-id-142129.html" target="_blank">寒蝉退士</a>在其个人博客上发布了一个注解版，并对原版做了一些改写，主要是将<strong>K&amp;R C</strong>转为<strong>ANSI C</strong>，并且符合<strong>POSIX规范</strong>，使原本晦涩难懂的源码变得清晰易读起来。正是因为接触到他的版本激起了我对老Unix的考古兴趣，才有了这篇“考古笔记”。我在想不知今后会不会像bash那样，出一个tash来呢？</p>
+<h4>一些感想</h4>
+<p>本来全文应该就此结束了，但此时此刻不禁想多说几句。这篇笔记当初并非有意而为之，在hacking源码的过程中感想积累多了也就逐渐成章了。看代码、作注解、查资料、写此文，前后历经四个多礼拜，是在繁杂的工作中“挤乳沟”挤出来的零散时间片拼凑起来的，虽然文字不长但也算耗费了一番心血，酸甜苦辣心中自明，体会到踏上社会之后潜下心做研究之艰难。如今面对这样一份不到900行写成的，没有一行多余的代码，<strong>简洁(clarity)、干净(clean)、快速(fast)，</strong>这就是Pure C的魅力，我深为这种厚重的编程功力所折服，正所谓<strong>“大道至简”</strong>吧。虽然要完全弄懂它需要很多时间，但我相信这种代价却是值得的。</p>
+<p>最后再八卦一下，2011年Dennis Ritchie去世了，有人生前问过他“学C需要多久才能成为熟练开发者并写出重要产品代码？”，Ritchie回答“我不知道，我从没去学过C。”<a href="http://www.cs.columbia.edu/~aho/Talks/12-09-07_DMR.pdf" target="_blank">(I don’t know. I never had to learn C.)</a>其实这里已经给出了答案——<strong>那就是没有比去阅读Unix源代码更好的选择了，某种意义上C语言就是为Unix而生的。</strong></p>
+<p><img decoding="async" loading="lazy" class="aligncenter" alt="Dennis Mac Ritchie" src="http://th05.deviantart.net/fs71/PRE/f/2011/296/7/2/dennis_ritchie_by_juanosborne-d4dooi9.jpg" width="611" height="314" /></p>
+<h4>参考资料</h4>
+<p><a href="http://www.tuhs.org/" target="_blank">The Unix Heritage Society</a>：Unix社区遗产，上面有v6和v7以及其它一些衍生版本的操作系统源代码。</p>
+<p><a href="http://www.in-ulm.de/~mascheck/bourne/" target="_blank">The Traditional Bourne Shell Family</a>：Bourne Shell家族简史。</p>
+<p><a href="http://v6shell.org/" target="_blank">v6shell</a>：osh，一个基于Thompson Shell的开源可移植性old shell。</p>
+<p><a href="http://blog.chinaunix.net/uid-20106293-id-142129.html" target="_blank">寒蝉退士的博客</a>：Thompson Shell的一个注解版。</p>
+<p><a href="https://www.ibm.com/developerworks/linux/library/l-linux-shells/index.html?ca=drs-" target="_blank">Evolution of shells in Linux</a>：简述Linux Shell演变史。</p>
+<p>附录一个中文注释的 <a href="https://coolshell.cn/wp-content/uploads/2013/04/shell源码.zip">shell源码</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19996.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/11/ken.dennis-300x186-1-150x150.jpeg" alt="Unix 50 年：Ken Thompson 的密码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19996.html" class="wp_rp_title">Unix 50 年：Ken Thompson 的密码</a></li><li ><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/awk-150x150.jpg" alt="AWK 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_title">AWK 简明教程</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/1761.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/spell_it_with_e-150x150.jpg" alt="Go语言源码的一个改动" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1761.html" class="wp_rp_title">Go语言源码的一个改动</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9410.html">Unix考古记：一个“遗失”的shell</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9410.html/feed</wfw:commentRss>
+			<slash:comments>26</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Linus：利用二级指针删除单向链表</title>
+		<link>https://coolshell.cn/articles/8990.html</link>
+					<comments>https://coolshell.cn/articles/8990.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Mon, 04 Feb 2013 00:33:20 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Coding]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8990</guid>
+
+					<description><![CDATA[<p>感谢网友full_of_bull投递此文（注：此文最初发表在这个这里，我对原文后半段修改了许多，并加入了插图） Linus大婶在slashdot上回答一些编程爱...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8990.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8990.html">Linus：利用二级指针删除单向链表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>感谢网友full_of_bull投递此文</strong>（注：此文最初发表在这个<a href="http://www.oldlinux.org/oldlinux/viewthread.php?tid=14575&amp;extra=page%3D1" target="_blank">这里</a>，我对原文后半段修改了许多，并加入了插图）</p>
+<p>Linus大婶在<a href="http://meta.slashdot.org/story/12/10/11/0030249/linus-torvalds-answers-your-questions" target="_blank">slashdot</a>上回答一些编程爱好者的提问，其中一个人问他什么样的代码是他所喜好的，大婶表述了自己一些观点之后，举了一个指针的例子，解释了什么才是<strong>core low-level coding</strong>。</p>
+<p>下面是Linus的教学原文及翻译——</p>
+<p style="padding-left: 30px;">“At the opposite end of the spectrum, I actually wish more people understood the really core low-level kind of coding. Not big, complex stuff like the lockless name lookup, but simply good use of pointers-to-pointers etc. For example, I&#8217;ve seen too many people who delete a singly-linked list entry by keeping track of the &#8220;prev&#8221; entry, and then to delete the entry, doing something like。（在这段话的最后，我实际上希望更多的人了解什么是真正的核心底层代码。这并不像无锁文件名查询（注：可能是git源码里的设计）那样庞大、复杂，只是仅仅像诸如使用二级指针那样简单的技术。例如，我见过很多人在删除一个单项链表的时候，维护了一个&#8221;prev&#8221;表项指针，然后删除当前表项，就像这样）”</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">if (prev)
+    prev-&gt;next = entry-&gt;next;
+else
+    list_head = entry-&gt;next;</pre>
+<p style="padding-left: 30px;">and whenever I see code like that, I just go &#8220;This person doesn&#8217;t understand pointers&#8221;. And it&#8217;s sadly quite common.（当我看到这样的代码时，我就会想“这个人不了解指针”。令人难过的是这太常见了。）</p>
+<p><span id="more-8990"></span></p>
+<p style="padding-left: 30px;">People who understand pointers just use a &#8220;pointer to the entry pointer&#8221;, and initialize that with the address of the list_head. And then as they traverse the list, they can remove the entry without using any conditionals, by just doing a &#8220;*pp = entry-&gt;next&#8221;. （了解指针的人会使用链表头的地址来初始化一个“指向节点指针的指针”。当遍历链表的时候，可以不用任何条件判断（注：指prev是否为链表头）就能移除某个节点，只要写)</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">*pp = entry-&gt;next</code></p>
+<p style="padding-left: 30px;">So there&#8217;s lots of pride in doing the small details right. It may not be big and important code, but I do like seeing code where people really thought about the details, and clearly also were thinking about the compiler being able to generate efficient code (rather than hoping that the compiler is so smart that it can make efficient code *despite* the state of the original source code). （纠正细节是令人自豪的事。也许这段代码并非庞大和重要，<strong>但我喜欢看那些注重代码细节的人写的代码，也就是清楚地了解如何才能编译出有效代码</strong>（而不是寄望于聪明的编译器来产生有效代码，即使是那些原始的汇编代码））。</p>
+<p>Linus举了一个单向链表的例子，但给出的代码太短了，一般的人很难搞明白这两个代码后面的含义。正好，有个编程爱好者阅读了这段话，并给出了一个<a href="http://wordaligned.org/articles/two-star-programming" target="_blank">比较完整的代码</a>。他的话我就不翻译了，下面给出代码说明。</p>
+<p>如果我们需要写一个remove_if(link*, rm_cond_func*)的函数，也就是传入一个单向链表，和一个自定义的是否删除的函数，然后返回处理后的链接。</p>
+<p>这个代码不难，基本上所有的教科书都会提供下面的代码示例，而这种写法也是大公司的面试题<strong>标准</strong>模板：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">typedef struct node
+{
+    struct node * next;
+    ....
+} node;
+
+typedef bool (* remove_fn)(node const * v);
+
+// Remove all nodes from the supplied list for which the
+// supplied remove function returns true.
+// Returns the new head of the list.
+node * remove_if(node * head, remove_fn rm)
+{
+    for (node * prev = NULL, * curr = head; curr != NULL; )
+    {
+        node * const next = curr-&gt;next;
+        if (rm(curr))
+        {
+            if (prev)
+                prev-&gt;next = next;
+            else
+                head = next;
+            free(curr);
+        }
+        else
+            prev = curr;
+        curr = next;
+    }
+    return head;
+}</pre>
+<p>这里remove_fn由调用查提供的一个是否删除当前实体结点的函数指针，其会判断删除条件是否成立。这段代码维护了两个节点指针prev和curr，<strong>标准的教科书写法——删除当前结点时，需要一个previous的指针，并且还要这里还需要做一个边界条件的判断——curr是否为链表头</strong>。于是，要删除一个节点（不是表头），只要将前一个节点的next指向当前节点的next指向的对象，即下一个节点（即：prev-&gt;next = curr-&gt;next），然后释放当前节点。</p>
+<p>但在Linus看来，这是不懂指针的人的做法。那么，什么是core low-level coding呢？那就是<strong>有效地利用二级指针，将其作为管理和操作链表的首要选项。</strong>代码如下：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW" data-enlighter-highlight="5,8,12">void remove_if(node ** head, remove_fn rm)
+{
+    for (node** curr = head; *curr; )
+    {
+        node * entry = *curr;
+        if (rm(entry))
+        {
+            *curr = entry-&gt;next;
+            free(entry);
+        }
+        else
+            curr = &amp;entry-&gt;next;
+    }
+}</pre>
+<p>同上一段代码有何改进呢？我们看到：<strong>不需要prev指针了，也不需要再去判断是否为链表头了，但是，<span style="color: #cc0000;">curr变成了一个指向指针的指针</span></strong>。这正是这段程序的精妙之处。（注意，我所highlight的那三行代码）</p>
+<p>让我们来人肉跑一下这个代码，对于——</p>
+<ul>
+<li><strong>删除节点是表头</strong>的情况，输入参数中传入head的二级指针，在for循环里将其初始化curr，然后entry就是*head(*curr)，我们马上删除它，那么第8行就等效于*head = (*head)-&gt;next，就是删除表头的实现。</li>
+</ul>
+<ul>
+<li><strong>删除节点不是表头</strong>的情况，对于上面的代码，我们可以看到——</li>
+</ul>
+<p style="padding-left: 30px;"><strong>1）<strong>（第12行）</strong>如果不删除当前结点 —— curr保存的是当前结点next指针的地址</strong>。</p>
+<p style="padding-left: 30px;"><strong>2）（第5行） entry 保存了 *curr <strong>—— </strong>这意味着在下一次循环：entry就是prev-&gt;next指针所指向的内存。</strong></p>
+<p style="padding-left: 30px;"><strong></strong><strong>3）（第8行）删除结点：*curr = entry-&gt;next; —— 于是：prev-&gt;next 指向了 entry -&gt; next;</strong></p>
+<p>是不是很巧妙？我们可以只用一个二级指针来操作链表，对所有节点都一样。</p>
+<p>如果你对上面的代码和描述理解上有困难的话，你可以看看下图的示意：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-9018" alt="" src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer.jpg" width="479" height="470" srcset="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer.jpg 479w, https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-300x294.jpg 300w, https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-275x270.jpg 275w" sizes="(max-width: 479px) 100vw, 479px" /></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8990.html">Linus：利用二级指针删除单向链表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8990.html/feed</wfw:commentRss>
+			<slash:comments>194</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

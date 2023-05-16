@@ -1,0 +1,2101 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Android | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/android/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 14 Apr 2015 02:50:09 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>关于移动端的钓鱼式攻击</title>
+		<link>https://coolshell.cn/articles/17066.html</link>
+					<comments>https://coolshell.cn/articles/17066.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 14 Apr 2015 00:13:23 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17066</guid>
+
+					<description><![CDATA[<p>今天，在微博上看了一篇《微信和淘宝到底是谁封谁》的文章，我觉得文章中逻辑错乱，所以，我发了一篇关于这篇文章逻辑问题的长微博。后面，我被原博主冷嘲热讽了一番，说是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17066.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17066.html">关于移动端的钓鱼式攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-17069" src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1.jpg" alt="phishing-1" width="300" height="300" srcset="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1.jpg 300w, https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg 150w, https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-200x200.jpg 200w, https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-270x270.jpg 270w" sizes="(max-width: 300px) 100vw, 300px" />今天，在微博上看了一篇《<a href="http://weibo.com/p/1001603830475402664763" target="_blank">微信和淘宝到底是谁封谁</a>》的文章，我觉得文章中逻辑错乱，所以，我发了一篇<a href="http://weibo.com/p/1001603831131286939079" target="_blank">关于这篇文章逻辑问题的长微博</a>。后面，我被原博主冷嘲热讽了一番，说是什么鸡汤啊，什么我与某某之流的人在一起混淆视听啊，等等。并且也有一些网友找我讨论一下相关的钓鱼式攻击的技术问题。所以，我想写下这篇纯技术文章，因为我对那些商业利益上的东西不关心，所以，只谈技术，这样最简单。</p>
+<p>首先说明一下，<strong>我个人不是一个安全专家，也不是一个移动开发专家，按道理来说，这篇文章不应该我来写，但是我就试一试，请原谅我的无知，也期待抛砖引玉了，希望安全的同学斧正</strong>。</p>
+<p>关于钓鱼式攻击，其实是通过一种社会工程学的方式来愚弄用户的攻击式，攻击者通常会模仿一个用户信任的网站来偷取用户的机密信息，比如用户密码或是信用卡。一般来说，攻击者会通过邮件和实时通信工具完成，给被攻击者发送一个高仿的网站，然后让用户看不出来与正统网站的差别，然后收集用户的机密数据。</p>
+<h4>移动端钓鱼攻击点分析</h4>
+<p>因为钓鱼式攻击并不新鲜，所以我这里只讲移动方面的。</p>
+<p>在移动端，这个事情会更容易干，因为移动端有如下特点：</p>
+<ul>
+<li>移动端的UI只能有一个应用占据整个屏幕，你只能看到一个应用，而且用户屏幕小，能显示的信息有限，比如浏览器里的网址是显示不全的。这会给钓鱼攻击有很多可乘之机。</li>
+</ul>
+<ul>
+<li>移动端的平台有其安全的设计。每个应用都是隔离开的，一个应用无法获取另一个应用的数据。而且应用的下载基本上来说都是来自合法的地方。比如iOS的设备通过App Store下载，每个程序都有自己的签名保证不会被篡改。而且移动端的的应用有各种权限配置，这样也能很大程度提高安全性。</li>
+</ul>
+<ul>
+<li>移动端的APP有些有些是收费的，所以自然会有盗版需求，虽然在平台上做了一些安全设计，但是并不完美。用户可以越狱，可以root。这给恶意软件有了可乘之机。</li>
+</ul>
+<p>下面我们来分析下移动端的用户操作，我们重点关注用户控制权的切换过程（因为这是攻击点）</p>
+<p><span id="more-17066"></span></p>
+<p>在移动设备上，基本上来说，用户的控制切换有四种：</p>
+<ul>
+<li>从一个APP切到另一个APP，也就是我们所谓的唤出APP。</li>
+<li>从一个APP唤出一个Web，常见为一个嵌入式的WebView或是一个浏览器</li>
+<li>从一个Web唤出一个APP，这需要浏览器支持一些非标准的HTTP协议，比如skype://之类的。</li>
+<li>从一个Web到另一个Web，这和Web上的方式差不多。</li>
+</ul>
+<p>基本上来说，<strong>黑客的攻击从来都是找这样的转换环节来做文章的，并且需要一个用户非常熟悉的场景（这样用户才会放松警惕）</strong>。</p>
+<p>通过观察移动APP的特性，我们可以知道，当用户控制切换时，有下面的这些特性：</p>
+<ul>
+<li>到另一个APP时，需要用户登录（如果登录的session过期了）</li>
+<li>当支付的时候，需要用户输入支付信息（信用卡信息、支持密码）</li>
+</ul>
+<p>那么用户在移动APP上经常做的事是什么？</p>
+<ul>
+<li><strong>社交分享</strong>：分享到微博，分享到微信等等，分享的时候，可能需要你输入用户名和口令。</li>
+</ul>
+<ul>
+<li><strong>应用内购</strong>：一般来说APP会有两种，一种免费的，一种是收费的，大量的用户都是下载免费的，然后通过什么“开通更多关卡”、“去广告”、“买道具”之类的东西，让用户输入支付信息。Apple的支付的时候也会要用户输入Apple ID的密码。</li>
+</ul>
+<ul>
+<li><strong>点击链接</strong>：有时候，我们收到短信，或是二维码，或是一个微信微博，会让我们去点击一个网站链接，这个网站链接要么就是打开一个网页，要么就是启动应用，要么就是跳转到应用市场去下载应用（如果你没安装）。</li>
+</ul>
+<p>所以，一个好的钓鱼式攻击一定会从这些地方入手，然后高仿UI以及交互流程，这个交互流程和用户日常操作的完全一样，让用户无法察觉。任何方式的钓鱼攻击简单来说，会有两种：</p>
+<ul>
+<li><strong>一种是直接攻击：</strong>你下载了一个恶意的APP，或是打开了一个恶意的冒牌APP。</li>
+<li><strong>一种是中间人攻击：</strong>用户控制权转换时的两端都是正规应用，但是中间的过程不是正常的。</li>
+</ul>
+<h4>攻击方式</h4>
+<p>下面是一些常见的攻击方式：</p>
+<h5>从一个应用唤起另一个应用的方式</h5>
+<p><strong>直接攻击</strong></p>
+<p>当你点击一个社交分享按钮，或是一个支付按钮的时候。就会转到一个页面，这个页面需要你输入用户机密信息（密码或是支付信息），然后再唤起真正的APP。</p>
+<p>一个有恶意的APP可能会让你放松警惕，因为，这个你在安装这个APP的时候，你会发现这个APP根本不需要任何的权限（Android上的），甚至连网络访问的权限都不要，因为在Android下，App可以通过别的组件访问互联网，比如：恶意应用可能创建一个MediaPlayer Object，然后就可以通过这个对象访问一个URL然后把偷到的信息发送出去。</p>
+<p>你的手机要被安装一个恶意的应用并不难，同样通过社工的方式，比如：盗版，色情，伪装成客服等等通过人性的弱点让你去一些非受信的市场上安装。iOS设备上的应用也可以不用通过App Store安装（通过itms-services协议，可以通过safari浏览器直接在IOS设备上安装应用程序）。</p>
+<p>还有，人们都是贪小便宜的人，所以，会到某些地方买一些便宜的手机（比如淘宝），现在的高仿手机，翻新的二手手机对于一般人甚至安全专家来说完全没有识别能力。这些手机中有很大可能藏有恶意程序。你千万不要以为你格式化手机就OK了。今天（2015年4月14日）早上CCTV2台的“第一时间”就说了一个案例，你可以看看。另外，你可以看看相关的新闻。（另外，你把你的旧手机卖了也要小心，因为你的数据就在里面，旧手机已经成了一个灰色产业链）</p>
+<p>另外，Apple的App需要有一个review过程，这个过程对大众是神秘的，但我觉得应该会包括安全方面的review。不过，这个审核过程可能也有空子可以钻。比如：在review的时候，这个应用完全正常，但在用户使用的时候，会自己从网站下载一些自己的配置文件而改变行为（更为直接的就是访问外部网页时在审核时和在用户应用时可能完全不一样，Apple应该完全没有能力审核应用要访问的外部站点）</p>
+<p><strong>中间人攻击</strong></p>
+<p>我们知道，一个APP唤起另一个APP好多都是用url-scheme的，也就是某种协议，审核这样的协议非常简单，所以如果有恶意的东西在里面基本上很容易看到。但是，如果某些APP并没有注册自己的url-scheme，或是没有被安装，反而，另一个有恶意的APP注册了这个scheme，那么，就会导致恶意的APP被唤起来了（<span style="color: #ff0000;"><strong>这就是我为什么在我的微博中说，如果用户没有安装淘宝的客户端，那么，让微信唤起淘宝的客户端时，有可能是另一个有恶意的APP。但是很多人不懂这个事。<span style="color: #000000;">在iOS下，两个APP通讯正确的做法是“钥匙串机制”</span></strong></span>）。</p>
+<p>当然如果有两个应用被注册了同一个scheme，那么，iOS和Android会给出一个选择，让用户来选（注：iOS的系统有可能会直接跳某个 App 上去，不同版本的跳规则不明确，可以认为是随机跳转）。于是乎，恶意的APP就要努力的让自己比正规的APP看起来更像个正规的APP就可以了。</p>
+<p>在Android平台上，这个事可能更变态，只要恶意的应用有两个权限，一个是随手机操作系统在后台启动，一个是task list（然而这两个权限都是一般权限）。这样一来，当你进行两个APP切换时，恶意程序可以通过task list权限监控到，然后自己马上先于正规的app出现，等到收集完用户数据后简单的退出就好了。这个方式只需要你的程序能在10ms以内反应过来（最佳是5ms左右），人的肉眼根本看不出来。（在iOS设备下，除了jail break后的iPhone可以这么干，正常的都iPhone还没有找到这样的攻击方式）</p>
+<h5>在一个应用内内嵌Web的方式</h5>
+<p>这种方式更容易攻击了，现在很多很多应用都是内嵌的Web的形式，你完全不知道打开的网页的网站是什么，因为这些内嵌的WebView你连地址都看不见。而且无论是iOS或Android，其WebView都可以执行任何的Javascript代码，就算显示URL，URL也可能是被混乱过的，你也看不全，你也很容易上当。当然，那些使用带SSL证书的支持HTTPS的网站（尤其是EV证书）可以在地址栏上显示一个绿色的标记表示你访问的就是正确网址，但是并不是所有的浏览器都会这样，比如iPhone的Safari并没有这个提示，所以，你一定要用Chrome。</p>
+<p>更狠的是就算你打开的是一个正确的URL，你依然可能被中间人攻击。尤其是这个网站使用了明文的HTTP协议，而你又喜欢蹭那些免费的WiFi，于是很容易给把服务器返回给你的网页中做修改，比如，修改网页中login表单或是支付表单提交的网站（想想天朝的网络运营商给你访问的正常的网页弹广告这事吧）</p>
+<p>关于DNS劫持，有些人觉得这事可能遇不上，因为这是一个全网的问题，如果你有这样的想法你就错了。还是那样，你爱占便宜，蹭上那些没有密码的WiFi，你完不知道，你连上去的那个WiFi会设置什么样的DNS服务器，你输入了www.taobao.com，但你打开的网站根本就是不是淘定，而是一个钓鱼网站。你会知道你打开的是错的了么？基本不可能。所以，安全点的网站都是要用HTTPS，但是还是那句话，iPhone的Safari并不会提示你打开网站的SSL证书合不合法（事实上，在手机上的很多浏览器都不会这提示，只有Chrome会）。</p>
+<p>关于攻击的方式我不想讲太多，还有很多高级+猥琐的方式我也不是完全知道，知道了我也不说，不然，教人犯罪了。</p>
+<p>关于从Web端唤起APP是和，APP唤醒APP的攻击方式基本一样。我就不说了。</p>
+<h4>怎么防范钓鱼式攻击</h4>
+<p>首先，我们要知道，钓鱼式攻击是一件非常难搞的事。要搞定这个事，一般来说需要四个方面：<strong>立法层面</strong>、<strong>用户培训层面</strong>、<strong>宣传层面</strong>、与<strong>技术保全措施层面</strong>。</p>
+<p><strong>教育方面</strong></p>
+<p>打击网钓的策略之一，是试着培养人们识别网钓，并教导怎样处理这些问题。只需要稍稍修改人们浏览习惯的方式，很多问题都可以避免。随着人们越来越认识到网钓者所使用的社会工程学技俩，传统的网钓欺诈技术可能在未来过时。</p>
+<ul>
+<li>对别人发来的链接要小心，尤其是让你输入机密信息的链接要小心检查。</li>
+</ul>
+<ul>
+<li>到正规的地方买手机，不要贪图小便宜。旧手机在卖前要“物理删除”数据。</li>
+</ul>
+<ul>
+<li>不要对手机越狱，不要root。</li>
+</ul>
+<ul>
+<li>不要从非信任的地方下载软件。</li>
+</ul>
+<ul>
+<li>要小心免费的WiFi。</li>
+</ul>
+<ul>
+<li>输入机密数据的时候一定要小心检查。</li>
+</ul>
+<ul>
+<li>多依赖一些不同的安全体系，比如：网上支付不要只依赖支付宝，尽量使用信用卡（信用卡千万不要设密码），这样就算是被钓鱼了，你还有一个银行安全的缓冲地带——可以不承认交易。</li>
+</ul>
+<ul>
+<li>现在使用手机的频率越来越高，所以，我非常建议你使用更为安全的iPhone手机，一定要打开“查找我的iPhone”功能，然后设上开机密码。iPhone手机可以做到手机丢失了别人都无法使用，包括刷机都刷不了（iOS7以上版本）</li>
+</ul>
+<ul>
+<li>对于一些关键网站，开启两步验证，这样就算你的用户名和密码被钓走了，还有一个动态手机口令做为登录的关卡。</li>
+</ul>
+<p><strong>技术方面</strong></p>
+<ul>
+<li>利用SSL证书来保证从浏览器到网站的访问是现在采用比较多的方式，也是在理论上可行的方式。现代的浏览器都会在URL上放上一个锁的标志，对于EV证书，你会看到浏览器的URL是绿色的（很容易分辨）</li>
+</ul>
+<ul>
+<li>另外，像firefox浏览器有一个petname的插件，你可以为你常上的网站设置一些标签。这样，当你打开钓鱼网站的时候，你会发现这些标签没有显示出来，那就有问题了。</li>
+</ul>
+<ul>
+<li>关于SSL的CA认证机构，你需要管理好你浏览的那些根证书，有些根证书你需要删掉。</li>
+</ul>
+<ul>
+<li>还有一种打击网钓的流行作法是保持一份已知的网钓网站名单，并随时更新。比如<a href="https://www.phishtank.com/" target="_blank">PhishTank</a>，以及<a href="http://www.apac.cn" target="_blank">中国防钓鱼网站联盟</a>。</li>
+</ul>
+<ul>
+<li>增加式登录方式。这种方式被美国银行采用，就是说，你可以上传一个你自己知道的图片，而当你打开登录页面里时，输入了自己的用户名后，你会看到你设置的这个图片被显示出来。如果没有或是显示错了，表示你打开的是钓鱼网站。</li>
+</ul>
+<ul>
+<li>两步验证，通过用户自设密码+手机动态口令登录（好些网站都在使用Google Authenticator的方式，这有点像公司VPN的动态口令）。</li>
+</ul>
+<p>上述都是PC Web上的防范，然而我们的手机移动端做的并不够好，移动端的安全还是要加油。</p>
+<p><strong>安全风控方面</strong></p>
+<p><strong>什么叫安全风控，说白了就是拿钱出来赔偿给被骗的用户，大家相信我，这个事情在基本上所有的公司都会做的</strong>，也就是说，无论你怎么做安全也无法保证绝对的安全，你只能缓解或是降低用户被骗的数量或概率。所以，几乎所有的公司都会有一笔钱专门用来赔偿。</p>
+<p>在西方国家，用户体验很好，我说一个故事，我有一个妹妹在英国，有一天她到ATM上取钱，取完钱后忘了把卡取出，结果后面的人把她的卡里的钱取走了，于是她报了警，等警察做完笔录后，她给银行的客服打了个电话说明了情况，本想冻结银行卡的，但是银行方面二话不说就赔偿了她所有的损失。为什么英国的巴克莱银行这么痛快，是因为他们有风控基金，专门用来处理这样的事的。</p>
+<p>在中国，其实银行和一些大的公司都有这笔安全风控基金，但是，要你非常坚持不懈地申诉，他们才会赔给你，而且还不是全部。要全部的话，我估计你要做一个“刁民”，否则欺负你，没道理。</p>
+<h4>关于微信和淘宝</h4>
+<p>微信和淘宝到底是谁先屏蔽谁我并不关心，这里面的商业利益我也不关心，微信是不是支持卖东西我也不关心。我关心的是寒冬文章中所说的微信上有淘宝钓鱼的安全问题。</p>
+<p>从技术上来说，我觉得要微信和淘宝一起干这事，单方都不行，需要两边的安全专家一起讨论（如果需要，我可以帮你们约）。我这里给一个可能很不成熟的方案，算是抛砖引玉（我不考虑你们之间的商业竞争，我只从用户的角度出发，客户第一）：</p>
+<blockquote><p><strong>我觉得，从业务上来说，淘宝可以在微信上有一个官方的商城。而淘宝的商家，需要取得微信的认证后入住，才能分享相关的商品或店家链接，对此，商家入住，我觉得可通过微信的服务账号与淘宝的商家后台集成可以做到。</strong></p>
+<p><strong>然后，商家也好，买家也好，他们分享商品只能通过微信官方的商城或是商家的服务账号分享出去，而分享出去的商品信息可以是一个比较unique的形式（比如有一个不能伪造的官方认证的标签），而用户的支付可以通过内置的微信支付也可以通过内置的支付宝（通过唤起App并不是一个好的方式，还是应该你们在服务端进行相互的通信）。</strong></p>
+<p><strong>然后微信和淘宝双方通过宣传手段告诉全社会，微信里的商品什么才是正规的，才不是钓鱼的，并给教育用户更为安全地使用手机。</strong></p></blockquote>
+<p>P.S. 我虽然这么说，但从我个人来说，我非常理解微信为了让用户有很好的体验而不让微信成为一个四处都是营销商品的地方。所以，我从个人来说，希望微信不要成为一个商家的营销地。另外，我也知道阿里对移动端的看重，所以，上述的方案虽然对用户体验和安全都比较好，但是从目前商业利益的情况看来基本无法实现。不过我这里也只是抛砖引玉了。</p>
+<p>面对安全和用户这两个事，<strong>你们两个中国最大的互联网公司，应该带头做好榜样，你们都是不缺钱的公司，应该更多的承担起社会的责任，真正为用户做点什么，而不是整天想着流量入口，互相屏蔽，互相指责，想着自己能有多少用户，这TMD太LOW了，和你们的地位完全不符。所以，从站在用户的角度上来说，我希望微信和淘宝都能站在用户的角度上思考问题，一起合作来真正的为用户更好的服务。</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/01/iStock-1175502114-150x150.png" alt="网络数字身份认证术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_title">网络数字身份认证术</a></li><li ><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200-1-150x150.png" alt="HTTP API 认证授权术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_title">HTTP API 认证授权术</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/17607.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/MongoDB-150x150.jpg" alt="从 MongoDB “赎金事件” 看安全问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17607.html" class="wp_rp_title">从 MongoDB “赎金事件” 看安全问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17066.html">关于移动端的钓鱼式攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17066.html/feed</wfw:commentRss>
+			<slash:comments>55</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>DHH 谈混合移动应用开发</title>
+		<link>https://coolshell.cn/articles/12225.html</link>
+					<comments>https://coolshell.cn/articles/12225.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Mon, 15 Dec 2014 02:57:20 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Hybrid]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[WebView]]></category>
+		<category><![CDATA[移动开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12225</guid>
+
+					<description><![CDATA[<p>&#160; David，Ruby on Rails 作者，37signals 合伙人 畅销书作家、演说家、赛车手、业余摄影师、顾家好男人 &#160; 37s...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12225.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12225.html">DHH 谈混合移动应用开发</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>&nbsp;</p>
+<p style="text-align: right;"><img decoding="async" loading="lazy" class="paddging: 10px; 20px; alignright wp-image-16861" src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="1053-DHH" width="80" height="80" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg 150w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-300x300.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-200x200.jpg 200w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-270x270.jpg 270w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH.jpg 451w" sizes="(max-width: 80px) 100vw, 80px" />David，Ruby on Rails 作者，37signals 合伙人</p>
+<p style="text-align: right;">畅销书作家、演说家、赛车手、业余摄影师、顾家好男人</p>
+<p>&nbsp;</p>
+<p><a href="http://37signals.com/" target="_blank">37signals</a> 在2013年2月发布了 Basecamp 的 iPhone app，在此之前我们就使用原生开发（native）还是混合开发（hybrid）做了许多尝试。在2012年项目启动的时候，大多数人都倾向于原生开发。</p>
+<p>Facebook 在2012年发布了他们新的 iOS app，为了获得更好的用户体验，他们放弃了原来的 HTML5 混合开发方式。考虑到2010～2011年的时候，HTML 在移动端的性能确实不尽如人意，这个决定在当时看来也在情理之中。2010年的时候我们觉得 iPhone 3G/3GS 够眩够快，但按照现在的标准来看它们就太慢了。因此在为移动应用开发做架构设计时，我们需要考虑新的移动设备的计算能力，而不是那些老的过时的设备。</p>
+<h4>移动开发架构设计不需要过多考虑设备的性能</h4>
+<p>我们从一些测试中得出的一个结论是：现在的移动设备计算能力都很强，运行原生应用和 HTML 应用的效果差别不大，而 HTML 开发的成本则要比原生开发小得多。</p>
+<p>当然这个结论在某些领域并不太适用。如果你要开发一个 3D 游戏，原生开发方式能够带来更好的游戏体验。但如果你的移动应用象 Basecamp 一样侧重信息处理，为了降低开发成本，你就可以考虑混合开发方式。我们就是如此，下面是我们三代移动产品的发展轨迹：</p>
+<p><span id="more-12225"></span></p>
+<h4>第一代产品：原生外壳(native shell)＋嵌套WebView</h4>
+<p><img decoding="async" loading="lazy" class="alignright wp-image-16868 size-medium" src="https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones-300x242.jpg" alt="1159-basecamp-app-phones" width="300" height="242" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones-300x242.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones.jpg 660w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>这个版本就是一个简单的原生外壳负责界面导航，嵌套一个 WebView 来显示 Basecamp Rail application，显示的基本上都是我们移动网站页面，再加上一些特殊的样式。</p>
+<p>在移动网站的页面上嵌套一个原生的壳，听起来还是 Web 页面，但实际带给用户的体验确是非常不同。用户可以在 Apple App Store 找到我们的 app，他们一旦登录 app 后可以再也不用重新登录（移动版本的 Safari 似乎会经常清空 cookie，让你不得不重新登录）。我们的 app 大受欢迎，用户评分在4和5之间。</p>
+<p>整个 app 由一名程序员和一名设计师开发，成本不高，因为我们可以在已有的移动网站的基础上开发。</p>
+<p>如果我们当初开发完全原生的 app，用10个人的团队1年半的时间也未必能完成。</p>
+<p>&nbsp;</p>
+<h4>第二代产品：原生外壳＋原生导航界面</h4>
+<p><img decoding="async" loading="lazy" class="alignright wp-image-16869 size-medium" src="https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed-187x300.png" alt="1543-unnamed" width="187" height="300" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed-187x300.png 187w, https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed.png 562w" sizes="(max-width: 187px) 100vw, 187px" /></p>
+<p>几个月前发布的 Basecamp Android app 是我们的第二代产品，我们在其中做了大量的改进。</p>
+<p>从第一代 iPhone app 中我们感受到了原生导航界面的威力，所以在 Android 版本中，我们由 HTML 页面导航转向了原生导航界面。我们从 HTML 页面生成原生导航界面，用户体验更加流畅，原生界面和 HTML 页面的体验差别越来越小，甚至很难区分哪些是原生部分，哪些是 HTML 。</p>
+<p>Android 版本是由一两个程序员和一个设计师开发（50%投入）完成的。我们重用了移动站点和 iPhone app 中使用的所有 webview，大大提高了开发效率，同时用户也很买账，超过1000名用户打了4.5~5的高分。</p>
+<p>很多公司在抱怨他们的 iOS 移动项目进展缓慢，Android 项目似乎更是如此。或许他们已经习惯了 iOS 项目的开发流程，也许是因为 Android 的屏幕碎片化问题，但是这些对我们来说那都不是事。我们推出的 Android app 表现良好，重用了95%的代码，开发团队也一直保持在小规模。</p>
+<p>&nbsp;</p>
+<h4>因地制宜地运用原生开发方式</h4>
+<p>目前我们正在开发第三代产品，发布的平台暂时保密，不过你应该也不难猜到。在前两代产品中，我们增加了原生导航界面的使用，同时进一步确定了以 webview 为核心的整体架构。在第三代产品中，我们将因地制宜地选择需要使用原生开发的功能，好钢要用在刀刃上。</p>
+<p>从之前的100% HTML，到现在的90% HTML +10%原生，我们会选择最值得做原生开发的那10%的部分，最终目的是让 app 原生部分和 HTML 部分的体验没有太大区别。</p>
+<p>&nbsp;</p>
+<h4>混合开发模式使用的技术</h4>
+<p>混合开发模式在技术很简单，主要是处理 webview 的集成、Web 页面的加载，以及原生内容和 HTML 内容之间的交叉链接，其实可能比你想像的还要简单得多。</p>
+<p>HTML 方面，我们的 Rails Web 应用支持 Web 和移动两大平台，其中 <a href="http://edgeguides.rubyonrails.org/4_1_release_notes.html#action-pack-variants" target="_blank">Rails 4.1 feature of variants</a> 起了很大的作用。</p>
+<p>这也很大程度上有助于我们发布新功能。设想一下如果我们每次需要更新这么多平台：Rails desktop app, a Rails API app, a client-side MVC app, a mobile web wrapper app, an Android app, and an iPhone app，像我们这样只有10个程序员和7个设计师的公司根本无力承担如此巨大的工作量。</p>
+<p>除了工作量的减轻，bug 修复效率也提高了，因为大部分的代码逻辑是在 Web 服务器端，我们可以随时修改代码并发布，不用通过 Apple App Store 的审批流程。所以我们的移动 app 和 Web 应用一样，也是持续部署。</p>
+<p>就如我之前提到的，混合模式开发并不适用于所有情况。在2010年以前，那时手机的处理能力都不强，所以 HTML/JS 的体验并不好，用户也不喜欢。但是时过境迁，现在手机的处理能力大大提高了，HTML/JS 的性能也不再是一个问题。</p>
+<p>&nbsp;</p>
+<h4>混合开发模式对原生开发模式的挑战</h4>
+<p>混合开发模式在降低开发复杂度方面有它的优势，如果你的产品是以显示和处理信息为主，我认为都可以不同程度地采用这个模式。</p>
+<p>对于小型团队和公司而言，并不一定需要采用 iOS 原生 app 先行的模式。使用混合模式，不需要你重头开发一个 app，这样可以降低维护成本，将来扩展到其他平台也更为方便。</p>
+<p>当然我知道会有很多人质疑这个模式，或许因为他们的 app 中有很多地方需要原生开发（也许仅仅是他们自己这样认为罢了）。又或许他们已经花了很多时间让 app 里的 UITableView 看起来非常漂亮，以致如果其他地方不这样的话显得不是太完美。再或许大公司就是喜欢耗时耗力的原生开发，有钱就是这么任性。</p>
+<p>无论怎样，混合开发当下应该能够成为我们移动开发策略的一个选择。如果你认为这是一个好的选择，那么恭喜你，尽情愉快地玩耍吧！</p>
+<p>&nbsp;</p>
+<p><em>原文链接：<a href="https://signalvnoise.com/posts/3743?utm_campaign=iOS_Dev_Weekly_Issue_175&amp;utm_medium=email&amp;utm_source=iOS%2BDev%2BWeekly" target="_blank">Hybrid sweet spot: Native navigation, web content</a></em></p>
+<p>&nbsp;</p>
+<p>下面补充一些 David 答读者问：</p>
+<p>&nbsp;</p>
+<p>Mike Waite @ 2014-05-08：我很好奇你是如何决定哪些功能要用原生开发？<br />
+David @ 2014-05-08：主要靠感觉，这毕竟不是一门科学。如果你感觉你app的某一部分如果用原生开发会更好些，可以尝试做快速原型（spike）。很多时候我们通过这种方式证明我们的想法其实是错的。当然如果你需要使用到手机上的功能如：摄像和其他设备时，HTML目前还不太适用，不过永远也不要把话说死。</p>
+<p>&nbsp;</p>
+<p>Mike Parsons @ 2014-05-08：好文。很好奇你们是否使用 PhoneGap 或者 Cordova 这样的框架，或者你们自己开发了一个？<br />
+David @ 2014-05-08：我们没有使用任何框架。（此处省去xxx字）</p>
+<p>&nbsp;</p>
+<p>Derick @ 2014-05-08：你怎样解决 Android 浏览器渲染速度慢的问题？这也是 Android 平台上更多人倾向开发原生app得原因。<br />
+David @ 2014-05-08：不知道你这个结论是近期的还是以前的？Basecamp 的 Android app 在我的 Nexus 5 和 HTC One 上面运行得非常流畅。<br />
+Derick @ 2014-05-08：就是最近。我猜测可能和你使用JavaScript的多少有关系。因为以我个人的经验，Android 上 JavaScript 的运行速度非常慢。如果你感兴趣可以看看下面的文章：<a href="https://www.timroes.de/2013/11/23/old-webview-vs-chromium-webview/" target="_blank">https://www.timroes.de/2013/11/23/old-webview-vs-chromium-webview/</a><br />
+David @ 2014-05-08：我们使用了很多JavaScript，当然没有 Web MVC 客户端用得那样多。另外我们使用了 Turbolinks ：）</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/html6-150x150.jpeg" alt="HTML6 展望" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_title">HTML6 展望</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12225.html">DHH 谈混合移动应用开发</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12225.html/feed</wfw:commentRss>
+			<slash:comments>27</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Google Inbox如何跨平台重用代码？</title>
+		<link>https://coolshell.cn/articles/12136.html</link>
+					<comments>https://coolshell.cn/articles/12136.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Wed, 26 Nov 2014 00:03:17 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[移动应用]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12136</guid>
+
+					<description><![CDATA[<p>原文链接《How Google Inbox shares 70% of its code across Android, iOS, and the Web》 开...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12136.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12136.html">Google Inbox如何跨平台重用代码？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>原文链接《<a href="http://arstechnica.com/information-technology/2014/11/how-google-inbox-shares-70-of-its-code-across-android-ios-and-the-web" target="_blank">How Google Inbox shares 70% of its code across Android, iOS, and the Web</a>》</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264.jpg"><img decoding="async" loading="lazy" class="size-medium wp-image-12137 alignright" src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-300x123.jpg" alt="inbox2-640x264" width="300" height="123" /></a></p>
+<p>开发一个移动应用在当下并不是一件容易的事情。如果想要获得最多的用户，你的应用通常需要覆盖 iOS, Android, 和 Web 三大平台。这就意味着同一个应用需要开发三个版本，使用 Objective-C 或者 Swift 开发 iOS 版本，使用 Java 开发 Android 版本，使用 JavaScript/CSS/HTML5 开发 Web 版本。工作量增大的同时也意味着有更多的 bug 需要修复。</p>
+<p>这个问题也是 Google 在开发 Google Inbox 时致力要解决的。在最近发布的这款应用中，Google 使用了一些工具实现了70%的代码跨平台复用。</p>
+<p>Google Inbox 覆盖 iOS, Android, Web 三个平台，它们使用的是同一个后台代码逻辑，只是前端的用户体验和平台相关特性的实现有所不同。Google 自主开发了一套辅助工具将 Android 版本的 Java 代码逻辑编译为 Objective-C (针对 iOS 平台) 和 JavaScript (针对 Web 浏览器)。 Java 到 JavaScript 的编译由 Google Web Toolkit SDK 完成，Java 到 Objective-C 的编译则由 J2ObjC （<a href="j2objc.org">j2objc.org</a>）来完成。</p>
+<p>J2ObjC 是一个开源项目，由 Google 在2013年发布。Google Sheets (Google Docs 中的电子表格部分) 也使用了 J2ObjC，而 Google Inbox 则是目前使用 J2Objc 最多的 Google 项目。</p>
+<p>Google Inbox 复用的代码逻辑包括：对话 (conversations)，提醒 (reminders)，联系人 (contacts)。还有网络相关功能和离线同步。这些代码逻辑的复用节省了大量的时间和成本。</p>
+<p>在产品设计时，Google 将这些可复用功能划分为抽象的逻辑概念，比如：提醒的逻辑放在 &#8220;reminder.java&#8221; 中，可以被 Android UI 调用。对 iOS 版本而言，J2ObjC 将 &#8220;reminder.java&#8221; 编译成 Objective-C 代码，再由 iOS UI 调用。</p>
+<p>Google 没有跨平台编译 UI 部分的代码，因为不同平台的UI特性各有不同，盲目统一会导致非常糟糕的用户体验。代码复用只是针对可以共享的后台逻辑，前端的UI实现是完全原生 (native) 的。这与 Xamarin (一个基于 Microsoft C# 的跨平台移动开发工具) 提出的概念类似。</p>
+<p>跨平台代码复用通常会带来一些性能上的问题。Garrick Toubassi，Engineering Director 和 Google Inbox 项目组成员，对此表示： “性能上的影响如果有的话，也可以说是微不足道的。我们做过大量的性能测试。因为没有加入额外的中间层来处理跨平台兼容性，所有代码最后都是平台原生代码。J2ObjC 编译生成的目标代码和 Java 源代码拥有大致相同的对象数量和对象图谱复杂度 (object graph complexity) ”。</p>
+<p>Google 使用的整套方法解决了跨平台移动开发中的一个很重要的问题，同时也推进了安卓先行 (Android-first) 的移动开发策略。</p>
+<p>更多 Google Inbox 文章请猛戳 <a href="http://gmailblog.blogspot.com.au/2014/11/going-under-hood-of-inbox.html">Gmail 官方博客</a>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="Android将允许纯C/C++开发应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_title">Android将允许纯C/C++开发应用</a></li><li ><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-150x150.jpg" alt="Google App Inventor " width="150" height="150" /></a><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_title">Google App Inventor </a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12136.html">Google Inbox如何跨平台重用代码？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12136.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Eclipse开发Android应用程序入门:重装上阵</title>
+		<link>https://coolshell.cn/articles/4334.html</link>
+					<comments>https://coolshell.cn/articles/4334.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Fri, 08 Apr 2011 00:30:09 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4334</guid>
+
+					<description><![CDATA[<p>翻译:赵锟 原文：http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-a...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4334.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4334.html">Eclipse开发Android应用程序入门:重装上阵</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>翻译:赵锟</strong><br />
+原文：<a href="http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-android-with-eclipse-reloaded/">http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-android-with-eclipse-reloaded/</a></p>
+<p>在我们教程系列的<a href="https://coolshell.cn/articles/4270.html">第一部分</a>中，我们使用Android和Eclipse开发了一个简单的饮茶计时器的应用程序。在第二部分，我们将继续开发这个程序，并给它增加一些其他的额外的功能。在开发的过程中，我们将给你介绍更多重要而强大的Android SDK特性，包括持久化数据存储，Activity和Intent，和共享用户首选项（译者注：类似于windows 的注册表的一种机制）。</p>
+<p>跟着本教程，你需要上一篇教程中的代码，如果你想直接使用代码，你可以使用如下的指令从<a href="http://github.com/cblunt/BrewClock">GitHub</a>上check out出tutorial_par_1标记的代码：</p>
+<p><img decoding="async" loading="lazy" width="793" height="564" src="https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full.jpg" alt="" title="1_starting_point_full"  class="aligncenter size-full wp-image-4362" srcset="https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full.jpg 793w, https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-300x213.jpg 300w, https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-768x546.jpg 768w, https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-380x270.jpg 380w" sizes="(max-width: 793px) 100vw, 793px" /><br />
+[code]<br />
+$ git clone git://github.com/cblunt/BrewClock.git<br />
+$ cd BrewClock<br />
+$ git checkout tutorial_part_1<br />
+[/code]</p>
+<p>在GitHub中检出了代码后，你需要将代码倒入到Eclipse中的项目中：</p>
+<ol>
+<li>运行      Eclipse 选择 <em>File → Import…</em></li>
+<li>在导入窗口, 选择 <em>“Existing Projects into Workspace”</em>并点击<em> “Next.”</em></li>
+<li>在下一屏，点击 <em>“Browse,”</em>选择你从GitHub上clone出的代码目录。</li>
+<li>点击“Finish” 将项目导入到Eclipse中。</li>
+</ol>
+<p><span id="more-4334"></span><br />
+在导入项目到Eclipse之后，你有可能会看到有如下的警告信息：<br />
+[code]<br />
+Android required .class compatibility set to 5.0.<br />
+Please fix project properties.<br />
+[/code]<br />
+如果有这种情况，右键点击“Project Explorer ”中新导入的BrewClock项目，并选择 “Fix Project Properties,” 并重启Eclipse。</p>
+<h3>数据持久化入门</h3>
+<p>当前,BrewClock 让用户为他们泡的茶设置一个定时器。这个非常棒的一个工作，但是如果对于不同的茶使用同一个泡茶时间的结果会怎样呢，是不每种茶都应该有自己的一个泡茶时间呢？如果这样，那岂不是所有的用户都需要记下每一类茶所需要泡的时间！这不是一个很好的用户体验。因此，在这篇教程中，我将新增一个功能来为用户每种不同的茶叶存放一个泡茶时间，并当用户想泡茶的时候，可以从茶叶列表中进行选择。</p>
+<p>为了实现这个目的，我们得利用Android的丰富的数据持久化的API。Android提供了几种方式来存储数据，本文将要覆盖其中的两种方式。第一种，使用SQLite数据库引擎来为我们存储数据。</p>
+<p>SQLite 是一种流行的轻量级SQL数据库引擎，它将数据存在单个文件中。SQLite经常用于桌面或在那些运行不能运行客户端-服务器SQL引擎（例如MySQL或PostgreSQL)的嵌入式的应用上。</p>
+<p>每个安装在Android上的应用都可以保存和使用多个SQLite数据库文件（由数据存储容量决定），这些数据由系统自动地进行管理。应用程序的数据是私有并且不能被其他的应用程序所访问。（数据可以通过ContentProvider(译者注：内容提供者类)类进行共享，但是我们不会在本教程中覆盖关于内容提供者的内容）。当数据应用程序被更新时，数据库文件就进行持久化，当应用程序被删除时，数据库文家就被删除。</p>
+<p>我们在BrewClock应用使用SQLite数据来维护我们的茶叶列表和泡茶所需要的时间。下面是我们我们将使用的数据表的一个总体介绍。</p>
+<p>[code]<br />
++&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-+<br />
+| Table: teas                         |<br />
++&#8212;&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br />
+| Column     | Description            |<br />
++&#8212;&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br />
+| _ID        | integer, autoincrement |<br />
+| name       | text, not null         |<br />
+| brew_time  | integer, not null      |<br />
++&#8212;&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br />
+[/code]</p>
+<p>如果以前你使用过SQL，你应该熟悉这些内容。数据表有三个字段，一个唯一标示（_ID），茶叶名称(name)和泡茶时间(brew_time)字段。我们将使用Android提供给我们的API在应用中建立数据表。系统将负责在正确的位置为我们的创建数据库文件。</p>
+<h4>抽象数据库</h4>
+<p>为了确保数据库的代码容易被维护，我们用一个单独的类TeaData来抽象所有处理数据库创建，插入，和查询的代码。如果你熟悉模型-试图-控制(译者注：MVC)方法的话，这个你也应该熟悉。所有数据库代码与我们的BrewClockActitvity类隔离开来。Actitvity可以初始化一个新的TeaData实例（这个实例将连接数据库）并完成它所需要的工作。以这种方式工作保证了我们可以方便的更改我们所使用的数据库而不用修改其他那些和数据库不相关部分的代码。</p>
+<p>通过菜单File → New → Class.在BrewClock项目中创建一个TeaData的新类。确保TeaData扩展于android.database.sqlite.SQLiteOpenHelper 类，并选中“Constructors from superclass”复选框。<br />
+<img decoding="async" src="https://coolshell.cn/wp-content/uploads/2011/04/2_create_teadata_class1.jpg" alt="" title="1_starting_point_full"  class="aligncenter size-full wp-image-4362" /></p>
+<p>TeaData 类将为你自动地处理SQLite数据库的创建和版本。我们需要增加一些方法来作为其他代码到数据库的接口。</p>
+<p>增加两个常量来存储数据库的名字和版本,增加表名和表中列名。我们使用Android提供的常类BaseColumns._ID来做为表的唯一id列：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.provider.BaseColumns;
+
+public class TeaData extends SQLiteOpenHelper {
+  private static final String DATABASE_NAME = &quot;teas.db&quot;;
+  private static final int DATABASE_VERSION = 1;
+
+  public static final String TABLE_NAME = &quot;teas&quot;;
+
+  public static final String _ID = BaseColumns._ID;
+  public static final String NAME = &quot;name&quot;;
+  public static final String BREW_TIME = &quot;brew_time&quot;;
+
+  // …
+}
+</pre>
+<p>为TeaData增加一个构造方法，以数据库名称合版本号为参数调用其父类的构造方法。Android将会自动地打开数据库（如果数据库不存在就自动创建它）。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+public TeaData(Context context) {
+  super(context, DATABASE_NAME, null, DATABASE_VERSION);
+}
+</pre>
+<p>我们需要重载onCreate方法，并执行一个SQL 串执行创建数据库表的操作。Android将会在数据库文件第一次被创建时调用这个方法。</p>
+<p>在启动过程中，Android检查数据库的版本是否我们传入的版本一致。如果版本发生了改变，Android将会调用onUpgrade方法，在这个方法总，你可以编写修改数据库结构的业务逻辑。在本教程中，我们将让Android删除数据库并重建数据库。</p>
+<p>在onCreate和onUpgrade中增加如下的代码:</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+@Override
+public void onCreate(SQLiteDatabase db) {
+  // CREATE TABLE teas (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, brew_time INTEGER);
+  String sql =
+    &quot;CREATE TABLE &quot; + TABLE_NAME + &quot; (&quot;
+      + _ID + &quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;
+      + NAME + &quot; TEXT NOT NULL, &quot;
+      + BREW_TIME + &quot; INTEGER&quot;
+      + &quot;);&quot;;
+
+  db.execSQL(sql);
+}
+
+@Override
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+  db.execSQL(&quot;DROP TABLE IF EXISTS &quot; + TABLE_NAME);
+  onCreate(db);
+}
+
+</pre>
+<p>下一步，我们需要新增代码让我们方便地在数据库中新增茶叶记录。我们新增一个带茶叶名称和泡茶时间的方法来负责插入记录。Android为了尽量避免开发者使用SQL语句，提供了一堆类来处理向数据库中查入记录。首先，我们创建一个ContentValues集合，并将相关的值插入到这个集合中去。</p>
+<p>对于ContentValues集合，我们只要简单地提供一个列名和值来插入就行了。Android负责创建和运行正确的SQL。使用Android的数据类确保了你能写出安全，跨平台的数据库操作代码。</p>
+<p>Add a new method, insert(), to the TeaData class:</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+public void insert(String name, int brewTime) {
+  SQLiteDatabase db = getWritableDatabase();
+
+  ContentValues values = new ContentValues();
+  values.put(NAME, name);
+  values.put(BREW_TIME, brewTime);
+
+  db.insertOrThrow(TABLE_NAME, null, values);
+}
+
+</pre>
+<h4>查询数据</h4>
+<p>我们应用程序具有了在数据库中保存数据的能力后，我们同样也需要一种方式将数据取回来。Android提供了游标Cursor接口来完成这件工作。一个游标代表了针对数据库运行一个SQL返回的结果集，游标在这个结果集中维护了一个指针来指向结果集中的一行。这个指针可以向前，向后移动，并返回每一列的值，下面我们用图形来帮助你理解游标:</p>
+<p>SQL 查询: SELECT * from teas LIMIT 3;<br />
+[code]<br />
++&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;+</p>
+<p>|  _ID  |  name       |  brew_time  |</p>
+<p>+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;+</p>
+<p>|    1  |  Earl Grey  |          3  |</p>
+<p>|    2  |  Green      |          1  | &lt;= Cursor</p>
+<p>|    3  |  Assam      |          5  |</p>
+<p>+&#8212;&#8212;-+&#8212;&#8212;&#8212;&#8212;-+&#8212;&#8212;&#8212;&#8212;-+<br />
+[/code]</p>
+<p>在这个例子中，游标指向了结果集中的第二条记录（绿茶）。我们可以通过调用cursor.moveToPrevious()方法，将游标向前移动，让它指向第一行（Earl Grey），或者调用moveToNext向前移动指向Assam。要取到游标所指向记录的茶叶的名称，我们只要调用cursor.getString(1)，1代表我们向提取数据列的下标（注意下标识从0开始的，1代表第二列，依次类推）。</p>
+<p>在了解游标后，我们增加一个创建游标对象并返回数据库中所有的茶叶信息。在TeaData中增加all方法：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+public Cursor all(Activity activity) {
+  String[] from = { _ID, NAME, BREW_TIME };
+  String order = NAME;
+
+  SQLiteDatabase db = getReadableDatabase();
+  Cursor cursor = db.query(TABLE_NAME, from, null, null, null, null, order);
+  activity.startManagingCursor(cursor);
+
+  return cursor;
+}
+</pre>
+<p>因为这个方法乍一看有点古怪，所以让我们先来关心一下这个方法的一些细节。我们没有使用SQL的查询语句，而是使用了Android提供的数据库接口方法。</p>
+<p>第一，我们需要告诉Android，我们所关心的列的信息。我们创建了一个字符串数组，数组中存放这TeaData中列的标示信息。我们还设置了我名们期望的结果集按照哪一个列进行排序的列名。</p>
+<p>第二，我们使用getReadalbeDatabase()创建了一个到数据库的只读连接，并调用query方法告诉Android我们希望用query方法运行一个查询。query()方法有很多的参数，Android在内部将这些参数转化为一个查询语句。此外，Android的抽象层保证了即使底层数据储存机制发生了变化，我们的应用程序代码也能正确的工作。</p>
+<p>由于我们只要返回表中的所有记录，所以我们没有在方法中使用到链接join，过滤filter和分组group（例如：在SQL中的WHERE，JOIN，和GROUP BY）。from和order变量告诉查询数据库需要返回那些列和提取数据时按什么列进行排序。我们使用SQLiteDatabase.query()作为和数据库的人机交互接口。</p>
+<p>最后，我们让Activity（在本例中，我们的BrewClockActivity）来管理游标。通常，游标需要人工刷新内容，因此当我们增加一个新茶信息到数据库中时，我们就需要刷新我们的游标。每当我们的应用被挂起和恢复的时候，通过调用startManagingCursor()让Android来帮我们重建结果集。</p>
+<p>在TeaData类中增加count方法:</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+  public long count() {
+    SQLiteDatabase db = getReadableDatabase();
+    return DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+  }
+
+</pre>
+<p>保存TeaData类，使用修正没有import 的类(Source → Organize Imports)，在完成我们的数据类后，下一步我们将着手修改我们BrewClock的人机界面。</p>
+<h4>修改BrewClock用户界面，允许进行茶叶选择</h4>
+<p>持久化茶和泡茶的时间的目的是让用能快速的选择他们所钟爱的预设置的茶。为了完成这个功能，我们需要再BrewClock的主界面上增加一个Spinner（类似于桌面上弹出菜单），生成一个来自于TeaData的茶列表。</p>
+<p>和前面的教程一样，我们使用了Eclipse的布局器编辑器在BrewClock的主界面布局XML文件中增加Spinner。在LinearLayout元素下面增加下面这些代码（大约在24行）。如果你打开了可视化的布局编辑器后，你可以点击窗口下面的地&#8221;Code View&#8221;进行切换。</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- /res/layout/main.xml --&gt;
+
+&lt;!-- Tea Selection --&gt;
+&lt;LinearLayout
+  android:orientation=&quot;vertical&quot;
+  android:layout_width=&quot;fill_parent&quot;
+  android:layout_height=&quot;wrap_content&quot;&gt;
+
+  &lt;Spinner
+    android:id=&quot;@+id/tea_spinner&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot; /&gt;
+
+&lt;/LinearLayout&gt;
+</pre>
+<p>在BrewClockActivity类里面,增加一个成员变量指向Spinner，通过使用findViewById连接界面上的控件：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+protected Spinner teaSpinner;
+protected TeaData teaData;
+
+// …
+
+public void onCreate(Bundle savedInstanceState) {
+  // …
+  teaData = new TeaData(this);
+  teaSpinner = (Spinner) findViewById(R.id.tea_spinner);
+}
+</pre>
+<p>运行你的程序以确保新的界面正确地生效。你应该在泡茶计数器下看见一个空白的弹出式菜单（或者是Spinner)。如果点击spinner，Android将显示一个弹出式的菜单并为你提供选择列表。在这时，菜单的内容因该是空的，现在让我们来绑定Spinner和我们的茶叶数据库。</p>
+<p><img decoding="async" loading="lazy" width="500" height="356" src="https://coolshell.cn/wp-content/uploads/2011/04/3_blank_spinner.jpg" alt="" title="3_blank_spinner"  class="aligncenter size-full wp-image-4364" srcset="https://coolshell.cn/wp-content/uploads/2011/04/3_blank_spinner.jpg 500w, https://coolshell.cn/wp-content/uploads/2011/04/3_blank_spinner-300x213.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<h4>数据绑定</h4>
+<p>当Android从数据库中查询数据时，它将会返回一个游标Cursor对象。Cursor代表了来自数据库的结果集，并可以移动游标来提取结果中的数据。使用一类Android提供的称为“适配器Adapter”的类，我们很容易将这个结果集绑定到Spinner上。适配器完成了提取数据库结果集中的数据并在界面上显示这些数据等这些复杂而困难工作。</p>
+<p>在我们的TeaData.all()方法中已经可以返回一个带有tea表内容的游标，使用这个游标，我们所需要做的工作就是创建一个SimpleCursor适配器来绑定我们的teaSpinner，Android会负责处理将数据显示在spinner的列表中。</p>
+<p>通过创建一个SimpleCursorAdapter类来连接Spinner与teaData.all()返回的游标：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// com/example/brewclock/BrewClockActivity.java
+
+public void onCreate(Bundle savedInstanceState) {
+  // …
+  Cursor cursor = teaData.all(this);
+
+  SimpleCursorAdapter teaCursorAdapter = new SimpleCursorAdapter(
+    this,
+    android.R.layout.simple_spinner_item,
+    cursor,
+    new String[] { TeaData.NAME },
+    new int[] { android.R.id.text1 }
+  );
+
+  teaSpinner.setAdapter(teaCursorAdapter);
+  teaCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+}
+
+</pre>
+<p>注意，我们使用了Android内建的android.R对象。这个对象提供了你的应用程序中的默认资源，例如视图和布局。在我们的代码中，我们使用了android.R.layout.simple_spinner_item，它是简单的文本标签布局。</p>
+<p>如果你再次运行的应用程序，你将会看到spinner中仍然是空的！虽然我们已经连接了我们的数据库，但是由于数据库中没有任何记录，所以我们任何看到了空列表。</p>
+<p>我们通过在构造方法中增加一些默认记录来让用户可以选择所需要的茶叶，为了避免重复记录，我们只有在数据库中记录为0的情况才增加默认记录。在本教程的代码中，我们使用前面增加的count()来检查数据库中表记录是否为空。</p>
+<p>增加当数据库中表为空的默认记录代码。把这些代码增加从数据库提取茶叶数据的前面（译者注：上一段的代码前）。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// com/example/brewclock/BrewClockActivity.java
+public void onCreate(Bundle savedInstanceState) {
+  // …
+
+  // Add some default tea data! (Adjust to your preference :)
+  if(teaData.count() == 0) {
+    teaData.insert(&quot;Earl Grey&quot;, 3);
+    teaData.insert(&quot;Assam&quot;, 3);
+    teaData.insert(&quot;Jasmine Green&quot;, 1);
+    teaData.insert(&quot;Darjeeling&quot;, 2);
+  }
+
+  // Code from the previous step:
+  Cursor cursor = teaData.all(this);
+
+  // …
+}
+
+</pre>
+<p>现在再次运行你的应用程序。你将会发现茶叶Spinner有了一条选择。点击Spinner让你可以从数据库选择你要的茶叶。</p>
+<p><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2011/04/4_populated_spinner.jpg" alt="" title="4_populated_spinner" width="500" height="356" class="aligncenter size-full wp-image-4365" srcset="https://coolshell.cn/wp-content/uploads/2011/04/4_populated_spinner.jpg 500w, https://coolshell.cn/wp-content/uploads/2011/04/4_populated_spinner-300x213.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p>恭喜你！你已经成功关联了你的界面和代码。这是任何软件开发过程中一个非常重要的方面。正如你所看见的，Android将这一步简化的非常容易，但是功能有是非常的NB。使用游标和适配器，你可以将数据源（丛简单的字符串数组到复杂的数据库查询）绑定到任何类型的视图：spinner或列表，设置是类似iTunes cover-flow gallery!</p>
+<p>虽然现在已经可以开始泡茶了，但是我们工作还远没有结束。当你从Spinner选择了不同的茶，这个选择却不会发生任何作用。我们需要根据用户所选茶叶的种类取更新我们的泡茶时间。</p>
+<h4>读取选中茶叶数据并更新泡茶时间</h4>
+<p>为了能读取用户从数据库中选择茶叶的数据，我们必须增加一个针对此事件的监听器。类似于处理按钮点击事件的OnClickListener监听器一样，我们将实现一个OnItemSelectedListener。当用户从视图中做出一个选择的事件将触发这个监听器，例如从我们的Spinner。</p>
+<p>在BrewClockActivity中增加需要实现的接口OnItemSelectedListener。并增加其响应的处理方法onItemSelected()和onNothingSelected()：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+public class BrewClockActivity extends Activity implements OnClickListener, OnItemSelectedListener {
+  // …
+  public void onItemSelected(AdapterView&lt;?&gt; spinner, View view, int position, long id) {
+    if(spinner == teaSpinner) {
+      // Update the brew time with the selected tea’s brewtime
+      Cursor cursor = (Cursor) spinner.getSelectedItem();
+      setBrewTime(cursor.getInt(2));
+    }
+  }
+
+  public void onNothingSelected(AdapterView&lt;?&gt; adapterView) {
+    // Do nothing
+  }
+}
+
+</pre>
+<p>在这里我们要检查是触发的spinner此事件是不是BrewClock的teaSpinner。如果是，我们将提取代表选中记录的游标对象。这些都是由关联teaData和Spinner的SimpleCursorAdapter来提供我们完成的。Android知道哪个查询产生的Spinner数据，也知道用户选择的哪个数据。Android使用游标来返回数据库的一行记录，也代表了用户所选择的茶叶数据。</p>
+<p>Cursor的getInt()方法带了一个我们想提取的列的下标为参数。在我们的teaData.all()方法中创建游标的时候，我们读取的列是_ID,NAME和BREW_TIME。假设我们在teaSpinner中选择的是Jasmine Tea，那么将返回我们所选数据所对应的数据库记录。</p>
+<p>然后我们再通过传递参数2来选择此记录的第二列的整型值。这个值提供给setBrewTime()方法。这个方法用于更新界面上的泡茶时间。</p>
+<p>最后，我们需要告诉teaSpinner BrewClockActivity正在监听OnItemSelected事件。在BrewClockActivity的onCreate方法中增加下面的代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+public void onCreate() {
+  // …
+  teaSpinner.setOnItemSelectedListener(this);
+}
+</pre>
+<p>大功告成！再次运行你的程序，并从Spinner选择不同的茶叶。每次你所选的茶叶它所对应的泡茶时间都回显示对应的界面上。我们余下的代码中已经可以处理从当前时间开始递减计数。所以在有预先设置的茶叶种类下，我们已经可以完成我们所想要的功能。</p>
+<p>你当然可以，回到之前的代码中去增加一些茶叶种类你满足你的口味。但是如果你发布BrewClock程序到Android Market，每当有人向增加新的茶叶数据到数据库中，我就需要去手动的取更新数据中的内容并重新发布它；这样所有的人就必须去更新它，并且所有的人都有一个同样的列表。这听起来非常的不灵活，因此我们还有很多的工作需要完成！</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/5_default_teas.jpg" alt="" title="3_blank_spinner"  class="aligncenter size-full wp-image-4364"/></p>
+<p>如果用户自己有方法新增茶叶种类到数据库里面，将会非常的不错的做法。因此我们将在下一章继续。。。</p>
+<h3>Activity 介绍</h3>
+<p>和你应用程序中每个屏幕关联的代码就是Activity。每次当你从一屏切换到另外一屏，Android就会创建一个新的Activity。在真实世界中，虽然一个应用程序经常由多个屏幕/Activity构成，Andriod却将每个屏幕看作独立的个体。多个Activity工作在一起形成一种关联的体验，这是因为Android让你非常容易地在屏幕/Activity之间传递数据。</p>
+<p>在本节最后，你将为你的应用程序新增一个新的Activity（AddTeaActivity）并将它注册到Android系统中。你还需要从最初的BrewClockActivity传递数据到新的Activity中。</p>
+<p>首先，我们需要给用户一种方式切换到新的Activity上。我们将使用选项菜单来完成之一步。</p>
+<h4>选项菜单</h4>
+<p>当用户他们的设备上的“Menu”按键时，选项菜单以弹出菜单的形式出现。Android负责菜单的自动创建和显示；你只需要告诉Android，菜单显示什么内容和当用户点击菜单时该做什么就行。</p>
+<p>然而,最好不要在代码中硬编码菜单的标题，我们可以使用Android的字符串资源。字符串资源是一个独立的文件，在这个文件中你可以维护所有用于用户阅读的字符串和标签资源，并可以在代码调用它们。这就意味着当你在未来需要修改字符串时，你只要修改这一处地方即可。.</p>
+<p>在project explorer中导航到“res/values”下，你将会看到string.xml文件已经存在。这个是你再创建新项目的时候由Eclipse创建的，这文件存放着在整个应用程序我们将要使用的字符串。</p>
+<p>双击打开<em>strings.xml</em> ,通过窗口底部的选项页切换到XML 视图。</p>
+<p>在&lt;resources&gt;…&lt;/resources&gt; 元素中增加下面的内容:</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+
+&lt;!-- res/values/strings.xml --&gt;
+  &lt;resources&gt;
+    &lt;!-- … --&gt;
+    &lt;string name=&quot;add_tea_label&quot;&gt;Add Tea&lt;/string&gt;
+  &lt;/resources&gt;
+
+
+</pre>
+<p>我们在这里定义了一个字符串，add_tea_label和它关联的文本，我们可以在整个程序代码中通过add_tea_label来使用其关联的文本。如果标签因为某个原因需要修改，我们只需要在这个文件修改这一个地方就能完成整个程序的修改。</p>
+<p>下一步，让我们创建一个新文件完成选项菜单的定义，如果字符串和布局一样，菜单也使用XML来定义。因此我们将在Eclipse中川建一个新的XML文件：</p>
+<p>通过选择File → New → Other, 并选择“Android XML File.”在Eclipse中创建一个新的XML文件。</p>
+<p>选择资源的类型为 “Menu”，保存文件名为main.xml。Eclipse将为你自动的创建一个目录<em>res/menu</em>, 来存放你的菜单文件。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/7_new_menu_xml.jpg"></img></p>
+<p>打开<em>res/menus/main.xml</em> 文件, 通过窗口底部的“main.xml”选项页来切换到XML视图。</p>
+<p>增加菜单项， add_tea。</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/values/strings.xml --&gt;
+  &lt;resources&gt;
+    &lt;!-- … --&gt;
+    &lt;string name=&quot;add_tea_label&quot;&gt;Add Tea&lt;/string&gt;
+  &lt;/resources&gt;
+</pre>
+<p>注意android:title 属性被设置为@string/add_tea_label。这告诉Android在我们的strings.xml文件中查找add_tea_label并返回相关联的标签内容。在本列中我们的菜单项的标签时“Add Tea”。</p>
+<p>下一步，我们将告诉我们的Activity，当用户点击设备上的“memu”按键时来显示这个选项菜单。</p>
+<p>返回<em>BrewClockActivity.java</em>代码, 重载onCreateOptionsMenu 方法,这个方法告诉Android 当用户点击“Menu”按键时，装载我们的菜单：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+  MenuInflater inflater = getMenuInflater();
+  inflater.inflate(R.menu.main, menu);
+
+  return true;
+}
+
+</pre>
+<p>当用户点击他设备上的“Menu”按键时，Android将调用onCreateOptionsMenu。在这个方法中，我们创建了一个MenuInflater, 这个对象将从你的应用程序包中装载你的菜单资源。就如同按钮和文本域组成你的应用程序布局一样，main.xml资源也是通过全局对象R来生效的，因此我们将此对象提交给MenuInflater对象。</p>
+<p>为了测试菜单，保存并在模拟器中并运行应用程序。当程序运行起来使，点击“Menu”按键，你将会看到一个弹出式的菜单显示了一个“Add Tea”选项。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/8_add_teas_options_menu.jpg"></img></p>
+<p>如果你点击“Add Tea”选项，Android自动地检测到点击并关闭菜单。在后台，Android将会提醒应用程序选项已经被点击。</p>
+<h4>处理菜单点击</h4>
+<p>当用户点击 “Add Tea” 菜单选项，我们想要显示一个新的Activity以便我们能进入增加新茶叶种类的界面。通过选择File → New → Class来创建一个的Activiy。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/9_new_activity_settings.jpg"></img></p>
+<p>将新类命名为 AddTeaActivity,并确保它继承于android.app.Activity类。这个类也放在com.example.brewclock包中:</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+package com.example.brewclock;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class AddTeaActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+}
+
+</pre>
+<p>上面样例中的空白Activity将不会完成任何工作。但是通过它，我们已经可以完成选项菜单的功能。</p>
+<p>在BrewClockActivity增加一个重载方法onOptionsItemSelected 。当用户点击菜单项时，这个方法被Android调用。 (注意点击的MenuItem为它的接收参数：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+  switch(item.getItemId()) {
+    case R.id.add_tea:
+      Intent intent = new Intent(this, AddTeaActivity.class);
+      startActivity(intent);
+      return true;
+
+    default:
+      return super.onOptionsItemSelected(item);
+  }
+}
+
+
+</pre>
+<p>通过上面的代码，我们告诉Android，当“Add Tea”被点击的时候，我们将要创建一个的Activity；在本教程中，就是AddTeaActivity。然而，不要直接创建这个类的实例，注意我们使用了Intent。Intent有着Android框架的强大特性；他们将Activity绑定在一起来组成应用程序，并允许在他们之间相互传递数据。</p>
+<p>Intent的优点甚至让你的应用程序可以使用用户安装的其他的应用程序。例如，当用户要从图库里面显示一张图片，Android自动地给显一个对话框来让用户选择应用程序来显示图片。任何注册为可以处理图片显示的应用程序都会出现在这个对话框的列表中。</p>
+<p>Intent功能强大而复杂的主体, 因此它值得你从官方的文档<a href="http://developer.android.com/guide/topics/intents/intents-filters.html">official Android SDK documentation</a>中仔细研究。</p>
+<p>让我们运行我们的应用程序，以测试我们的“Add Tea”屏幕。</p>
+<p>运行你的项目，按下Menu按键，并点击 “Add Tea.”。</p>
+<p>不如你预期的，你并没有看到 “Add Tea” Activity，出现在你面前的是一个Android开发者经常看到的对话框：</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/10_crash.jpg"></img></p>
+<p>虽然我们创建了一个Intent并告诉Android启动我们的AddTeaActivity Activity, 由于我们没有将这个Activity注册到Android系统中，我们的应用程序最终还是crash掉了。系统不知道从哪里去找到我们试图运行的Activity（应该还记得Intent可以启动安装在设备上的任何Activity吧）。让我们在应用程序的mainfest文件来注册这些Acitivity。</p>
+<p>打开应用的manifest文件，在Eclipse中的AndroidManifest.xml。通过窗口底部的“AndroidManifest.xml”选项页切换到xml视图</p>
+<p>应用程序的mainfest文件是保存你应用程序全局设置和信息的地方。你将会看见里面已经有一个.BrewClockActivity 的Activity声明，并且这个Activity在程序运行的时候启动。</p>
+<p>在&lt;application&gt;中, 增加一个 &lt;activity&gt; 节点，描述为“Add Tea”的 Activity. 使用我们早先在strings.xml声明的 add_tea_label字符串作为这个Activity的标题：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- AndroidManifest.xml --&gt;
+&lt;application …&gt;
+  …
+  &lt;activity android:name=&quot;.AddTeaActivity&quot; android:label=&quot;@string/add_tea_label&quot; /&gt;
+&lt;/application&gt;
+</pre>
+<p>在你再次运行BrewClock保存这个manifest文件。这一次，当你打开菜单并点击“Add Tea,”时Android将会启动AddTeaActivity。按下back按键返回主屏幕。</p>
+<p>完成了Activity的关联，下一步我们将要开发一个增加新茶的界面！</p>
+<h3>开发茶叶编辑器界面</h3>
+<p>开发一个增加茶叶界面和上一个教程中开发的BrewClock主界面是非常相似的。首先要创建一个布局文件，然后在按照下面的讲解添加适合的XML内容。</p>
+<p>和主界面开发所有不同的是，你可以使用Android最近改进的Eclipse布局编辑器来开界面。创建一个新的XML文件来定义你的布局。从菜单File → New然后选择 “Android XML File,” 选择 “Layout”类型。并将文件命令为<em>add_tea.xml</em>。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/11_new_layout_xml.jpg"></img></p>
+<p>用下面的布局内容替换<em>add_tea.xml</em> 文件的内容：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/layouts/add_tea.xml --&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout
+  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  android:layout_width=&quot;fill_parent&quot;
+  android:layout_height=&quot;fill_parent&quot;
+  android:orientation=&quot;vertical&quot;
+  android:padding=&quot;10dip&quot;&gt;
+
+  &lt;TextView
+    android:text=&quot;@string/tea_name_label&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot; /&gt;
+
+  &lt;EditText
+    android:id=&quot;@+id/tea_name&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;/&gt;
+
+  &lt;TextView
+    android:text=&quot;@string/brew_time_label&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;/&gt;
+
+  &lt;SeekBar
+    android:id=&quot;@+id/brew_time_seekbar&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:progress=&quot;2&quot;
+    android:max=&quot;9&quot; /&gt;
+
+  &lt;TextView
+    android:id=&quot;@+id/brew_time_value&quot;
+    android:text=&quot;3 m&quot;
+    android:textSize=&quot;20dip&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:gravity=&quot;center_horizontal&quot; /&gt;
+&lt;/LinearLayout&gt;
+
+</pre>
+<p>为了这个界面上使用的字符串，我们同样也需要在<em>strings.xml</em> 中增加一些新的内容：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/values/strings.xml --&gt;
+&lt;resources&gt;
+  &lt;!-- … --&gt;
+  &lt;string name=&quot;tea_name_label&quot;&gt;Tea Name&lt;/string&gt;
+
+  &lt;string name=&quot;brew_time_label&quot;&gt;Brew Time&lt;/string&gt;
+&lt;/resources&gt;
+
+</pre>
+<p>在这个布局中，我们加了一个新的界面控件类型，SeekBar。这个控件可以让用户通过从左向右拖拉一个指示器thumb，非常容易的指定泡茶时间。这个值得范围从0到android:max。</p>
+<p>在这个界面中，我们使用刻度是0到9，意思是从1分钟到10分钟（泡0分钟茶等于是浪费好茶）。第一，我们需要确保AddTeaActivity能正确地加载我们的界面:</p>
+<p>在Activity的onCreate()方法中增加下面的代码用于加载和显示add_tea布局文件：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  setContentView(R.layout.add_tea);
+}
+
+</pre>
+<p>现在通过运行项目来测试你的应用程序，按下“Menu”按键，并点击“Add Tea”菜单。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/12_add_tea_interface.jpg"/></p>
+<p>你将从“Add Tea”屏幕上看到你的新界面。你可以在文本域中输入文字和从左到右拖动SeekBar。但是由于我们没有增加相关代码，这个界面并没有实现什么具体的功能。</p>
+<p>在AddTeaActivity中增加下面这些属性，并关联到我们界面上元素：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public class AddTeaActivity {
+  // …
+
+  /** Properties **/
+  protected EditText teaName;
+  protected SeekBar brewTimeSeekBar;
+  protected TextView brewTimeLabel;
+
+  // …
+
+</pre>
+<p>下一步,关联属性和你的界面：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public void onCreate(Bundle savedInstanceState) {
+  // …
+  // Connect interface elements to properties
+  teaName = (EditText) findViewById(R.id.tea_name);
+  brewTimeSeekBar = (SeekBar) findViewById(R.id.brew_time_seekbar);
+  brewTimeLabel = (TextView) findViewById(R.id.brew_time_value);
+}
+
+</pre>
+<p>界面非常的简单，我们只要增加相应SeekBar 改变事件的监听器。当用户从左到右移动SeekBar指示器时，我们的应用程序需要读出新值并更新SeekBar之下泡茶时间标签的内容。我们将使用一个监听器来检测SeekBar何时改变的：</p>
+<p>在AddTeaActivity类声明中增加实现 onSeekBarChangedListener接口，并添加所必要的方法：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public class AddTeaActivity
+extends Activity
+implements OnSeekBarChangeListener {
+  // …
+
+  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    // TODO Detect change in progress
+  }
+
+  public void onStartTrackingTouch(SeekBar seekBar) {}
+
+  public void onStopTrackingTouch(SeekBar seekBar) {}
+}
+
+</pre>
+<p>我们唯一感兴趣的事件时onProgressChanged，因此我们需要在这个方法内增加代码更新泡茶时间标签的内容为SeekBar选中的值。之前我们说过SeekBar的刻度是0到9，因此我们需要将SeekBar的加1的值来显示给用户才有意义。</p>
+<p>在<em>AddTeaActivity.java</em>代码中增加如下的onProgressChanged()代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+  if(seekBar == brewTimeSeekBar) {
+    // Update the brew time label with the chosen value.
+    brewTimeLabel.setText((progress + 1) + &quot; m&quot;);
+  }
+}
+
+</pre>
+<p>在AddTeaActivity的onCreate方法中设置监听器：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public void onCreate(Bundle savedInstanceState) {
+  // …
+
+  // Setup Listeners
+  brewTimeSeekBar.setOnSeekBarChangeListener(this);
+}
+
+</pre>
+<p>现在运行你的程序，并拖动SeekBar,泡茶时间标签的内容将会同步更新为正确地值：</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/13_seekbar.jpg"></img></p>
+<h4>保存新增茶叶</h4>
+<p>完成了增加茶叶界面之后,剩下的工作就是让用户可以将他们新增的茶叶保存到数据库中.我们将会对界面上输入数据增加一点校验,以避免茶叶名为空的数据被保存到数据库中！</p>
+<p>在编辑器中打开<em>strings.xml</em> 增加一些我们在应用程序将要使用到的新标签。</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/values/strings.xml --&gt;
+&lt;string name=&quot;save_tea_label&quot;&gt;Save Tea&lt;/string&gt;
+&lt;string name=&quot;invalid_tea_title&quot;&gt;Tea could not be saved.&lt;/string&gt;
+
+&lt;string name=&quot;invalid_tea_no_name&quot;&gt;Enter a name for your tea.&lt;/string&gt;
+
+
+</pre>
+<p>如同前面的那样，我们需要为AddTeaActivity创建一个新的选项菜单来让用户可以执行保存茶叶的指令：</p>
+<p>在<em>res/menus</em> 目录，通过选择File → New 并选 Other → Android XML 文件来创建一个新的 <em>add_tea.xml</em> XML文件, 记住资源类型为“Menu”。</p>
+<p>增加保存茶叶的菜单项：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+
+&lt;!-- res/menus/add_tea.xml --&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+  &lt;item android:title=&quot;@string/save_tea_label&quot; android:id=&quot;@+id/save_tea&quot; /&gt;
+&lt;/menu&gt;
+
+
+</pre>
+<p>返回 AddTeaActivity 代码中,类似你在BrewClockActivity中一样，增加重载方法onCreateOptionsMenu 和onOptionsItemSelected。唯一的区别是这次你提供的MenuInflater的资源文件名是<em>add_tea.xml</em> ：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+  MenuInflater inflater = getMenuInflater();
+  inflater.inflate(R.menu.add_tea, menu);
+
+  return true;
+}
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+  switch(item.getItemId()) {
+    case R.id.save_tea:
+      saveTea();
+
+    default:
+      return super.onOptionsItemSelected(item);
+  }
+}
+
+</pre>
+<p>下一步, 增加新方法, saveTea(), 来保存茶叶信息。saveTea 首先从界面上读取茶叶的名称和用户所选的泡茶时间，如果这些输入数据都能通过验证，就将这些数据保存到数据库中：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public boolean saveTea() {
+  // Read values from the interface
+  String teaNameText = teaName.getText().toString();
+  int brewTimeValue = brewTimeSeekBar.getProgress() + 1;
+
+  // Validate a name has been entered for the tea
+  if(teaNameText.length() &lt; 2) {
+    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+    dialog.setTitle(R.string.invalid_tea_title);
+    dialog.setMessage(R.string.invalid_tea_no_name);
+    dialog.show();
+
+    return false;
+  }
+
+  // The tea is valid, so connect to the tea database and insert the tea
+  TeaData teaData = new TeaData(this);
+  teaData.insert(teaNameText, brewTimeValue);
+  teaData.close();
+
+  return true;
+}
+
+
+</pre>
+<p>大段的代码，让我们过一遍这段代码的逻辑。</p>
+<p>首先，我们从文本框中读取茶叶名称，从SeekBar读取泡茶时间（记着读的时间要加1以保证时间在1到10分钟之内）。下一步，我们验证茶叶名大于等于2个字符（这是非常简单的验证，如果想做更复杂的验证，那么就使用正则表达式吧）。</p>
+<p>如果茶叶名称非法，我们需要让用户知道。我们使用Android提供的工具类，AlertDialog.Biulder类，这个类给我们提供了一个快捷创建和显示模态窗口的方法。在设置完标题和错误信息后，通过调用show方法来显示对话框。这个对话框是模态的modal，因此用户只有按下back按键，这个对话框才会关闭。在这时，我们不想保存任何数据，所以我们的方法返回了false。</p>
+<p>如果茶名称合法，我们通过TeaData类创建一个到茶叶数据库的临时连接。这里又一次的显示出把数据库访问抽象成一个独立文件的好处：你可以从任何地方完成对数据库（译者注：其实应该是对TeaData 类）的访问。</p>
+<p>当调用完teaData.insert() 来增加记录到数据库后，我们不再需要数据库连接，因此在我们返回成功前，我们关闭了连接。</p>
+<p>在模拟器中运行你的程序，按下“Menu”按键，点击屏幕上的“Add Tea”。试图通过在此按下“Menu”和点击屏幕的 “Save Tea.”来保存空茶叶名的茶叶数据。由于是没有茶叶名，一条错误消息将出现在你的面前：</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/14_invalid_tea.jpg"/></p>
+<p>下一步，试着键入你的茶叶名，并选择合适的泡茶时间，再次从菜单选择 “Save Tea” 。这一次，你将不在看到错误的消息。事实上，你什么都看消息不到。</p>
+<h4>改进用户体验</h4>
+<p>这样做不是一个很好的用户体验，用户不能知道他的茶叶是否已经成功地保存了。事实上，用户只有从“Add Tea”界面返回，去茶叶列表中查看这一个办法来检查他的是否成功的被保存。这样的做法不好，让用户知道他们的茶叶数据被成功地保存会是更好的一种方式。在茶叶数据被成功保存后，让我们在屏幕上显示一条成功信息。</p>
+<p>我们要一条被动的非模态化的信息，因此AlertDialog这次就不能满足我们的需求了。下面我们将要使用另外一个Android的非常流行的特性，Toast。</p>
+<p>Toast 在接近屏幕的下方显示一条消息，但是并不会终止用户的操作。Toast经常用于做非重要的的提醒和状态更新。.</p>
+<p>在<em>strings.xml</em> 资源文件中新增一个字符串。注意字符串中的%s。我们在下一步中将保存的茶叶名字结合到这个字符串来显示信息。</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/values/strings.xml --&gt;
+&lt;string name=&quot;save_tea_success&quot;&gt;%s tea has been saved.&lt;/string&gt;
+</pre>
+<p>注意，在onOptionsItemSelected 代码中进行修改，当saveTea返回真时，创建并显示一条弹出式的Toast。第二参数getString()用来连接茶叶名称到Toast信息中。最后，我们需要将茶叶名称清楚，以便用户可以快速增加更多的新茶。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+// …
+switch(item.getItemId()) {
+ case R.id.save_tea:
+   if(saveTea()) {
+     Toast.makeText(this, getString(R.string.save_tea_success, teaName.getText().toString()), Toast.LENGTH_SHORT).show();
+     teaName.setText(&quot;&quot;);
+   }
+// …
+</pre>
+<p>现在，重新运行应用程序，并增加和保存一些新茶叶。你将会看到弹出式的Toast并让你知道你的茶叶信息已经被保存成功。getString()方法用于连接存在XML文件中的String和茶叶名称，并将%s替换成茶叶的名称。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/16_valid_save.jpg"></img></p>
+<p>按下“Back”按键，返回应用程序的主屏幕，点击茶叶spinner。你新增的在数据库中的茶叶已近可以显示在spinner的选项中！</p>
+<h3>用户首选项</h3>
+<p>现在BrewClock已经完成了所有的功能。用户可以增加他们喜爱的茶叶和各自不同的泡茶时间到数据库中，并且他们可以快速的从选择他们并开始泡上一杯新茶。任何新增的茶叶信息都被保存在数据库中，因此，即使你退出你的程序，这些茶叶信息在你下次启动程序时仍然可以从spinner列表中找到。</p>
+<p>当你重启BrewClock的时候，有一件事你必须注意，就是泡茶计数被清为了0。这使得跟踪我们每天喝了多少茶（一条重要的数据）变得困难。作为最后一个练习，让我们将泡茶计数保存在我们设备上。</p>
+<p>我们将不通过增加茶叶数据库的表来完成这个功能，我们将使用Android的“共享首选项Shared Preferences”，一个Android提供给你应用程序用于存储简单数据的数据库（字符串，数字，等等）。例如，优秀的最高分和用户首选项等（译者注：非常类似Windows下的注册表）。</p>
+<p>我们首先在<em>BrewClockActivity.java</em> 中增加一堆常量。这些常量用于存放你的共享首选项的名称。我们将使用键的名称来访问泡茶计数。Android负责保存和持久化我们的共享首选项文件。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+
+// src/com/example/brewclock/BrewClockActivity.java
+
+protected static final String SHARED_PREFS_NAME = &quot;brew_count_preferences&quot;;
+
+protected static final String BREW_COUNT_SHARED_PREF = &quot;brew_count&quot;;
+
+</pre>
+<p>下一步，为了我们能在用户首选项中读写泡茶计数，而不是直接的依赖于代码中的初始值，我们将在代码中做一些修改。在BrewClockActivity 的 onCreate 方法中我们将就该setBrewCount附件的代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+public void onCreate() {
+  // … 
+
+  // Set the initial brew values
+  SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE);
+  brewCount = sharedPreferences.getInt(BREW_COUNT_SHARED_PREF, 0);
+  setBrewCount(brewCount);
+
+  // …
+}
+
+</pre>
+<p>这里我们将以使用SharedPreference来获取应用程序的共享首选项的实例，并希望得到brew_count键值的值（通过我们之前定义的BREW_COUNT_SHARED_PREF常量来标示）。如果值能获取，这个值将返回给应用程序，如果没有我们使用getInt的第二参数作为默认值返回（在教程中为0）。</p>
+<p>现在我们取得存储的泡茶计数值，我们需要确保每当泡茶计数更新的时候，这个值能写回到共享首选项中。</p>
+<p>BrewClockActivity的setBrewCount中增加下面的代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+ public void setBrewCount(int count) {
+   brewCount = count;
+   brewCountLabel.setText(String.valueOf(brewCount));
+
+   // Update the brewCount and write the value to the shared preferences.
+   SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE).edit();
+   editor.putInt(BREW_COUNT_SHARED_PREF, brewCount);
+   editor.commit();
+ }
+
+
+</pre>
+<p>共享首选项不能直接地保存。我们需要使用Android的SharedPreferences.Editor类。调用SharedPreferences的edit方法，返回一个editor实例，这个实例用来保存我们的首选项值。我们只要调用editor实例的commit方法就可以将值保存到共享首选项中。</p>
+<p>我们应用程序的所有代码都已完成，现在让我们测试一下我们的程序！</p>
+<p>在模拟器中运行应用程序，定一个泡茶时间（这真是一个良好的借口去泡一杯你自己爱喝的茶哦）并退出应用程序，试着运行模拟器上的安装的其他应用程序确保BrewClock被终止。记住，除非这个应用程序已经不在内存中，否则Android不会终止一个Activity。</p>
+<p>当你下一次运行你的应用程序时，你将看见之前的泡茶计数已经被维护了。</p>
+<h3>总结</h3>
+<p>恭喜!你已经完成了这个应用的程序的所有开发工作,并使用了Android　SDK中的数个核心组件。在本教程中，你从中学到了：</p>
+<ul>
+<li>创建一个简单的SQLite数据库，并保存你的数据；</li>
+<li>使用Android的数据库类和编写客户化类抽象数据访问；</li>
+<li>在你的应用程序中增加选项菜单。；</li>
+<li>在你应用程序中创建并注册新Activity并使用Intent将他们绑定成一组界面；</li>
+<li>使用内建的“共享首选项”数据库来保存和提取简单用户数据。</li>
+</ul>
+<p>无论你要开发神马样类型的应用程序，数据存储和持久化是一个重要的主题。从工具程序和业务工具到3-D游戏，几乎每个应用程序都需要使用到Android提供的数据工具类。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/17_brew_up.jpg"/></p>
+<h4>Activities</h4>
+<p>虽然BrewClock现在在某方面来说已经是个功能完善的应用程序了。但是我们仍然可以在增加一些功能以改进用户体验。例如你可以使用下面的方法来改进你的应用程序：</p>
+<ul>
+<li>在保存茶叶的时候检查是否存在茶叶名称重名；</li>
+<li>增加一个菜单选项以将泡茶统计清0；</li>
+<li>在共享首选项中保存最后所选的泡茶名称和时间以便程序重启时有一个有意义的默认值；</li>
+<li>增加用户从茶叶数据库中删除记录的选项。</li>
+</ul>
+<p>在<a href="http://github.com/cblunt/BrewClock">GitHub库</a> 可以获取到所有的源代码，库中的未来的分支包含着Activitiy的解决方案 你可以通过切换你的本地代码拷贝到tutorial_2分支，下载这个开发教程源代码：<br />
+[code]</p>
+<p>$ git clone git://github.com/cblunt/BrewClock.git</p>
+<p>$ cd BrewClock</p>
+<p>$ git checkout tutorial_2</p>
+<p>[/code]<br />
+我希望你喜欢这个教程，希望这个教程能帮助你设计和开发更棒的Android应用程序。请通过在下面的回复让我知道你的建议和意见，当然我也欢迎你将你建议写在email中并发送给我。</p>
+<p><em>感谢<a href="http://blog.anselmbradford.com/">Anselm</a>的建议和反馈！ </em></p>
+<p><em>（全文完）</em><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/04/install-150x150.gif" alt="Eclipse开发Android应用程序入门" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4270.html" class="wp_rp_title">Eclipse开发Android应用程序入门</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="食客还是大厨" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_title">食客还是大厨</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4334.html">Eclipse开发Android应用程序入门:重装上阵</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4334.html/feed</wfw:commentRss>
+			<slash:comments>21</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Eclipse开发Android应用程序入门</title>
+		<link>https://coolshell.cn/articles/4270.html</link>
+					<comments>https://coolshell.cn/articles/4270.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Thu, 07 Apr 2011 08:40:36 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4270</guid>
+
+					<description><![CDATA[<p>By Chris Blunt 翻译：赵锟 原文出处：http://www.smashingmagazine.com/2010/10/25/get-started...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4270.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4270.html">Eclipse开发Android应用程序入门</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>By <a title="Posts by Chris Blunt" href="http://www.smashingmagazine.com/author/chris-blunt/">Chris Blunt</a></p>
+<p><strong>翻译：赵锟</strong><br />
+原文出处：<a href="http://www.smashingmagazine.com/2010/10/25/get-started-developing-for-android-with-eclipse/">http://www.smashingmagazine.com/2010/10/25/get-started-developing-for-android-with-eclipse/</a></p>
+<p>如今的移动设备应用程序开发充满着让人振奋的东西。功能强大的硬件支持，平板电脑，多样的软件平台（塞班 OS，iOS，WebOS，Windows Phone 7&#8230;)，移动设备开发者前景充满了机会和挑战。</p>
+<p>当你想要开始开发你的移动设备程序时，如此多的选择可能让你产生困扰。究竟应该选择神马平台？我应该学习神马语言？为你计划的项目选择神马工具？在本教程中，你将学会如何在Google公司的开源移动设备操作系统Android下开发应用程序。</p>
+<h3>为神马选Android</h3>
+<p>Android是一个基于Linux内核的开源平台， 并且被安装在来自于不同厂商的上千种设备中。Android将各种移动设备的硬件如 电子罗盘，摄像头，GPS，方向感应，等等暴露给你的应用程序。<br />
+<span id="more-4270"></span><br />
+Android的免费开发工具可以让你以0成本开始编写你的软件。当你想向世界展示你的应用程序的时候，你可以将你的软件发布到Google的 Android 市场。向Andriod Market 发布程序只一次性的收取注册费用（25元），并且不像苹果的App Store ，对每一次的提交都要做检查，除非你的程序明显地违法，在经过一个快速检查的流程后，才能让你的程序提供给客户下载和购买。</p>
+<p>下面是Android对于开发者的优点：</p>
+<ul>
+<li>Android的SDK可以在Windows,Mac和Linux上运行，因此你不需要为了开发环境支付额外的新硬件投入。（译者注：我曾近在Win7 64x + VMWare上成功的安装Mac Snow leopard + XCode的开发环境，对于爱用盗版的人来说，这点MS优势不是很大啊）</li>
+<li>构建于JAVA上的SDK。如果你熟悉JAVA语言，你就是事半功倍了。（译者注：这个酷壳有篇文章讨论过，大家可以参看：<a href="https://coolshell.cn" target="_blank">https://coolshell.cn</a>）</li>
+<li>你只要在Android Market上发布应用程序，你将有潜在的成千上万的用户。而且你不一定非要把程序发布在Android Market上，你还可以在你的博客上发布。而且有传言，Amazon已近在最近准备搭建他们自己的Android 应用程序商店了。</li>
+<li>除了了技术性的<a href="http://developer.android.com/sdk/index.html">SDK 文档</a>外,还可以找到其他更多的使用者和开发者的资源。</li>
+</ul>
+<p>闲话少说——下面让我们进入正题，开始开发我们的Android应用程序。</p>
+<h3>安装Eclipse和Android SDK</h3>
+<p>Android应用程序的推荐开发环境是带有Android开发包插件(Android Devlopment Toolkit (ADT))的Eclipse。我在这里简要说明一下安装流程。如果你需要更多的细节，Google的<a href="http://developer.android.com/sdk/">开发人员网页</a>中详尽地解释了具体的安装配置过程</p>
+<ul>
+<li>为你的平台下载<a href="http://developer.android.com/">Android      SDK</a>（Windows ， Mac OS X 或者 Linux）。</li>
+<li>在你的硬盘上解压下载文件 (在Linux, 我使用 /opt/local/).</li>
+<li>如果你没有安装Eclipse，下载并安装<a href="http://eclipse.org/downloads/packages/eclipse-ide-java-developers/galileosr2">Eclipse JAVA 集成开发环境</a>包。 用于编程的话,      Google推荐使用Eclipse 3.5 (Galileo).</li>
+<li>运行Eclipse 并选择<em>Help-&gt;Install New      Software</em>.</li>
+<li>在Available Software窗口中点击Add按钮。</li>
+<li>进入 Android Development Tools 的<em>Name</em>输入框, 在Location      输入框输入https://dl-ssl.google.com/android/eclipse/</li>
+<li>检查可用软件中有Developer Tools并点击OK按钮。这将安装Android      Development Tools 和DDMS, Android的调试工具。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4306" title="install" src="https://coolshell.cn/wp-content/uploads/2011/04/install.gif" alt="" width="500" height="519" /></p>
+<ul>
+<li>点击Next和Finish按钮以完成安装，安装完成后，你需要重启你的Eclipse一次。</li>
+<li>在Eclipse重启后，选择Window-&gt;Preference 后你可以在分类列表中看到Android这一项了。</li>
+<li>现在需要告诉Eclipse，你的Android SDK安装在什么地方。点击Android项后浏览选择你解压后的Android SDK所在的路径。例如/opt/local/android-sdk。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4303" title="eclipse_android_preferences" src="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_android_preferences.jpg" alt="" width="696" height="649" srcset="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_android_preferences.jpg 696w, https://coolshell.cn/wp-content/uploads/2011/04/eclipse_android_preferences-300x279.jpg 300w" sizes="(max-width: 696px) 100vw, 696px" /></p>
+<ul>
+<li>点击OK按钮，保存信息。</li>
+</ul>
+<h3>选择Android 平台</h3>
+<p>在你开始编写Android应用程序之前，你需要为你需要开发应用程序的Android设备下载SDK平台。每个平台都有可以安装在用户设备上的不同版本的SDK。对于Android1.5或以上版本，有两个可用的平台： <em>Android Open Source Project</em> 和 <em>Google</em>.</p>
+<p><em>Android Open Source Project</em> 平台是开源的，但是不包括Google公司的私有化扩展，比如Google Map。如果不选择使用Google的API，Google的地图功能就不会在你的应用程序中生效。除非你有特别的原因，否则我们推荐你选择Google平台，因为这样你可享受到Google的扩展类库提供的便利。</p>
+<ul>
+<li>选择<em>Window Android SDK and AVD Manager</em>.</li>
+<li>点击左栏中的<em>Available Packages</em> 并选择选择Respository中有效的Android SDK平台。</li>
+<li>你可以选择列表中所需要的平台，或全选下载所有有效的平台。当你选择完毕，单击<em>Install Selected </em>并完成安装。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4307" title="sdk" src="https://coolshell.cn/wp-content/uploads/2011/04/sdk.jpg" alt="" width="500" height="291" srcset="https://coolshell.cn/wp-content/uploads/2011/04/sdk.jpg 500w, https://coolshell.cn/wp-content/uploads/2011/04/sdk-300x174.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /><br />
+一旦成功的下载所有的平台后，你就可以准备开始开发Android应用程序了。</p>
+<h3>创建一个新的Android项目</h3>
+<p>Eclipse的新建项目向导能为你创建一个新的Android项目，并生成可以开始运行的文件和代码。通过向导生成代码，可以让你马上得到一个Android程序运行的直观映像并为你提供了一个帮助你快速入门的方法：</p>
+<ul>
+<li>选择 <em>File-&gt;New-&gt;Project…</em></li>
+<li>选择<em>Android Project</em></li>
+<li>在<em>New Project</em> 对话框, 键入如下的设置:</li>
+</ul>
+<p>[code]<br />
+Project Name: BrewClock<br />
+Build Target: Google Inc. 1.6 (Api Level 4)<br />
+Application Name: BrewClock<br />
+Package Name: com.example.brewclock<br />
+Create Activity: BrewClockActivity<br />
+Min SDK Version: 4<br />
+[/code]</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4304" title="eclipse_new_project_settings" src="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_new_project_settings.jpg" alt="" width="525" height="1061" srcset="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_new_project_settings.jpg 525w, https://coolshell.cn/wp-content/uploads/2011/04/eclipse_new_project_settings-148x300.jpg 148w, https://coolshell.cn/wp-content/uploads/2011/04/eclipse_new_project_settings-506x1024.jpg 506w" sizes="(max-width: 525px) 100vw, 525px" /></p>
+<p>在点击了完成按钮之后，Eclipse将为你创建一个新的可以运行的Android项目。注意，你通知了Eclipse生成了一个叫做BrewClockActivity的Activity。这个Activity的代码用于运行你的应用程序。生成的代码将在程序运行时非常简单地显示一条“Hello World”消息。</p>
+<h4>包</h4>
+<p>包名是你的应用程序标示。当你开始准备在Android Market上发布你的应用程序的时候，Android用这个标识符精确地记录你的应用程序的更新过程，因此让包名唯一是非常重要的。尽管我们在这里使用了com.example.brewclock这样的名字空间，对于真实的应用程序，你应该选择类似于com.你的公司名.你的应用程序名 这样的包名。</p>
+<h4>SDK 版本</h4>
+<p>Min SDK Version 是你的Android程序所能运行得最早版本号。对于每个新发布的Android，SDK会增加并修改一些方法。通过选择一个版本号，Android（Android Market）会知道你的应用程序能运行在等于或晚于指定版本的设备之上。</p>
+<h3>运行你的应用程序</h3>
+<p>现在让我们开始在Eclipse中运行我们的应用程序。由于是第一次运行，Eclipse将会询问你的项目类型：</p>
+<ul>
+<li>选择<em>Run-&gt;Run</em> 或 按下 <em>Ctrl+F11</em>.</li>
+<li>选择<em>Android Application</em> 并点击 <em>OK </em>按钮.</li>
+</ul>
+<p>Eclipse 将会在一个Android设备上运行一个应用程序。在这个时候，由于你没有任何Android设备，因此在运行时一定会返回一个失败，并且询问你是否要新建一个Android的虚拟设备。（AVD）<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4305" title="eclipse_no_avd" src="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_no_avd.jpg" alt="" width="534" height="172" srcset="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_no_avd.jpg 534w, https://coolshell.cn/wp-content/uploads/2011/04/eclipse_no_avd-300x96.jpg 300w" sizes="(max-width: 534px) 100vw, 534px" /></p>
+<h4>Android 虚拟设备</h4>
+<p>Android 虚拟设备 (AVD) 是一个模拟真实世界中Android设备的模拟器，例如移动电话或平板电脑。你可以在不买任何真实Android设备情况下，使用AVD测试你的应用。</p>
+<p>你可以创建任意多个你喜欢的AVD，每个可以建立在不同版本的Android平台之上。对于你创建的每个Android设备，你可以配置不同的硬件属性，比如是否具有物理键盘，是否支持GPS，摄像头的像素，等等。</p>
+<p>在你开始运行你的应用程序之前，你需要创建你的AVD，来运行指定的SDK平台（Google APIs 1.6）。</p>
+<p>现在让我开始:</p>
+<ul>
+<li>如果还没有开始运行你的应用程序，点击run（或按下 <em>Ctrl+F11</em>）。</li>
+<li>当目标设备弹出警告，点击<em>Yes</em> 以创建新的AVD。</li>
+<li>单击<em>Android SDK and AVD      Manager</em> 对话框内的<em>New</em> 按钮.</li>
+<li>为你的AVD键入如下的设置：</li>
+</ul>
+<p>[code]<br />
+Name: Android_1.6<br />
+Target: Google APIs (Google Inc.) &#8211; API Level 4<br />
+SD Card Size: 16 MiB<br />
+Skin Built In: Default (HVGA)<br />
+[/code]</p>
+<ul>
+<li>单击 <em>Create AVD</em> 让Android为你创建一个新虚拟设备。</li>
+<li>关闭the <em>Android SDK and AVD Manager</em> 对话框.</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4308" title="sdk_manager_new_avd" src="https://coolshell.cn/wp-content/uploads/2011/04/sdk_manager_new_avd.jpg" alt="" width="400" height="574" srcset="https://coolshell.cn/wp-content/uploads/2011/04/sdk_manager_new_avd.jpg 400w, https://coolshell.cn/wp-content/uploads/2011/04/sdk_manager_new_avd-209x300.jpg 209w" sizes="(max-width: 400px) 100vw, 400px" /></p>
+<h4>运行代码</h4>
+<p>再次运行你的应用程序（<em>Ctrl+F11</em>）。 Eclipse 将build 你的项目并运行一个新的AVD。记住，AVD模拟了一个完全的Android系统，因此你需要有耐心来等待这个缓慢的启动过程，就如同你重启真实的Android设备一样。一个好的做法是不要关闭你的AVD，直到你完成了你一天的工作。<br />
+当你的模拟器启动后，Eclipse自动地安装并运行你的应用程序。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4301" title="app_running-550-e1287474474253" src="https://coolshell.cn/wp-content/uploads/2011/04/app_running-550-e1287474474253.jpg" alt="" width="499" height="355" srcset="https://coolshell.cn/wp-content/uploads/2011/04/app_running-550-e1287474474253.jpg 499w, https://coolshell.cn/wp-content/uploads/2011/04/app_running-550-e1287474474253-300x213.jpg 300w" sizes="(max-width: 499px) 100vw, 499px" /></p>
+<h3>开发你第一个Android应用</h3>
+<p>生成的代码能良好的运行，但是你真正想要的是开发一个真实的应用程序。为此，我们首先果一个咸蛋的设计流程，并开始创建一个可以让你部署在Android设备上的应用。</p>
+<p>大部分的开发者（包括我自己）都喜欢每天一杯咖啡或茶。在下一节中，你将开发一个简单的泡茶计数器应用程序来记录用户泡了多少杯茶，并为泡每杯茶做一个定时器。</p>
+<p>你可以从<a href="http://github.com/cblunt/brewclock">GitHub</a>下载整个教程的源代码.</p>
+<h4>设计用户界面</h4>
+<p>在开发任何Android应用程序之前的第一步就是设计和开发用户界面。下面是一个我们这个应用程序的用户界面的一个概览。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4302" title="design_sketch" src="https://coolshell.cn/wp-content/uploads/2011/04/design_sketch.jpg" alt="" width="331" height="505" srcset="https://coolshell.cn/wp-content/uploads/2011/04/design_sketch.jpg 331w, https://coolshell.cn/wp-content/uploads/2011/04/design_sketch-196x300.jpg 196w" sizes="(max-width: 331px) 100vw, 331px" /></p>
+<p>用户将能通过+和-按钮设置一个泡茶的定时器。当单击开始按钮，定时器将开始按指定的时间递减。除非用户再次点击按钮以取消计时，否则当定时器为0的时候，累计的泡茶计数brew将增加1。</p>
+<h4>开发用户界面</h4>
+<p>Android 用户界面或布局<em>layouts</em>, 是通过XML文档来描述的，可以在项目的res/layouts目录下找到。在之前运行在模拟器上代码中，我们可以看到由eclipse自动生成的布局代码在res/layouts/main.xml 中。</p>
+<p>Eclipse有一个图形化的布局设计器，通过在屏幕上的拖拽控制来完成布局的设计，然而，我却发现直接写XML并使用图形布局来预览是更容易的方式。</p>
+<p>现在让我们对main.xml做一些工作以达到上图的效果：</p>
+<ul>
+<li>在Eclipse中通过双击PackageExplorer的res/layouts/main.xml 来打开xml。</li>
+<li>点击屏幕下方main.xml 来切换为xml视图。</li>
+</ul>
+<p>将main.xml中内容改为如下的内容：</p>
+<p>[code]<br />
+# /res/layouts/main.xml<br />
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;<br />
+&lt;LinearLayout<br />
+  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;<br />
+  android:orientation=&quot;vertical&quot;<br />
+  android:layout_width=&quot;fill_parent&quot;<br />
+  android:layout_height=&quot;fill_parent&quot;&gt;<br />
+  &lt;LinearLayout<br />
+    android:orientation=&quot;horizontal&quot;<br />
+    android:layout_width=&quot;fill_parent&quot;<br />
+    android:layout_height=&quot;wrap_content&quot;<br />
+    android:padding=&quot;10dip&quot;&gt;<br />
+    &lt;TextView<br />
+      android:layout_width=&quot;wrap_content&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:textSize=&quot;20dip&quot;<br />
+      android:text=&quot;Brews: &quot; /&gt;<br />
+    &lt;TextView<br />
+      android:layout_width=&quot;fill_parent&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:text=&quot;None&quot;<br />
+      android:gravity=&quot;right&quot;<br />
+      android:textSize=&quot;20dip&quot;<br />
+      android:id=&quot;@+id/brew_count_label&quot; /&gt;<br />
+  &lt;/LinearLayout&gt;<br />
+  &lt;LinearLayout<br />
+    android:orientation=&quot;horizontal&quot;<br />
+    android:layout_width=&quot;fill_parent&quot;<br />
+    android:layout_height=&quot;wrap_content&quot;<br />
+    android:layout_weight=&quot;1&quot;<br />
+    android:gravity=&quot;center&quot;<br />
+    android:padding=&quot;10dip&quot;&gt;<br />
+    &lt;Button<br />
+      android:id=&quot;@+id/brew_time_down&quot;<br />
+      android:layout_width=&quot;wrap_content&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:text=&quot;-&quot;<br />
+      android:textSize=&quot;40dip&quot; /&gt;<br />
+    &lt;TextView<br />
+      android:id=&quot;@+id/brew_time&quot;<br />
+      android:layout_width=&quot;wrap_content&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:text=&quot;0:00&quot;<br />
+      android:textSize=&quot;40dip&quot;<br />
+      android:padding=&quot;10dip&quot; /&gt;<br />
+    &lt;Button<br />
+      android:id=&quot;@+id/brew_time_up&quot;<br />
+      android:layout_width=&quot;wrap_content&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:text=&quot;+&quot;<br />
+      android:textSize=&quot;40dip&quot; /&gt;<br />
+  &lt;/LinearLayout&gt;<br />
+  &lt;Button<br />
+    android:id=&quot;@+id/brew_start&quot;<br />
+    android:layout_width=&quot;fill_parent&quot;<br />
+    android:layout_height=&quot;wrap_content&quot;<br />
+    android:layout_gravity=&quot;bottom&quot;<br />
+    android:text=&quot;Start&quot; /&gt;<br />
+&lt;/LinearLayout&gt;</p>
+<p>[/code]</p>
+<p>正如你所见的，Android的XML布局文件是繁琐的，但却能让你控制到屏幕的各个元素。</p>
+<p>在Android中最重要的接口元素是布局Layout容器，例如例子中使用的LinearLayout 。这些元素对于用户是不可见的,但是却扮演者例如Buttons 和TextViews这些元素的布局容器。</p>
+<p>Android中有几种不同类型的布局视图layout view，每一种都用于开发不同的布局。如同LinearLayout 和AbsoluteLayout ，TableLayout 可以让你使用更为复杂的基于表格结构的布局。你可以在SDK的API文档的<a href="http://developer.android.com/guide/topics/ui/layout-objects.html">通用布局对象</a>中查找到更多的布局。</p>
+<h4>关联你的布局Layout与代码</h4>
+<p>保存你的布局，在Eclipse中点击<em>Run</em>图标或按下<em>Ctrl+F11</em>重新在模拟器中运行你的程序。你现看到不是之前出现的Hello World消息了，你将看到Android显示了一个新的界面。</p>
+<p>如果点击界面上的任何按钮，他们将期望的显示为高亮，但是不会执行任何操作。现在让我们在布局修改后改进一下我们的源码：</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+import android.widget.Button;
+import android.widget.TextView;
+
+public class BrewClockActivity extends Activity {
+  /** Properties **/
+  protected Button brewAddTime;
+  protected Button brewDecreaseTime;
+  protected Button startBrew;
+  protected TextView brewCountLabel;
+  protected TextView brewTimeLabel;
+
+  ...
+ }
+</pre>
+<p>下一步,我们将修改调用onCreate。当Android启动你的应用程序的时候，Android会首先调用这个方法。 在Eclipse生成的代码中，onCreate把activity的视图设置成R.layout.main。这行代码告诉Android解释我们的布局配置XML文件，并显示它。</p>
+<h4>资源对象</h4>
+<p>在Android中，R是一个自动生成的对象，这是一个特殊的对象，你可以在代码中通过这个对象访问项目中的资源（布局，字符串，菜单，图标，&#8230;） 。每个资源都有一个给定的id。在上面的那个布局文件中，有一些@+id XML 属性。我们将通过这些值来关联布局中的Buttons 与TextViews和我们的代码和：</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+public class BrewClockActivity extends Activity {
+  ...
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // Connect interface elements to properties
+    brewAddTime = (Button) findViewById(R.id.brew_time_up);
+    brewDecreaseTime = (Button) findViewById(R.id.brew_time_down);
+    startBrew = (Button) findViewById(R.id.brew_start);
+    brewCountLabel = (TextView) findViewById(R.id.brew_count_label);
+    brewTimeLabel = (TextView) findViewById(R.id.brew_time);
+  }
+}
+</pre>
+<h4>监听事件</h4>
+<p>为了检测到用户单击我们的按钮，我们需要实现一个监听器listener。你可能会从其他的事件驱动系统中熟悉监听器或回调函数<em>callbacks</em>。比如Javascript/JQuery事件或Rails的回调函数。</p>
+<p>Android通过Listener接口提供相似的机制，例如OnClickListener，这个接口中定义了那些会被事件触发的方法。当用户点击屏幕的时候，实现OnClickListener 接口将会通知你的应用程序，并告诉他们所按得屏幕按钮。你当然也需要告诉每个button的ClickListener，以便Android知道具体通知到那个监听器：</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+// Be sure not to import
+// `android.content.dialoginterface.OnClickListener`.
+import android.view.View.OnClickListener;
+
+public class BrewClockActivity extends Activity
+  implements OnClickListener {
+  ...
+  public void onCreate(Bundle savedInstanceState) {
+    ...
+    // Setup ClickListeners
+    brewAddTime.setOnClickListener(this);
+    brewDecreaseTime.setOnClickListener(this);
+    startBrew.setOnClickListener(this);
+  }
+  ...
+  public void onClick(View v) {
+    // TODO: Add code to handle button taps
+  }
+}
+</pre>
+<p>下一步，我们将增加每个按钮按下的处理过程。我们将为Activity类增加4个属性，这些属性将用来让用户设置和记录我们泡茶时间，泡茶计数，计时器是否在运行的标志。</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+public class BrewClockActivity extends Activity
+  implements OnClickListener {
+  ...
+  protected int brewTime = 3;
+  protected CountDownTimer brewCountDownTimer;
+  protected int brewCount = 0;
+  protected boolean isBrewing = false;
+  ...
+  public void onClick(View v) {
+    if(v == brewAddTime)
+      setBrewTime(brewTime + 1);
+    else if(v == brewDecreaseTime)
+      setBrewTime(brewTime -1);
+    else if(v == startBrew) {
+      if(isBrewing)
+        stopBrew();
+      else
+        startBrew();
+    }
+  }
+}
+</pre>
+<p>注意我们使用了Android提供的类CountDownTimer 。这让我们非常容易的创建和开始一个简单的递减计数，这个递减计数在递减运行的时候，每当执行一个递减就发出一个通知。你将在下面的startBrew 方法中使用到这个计数器。</p>
+<p>在下面的方法是所有处理逻辑，这些处理逻辑用于处理设置泡茶时间，开始停止计数和维护计数器。我们同样地在onCreate方法中来初始化我们的 brewTime和 brewCount变量。</p>
+<p>将这些代码放入到不同的类中是一种好做法。但是为了简洁，我把我们所有的代码都放到了BrewClockActivity中：</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+public class BrewClockActivity extends Activity
+  implements OnClickListener {
+  ...
+  public void onCreate(Bundle savedInstanceState) {
+    ...
+    // Set the initial brew values
+    setBrewCount(0);
+    setBrewTime(3);
+  }
+
+  /**
+   * Set an absolute value for the number of minutes to brew.
+   * Has no effect if a brew is currently running.
+   * @param minutes The number of minutes to brew.
+   */
+  public void setBrewTime(int minutes) {
+    if(isBrewing)
+      return;
+
+    brewTime = minutes;
+
+    if(brewTime &lt; 1)
+      brewTime = 1;
+
+    brewTimeLabel.setText(String.valueOf(brewTime) + &quot;m&quot;);
+  }
+
+  /**
+   * Set the number of brews that have been made, and update
+   * the interface.
+   * @param count The new number of brews
+   */
+  public void setBrewCount(int count) {
+    brewCount = count;
+    brewCountLabel.setText(String.valueOf(brewCount));
+  }
+
+  /**
+   * Start the brew timer
+   */
+  public void startBrew() {
+    // Create a new CountDownTimer to track the brew time
+    brewCountDownTimer = new CountDownTimer(brewTime * 60 * 1000, 1000) {
+      @Override
+      public void onTick(long millisUntilFinished) {
+        brewTimeLabel.setText(String.valueOf(millisUntilFinished / 1000) + &quot;s&quot;);
+      }
+
+      @Override
+      public void onFinish() {
+        isBrewing = false;
+        setBrewCount(brewCount + 1);
+
+        brewTimeLabel.setText(&quot;Brew Up!&quot;);
+        startBrew.setText(&quot;Start&quot;);
+      }
+    };
+
+    brewCountDownTimer.start();
+    startBrew.setText(&quot;Stop&quot;);
+    isBrewing = true;
+  }
+
+  /**
+   * Stop the brew timer
+   */
+  public void stopBrew() {
+    if(brewCountDownTimer != null)
+      brewCountDownTimer.cancel();
+
+    isBrewing = false;
+    startBrew.setText(&quot;Start&quot;);
+  }
+  ...
+}
+</pre>
+<p>这段代码唯一和Android相关的就是使用setText方法来设置文本的显示文字。在startBrew方法中，我们创建，并开始了一个CountDownTimer来开每秒递减计数直到计数器为0。注意，我们定义了CountDownTimer以内联方式监听onTick 和 onFinish方法。 onTick 方法将每1000毫秒（1秒）执行一次，并递减, 当计数器为0的时候，onFinish方法被调用。</p>
+<h4>避免在你的代码中硬编码</h4>
+<p>为了使教程代码简单，我故意地在程序中将控件的标号直接写到字串中（例如： &#8220;Brew Up!&#8221;, &#8220;Start&#8221;, &#8220;Stop&#8221;） 通常，这不是一个好的做法，因为如果在大型项目中，这样做会使得修改变得麻烦。</p>
+<p>Android 提供了一种简洁的方法让你使用R对象来使字符串和代码分离。R 让你在xml文件（res/values/strings.xml）定义所有你程序中字符串，并让你可以在代码中应用到这些字符串。例如：</p>
+<p># /res/values/strings.xml</p>
+<p>[code]<br />
+&lt;string name=&quot;brew_up_label&quot;&gt;Brew Up!&lt;/string&gt;<br />
+&#8230;<br />
+[/code]</p>
+<p># /res/com/example/brewclock/BrewClockActivity.java</p>
+<p>[code]<br />
+&#8230;<br />
+brewLabel.setText(R.string.brew_up_label);<br />
+&#8230;<br />
+[/code]</p>
+<p>现在，如果你想改变Brew Up! 字样，你只要一次性的修改strings.xml文件就行了。你的应用将生成一堆代码来保证你程序中所有使用到这些字符串的地方都能被生效！</p>
+<h4>运行Brew Clock</h4>
+<p>代码完成之后，现在是试运行程序的时候了。单击<em>Run</em> 或 <em>Ctrl+F11</em> 在模拟器中启动我们的应用. 所有都运行良好，你将会看到你创建的用户界面在准备时间一到就可以喝你所泡的茶了！试着设置不同的时间，并点击<em>Start</em> 观看倒计时。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4300" title="app_finished-550-e1287474491689" src="https://coolshell.cn/wp-content/uploads/2011/04/app_finished-550-e1287474491689.jpg" alt="" width="499" height="355" srcset="https://coolshell.cn/wp-content/uploads/2011/04/app_finished-550-e1287474491689.jpg 499w, https://coolshell.cn/wp-content/uploads/2011/04/app_finished-550-e1287474491689-300x213.jpg 300w" sizes="(max-width: 499px) 100vw, 499px" /></p>
+<h3>总结</h3>
+<p>在这个关于Android的简单介绍中，你已学会如何安装Android SDK和Eclipse的Android 开发工具插件（ADT）。你也学会如何创建一个模拟设备，并通过这个设备来测试你的应用程序。你还学会了如何开发Android应用程序。上面了那些作为标题的关键概念在以后你自己开发Android应用程序的时候将会经常用到。</p>
+<p>我们希望，这个教程能激发你的开发移动应用程序的欲望，并步入这个令人激动的领域。Android为当前和即将到来的移动设备应用程序开发提供了一条宽广的道路。如果你已经开发你自己的移动应用，请在评论中告诉我们。</p>
+<p><em>(ik), (vf)</em></p>
+<p><em>（全文完）</em><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4334.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-150x150.jpg" alt="Eclipse开发Android应用程序入门:重装上阵" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4334.html" class="wp_rp_title">Eclipse开发Android应用程序入门:重装上阵</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="食客还是大厨" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_title">食客还是大厨</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4270.html">Eclipse开发Android应用程序入门</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4270.html/feed</wfw:commentRss>
+			<slash:comments>34</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的文章和资源</title>
+		<link>https://coolshell.cn/articles/4220.html</link>
+					<comments>https://coolshell.cn/articles/4220.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 06 Apr 2011 00:47:40 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[64bits]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4220</guid>
+
+					<description><![CDATA[<p>又到了向大家介绍一些最近我在网上发现的有价值的东西的时候了。（下面的链接中很多都被墙） 以前向大家介绍过《一些重要的算法》和《算法和数据结构词典》，不过，你知道...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4220.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4220.html">一些有意思的文章和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>又到了向大家介绍一些最近我在网上发现的有价值的东西的时候了。（下面的链接中很多都被墙）</p>
+<ul>
+<li>以前向大家介绍过《<a title="一些重要的算法" href="https://coolshell.cn/articles/2583.html" target="_blank">一些重要的算法</a>》和《<a title="算法和数据结构词典" href="https://coolshell.cn/articles/1499.html" target="_blank">算法和数据结构词典</a>》，不过，你知道有些什么样比较奇怪的数据结构吗？wikipedia上的这个词条可以让你看看<a href="http://en.wikipedia.org/wiki/List_of_data_structures" target="_blank">各种不同的数据结构</a>。比如：<a rel="nofollow" href="http://en.wikipedia.org/wiki/Skip_list">Skip lists</a>， <a rel="nofollow" href="http://en.wikipedia.org/wiki/Bloom_filter">Bloom filters</a>，或是什么<a rel="nofollow" href="http://en.wikipedia.org/wiki/Dancing_Links">Dancing links</a>。你也许会像一个以“<a title="如何学好C++语言" href="https://coolshell.cn/articles/4119.html" target="_blank">如何学好C++</a>”中的朋友们所说的，不削于这种所谓的“奇技淫巧”，甚至觉得这太根本不实用。其实，这些东西还是有用的，至少对你开阔思路，活动编程思维能力很有意义。</li>
+</ul>
+<ul>
+<li>本站的关于<a href="https://coolshell.cn/tag/%e6%8e%92%e5%ba%8f" target="_blank">排序的文章</a>有很多，对于排序算法来说，其受到要排序的个数和数据的杂乱程度的影响，我们知道比较稳定的排序算法是快速排序和归并排序，归并排序对于大量的数据排序效果是非常好的，尤其是我们可以进行并行的排序。这里有一个并行归并排序的算法的源代码，你可以参考一下 &#8211; “<a href="http://dzmitryhuba.blogspot.com/2010/10/parallel-merge-sort.html" target="_blank">Parallel Merge Sort</a>”。</li>
+</ul>
+<ul>
+<li>说到“奇技淫巧”和算法，这里有一个文章向你展示了C语言中使用位操作可能完成的各种算法，很有意思。请参看 &#8211; “<a href="http://aggregate.ee.engr.uky.edu/MAGIC/" target="_blank">The Aggregate Magic Algorithms</a>”</li>
+</ul>
+<ul>
+<li>这里有篇文章教你如何取得一个<a href="http://www.productivity501.com/harvard-masters-degree/6463/" target="_blank">在线的哈佛大学的硕士学位</a>，文章中说了一些相关的事宜，包括一些收费情况，并且展示了一张文凭。这里有一个网页说明了<a href="http://blog.markwshead.com/911/harvard-online-masters-degree-in-software-engineering/" target="_blank">哈佛软件工程学位</a>（Software Engineering）的所需要学习的科目，比如：Java和分布式计算，分布式/企业级计算，设计模式和Java，通讯协议，高级数据网络，Web开发，计算理论，Perl实践，Unix系统编程……我不知道我们的国家各个大学的硕士在学什么，因为我没有读过硕士，但好像现在的计算机研究生只是导师用来挣钱的免费资源，而且，实在不知道研究生在校研究什么。不管怎么样，从这看来，我们的大学好像并没有教给学生计算机的技术。比如在“<a title="如何学好C语言" href="https://coolshell.cn/articles/4102.html" target="_blank">如何学好C语言</a>”和“<a title="如何学好C++语言" href="https://coolshell.cn/articles/4119.html" target="_blank">如何学好C++语言</a>”中我提到的那些书，那些才是大学里应该学的。我国的教育还真不是一般的落后，不过你不妨试试哈佛的在线学位。</li>
+</ul>
+<p><span id="more-4220"></span></p>
+<ul>
+<li>关于网上的电子书，以前本站介绍过一 个<a title="免费电子书列表" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>，这里再推荐一个网站，上面有很多很多很不错的计算机科学方面的电子书，当然，都是英文的。<a href="http://www.sciencebooksonline.info/computer-science.html" target="_blank">http://www.sciencebooksonline.info/computer-science.html</a>。我知道你对英文发憷，但是，朋友，你一定要学好英文啊，这不仅仅只是为了学好计算机啊。</li>
+</ul>
+<ul>
+<li>还记得本站的“<a title="64位平台C/C++开发注意事项" href="https://coolshell.cn/articles/3512.html" target="_blank">64位平台开发的注意事项</a>”吗？Intel Software Network上有这样一篇文章其收集了一些在64位平台上经常出现的错的，图文并茂的，相当的不错，强力推荐给大家 &#8211; “<a href="http://software.intel.com/en-us/articles/collection-of-examples-of-64-bit-errors-in-real-programs/" target="_blank">A Collection of Examples of 64-bit Errors in Real Programs</a>”</li>
+</ul>
+<ul>
+<li>你爱好汇编语言吗？如果你是汇编的痴迷者，那么mac.com上的<a href="http://homepage.mac.com/randyhyde/webster.cs.ucr.edu/index.html">这个列表</a>对你很有意义了。里面的相关文章非常不错哦。而这里有一个<a href="http://www.duntemann.com/assembly.html" target="_blank">Step by Step的x86汇编编程教程</a>。</li>
+</ul>
+<ul>
+<li>还记得那篇“UI和UX的差别”吗？呵呵。这里有一个网站，给了你30+条UX用户体验的建议，我觉得非常不错，转给大家<a href="http://uxmyths.com/">http://uxmyths.com/</a></li>
+</ul>
+<ul>
+<li>想在Visual Studio 2010下编写Python吗？那么，向你介绍这个微软官方的插件<a href="http://pytools.codeplex.com/" target="_blank">Python  Tools for Visual Studio</a>。你还可以在VS中调试你的Python代码。挺不错的。</li>
+</ul>
+<ul>
+<li>在VS里开发Python，那么就可以使用Eclipse编写Android程序，这里有一篇教程教你 &#8211; <a href="http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-android-with-eclipse-reloaded/" target="_blank">Get Started Developing For Android With Eclipse, Reloaded</a></li>
+</ul>
+<ul>
+<li>说到了Android，必然要提一提iOS。想学iOS编程吗？这里有一篇教程很不错，如果你是一个什么也不懂的初学者，你不妨看看这篇文章“<a href="http://designthencode.com/scratch/" target="_blank">Build iOS App from Scrach</a>”</li>
+</ul>
+<ul>
+<li>查JDK是不是有点不好查？这里有一个网站可以方便地查找JDK和Android的API &#8211; <a href="http://www.kiwidoc.com/" target="_blank">http://www.kiwidoc.com</a>，我觉得很不错哦。</li>
+</ul>
+<ul>
+<li>不知道你是不是一个怀旧的人，你是否还记得以前用C语言开发Web的时光呢？我记得我97-98年的时候学过用C开发web应用，觉得挺难学的，我还没有完全搞懂，就出现了ASP，PHP……。这两天看到一篇 <a href="http://www.tutorialspoint.com/cplusplus/cpp_web_programming.htm" target="_blank">C++ Web Programming</a>，讲得真是很系统啊，从处理HTTP Header，到处理表单和上传文件。看完后，感觉有点坐着时光机器回到大学时的感觉。呵呵。</li>
+</ul>
+<ul>
+<li>说到Web编程，现在的Web编程和以前很不一样了。你觉得未来的Web编程的技术会是什么样的？NoSQL? 服务器端的Javascript? 各种像Amazon的EC2或S3的云计算平台？更新更强大的开发框架？HTML 5/CSS 3？这里有一篇文章你可以去看看 &#8211; “<a href="http://net.tutsplus.com/articles/general/7-exciting-web-development-trends-for-2011/">7 Exciting Web Development Trends for 2011</a>”.</li>
+</ul>
+<ul>
+<li>无论Web编程到了什么时候，安全问题永远都是你需要注意的。这里有一篇文章“<a href="http://code.google.com/intl/zh-CN/edu/submissions/daswani/index.html" target="_blank">What Every Web Programmer Needs To Know About Security</a>” &#8211;  每一个Web程序员都应该知道的安全问题。</li>
+</ul>
+<ul>
+<li>再推荐两个关于WebGL的游戏演示，一个是3D的比较好玩的有点<a href="http://cycleblob.com/" target="_blank">像贪吃蛇一样的游戏</a>，另一个是<a href="http://nicolas-bonnel.github.com/WARPG/index.html" target="_blank">RPG式的游戏</a>，第三人称视角，看上去很不错。</li>
+</ul>
+<ul>
+<li>这里有20款图标，<a href="http://www.tutorialcadet.com/20-user-interface-icon-sets-for-developers/" target="_blank">http://www.tutorialcadet.com/20-user-interface-icon-sets-for-developers/</a>，也许会对你的UI开发有帮助。wikipedia上也有一些<a href="http://commons.wikimedia.org/wiki/Comparison_of_icon_sets" target="_blank">免费的图标</a>。</li>
+</ul>
+<ul>
+<li>在以前的“<a title="一些有意思的贴子和工具" href="https://coolshell.cn/articles/3480.html" target="_blank">一些资源介绍</a>”的文章中介绍过<a href="http://mikeos.berlios.de/write-your-own-os.html" target="_blank">一篇教程</a>教你用x86的汇编做一个操作系统， 这里又有一篇文章向你展示了一个最最简单的操作系统内核，这个操作系统叫做<a href="http://www.retroprogramming.com/2011/03/itsy-os-simple-preemptive-switcher.html" target="_blank">Itsy-OS Kernel</a>，你可以看看。</li>
+</ul>
+<ul>
+<li>你还记得Google在四月一日愚人节那天搞的那个<a href="http://mail.google.com/mail/help/motion.html" target="_blank">Google Gmail Motion</a>吗？用你的body Language写邮件？呵呵，不过，某人使用微软的Kinect做到了，视频在这里：<a href="http://www.youtube.com/watch?v=Lfso7_i9Ko8" target="_blank">http://www.youtube.com/watch?v=Lfso7_i9Ko8</a>。项目主页在这里：<a href="http://projects.ict.usc.edu/mxr/faast/">http://projects.ict.usc.edu/mxr/faast/</a>。</li>
+<li>不知道你看过电影《创战纪》了吗？我个人觉得电影很一般。不过你想知道里面的一些特效是用什么样的技术怎么做的吗？呵呵，其中的一个程序员写了一篇博文 &#8211; “<a href="http://jtnimoy.net/workviewer.php?q=178" target="_blank">Tron Legacy</a>”，我看到了Unix, C++等。这篇文章很不错。</li>
+</ul>
+<p>好的，就这么多，也欢迎你分享你所看到的和听到的东西。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4220.html">一些有意思的文章和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4220.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>食客还是大厨</title>
+		<link>https://coolshell.cn/articles/3589.html</link>
+					<comments>https://coolshell.cn/articles/3589.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 25 Jan 2011 00:46:45 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[iPhone]]></category>
+		<category><![CDATA[老婆]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3589</guid>
+
+					<description><![CDATA[<p>（请勿将本文用于商业用途，转载时注明作者和出处） 昨天我在文章《Android将允许纯C/C++开发应用》中发表了一些“很不中听”的观点，在我早晨上班刚打开电脑...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3589.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3589.html">食客还是大厨</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong><strong>（请勿将本文用于商业用途，转载时注明作者和出处）</strong></strong></p>
+<p>昨天我在文章《<a title="Android将允许纯C/C++开发应用" href="https://coolshell.cn/articles/3549.html" target="_blank">Android将允许纯C/C++开发应用</a>》中发表了一些“很不中听”的观点，在我早晨上班刚打开电脑的时候，Gtalk上同学就发来了一条信息“<span style="color: #800080;">android  为啥不用C/C++的原因是，android是开放式系统，为了能够跨平台。如果整回C/C++，那么windows  mobile就是前车之鉴。</span>”，于是和同学展了争论，同学的意思是Java是正确的，在硬件上的表现也将是很出色的，而且准入门槛低，最重要的是跨平台，跨平台是恶梦，而硬件上性能的问题在未来不是问题。iPhone是单一平台，所以不需要考虑跨平台。</p>
+<p>而在我的博文后面上也有许多的讨论，<a href="http://sd.csdn.net/a/20110124/290717.html" target="_blank">在CSDN上</a>也有一些，大家可以去看看。<strong>很多朋友都谈了谈为什么Java要比C++要好的理由，很多很多，大家可以去看看，我觉得挺好的</strong>。不过后来，我更新了一下我的文章，留下了几个让大家思考的问题，我希望大家都看看。</p>
+<p>在这里，我想和大家说说技术之上的东西。</p>
+<p>——————————————正文分割线——————————————</p>
+<p>在绝大多数的评论中，我看到了大家都是站在技术开发者的角度在讨论。我想这和Google的Android犯的是同一个毛病，那就是其注重了“程序员”，而不是“用户”。就像是，Unix是为程序员开发，Java 也是为程序员的跨平台难问题开发，而Windows是为用户开发，iPhone也是为用户开发。也许，我们认为，改进了程序员的开发体验后，能迸发出程序员强大的生产力，进而增加满足用户需求的能力。不过，我想说的是，<strong>这件事的初衷是好的，但事实上程序员是永远不懂用户的</strong>。</p>
+<p><span id="more-3589"></span></p>
+<p>就像大家在讨论Android和Java的关系时，仅在谈跨平台，其实，跨平台关我最终用户屁事，开不开放并我最终用户P事。甚至，手机里装的是Linux还是Android还是Win Phone7还是Symbian，我做为一个用户我统统不关心，什么Java，还是C++，管我球事。作为一个程序员，如果你想不通这个观点的话，那你就去想想，你上饭馆点菜时，你会关心你点的菜是用什么样的锅碗瓢盆来盛，用什么样的燃料来做，什么样的刀来切，长在什么样的地，浇了什么样的肥……如果你还想不通的话，请看下面的例子：</p>
+<p>有一天，Google告诉所有的大厨，从我们发布Android开始，你们做菜就简单了，这是一个跨平台的烧菜系统，以后，作为厨师的你，做菜再也不用关心是用炒锅，蒸锅，煮锅，砂锅，电饭锅，平底锅，也不用关心做的是西餐还是中餐，我们推出的“虚拟锅”将屏蔽这些硬件和技术细节，以后，你面对的只有一口锅。当然，对于这个虚拟锅，你需要使用一种新型的叫Java锅勺。Java锅勺是强大的，容易的。（然而，过了几年后，他们却推出了传统锅勺）对此，一堆大厨，吵啊吵啊的，大家都在争论锅的好坏。</p>
+<p>来饭馆吃饭的食客说，关我屁事，都麻利儿地赶快给我上菜！给我好吃的！（<span style="color: #808080;">到这里，我希望你看懂了，如果你没有看懂的话，就此打住，后面的对你就太深了</span>）</p>
+<p>当然，用户并不单单只是着迷于好吃的，还有好的服务和体验！程序员们管这个叫用户体验。不过，如果餐馆都关注大厨们做菜的体验了，很有可能会怠慢了用户体验。餐馆负责人吆喝着，我们的餐馆是跨平台的，是开放的，就是说，任何都可以在我们这里做吃的买给你。食客们说，什么？什么人都可以在你的餐馆里做菜？你搞错没有啊？！餐馆负责人说，这样我们可以吸引到更好的更优秀的大厨，能做出更优秀的菜，有的菜品还是其它餐馆提供的。食客们说，那可以试试。然后，当食客上桌的时候，他们发现不同的菜居然有不同的服务，而且点菜的流程也不一样，不过大家都号称自己有最好的用户体验和服务。此时，食客们反而犹豫了。而各位大厨在厨房津津乐道着自己的做菜体验，而没有挣到一分钱。餐馆负责人还继续向食们说：我们有四个订餐电话，不同的订餐电话可以订到不同的菜，以后这样的订餐电话会更多。</p>
+<p>这个时候，一家叫iPhone的餐馆出现了，用户体验非常好，服务也很到位，食客们从入座点菜和进餐的过程都非常的流畅和风格统一，都相当的简单。食客们说，你们的这些菜品是怎么来的？iPhone餐厅负责人说，我们厨房对大厨们其实也是开放的，不过，厨房里的硬件和烹饪器具都是固定而不能修改的，而且，他们要想在这里做菜的话，每年得交给我们99美元的审核费用，我们严格他们的做菜工序，并保证用户的体验一致，我们的收入会和这些厨师分成，特别是那些有秘方的厨师将会分得更多。我们就像麦当劳一样，加盟我们的人有很多，不过我们所有店面的风格和用户点餐的过程完全一致，方便而服务优质。当然，我们的收费是高一点，但在我们这里不会出现任何的混乱。对于食客来说，虽然有人抱怨iPhone餐馆的只有一个服务生（单进程），但是，食客对该餐馆的服务表示很放心，体验也没得说，流畅完美简单一致。</p>
+<p><em><span style="color: #800000;"><strong>&#8212;&#8211;更新：2011/01/26&#8212;&#8211;</strong></span></em></p>
+<p>跨不跨平台，开不开放，一点都不关用户的事，那是程序员的事。但用户的体验很关用户的事。<strong>用户的体验包括两方面，一方面是技术所带来的功能体验，另一方面是服务体验</strong>。Android和iPhone的差别是，Android只关注开发人员的体验和功能的体验，并没有服务的体验，而iPhone把功能和服务的体验都打包了。Android选择走什么样的路无所谓，要打赢这场战争，Android一定要学会从技术向服务的过渡，否则，就开发而言，也就是吸引一下程序员和产商罢了，其对用户没有任何吸引力。</p>
+<p>但凡是走这条的，都很有问题（用户和服务跟不上，全部玩完，Linux的前期基本如此）</p>
+<ul>
+<li><strong>产品 -&gt; 开发人员 -&gt; 产商 -&gt; 用户 -&gt; 服务</strong>（???）</li>
+</ul>
+<p>而有些公司选择了这条路 （产品和服务先行，抢占用户市场相当快，比如Windows，IBM）</p>
+<ul>
+<li><strong>产品 + 服务 -&gt; 用户 -&gt; 开发人员 + 运营代理</strong></li>
+</ul>
+<p>我不认为Apple的经验无法复制，而是这样的模式很多很多，<strong>这个世界上有很多IT公司做到最后才发现，只有把产品和服务一同打包，才是用户想要的</strong>。</p>
+<p>——————————————————</p>
+<p>这就是<a href="https://coolshell.cn/articles/3363.html" target="_blank">Apple的简单之道</a>，上述内容素材取材于我和我老婆的对话（我老婆是文科，对编程不懂，她正是我了解最终用户的对象，也是我<a href="https://coolshell.cn/articles/3236.html" target="_blank">锻炼沟通</a>的对象）。下面是相关原始对话：</p>
+<p><strong>我</strong>：问个问题，如果有两家餐馆，你会先那家？</p>
+<ul>
+<li>第一家餐馆是开放的，怎么个开放呢？厨师可能是任何想做菜的人，有做的好的，也有做不好的。餐馆的厨房里的配置也是各式各样的，厨师甚至可以自带设备，反正，什么样的厨房用具都支持。另外，该餐馆有四个订餐电话，不过，不同的订餐电话都不一定都订到菜单上所有的菜，因为这个餐馆不但把厨房给开放出去了，订餐的方式也开放出去了。进餐体验方面，不同的分店有不同的样子。</li>
+</ul>
+<ul>
+<li>第二家餐馆是封闭的，不过他也对外面的厨师开放，并和厨师一同分成。厨师里的用具是餐馆定制好的，厨师要做菜，必需先交100美金的审核费，餐馆派专人审核厨师做的每一道菜，包括工序。每个餐厅的环境非常友好，也很简单，而且能让人感到非常不错的进餐体验，所有的分店都是一样。订餐电话只有一个，可以完成一键订餐。当然，第二家店要贵点。</li>
+</ul>
+<p><strong>老婆</strong>：你说的第一家就是那种像“大食代”的各种小吃拼起来的地儿吧？第二家就是像麦当劳， 必胜客，或是一些正规地像“海底捞”、“江南春”这样的店吧。第一家的店么就是顺便吃吃，要真正吃东西，还是要去第二种店。老公，难得你今天请我吃饭，我看就吃你说的第二种吧。（我晕，又把自己给绕进去了）</p>
+<p>——————————————正文分割线——————————————</p>
+<p>P.S. 有的朋友说我是C/C++出生，就是看不起Java。这样说我太小看我了，我的文章风格从来都是以一种调侃的方式，因为我觉得这样的文章会比那些枯燥的技术文章更有意思。我调侃C++和程序员的文章不比调侃Java要少，我对C++的观点从来都是C++是一门很不成熟的半成品语言！Java则要比它成熟的多得多，不过Java的跨平台和性能上的确是有很多东西可以调侃。</p>
+<p><strong>（请勿将本文用于商业用途，转载时注明作者和出处）</strong><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/5089.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="10个必需的iOS开发工具和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5089.html" class="wp_rp_title">10个必需的iOS开发工具和资源</a></li><li ><a href="https://coolshell.cn/articles/4334.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-150x150.jpg" alt="Eclipse开发Android应用程序入门:重装上阵" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4334.html" class="wp_rp_title">Eclipse开发Android应用程序入门:重装上阵</a></li><li ><a href="https://coolshell.cn/articles/4270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/04/install-150x150.gif" alt="Eclipse开发Android应用程序入门" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4270.html" class="wp_rp_title">Eclipse开发Android应用程序入门</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3589.html">食客还是大厨</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3589.html/feed</wfw:commentRss>
+			<slash:comments>68</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Android将允许纯C/C++开发应用</title>
+		<link>https://coolshell.cn/articles/3549.html</link>
+					<comments>https://coolshell.cn/articles/3549.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 24 Jan 2011 00:39:50 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Google]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3549</guid>
+
+					<description><![CDATA[<p>对于Android，长期以来，我一直有两件事搞不懂， 一个是为什么Android要选用Java。对于嵌入式开发，CPU和内存都很宝贵，居然还使用Java。 一个...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3549.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3549.html">Android将允许纯C/C++开发应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>对于Android，长期以来，我一直有两件事搞不懂，</p>
+<ul>
+<li>一个是为什么Android要选用Java。对于嵌入式开发，CPU和内存都很宝贵，居然还使用Java。</li>
+<li>一个是为什么Android的<a href="http://developer.android.com" target="_blank">开发站点</a>要被墙。这只是一个技术网站啊。</li>
+</ul>
+<p>最近，在一个Android<a href="http://android-developers.blogspot.com/2011/01/gingerbread-ndk-awesomeness.html" target="_blank">开发人员的Blog</a>上证实了在NDK r5使用C/C++进行开发。（以前，Android 对C/C++开发的支持仅限于用C/C++开发动态链接库，然后在Java中以JNI的形式来调用）现在，你可以用纯C/C++开发了（参看下面的程序代码）。还有一段<a href="http://developer.android.com/reference/android/app/NativeActivity.html" target="_blank">完整的代码示例在这里</a>（墙，还有XML的manifest，<a href="https://coolshell.cn/articles/3498.html" target="_blank">又见XML</a>）。看来，Google终于明白为什么使用Android的手机（如：Moto, 三星、索爱和HTC）的触摸体验远远不及object C搞出来的iPhone。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">void android_main(struct android_app* state) {
+    // Make sure glue isn&#039;t stripped.
+    app_dummy();
+
+    // loop waiting for stuff to do.
+    while (1) {
+        // Read all pending events.
+        int ident;
+        int events;
+        struct android_poll_source* source;
+
+        // Read events and draw a frame of animation.
+        if ((ident = ALooper_pollAll(0, NULL, &amp;events,
+                (void**)&amp;source)) &gt;= 0) {
+            // Process this event.
+            if (source != NULL) {
+                source-&gt;process(state, source);
+            }
+        }
+        // draw a frame of animation
+        bringTheAwesome();
+    }
+}</pre>
+<p>我个人估计有两个原因为什么Google回头支持C/C++了，</p>
+<ol>
+<li>Google开始觉得自己整的JVM在性能上可以全面超越传统JVM，并接近C/C++，现在发现搞不定了。</li>
+<li>Google发现Java的程序员不像C/C++程序员那样注重程序的性能和效率，开发App太耗CPU和内存。</li>
+</ol>
+<p>于是只好转回支持C/C++。<strong>本来就是用C/C++写出来的Android嘛，居然不能用C/C++而只能用Java，真是太侮辱C/C++了</strong>。最后，只希望Google并不是又整了一个C/C++版的Dalvik虚拟机，不然就真是侮辱到极点了。</p>
+<p><em><span style="color: #800000;">&#8212;&#8212;&#8212; 更新 2011/01/24 &#8212;&#8212;&#8212;&#8212;</span></em></p>
+<p>谢谢大家对这篇文章的评论，挺有意思的，欢迎讨论，我把我的回复更新在下面。不一定对，仅供大家参考。</p>
+<p><span id="more-3549"></span></p>
+<p>Java的学习成本低，开放性好，兼容性也高，我不否认（但请大家也别否认C/C++的效率要比Java要高。而C/C++的程序员在普遍上要比Java程序员更注意性能和效率）。这应该是Andorid的一开始的定位，可见，Google关注的是程序员，而不是用户。现在转回支持C/C++必然有他的原因，如果不是性能上的原因。那么就请大家分析一下别的原因。</p>
+<p>Android本来就是用C/C++写的，要跨平台，首先是Android自己跨平台。就像Linux一样，跨平台的首先是Linux，应用开发人员只需要符合Linux的API就OK了。JVM带来的便利只是无需重新编译（就算是无需重新编译，对于开发人员来说也要去那个平台做测试的，因为不同的平台的JVM同样是不一样的）。在Native平台上编译的成本其实并不高，这个编译过程完全可以在部署的时候自动化。</p>
+<p>有人说，Java的开发成本比C/C++低，但这和语言没有关系，这其实和封装程度有关系。C/C++同样可以封装得很好。而且，C/C++的程序员比JAVA程序来说，天生就对内存和性能要敏感的多。这更有利于在手机这样资源不足的平台上做开发。</p>
+<p>尤其对于像手机这样的时尚终端来说，在用户体验上花的成本要比在开发人员上花成本要大得多的多。我以为，Google 的Android 更多的关注了程序员，而不是用户。而iPhone更多的关注了用户，也让程序员在开发过程上受到了一些牺牲（iPhone的做法是如果程序员的程序要上App Store，先交99美刀的代码审查费，就像申请美国签证一样），但是，iPhone的程序员虽然在开发的方便上有一些牺牲，但是从收入上却得到了保障。最新的消息是苹果已向开发者支付20亿美元 音乐供应商分成达120亿美元。在《<a href="https://coolshell.cn/articles/3363.html" target="_blank">偷了世界的程序员</a>》中对此有充分的论述。</p>
+<p><span style="color: #800000;">最后，请大家思考 几个问题——</span></p>
+<ul>
+<li><span style="color: #800000;">Android支持C/C++是为什么？如果是为了程序效率，那么这又是为什么？</span></li>
+<li><span style="color: #800000;">是开发人员更重要，还是用户更重要？（注意：我说的是“更重要”）</span></li>
+<li><span style="color: #800000;">在当今这种诸如iPhone或Andorid的开发模式下，是完全开放好，还是有适当的封闭好？</span></li>
+<li><span style="color: #800000;">开发和封闭的背后的商业驱动是什么？如何在开放和封闭中权衡用户、开发者、公司和版权商的利益？</span></li>
+</ul>
+<p>苹果公司给出了一个很不错的商业模式。</p>
+<p>（完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3806.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/C_String-150x150.jpg" alt="Google图片搜索下的的C String" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3806.html" class="wp_rp_title">Google图片搜索下的的C String</a></li><li ><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-150x150.jpg" alt="Google App Inventor " width="150" height="150" /></a><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_title">Google App Inventor </a></li><li ><a href="https://coolshell.cn/articles/1152.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="关于 Chrome OS 的一些推论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1152.html" class="wp_rp_title">关于 Chrome OS 的一些推论</a></li><li ><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-150x150.jpg" alt="我看ChatGPT: 为啥谷歌掉了千亿美金" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_title">我看ChatGPT: 为啥谷歌掉了千亿美金</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3549.html">Android将允许纯C/C++开发应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3549.html/feed</wfw:commentRss>
+			<slash:comments>234</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>实用Android开发工具和资源精选</title>
+		<link>https://coolshell.cn/articles/2853.html</link>
+					<comments>https://coolshell.cn/articles/2853.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Thu, 26 Aug 2010 00:43:01 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[App Inventor]]></category>
+		<category><![CDATA[ebook]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2853</guid>
+
+					<description><![CDATA[<p>出处：A Useful Selection of Android Developer Tools and Resources 在google、开源平台，和来自移...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2853.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2853.html">实用Android开发工具和资源精选</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>出处</strong>：<a href="http://speckyboy.com/2010/08/04/a-useful-selection-of-android-developer-tools-and-resources/">A Useful Selection of Android Developer Tools and Resources</a></p>
+<p>在google、开源平台，和来自移动电话制造商HTC,Samsung和Sony Ericsson的支持下，Android平台在市场占有率上相比去年取得的886%增长！如果我只看增长率，IPhone据统计才有61%的增长。这些数据可以给你关于两个平台流行度的印像，但是事实上，这些数据告诉了智能机开发员的谁才是真正的赢家。在时下，智能机越来越流行，因此成为一个快速增长的Android平台的智能机开发人员将会是一个不错的选择。</p>
+<p>相比较其他的平台，Android不依赖于任何约束第三方应用程序的私有的操作系统（题外话：美国最近<a href="http://www.bbc.co.uk/news/technology-10836692">宣布</a>对于IPhone的破解和越狱是合法行为），Android本身就是开源的。由于开源，Android有巨大的开发社区支持。各种个样的例子和教程，GUI素材，和开发工具下载。几乎所有的都是免费提供的。我们选出接近20个可以免费或开源的，工具，资源，开发指南。希望这些资源能给你的Android应用带来帮助。<br />
+<strong> 相关文章参看:</strong></p>
+<ul>
+<li><a href="http://speckyboy.com/2010/05/10/android-app-developers-gui-kits-icons-fonts-and-tools/">Android App Developers GUI Kits, Icons, Fonts and Tools →</a></li>
+<li><a href="http://speckyboy.com/2010/04/30/iphone-and-ipad-development-gui-kits-stencils-and-icons/">iPhone and iPad Development GUI Kits, Stencils and Icons →</a></li>
+<li><a href="http://speckyboy.com/2010/04/12/mobile-web-and-app-development-testing-and-emulation-tools/">Mobile Web and App Development Testing and Emulation Tools →</a></li>
+<li><a href="http://speckyboy.com/2010/03/08/14-free-mobile-app-development-icon-sets/">14 Free Mobile Application Development Icon Sets →</a></li>
+</ul>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_01.jpg" alt="" /></p>
+<p><span id="more-2853"></span></p>
+<h3><a href="http://andbook.anddev.org/">免费的Android开发人员电子书:andbook</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_02.jpg" alt="" /></p>
+<p>如果你刚步入Android的开发，那么对于第一次开发Android应用程序的你来说，这本书是非常适合的。这本只有62页的PDF电子书里，有简单易懂的入门教程，帮助你在没有任何Android开发知识的背景下，教你开发Android应用程序。<br />
+<a href="http://andbook.anddev.org/">Free Android Developer Ebook: andbook! →</a></p>
+<h3><a href="http://kronox.org/documentacion/Professional_Android_Application_Development.pdf">免费的Android开发人员电子书:专业Android应用程序开发</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_03.jpg" alt="" /></p>
+<p>专业Android应用程序开发PDF电子书，是一本创建移动手机应用程序的上手指南，这本书特点简洁，还有着能帮助你快速构建真实Android移动电话应用程序的典型的例子。本书覆盖了Android手机所有本质特性，并同时展示了Android手机的高级特性。<br />
+<a href="http://kronox.org/documentacion/Professional_Android_Application_Development.pdf">Free Android Developer Ebook: Professional Android Application Development →</a></p>
+<h3>免费和开源的应用程序</h3>
+<ul>
+<li><a href="http://code.google.com/p/apps-for-android/">apps-for-android (Open Source Applications) →<br />
+</a>这个链接中包含了许多实用的开源的Android应用程序。这些应用程序展示了Android的许多特性。</li>
+</ul>
+<ul>
+<li><a href="http://developer.android.com/resources/samples/index.html">List of Sample Android Apps →</a>（<strong>译者注：</strong>我勒个擦！墙掉了，中国Android开发人员杯具了，看来官方不给力啊，这次元还真是不毛之地啊）<br />
+这个Web页面是一个Android开发包中的实例程序列表。使用这个页面上的链接，你可以通过你的浏览器来阅读这些例子程序的源代码。你也可以把这些实例程序下载下来，当你需要的时候，你可以修改并使用他们。</li>
+</ul>
+<ul>
+<li><a href="http://code.google.com/p/android-cookbook/">Android Cookbook (Examples in Cookbook Form) →<br />
+</a>这个站点有很多实用的Android示例程序，你完全可以重用这些例子。</li>
+</ul>
+<ul>
+<li><a href="http://www.openintents.org/en/">OpenIntents →<br />
+</a>OpenIntends 设计和实现了开放式 intents和接口，其使得Android移动应用程序能更紧密的结合在一起。同时OpenIntends免费的提供了更专业和复杂的实例应用程序来演示他们的用法。</li>
+</ul>
+<ul>
+<li><a href="http://www.androidsnippets.org/">Android Snippets (Share Useful Snippets of Source Code) →<br />
+</a>Android Snippets 是一个Android的实用代码段库，这个库是用来分享实用和优秀的Android应用程序代码；如果没有特别的需求，我们可以大量的重用这些代码库。</li>
+</ul>
+<h3><a href="http://www.addictivetips.com/windows-tips/download-google-android-emulator/">Windows上的Android</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_10.jpg" alt="" /></p>
+<p>对于那些想测试驱动Android的开发者，可以使用这个Android模拟器，这个模拟器以单独的应用程序的形式独立运行在Windows PC之上，使用这个模拟器不用下载和完全安装复杂的Android开发包。你甚至可以在这个模拟器上安装和测试Android系统兼容的应用程序。<br />
+<a href="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator on Windows →</a></p>
+<h3><a href="http://developer.android.com/guide/developing/tools/emulator.html">来自应用程序开发入门的Android模拟器</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_11.jpg" alt="" /></p>
+<p>Android的开发包中包含了一个移动设备模拟器。这个模拟器模仿了典型移动设备的硬件和软件特性(当然，不包含打电话)。这个模拟器提供各种个样的导航和控制按键，可以使用你的鼠标和键盘来“按”下这些按键为你的应用程序生成事件。这个模拟器也提供一个屏幕为你显示应用程序。同时，SDK中提供了很多能在模拟器上运行的应用程序。<br />
+<a href="http://developer.android.com/guide/developing/tools/emulator.html">Android Emulator from The Developer’s Guide →</a></p>
+<h3><a href="http://www.openintents.org/en/node/23">感应模拟器</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_12.jpg" alt="" /></p>
+<p>感应模拟器是一个JAVA独立应用程序，感应模拟器模拟感应数据并把数据传给Android模拟器。这个感应模拟器可以让你模拟加速度仪器，指南针，和方向感应，这些数据可以用于Android应用程序，并通过感应器进行控制。<br />
+<a href="http://www.openintents.org/en/node/23">SensorSimulator →</a></p>
+<h3><a href="http://github.com/commonsguy/droidex">DroidEx:大（巨）屏上的Android项目</a></h3>
+<p>DroidEx 可以让你附加的Android设备的显示屏内容复制一份到你的开发机屏幕。使用DroidEx来做演示是非常有用的。因为你可以把你的Android设备连接到你的笔记本电脑上或投影仪上，你的客户就可以通过这些设备来看你Android设备上的内容。DroidEx还可以用来演示那些用模拟器不方便演示的内容，比如说GPS或加速度仪器等内容。<br />
+<a href="http://github.com/commonsguy/droidex">DroidEx: Projecting Android on the Big(ger) Screen →</a></p>
+<h3><a href="http://appinventor.googlelabs.com/about/">Android的App Inventor</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_13.jpg" alt="" /><br />
+Android 的App Inventor是来自Google为非开发人员准备的新工具，通过这个工具，非开发人员可以非常容易地在里面创建应用程序。可以通过网站的视屏来预览这个工具的功能特性。(你可以参看酷壳的<a href="https://coolshell.cn/articles/2608.html" target="_blank">这篇文章</a>)</p>
+<p>(<strong>译者注：</strong>这里还有一个youtube视屏，可惜也墙掉了）<br />
+<a href="http://developer.android.com/guide/appendix/faq/commontasks.html"></a></p>
+<h3><a href="http://developer.android.com/guide/appendix/faq/commontasks.html">如何开发Android中的常用任务</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_04.jpg" alt="" /></p>
+<p>这是一个关于Android开发可能遇到的常用任务列表集合，并提供了一个快速、 how-to方式的帮助，来帮助你完成这些任务。</p>
+<p><a href="http://developer.android.com/guide/appendix/faq/commontasks.html">Common Tasks and How to Do Them in Android→</a></p>
+<h3><a href="http://andblogs.net/fastboot/">快速启动小抄</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_14.jpg" alt="" /></p>
+<p>快速启动小抄是一个非常实用和快速的列表，这个列表中罗列一些关于快速启动的相关任务。<br />
+<a href="http://andblogs.net/fastboot/">Fastboot Cheat Sheet →</a></p>
+<h3><a href="http://developer.android.com/guide/practices/ui_guidelines/index.html">UI指导原则</a></h3>
+<p>在这里你可以找一些到官方文章的连接，这些连接来自于“The Developer&#8217;s Guide”。这些文章的内容描述了关于Android可视交互应用程序的UI设计开发的指导原则。</p>
+<ul>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html">Icon Design Guidelines →</a></li>
+<li>图标指导原则描述每类图标的细节，并做关于尺寸，颜色，阴影其他的细节的规范，根据这些规范你的设计的图标可以适用于Android系统。你也可以下载Android图标模板包，这个包里面是一些Photoshop和Illustrator模板和滤镜文件，通过这个模板包你可以更简单的创建满足规范的图标。</li>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/icon_design.html#templatespack">Download the Android Icon Templates Pack</a></li>
+<li>控件设计指导描述了如何设计适合其他主页屏的控件。这个连接会连接到一些图形文件和模板，通过这些模板和文件可以使你设计更简单。</li>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/widget_design.html">Widget Design Guidelines →</a></li>
+<li>Activity和Task设计指导描述了活动的工作方式，并用图解示例演示了Activity，并描述了其重要的底层机制和原理，如多任务系统，Activity重用，intents，Activity栈，和Task。以设计层面的角度覆盖了活动的所有内容。</li>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/activity_task_design.html">Activity and Task Design Guidelines →</a></li>
+<li>菜单设计指导描述了上下文菜单和选项菜单的不同。如何放置菜单项，何时放置屏幕命令，和其他的一些菜单细节。</li>
+<li><a href="http://developer.android.com/guide/practices/ui_guidelines/widget_design.html">Menu Design Guidelines →</a></li>
+</ul>
+<p><strong><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-1-layouts">理解Android中的用户接口 来自于</a><a href="http://mobiforge.com/">mobiforge.com</a></strong></p>
+<p>这4部分的文档来自于<a href="http://mobiforge.com/">mobiforge.com</a>,文档中包含了组成Android UI的各种要素。文档的第一部分讨论Android中各种各样的有效的的布局。</p>
+<ol>
+<li>
+<ol>
+<li><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-1-layouts">Understanding User Interface in Android – Part 1 →</a></li>
+<li><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-2-views">Understanding User Interface in Android – Part 2 →</a></li>
+<li><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-3-more-views">Understanding User Interface in Android – Part 3 →</a></li>
+<li><a href="http://mobiforge.com/designing/story/understanding-user-interface-android-part-4-even-more-views">Understanding User Interface in Android – Part 4 →</a></li>
+</ol>
+</li>
+</ol>
+<h3><a href="http://www.androidpatterns.com/">Android UI模式</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_16.jpg" alt="" /></p>
+<p><a href="http://www.androidpatterns.com/">Android UI Patterns →</a></p>
+<h3><a href="http://www.droiddraw.org/" target="_blank">DroidDraw:Android用户接口图形编辑器</a></h3>
+<p style="text-align: left;"><a href="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_19.jpg"><img decoding="async" loading="lazy" class="size-full wp-image-2868 alignnone" title="android_dev_19" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_19.jpg" alt="" width="300" height="223" /></a></p>
+<p>DroidDraw是一个为Android创建图形用户界面的UI设计器。它是一个独立的可执行程序，可以运行在Mac OS X，Windows和Linux上。</p>
+<p><a href="http://www.droiddraw.org/">DroidDraw : Graphical User Interface Editor for Android →</a></p>
+<h3><a href="http://www.smashingmagazine.com/2009/08/18/android-gui-psd-vector-kit/">Android GUI PSD 向量包</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_20.jpg" alt="" /></p>
+<p>Android GUI Starter Kit包里面包含了多个按钮元素和不同接口选项的AndroidGUI内容。这些元素是基于Android1.5 GUI的，并且这些包里面的被提供给开源社区的Android应用程序模型。大部分的GUI元素和手机图例都是使用向量路径制成，所以他们非常地容易被缩放。对于文本AndroidSans包被使用。<br />
+<a href="http://www.smashingmagazine.com/2009/08/18/android-gui-psd-vector-kit/">Android GUI PSD Vector Kit →</a></p>
+<h3><a href="http://unitid.nl/2009/11/fireworks-template-for-android/">Android的Firworks Template</a></h3>
+<p><img decoding="async" title="android_dev_01" src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_22.jpg" alt="" /></p>
+<p>在Fireworks模板中，Android的各种元素被以向量图形的方式被重绘。在目录中，这些元素的名称大多根据Android词汇表被命名。<br />
+<a href="http://unitid.nl/2009/11/fireworks-template-for-android/">Fireworks Template for Android →</a></p>
+<h3><a href="http://www.tomhume.org/2010/01/android-wireframe-templates.html">Android线框模板 </a></h3>
+<p>线框PDF是信纸大小（8.5英寸 * 11英寸）并且各部件都被拉伸。因此你可以非常容易的以纸张原型或拉伸为真实尺寸的方式来使用。如果你没有信纸，你可以用A4纸来打印。<br />
+<a href="http://www.tomhume.org/2010/01/android-wireframe-templates.html">Android Wireframe Templates →</a><br />
+你也可以参考：</p>
+<ul>
+<li><a href="http://speckyboy.com/2010/05/10/android-app-developers-gui-kits-icons-fonts-and-tools/">Android App Developers GUI Kits, Icons, Fonts and Tools →</a></li>
+<li><a href="http://speckyboy.com/2010/04/30/iphone-and-ipad-development-gui-kits-stencils-and-icons/">iPhone and iPad Development GUI Kits, Stencils and Icons →</a></li>
+<li><a href="http://speckyboy.com/2010/04/12/mobile-web-and-app-development-testing-and-emulation-tools/">Mobile Web and App Development Testing and Emulation Tools →</a></li>
+<li><a href="http://speckyboy.com/2010/03/08/14-free-mobile-app-development-icon-sets/">14 Free Mobile Application Development Icon Sets →</a></li>
+<li><a href="http://speckyboy.com/2009/09/15/45-cool-google-android-apps-the-perfect-iphone-replacement/">45+ Cool Google Android Apps – The Perfect iPhone Replacement →</a></li>
+</ul>
+<p><strong>（全文完）</strong><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-150x150.jpg" alt="Google App Inventor " width="150" height="150" /></a><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_title">Google App Inventor </a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2853.html">实用Android开发工具和资源精选</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2853.html/feed</wfw:commentRss>
+			<slash:comments>36</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Google App Inventor</title>
+		<link>https://coolshell.cn/articles/2608.html</link>
+					<comments>https://coolshell.cn/articles/2608.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 13 Jul 2010 08:37:06 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[App Inventor]]></category>
+		<category><![CDATA[Google]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2608</guid>
+
+					<description><![CDATA[<p>Google 本周一发布了一个新的工作可以让任何人创建Android手机应用。这个工具叫Google App Inventor。（目前， App Invento...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2608.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2608.html">Google App Inventor</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Google 本周一发布了一个新的工作可以让任何人创建Android手机应用。这个工具叫<a href="http://appinventor.googlelabs.com/" target="_blank"><strong>Google App Inventor</strong></a>。（目前， App Inventor好像只对教育者开放）Google说：“你不必是一个专业开发人员就能轻松使用App Inventor。使用App Inventor无须掌握编程知识。因为你根本就不需要编写代码，你只需在可视化界面上设计应用的界面，并使用“blocks”指定应用的行为（behavior）。”</p>
+<figure id="attachment_2610" aria-describedby="caption-attachment-2610" style="width: 552px" class="wp-caption aligncenter"><a href="http://appinventor.googlelabs.com/"><img decoding="async" loading="lazy" class="size-full wp-image-2610" title="Android App Inventor" src="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor.jpg" alt="" width="552" height="340" srcset="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor.jpg 552w, https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-300x185.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-438x270.jpg 438w" sizes="(max-width: 552px) 100vw, 552px" /></a><figcaption id="caption-attachment-2610" class="wp-caption-text">Google Android App Inventor</figcaption></figure>
+<p>注意，Google说的是任何人，也就是包括那些不会编程的人。这个工具可以将枯燥的代码变成了一块一块的拼图，你需要做的只是把这些零散的拼图按照你自己的意思组合在一起，点击生成，你的第一个 Android 程序就诞生了。这里有一篇来自 <a href="http://www.nytimes.com/2010/07/12/technology/12google.html" target="_blank">纽约时代的报道</a>，《纽约时代》报道称，App Inventor已经在六年级的孩子们中完成测试，他们能够使用App Inventor制作简单的应用。如果你可以访问Youtube的话，你可以看看这个<a href="http://www.youtube.com/watch?v=8ADwPLSFeY8" target="_blank">视频</a>。</p>
+<p><span id="more-2608"></span></p>
+<p>这个想法，这会让 Android 市场不仅对程序开放，而且我们可能看到还有一大批很有创意但不懂编程的人为这个平台添砖加瓦，当然，这也可能会出现很多垃圾应用，正如不会做网页的人用所见即所得的编辑器做出的那些相当ugly劣质网页一样。瑕不蔽玉，就算是有大量的劣质应用的出现，我也相信，同样会涌现出更多更好的应用，那些都是技术人员无法做到的。</p>
+<p>当然，这种想法以前也有，不过仅仅是当玩具玩玩，这回，做这个事的是Google，我不知道他能把这个事情做成什么样？但觉得可能会比较专业。如果只是整成另一个VB的翻版嘛，那就很囧了。</p>
+<p>让我们看看，最终这个玩意，<span style="color: #000000;"><strong>会成为像Dreamweaver或Flash那样把网页开发变成傻瓜化，还是会像VB那样把程序员变成傻瓜</strong></span>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="Android将允许纯C/C++开发应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_title">Android将允许纯C/C++开发应用</a></li><li ><a href="https://coolshell.cn/articles/2853.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_01-150x150.jpg" alt="实用Android开发工具和资源精选" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2853.html" class="wp_rp_title">实用Android开发工具和资源精选</a></li><li ><a href="https://coolshell.cn/articles/1152.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="关于 Chrome OS 的一些推论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1152.html" class="wp_rp_title">关于 Chrome OS 的一些推论</a></li><li ><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-150x150.jpg" alt="我看ChatGPT: 为啥谷歌掉了千亿美金" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_title">我看ChatGPT: 为啥谷歌掉了千亿美金</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2608.html">Google App Inventor</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2608.html/feed</wfw:commentRss>
+			<slash:comments>28</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>关于 Chrome OS 的一些推论</title>
+		<link>https://coolshell.cn/articles/1152.html</link>
+					<comments>https://coolshell.cn/articles/1152.html#comments</comments>
+		
+		<dc:creator><![CDATA[mailper]]></dc:creator>
+		<pubDate>Sun, 12 Jul 2009 17:04:14 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Chrome OS]]></category>
+		<category><![CDATA[Google]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1152</guid>
+
+					<description><![CDATA[<p>最近Chrome OS被炒作得火热。 为什么还有一年后才发布的产品这么早会公布于众？其实不难想象，一个系统级别的产品的推行必须要跟很多OEM厂家谈合作。而你几乎...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1152.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1152.html">关于 Chrome OS 的一些推论</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>最近Chrome OS被炒作得火热。</p>
+<p>为什么还有一年后才发布的产品这么早会公布于众？其实不难想象，一个系统级别的产品的推行必须要跟很多OEM厂家谈合作。而你几乎不可能只是秘密地跟一个大公司的2-3个工程总监就能把这种合作谈定，而大多数的OEM公司，例如 DELL， Asus， Acer等这样的公司都不是技术为主导的，商业人士会很早参与意见和项目的计划，一旦知道的人多了，其实也没什么能保密的了。虽然，这样荒腔走板的发布很可能像伤害Android一样伤害Chrome OS。</p>
+<p>为什么Chrome OS和Android是如此独立的两个东西，看似又是在解决一个方向上的问题呢？其实也不难推测。<a href="http://www.businessweek.com/technology/content/aug2005/tc20050817_0949_tc024.htm">Android是Google买下来的公司</a>，其带队的Andy Rubin肯定是个对移动设备的能力有远见的大佬，而Chrome浏览器的领袖 Linus Upson是做V8 Engine的，一定对云和未来的Web Apps有着更坚定的远景。当两个这样强势的团队在公司各自划定地盘以后，融合的可能性就相对小了。</p>
+<p><span id="more-1152"></span><br />
+另，人们对netbook的遐想自然会把所有可能的技术都考虑一遍，尤其是Android这样先进而开源的东西，自然会有把自己定位为先驱的生产商拿来尽早发布netbook产品占领口碑上的“技术制高点”，但是这是不是一定意味着Android在netbook上有一席之地，由市场决定。</p>
+<ul>
+<li>Android是为了更强大的移动设备：有耳朵，有眼睛，知道自己的方位和姿态，方便社交和更好的跟Google产品的融合。</li>
+<li>Chrome是为了更好的云端体验：手上的netbook设备启动几秒就能用，操作系统版本永远最新（<a href="http://www.techzoom.net/publications/silent-updates/">安静地后台自动更新更安全</a>）换台机器登陆后，无需配置升级，所有的东西看起来都还一样，所有的东西为Web Apps加速，使人们不在感觉到操作系统的存在。</li>
+</ul>
+<p>总而言之，以下几个推论：</p>
+<ol>
+<li>Chrome OS上能不能用Android的Apps （store）？很可能，干嘛不？</li>
+<li>Chrome OS上能不能装浏览器？估计可以，但是有啥必要呢？</li>
+<li>Android上的浏览器会不会是Chrome?不太值得讨论，他们都基于webkit， 而且共用插件应该不困难，留给社区开发可能更合适</li>
+<li>Chrome OS会不会和Android合并?短时间不会，就像地线电话和手机一样，但是又有多大差别呢？</li>
+</ol>
+<p>两个可能赢的赛马，两个都赌的话……<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="Android将允许纯C/C++开发应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_title">Android将允许纯C/C++开发应用</a></li><li ><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-150x150.jpg" alt="Google App Inventor " width="150" height="150" /></a><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_title">Google App Inventor </a></li><li ><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-150x150.jpg" alt="我看ChatGPT: 为啥谷歌掉了千亿美金" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_title">我看ChatGPT: 为啥谷歌掉了千亿美金</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1152.html">关于 Chrome OS 的一些推论</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1152.html/feed</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

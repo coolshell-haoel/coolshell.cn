@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>bcrypt | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/bcrypt/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 21 Dec 2011 15:17:10 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>破解你的口令</title>
+		<link>https://coolshell.cn/articles/3801.html</link>
+					<comments>https://coolshell.cn/articles/3801.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 02 Mar 2011 00:35:48 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[bcrypt]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3801</guid>
+
+					<description><![CDATA[<p>在网上看到一张口令破解的表格，如下所示（第一列是口令长度，第二列是全小写的口令，第三列是有大写字母的口令，第四列是又加上了数字和其它字符的口令） 如果你想知道自...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3801.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3801.html">破解你的口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在网上看到一张口令破解的表格，如下所示（第一列是口令长度，第二列是全小写的口令，第三列是有大写字母的口令，第四列是又加上了数字和其它字符的口令）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3802" title="破解你的口令所需要的时间" src="https://coolshell.cn/wp-content/uploads/2011/02/passwords.png" alt="" width="500" height="163" srcset="https://coolshell.cn/wp-content/uploads/2011/02/passwords.png 500w, https://coolshell.cn/wp-content/uploads/2011/02/passwords-300x98.png 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p>如果你想知道自己的口令花多少时间可以被破确，你可以访问下面这个网站：（<strong><em>更新2011/3/2晚10点15</em></strong>）</p>
+<p style="text-align: center;"><strong><a href="http://howsecureismypassword.net/" target="_blank">http://howsecureismypassword.net/</a></strong></p>
+<p>这里先说一个这里说的口令破解。一般来说用户的口令都是以MD5编码加密放在数据库里的，MD5是不可逆的，所以，当你拿到你一串被MD5后的字串，你可以使用暴力破解——穷举所有的可能口令的MD5字串，然后和数据库里的对比，比对了你就知道口令了。当然，你一定要清楚，在某些审查很严重的地方，互联网内容提供商不一定会把你的口令以MD5加密，甚至就是明文（Plain Text）保存，所以你还需要小心，关于如何设计你的口令，<a title="如何设计你的口令" href="https://coolshell.cn/articles/2428.html" target="_blank">请参看这篇文章</a>。</p>
+<p>从上面这表格我们可以看到，你的口令最好是在8个长度以上，而且一定要有在小写和数字，最好再加上其它字符，这样你的口令被破解的时候最需要463年，这样就比较安全了。当然，如果你的口令使用了一些常用的单词，那就另说了，现在破解口令一般都不会使用暴力破解，都是用一个尝用口令字典表来尝试——比如<a title="Twitter的禁用口令" href="https://coolshell.cn/articles/2451.html" target="_blank">这篇文章所说的字典表</a>。</p>
+<p>但我提醒一下，这张表里中的时间忽略了一个问题，那就是并行，<strong>可以使用多台电脑多个进程并行破解口令</strong>，这样一来，上表中的时间就可大打折扣了。你只需要愿意花2000美刀，你就能够找到一个地方，1秒种计算7亿个口令，因为MD5，SHA这类的算法性能太好了。所以，你可能需要使用新的算法来加密你的口令，这种算法最好加上时间，也就是在算法的计算时间加长。呵呵，慢也有慢的好处。可能你需要考虑一下bcrypt算法，你<a title="如何防范密码被破解" href="https://coolshell.cn/articles/2078.html" target="_blank">可以查看本站的这篇文章</a>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3801.html">破解你的口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3801.html/feed</wfw:commentRss>
+			<slash:comments>44</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何防范密码被破解</title>
+		<link>https://coolshell.cn/articles/2078.html</link>
+					<comments>https://coolshell.cn/articles/2078.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 01 Feb 2010 09:18:36 +0000</pubDate>
+				<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[bcrypt]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2078</guid>
+
+					<description><![CDATA[<p>你会用什么样的算法来为你的用户保存密码？如果你还在用明码的话，那么一旦你的网站被hack了，那么你所有的用户口令都会被泄露了，这意味着，你的系统或是网站就此完蛋...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2078.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2078.html">如何防范密码被破解</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>你会用什么样的算法来为你的用户保存密码？如果你还在用明码的话，那么一旦你的网站被hack了，那么你所有的用户口令都会被泄露了，这意味着，你的系统或是网站就此完蛋了。所以，我们需要通过一些不可逆的算法来保存用户的密码。比如：MD5, SHA1, SHA256, SHA512, SHA-3,等Hash算法。这些算法都是不可逆的。系统在验证用户的口令时，需要把Hash加密过后的口令与后面存放口令的数据库中的口令做比较，如果一致才算验证通过。</p>
+<p>但你觉得这些算法好吗？我说的是：MD5, SHA1, SHA256, SHA512, SHA-3。如果你使用的是MD5算法来加密你的口令，如果你的口令长度只有小写字母再加上数字，假设口令的长度是6位，那么在目前一台比较新一点的PC机上，穷举所有的口令只需要40秒钟。而据我们了解，几乎有90%以上的用户只用小写字母和数字来组织其口令。对于6位长度的密码只需要最多40秒就可以破解了，这可能会吓到你。</p>
+<p>如果你愿意花2000美金和一周的时间来构建一个<a href="http://www.nvidia.com/object/cuda_home.html" target="_blank">CUDA</a>，那么，你可以在你组建的这个集群中使用进行密码穷举运算，其速度是，<a href="http://www.win.tue.nl/cccc/sha-1-challenge.html" target="_blank">1秒钟可以计算7亿个口令</a>。对于目前实际当中使用的比较复杂的口令，其破解率也可以高达每秒一个。当然，这里说的算法是MD5，SHA之类的算法。</p>
+<p>那么，对于这样的一种情况来说，我们怎么办？我们还是有办法的。</p>
+<p><span id="more-2078"></span></p>
+<p>我们知道MD5，SHA的算法速度太快了。所以，我们需要一个“慢一点”的加密算法。呵呵。bcrypt是这样的一个算法，因为它很慢，对于计算机来说，其慢得有点BT了，但却慢得刚刚好！对于验证用户口令来说是不慢的，对于穷举用户口令来说，其会让那些计算机变得如同蜗牛一样。</p>
+<p>因为bcrypt采用了一系列各种不同的Blowfish加密算法，并引入了一个work factor，这个工作因子可以让你决定这个算法的代价有多大。因为这些，这个算法不会因为计算机CPU处理速度变快了，而导致算法的时间会缩短了。因为，你可以增加work factor来把其性能降下来。呵呵。</p>
+<p>那么，bcrypt到底有多慢？如果和MD5一起来比较的话，如果使用值为12的work factor的话，如果加密“cool”的话，bcrypt需要0.3秒，而MD5只需要一微秒（百万分之一秒）。也就是说，前面我们说的那个只需要40秒就可以穷举完所有的可能的MD5编码的口令的算法，在使用bcrypt下，需要12年。</p>
+<p>这就是bcrypt给你带来的选择，<strong>你可以一个安全的口令和一个快速的加密算法，或是一个不怎么安全的口令和一个性能不好的加密算法</strong>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2078.html">如何防范密码被破解</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2078.html/feed</wfw:commentRss>
+			<slash:comments>95</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

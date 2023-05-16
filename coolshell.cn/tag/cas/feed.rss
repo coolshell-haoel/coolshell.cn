@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>cas | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/cas/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 31 Mar 2015 12:49:40 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>从LongAdder看更高效的无锁实现</title>
+		<link>https://coolshell.cn/articles/11454.html</link>
+					<comments>https://coolshell.cn/articles/11454.html#comments</comments>
+		
+		<dc:creator><![CDATA[liuinsect]]></dc:creator>
+		<pubDate>Thu, 17 Apr 2014 15:11:40 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[AtomicLong]]></category>
+		<category><![CDATA[cas]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[LongAdder]]></category>
+		<category><![CDATA[Performance]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11454</guid>
+
+					<description><![CDATA[<p>（感谢 @jd刘锟洋 投稿，更多文章参看他的博客：码梦为生） 原文链接：《比AtomicLong还高效的LongAdder 源码解析》 接触到AtomicLon...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11454.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11454.html">从LongAdder看更高效的无锁实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢 <a href="http://weibo.com/liuinsect" target="_blank">@jd刘锟洋</a> 投稿，更多文章参看他的博客：<a href="http://www.liuinsect.com/" target="_blank">码梦为生</a>）</strong></p>
+<p><strong>原文链接</strong>：《<a href="http://www.liuinsect.com/2014/04/15/%E6%AF%94atomiclong%E8%BF%98%E9%AB%98%E6%95%88%E7%9A%84longadder-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" target="_blank">比AtomicLong还高效的LongAdder 源码解析</a>》</p>
+<p>接触到AtomicLong的原因是在看guava的LoadingCache相关代码时，关于LoadingCache，其实思路也非常简单清晰：用模板模式解决了缓存不命中时获取数据的逻辑，这个思路我早前也正好在项目中使用到。</p>
+<p>言归正传，为什么说LongAdder引起了我的注意，原因有二：</p>
+<ol>
+<li>作者是Doug lea ，地位实在举足轻重。</li>
+<li>他说这个比AtomicLong高效。</li>
+</ol>
+<p>我们知道，AtomicLong已经是非常好的解决方案了，涉及并发的地方都是使用CAS操作，在硬件层次上去做 compare and set操作。效率非常高。</p>
+<p>因此，我决定研究下，为什么LongAdder比AtomicLong高效。</p>
+<p>首先，看LongAdder的继承树：</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-209 aligncenter" alt="la1" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la1.png" width="431" height="104" /></p>
+<p>继承自Striped64，这个类包装了一些很重要的内部类和操作。稍候会看到。</p>
+<p><span id="more-11454"></span></p>
+<p><strong>正式开始前，强调下，我们知道，AtomicLong的实现方式是内部有个value 变量，当多线程并发自增，自减时，均通过CAS 指令从机器指令级别操作保证并发的原子性。</strong></p>
+<p>再看看LongAdder的方法：</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-210 aligncenter" alt="la2" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la2.png" width="472" height="436" /><br />
+怪不得可以和AtomicLong作比较，连API都这么像。我们随便挑一个API入手分析，这个API通了，其他API都大同小异，因此，我选择了add这个方法。事实上,其他API也都依赖这个方法。</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-211 aligncenter" alt="la3" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la3.png" width="701" height="281" /><br />
+LongAdder中包含了一个Cell 数组，Cell是Striped64的一个内部类，顾名思义，Cell 代表了一个最小单元，这个单元有什么用，稍候会说道。先看定义：</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-212 aligncenter" alt="la4" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la4.png" width="686" height="649" /><br />
+Cell内部有一个非常重要的value变量，并且提供了一个CAS更新其值的方法。</p>
+<p>回到add方法：</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-211 aligncenter" alt="la3" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la3.png" width="701" height="281" /></p>
+<p>这里，我有个疑问，AtomicLong已经使用CAS指令，非常高效了（比起各种锁），LongAdder如果还是用CAS指令更新值，怎么可能比AtomicLong高效了？ 何况内部还这么多判断！！！</p>
+<p>这是我开始时最大的疑问，所以，我猜想，难道有比CAS指令更高效的方式出现了？ 带着这个疑问，继续。</p>
+<p>第一if 判断，第一次调用的时候cells数组肯定为null,因此，进入casBase方法：</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-213 aligncenter" alt="la5" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la5.png" width="772" height="81" /><br />
+原子更新base没啥好说的，如果更新成功，本地调用开始返回，否则进入分支内部。</p>
+<p>什么时候会更新失败？ 没错，并发的时候，好戏开始了，AtomicLong的处理方式是死循环尝试更新，直到成功才返回，而LongAdder则是进入这个分支。</p>
+<p>分支内部，通过一个Threadlocal变量threadHashCode 获取一个HashCode对象，该HashCode对象依然是Striped64类的内部类，看定义：</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-214 aligncenter" alt="la6" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la6.png" width="734" height="203" /><br />
+有个code变量，保存了一个非0的随机数随机值。</p>
+<p>回到add方法：</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full wp-image-211 aligncenter" alt="la3" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la3.png" width="701" height="281" /></p>
+<p>拿到该线程相关的HashCode对象后，获取它的code变量，as[(n-1)&amp;h] 这句话相当于对h取模，只不过比起取模，因为是 与 的运算所以效率更高。</p>
+<p>计算出一个在Cells 数组中当先线程的HashCode对应的 索引位置，并将该位置的Cell 对象拿出来用CAS更新它的value值。</p>
+<p>当然，如果as 为null 并且更新失败，才会进入retryUpdate方法。</p>
+<p>看到这里我想应该有很多人明白为什么LongAdder会比AtomicLong更高效了，没错，唯一会制约AtomicLong高效的原因是高并发，高并发意味着CAS的失败几率更高， 重试次数更多，越多线程重试，CAS失败几率又越高，变成恶性循环，AtomicLong效率降低。 那怎么解决？<strong> LongAdder给了我们一个非常容易想到的解决方案：减少并发，将单一value的更新压力分担到多个value中去，降低单个value的 “热度”，分段更新！！！</strong></p>
+<p>这样，线程数再多也会分担到多个value上去更新，只需要增加value就可以降低 value的 “热度”  AtomicLong中的 恶性循环不就解决了吗？ cells 就是这个 “段” cell中的value 就是存放更新值的， 这样，<strong>当我需要总数时，把cells 中的value都累加一下不就可以了么！！</strong></p>
+<p><strong>当然，聪明之处远远不仅仅这里，在看看add方法中的代码，casBase方法可不可以不要，直接分段更新,上来就计算 索引位置，然后更新value？</strong></p>
+<p>答案是不好，不是不行，因为，casBase操作等价于AtomicLong中的CAS操作，要知道，LongAdder这样的处理方式是有坏处的，分段操作必然带来空间上的浪费，可以空间换时间，但是，<strong>能不换就不换，看空间时间都节约~！</strong> 所以，<strong>casBase操作保证了在低并发时，不会立即进入分支做分段更新操作</strong>，因为低并发时，casBase操作基本都会成功，只有并发高到一定程度了，才会进入分支，所以，Doug Lea对该类的说明是：<strong> 低并发时LongAdder和AtomicLong性能差不多，高并发时LongAdder更高效！</strong></p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class=" wp-image-215 aligncenter" alt="la7" src="http://www.liuinsect.com/wp-content/uploads/2014/04/la7.png" width="750" height="331" /></p>
+<p>但是，Doung Lea 还是没这么简单，聪明之处还没有结束&#8230;&#8230;</p>
+<p>如此，retryUpdate中做了什么事，也基本略知一二了，因为cell中的value都更新失败(说明该索引到这个cell的线程也很多，并发也很高时) 或者cells数组为空时才会调用retryUpdate,</p>
+<p>因此，<strong>retryUpdate里面应该会做两件事：</strong></p>
+<ol>
+<li><strong>扩容，将cells数组扩大</strong>，降低每个cell的并发量，同样，这也意味着cells数组的rehash动作。</li>
+<li> <strong>给空的cells变量赋一个新的Cell数组</strong>。</li>
+</ol>
+<p>是不是这样呢？ 继续看代码：</p>
+<p>代码比较长，变成文本看看，为了方便大家看if else 分支，对应的  { } 我用相同的颜色标注出来。可以看到，这个时候Doug Lea才愿意使用死循环保证更新成功~！</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+  final void retryUpdate(long x, HashCode hc, boolean wasUncontended) {
+        int h = hc.code;
+        boolean collide = false;                // True if last slot nonempty
+        for (;;) {
+            Cell[] as; Cell a; int n; long v;
+            if ((as = cells) != null &amp;&amp; (n = as.length) &gt; 0) {// 分支1
+                if ((a = as[(n - 1) &amp; h]) == null) {
+                    if (busy == 0) {            // Try to attach new Cell
+                        Cell r = new Cell(x);   // Optimistically create
+                        if (busy == 0 &amp;&amp; casBusy()) {
+                            boolean created = false;
+                            try {               // Recheck under lock
+                                Cell[] rs; int m, j;
+                                if ((rs = cells) != null &amp;&amp;
+                                        (m = rs.length) &gt; 0 &amp;&amp;
+                                        rs[j = (m - 1) &amp; h] == null) {
+                                    rs[j] = r;
+                                    created = true;
+                                }
+                            } finally {
+                                busy = 0;
+                            }
+                            if (created)
+                                break;
+                            continue;           // Slot is now non-empty
+                        }
+                    }
+                    collide = false;
+                }
+                else if (!wasUncontended)       // CAS already known to fail
+                    wasUncontended = true;      // Continue after rehash
+                else if (a.cas(v = a.value, fn(v, x)))
+                    break;
+                else if (n &gt;= NCPU || cells != as)
+                    collide = false;            // At max size or stale
+                else if (!collide)
+                    collide = true;
+                else if (busy == 0 &amp;&amp; casBusy()) {
+                    try {
+                        if (cells == as) {      // Expand table unless stale
+                            Cell[] rs = new Cell[n &lt;&lt; 1];
+                            for (int i = 0; i &lt; n; ++i)
+                                rs[i] = as[i];
+                            cells = rs;
+                        }
+                    } finally {
+                        busy = 0;
+                    }
+                    collide = false;
+                    continue;                   // Retry with expanded table
+                }
+                h ^= h &lt;&lt; 13;                   // Rehash  h ^= h &gt;&gt;&gt; 17;
+                h ^= h &lt;&lt; 5;
+            }
+            else if (busy == 0 &amp;&amp; cells == as &amp;&amp; casBusy()) {//分支2
+                boolean init = false;
+                try {                           // Initialize table
+                    if (cells == as) {
+                        Cell[] rs = new Cell[2];
+                        rs[h &amp; 1] = new Cell(x);
+                        cells = rs;
+                        init = true;
+                    }
+                } finally {
+                    busy = 0;
+                }
+                if (init)
+                    break;
+            }
+            else if (casBase(v = base, fn(v, x)))
+                break;                          // Fall back on using base
+        }
+        hc.code = h;                            // Record index for next time
+    }
+
+</pre>
+<p>分支2中，为cells为空的情况，需要new 一个Cell数组。</p>
+<p>分支1分支中，略复杂一点点：</p>
+<p>注意，几个分支中都提到了busy这个方法，这个可以理解为一个CAS实现的锁，只有在需要更新cells数组的时候才会更新该值为1，如果更新失败，则说明当前有线程在更新cells数组，当前线程需要等待。重试。</p>
+<p>回到分支1中，这里首先判断当前cells数组中的索引位置的cell元素是否为空，如果为空，则添加一个cell到数组中。</p>
+<p>否则更新 标示冲突的标志位wasUncontended 为 true ，重试。</p>
+<p>否则，再次更新cell中的value,如果失败，重试。</p>
+<p>。。。。。。。一系列的判断后<span style="line-height: 1.5em;">，如果还是失败，下下下策，reHash,直接将cells数组扩容一倍，并更新当前线程的hash值，保证下次更新能尽可能成功。</span></p>
+<p><strong>可以看到，LongAdder确实用了很多心思减少并发量，并且，每一步都是在”没有更好的办法“的时候才会选择更大开销的操作，从而尽可能的用最最简单的办法去完成操作。追求简单，但是绝对不粗暴。</strong></p>
+<p>———————<strong>陈皓注————————</strong></p>
+<p>最后留给大家思考的两个问题：</p>
+<p style="padding-left: 30px;">1）是不是AtomicLong可以被废了？</p>
+<p style="padding-left: 30px;">2）如果cell被创建后，原来的casBase就不走了，会不会性能更差？</p>
+<p>———————liuinsect<strong>注————————</strong></p>
+<p>昨天和左耳朵耗子简单讨论了下，发现左耳朵耗子,耗哥对读者思维的引导还是非常不错的，在第一次发现这个类后，对里面的实现又提出了更多的问题，引导大家思考，值得学习。</p>
+<p>我们 发现的问题有这么几个（包括以上的问题），自己简单总结下，欢迎大家讨论：</p>
+<p>1. jdk 1.7中是不是有这个类？<br />
+我确认后，结果如下：    jdk-7u51 版本上还没有  但是jdk-8u20版本上已经有了。代码基本一样 ，增加了对double类型的支持和删除了一些冗余的代码。有兴趣的同学可以去下载下JDK 1.8看看</p>
+<p>2. base有没有参与汇总？<br />
+base在调用intValue等方法的时候是会汇总的：</p>
+<p><a href="http://www.liuinsect.com/wp-content/uploads/2014/04/LA101.bmp"><img decoding="async" alt="LA10" src="http://www.liuinsect.com/wp-content/uploads/2014/04/LA101.bmp" /></a></p>
+<p>3. 如果cell被创建后，原来的casBase就不走了，会不会性能更差？ base的顺序可不可以调换?<br />
+<span style="line-height: 1.5em;">    刚开始我想可不可以调换add方法中的判断顺序，比如，先做casBase的判断？ 仔细思考后认为还是 不调换可能更好，调换后每次都要CAS一下，在高并发时，失败几率非常高，并且是恶性循环，比起一次判断，后者的开销明显小很多，还没有副作用（上一个问题，base变量在sum时base是会被统计的，并不会丢掉base的值）。因此，不调换可能会更好。</span></p>
+<p>4. AtomicLong可不可以废掉？<br />
+我的想法是可以废掉了，因为，虽然LongAdder在空间上占用略大，但是，它的性能已经足以说明一切了,无论是从节约空的角度还是执行效率上，AtomicLong基本没有优势了，具体看这个测试（感谢<a id="commentauthor-1431785" href="http://lianming.info/" rel="external nofollow">Lemon</a>的回复）:http://blog.palominolabs.com/2014/02/10/java-8-performance-improvements-longadder-vs-atomiclong/</p>
+<p style="padding-left: 30px;">
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="http://coolshell.cn/articles/9703.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/图1-3-150x150.jpg" alt="无锁HashMap的原理与实现" width="150" height="150" /></a><a href="http://coolshell.cn/articles/9703.html" class="wp_rp_title">无锁HashMap的原理与实现</a></li><li ><a href="http://coolshell.cn/articles/9169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/Disruptor-150x150.png" alt="并发框架Disruptor译文" width="150" height="150" /></a><a href="http://coolshell.cn/articles/9169.html" class="wp_rp_title">并发框架Disruptor译文</a></li><li ><a href="http://coolshell.cn/articles/9606.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/race_condition-150x150.jpg" alt="疫苗：Java HashMap的死循环" width="150" height="150" /></a><a href="http://coolshell.cn/articles/9606.html" class="wp_rp_title">疫苗：Java HashMap的死循环</a></li><li ><a href="http://coolshell.cn/articles/6424.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="Hash Collision DoS 问题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/6424.html" class="wp_rp_title">Hash Collision DoS 问题</a></li><li ><a href="http://coolshell.cn/articles/11175.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11454.html">从LongAdder看更高效的无锁实现</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11454.html/feed</wfw:commentRss>
+			<slash:comments>35</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>多版本并发控制(MVCC)在分布式系统中的应用</title>
+		<link>https://coolshell.cn/articles/6790.html</link>
+					<comments>https://coolshell.cn/articles/6790.html#comments</comments>
+		
+		<dc:creator><![CDATA[Todd]]></dc:creator>
+		<pubDate>Tue, 13 Mar 2012 00:36:53 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[cas]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[lock-free]]></category>
+		<category><![CDATA[mvcc]]></category>
+		<category><![CDATA[Performance]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6790</guid>
+
+					<description><![CDATA[<p>【感谢 Todd投递本文 – 微博帐号：weidagang 】 问题 最近项目中遇到了一个分布式系统的并发控制问题。该问题可以抽象为：某分布式系统由一个数据中心...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6790.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6790.html">多版本并发控制(MVCC)在分布式系统中的应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>【<span style="color: #cc0000;">感谢 Todd投递本文 – 微博帐号：</span><a title="weidagang" href="http://weibo.com/weidagang" target="_blank">weidagang</a> 】</p>
+<h4>问题</h4>
+<p>最近项目中遇到了一个分布式系统的并发控制问题。该问题可以抽象为：某分布式系统由一个数据中心D和若干业务处理中心L1，L2 &#8230; Ln组成；D本质上是一个key-value存储，它对外提供基于HTTP协议的CRUD操作接口。L的业务逻辑可以抽象为下面3个步骤：</p>
+<ol>
+<li>read: 根据keySet {k1, &#8230; kn}从D获取keyValueSet {k1:v1, &#8230; kn:vn}</li>
+<li>do: 根据keyValueSet进行业务处理，得到需要更新的数据集keyValueSet&#8217; {k1&#8242;:v1&#8242;, &#8230; km&#8217;:vm&#8217;} (<strong>注</strong>：读取的keySet和更新的keySet&#8217;可能不同)</li>
+<li>update: 把keyValueSet&#8217;更新到D （<strong>注</strong>：D保证在一次调用更新多个key的原子性）</li>
+</ol>
+<p>在没有事务支持的情况下，多个L进行并发处理可能会导致数据一致性问题。比如，考虑L1和L2的如下执行顺序：</p>
+<ol>
+<li>L1从D读取key:123对应的值100</li>
+<li>L2从D读取key:123对应的100</li>
+<li>L1将key:123更新为100 + 1</li>
+<li>L2将key:123更新为100 + 2</li>
+</ol>
+<p>如果L1和L2串行执行，key:123对应的值将为103，但上面并发执行中L1的执行效果完全被L2所覆盖，实际key:123所对应的值变成了102。</p>
+<p><span id="more-6790"></span></p>
+<h4>解决方案1：基于锁的事务</h4>
+<p>为了让L的处理具有可串行化特性(Serializability)，一种最直接的解决方案就是考虑为D加上基于锁的简单事务。让L在进行业务处理前先锁定D，完成以后释放锁。另外，为了防止持有锁的L由于某种原因长时间未提交事务，D还需要具有超时机制，当L尝试提交一个已超时的事务时会得到一个错误响应。</p>
+<p><img decoding="async" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/362318/o_conditional_update_1.PNG" alt="" /><img decoding="async" loading="lazy" class="size-full wp-image-16991 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/03/0915536496-0.png" alt="0915536496-0" width="769" height="749" srcset="https://coolshell.cn/wp-content/uploads/2012/03/0915536496-0.png 769w, https://coolshell.cn/wp-content/uploads/2012/03/0915536496-0-300x292.png 300w" sizes="(max-width: 769px) 100vw, 769px" /></p>
+<p>本方案的优点是实现简单，缺点是锁定了整个数据集，粒度太大；时间上包含了L的整个处理时间，跨度太长。虽然我们可以考虑把锁定粒度降低到数据项级别，按key进行锁定，但这又会带来其他的问题。由于更新的keySet&#8217;可能是事先不确定的，所以可能无法在开始事务时锁定所有的key；如果分阶段来锁定需要的key，又可能出现死锁(Deadlock)问题。另外，按key锁定在有锁争用的情况下并不能解决锁定时间太长的问题。所以，按key锁定仍然存在重要的不足之处。</p>
+<h4>解决方案2：多版本并发控制</h4>
+<p>为了实现可串行化，同时避免锁机制存在的各种问题，我们可以采用基于多版本并发控制（Multiversion concurrency control，MVCC）思想的无锁事务机制。人们一般把基于锁的并发控制机制称成为悲观机制，而把MVCC机制称为乐观机制。这是因为锁机制是一种预防性的，读会阻塞写，写也会阻塞读，当锁定粒度较大，时间较长时并发性能就不会太好；而MVCC是一种后验性的，读不阻塞写，写也不阻塞读，等到提交的时候才检验是否有冲突，由于没有锁，所以读写不会相互阻塞，从而大大提升了并发性能。我们可以借用源代码版本控制来理解MVCC，每个人都可以自由地阅读和修改本地的代码，相互之间不会阻塞，只在提交的时候版本控制器会检查冲突，并提示merge。目前，Oracle、PostgreSQL和MySQL都已支持基于MVCC的并发机制，但具体实现各有不同。</p>
+<p>MVCC的一种简单实现是基于CAS（Compare-and-swap）思想的有条件更新（Conditional Update）。普通的update参数只包含了一个keyValueSet&#8217;，Conditional Update在此基础上加上了一组更新条件conditionSet { &#8230; data[keyx]=valuex, &#8230; }，即只有在D满足更新条件的情况下才将数据更新为keyValueSet&#8217;；否则，返回错误信息。这样，L就形成了如下图所示的Try/Conditional Update/(Try again)的处理模式：</p>
+<p><img decoding="async" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/362318/o_mvcc_2.png" alt="" /><img decoding="async" loading="lazy" class="aligncenter  wp-image-16989" src="https://coolshell.cn/wp-content/uploads/2012/03/0915535U3-1.png" alt="0915535U3-1" width="746" height="483" srcset="https://coolshell.cn/wp-content/uploads/2012/03/0915535U3-1.png 826w, https://coolshell.cn/wp-content/uploads/2012/03/0915535U3-1-300x194.png 300w" sizes="(max-width: 746px) 100vw, 746px" /></p>
+<p>虽然对单个L来讲不能保证每次都成功更新，但从整个系统来看，总是有任务能够顺利进行。这种方案利用Conditional Update避免了大粒度和长时间的锁定，当各个业务之间资源争用不大的情况下，并发性能很好。不过，由于Conditional Update需要更多的参数，如果condition中value的长度很长，那么每次网络传送的数据量就会比较大，从而导致性能下降。特别是当需要更新的keyValueSet&#8217;很小，而condition很大时，就显得非常不经济。</p>
+<p>为了避免condition太大所带来的性能问题，可以为每条数据项增加一个int型的版本号字段，由D维护该版本号，每次数据有更新就增加版本号；L在进行Conditional Update时，通过版本号取代具体的值。</p>
+<p><img decoding="async" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/362318/o_mvcc_3.png" alt="" /><img decoding="async" loading="lazy" class="aligncenter  wp-image-16990" src="https://coolshell.cn/wp-content/uploads/2012/03/0915533324-2.png" alt="0915533324-2" width="706" height="265" srcset="https://coolshell.cn/wp-content/uploads/2012/03/0915533324-2.png 912w, https://coolshell.cn/wp-content/uploads/2012/03/0915533324-2-300x113.png 300w" sizes="(max-width: 706px) 100vw, 706px" /></p>
+<p>另一个问题是上面的解决方案假设了D是可以支持Conditional Update的；那么，如果D是一个不支持Conditional Update的第三方的key-value存储怎么办呢？这时，我们可以在L和D之间增加一个P作为代理，所有的CRUD操作都必须经过P，让P来进行条件检查，而实际的数据操作放在D。这种方式实现了条件检查和数据操作的分离，但同时降低了性能，需要在P中增加cache，提升性能。由于P是D的唯一客户端；所以，P的cache管理是非常简单的，不必像多客户端情形担心缓存的失效。不过，实际上，据我所知redis和Amazon SimpleDB都已经有了Conditional Update的支持。</p>
+<h4>悲观锁和MVCC对比</h4>
+<p>上面介绍了悲观锁和MVCC的基本原理，但是对于它们分别适用于什么场合，不同的场合下两种机制优劣具体表现在什么地方还不是很清楚。这里我就对一些典型的应用场景进行简单的分析。需要注意的是下面的分析不针对分布式，悲观锁和MVCC两种机制在分布式系统、单数据库系统、甚至到内存变量各个层次都存在。</p>
+<p>### 场景1：对读的响应速度要求高</p>
+<p>有一类系统更新特别频繁，并且对读的响应速度要求很高，如股票交易系统。在悲观锁机制下，写会阻塞读，那么当有写操作时，读操作的响应速度就会受到影响；而MVCC不存在读写锁，读操作是不受任何阻塞的，所以读的响应速度会更快更稳定。</p>
+<p>### 场景2：读远多于写</p>
+<p>对于许多系统来讲，读操作的比例往往远大于写操作，特别是某些海量并发读的系统。在悲观锁机制下，当有写操作占用锁，就会有大量的读操作被阻塞，影响并发性能；而MVCC可以保持比较高且稳定的读并发能力。</p>
+<p>### 场景3：写操作冲突频繁</p>
+<p>如果系统中写操作的比例很高，且冲突频繁，这时就需要仔细评估。假设两个有冲突的业务L1和L2，它们在单独执行是分别耗时t1，t2。在悲观锁机制下，它们的总时间大约等于串行执行的时间：</p>
+<p>T = t1 + t2</p>
+<p>而在MVCC下，假设L1在L2之前更新，L2需要retry一次，它们的总时间大约等于L2执行两次的时间（这里假设L2的两次执行耗时相等，更好的情况是，如果第1次能缓存下部分有效结果，第二次执行L2耗时是可能减小的）：</p>
+<p>T&#8217; = 2 * t2</p>
+<p>这时关键是要评估retry的代价，如果retry的代价很低，比如，对某个计数器递增，又或者第二次执行可以比第一次快很多，这时采用MVCC机制就比较适合。反之，如果retry的代价很大，比如，报表统计运算需要算几小时甚至一天那就应该采用锁机制避免retry。</p>
+<p>从上面的分析，我们可以简单的得出这样的结论：对读的响应速度和并发性要求比较高的场景适合MVCC；而retry代价越大的场景越适合悲观锁机制。</p>
+<h4>总结</h4>
+<p>本文介绍了一种基于多版本并发控制（MVCC）思想的Conditional Update解决分布式系统并发控制问题的方法。和基于悲观锁的方法相比，该方法避免了大粒度和长时间的锁定，能更好地适应对读的响应速度和并发性要求高的场景。</p>
+<h4>参考</h4>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Serializability">Wikipedia &#8211; Serializability</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Compare-and-swap">Wikipedia &#8211; Compare-and-swap</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Multiversion_concurrency_control">Wikipedia &#8211; Multiversion concurrency control</a></li>
+<li><a href="http://blogs.msdn.com/b/oldnewthing/archive/2011/04/12/10152296.aspx">Lock-free algorithms: The try/commit/(try again) pattern</a></li>
+<li><a href="http://aws.amazon.com/simpledb/faqs/#Does_Amazon_SimpleDB_support_transactions">Amazon SimpleDB FAQs &#8211; Does Amazon SimpleDB support transactions?</a></li>
+<li><a href="http://redis.io/topics/transactions">redis &#8211; Transactions</a></li>
+<li><a href="http://simpledbm.googlecode.com/files/mvcc-survey-1.0.pdf">A Quick Survey of MultiVersion Concurrency Algorithms</a></li>
+<li><a href="http://www.cnblogs.com/jobs/archive/2007/11/13/957446.html">非阻塞算法思想在关系数据库应用程序开发中的使用</a></li>
+</ul>
+<h4>友情推荐</h4>
+<p>本文的图是用我自己开发的<a href="http://textdiagram.sinaapp.com">TextDiagram</a>工具画的，欢迎试用！如果您喜欢，请推荐给朋友，谢谢！<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li ><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/01/trade-off-150x150.jpg" alt="分布式系统的事务处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_title">分布式系统的事务处理</a></li><li ><a href="https://coolshell.cn/articles/6470.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/01/12306-150x150.png" alt="由12306.cn谈谈网站性能技术 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6470.html" class="wp_rp_title">由12306.cn谈谈网站性能技术 </a></li><li ><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/05/etcd-150x150.png" alt="ETCD的内存问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_title">ETCD的内存问题</a></li><li ><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/12/bachelor-mechanical-eng-icon@72x-150x150.png" alt="我做系统架构的一些原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_title">我做系统架构的一些原则</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6790.html">多版本并发控制(MVCC)在分布式系统中的应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6790.html/feed</wfw:commentRss>
+			<slash:comments>98</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

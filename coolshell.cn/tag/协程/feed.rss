@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>协程 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/%e5%8d%8f%e7%a8%8b/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sun, 12 Oct 2014 14:48:57 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>State Threads 回调终结者</title>
+		<link>https://coolshell.cn/articles/12012.html</link>
+					<comments>https://coolshell.cn/articles/12012.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Sun, 12 Oct 2014 14:48:57 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[coroutine]]></category>
+		<category><![CDATA[EDSM]]></category>
+		<category><![CDATA[IA]]></category>
+		<category><![CDATA[process]]></category>
+		<category><![CDATA[thread]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[协程]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12012</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 上回写了篇《一个“蝇量级”C语言协程库》，推荐了一下Protothreads，通过coroutine模拟了用户级别的mul...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12012.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12012.html">State Threads 回调终结者</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>上回写了篇<a title="一个“蝇量级” C 语言协程库" href="https://coolshell.cn/articles/10975.html" target="_blank">《一个“蝇量级”C语言协程库》</a>，推荐了一下<a title="Protothreads" href="http://dunkels.com/adam/pt/" target="_blank">Protothreads</a>，通过coroutine模拟了用户级别的multi-threading模型，虽然本身足够“轻”，杜绝了系统开销，但这个库本身应用场合主要是内存限制的嵌入式领域，提供原生态组件太少，使用限制太多，比如依赖其它调用产生阻塞等。</p>
+<p>这回又替大家在开源界淘了个宝，推荐一个轻量级网络应用框架<strong>State Threads</strong>（以下简称ST），总共也就3000行C代码，跟Protothreads不同在于ST针对的就是<strong>高性能可扩展服务器</strong>领域（值得一提的是Protothreads官网<a title="参考链接" href="http://dunkels.com/adam/pt/links.html" target="_blank">参考链接</a>上第一条就是ST的官网）。在其<a title="FAQ" href="http://state-threads.sourceforge.net/docs/faq.html" target="_blank">FAQ</a>页面上一句引用&#8221;Perfection is achieved not when there is nothing more to add, but rather when there is nothing more to take away.&#8221;可以视为开发人员对ST源码质量的自信。</p>
+<h4>历史渊源</h4>
+<p>首先介绍一下这个库的历史渊源，从代码贡献者来看，ST不是个人作品，而是有着雄厚的商业支持和应用背景，比如服务器领域，在<a href="http://state-threads.sourceforge.net/news.html" target="_blank">这里</a>你可以看到ST曾作为Apache的多核应用模块发布。其诞生最初是由网景（Netscape）公司的MSPR（Netscape Portable Runtime library）项目中剥离出来，后由SGI（Silicon Graphic Inc）还有Yahoo!公司（前者是主力）开发维护的独立线程库。历史版本方面，作为<a title="SourceForge" href="http://sourceforge.net/projects/state-threads/files/" target="_blank">SourceForge</a>上开源项目，由2001年发布v1.0以来一直到2009年v1.9稳定版后未再变动。在平台移植方面，从Makefile的配置选项中可知ST支持多种Unix-like平台，还有专门针对Win32的源码改写。源码例子中，提供了web server、proxy以及dns三种编程实例供参考。可以说代码质量应该是相当的稳定和可靠的。</p>
+<p><span id="more-12012"></span></p>
+<p>至于许可证方面，有必要略作说明。出于历史原因，网景最初发布时选择了MPL1.1许可证，而后SGI在维护中又混进了GPLv2许可证，照理说这两种许可证是互不兼容的（MPL1.1后续版本是GPL兼容的），也就是说用双许可证打包发布理论上是非法无效的，见GNU官网上<a title="GPL兼容" href="http://www.gnu.org/licenses/license-list.html#MPL" target="_blank">MPL兼容性</a>一节。但这里有值得商榷的地方，因为文中又提及，根据MPL1.1中某条款第13节，如果整段或部分代码允许采用另一许可证作为备用（alternate）选择，比如GPL及其兼容，那么整个库的许可证就可视为GPL兼容的。如此一来所谓GPL兼容性一般解释为你不能在GPLv2的代码中混入MPL1.1，而不是说你不能在MPL1.1代码中混入GPLv2，也就是说GPLv2在MPL1.1之后是可以接受的，事实上SGI就采用了后面的做法，尚未引起版权上的纠纷。为此我还考证了一下FAQ上<a title="license" href="http://state-threads.sourceforge.net/docs/faq.html" target="_blank">license</a>一节的说法，说ST既可以在MPL和GPL之间选择一种，也可以继续用双许可证，还补了一句在non-free项目使用上也没有限制，但对ST源码所做改动必须对用户可见。在源码文件中的SGI的附加声明还解释了将ST转为GPL代码的做法，就是可以删除前面MPL的声明，否则后续用户仍可以在两者之间二选一。个人觉得既然SGI都这样发话了，那么可解释为反之删除GPL的声明继续采用MPL也是可以接受的，如果你对双许可证承诺仍不放心的话。</p>
+<h4>基于事件驱动状态机（EDSM）</h4>
+<p>好了，下面该进入技术性话题了。前面说了ST的目标是<strong>高性能可扩展</strong>，其技术特征一言以蔽之就是</p>
+<blockquote><p><strong>&#8220;It combines the simplicity of the multi-threaded programming paradigm, in which one thread supports each simultaneous connection, with the performance and scalability of an event-driven state machine (EDSM) architecture.&#8221;</strong></p></blockquote>
+<p>我们先来纵向比较ST与传统的EDSM区别，再来横向比较与其它线程库（比如Pthread）的区别（注：以下图片全部来自<a title="ST FAQ" href="http://state-threads.sourceforge.net/docs/faq.html" target="_blank">State Threads Library FAQ</a>）。</p>
+<p>传统EDSM最常见的方式就是I/O事件的<strong>异步回调</strong>。基本上都会有一个叫做dispatcher的单线程主循环（又叫event loop），用户通过向dispatcher注册回调函数（又叫event handler）来实现异步通知，从而不必在原地空耗资源干等，在dispatcher主循环中通过select()/poll()系统调用来等待各种I/O事件的发生，当内核检测到事件触发并且数据可达或可用时，select()/poll()会返回从而使dispatcher调用相应的回调函数来对处理用户的请求。所以异步回调与其说是通知，不如说用委托更恰当。</p>
+<p>整个过程都是单线程的。<strong>这种处理本质上就是将一堆互不相交（disjoint）的回调实现同步控制，就像串联在一个顺序链表上。</strong>见图1，黑色的双箭头表示I/O事件复用，回调是个筐，里面装着对各种请求的处理（当然不是每个请求都有回调，一个请求也可以对应不同的回调），每个回调被串联起来由dispatcher激活。这里请求等价于thread的概念（不是操作系统的线程），只不过“上下文切换”（context switch）发生在每个回调结束之时（假设不同请求对应不同回调），注册下一个回调以待事件触发时恢复其它请求的处理。至于dispatcher的执行状态（execute state）可作为回调函数的参数保存和传递。</p>
+<p><img decoding="async" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/10/edsm.gif" alt="EDSM" /></p>
+<p>异步回调的缺陷在于<strong>难以实现和扩展</strong>，虽然已经有libevent这样的通用库，以及其它actor/reacotor的设计模式及其框架，但正如Dean Gaudet（Apache开发者）所说：“其内在的复杂性——<strong>将线性思维分解成一堆回调的负担</strong>（breaking up linear thought into a bucketload of callbacks）——仍然存在”。从上图可见，<strong>回调之间请求例程不是连续的，比如回调之间的切换会打断部分请求，又比如有新的请求需要重新注册。</strong></p>
+<p><strong>ST本质上仍然是基于EDSM模型，但旨在取代传统的异步回调方式。</strong>ST将请求抽象为thread概念以更接近自然编程模式（所谓的linear thought吧，就像操作系统的线程之间切换那样自然）。ST的调度器（scheduler）对于用户来说是透明的，不像dispatcher那种将执行状态（execute state）暴露给回调方式。每个thread的现场环境可以保存在栈上（一段连续的大小确定的内存空间），由C的运行环境管理。从图2看到，<strong>ST的threads可以并发地线性地处理I/O事件，模型比异步回调简单得多。</strong></p>
+<p><img decoding="async" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/10/st_edsm.gif" alt="State Threads" /></p>
+<p>这里稍微解释一下ST调度工作原理，ST运行环境维护了四种队列，分别是IOQ、RUNQ、SLEEPQ以及ZOMBIEQ，<strong>当每个thread处于不同队列中对应不同的状态（ST顾名思义所谓thread状态机）。</strong>比如polling请求的时候，当前thread就加入IOQ表示等待事件（如果有timeout同时会被放到SLEEPQ中），当事件触发时，thread就从IOQ（如果有timeout同时会从SLEEPQ）移除并转移到RUNQ等待被调度，成为当前的running thread，相当于操作系统的就绪队列，跟传统EDSM对应起来就是注册回调以及激活回调。再比如模拟同步控制wait/sleep/lock的时候，当前thread会被放入SLEEPQ，直到被唤醒或者超时再次进入RUNQ以待调度。</p>
+<p><strong>ST的调度具备性能与内存双重优点</strong>：在性能上，ST实现自己的setjmp/longjmp来模拟调度，无任何系统开销，并且context（就是jmp_buf）针对不同平台和架构用底层语言实现的，可移植性媲美libc。下面放一段代码解释一下调度实现：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/*
+ * Switch away from the current thread context by saving its state 
+ * and calling the thread scheduler
+ */
+#define _ST_SWITCH_CONTEXT(_thread)       \
+    ST_BEGIN_MACRO                        \
+    if (!MD_SETJMP((_thread)-&gt;context)) { \
+      _st_vp_schedule();                  \
+    }                                     \
+    ST_END_MACRO
+
+/*
+ * Restore a thread context that was saved by _ST_SWITCH_CONTEXT 
+ * or initialized by _ST_INIT_CONTEXT
+ */
+#define _ST_RESTORE_CONTEXT(_thread)   \
+    ST_BEGIN_MACRO                     \
+    _ST_SET_CURRENT_THREAD(_thread);   \
+    MD_LONGJMP((_thread)-&gt;context, 1); \
+    ST_END_MACRO
+
+void _st_vp_schedule(void)
+{
+    _st_thread_t *thread;
+
+    if (_ST_RUNQ.next != &amp;_ST_RUNQ) {
+        /* Pull thread off of the run queue */
+        thread = _ST_THREAD_PTR(_ST_RUNQ.next);
+        _ST_DEL_RUNQ(thread);
+    } else {
+        /* If there are no threads to run, switch to the idle thread */
+        thread = _st_this_vp.idle_thread;
+    }
+    ST_ASSERT(thread-&gt;state == _ST_ST_RUNNABLE);
+
+    /* Resume the thread */
+    thread-&gt;state = _ST_ST_RUNNING;
+    _ST_RESTORE_CONTEXT(thread);
+}
+</pre>
+<p>如果你熟悉setjmp/longjmp的用法，你就知道当前thread在调用MD_SETJMP将现场上下文保存在jmp_buf中并返回返回0，然后自己调用_st_vp_schedule()将自己调度出去。调度器先从RUNQ上找，如果队列为空就找idle thread，这是在整个ST初始化时创建的一个特殊thread，然后将当前线程设为自己，再调用MD_LONGJMP切换到其上次调用MD_SETJMP的地方，从thread-&gt;context恢复现场并返回1，该thread就接着往下执行了。<strong>整个过程就同EDSM一样发生在操作系统单线程下，所以没有任何系统开销与阻塞。</strong></p>
+<p><strong>其实真正的阻塞是发生在等待I/O事件复用上，也就是select()/poll()，这是整个ST唯一的系统调用。</strong>ST当前的状态是，整个环境处于空闲状态，所有threads的请求处理都已经完成，也就是RUNQ为空。这时在_st_idle_thread_start维护了一个主循环（类似于event loop），主要负责三种任务：1.对IOQ所有thread进行I/O复用检测；2.对SLEEPQ进行超时检查；3.将idle thread调度出去，代码如下：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+void *_st_idle_thread_start(void *arg)
+{
+    _st_thread_t *me = _ST_CURRENT_THREAD();
+
+    while (_st_active_count &gt; 0) {
+        /* Idle vp till I/O is ready or the smallest timeout expired */
+        _ST_VP_IDLE();
+
+        /* Check sleep queue for expired threads */
+        _st_vp_check_clock();
+
+        me-&gt;state = _ST_ST_RUNNABLE;
+        _ST_SWITCH_CONTEXT(me);
+    }
+
+    /* No more threads */
+    exit(0);
+
+    /* NOTREACHED */
+    return NULL;
+}</pre>
+<p>这里的me就是idle thread，因为_st_idle_thread_start就是创建idle thread的启动点，每从上次_ST_SWITCH_CONTEXT()切换回来的时候，接着在_ST_VP_IDLE()里轮询I/O事件的发生，一旦检测到发生了别的thread事件或者SLEEPQ里面发生超时，再用_ST_SWITCH_CONTEXT()把自己切换出去，如果此时RUNQ中非空的话就切换到队列第一个thread。这里主循环是不会退出的。</p>
+<p>在内存方面，<strong>ST的执行状态作为局部变量保存在栈上，而不是像回调需要动态分配，</strong>用户可能分别这样使用thread模式和callback模式：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/* thread land */
+int foo()
+{
+    int local1;
+    int local2;
+    do_some_io();
+}
+
+/* callback land */
+struct foo_data {
+    int local1;
+    int local2;
+};
+
+void foo_cb(void *arg)
+{
+    struct foo_data *locals = arg;
+    ...
+}
+
+void foo()
+{
+    struct foo_data *locals = malloc(sizeof(struct foo_data));
+    register(foo_cb, locals);
+}
+</pre>
+<h4>基于Mult-Threading范式</h4>
+<p>同样基于multi-threading编程范式，ST同其它线程库又有和有点呢？比如Posix Thread（以下简称PThread）是个通用的线程库，它是<strong>将用户级线程（thread）同内核执行对象（kernel execution entity，有些书又叫lightweight processes）做了1:1或m:n映射，</strong>从而实现multi-threading模式。<strong>而ST是单线程（n:1映射），它的thread实际上就是协程（coroutine）。</strong>通常的网络应用上，多线程范式绕不开操作系统，但在某些特定的服务器领域，线程间的共享资源会带来额外复杂度，锁、竞态、并发、文件句柄、全局变量、管道、信号等，面对这些Pthread的灵活性会大打折扣。<strong>而ST的调度是精确的，它只会在明确的I/O和同步函数调用点上发生上下文切换，这正是协程的特性，如此一来ST就不需要互斥保护了，进而也可以放心使用任何静态变量和不可重入库函数了</strong>（这在同样作为协程的Protothreads里是不允许的，因为那是stack-less的，无法保存上下文），极大的简化了编程和调试同时增加了性能。</p>
+<p>对于同样用户级线程如GNU Pth和MIT Phread比起来呢？有两点，一是ST的thread是<strong>无优先级的非抢占式调度</strong>，也就是说ST基于EDSM的，每个thread都是事件或数据驱动，迟早会把自己调度出去，而且调度点是明确的，并非按时间片来的，从而简化了thread管理；二是ST会<strong>忽略所有信号处理</strong>，在_st_io_init中会把sigact.sa_handler设为SIG_IGN，这样做是因为将thread资源最小化，避免了signal mask及其系统调用（在ucontext上是避免不了的）。但这并不意味着ST就不能处理信号，实际上ST建议将信号写入pipe的方式转化为普通I/O事件处理，示例详见<a title="signal handling" href="http://state-threads.sourceforge.net/docs/notes.html#signals" target="_blank">这里</a>。</p>
+<p>这里顺便说一句，<strong>C语言实现的协程据我所知只有三种方式</strong>：Protothread为代表利用switch-case语义跳转，以ST为代表不依赖libc的setjmp/longjmp上下文切换，以及依赖glibc的ucontext接口（<a title="云风的coroutine" href="https://github.com/cloudwu/coroutine" target="_blank">云风的coroutine</a>）。第一种最轻，但受限最大，第三种耗资源性能慢（陈皓注：glibc的ucontext接口的实现中有一个和信号有关的系统调用，所以会慢，估计在一些情况下会比pthread还慢），目前看来ST是最好使的。</p>
+<h4>基于多核环境</h4>
+<p>下面来聊聊ST在多核环境下的应用。服务器领域多核的优势在于实现了物理上真正的并发，所以如何充分利用系统优势也是线程库的一大难点。这对ST来说也许正是它的拿手好戏，前面提及ST曾作为Apache的多核引擎模块发布。这里要补充一下前面漏掉的ST的一个重要概念——<strong>虚拟处理器</strong>（virtual processor，简称vp），见图3，多个cpu通过内核的SMP模拟出多个“核”（core），一个core对应一个内核任务（kernel task），同时对应一个用户进程（process），一个process对应ST的一个vp，每个vp下就是ST的thread（是协程不是线程），结合前面所述，vp初始化先创建idle thread，然后根据I/O事件驱动其它threads，这就是ST的多核架构。</p>
+<p><img decoding="async" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/10/st_app.gif" alt="multi-core" /></p>
+<p>这里要指出的是，<strong>ST只负责自身thread调度，进程管理是应用程序的事情，</strong>也就是说由用户来决定fork多少进程，每个进程分配多少资源，如何进行IPC等。这种架构的好处就是每个vp有自己独立的空间，避免了资源同步竞态（比如杜绝了多进程里的多线程这样混乱的模型）。我们知道这种<strong>基于进程的架构是非常健壮的，一个进程奔溃不会影响到其它进程，同时充分利用多核硬件的高并发。</strong>同时对于具体逻辑业务使用vp里的thread处理，这是基于EDSM的，如此一来做到了<strong>逻辑业务与内核执行对象之间的解耦</strong>，没必要因为1K个连接去创建1K的进程。这就是ST的扩展性和灵活性。</p>
+<h4>使用限制</h4>
+<p>ST的主要限制在于，应用程序所有I/O操作必须使用ST提供的API，因为只有这样thread才能被调度器管理，并且避免阻塞。</p>
+<p>另一个限制在于thread调试，这本身不容易，好在v1.9的ST提供了DEBUG参数，使用TREADQ以及_st_iterate_threads接口检测thread调度情况，用户还可自定义_st_show_thread_stack接口dump每个thread的栈，在GDB使能_st_iterate_threads_flag变量，这些都在Readme中对调试方法有具体说明。按下不表。</p>
+<h4>总结</h4>
+<p>这篇文章写得有点短了，主要是通过对比来介绍ST的，其实还有大段原理可以讲，大段源码以及实战用例可以贴，但这一下子又写不过来，ST还是有点技术含量的。说白了，<strong>ST的核心思想就是利用multi-threading的简单优雅范式胜过传统异步回调的复杂晦涩实现，又利用EDSM的性能和解耦架构避免了multi-threading在系统上的开销和暗礁。</strong>学习ST告诉我们一个道理：<strong>未来技术的趋势永远都是融合的。</strong></p>
+<h4>参考</h4>
+<ul>
+<li>在<a title="sourceforge源码" href="http://sourceforge.net/projects/state-threads/files/" target="_blank">SourceForge</a>以及<a title="github源码" href="https://github.com/winlinvip/state-threads" target="_blank">github</a>上的源码：前者有历史版本及win32版本，后者只有v1.9。</li>
+</ul>
+<ul>
+<li><a title="State Threads for Internet Applications" href="http://state-threads.sourceforge.net/docs/st.html" target="_blank">State Threads for Internet Applications</a>：介绍原理的，值得一看，<a title="中文翻译" href="http://blog.csdn.net/win_lin/article/details/8242653" target="_blank">这里</a>有篇中文翻译附加单元测试（在单CPU 512M内存上创建数万个thread，CPU占用率约5%，内存约4.3K/thread）。</li>
+</ul>
+<ul>
+<li><a title="State Threads Library FAQ" href="http://state-threads.sourceforge.net/docs/faq.html" target="_blank">State Threads Library FAQ</a>：本文基于此而写。</li>
+</ul>
+<ul>
+<li><a title="API手册" href="http://state-threads.sourceforge.net/docs/reference.html" target="_blank">Complete reference</a>：API完全手册。</li>
+</ul>
+<ul>
+<li><a title="注意事项" href="http://state-threads.sourceforge.net/docs/notes.html" target="_blank">Programing Notes</a>：编程注意事项，包括信号处理，IPC，非网络I/O事件等。</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/10975.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="一个“蝇量级” C 语言协程库" width="150" height="150" /></a><a href="http://coolshell.cn/articles/10975.html" class="wp_rp_title">一个“蝇量级” C 语言协程库</a></li><li ><a href="http://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li><li ><a href="http://coolshell.cn/articles/5987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/6.jpg" alt="如何设计“找回用户帐号”功能" width="150" height="150" /></a><a href="http://coolshell.cn/articles/5987.html" class="wp_rp_title">如何设计“找回用户帐号”功能</a></li><li ><a href="http://coolshell.cn/articles/8309.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="C/C++语言中闭包的探究及比较" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8309.html" class="wp_rp_title">C/C++语言中闭包的探究及比较</a></li><li ><a href="http://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12012.html">State Threads 回调终结者</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12012.html/feed</wfw:commentRss>
+			<slash:comments>50</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个“蝇量级” C 语言协程库</title>
+		<link>https://coolshell.cn/articles/10975.html</link>
+					<comments>https://coolshell.cn/articles/10975.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Tue, 28 Jan 2014 02:50:41 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[coroutine]]></category>
+		<category><![CDATA[Queue]]></category>
+		<category><![CDATA[yield]]></category>
+		<category><![CDATA[协程]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10975</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 协程(coroutine)顾名思义就是“协作的例程”（co-operative routines）。跟具有操作系统概念的线...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10975.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10975.html">一个“蝇量级” C 语言协程库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>协程(coroutine)顾名思义就是“协作的例程”（co-operative routines）。跟具有操作系统概念的线程不一样，协程是在用户空间利用程序语言的语法语义就能实现逻辑上类似多任务的编程技巧。实际上协程的概念比线程还要早，按照 Knuth 的说法<strong>“子例程是协程的特例”</strong>，一个子例程就是一次子函数调用，那么实际上协程就是类函数一样的程序组件，你可以在一个线程里面轻松创建数十万个协程，就像数十万次函数调用一样。只不过子例程只有一个调用入口起始点，返回之后就结束了，而协程入口既可以是起始点，又可以从上一个返回点继续执行，也就是说协程之间可以通过 yield 方式转移执行权，<strong>对称（symmetric）、平级</strong>地调用对方，而不是像例程那样上下级调用关系。当然 Knuth 的“特例”指的是协程也可以模拟例程那样实现上下级调用关系，这就叫<strong>非对称协程</strong>（asymmetric coroutines）。</p>
+<h4>基于事件驱动模型</h4>
+<p>我们举一个例子来看看一种<strong>对称协程</strong>调用场景，大家最熟悉的“生产者-消费者”事件驱动模型，一个协程负责生产产品并将它们加入队列，另一个负责从队列中取出产品并使用它。为了提高效率，你想一次增加或删除多个产品。伪代码可以是这样的：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># producer coroutine
+loop
+while queue is not full
+  create some new items
+  add the items to queue
+yield to consumer
+
+# consumer coroutine
+loop
+while queue is not empty
+  remove some items from queue
+  use the items
+yield to producer</pre>
+<p><span id="more-10975"></span></p>
+<p>大多数教材上拿这种模型作为多线程的例子，实际上多线程在此的应用还是显得有点“重量级”，由于缺乏 yield 语义，线程之间不得不使用同步机制来避免产生全局资源的竟态，这就不可避免产生了休眠、调度、切换上下文一类的系统开销，而且线程调度还会产生时序上的不确定性。而对于协程来说，“挂起”的概念只不过是转让代码执行权并调用另外的协程，待到转让的协程告一段落后重新得到调用并从挂起点“唤醒”，这种协程间的调用是逻辑上可控的，时序上确定的，可谓一切尽在掌握中。</p>
+<p>当今一些具备协程语义的语言，比较重量级的如C#、erlang、golang，以及轻量级的python、lua、javascript、ruby，还有函数式的scala、scheme等。相比之下，作为原生态语言的 C 反而处于尴尬的地位，原因在于 C 依赖于一种叫做<strong>栈帧</strong>的例程调用，例程内部的状态量和返回值都保留在堆栈上，这意味着生产者和消费者相互之间无法实现平级调用，当然你可以改写成把生产者作为主例程然后将产品作为传递参数调用消费者例程，这样的代码写起来费力不讨好而且看起来会很难受，特别当协程数目达到十万数量级，这种写法就过于僵化了。</p>
+<p>这就引出了协程的概念，<strong>如果将每个协程的上下文（比如程序计数器）保存在其它地方而不是堆栈上，协程之间相互调用时，被调用的协程只要从堆栈以外的地方恢复上次出让点之前的上下文即可，这有点类似于 CPU 的上下文切换，</strong>遗憾的是似乎只有更底层的汇编语言才能做到这一点。</p>
+<p>难道 C 语言只能用多线程吗？幸运的是，C 标准库给我们提供了两种协程调度原语：一种是<a title="http://zh.wikipedia.org/wiki/Setjmp.h" href="http://zh.wikipedia.org/wiki/Setjmp.h" target="_blank"> setjmp/longjmp</a>，另一种是<a title="http://pubs.opengroup.org/onlinepubs/7990989799/xsh/ucontext.h.html" href="http://pubs.opengroup.org/onlinepubs/7990989799/xsh/ucontext.h.html" target="_blank"> ucontext 组件</a>，它们内部（当然是用汇编语言）实现了协程的上下文切换，相较之下前者在应用上会产生相当的不确定性（比如不好封装，具体说明参考联机文档），所以后者应用更广泛一些，网上绝大多数 C 协程库也是基于 ucontext 组件实现的。</p>
+<h4>“蝇量级”的协程库</h4>
+<p>在此，我来介绍一种“蝇量级”的开源 C 协程库 <a title="http://dunkels.com/adam/pt/" href="http://dunkels.com/adam/pt/" target="_blank">protothreads</a>。这是一个全部用 ANSI C 写成的库，之所以称为“蝇量级”的，就是说，实现已经不能再精简了，几乎就是原语级别。事实上 protothreads 整个库不需要链接加载，因为所有源码都是头文件，类似于 STL 这样不依赖任何第三方库，在任何平台上可移植；总共也就 5 个头文件，有效代码量不足 100 行；API 都是宏定义的，所以不存在调用开销；最后，每个协程的空间开销是 2 个字节（是的，你没有看错，就是一个 short 单位的“栈”！）当然这种精简是要以使用上的局限为代价的，接下来的分析会说明这一点。</p>
+<p>先来看看 protothreads 作者，<a title="http://dunkels.com/adam/" href="http://dunkels.com/adam/" target="_blank">Adam Dunkels</a>，一位来自瑞典皇家理工学院的计算机天才帅哥。话说这哥们挺有意思的，写了好多轻量级的作品，都是 BSD 许可证。顺便说一句，轻量级开源软件全世界多如牛毛，可像这位哥们写得如此出名的并不多。比如嵌入式网络操作系统 <a title="http://www.contiki-os.org/" href="http://www.contiki-os.org/" target="_blank">Contiki</a>，国人耳熟能详的 TCP/IP 协议栈 <a title="http://en.wikipedia.org/wiki/UIP_(micro_IP)" href="http://en.wikipedia.org/wiki/UIP_(micro_IP)" target="_blank">uIP</a> 和 <a title="http://savannah.nongnu.org/projects/lwip/" href="http://savannah.nongnu.org/projects/lwip/" target="_blank">lwIP</a> 也是出自其手。上述这些软件都是经过数十年企业级应用的考验，质量之高可想而知。</p>
+<p>很多人会好奇如此“蝇量级”的代码究竟是怎么实现的呢？在分析 protothreads 源码之前，我先来给大家补一补 C 语言的基础课;-^)简而言之，这利用了 C 语言特性上的一个“奇技淫巧”，而且这种技巧恐怕连许多具备十年以上经验的 C 程序员老手都不见得知晓。当然这里先要声明我不是推荐大家都这么用，实际上这是以破坏语言的代码规范为代价，在一些严肃的项目工程中需要谨慎对待，除非你想被炒鱿鱼。</p>
+<h4>C 语言的“yield 语义”</h4>
+<p>下面的教程来自于一位 ARM 工程师、天才黑客 <a title="http://www.chiark.greenend.org.uk/~sgtatham/" href="http://www.chiark.greenend.org.uk/~sgtatham/" target="_blank">Simon Tatham</a>（开源 Telnet/SSH 客户端 <a title="http://www.chiark.greenend.org.uk/~sgtatham/putty/" href="http://www.chiark.greenend.org.uk/~sgtatham/putty/" target="_blank">PuTTY</a> 和汇编器 <a title="http://www.nasm.us/" href="http://www.nasm.us/" target="_blank">NASM</a> 的作者，吐槽一句，PuTTY的源码号称是所有正式项目里最难 hack 的 C，你应该猜到作者是什么语言出身）的博文：<a title="http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html" href="http://www.chiark.greenend.org.uk/~sgtatham/coroutines.html" target="_blank">Coroutines in C</a>。中文译文在<a title="http://www.oschina.net/translate/coroutines-in-c" href="http://www.oschina.net/translate/coroutines-in-c" target="_blank">这里</a>。</p>
+<p>我们知道 python 的 yield 语义功能类似于一种迭代生成器，函数会保留上次的调用状态，并在下次调用时会从上个返回点继续执行。用 C 语言来写就像这样：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  int i;
+  for (i = 0; i &lt; 10; i++)
+    return i;   /* won&#039;t work, but wouldn&#039;t it be nice */
+}</pre>
+<p>连续对它调用 10 次，它能分别返回 0 到 9。该怎样实现呢？可以利用 goto 语句，如果我们在函数中加入一个状态变量，就可以这样实现：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: goto LABEL0;
+    case 1: goto LABEL1;
+  }
+  LABEL0: /* start of function */
+  for (i = 0; i &lt; 10; i++) {
+    state = 1; /* so we will come back to LABEL1 */
+    return i;
+    LABEL1:; /* resume control straight after the return */
+  }
+}</pre>
+<p>这个方法是可行的。我们在所有需要 yield 的位置都加上标签：起始位置加一个，还有所有 return 语句之后都加一个。每个标签用数字编号，我们在状态变量中保存这个编号，这样就能在我们下次调用时告诉我们应该跳到哪个标签上。每次返回前，更新状态变量，指向到正确的标签；不论调用多少次，针对状态变量的 switch 语句都能找到我们要跳转到的位置。</p>
+<p>但这还是难看得很。最糟糕的部分是所有的标签都需要手工维护，还必须保证函数中的标签和开头 switch 语句中的一致。每次新增一个 return 语句，就必须想一个新的标签名并将其加到 switch 语句中；每次删除 return 语句时，同样也必须删除对应的标签。这使得维护代码的工作量增加了一倍。</p>
+<p>仔细想想，其实我们可以不用 switch 语句来决定要跳转到哪里去执行，而是<strong>直接利用 switch 语句本身来实现跳转</strong>：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: /* start of function */
+    for (i = 0; i &lt; 10; i++) {
+      state = 1; /* so we will come back to &quot;case 1&quot; */
+      return i;
+      case 1:; /* resume control straight after the return */
+    }
+  }
+}</pre>
+<p>酷！没想到 switch-case 语句可以这样用，其实说白了 C 语言就是脱胎于汇编语言的，switch-case 跟 if-else 一样，无非就是汇编的条件跳转指令的另类实现而已（这也间接解释了为何汇编程序员经常揶揄 C 语言是“大便一样的代码”）。我们还可以用 __LINE__ 宏使其更加一般化：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int function(void) {
+  static int i, state = 0;
+  switch (state) {
+    case 0: /* start of function */
+    for (i = 0; i &lt; 10; i++) {
+      state = __LINE__ + 2; /* so we will come back to &quot;case __LINE__&quot; */
+      return i;
+      case __LINE__:; /* resume control straight after the return */
+    }
+  }
+}</pre>
+<p>这样一来我们可以用宏提炼出一种范式，封装成组件：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define Begin() static int state=0; switch(state) { case 0:
+#define Yield(x) do { state=__LINE__; return x; case __LINE__:; } while (0)
+#define End() }
+int function(void) {
+  static int i;
+  Begin();
+  for (i = 0; i &lt; 10; i++)
+    Yield(i);
+  End();
+}</pre>
+<p>怎么样，看起来像不像发明了一种全新的语言？<strong>实际上我们利用了 switch-case 的分支跳转特性，以及预编译的 __LINE__ 宏，实现了一种隐式状态机，最终实现了“yield 语义”。</strong></p>
+<p>还有一个问题，当你欢天喜地地将这种鲜为人知的技巧运用到你的项目中，并成功地拿去向你的上司邀功问赏的时候，你的上司会怎样看待你的代码呢？你的宏定义中大括号没有匹配完整，在代码块中包含了未用到的 case，Begin 和 Yield 宏里面不完整的七拼八凑……你简直就是公司里不遵守编码规范的反面榜样！</p>
+<p>别着急，在原文中 Simon Tatham 大牛帮你找到一个坚定的反驳理由，我觉得对程序员来说简直是金玉良言。</p>
+<p>将编程规范用在这里是不对的。文章里给出的示例代码不是很长，也不很复杂，即便以状态机的方式改写还是能够看懂的。但是随着代码越来越长，改写的难度将越来越大，改写对直观性造成的损失也变得相当相当大。</p>
+<p>想一想，一个函数如果包含这样的小代码块：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">case STATE1:
+/* perform some activity */
+if (condition) state = STATE2; else state = STATE3;</pre>
+<p>对于看代码的人说，这和包含下面小代码块的函数没有多大区别：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">LABEL1:
+/* perform some activity */
+if (condition) goto LABEL2; else goto LABEL3;</pre>
+<p>是的，这两个函数的结构在视觉上是一样的，而对于函数中实现的算法，两个函数都一样不利于查看。因为你使用协程的宏而炒你鱿鱼的人，一样会因为你写的函数是由小块的代码和 goto 语句组成而吼着炒了你。只是这次他们没有冤枉你，因为像那样设计的函数会严重扰乱算法的结构。</p>
+<p><strong>编程规范的目标就是为了代码清晰。</strong>如果将一些重要的东西，像 switch、return 以及 case 语句，隐藏到起“障眼”作用的宏中，从编程规范的角度讲，可以说你扰乱了程序的语法结构，并且违背了代码清晰这一要求。但是我们这样做是为了突出程序的算法结构，而算法结构恰恰是看代码的人更想了解的。</p>
+<p><span style="color: #ff0000;"><strong>任何编程规范，坚持牺牲算法清晰度来换取语法清晰度的，都应该重写。</strong></span>如果你的上司因为使用了这一技巧而解雇你，那么在保安把你往外拖的时候要不断告诉他这一点。</p>
+<p>原文作者最后给出了一个 MIT 许可证的 <a title="http://www.chiark.greenend.org.uk/~sgtatham/coroutine.h" href="http://www.chiark.greenend.org.uk/~sgtatham/coroutine.h" target="_blank">coroutine.h</a> 头文件。值得一提的是，正如文中所说，这种协程实现方法有个使用上的局限，就是<strong>协程调度状态的保存依赖于 static 变量，而不是堆栈上的局部变量</strong>，实际上也无法用局部变量（堆栈）来保存状态，这就使得代码不具备可重入性和多线程应用。后来作者补充了一种技巧，就是将局部变量包装成函数参数传入的一个虚构的上下文结构体指针，然后用动态分配的堆来“模拟”堆栈，解决了线程可重入问题。但这样一来反而有损代码清晰，比如所有局部变量都要写成对象成员的引用方式，特别是局部变量很多的时候很麻烦，再比如宏定义 malloc/free 的玩法过于托大，不易控制，搞不好还增加了被炒鱿鱼的风险（只不过这次是你活该）。</p>
+<p>我个人认为，既然协程本身是一种单线程的方案，那么我们应该假定应用环境是单线程的，不存在代码重入问题，所以我们可以大胆地使用 static 变量，维持代码的简洁和可读性。事实上<strong>我们也不应该在多线程环境下考虑使用这么简陋的协程</strong>，非要用的话，前面提到 glibc 的 ucontext 组件也是一种可行的替代方案，它提供了一种协程私有堆栈的上下文，当然这种用法在跨线程上也并非没有限制，请仔细阅读联机文档。</p>
+<h4>Protothreads的上下文</h4>
+<p>感谢 Simon Tatham 的淳淳教诲，接下来我们可以 hack 一下源码了。先来看看实现 protothreads 的数据结构， 实际上它就是协程的<strong>上下文结构体</strong>，用以保存状态变量，相信你很快就明白为何它的“堆栈”只有 2 个字节：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct pt {
+  lc_t lc;
+}</pre>
+<p>里面只有一个 short 类型的变量，实际上它是用来保存上一次出让点的程序计数器。这也映证了协程比线程的灵活之处，就是协程可以是 stackless 的，如果需要实现的功能很单一，比如像生产者-消费者模型那样用来做事件通知，那么实际上协程需要保存的状态变量仅仅是一个程序计数器即可。像 python generator 也是 stackless 的，当然实现一个迭代生成器可能还需要保留上一个迭代值，前面 C 的例子是用 static 变量保存，你也可以设置成员变量添加到上下文结构体里面。如果你真的不确定用协程调度时需要保存多少状态变量，那还是用 ucontext 好了，它的上下文提供了堆栈和信号，但是由用户负责分配资源，详细使用方法见联机文档。。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">typedef struct ucontext {
+  struct ucontext_t *uc_link;
+  sigset_t uc_sigmask;
+  stack_t uc_stack;
+  ...
+} ucontext_t;</pre>
+<h4>Protothreads的原语和组件</h4>
+<p>有点扯远了，回到 protothreads，看看提供的协程“原语”。有两种实现方法，在 ANSI C 下，就是传统的 switch-case 语句：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define LC_INIT（s） s = 0;  // 源码中是有分号的，一个低级 bug，啊哈～
+#define LC_RESUME(s) switch (s) { case 0:
+#define LC_SET(s) s = __LINE__; case __LINE__:
+#define LC_END(s) }
+</pre>
+<p>但这种“原语”有个难以察觉的缺陷：<strong>就是你无法在 LC_RESUME 和 LC_END （或者包含它们的组件）之间的代码中使用 switch-case语句，因为这会引起外围的 switch 跳转错误！</strong>为此，protothreads 又实现了基于 GNU C 的调度“原语”。在 GNU C 下还有一种语法糖叫做标签指针，就是在一个 label 前面加 &amp;&amp;（不是地址的地址，是 GNU 自定义的符号），可以用 void 指针类型保存，然后 goto 跳转：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">typedef void * lc_t；
+#define LC_INIT(s) s = NULL
+#define LC_RESUME(s) \
+  do { \
+    if (s != NULL) { \
+      goto *s; \
+    }
+  } while (0)
+#define LC_CONCAT2(s1, s2) s1##s2
+#define LC_CONCAT(s1, s2) LC_CONCAT2(s1, s2)
+#define LC_SET(s) \
+  do { \
+    LC_CONCAT(LC_LABEL, __LINE__): \
+    （s） = &amp;&amp;LC_CONCAT(LC_LABEL, __LINE__); \
+  } while (0)</pre>
+<p>好了，有了前面的基础知识，理解这些“原语”就是小菜一叠，下面看看如何建立“组件”，同时也是 protothreads API，我们先定义四个退出码作为协程的<strong>调度状态机</strong>：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define PT_WAITING 0
+#define PT_YIELDED 1
+#define PT_EXITED  2
+#define PT_ENDED   3</pre>
+<p>下面这些 API 可直接在应用程序中调用：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">/* 初始化一个协程，也即初始化状态变量 */
+#define PT_INIT(pt) LC_INIT((pt)-&gt;lc)
+
+/* 声明一个函数，返回值为 char 即退出码，表示函数体内使用了 proto thread，（个人觉得有些多此一举） */
+#define PT_THREAD(name_args) char name_args
+
+/* 协程入口点， PT_YIELD_FLAG=0表示出让，=1表示不出让，放在 switch 语句前面，下次调用的时候可以跳转到上次出让点继续执行 */
+#define PT_BEGIN(pt) { char PT_YIELD_FLAG = 1; LC_RESUME((pt)-&gt;lc)
+
+/* 协程退出点，至此一个协程算是终止了，清空所有上下文和标志 */
+#define PT_END(pt) LC_END((pt)-&gt;lc); PT_YIELD_FLAG = 0; \
+                   PT_INIT(pt); return PT_ENDED; }
+
+/* 协程出让点，如果此时协程状态变量 lc 已经变为 __LINE__ 跳转过来的，那么 PT_YIELD_FLAG = 1，表示从出让点继续执行。 */
+#define PT_YIELD(pt)        \
+  do {            \
+    PT_YIELD_FLAG = 0;        \
+    LC_SET((pt)-&gt;lc);       \
+    if(PT_YIELD_FLAG == 0) {      \
+      return PT_YIELDED;      \
+    }           \
+  } while(0)
+
+/* 附加出让条件 */
+#define PT_YIELD_UNTIL(pt, cond)    \
+  do {            \
+    PT_YIELD_FLAG = 0;        \
+    LC_SET((pt)-&gt;lc);       \
+    if((PT_YIELD_FLAG == 0) || !(cond)) { \
+      return PT_YIELDED;      \
+    }           \
+  } while(0)
+
+/* 协程阻塞点(blocking),本质上等同于 PT_YIELD_UNTIL，只不过退出码是 PT_WAITING，用来模拟信号量同步 */
+#define PT_WAIT_UNTIL(pt, condition)          \
+  do {            \
+    LC_SET((pt)-&gt;lc);       \
+    if(!(condition)) {        \
+      return PT_WAITING;      \
+    }           \
+  } while(0)
+
+/* 同 PT_WAIT_UNTIL 条件反转 */
+#define PT_WAIT_WHILE(pt, cond)  PT_WAIT_UNTIL((pt), !(cond))
+
+/* 协程调度，调用协程 f 并检查它的退出码，直到协程终止返回 0，否则返回 1。 */
+#define PT_SCHEDULE(f) ((f) &lt; PT_EXITED)
+
+/* 这用于非对称协程，调用者是主协程，pt 是和子协程 thread （可以是多个）关联的上下文句柄，主协程阻塞自己调度子协程，直到所有子协程终止 */
+#define PT_WAIT_THREAD(pt, thread) PT_WAIT_WHILE((pt), PT_SCHEDULE(thread))
+
+/* 用于协程嵌套调度，child 是子协程的上下文句柄 */
+#define PT_SPAWN(pt, child, thread)   \
+  do {            \
+    PT_INIT((child));       \
+    PT_WAIT_THREAD((pt), (thread));   \
+  } while(0)</pre>
+<p>暂时介绍这么多，用户还可以根据自己的需求随意扩展组件，比如实现信号量，你会发现脱离了操作系统环境下的信号量竟是如此简单：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct pt_sem {
+  unsigned int count;
+};
+
+#define PT_SEM_INIT(s, c) (s)-&gt;count = c
+
+#define PT_SEM_WAIT(pt, s)  \
+  do {            \
+    PT_WAIT_UNTIL(pt, (s)-&gt;count &gt; 0);    \
+    --(s)-&gt;count;       \
+  } while(0)
+
+#define PT_SEM_SIGNAL(pt, s) ++(s)-&gt;count</pre>
+<p>这些应该不需要我多说了吧，呵呵，让我们回到最初例举的生产者-消费者模型，看看protothreads表现怎样。</p>
+<h4>Protothreads实战</h4>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include &quot;pt-sem.h&quot;
+
+#define NUM_ITEMS 32
+#define BUFSIZE 8
+
+static struct pt_sem mutex, full, empty;
+
+PT_THREAD(producer(struct pt *pt))
+{
+  static int produced;
+
+  PT_BEGIN(pt);
+  for (produced = 0; produced &lt; NUM_ITEMS; ++produced) {
+    PT_SEM_WAIT(pt, &amp;full);
+    PT_SEM_WAIT(pt, &amp;mutex);
+    add_to_buffer(produce_item());
+    PT_SEM_SIGNAL(pt, &amp;mutex);
+    PT_SEM_SIGNAL(pt, &amp;empty);
+  }
+  PT_END(pt);
+}
+
+PT_THREAD(consumer(struct pt *pt))
+{
+  static int consumed;
+
+  PT_BEGIN(pt);
+  for (consumed = 0; consumed &lt; NUM_ITEMS; ++consumed) {
+    PT_SEM_WAIT(pt, &amp;empty);
+    PT_SEM_WAIT(pt, &amp;mutex);
+    consume_item(get_from_buffer());
+    PT_SEM_SIGNAL(pt, &amp;mutex);
+    PT_SEM_SIGNAL(pt, &amp;full);
+  }
+  PT_END(pt);
+}
+
+PT_THREAD(driver_thread(struct pt *pt))
+{
+  static struct pt pt_producer, pt_consumer;
+
+  PT_BEGIN(pt);
+  PT_SEM_INIT(&amp;empty, 0);
+  PT_SEM_INIT(&amp;full, BUFSIZE);
+  PT_SEM_INIT(&amp;mutex, 1);
+  PT_INIT(&amp;pt_producer);
+  PT_INIT(&amp;pt_consumer);
+  PT_WAIT_THREAD(pt, producer(&amp;pt_producer) &amp; consumer(&amp;pt_consumer));
+  PT_END(pt);
+}</pre>
+<p>源码包中的 example-buffer.c 包含了可运行的完整示例，我就不全部贴了。整体框架就是一个 asymmetric coroutines，包括一个主协程 driver_thread 和两个子协程 producer 和 consumer ，其实不用多说大家也懂的，代码非常清晰直观。我们完全可以通过单线程实现一个简单的事件处理需求，你可以任意添加数十万个协程，几乎不会引起任何额外的系统开销和资源占用。唯一需要留意的地方就是没有一个局部变量，因为 protothreads 是 stackless 的，但这不是问题，首先我们已经假定运行环境是单线程的，其次在一个简化的需求下也用不了多少“局部变量”。如果在协程出让时需要保存一些额外的状态量，像迭代生成器，只要数目和大小都是确定并且可控的话，自行扩展协程上下文结构体即可。</p>
+<p>当然这不是说 protothreads 是万能的，它只是贡献了一种模型，你要使用它首先就得学会适应它。下面列举一些 protothreads 的使用限制：</p>
+<ul>
+<li>由于协程是stackless的，尽量不要使用局部变量，除非该变量对于协程状态是无关紧要的，同理可推，协程所在的代码是不可重入的。</li>
+</ul>
+<ul>
+<li>如果协程使用 switch-case 原语封装的组件，那么禁止在实际应用中使用 switch-case 语句，除非用 GNU C 语法中的标签指针替代。</li>
+</ul>
+<ul>
+<li>一个协程内部可以调用其它例程，比如库函数或系统调用，但必须保证该例程是非阻塞的，否则所在线程内的所有协程都将被阻塞。毕竟线程才是执行的最小单位，协程不过是按“时间片轮度”的例程而已。</li>
+</ul>
+<p>官网上还例举了更多<a title="http://dunkels.com/adam/pt/examples.html" href="http://dunkels.com/adam/pt/examples.html" target="_blank">实例</a>，都非常实用。另外，一个叫 Craig Graham 的工程师扩展了 pt.h，使得 protothreads 支持 sleep/wake/kill 等操作，文件在此 <a title="http://dunkels.com/adam/download/graham-pt.h" href="http://dunkels.com/adam/download/graham-pt.h" target="_blank">graham-pt.h</a>。</p>
+<h4>协程库 DIY 攻略</h4>
+<p>看到这里，手养的你是否想迫不及待地 DIY 一个协程组件呢？哪怕很多动态语言本身已经支持了协程语义，很多 C 程序员仍然倾向于自己实现组件，网上很多开源代码底层用的主要还是 glibc 的 ucontext 组件，毕竟提供堆栈的协程组件使用起来更加通用方便。你可以自己写一个调度器，然后模拟线程上下文，再然后……你就能搞出一个跨平台的COS了（笑）。GNU Pth 线程库就是这么实现的，其原作者德国人 <a title="http://engelschall.com/" href="http://engelschall.com/" target="_blank">Ralf S. Engelschall</a> （又是个开源大牛，还写了 <a title="http://engelschall.com/software-artist.php" href="http://engelschall.com/software-artist.php" target="_blank">OpenSSL 等许多作品</a>）就写了一篇<a title="http://xmailserver.org/rse-pmt.pdf" href="http://xmailserver.org/rse-pmt.pdf" target="_blank">论文</a>教大家如何实现一个线程库。另外 protothreads 官网上也有一大堆<a title="http://dunkels.com/adam/pt/links.html" href="http://dunkels.com/adam/pt/links.html" target="_blank">推荐阅读</a>。Have fun！</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10975.html">一个“蝇量级” C 语言协程库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10975.html/feed</wfw:commentRss>
+			<slash:comments>54</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

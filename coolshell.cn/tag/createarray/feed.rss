@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>createArray | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/createarray/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 01 Dec 2010 03:52:56 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Groovy是怎么实现createArray的</title>
+		<link>https://coolshell.cn/articles/3335.html</link>
+					<comments>https://coolshell.cn/articles/3335.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 01 Dec 2010 06:08:53 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[createArray]]></category>
+		<category><![CDATA[Groovy]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3335</guid>
+
+					<description><![CDATA[<p>Groovy是一个基于 Java虚拟机的敏捷 动态语言。构建在强大的Java语言之上 并 添加了从Python，Ruby和Smalltalk等语言中学到的 诸多...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3335.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3335.html">Groovy是怎么实现createArray的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://groovy.codehaus.org/" target="_blank">Groovy</a>是一个基于 Java虚拟机的敏捷 动态语言。构建在强大的Java语言之上 并 添加了从Python，Ruby和Smalltalk等语言中学到的 诸多特征。为Java开发者提供了 现代最流行的编程语言特性，而且学习成本很低（几乎为零）。在以前的酷壳的<a rel="bookmark" href="https://coolshell.cn/articles/2631.html">五大基于JVM的脚本语言</a>中也介绍过它。</p>
+<p>下面，让我们看看他的一个createArray的实现，请大家前去围观下面的Groovy的trunk上的源码吧。真是很好很强大。</p>
+<p><a href="http://svn.codehaus.org/groovy/trunk/groovy/groovy-core/src/main/org/codehaus/groovy/runtime/ArrayUtil.java" target="_blank">http://svn.codehaus.org/groovy/trunk/groovy/groovy-core/src/main/org/codehaus/groovy/runtime/ArrayUtil.java</a></p>
+<p>这里摘上前几个createArray重载函数让大家看看，（一共有250个重载函数）</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public class ArrayUtil {
+    ... ...
+    ... ...
+ public static Object[] createArray(Object arg0, Object arg1) {
+ return new Object[]{
+ arg0, arg1};
+ }
+
+ public static Object[] createArray(Object arg0, Object arg1, Object arg2) {
+ return new Object[]{
+ arg0, arg1, arg2};
+ }
+
+ public static Object[] createArray(Object arg0, Object arg1, Object arg2, Object arg3) {
+ return new Object[]{
+ arg0, arg1, arg2, arg3};
+ }
+
+ public static Object[] createArray(Object arg0, Object arg1, Object arg2, Object arg3, Object arg4) {
+ return new Object[]{
+ arg0, arg1, arg2, arg3, arg4};
+ }
+
+ public static Object[] createArray(Object arg0, Object arg1, Object arg2, Object arg3, Object arg4, Object arg5) {
+ return new Object[]{
+ arg0, arg1, arg2, arg3, arg4, arg5};
+ }
+ ... ...
+ ... ...
+} </pre>
+<p>这里给了一些<a href="http://groovy.329449.n5.nabble.com/Guys-any-explanations-about-this-td3285524.html#a3285676" target="_blank">解释</a>：</p>
+<p><span id="more-3335"></span></p>
+<ul>
+<li><strong>First</strong>: the package is org.codehaus.groovy.runtime. This is NOT a class that any user of Groovy will ever use. There are plenty of XML utilities in groovy.lang or groovy.xml for you to use.</li>
+<li><strong>Second</strong>: This class is never invoked from code. It exists so that byte code statements have something to link against. If you dump the stack language of a .class file you may indeed see a &#8220;INVOKESTATIC org/codehaus/groovy/runtime/XMLUtil&#8221; invocation. This logic is used around the CallSite writing features.</li>
+<li><strong>Third</strong>: Implementing a dynamic language (Groovy) in a static language (Java) on a type less virtual machine (JVM) is hard. Every language has their work arounds. We generated some code so that we had something to link against. At one point, JRuby was generating reams of interfaces (IIRC) and have you seen the implementation of OpenJDK? Ever notice now many methods are overloaded for all the primitives plus Object. These are all workarounds to get the end user a good programming experience while still running on the JVM.</li>
+</ul>
+<p>大意是：这个类对于Groovy的使用者是不会用到的，也不会被调用到，因为在JVM下实现动态语言是有一定的难度，这算是一个work around。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li><li ><a href="https://coolshell.cn/articles/2631.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="五大基于JVM的脚本语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2631.html" class="wp_rp_title">五大基于JVM的脚本语言</a></li><li ><a href="https://coolshell.cn/articles/5292.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="弱爆程序员的特征值" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5292.html" class="wp_rp_title">弱爆程序员的特征值</a></li><li ><a href="https://coolshell.cn/articles/652.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="MySQL: InnoDB 还是 MyISAM?" width="150" height="150" /></a><a href="https://coolshell.cn/articles/652.html" class="wp_rp_title">MySQL: InnoDB 还是 MyISAM?</a></li><li ><a href="https://coolshell.cn/articles/399.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/sort-150x150.jpg" alt="一个排序算法比较的网站" width="150" height="150" /></a><a href="https://coolshell.cn/articles/399.html" class="wp_rp_title">一个排序算法比较的网站</a></li><li ><a href="https://coolshell.cn/articles/21140.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/err-check-150x150.jpg" alt="Go 编程模式：错误处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21140.html" class="wp_rp_title">Go 编程模式：错误处理</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3335.html">Groovy是怎么实现createArray的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3335.html/feed</wfw:commentRss>
+			<slash:comments>10</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

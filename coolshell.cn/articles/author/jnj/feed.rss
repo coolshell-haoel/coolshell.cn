@@ -1,0 +1,1122 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>jnj | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/articles/author/jnj/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 15 Dec 2014 13:31:16 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>DHH 谈混合移动应用开发</title>
+		<link>https://coolshell.cn/articles/12225.html</link>
+					<comments>https://coolshell.cn/articles/12225.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Mon, 15 Dec 2014 02:57:20 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Hybrid]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[WebView]]></category>
+		<category><![CDATA[移动开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12225</guid>
+
+					<description><![CDATA[<p>&#160; David，Ruby on Rails 作者，37signals 合伙人 畅销书作家、演说家、赛车手、业余摄影师、顾家好男人 &#160; 37s...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12225.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12225.html">DHH 谈混合移动应用开发</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>&nbsp;</p>
+<p style="text-align: right;"><img decoding="async" loading="lazy" class="paddging: 10px; 20px; alignright wp-image-16861" src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="1053-DHH" width="80" height="80" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg 150w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-300x300.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-200x200.jpg 200w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-270x270.jpg 270w, https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH.jpg 451w" sizes="(max-width: 80px) 100vw, 80px" />David，Ruby on Rails 作者，37signals 合伙人</p>
+<p style="text-align: right;">畅销书作家、演说家、赛车手、业余摄影师、顾家好男人</p>
+<p>&nbsp;</p>
+<p><a href="http://37signals.com/" target="_blank">37signals</a> 在2013年2月发布了 Basecamp 的 iPhone app，在此之前我们就使用原生开发（native）还是混合开发（hybrid）做了许多尝试。在2012年项目启动的时候，大多数人都倾向于原生开发。</p>
+<p>Facebook 在2012年发布了他们新的 iOS app，为了获得更好的用户体验，他们放弃了原来的 HTML5 混合开发方式。考虑到2010～2011年的时候，HTML 在移动端的性能确实不尽如人意，这个决定在当时看来也在情理之中。2010年的时候我们觉得 iPhone 3G/3GS 够眩够快，但按照现在的标准来看它们就太慢了。因此在为移动应用开发做架构设计时，我们需要考虑新的移动设备的计算能力，而不是那些老的过时的设备。</p>
+<h4>移动开发架构设计不需要过多考虑设备的性能</h4>
+<p>我们从一些测试中得出的一个结论是：现在的移动设备计算能力都很强，运行原生应用和 HTML 应用的效果差别不大，而 HTML 开发的成本则要比原生开发小得多。</p>
+<p>当然这个结论在某些领域并不太适用。如果你要开发一个 3D 游戏，原生开发方式能够带来更好的游戏体验。但如果你的移动应用象 Basecamp 一样侧重信息处理，为了降低开发成本，你就可以考虑混合开发方式。我们就是如此，下面是我们三代移动产品的发展轨迹：</p>
+<p><span id="more-12225"></span></p>
+<h4>第一代产品：原生外壳(native shell)＋嵌套WebView</h4>
+<p><img decoding="async" loading="lazy" class="alignright wp-image-16868 size-medium" src="https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones-300x242.jpg" alt="1159-basecamp-app-phones" width="300" height="242" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones-300x242.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/12/1159-basecamp-app-phones.jpg 660w" sizes="(max-width: 300px) 100vw, 300px" /></p>
+<p>这个版本就是一个简单的原生外壳负责界面导航，嵌套一个 WebView 来显示 Basecamp Rail application，显示的基本上都是我们移动网站页面，再加上一些特殊的样式。</p>
+<p>在移动网站的页面上嵌套一个原生的壳，听起来还是 Web 页面，但实际带给用户的体验确是非常不同。用户可以在 Apple App Store 找到我们的 app，他们一旦登录 app 后可以再也不用重新登录（移动版本的 Safari 似乎会经常清空 cookie，让你不得不重新登录）。我们的 app 大受欢迎，用户评分在4和5之间。</p>
+<p>整个 app 由一名程序员和一名设计师开发，成本不高，因为我们可以在已有的移动网站的基础上开发。</p>
+<p>如果我们当初开发完全原生的 app，用10个人的团队1年半的时间也未必能完成。</p>
+<p>&nbsp;</p>
+<h4>第二代产品：原生外壳＋原生导航界面</h4>
+<p><img decoding="async" loading="lazy" class="alignright wp-image-16869 size-medium" src="https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed-187x300.png" alt="1543-unnamed" width="187" height="300" srcset="https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed-187x300.png 187w, https://coolshell.cn/wp-content/uploads/2014/12/1543-unnamed.png 562w" sizes="(max-width: 187px) 100vw, 187px" /></p>
+<p>几个月前发布的 Basecamp Android app 是我们的第二代产品，我们在其中做了大量的改进。</p>
+<p>从第一代 iPhone app 中我们感受到了原生导航界面的威力，所以在 Android 版本中，我们由 HTML 页面导航转向了原生导航界面。我们从 HTML 页面生成原生导航界面，用户体验更加流畅，原生界面和 HTML 页面的体验差别越来越小，甚至很难区分哪些是原生部分，哪些是 HTML 。</p>
+<p>Android 版本是由一两个程序员和一个设计师开发（50%投入）完成的。我们重用了移动站点和 iPhone app 中使用的所有 webview，大大提高了开发效率，同时用户也很买账，超过1000名用户打了4.5~5的高分。</p>
+<p>很多公司在抱怨他们的 iOS 移动项目进展缓慢，Android 项目似乎更是如此。或许他们已经习惯了 iOS 项目的开发流程，也许是因为 Android 的屏幕碎片化问题，但是这些对我们来说那都不是事。我们推出的 Android app 表现良好，重用了95%的代码，开发团队也一直保持在小规模。</p>
+<p>&nbsp;</p>
+<h4>因地制宜地运用原生开发方式</h4>
+<p>目前我们正在开发第三代产品，发布的平台暂时保密，不过你应该也不难猜到。在前两代产品中，我们增加了原生导航界面的使用，同时进一步确定了以 webview 为核心的整体架构。在第三代产品中，我们将因地制宜地选择需要使用原生开发的功能，好钢要用在刀刃上。</p>
+<p>从之前的100% HTML，到现在的90% HTML +10%原生，我们会选择最值得做原生开发的那10%的部分，最终目的是让 app 原生部分和 HTML 部分的体验没有太大区别。</p>
+<p>&nbsp;</p>
+<h4>混合开发模式使用的技术</h4>
+<p>混合开发模式在技术很简单，主要是处理 webview 的集成、Web 页面的加载，以及原生内容和 HTML 内容之间的交叉链接，其实可能比你想像的还要简单得多。</p>
+<p>HTML 方面，我们的 Rails Web 应用支持 Web 和移动两大平台，其中 <a href="http://edgeguides.rubyonrails.org/4_1_release_notes.html#action-pack-variants" target="_blank">Rails 4.1 feature of variants</a> 起了很大的作用。</p>
+<p>这也很大程度上有助于我们发布新功能。设想一下如果我们每次需要更新这么多平台：Rails desktop app, a Rails API app, a client-side MVC app, a mobile web wrapper app, an Android app, and an iPhone app，像我们这样只有10个程序员和7个设计师的公司根本无力承担如此巨大的工作量。</p>
+<p>除了工作量的减轻，bug 修复效率也提高了，因为大部分的代码逻辑是在 Web 服务器端，我们可以随时修改代码并发布，不用通过 Apple App Store 的审批流程。所以我们的移动 app 和 Web 应用一样，也是持续部署。</p>
+<p>就如我之前提到的，混合模式开发并不适用于所有情况。在2010年以前，那时手机的处理能力都不强，所以 HTML/JS 的体验并不好，用户也不喜欢。但是时过境迁，现在手机的处理能力大大提高了，HTML/JS 的性能也不再是一个问题。</p>
+<p>&nbsp;</p>
+<h4>混合开发模式对原生开发模式的挑战</h4>
+<p>混合开发模式在降低开发复杂度方面有它的优势，如果你的产品是以显示和处理信息为主，我认为都可以不同程度地采用这个模式。</p>
+<p>对于小型团队和公司而言，并不一定需要采用 iOS 原生 app 先行的模式。使用混合模式，不需要你重头开发一个 app，这样可以降低维护成本，将来扩展到其他平台也更为方便。</p>
+<p>当然我知道会有很多人质疑这个模式，或许因为他们的 app 中有很多地方需要原生开发（也许仅仅是他们自己这样认为罢了）。又或许他们已经花了很多时间让 app 里的 UITableView 看起来非常漂亮，以致如果其他地方不这样的话显得不是太完美。再或许大公司就是喜欢耗时耗力的原生开发，有钱就是这么任性。</p>
+<p>无论怎样，混合开发当下应该能够成为我们移动开发策略的一个选择。如果你认为这是一个好的选择，那么恭喜你，尽情愉快地玩耍吧！</p>
+<p>&nbsp;</p>
+<p><em>原文链接：<a href="https://signalvnoise.com/posts/3743?utm_campaign=iOS_Dev_Weekly_Issue_175&amp;utm_medium=email&amp;utm_source=iOS%2BDev%2BWeekly" target="_blank">Hybrid sweet spot: Native navigation, web content</a></em></p>
+<p>&nbsp;</p>
+<p>下面补充一些 David 答读者问：</p>
+<p>&nbsp;</p>
+<p>Mike Waite @ 2014-05-08：我很好奇你是如何决定哪些功能要用原生开发？<br />
+David @ 2014-05-08：主要靠感觉，这毕竟不是一门科学。如果你感觉你app的某一部分如果用原生开发会更好些，可以尝试做快速原型（spike）。很多时候我们通过这种方式证明我们的想法其实是错的。当然如果你需要使用到手机上的功能如：摄像和其他设备时，HTML目前还不太适用，不过永远也不要把话说死。</p>
+<p>&nbsp;</p>
+<p>Mike Parsons @ 2014-05-08：好文。很好奇你们是否使用 PhoneGap 或者 Cordova 这样的框架，或者你们自己开发了一个？<br />
+David @ 2014-05-08：我们没有使用任何框架。（此处省去xxx字）</p>
+<p>&nbsp;</p>
+<p>Derick @ 2014-05-08：你怎样解决 Android 浏览器渲染速度慢的问题？这也是 Android 平台上更多人倾向开发原生app得原因。<br />
+David @ 2014-05-08：不知道你这个结论是近期的还是以前的？Basecamp 的 Android app 在我的 Nexus 5 和 HTC One 上面运行得非常流畅。<br />
+Derick @ 2014-05-08：就是最近。我猜测可能和你使用JavaScript的多少有关系。因为以我个人的经验，Android 上 JavaScript 的运行速度非常慢。如果你感兴趣可以看看下面的文章：<a href="https://www.timroes.de/2013/11/23/old-webview-vs-chromium-webview/" target="_blank">https://www.timroes.de/2013/11/23/old-webview-vs-chromium-webview/</a><br />
+David @ 2014-05-08：我们使用了很多JavaScript，当然没有 Web MVC 客户端用得那样多。另外我们使用了 Turbolinks ：）</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/html6-150x150.jpeg" alt="HTML6 展望" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_title">HTML6 展望</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12225.html">DHH 谈混合移动应用开发</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12225.html/feed</wfw:commentRss>
+			<slash:comments>27</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>HTML6 展望</title>
+		<link>https://coolshell.cn/articles/12206.html</link>
+					<comments>https://coolshell.cn/articles/12206.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Sat, 06 Dec 2014 04:41:34 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[HTML5]]></category>
+		<category><![CDATA[HTML6]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12206</guid>
+
+					<description><![CDATA[<p>HTML5 概述 HTML5 是 HTML 语言最受欢迎的版本之一，它支持音频和视频、离线存储、移动端、和标签属性等等。还提供了&#60;article&#62;,...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12206.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12206.html">HTML6 展望</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<h3><img decoding="async" loading="lazy" class="size-full wp-image-12211 alignright" src="https://coolshell.cn/wp-content/uploads/2014/12/html6.jpeg" alt="html6" width="225" height="225" srcset="https://coolshell.cn/wp-content/uploads/2014/12/html6.jpeg 225w, https://coolshell.cn/wp-content/uploads/2014/12/html6-150x150.jpeg 150w, https://coolshell.cn/wp-content/uploads/2014/12/html6-200x200.jpeg 200w" sizes="(max-width: 225px) 100vw, 225px" /></h3>
+<h3>HTML5 概述</h3>
+<p>HTML5 是 HTML 语言最受欢迎的版本之一，它支持音频和视频、离线存储、移动端、和标签属性等等。还提供了&lt;article&gt;, &lt;section&gt;, &lt;header&gt;这样的标签来帮助开发者更好地组织页面内容。然而 HTML5 规范仍然没有最后定稿，并且它并不是一个真正意义上的语义标记语言。</p>
+<h3>HTML6 展望</h3>
+<p>你有没有曾经希望能在 HTML 中使用自定义标签？比如：使用&lt;logo&gt;来显示你的网站logo，还有使用&lt;toolbar&gt;来显示工具栏等等。我们经常使用&lt;div id=&#8221;container&#8221;&gt;和&lt;div id=&#8221;wrapper&#8221;&gt;来组织页面，在 HTML6 里我们希望可以直接使用象&lt;container&gt;和&lt;wrapper&gt;这样的自定义标签。</p>
+<p>和 XML 一样，HTML6 应该支持 namespace（命名空间），如：xmlns:xhtml=&#8221;http://www.w3.org/1999/xhtml&#8221;</p>
+<p>HTML6 代码样例：</p>
+<p><span id="more-12206"></span></p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;html:title&gt;A Look Into HTML6&lt;/html:title&gt;
+ &lt;html:meta type="title" value="Page Title"&gt;
+ &lt;html:meta type="description" value="HTML example with namespaces"&gt;
+ &lt;html:link src="css/mainfile.css" title="Styles" type="text/css"&gt;
+ &lt;html:link src="js/mainfile.js" title="Script" type="text/javascript"&gt;
+ &lt;/html:head&gt;
+ &lt;html:body&gt;
+ &lt;header&gt;
+ &lt;logo&gt;
+ &lt;html:media type="image" src="images/xyz.png"&gt;
+ &lt;/logo&gt;
+ &lt;nav&gt;
+ &lt;html:a href="/img1"&gt;a1&lt;/a&gt;
+ &lt;html:a href="/img2"&gt;a2&lt;/a&gt;
+ &lt;/nav&gt;
+ &lt;/header&gt;
+ &lt;content&gt;
+ &lt;article&gt;
+ &lt;h1&gt;Heading of main article&lt;/h1&gt;
+ &lt;h2&gt;Sub-heading of main article&lt;/h2&gt;
+ &lt;p&gt;[...]&lt;/p&gt;
+ &lt;p&gt;[...]&lt;/p&gt;
+ &lt;/article&gt;
+ &lt;article&gt;
+ &lt;h1&gt;The concept of HTML6&lt;/h1&gt;
+ &lt;h2&gt;Understanding the basics&lt;/h2&gt;
+ &lt;p&gt;[...]&lt;/p&gt;
+ &lt;/article&gt;
+ &lt;/content&gt;
+ &lt;footer&gt;
+ &lt;copyright&gt;This site is © to Anonymous 2014&lt;/copyright&gt;
+ &lt;/footer&gt;
+ &lt;/html:body&gt;
+ &lt;/html:html&gt;</pre>
+<p>在上面的代码中，你也许注意到了一些奇怪的&lt;html:x&gt;标签，它们是 W3C 和 HTML6 规范中在命名空间里定义的标签。例如：&lt;html:title&gt;负责设定你浏览器的标题栏文字，&lt;html:media&gt;负责显示图片等等。用户可以自己定义标签以便 JavaScript 和 CSS 识别和处理，这样页面代码会更易读，语义更清晰。</p>
+<h3>HTML6 APIs</h3>
+<p>HTML6 的标签前带有命名空间，如：&lt;html:html&gt;, &lt;html:head&gt;等等。</p>
+<p>1. &lt;html:html&gt;</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;// this is equivalent to &lt;html&gt; tag written in previous HTML versions
+ &lt;!-- sample of HTML document --&gt;
+ &lt;/html:html&gt;</pre>
+<p>2. &lt;html:head&gt; 和 &lt;head&gt; 标签一样。</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;!-- Main content would come here, like the &lt;html:title&gt; tag --&gt;
+ &lt;/html:head&gt;
+ &lt;/html:html&gt;</pre>
+<p>3. &lt;html:title&gt; 和 &lt;title&gt; 标签类似。</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;html:title&gt;A Look Into HTML6&lt;/html:title&gt;
+ &lt;/html:head&gt;
+ &lt;/html:html&gt;</pre>
+<p>4. &lt;html:meta&gt; 和 &lt;meta&gt; 标签类似，不同之处在于，在 HTML5 中你只能使用标准的元数据类型，如：&#8221;keywords&#8221;, &#8220;description&#8221;, &#8220;author&#8221;等，而在 HTML6 中你可以使用任何元数据类型。</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;html:title&gt;A Look Into HTML6&lt;/html:title&gt;
+ &lt;html:meta type="description" value="HTML example with namespaces"&gt;
+ &lt;/html:head&gt;
+ &lt;/html:html&gt;</pre>
+<p>5. &lt;html:link&gt; 和 HTML6 之前版本的 &lt;link&gt; 标签类似。</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;html:title&gt;A Look Into HTML6&lt;/html:title&gt;
+ &lt;html:link src="js/mainfile.js" title="Script" type="text/javascript"&gt;
+ &lt;/html:head&gt;
+ &lt;/html:html&gt;</pre>
+<p>6. &lt;html:body&gt; 和 &lt;body&gt; 标签一样。</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;html:title&gt;A Look Into HTML6&lt;/html:title&gt;
+ &lt;/html:head&gt;
+ &lt;html:body&gt;
+ &lt;!-- This is where your website content is placed --&gt;
+ &lt;/html:body&gt;
+ &lt;/html:html&gt;</pre>
+<p>7. &lt;html:a&gt; 和 &lt;a&gt; 标签类似，区别是 &lt;html:a&gt; 只有 &#8220;href&#8221; 一个属性。</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;html:title&gt;A Look Into HTML6&lt;/html:title&gt;
+ &lt;/html:head&gt;
+ &lt;html:body&gt;
+ &lt;html:a href="http://siteurl"&gt;Go to siteurl.com!&lt;/html:a&gt;
+ &lt;/html:body&gt;
+ &lt;/html:html&gt;</pre>
+<p>8. &lt;html：button&gt; 和 &lt;button&gt; 及 &lt;input type=&#8221;button&#8221;&gt; 一样。</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;html:title&gt;A Look Into HTML6&lt;/html:title&gt;
+ &lt;/html:head&gt;
+ &lt;html:body&gt;
+ &lt;html:button&gt;Click Here&lt;/html:button&gt;
+ &lt;/html:body&gt;
+ &lt;/html:html&gt;</pre>
+<p>9. &lt;html:media&gt; 涵盖 &lt;img&gt;, &lt;video&gt;, &lt;embed&gt; 等标签的所有功能。&lt;html:media&gt; 的好处是你不用根据不同的媒体文件类型使用不同的标签，媒体的类型由浏览器从文件内容（类型属性，扩展名，和MIME type）中来判断。</p>
+<pre>&lt;!DOCTYPE html&gt;
+ &lt;html:html&gt;
+ &lt;html:head&gt;
+ &lt;html:title&gt;A Look Into HTML6&lt;/html:title&gt;
+ &lt;/html:head&gt;
+ &lt;html:body&gt;
+ &lt;!-- Image would come here --&gt;
+ &lt;html:media src="img1/logo.jpg" type="image"&gt;
+ &lt;!-- Video doesn't need a type --&gt;
+ &lt;html:media src="videos/slide.mov"&gt;
+ &lt;/html:body&gt;
+ &lt;/html:html&gt;</pre>
+<h3>标签类型(Tag types)概述</h3>
+<p>和 HTML5 一样， HTML6 也有两种标签类型：单标签（single tag) 和双标签（double tag）</p>
+<pre>&lt;html:meta type="author" content="single tag"&gt;
+ &lt;html:meta type="author" content="double tag" /&gt;</pre>
+<p>单标签不需要结束符&#8217;/&#8217;</p>
+<h3>结语</h3>
+<p>HTML6 规范还未发布，本文原作者 <a href="http://html6spec.com/">Oscar Godson</a> 只是为我们提供了一个对 HTML6 规范的展望，或者说他希望 HTML6 能够支持的一些新特性。</p>
+<p>原文链接：<a href="http://java.dzone.com/articles/look-html6-what-it-and-what">A Look Into HTML6 &#8211; What Is It, and What Does it Have to Offer?</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12206.html">HTML6 展望</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12206.html/feed</wfw:commentRss>
+			<slash:comments>39</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Google Inbox如何跨平台重用代码？</title>
+		<link>https://coolshell.cn/articles/12136.html</link>
+					<comments>https://coolshell.cn/articles/12136.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Wed, 26 Nov 2014 00:03:17 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[iOS]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[移动应用]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12136</guid>
+
+					<description><![CDATA[<p>原文链接《How Google Inbox shares 70% of its code across Android, iOS, and the Web》 开...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12136.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12136.html">Google Inbox如何跨平台重用代码？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>原文链接《<a href="http://arstechnica.com/information-technology/2014/11/how-google-inbox-shares-70-of-its-code-across-android-ios-and-the-web" target="_blank">How Google Inbox shares 70% of its code across Android, iOS, and the Web</a>》</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264.jpg"><img decoding="async" loading="lazy" class="size-medium wp-image-12137 alignright" src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-300x123.jpg" alt="inbox2-640x264" width="300" height="123" /></a></p>
+<p>开发一个移动应用在当下并不是一件容易的事情。如果想要获得最多的用户，你的应用通常需要覆盖 iOS, Android, 和 Web 三大平台。这就意味着同一个应用需要开发三个版本，使用 Objective-C 或者 Swift 开发 iOS 版本，使用 Java 开发 Android 版本，使用 JavaScript/CSS/HTML5 开发 Web 版本。工作量增大的同时也意味着有更多的 bug 需要修复。</p>
+<p>这个问题也是 Google 在开发 Google Inbox 时致力要解决的。在最近发布的这款应用中，Google 使用了一些工具实现了70%的代码跨平台复用。</p>
+<p>Google Inbox 覆盖 iOS, Android, Web 三个平台，它们使用的是同一个后台代码逻辑，只是前端的用户体验和平台相关特性的实现有所不同。Google 自主开发了一套辅助工具将 Android 版本的 Java 代码逻辑编译为 Objective-C (针对 iOS 平台) 和 JavaScript (针对 Web 浏览器)。 Java 到 JavaScript 的编译由 Google Web Toolkit SDK 完成，Java 到 Objective-C 的编译则由 J2ObjC （<a href="j2objc.org">j2objc.org</a>）来完成。</p>
+<p>J2ObjC 是一个开源项目，由 Google 在2013年发布。Google Sheets (Google Docs 中的电子表格部分) 也使用了 J2ObjC，而 Google Inbox 则是目前使用 J2Objc 最多的 Google 项目。</p>
+<p>Google Inbox 复用的代码逻辑包括：对话 (conversations)，提醒 (reminders)，联系人 (contacts)。还有网络相关功能和离线同步。这些代码逻辑的复用节省了大量的时间和成本。</p>
+<p>在产品设计时，Google 将这些可复用功能划分为抽象的逻辑概念，比如：提醒的逻辑放在 &#8220;reminder.java&#8221; 中，可以被 Android UI 调用。对 iOS 版本而言，J2ObjC 将 &#8220;reminder.java&#8221; 编译成 Objective-C 代码，再由 iOS UI 调用。</p>
+<p>Google 没有跨平台编译 UI 部分的代码，因为不同平台的UI特性各有不同，盲目统一会导致非常糟糕的用户体验。代码复用只是针对可以共享的后台逻辑，前端的UI实现是完全原生 (native) 的。这与 Xamarin (一个基于 Microsoft C# 的跨平台移动开发工具) 提出的概念类似。</p>
+<p>跨平台代码复用通常会带来一些性能上的问题。Garrick Toubassi，Engineering Director 和 Google Inbox 项目组成员，对此表示： “性能上的影响如果有的话，也可以说是微不足道的。我们做过大量的性能测试。因为没有加入额外的中间层来处理跨平台兼容性，所有代码最后都是平台原生代码。J2ObjC 编译生成的目标代码和 Java 源代码拥有大致相同的对象数量和对象图谱复杂度 (object graph complexity) ”。</p>
+<p>Google 使用的整套方法解决了跨平台移动开发中的一个很重要的问题，同时也推进了安卓先行 (Android-first) 的移动开发策略。</p>
+<p>更多 Google Inbox 文章请猛戳 <a href="http://gmailblog.blogspot.com.au/2014/11/going-under-hood-of-inbox.html">Gmail 官方博客</a>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="Android将允许纯C/C++开发应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_title">Android将允许纯C/C++开发应用</a></li><li ><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/androidappinventor-150x150.jpg" alt="Google App Inventor " width="150" height="150" /></a><a href="https://coolshell.cn/articles/2608.html" class="wp_rp_title">Google App Inventor </a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12136.html">Google Inbox如何跨平台重用代码？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12136.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>HTML5 和 Flash 之争</title>
+		<link>https://coolshell.cn/articles/2735.html</link>
+					<comments>https://coolshell.cn/articles/2735.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Tue, 27 Jul 2010 00:00:04 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2735</guid>
+
+					<description><![CDATA[<p>文章来源 二者之间的竞争会演变成为一场“战争”吗？（现在甚至出现了可以把Flash转成Javascript/HTML5的工具） 首先需要弄清楚二者之间最主要的区...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2735.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2735.html">HTML5 和 Flash 之争</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><em><a href="http://html5.tomasdev.com.ar/">文章来源</a></em></p>
+<p>二者之间的竞争会演变成为一场“战争”吗？（现在甚至出现了可以<a rel="bookmark" href="https://coolshell.cn/articles/2497.html" target="_blank">把Flash转成Javascript/HTML5</a>的工具）</p>
+<p>首先需要弄清楚二者之间最主要的区别，HTML 是一种语言（超文本标记语言 &#8211; HyperText Markup Language），而 Flash 是 Adobe（其收购了Macromedia）公司的一个浏览器插件（Plugin）。HTML5 目前还是 W3.org 规范中一个草案，这意味着其还没有最终定案，希望到 2012 年这项工作能够完成。</p>
+<p>以下是二者各自的一些特点：</p>
+<h4><strong>HTML5</strong></h4>
+<p>这个新的技术更为易学和易用，比较 .FLA 和 .SWF 文件更容易编辑。并且基本上过去所有由 Flash 才能制作的动画效果都能够使用 JS + HTML5 + CSS 3 来完成，不过工作量可能会更大一些，不仅文件尺寸会增大，性能方面也会有影响。</p>
+<p>以前为 Web 表单设定风格我们一定需要使用到 JavaScript， 但是 HTML5 中的 contenteditable 属性让我们可以做得更多。一些新的输入类型（Types of Inputs）也被加入到 HTML5 中，如：电子邮件，数字，值范围等等。</p>
+<p>用户不仅仅需要一个支持 HTML5 的浏览器，还需要 CCS 3 和新的 JavaScript 引擎的支持。</p>
+<p>免费（不包括第三方字体和音频视频等等）</p>
+<p>更好地移动设备支持（HTML5 正在被运用于 iPhone，iPod，iPad 和 Android 应用的开发）</p>
+<p>拖拽，事实上这不是 HTML5 的一部分，但是在新版本的 GMail 中，从桌面拖拽文件到浏览器能够用 HTML5 很好地实现。对于 Flash 我不知道这是否可以实现？</p>
+<p><span id="more-2735"></span></p>
+<h4><strong>Flash</strong></h4>
+<p>文件经过压缩，所以文件尺寸会比 HTML5 + CSS + JavaScript + 图像 + 其他 小。</p>
+<p>硬件优化</p>
+<p>需要安装 Flash 插件， Android 2.2（代号 FroYo）同样支持 Flash 插件。</p>
+<p>Adobe 在它的 Creative Suite 5 中包含了 Flash Builder 4.0。</p>
+<p>也许对很多人来说，相对于 HTML + JavaScript + CSS，Flash 应用 更难于“破解”。</p>
+<p>以下是一些 Flash 能够实现而 HTML5 + JavaScript + CSS 3 不能的功能：</p>
+<ul>
+<li>增强现实（Augmented Reality）</li>
+<li>3D</li>
+<li>真正的面向对象，而非原型（Prototyping）</li>
+<li>对麦克风和摄像头的支持（事实上 HTML5 已经宣布要提供这些支持）</li>
+<li>混色模式（如：渐进色，重叠色等等）</li>
+<li>Action Message Format （AMF）</li>
+<li>二进制数据（Binary Data）</li>
+<li>位图数据（BitMapData，HTML5 的画布 Canvas 和矢量标记语言 VML 可以实现近似的功能）</li>
+<li>图形处理器的利用（Use of GPU）</li>
+</ul>
+<h4>结论</h4>
+<p>HTML5 是一项新技术，很多人会想要尝试它，而 Flash 业已存在很久，并且还将会有很长的生命周期。HTML5 短期内无法完全替代 Flash，而 Flash 可以作为 HTML5 的一个很好的补充。</p>
+<h4>HTML5 相关的一些链接</h4>
+<ul>
+<li><a href="http://html5test.com/">HTML5 Browser Compatibility Test</a></li>
+<li><a href="http://www.apple.com/html5/">HTML5 by Apple</a></li>
+<li><a href="http://html5demos.com/">HTML5 Demos</a></li>
+<li><a href="http://www.html5rocks.com/">HTML5 Rocks</a></li>
+<li><a href="http://html5watch.tumblr.com/">HTML5 Watch</a>, not necessarily HMTL5 but interesting applies of JS like the Google Pacman</li>
+<li><a href="http://www.chromeexperiments.com/">Chrome Experiments</a></li>
+<li><a href="http://www.webhostingsecretrevealed.com/featured-articles/learn-html5-10-must-read-lessons/">Learn HTML5: 10 must read lessons</a></li>
+</ul>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/2926.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/WTF_HTML51-150x150.jpg" alt="你准备使用 HTML 5 吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2926.html" class="wp_rp_title">你准备使用 HTML 5 吗？</a></li><li ><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/html6-150x150.jpeg" alt="HTML6 展望" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_title">HTML6 展望</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2735.html">HTML5 和 Flash 之争</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2735.html/feed</wfw:commentRss>
+			<slash:comments>11</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Kent Beck 谈单元测试和持续部署</title>
+		<link>https://coolshell.cn/articles/2681.html</link>
+					<comments>https://coolshell.cn/articles/2681.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Thu, 22 Jul 2010 00:00:23 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[软件开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2681</guid>
+
+					<description><![CDATA[<p>文章来源 2010年7月2日，Roy Osherove 和 Kent Beck 在 blog.typemock.com 进行了一次对话，话题涉及单元测试（Uni...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2681.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2681.html">Kent Beck 谈单元测试和持续部署</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><em><a href="http://blog.typemock.com/2010/07/video-kent-beck-on-junit-max-and-lean.html">文章来源</a></em></p>
+<p>2010年7月2日，Roy Osherove 和 Kent Beck 在 blog.typemock.com 进行了一次对话，话题涉及单元测试（Unit Testing），<a href="http://www.threeriversinstitute.org/junitmax/">JUnit Max</a>（Kent 开发的一个单元测试的 Eclipse Plugin，不免费），和面向初创企业的精益方法（Lean Startups）。</p>
+<p><strong>单元测试和 JUnit Max</strong><br />
+作为软件开发方法学的大师、极限编程XP的创始人、敏捷宣言的创始人之一，Kent Beck 一直在努力最大化地利用单元测试的价值，他说一些程序员仍然认为单元测试并不是他们的工作，但是单元测试确实能够提高软件的质量。目前他正在开发 JUnit Max，这是一个 Eclipse plugin，每当程序员保存一个 Java 源文件的时候，JUnit Max 就会运行测试并报告反馈信息。测试中的错误将会如同编译错误一样被报告给程序员。JUnit Max 的核心思想是测试错误应该和编译错误一样被 IDE 报告给程序员，程序员不需要额外的菜单选项或者运行其他的工具来运行测试。特别是那些经常失败的测试，对于程序员来说是非常有价值的反馈信息。在测试驱动开发（Test Driven Development &#8211; TDD）中，我们重复着这样一个循环：“编写一个‘失败’的测试（Failing Test）” &#8211; “编码实现功能以便让测试通过”，随着开发的深入，测试越来越丰富，测试能够反馈给程序员的信息也越来越多，它们可以帮助程序员找出那些需要改进的代码。JUnit Max 能够缩短这个循环的周期，因为它更为频繁地运行测试和提供反馈。Roy 问道：“当你一个人编码的时候，你是否严格地遵循 TDD，即一定要先写测试，然后写实现代码。我个人发现这并不是一件容易做到的事情，特别是当一个人编码的时候。” Kent 回答：“视情况而定，有时候并不需要死板地遵循 TDD，比如当我在做一些探索性或者说实验性的编码时，并不需要写测试，因为我只是想尝试一下某些功能和特性。”</p>
+<p><span id="more-2681"></span></p>
+<p>Roy： “你在测试驱动开发中见过的最糟糕的错误有哪些？”<br />
+Kent：“很多程序员仅仅是拷贝和粘贴测试代码，但并不理解它们。所以我们经常能看到没有断言的测试，同时测试很多逻辑和功能的测试，过于臃肿或者过于短小的测试等等。当然这些错误在学习过程中很普遍，也是我们学习的一部分。”</p>
+<p>Roy：“你下一步最想尝试的新概念是什么？”<br />
+Kent：“我最近谈论的一个主题是 Software G Forces，是关于软件产品的部署频率（Frequency of Deployment），这里的部署是指面向最终用户的部署或者说发布，是生产环境而非测试环境。从前的软件产品每年（或数年）发布一个新的版本，而现在的软件产品发布频率越来越快，从每季度，每月，每周，每天，直至每小时。Kent 提及有一些非常复杂的软件产品的发布频率甚至是每天 40 到 50 次。此时 Roy 提出了一个非常好的问题：“产品发布得如此频繁，我们如何能够在这么短的时间间隔内获得用户反馈呢？”，Kent 回答道：“持续部署（Continuous Deployment）确实需要一些基础设施建设来支持，比如：自动版本回滚，自动错误检测，系统同时运行多个版本的能力，比如一个服务器集群中不同的服务器上可以运行产品的不同版本。”</p>
+<p>Roy 问道：“当你在开发一个产品的时候，你在为客户创造价值，而持续部署创造的则是一种内在的价值，并且实施过程也是非常复杂的，你怎样投入时间去实施它呢？是否需要从产品设计的一开始就考虑这些问题呢？”，Kent 答道：“5 年之内市场上可能会有许多持续部署的产品出现，目前我们可能需要自己来寻求解决方案，因为现在它还是一个较新的领域。持续部署的重点之一是及时捕获系统错误，不仅仅是技术层面上的错误，同时也包括业务层面。以 Amazon.com 为例，他们评价系统运行的良好程度是以业务运营状况为依据的，如果销售额出现不明原因的下降，系统也会发出错误警告。”</p>
+<p>注：为了不让文章过长，下半部分的面向初创企业的精益方法（Lean Startups）将在后面发布。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/12/bachelor-mechanical-eng-icon@72x-150x150.png" alt="我做系统架构的一些原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_title">我做系统架构的一些原则</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2681.html">Kent Beck 谈单元测试和持续部署</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2681.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>为什么敏捷方法能在软件开发中行之有效？</title>
+		<link>https://coolshell.cn/articles/2622.html</link>
+					<comments>https://coolshell.cn/articles/2622.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Sun, 18 Jul 2010 02:28:25 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[敏捷方法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2622</guid>
+
+					<description><![CDATA[<p>文章来源 &#8211; Martin Fowler 和 Neal Ford 在 Paris &#8211; USI 2010 的演讲 有很多的书籍讨论敏捷方法...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2622.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2622.html">为什么敏捷方法能在软件开发中行之有效？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><em><a href="http://universite-du-si.com/en/conferences/6/sessions/909">文章来源 &#8211; Martin Fowler 和 Neal Ford 在 Paris &#8211; USI 2010 的演讲</a></em></p>
+<p>有很多的书籍讨论敏捷方法是怎样工作的（How it works？），在这个主题演讲中，Martin Fowler 和他的同事 Neal Ford 讨论了敏捷方法能够在软件开发项目中行之有效的原因（Why it works？）。作为敏捷方法的发起人和传道者，Martin Fowler 和 ThoughtWorks 一直试图从理论层面证明敏捷方法的可行性，同时不厌其烦地解答着客户们的各种困惑，正如他们所说，敏捷方法中的很多概念不是特别的直观，除非人们真正实践过一段时间，否则有些概念很难从字面上去完全理解。</p>
+<p>Martin Fowler 谈到一个有意思的现象，那就是今天许多人们口中谈论的敏捷方法，和最初的敏捷方法大相径庭，他把这种现象称为“语义扩散（Semantic Diffusion）”，大意是某种思想在传播的过程中，在逐渐扩散的同时，其语义也渐渐变得模糊。在敏捷开发领域里，“语义扩散”导致的一个问题是，在一些使用敏捷方法的项目或者公司中，我们甚至无法辨别出敏捷方法的影子，原因是很多人没有真正地理解敏捷方法，也就不能够正确地运用和实践，从而也就无法真正了解自己是否能够从敏捷方法中获益。</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2010/07/Martin-Flower1.jpg"><img decoding="async" loading="lazy" class="size-medium wp-image-2653 aligncenter" title="Martin Flower" src="https://coolshell.cn/wp-content/uploads/2010/07/Martin-Flower1-300x94.jpg" alt="" width="300" height="94" srcset="https://coolshell.cn/wp-content/uploads/2010/07/Martin-Flower1-300x94.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/07/Martin-Flower1-768x241.jpg 768w, https://coolshell.cn/wp-content/uploads/2010/07/Martin-Flower1-604x190.jpg 604w, https://coolshell.cn/wp-content/uploads/2010/07/Martin-Flower1.jpg 885w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>以下是为什么敏捷方法行之有效的原因：</p>
+<p><span id="more-2622"></span></p>
+<h4><span style="color: #000000;"><strong>1. 敏捷方法和传统的计划驱动方法的两个主要区别</strong></span></h4>
+<p>i. 预测性计划（Predictive Planning）和自适应计划（Adaptive Planning）</p>
+<p>计划驱动方法首先计划要做的工作（plan your work），然后着手工作以完成计划（work your plan）。这是一种带有预测性质的方法，其衡量项目成功的标准则是我们是否按计划、按时、按预算完成了工作。这种方法在很多领域里是适用的。但是对于软件开发而言，如果我们的需求没有办法做到不变更的话，我们就无法保证我们的计划以及其后的工作是不会变更的。Martin Fowler 向现场观众提出了一个问题，大意是你们当中有多少人的软件开发项目的需求是一成不变的，结果没有一位观众举手。因此，敏捷方法引入了自适应计划的概念，既然我们无法保证需求不变更，那么就让我们随时准备接受变更，接受挑战吧。自适应计划将计划驱动的流程缩短为以数周为单位的循环周期，在每一个周期中，我们根据当前的情况不断地调整计划以及计划的执行过程，同时不断地产生能够工作的代码，并且不断地将代码部署到应用环境中去。当然要实现这个目标我们需要一些具体方法的支持，如：自测试代码（Self-Testing Code），持续集成（Continuous Integration），重构（Refactoring），和简洁设计（Simple Design）等等这些技术层面上的方法。Martin Fowler 指出，一些公司和项目之所以受困于敏捷方法，原因之一是他们忽略了这些技术层面的方法，而仅仅实施了项目管理层面的方法。</p>
+<p>ii. 以流程为本（Process First）和以人为本（People First）</p>
+<p>在传统的方法论中，我们总是需要事先定义好工作的方法和流程，然后“工人们”被要求遵照这些方法和流程来工作。在软件开发领域，很多人把软件开发过程等同于软件本身，也就是说，软件开发的过程也如同软件程序般象机器一样运行，组件之间环环相扣，严密地协同工作。问题是软件开发的核心是人，人相对于机器零件和流水线而言，是相对不可预测的和不那么精密的。所以敏捷方法反其道而行之，提倡将“首先定义流程，然后要求软件开发人员遵照流程工作”变为“让参与软件开发的人员自己来定义和选择适合他们的流程”。简单来说就是以人为本，不把人当螺丝钉，发挥人的主观能动性，当然前提是需要团队成员有较高的平均素质。</p>
+<h4><span style="color: #000000;">2. 沟通（Communication）</span></h4>
+<p>Neal Ford 让我们回顾或想象一下失败的软件开发项目，它们的失败是由于技术因素还是人的因素呢？《人件》的作者认为都是人的因素。人类的社会性决定了沟通的重要。Neal 举了几个有趣的例子，如：监狱里的犯人宁愿和其他人渣待在一起也不愿被关禁闭。很多国家禁止驾驶员驾驶时打移动电话，那为什么和乘客聊天就没有问题呢？原因是直接对话是最为有效和便捷的沟通方式，信息的传递在对话过程中非常顺畅和完整。虽然现在的移动通讯已经非常先进，信号质量也很高，但是我们的通话过程仍然是有损的，我们的大脑这个时候就需要努力地试图将通话信息拼凑得更完整以便能够理解对方的意思，因此才会分散驾驶的注意力。随后，Martin Fowler 举了另一个例子，拿他做水果蛋糕的方法和他在酒店的浴室中冲凉的方法来进行比较。因为做水果蛋糕的整个流程和配料都是非常固定的，所以他只需要按步照搬地烹饪即可做出味道非常一致（地好或者差）的水果蛋糕。而在酒店中冲凉就有些不同，因为每一个酒店浴室的开关设计几乎都是不一样的，所以他需要不断地调整开关来获得一个理想的水温，也就是需要不断地重复“调整开关”（输入），“用手试温”（输出）这个过程。相对于做水果蛋糕，在酒店浴室冲凉更好地反应了软件开发的特征，这就是在软件开发领域中，如果我们善于根据用户反馈的信息来做出新的判断和调整，就有可能提高产品的质量和用户的满意度。</p>
+<p>沟通的确是一个非常重要的环节，它是敏捷方法的核心。在敏捷方法中，单元测试是程序员和代码组件的沟通，功能测试是程序员以及QA和系统的沟通，故事墙（Story Wall）和回顾（Retrospective）是团队和成员之间的沟通，功能演示（Showcase 或者 Demo）是团队通过产品和最终用户的沟通，持续集成（Continuous Integration）是产品和企业计算环境的沟通。沟通好了，什么事情都可以妥善解决，沟通得不好，好事也会变坏事。和广大技术爱好者交流沟通也是酷壳存在的目的和意义。</p>
+<p>整个演讲时长一个小时，本文只是节选了我认为比较有意思的观点加上本人的理解写成，如有错误之处欢迎指正，不同看法欢迎交流。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/7657.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/hudsonCI2-150x150.jpg" alt="持续部署，并不简单！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7657.html" class="wp_rp_title">持续部署，并不简单！</a></li><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5625.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="“品质在于构建过程”吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5625.html" class="wp_rp_title">“品质在于构建过程”吗？</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/5044.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/hat-150x150.jpeg" alt="为什么Scrum不行？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5044.html" class="wp_rp_title">为什么Scrum不行？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2622.html">为什么敏捷方法能在软件开发中行之有效？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2622.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何在低速率网络中测试 Web 应用</title>
+		<link>https://coolshell.cn/articles/2574.html</link>
+					<comments>https://coolshell.cn/articles/2574.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Fri, 09 Jul 2010 00:00:14 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[测试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2574</guid>
+
+					<description><![CDATA[<p>大家看到标题后的第一个问题可能是：“我们需要这样做吗？” 如果我们开发的是局域网 Web 应用的话，可能没有必要这样做。但如果我们的 Web 应用面向的是互联网...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2574.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2574.html">如何在低速率网络中测试 Web 应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>大家看到标题后的第一个问题可能是：“我们需要这样做吗？”</p>
+<p>如果我们开发的是局域网 Web 应用的话，可能没有必要这样做。但如果我们的 Web 应用面向的是互联网上的成千上万的用户，这样做就很必要了。因为在现实世界中并不是所有的用户都有高数率的网络连接，也许用户使用的是拨号接入，移动设备，3G，或者是 USB 网络加密狗。如果我们没有在低数率的网络环境中测试过我们 Web 应用，极有可能在上线后收到一些意想不到的关于系统性能方面的抱怨。这个时候无论我们的 Web 应用界面多么地 Web 2.0，功能多么地强大，对于用户来说都失去了使用价值。</p>
+<p>目前有很多工具能够模拟慢速网络，值得一提的是 <a href="https://addons.mozilla.org/en-US/firefox/addon/5917/">Firefox Throttle</a>，这是一个 Firefox 插件，你可以设置上载和下载的数率，并且监控当前带宽的使用情况。另一个非常有用的特性是它可以控制你的 localhost 的连接数率，对本地测试很有用。</p>
+<p>Firefox Throttle 的截图</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/07/Firefox-Throttle.png"><img decoding="async" loading="lazy" class="alignnone size-medium wp-image-2576" title="Firefox Throttle" src="https://coolshell.cn/wp-content/uploads/2010/07/Firefox-Throttle-300x231.png" alt="" width="300" height="231" /></a></p>
+<p>另一个工具是 <a href="http://www.dallaway.com/sloppy/">Sloppy</a>，它是一个 Java Web Start application。</p>
+<p><em><a href="http://www.devcurry.com/2010/07/simulate-slow-internet-connections.html">文章来源</a></em><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/get_more_web_traffic-150x150.jpg" alt="十个免费的Web压力测试工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2589.html" class="wp_rp_title">十个免费的Web压力测试工具</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/html6-150x150.jpeg" alt="HTML6 展望" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_title">HTML6 展望</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2574.html">如何在低速率网络中测试 Web 应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2574.html/feed</wfw:commentRss>
+			<slash:comments>24</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Eclipse 3.6 （Helios）新特性</title>
+		<link>https://coolshell.cn/articles/2554.html</link>
+					<comments>https://coolshell.cn/articles/2554.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Wed, 07 Jul 2010 00:30:14 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<category><![CDATA[Java]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2554</guid>
+
+					<description><![CDATA[<p>2010年6月23日 Eclipse 3.6 Helios 正式发布，对 Java 程序员来说有哪些新特性值得关注？ 1、检查并报告是否有缺失的 @Overri...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2554.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2554.html">Eclipse 3.6 （Helios）新特性</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>2010年6月23日 Eclipse 3.6 Helios 正式发布，对 Java 程序员来说有哪些新特性值得关注？</p>
+<p>1、检查并报告是否有缺失的 @Override 注解，此功能仅对 Java 1.6 版本适用。在以前版本中，当我们为一个方法加上 @Override  注解，但是这个方法实际上并没有过载（override）任何父类的方法时，将会得到警告信息。在新版本中，如果我们忘记为一个过载方法加上 @Override 注解，同样也会得到警告信息。</p>
+<p>2、变量视图中新增了一个列用于显示当前变量类型的实例数（Layout -&gt; Select Column）。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-6.bmp"><img decoding="async" loading="lazy" width="478" height="169" class="alignnone size-full wp-image-2561" title="Eclipse 3.6 - 6" src="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-6.bmp" alt="" srcset="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-6.bmp 478w, https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-6-300x106.bmp 300w" sizes="(max-width: 478px) 100vw, 478px" /></a></p>
+<p>3、Java 视图中的包名称可以用自定义的规则来显示（Window –&gt; Preferences –&gt; Java –&gt; Appearance）。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-3.png"><img decoding="async" loading="lazy" class="alignnone size-medium wp-image-2558" title="Eclipse 3.6 - 3" src="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-3-300x157.png" alt="" width="300" height="157" srcset="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-3-300x157.png 300w, https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-3.png 477w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><span id="more-2554"></span></p>
+<p>4、用户可以选择在关闭 Eclipse 时不清除本地更改历史（local history），这样可以加快关闭的速度，但同时本地更改历史记录将会无限制地增大。</p>
+<p>5、查看实现代码（Open Implementation）。此功能在 Navigate 菜单中能够找到，目前没有缺省的快捷键，用户可以为其自定义一个（Windows –&gt; Preferences –&gt; General –&gt; Keys）。例如，用户可以查看一个抽象方法的具体实现，如果有多个实现， Eclipse 会显示一个弹出窗口。</p>
+<p><a href="../wp-content/uploads/2010/07/Eclipse-3.6-2.png"><img decoding="async" loading="lazy" title="Eclipse 3.6 - 2" src="../wp-content/uploads/2010/07/Eclipse-3.6-2.png" alt="" width="293" height="184" /></a></p>
+<p>6、虚拟文件夹（Virtual Folders）。用户可以在 workspace 中创建文件夹，这些文件夹只对 Eclipse 可见，对操作系统不可见。并且它们只能包含其他的虚拟文件夹和外部链接资源。</p>
+<p><a href="../wp-content/uploads/2010/07/Eclipse-3.6-4.png"><img decoding="async" loading="lazy" title="Eclipse 3.6 - 4" src="../wp-content/uploads/2010/07/Eclipse-3.6-4.png" alt="" width="259" height="192" /></a></p>
+<p>7、安装配置比较（Compare Configurations）。通过此功能用户可以查看那些组件在哪一时间被安装，还可以选择卸载无用的安装以节省空间。</p>
+<p><a href="../wp-content/uploads/2010/07/Eclipse-3.6-5.png"><img decoding="async" loading="lazy" title="Eclipse 3.6 - 5" src="../wp-content/uploads/2010/07/Eclipse-3.6-5-300x256.png" alt="" width="300" height="256" /></a></p>
+<p>8、提供了对 JSF 2.0，Apache Tomcat 7，和 Aapache CXF 的支持，新增了 JAX-RS project facet。</p>
+<p>9、Eclipse 市场客户端（Eclipse Market Place Client）。在以前的版本中安装插件（plugins）一直都不能说是一件简单的事情，用户需要搜索相应的 update site URL。新版本引入了和 Apple 的应用商店类似的概念，用户可以在 Eclipse IDE 内搜索和安装插件了，此功能在 Help 菜单中可以找到。</p>
+<p><a href="../wp-content/uploads/2010/07/Eclipse-3.6-1.png"><img decoding="async" loading="lazy" title="Eclipse 3.6 - 1" src="../wp-content/uploads/2010/07/Eclipse-3.6-1-300x215.png" alt="" width="300" height="215" /></a></p>
+<p><em><a href="http://www.techsagar.com/2010/07/10-new-features-which-i-liked-the-most-in-eclipse-helios-3-6-2/">文章来源一</a>，<a href="http://rajakannappan.blogspot.com/2010/05/new-features-in-eclipse-36-helios.html">文章来源二</a></em><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="面向GC的Java编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_title">面向GC的Java编程</a></li><li ><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li ><a href="https://coolshell.cn/articles/11175.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li><li ><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/图1-3-150x150.jpg" alt="无锁HashMap的原理与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_title">无锁HashMap的原理与实现</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2554.html">Eclipse 3.6 （Helios）新特性</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2554.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>参透软件开发的本质 &#8211; Uncle Bob Martin 推荐的经典书籍</title>
+		<link>https://coolshell.cn/articles/2539.html</link>
+					<comments>https://coolshell.cn/articles/2539.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Mon, 05 Jul 2010 00:30:29 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[book]]></category>
+		<category><![CDATA[programming language]]></category>
+		<category><![CDATA[软件开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2539</guid>
+
+					<description><![CDATA[<p>数量级25（10^25）是 Uncle Bob 在 RailsConf 演讲的主题。如果你用一台 PDP 8（ 1960年代的计算机）和 Mac PowerBo...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2539.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2539.html">参透软件开发的本质 – Uncle Bob Martin 推荐的经典书籍</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>数量级25（10^25）是 Uncle Bob 在 <a href="http://en.oreilly.com/rails2010">RailsConf</a> 演讲的主题。如果你用一台 PDP 8（ 1960年代的计算机）和 Mac PowerBook 做比较的话，你会发现 Mac PowerBook 比 PDP 8 快8000倍，有6百万倍大的内存，11000倍的耗能，1500倍的容量等等。如果将这些0累加起来，很容易达到10^25。在过去40年里，我们的硬件计算能力获得了10^25倍的提升，而作为软件开发人员的我们并没有利用这些计算能力来提升多少我们的软件开发能力。没错，我们是写了不少的代码，但是它们基本上都是一些顺序语句，if 语句，和 while 循环等，没有什么新鲜的东西。你可能会说面向对象是新东西呀，但是那只是另外一种组织顺序、选择和迭代等语句的方法而已。除我们现有的编程语言之外，如果有新的编程语言能够产生并创造新的“微积分学”，从而将软件开发提高到一个新的高度，将会是一件非常令人期待的事情，因为顺序语句，选择语句和迭代等最终将成为历史。</p>
+<p>Uncle Bob 认为以下四本书是软件开发人员必须阅读的，并由他自己来排名。</p>
+<p>1. The Structure &amp; Interpretation of Computer Programs 计算机程序的构造和解释 （By Harold Abelson &amp; Gerald Sussman）</p>
+<p>书中使用的是 Scheme 语言（Lisp 的一个变种），此书的内容曾经是 MIT 计算机系的一门课程，当然现在已经不是了。</p>
+<p>2. Structured Programming 结构化程序设计 （By Edsger W. Dijkstra）</p>
+<p>相信软件专业的同学们都上过此课程，我们的启蒙书籍。这本书讨论了 go to 是怎样的邪恶，同时也讨论了面向对象。对比一下今天我们视为 best practice 的测试驱动开发（TDD），go to 在过去也曾经是 Fortran，Cobol 等语言的核心。</p>
+<p>3. The Annotated TURING （By Charles Petzold）</p>
+<p>Uncle Bob 令人尴尬地忘记了这本书的名字，他自嘲说自己从来记不住这本书名。但是此书在他的推荐列表中列第三位。</p>
+<p>4. Clean Code （By Robert C. Martin）</p>
+<p>Uncle Bob 本人的大作。</p>
+<p>我的一位同事将这位 Uncle Bob 视为软件开发领域中的上帝，Uncle Bob 这位大师在当下各类编程语言和平台层出不穷的时候，在我们为该学什么语言买什么书举棋不定的时候，推荐给读者这几本经典，也许是煞费苦心地想让我们参透软件开发的本质吧。不过会不会也是因为我们都在慢慢变老，许多旧的东西如今又变成了新鲜有趣的事情啦？（出自采访记者之口）</p>
+<p><a href="http://vimeo.com/12957619"><em>文章来源</em></a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6639.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/02/programming-language-150x150.jpg" alt="千万别惹程序员 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6639.html" class="wp_rp_title">千万别惹程序员 </a></li><li ><a href="https://coolshell.cn/articles/4626.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="读书笔记：对线程模型的批评" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4626.html" class="wp_rp_title">读书笔记：对线程模型的批评</a></li><li ><a href="https://coolshell.cn/articles/3385.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/rank_scatter1-150x150.png" alt="编程语言流行度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3385.html" class="wp_rp_title">编程语言流行度</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-150x150.jpg" alt="一些非常不错的资料" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_title">一些非常不错的资料</a></li><li ><a href="https://coolshell.cn/articles/3100.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/language-evolution-150x150.jpg" alt="编程语言进化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3100.html" class="wp_rp_title">编程语言进化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2539.html">参透软件开发的本质 – Uncle Bob Martin 推荐的经典书籍</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2539.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>DEMO Spring 2010 获奖产品</title>
+		<link>https://coolshell.cn/articles/2191.html</link>
+					<comments>https://coolshell.cn/articles/2191.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Sat, 27 Mar 2010 23:44:21 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[Demo Spring]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2191</guid>
+
+					<description><![CDATA[<p>文章来源 mashable.com 在刚刚结束的 DEMO Spring 2010 中，执行制作人 Matt Marshall 宣布了获得 DEMO 大奖的各类...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2191.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2191.html">DEMO Spring 2010 获奖产品</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://mashable.com/2010/03/23/demo-god-awards/?utm_source=feedburner&amp;utm_medium=feed&amp;utm_campaign=Feed%3A+Mashable+(Mashable)&amp;utm_content=Google+Reader"><em>文章来<em>源</em> mashable.com</em></a></p>
+<p>在刚刚结束的 <a href="http://demo.com/" target="_blank">DEMO Spring 2010</a> 中，执行制作人 Matt Marshall 宣布了获得 DEMO 大奖的各类 IT 产品，以及由大众评选出的最佳产品，作为奖品， DEMO 将为该产品提供价值100万美元的 <a href="www.idg.com">IDG</a> 广告宣传。以下是各类奖项的归属：</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/03/Zosh.jpg"><img decoding="async" loading="lazy" class="size-medium wp-image-2210 alignright" src="https://coolshell.cn/wp-content/uploads/2010/03/Zosh-300x185.jpg" alt="" width="300" height="185" /></a> <strong>移动产品 <a href="http://zosh.com/" target="_blank">Zosh</a></strong></p>
+<p>Zosh 是一个 iPhone 应用。有了Zosh，你无需使用扫描仪或者传真机即可实现对文档签名，Zosh支持的文档格式有：PDF，Office，以及图像文档。点此处查看 <em><a href="http://mashable.com/2010/03/22/zosh/">产品详情</a></em>。</p>
+<p>具体操作方法：</p>
+<p>1. 打开邮件中的附件文档，将其发送至Zosh（本地）。</p>
+<p>2. 在Zosh中打开该文档，使用手写输入签名。</p>
+<p>3. 将签名作为一个“图层”合并到文档中。</p>
+<p><strong>社交和媒体产品 <a href="http://everloop.com/" target="_blank">Everloop</a></strong></p>
+<p>Everloop 是一个网络社交应用，目标用户是8到13岁的儿童。其现在是一个 White Label 产品（由一个公司开发，但由其他公司进行再包装和市场营销的产品），很快将会独立运营。</p>
+<p><span id="more-2191"></span></p>
+<p><strong>基于云计算的产品 <a href="http://gwabbit.com/" target="_blank">Gwabbit</a></strong></p>
+<p>Gwabbit 已经两次获得 DEMO God 奖项。它的新产品 Gwabbit Cloud Sync 帮助你从 Outlook 和 Blackberry 邮件中提取发件人信息，然后通过 Gwabbit 服务保存和同步。</p>
+<p><strong>消费电子产品 <a href="http://phonehalo.com/" target="_blank">Phone Halo</a></strong></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/03/Phone_Halo.jpg"><img decoding="async" loading="lazy" class="alignright" src="https://coolshell.cn/wp-content/uploads/2010/03/Phone_Halo-300x124.jpg" alt="" width="300" height="124" /></a>Phone Halo 通过电子标签来管理你的手机、钥匙和钱包等贵重物品，在你有可能遗失它们的时候发出警报，从而大大降低遗失的概率。 点此处查看 <em><a href="http://mashable.com/2010/03/23/phone-halo/">产品介绍</a></em>。</p>
+<p>Phone Halo 的工作方式大致如下：</p>
+<p>1. 在你的手机、钥匙和钱包等贵重物品上贴上有感应装置的电子标签。</p>
+<p>2. 在你的手机上安装 Phone Halo 应用程序。</p>
+<p>3. 当你忘记携带其中任何一项物品时，也就是你的手机无法感应到其他物品时，手机将会发出报警。如果你没有听到报警声，手机会发送电子邮件给你的亲朋好友，让他们来提醒你忘记了东西。</p>
+<p>（根据 Phone Halo 的预测或曰期望，在 2010 年的美国，将有五分之一的人遗失他们的手机，十分之一的人遗失他们的钱包，四分之一的人遗失他们的钥匙，看来该产品很有市场前景）</p>
+<p><strong>企业级应用 <a href="http://blueskieshms.com/" target="_blank">BlueSkies Hospitality</a> </strong></p>
+<p>BlueSkies Hospitality Restaurant 2.0 是一个餐饮行业解决方案，主要和 OpenTable 争夺市场。</p>
+<p><strong>概念产品 <a href="http://uppymedia.com/" target="_blank">UppyMedia TAGtheLOOK</a></strong></p>
+<p>TAGtheLOOK 是一个 Facebook 应用，它可以让你在自己或者朋友的时装照片上贴上标签，并且与其他人分享这些标签来展示你的时尚品味。这个应用能给网上时尚商店带来潜在的商机。</p>
+<p><strong>大众评选产品 <a href="http://exaudios.com/" target="_blank">eXaudios MagInify Call Center</a></strong></p>
+<p><a href="../wp-content/uploads/2010/03/MagInify11.jpg"><img decoding="async" loading="lazy" class="alignright" src="../wp-content/uploads/2010/03/MagInify11-300x108.jpg" alt="" width="300" height="108" /></a>MagInify 是这样一个工具，它能够解码客户讲话的声音和音调，以判断客户情绪的好坏，从而帮助呼叫中心和客服人员分析统计服务质量，发现不足。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3231.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="你和你的工作" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3231.html" class="wp_rp_title">你和你的工作</a></li><li ><a href="https://coolshell.cn/articles/33.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="读后感：房间里的大象：Google文化成为主导" width="150" height="150" /></a><a href="https://coolshell.cn/articles/33.html" class="wp_rp_title">读后感：房间里的大象：Google文化成为主导</a></li><li ><a href="https://coolshell.cn/articles/1781.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="Go语言更名Issue 9？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1781.html" class="wp_rp_title">Go语言更名Issue 9？</a></li><li ><a href="https://coolshell.cn/articles/2504.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="信XML，得永生！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2504.html" class="wp_rp_title">信XML，得永生！</a></li><li ><a href="https://coolshell.cn/articles/14.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/zcover-150x150.jpg" alt="Java书籍Top 10" width="150" height="150" /></a><a href="https://coolshell.cn/articles/14.html" class="wp_rp_title">Java书籍Top 10</a></li><li ><a href="https://coolshell.cn/articles/7657.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/hudsonCI2-150x150.jpg" alt="持续部署，并不简单！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7657.html" class="wp_rp_title">持续部署，并不简单！</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2191.html">DEMO Spring 2010 获奖产品</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2191.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>别只谈系统备份，谈谈怎样恢复系统吧！</title>
+		<link>https://coolshell.cn/articles/2155.html</link>
+					<comments>https://coolshell.cn/articles/2155.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Thu, 25 Mar 2010 00:16:20 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[系统备份]]></category>
+		<category><![CDATA[系统管理]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2155</guid>
+
+					<description><![CDATA[<p>文章来源 JoelOnSoftware.com 很久以前就看到这篇文章，它给了我很深刻的印象，搜索了一下 JoelOnSoftware 的中文 Wiki，似乎也...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2155.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2155.html">别只谈系统备份，谈谈怎样恢复系统吧！</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><em><a href="http://www.joelonsoftware.com/items/2009/12/14.html">文章来源 JoelOnSoftware.com</a></em></p>
+<p><em>很久以前就看到这篇文章，它给了我很深刻的印象，搜索了一下 JoelOnSoftware 的中文 Wiki，似乎也没有此文的中文版，那就让酷壳来完成吧。</em></p>
+<ul>
+<li>你备份你的系统了吗？</li>
+<li>你备份服务器了吗？</li>
+<li>你的备份是否存放在另一台机器中？</li>
+<li>你是否有异地备份？</li>
+</ul>
+<p>以上都是非常好的问题，也都是很好的备份习惯。</p>
+<p>不过，让我们别再只谈备份了，因为仅仅备份是远远不够的。资深的系统管理员们都会告诉你他们有完美的备份计划，但是问题往往发生在当你需要恢复系统的时候：</p>
+<ul>
+<li>备份文件被密钥加密，而遗失或损坏的恰恰就是存放密钥的那台机器。</li>
+<li>存放着大量配置信息的 IIS 元数据库恰好没有备份。</li>
+<li>备份文件一直被拷贝到一个限量2GB的FAT分区，多出来的数据被默默地抛弃掉了。</li>
+<li>你的备份都在一个LTO磁带上，磁带已经和数据中心一起遗失或损坏了（911？）。</li>
+<li>即便你有了备份，仍有可能遇到许许多多的意外情况。</li>
+</ul>
+<p>所以，保证基本的系统安全不仅仅取决于你做了备份，还在于你是否能够成功恢复备份。如果你在运营一个 WEB 服务，你需要向我展示你能够在合理的时间内，在一台新的服务器或者是和原来的数据没有任何关系的服务器上，使用近期备份的数据还原出整个网站。</p>
+<p>让我们不要再问人们是否做了系统备份，而是问他们是否能够恢复系统。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3510.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="Google 需要性爱" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3510.html" class="wp_rp_title">Google 需要性爱</a></li><li ><a href="https://coolshell.cn/articles/2043.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="PI小数点位数的新纪录" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2043.html" class="wp_rp_title">PI小数点位数的新纪录</a></li><li ><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/12/open-your-creative-mind-150x150.jpg" alt="别让自己“墙”了自己" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_title">别让自己“墙”了自己</a></li><li ><a href="https://coolshell.cn/articles/4261.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="JavaMail使用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4261.html" class="wp_rp_title">JavaMail使用</a></li><li ><a href="https://coolshell.cn/articles/1186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="如何检测浏览器是否支持CSS3" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1186.html" class="wp_rp_title">如何检测浏览器是否支持CSS3</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2155.html">别只谈系统备份，谈谈怎样恢复系统吧！</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2155.html/feed</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Martin Fowler 在 ThoughtWorks 内部关于版本控制工具的调查</title>
+		<link>https://coolshell.cn/articles/2135.html</link>
+					<comments>https://coolshell.cn/articles/2135.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Fri, 12 Mar 2010 22:31:02 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[版本控制]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2135</guid>
+
+					<description><![CDATA[<p>文章来源 martinfowler.com 从2010年2月23日至3月3日，Martin Fowler 在 ThoughtWorks 内部通过开发人员邮件列表...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2135.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2135.html">Martin Fowler 在 ThoughtWorks 内部关于版本控制工具的调查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://martinfowler.com/bliki/VcsSurvey.html"><em>文章来源 martinfowler.com</em></a></p>
+<p>从2010年2月23日至3月3日，Martin Fowler 在 ThoughtWorks 内部通过开发人员邮件列表进行了一个关于版本控制工具的小调查，共收到99个回复。下面是调查选项定义和调查结果：</p>
+<ul>
+<li>非常好 （如果不是最好也非常接近了）</li>
+<li>还行 （不是最好，但是我还是愿意使用）</li>
+<li>问题多多 （我可能会因此强烈建议我的团队使用其他同类工具）</li>
+<li>危险 （非常糟糕的工具，我认为 ThoughtWorks 不应该使用它）</li>
+<li>不知道 （我还没有使用过此工具）</li>
+<li>回复数 （对此工具的回复总数，包括“不知道”选项）</li>
+<li>好评率 （(“非常好”+“还行”)/回复数）</li>
+</ul>
+<table>
+<tbody>
+<tr>
+<th>名称</th>
+<th>非常好</th>
+<th>还行</th>
+<th>问题多多</th>
+<th>危险</th>
+<th>不知道</th>
+<th>回复数</th>
+<th>好评率</th>
+</tr>
+<tr>
+<td><strong>Subversion</strong></td>
+<td>20</td>
+<td>72</td>
+<td>6</td>
+<td>1</td>
+<td>0</td>
+<td>99</td>
+<td>93%</td>
+</tr>
+<tr>
+<td><strong>git</strong></td>
+<td>65</td>
+<td>19</td>
+<td>1</td>
+<td>0</td>
+<td>14</td>
+<td>85</td>
+<td>99%</td>
+</tr>
+<tr>
+<td><strong>Mercurial</strong></td>
+<td>33</td>
+<td>27</td>
+<td>2</td>
+<td>0</td>
+<td>36</td>
+<td>62</td>
+<td>97%</td>
+</tr>
+<tr>
+<td><strong>ClearCase</strong></td>
+<td>0</td>
+<td>3</td>
+<td>14</td>
+<td>41</td>
+<td>41</td>
+<td>58</td>
+<td>5%</td>
+</tr>
+<tr>
+<td><strong>TFS</strong></td>
+<td>0</td>
+<td>0</td>
+<td>32</td>
+<td>22</td>
+<td>44</td>
+<td>54</td>
+<td>0%</td>
+</tr>
+<tr>
+<td><strong>CVS</strong></td>
+<td>0</td>
+<td>14</td>
+<td>59</td>
+<td>11</td>
+<td>15</td>
+<td>84</td>
+<td>17%</td>
+</tr>
+<tr>
+<td><strong>Bazaar</strong></td>
+<td>1</td>
+<td>13</td>
+<td>3</td>
+<td>0</td>
+<td>80</td>
+<td>17</td>
+<td>82%</td>
+</tr>
+<tr>
+<td><strong>Perforce</strong></td>
+<td>1</td>
+<td>26</td>
+<td>16</td>
+<td>1</td>
+<td>54</td>
+<td>44</td>
+<td>61%</td>
+</tr>
+<tr>
+<td><strong>VSS</strong></td>
+<td>1</td>
+<td>1</td>
+<td>11</td>
+<td>64</td>
+<td>22</td>
+<td>77</td>
+<td>3%</td>
+</tr>
+</tbody>
+</table>
+<p>Martin Fowler 补充道：</p>
+<ul>
+<li>Subversion，git，和 Mercurial 都得到了较高的好评率，git 得分最高。</li>
+<li>大部分人认为 VSS 很危险，不过也有一两个人认为它还不错。</li>
+<li>大家都不太喜欢 TFS 和 ClearCase，并认为 ClearCase 更为危险。</li>
+<li>我们不用太拘泥于具体数据，特别是对于那些不好的工具的差评都无太大区别，而对于那些优秀的工具的好评却很有一些不同。</li>
+</ul>
+<p>Martin Fowler 反复强调这只是一个公司内部的调查，并无误导市场的意思，大家如果感兴趣的话可以点击 <em><a href="http://martinfowler.com/bliki/VcsSurvey.html"><em>文章来源</em></a></em> 阅读原文，以及另一篇关于版本控制的文章 <em><a href="http://martinfowler.com/bliki/VersionControlTools.html">VersionControlTools</a></em>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10427.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/buddy-memory-allocation-150x150.jpg" alt="伙伴分配器的一个极简实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10427.html" class="wp_rp_title">伙伴分配器的一个极简实现</a></li><li ><a href="https://coolshell.cn/articles/4535.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="一些软件设计的原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4535.html" class="wp_rp_title">一些软件设计的原则</a></li><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200-1-150x150.png" alt="HTTP API 认证授权术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_title">HTTP API 认证授权术</a></li><li ><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="可视化的数据结构和算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_title">可视化的数据结构和算法</a></li><li ><a href="https://coolshell.cn/articles/688.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="你能做对下面这些JavaScript的题吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/688.html" class="wp_rp_title">你能做对下面这些JavaScript的题吗？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2135.html">Martin Fowler 在 ThoughtWorks 内部关于版本控制工具的调查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2135.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Titanium &#8211; 桌面和移动应用开发平台</title>
+		<link>https://coolshell.cn/articles/2117.html</link>
+					<comments>https://coolshell.cn/articles/2117.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Wed, 10 Mar 2010 10:47:43 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[桌面应用]]></category>
+		<category><![CDATA[移动应用]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2117</guid>
+
+					<description><![CDATA[<p>文章来源 www.readwriteweb.com 2010年3月8日，Appcelerator 公司发布了 Titanium 的 1.0 版本。 Titani...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2117.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2117.html">Titanium – 桌面和移动应用开发平台</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><em><a href="http://www.readwriteweb.com/archives/titanium_10_launches_build_native_apps_for_desktop_mobile_ipad.php">文章来源 www.readwriteweb.com</a></em><em><br />
+</em></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/03/PROD_tit_mobile.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-2122" src="https://coolshell.cn/wp-content/uploads/2010/03/PROD_tit_mobile.png" alt="" width="248" height="168" /></a></p>
+<p>2010年3月8日，Appcelerator 公司发布了 Titanium 的 1.0 版本。 Titanium 是一个桌面和移动应用程序开发平台，基于此平台，开发人员可以使用标准的 WEB 技术如 HTML，JavaScript，和 CSS 来开发桌面和移动应用程序。</p>
+<p>和其他开发平台所宣传的开发移动应用无需理解本机代码不同， Titanium 允许开发人员使用他们熟悉的编程技术来开发本机（native）移动应用，同时效果和功能与那些使用平台特定语言编写的应用相同，如可以操纵内置相机、播放视频流等等。 Titanium 的产品代码在近几个月内得到了优化，在性能方面得到了多处改进，加载时间由原来的10-20秒下降为3秒，页面切换非常迅速，处理速度提高了5倍。同时还增加了一些新的功能，如超过100个本机界面控件，2D 和 3D 动画及媒体处理机能。有了这些方面的增强，开发人员可以在 Titanium 支持的平台上开发品牌化应用， 休闲游戏， 以及增强现实应用。</p>
+<p>当被问到 Titanium 与其他开发平台的不同之处在哪里时，公司的营销副总裁 Scott Schwarzhoff 解释道：“很多我们的竞争者经仅仅是将 WEB 应用曲解为本机应用提供给客户，而没有提供真正的本机应用解决方案”。提供本机界面（超过100个本机API）的只有我们一家公司，同时我们还提供推通知服务，本机地图，Facebook连接，应用数据分析，增强现实应用，将来还会有更多特性。</p>
+<p>自2009年6月以来，Titanium 开发平台吸引了超过27000名开发人员对公司所谓“本机优势”概念的兴趣（<em><a href="http://www.appcelerator.com/products/native-iphone-android-development/">阅读详情</a></em>）。其中包括对本机控件的支持，基于位置的服务，社交共享，HTML 5，在线和设备内置数据库，集成数据分析，丰富的多媒体等等。</p>
+<p>Appcelerator 承诺在3月份的第三周支持苹果的新平板设备，包括几周后即将发布的 iPad。对黑莓的支持将于五月或六月间发布。Titanium 的社区版本完全免费，专业版本不免费，但是提供技术支持，数据分析以及对新版本的预览。</p>
+<p>Titanium 支持的平台包括： PC， Mac，Linux，最新版本则支持 iPhone 和 Android，Appcelerator 公司即将发布对黑莓和苹果 iPad 的支持。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/808.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="22条经典的编程引言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/808.html" class="wp_rp_title">22条经典的编程引言</a></li><li ><a href="https://coolshell.cn/articles/1528.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/seo-cartoon-150x150.jpg" alt="图片搜索引擎优化Checklist" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1528.html" class="wp_rp_title">图片搜索引擎优化Checklist</a></li><li ><a href="https://coolshell.cn/articles/21649.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/11/il_340x270_pggv-150x150.jpg" alt="源代码特洛伊木马攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21649.html" class="wp_rp_title">源代码特洛伊木马攻击</a></li><li ><a href="https://coolshell.cn/articles/1889.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/sql.where_.clause-150x150.jpg" alt="SQL的Where语句" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1889.html" class="wp_rp_title">SQL的Where语句</a></li><li ><a href="https://coolshell.cn/articles/17497.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/09/engineer-150x150.jpg" alt="什么是工程师文化？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17497.html" class="wp_rp_title">什么是工程师文化？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2117.html">Titanium – 桌面和移动应用开发平台</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2117.html/feed</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>与Martin Fowler关于敏捷方法的问答</title>
+		<link>https://coolshell.cn/articles/1113.html</link>
+					<comments>https://coolshell.cn/articles/1113.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Sun, 05 Jul 2009 02:15:01 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[敏捷方法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1113</guid>
+
+					<description><![CDATA[<p>2009年6月23日，Martin Fowler到公司访问，与我们开了一个小型座谈会并顺便拜访了他在ThoughtWorks的同事们。 以下是座谈的内容： 1、...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1113.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1113.html">与Martin Fowler关于敏捷方法的问答</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>2009年6月23日，Martin Fowler到公司访问，与我们开了一个小型座谈会并顺便拜访了他在ThoughtWorks的同事们。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-1122" title="MeetMartinFowlerSmall" src="https://coolshell.cn/wp-content/uploads/2009/07/MeetMartinFowlerSmall.JPG" alt="MeetMartinFowlerSmall" width="480" height="360" srcset="https://coolshell.cn/wp-content/uploads/2009/07/MeetMartinFowlerSmall.JPG 480w, https://coolshell.cn/wp-content/uploads/2009/07/MeetMartinFowlerSmall-300x225.jpg 300w, https://coolshell.cn/wp-content/uploads/2009/07/MeetMartinFowlerSmall-360x270.jpg 360w" sizes="(max-width: 480px) 100vw, 480px" /></p>
+<p>以下是座谈的内容：</p>
+<p><span id="more-1113"></span></p>
+<p><strong>1、如何在常规业务中应用敏捷方法？ </strong></p>
+<p>常规业务（Business As Usual）是指使公司业务正常运营而进行的一些日常业务活动，对于IT部门而言则包括系统维护、技术支持以及应用更改。这些工作相对于独立的软件项目而言即琐碎又零散，但又是不可或缺的。“如何在常规业务中应用敏捷方法？”，这是我们向Martin提出的第一个问题。Martin阐述道，首先需要澄清一下对项目的定义，传统的项目运作方式是集中一批业务人员、开发人员和管理人员进行产品开发，开发完成后将产品交付系统运行和支持部门，项目也就随之结束了。在敏捷方法中，项目是一个持续性的过程，系统随着业务的需要不断地更改和重构，参与项目的人员也相应地在不断地增加或者减少。笔者的理解是只要系统仍在支持业务运营，项目就不会结束，因为业务几乎不可能不变更，并且必要的重构也不可避免，对于ThoughtWorks的顾问们来说这意味着他们和客户的业务关系也不会结束，呵呵，双赢的策略！</p>
+<p><strong>2、集中式办公和分布式办公 </strong></p>
+<p>Martin强烈反对项目成员分散式办公，甚至觉得如果你需要业务人员每天到你的办公室来访问你，那简直是不可接受的，至少你应该每天都去拜访他们。“It is a shame if the business stakeholders need to come to your office every day”大意如此。但是现实却是，对于很多公司而言，将业务经理、项目经理、业务分析人员、开发人员和测试人员都集中在一个办公室简直就是一件不可能完成的任务。笔者目前所在的项目有三个团队，一个在悉尼，两个在墨尔本，每周进行四次远程视频会议，同时通过使用电话、即时消息系统、电子邮件、项目WiKi系统等手段来解决分布办公带来的沟通不及时和信息不透明等问题。Martin最后也不得不承认，很多时候如果实在不能够做到集中式办公，那只有准备好为此付出一定的成本。笔者认为要做到完全的集中式办公可能不太现实，不过可以尽可能在异地团队之间保持相关业务的对等沟通，比如在各个团队中都尽可能安排项目相关的各类角色，如：业务经理、项目经理、开发人员等，让这些人员与在异地的相同职能的人员沟通，然后再将信息在各自的团队内消化和共享，这样的效果也许会好于纯粹的按照职能来分布团队。</p>
+<p><strong>3、交叉技能（Cross Skills）</strong></p>
+<p>这里主要讲的是BA（Business Analyst 业务分析人员）和QA（Quality Assurance 质量保证人员或测试人员），Martin说在理想的情况下，BA和QA的角色可以合并，开发人员和QA的角色也可以互换。因为BA和QA都需要对系统功能有很清晰全面的了解，他们也是系统测试的主要参与者和鉴定者，他们用来定义系统功能的主要文档是用户故事（Story），而用来测试系统功能的则是功能测试代码，测试人员和开发人员有责任将功能测试代码写得易于阅读，特别是对于BA，如果他们能够象阅读用户故事一样阅读功能测试代码，将会提高他们测试系统的效率和兴趣。这也是在功能测试中使用领域特定语言（Domain Specific Language）的目的，如果BA和QA都能够阅读和使用DSL编写测试代码，那该多好啊！（憧憬中&#8230;） 通过让开发人员轮换地担任QA的角色，可以帮助提高测试代码的质量，也可以让开发人员真正从用户的角度来考虑系统功能的设计，还可以建立相互信任、相互尊重（appreciate each others work）的良好氛围。</p>
+<p><strong>4、设计和编码 </strong></p>
+<p>一位同事谈到对业务模型缺乏了解会导致代码难于理解，有时候即使代码的质量过关并且系统功能都在正常工作，但是系统的设计却和业务模型出现很大的偏差。“ 在实现设计之前，开发人员需要正确理解整个业务模型（The big picture）”，这是被经常提及的解决方法之一。Martin对此却不置可否，当然能够理解整个业务模型是最理想的情况，但是往往很少有人能够做到这一点，即便能够做到，业务模型也会随着时间和具体情况而变更。Martin首先认为设计和编码不是两个分离的过程，开发人员在设计过程中编码，也在编码过程中设计。开发人员在编码的过程中实现自己当前对业务模型的了解，首先让功能模块工作起来（Get it working），同时考虑如何让代码更便于日后的必要的重构，随着时间的推移，开发人员对业务模型的了解会不断清晰和全面，只要代码易于重构，整个系统的设计和实现将会不断地、最终地符合业务模型。</p>
+<p><strong>5、公司内部的开源项目，鼓励用户参与产品开发 </strong></p>
+<p>很多公司里不同的IT部门可能会重复开发相同功能的产品，这样会导致很大的资源浪费，用户也会面临选择的难题。再者，Martin发现很多IT部门对用户提出的功能需求缺乏足够快的响应速度，主要原因是开发人员资源有限，即使再玩命地工作也不可能在用户的预期时间内处理完本来就很长的功能需求队列。典型的例子是：公司有两个IT部门A和B，A部门需要B部门对邮政编码的Web Service做一个功能更改，而B部门的开发人员正忙于处理n个之前提交的功能需求，所以A部门的需求只能在队列中耐心等待直到B部门有开发人员空闲。如何缩短用户的等待时间？Martin建议如果A部门有开发人员熟悉Web Services，他可以从B部门的源代码库中提取邮政编码Web Service的代码，并且编码实现他需要的功能，完成之后生成代码包提交给B部门审核和测试，通过后就可以将代码合并到代码库中。这样做的优点是：1. 将功能需求由开发部门驱动转变为用户驱动，因为用户是真正了解并需要这个功能的人，所以用户会更为迫切地运用各种手段实现该功能，同时保证功能如其预期的那样运行。 2. 缩短开发周期，如果用户不愿意等待的话他可以立即着手开始功能的实现，而不必等待B部门的人员。3. 有利于公司内部的知识共享和交流，即便A部门的开发人员不熟悉Web Services但是愿意学习，B部门的开发人员可以通过结对编程（Pair Programming）的方法指导对方，待对方上手之后即可返回自己的工作，相对于B部门开发人员由始至终开发整个功能而言，这仍然可以大大缩短整个开发周期。当然，公司内部的开源策略需要一些前提，首先是部门之间应该有共同的知识领域，代码和文档需要版本控制的支持，部门人员能够理解和运用结对编程。</p>
+<p><strong>6、选择和运用框架 </strong></p>
+<p>“It is like you buying a new PC every 2 years” 当Martin被问道“这么多的应用框架层出不穷，我们该如何选择？”的时候如是回答。每几年我们都会换一台新电脑，是因为新的电脑内存更大，处理速度更快，应用软件也更复杂，要求的系统资源也更多。我们使用框架的目的也是解决业务相关的问题，只要是对业务有利的框架，都值得花一点时间去关注。 Martin鼓励公司允许开发人员占用一定的工作时间来实验新的框架，因为不这样如何能够知道它是否对提升业务价值有帮助。当然框架在生产环境（Production Environment）中的表现是衡量的一个重要标准，因为不经过生产环境中各种复杂情况的检验，很难最终确定框架是否适用。</p>
+<p><strong>（<strong>本文系作者原创，请勿用于商业用途</strong>，如转载请注明出自酷壳www.cocre.com）</strong><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2622.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/Martin-Flower1-150x150.jpg" alt="为什么敏捷方法能在软件开发中行之有效？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2622.html" class="wp_rp_title">为什么敏捷方法能在软件开发中行之有效？</a></li><li ><a href="https://coolshell.cn/articles/2466.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/05/google_pacman-150x150.jpg" alt="Google吃豆游戏Logo的源码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2466.html" class="wp_rp_title">Google吃豆游戏Logo的源码</a></li><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/1826.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="几个有趣的404错误页面" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1826.html" class="wp_rp_title">几个有趣的404错误页面</a></li><li ><a href="https://coolshell.cn/articles/1256.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/08/photo_gimp-290x300-1-150x150.png" alt="你用Linux命令行吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1256.html" class="wp_rp_title">你用Linux命令行吗？</a></li><li ><a href="https://coolshell.cn/articles/189.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/mask-linus_torvalds-150x150.jpg" alt="Linux的15岁生日" width="150" height="150" /></a><a href="https://coolshell.cn/articles/189.html" class="wp_rp_title">Linux的15岁生日</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1113.html">与Martin Fowler关于敏捷方法的问答</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1113.html/feed</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

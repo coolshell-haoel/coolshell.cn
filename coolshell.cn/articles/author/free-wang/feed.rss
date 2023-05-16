@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>free.wang | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/articles/author/free-wang/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sun, 28 Mar 2010 16:53:56 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>erlang打包独立环境</title>
+		<link>https://coolshell.cn/articles/2111.html</link>
+					<comments>https://coolshell.cn/articles/2111.html#comments</comments>
+		
+		<dc:creator><![CDATA[free.wang]]></dc:creator>
+		<pubDate>Wed, 03 Mar 2010 18:55:13 +0000</pubDate>
+				<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Erlang]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2111</guid>
+
+					<description><![CDATA[<p>最近公司代码需要在非erlang的系统上执行，需要能在独立的环境里运行erlang。研究甚久，于是写下这篇博文。国内用erlang的朋友不多，希望这篇blog能...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2111.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2111.html">erlang打包独立环境</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>最近公司代码需要在非erlang的系统上执行，需要能在独立的环境里运行erlang。研究甚久，于是写下这篇博文。国内用erlang的朋友不多，希望这篇blog能对有需要的朋友起到参考作用。</p>
+<blockquote><p>Application-Vsn/ebin<br />
+/include<br />
+/priv<br />
+/src<br />
+/Application-Vsn.rel</p></blockquote>
+<p>以上是代码的目录表.</p>
+<blockquote><p>{release, {&#8220;nextim&#8221;, &#8220;2.0&#8221;},<br />
+{erts, &#8220;5.7.5&#8221;},<br />
+[{kernel, &#8220;2.12.3&#8221;},<br />
+{stdlib, &#8220;1.15.3&#8221;},<br />
+{sasl, &#8220;2.1.5.3&#8221;}]<br />
+}.</p></blockquote>
+<p>以上是Application-Vsn.rel的内容,[]中是代码本身需要的lib。</p>
+<p><span id="more-2111"></span></p>
+<p>1.执行erl -pa ./ebin . 这一步会生成nextim-2.boot文件</p>
+<blockquote><p>1&gt; systools:make_script(nextim-2&#8243;, [local]).<br />
+ok</p></blockquote>
+<p>2.erl -boot nextim-2 . 这一步会生成nextim-2.tar.gz</p>
+<blockquote><p>systools:make_tar(&#8220;nextim-2&#8221;).</p></blockquote>
+<p>3.现在建议把tar.gz文件放到独立的路径里 这样不会影响Application-Vsn文件夹 ，然后解压 并进入目录， 复制erlang系统目录里的 erts-5.7.5 到当前目录</p>
+<p>4.建立bin文件夹 复制  <span style="color: #ff0000;"><code>erts-5.7.5/bin/start</code> </span>到 <code><span style="color: #ff0000;">bin/</span> 编辑 <span style="color: #ff0000;">bin/start</span> 改 <span style="color: #ff9900;">ROOTDIR</span>为当前目录的路径</code></p>
+<p>5.复制<span style="color: #ff0000;"><code>erts-5.7.5/bin/run_erl</code></span> <code>和 </code><span style="color: #ff0000;"><code>erts-5.7.2/bin/erl</code></span><code> 到 <span style="color: #ff0000;">bin</span> 并且如同上一步一样修改ROOTDIR.</code></p>
+<p>6.复制 <span style="color: #ff0000;"><code>$ERLDIR/bin/start_sasl.boot</code></span> 到  <span style="color: #ff0000;"><code>bin/start.boot</code></span>.</p>
+<p>7. <span style="color: #ff9900;"><code>echo</code> <code>"5.7.5</code> <code>2.0"</code> <code>&gt;</code> <code>releases/start_erl.data</code>.</span></p>
+<p>6.执行bin文件里的erl</p>
+<blockquote><p>release_handler:create_RELEASES(&#8220;$ROOTDIR&#8221;, &#8220;$ROOTDIR/releases/&#8221;, &#8220;$ROOTDIR/releases/nextim-2.rel&#8221;, []).</p></blockquote>
+<p>7.再把自己的项目文件复制到lib中  然后启动时 -pa参数是 lib文件夹. 完成这一步，就能独立出erlang环境了。</p>
+<p>以上内容 参考自</p>
+<p>http://spawnlink.com/articles/an-introduction-to-releases-with-erlybank/</p>
+<p>http://streamhacker.com/2009/07/02/how-to-create-an-erlang-first-target-system/<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/oscar-meyer-wienermobile-150x150.jpg" alt="编程语言汽车" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_title">编程语言汽车</a></li><li ><a href="https://coolshell.cn/articles/1516.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="mochiweb参数化模型Req相关功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1516.html" class="wp_rp_title">mochiweb参数化模型Req相关功能</a></li><li ><a href="https://coolshell.cn/articles/1313.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="Erlang和Python互通" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1313.html" class="wp_rp_title">Erlang和Python互通</a></li><li ><a href="https://coolshell.cn/articles/1480.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/27.jpg" alt="非常简单的Python HTTP服务" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1480.html" class="wp_rp_title">非常简单的Python HTTP服务</a></li><li ><a href="https://coolshell.cn/articles/1212.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="编程引言补充" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1212.html" class="wp_rp_title">编程引言补充</a></li><li ><a href="https://coolshell.cn/articles/1970.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="Java异常另类手册" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1970.html" class="wp_rp_title">Java异常另类手册</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2111.html">erlang打包独立环境</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2111.html/feed</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>[推荐]基于Mac的Port工具Fink</title>
+		<link>https://coolshell.cn/articles/1592.html</link>
+					<comments>https://coolshell.cn/articles/1592.html#comments</comments>
+		
+		<dc:creator><![CDATA[free.wang]]></dc:creator>
+		<pubDate>Mon, 19 Oct 2009 11:06:41 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[fink]]></category>
+		<category><![CDATA[Mac]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1592</guid>
+
+					<description><![CDATA[<p>看到标题，读者朋友们肯定第一时间想到的MacPort 。 恩，那是一款非常棒的工具。 不过我更愿意推荐各位使用另外一款工具 Fink(http://www.fi...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1592.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1592.html">[推荐]基于Mac的Port工具Fink</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>看到标题，读者朋友们肯定第一时间想到的MacPort 。</p>
+<p>恩，那是一款非常棒的工具。 不过我更愿意推荐各位使用另外一款工具 Fink(http://www.finkproject.org/).</p>
+<blockquote><p>Fink 项目希望把 Unix 上各种<a href="http://www.opensource.org/">开放源码</a>软件带到 <a href="http://www.opensource.apple.com/">Darwin</a> 和 <a href="http://www.apple.com/macosx/">Mac OS X</a> 平台上。 我们通过修改 Unix 软件使得它可以在 Mac OS X 上编译和运行（“移植”）,并提供一个方便的分发系统使得每个人都可以下载和使用它。 Fink 使用 <a href="http://www.debian.org/">Debian</a> 中的象 dpkg 和 apt-get 等工具来提供强大的二进制软件包管理。 你可以随意选择是下载预编译好的二进制安装包或从源代码自己构建一切。</p></blockquote>
+<p>关于 Fink的安装 ，大部分用户可参见http://www.finkproject.org/download/index.php?phpLang=zh。<br />
+不过后面我主要想介绍我的安装方式，因为我的Mac 版本是10.6 64bit.所以还是有些差别。也许上述普通方法有效，但是我并未尝试。</p>
+<p>安装步骤如下（感谢 <a href="http://sage.ucsc.edu/~wgscott/xtal/wiki/index.php/64-bit_Fink_for_10.6">http://sage.ucsc.edu/~wgscott/xtal/wiki/index.php/64-bit_Fink_for_10.6</a>）</p>
+<p><span id="more-1592"></span></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+cvs -d:pserver:anonymous@fink.cvs.sourceforge.net:/cvsroot/fink login
+ #just hit return when prompted for password
+cvs -z3 -d:pserver:anonymous@fink.cvs.sourceforge.net:/cvsroot/fink co -P fink
+cd fink
+./bootstrap /sw
+</pre>
+<p>以上最后一步可能会花80%的时间，因为它会执行下载及编译这些很核心的工作。</p>
+<p>完成之后编辑 <span style="font-family: monospace, 'Times New Roman', 'Bitstream Charter', Times, serif;line-height: 24px;font-size: 17px;color: #99cc00">/<span style="color: #fffbc6"><span style="color: #99cc00">sw/etc/fink.conf </span><span style="color: #000000;font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif;line-height: 19px;font-size: 13px">第4行为：</span></span></span></p>
+<p><span style="color: #ff6600;font-size: large"><span style="line-height: 24px"><span style="font-size: 12px"><strong><span style="color: #3366ff">Trees: local/main stable/main stable/crypto unstable/main unstable/crypto</span></strong></span></span></span></p>
+<p>接下来就可以使用fink了。 fink的启动 我加了如下代码</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">source /sw/bin/init.sh
+fink selfupdate-cvs
+fink -y update-all
+fink scanpackages
+</pre>
+<p>我建议 再执行一条</p>
+<p><code data-enlighter-language="bash" class="EnlighterJSRAW">echo &quot;source /sw/bin/init.sh&quot;  &gt;&gt; ~/.bash_profile</code></p>
+<p>这样新开终端进程的时候 就不用重新初始化fint了,完成以上步骤，就能使用fink了。</p>
+<p>我之所以抛弃了macport 是因为他目前出现的和新版10.6的冲突问题，导致系统gcc库环境出现错误，而macport又与系统架构上不兼容 ，导致Port不能用 gcc 也不能用，而我又准备拿光盘重装developer环境的时候，光驱坏了 DVD盘一律不能读 :shame goodness&#8230;!<br />
+fink的出现完全让我避开了以上问题，或许上述问题的出现有我个人原因。 但是fink有很重要的一点，就是它的源很快。他会自动推荐最适合我们的镜像。如果我们要随时更换fink的配置， 可以执行 <span style="color: #3366ff">fink configure.</span></p>
+<p>我相信读到这里，会有不少习惯Port的朋友使用 Fink， Just do it, Fink和MacPort 同时存在并不是什么坏事，虽然我已经把MacPort彻底删了。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2719.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="苹果开发工具Xcode 4 第二预览版" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2719.html" class="wp_rp_title">苹果开发工具Xcode 4 第二预览版</a></li><li ><a href="https://coolshell.cn/articles/1272.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/08/linux_airline-150x150.jpg" alt="操作系统航空公司" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1272.html" class="wp_rp_title">操作系统航空公司</a></li><li ><a href="https://coolshell.cn/articles/2941.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/01.Small_-150x150.jpg" alt="Waterfall 软件工程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2941.html" class="wp_rp_title">Waterfall 软件工程</a></li><li ><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-150x150.png" alt="AWS 的 S3 故障回顾和思考" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_title">AWS 的 S3 故障回顾和思考</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/5265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/27.jpg" alt=" C++11 中值得关注的几大变化（详解）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5265.html" class="wp_rp_title"> C++11 中值得关注的几大变化（详解）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1592.html">[推荐]基于Mac的Port工具Fink</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1592.html/feed</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>mochiweb参数化模型Req相关功能</title>
+		<link>https://coolshell.cn/articles/1516.html</link>
+					<comments>https://coolshell.cn/articles/1516.html#comments</comments>
+		
+		<dc:creator><![CDATA[free.wang]]></dc:creator>
+		<pubDate>Wed, 30 Sep 2009 12:00:34 +0000</pubDate>
+				<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Erlang]]></category>
+		<category><![CDATA[Mochiweb]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1516</guid>
+
+					<description><![CDATA[<p>本文的笔记讲述如何从client请求中获取各种参数,如method, request path, headers, cookie等。 Mochiweb是Erla...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1516.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1516.html">mochiweb参数化模型Req相关功能</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>本文的笔记讲述如何从client请求中获取各种参数,如method, request path, headers, cookie等。</p>
+<p>Mochiweb是Erlang实现的一个开源Web服务器，它设计的一个亮点就是他本身的Http请求的参数化模型。因此我们可以用OO的方式来理解它的相关用法。<br />
+它的实现在mochiweb_request模块.在mochiweb中,每个client请求其构造一个 Req 对象(注：这个“对象“只是便于理解的提法), Req 可以理解成 mochiweb_request 的一个参数化或实例化.<br />
+<span id="more-1516"></span></p>
+<p>1.<span style="color: #339966"><strong>Req:get(method)</strong></span><strong> </strong>-&gt; &#8216;OPTIONS&#8217; | &#8216;GET&#8217; | &#8216;HEAD&#8217; | &#8216;POST&#8217; | &#8216;PUT&#8217; | &#8216;DELETE&#8217; | &#8216;TRACE&#8217;.<br />
+获取Http请求的方式.</p>
+<p>2.<span style="color: #339966"><strong>Req:get(raw_path)</strong> </span>-&gt; String().<br />
+获取raw_path.比如 http://www.nextim.cn/session/login?username=test#p,那/session/login?username=test#p就是这个raw_path.</p>
+<p>3.<span style="color: #339966"><strong>Req:get(path)</strong></span><strong> </strong>-&gt; String().<br />
+获取path.比如 http://www.nextim.cn/session/login?username=test#p,那/session/login就是这个raw_path.</p>
+<p>4.<span style="color: #339966"><strong>Req:parse_qs()</strong></span> -&gt; [{strng(), string()}].<br />
+获取get参数.比如 http://www.nextim.cn/session/login?username=test#p,则返回[{&#8220;username&#8221;,&#8221;test&#8221;}].</p>
+<p>5.<span style="color: #339966"><strong>Req:parse_post()</strong></span> -&gt; [{strng(), string()}].<br />
+确保post数据类型为: application/x-www-form-urlencoded, 否则不要调用(其内部会调用Req:recv_body),返回值类似Req:parse_qs().</p>
+<p>6.<span style="color: #339966"><strong>Req:get(peer)</strong></span><strong> </strong>-&gt; string().<br />
+返回值为client的ip</p>
+<p>7.<span style="color: #339966"><strong>Req:get_header_value(Key)</strong></span> -&gt; undefined | string().<br />
+获取某个header,比如Key为&#8221;User-Agent&#8221;时，返回&#8221;Mozila&#8230;&#8230;.&#8221;</p>
+<p>8.<span style="color: #339966"><strong>Req:get_primary_header_value(Key) </strong></span>-&gt; undefined | string().<br />
+获取http headers中某个key对应的主值(value以分号分割).<br />
+举例: 假设 Content-Type 为 application/x-www-form-urlencoded; charset=utf8,则<br />
+Req:get_header_value(&#8220;content-type&#8221;) 返回 application/x-www-form-urlencoded</p>
+<p>9.<span style="color: #339966"><strong>Req:get(headers)</strong> </span>-&gt; dict().<br />
+获取所有headers<br />
+说明: 返回结果为stdlib/dict 数据结构,可以通过mochiweb_headers模块进行操作.<br />
+举例: 下面代码显示请求中所有headers:<br />
+Headers = Req:get(headers),<br />
+lists:foreach(fun(Key, Value) -&gt;<br />
+io:format(&#8220;~p : ~p ~n&#8221;, [Key, Value])<br />
+end,<br />
+mochiweb_headers:to_list(Headers)).</p>
+<p>10.<span style="color: #339966"><strong>Req:parse_cookie()</strong></span> -&gt; [{string(), string()}].<br />
+解析Cookie</p>
+<p>11.<strong><span style="color: #339966">R</span></strong><span style="color: #339966"><strong><span style="color: #339966">eq:get_cookie_value(Key)</span></strong></span><strong><span style="color: #339966"> </span></strong>-&gt; string().<br />
+类似<span style="color: #ffcc00">Req:get_header_value(Key)</span></p>
+<div><span style="font-family: 'Lucida Grande', Verdana, Arial, 'Bitstream Vera Sans', sans-serif"><span>最近搜了下，发现用mochiweb的挺多的。但自己用的时候发现来不少疑难。以上文档皆由litaocheng总结提供。感谢所带来的帮助。希望这个对国内使用mochiweb的朋友们带来帮助。</span></span></div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2111.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="erlang打包独立环境" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2111.html" class="wp_rp_title">erlang打包独立环境</a></li><li ><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/oscar-meyer-wienermobile-150x150.jpg" alt="编程语言汽车" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_title">编程语言汽车</a></li><li ><a href="https://coolshell.cn/articles/1313.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="Erlang和Python互通" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1313.html" class="wp_rp_title">Erlang和Python互通</a></li><li ><a href="https://coolshell.cn/articles/2065.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/01/Win32web-150x150.jpg" alt="一个Windows 3.1的Web网站" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2065.html" class="wp_rp_title">一个Windows 3.1的Web网站</a></li><li ><a href="https://coolshell.cn/articles/5651.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/10/wpingsuper-150x150.jpg" alt="Stay Hungry, Stay Foolish ！！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5651.html" class="wp_rp_title">Stay Hungry, Stay Foolish ！！</a></li><li ><a href="https://coolshell.cn/articles/3723.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="（麻省理工免费课程）计算机科学和编程导论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3723.html" class="wp_rp_title">（麻省理工免费课程）计算机科学和编程导论</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1516.html">mochiweb参数化模型Req相关功能</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1516.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>CentOS上php的问题及Selinux安全设置</title>
+		<link>https://coolshell.cn/articles/1462.html</link>
+					<comments>https://coolshell.cn/articles/1462.html#comments</comments>
+		
+		<dc:creator><![CDATA[free.wang]]></dc:creator>
+		<pubDate>Sat, 26 Sep 2009 01:00:54 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[CentOS]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[SELinux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1462</guid>
+
+					<description><![CDATA[<p>最近有位站长在用我们WebIM客户端的时候，无法登录我们的WebIM服务器，十分惊讶。 在我们的用户里尚属首例，其实更惊讶的是我的CentOS也遇到了同样的问题...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1462.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1462.html">CentOS上php的问题及Selinux安全设置</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>最近有位站长在用我们WebIM客户端的时候，无法登录我们的WebIM服务器，十分惊讶。 在我们的用户里尚属首例，其实更惊讶的是我的CentOS也遇到了同样的问题。然后分析了这位站长的HttpResponse , Shamee :( 一样的OS.</p>
+<p>搜了一下，发现的解决方法都是在代码上。 我想可能关键词有错误，因为我坚信我的问题肯定不在代码上，应该是来自OS本身的限制。于是重新debug了一下代码，报错 permission (13) connection。然后直接在洋人的邮件列表里搜了一下。</p>
+<p>问题确定了 是SeLinux(<span style="color: #ff6600"><em>http://zh.wikipedia.org/wiki/SELinux</em></span>)安全策略的限制。</p>
+<p><span id="more-1462"></span></p>
+<p>这下问题明了了,执行 <span style="color: #ff0000">/usr/sbin/setenforce 0</span>就能迅速关闭SELINUX，或者<span style="color: #ff0000">vi /etc/selinux/config</span> 把<span style="color: #ff0000">enforcing</span>改成<span style="color: #ff0000">permissive </span>然后<span style="color: #ff0000">reboot</span>.</p>
+<p>但是我想了一下，就算安全级别为B1的Linux被攻击的可能小，但是总会有面对这种问题的时候，况且这种解决访问本身并不优雅。</p>
+<p>于是想了下 把Apache脱离SeLinux是一个最恰当的办法，于是执行</p>
+<p><code data-enlighter-language="bash" class="EnlighterJSRAW">sudo  setsebool -P httpd_disable_trans 1 &amp;&amp; sudo   /etc/init.d/httpd restart</code></p>
+<p>这样就能保证在SeLinux的光环下,Web服务器行为不受控制。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/cache-150x150.png" alt="缓存更新的套路" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_title">缓存更新的套路</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1462.html">CentOS上php的问题及Selinux安全设置</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1462.html/feed</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>编译vim解决中文支持</title>
+		<link>https://coolshell.cn/articles/1432.html</link>
+					<comments>https://coolshell.cn/articles/1432.html#comments</comments>
+		
+		<dc:creator><![CDATA[free.wang]]></dc:creator>
+		<pubDate>Sat, 19 Sep 2009 00:47:04 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1432</guid>
+
+					<description><![CDATA[<p>最近开始抛弃Ubuntu折腾CentOS 5.3(注：无意挑起OS之争)，每当换一个OS，第一个配置的就是VIM。 介于以前在MacOSX的编译经验，直接三部曲...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1432.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1432.html">编译vim解决中文支持</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>最近开始抛弃Ubuntu折腾CentOS 5.3(注：无意挑起OS之争)，每当换一个OS，第一个配置的就是VIM。</p>
+<p>介于以前在MacOSX的编译经验，直接三部曲</p>
+<blockquote><p><span style="color: #ff0000">./configue &amp;&amp; sudo make &amp;&amp; sudo make install</span></p></blockquote>
+<p>解决的问题。  但在CentOS之后发现无论如何都不支持中文。</p>
+<p>通过文档的翻阅和google的搜索，发现了问题出现在编译上。vim支持中文需要2个基本feature：multi_byte和iconv。</p>
+<p><span id="more-1432"></span></p>
+<p>在vim中输入 :version  发现这2个feature都是  &#8211; multi_byte 和 &#8211; iconv。看来编译的时候参数没有配置对。</p>
+<p>于是重新执行以下代码</p>
+<blockquote><p>./configure &#8211;prefix=/usr &#8211;with-features=huge<br />
+sudo make<br />
+sudo make install</p></blockquote>
+<p>问题就解决了。</p>
+<p>另外vim配置文件从第一行(我是unicode的统一论者)，加上</p>
+<blockquote><p>set enc=utf-8<br />
+set tenc=utf-8<br />
+set fenc=utf-8<br />
+set fencs=utf-8,usc-bom</p></blockquote>
+<p>其实整个问题都很简单。 但是我发现搜索引擎里的资料 不是通过直观的关键字搜出来的。 所以这里做下一个记录，希望对以后的朋友有所帮助。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-150x150.png" alt="给程序员的VIM速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_title">给程序员的VIM速查卡</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1432.html">编译vim解决中文支持</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1432.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Erlang和Python互通</title>
+		<link>https://coolshell.cn/articles/1313.html</link>
+					<comments>https://coolshell.cn/articles/1313.html#comments</comments>
+		
+		<dc:creator><![CDATA[free.wang]]></dc:creator>
+		<pubDate>Mon, 24 Aug 2009 14:30:49 +0000</pubDate>
+				<category><![CDATA[Erlang]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1313</guid>
+
+					<description><![CDATA[<p>最近开发 Erlang ,对其字符串处理能力无言至极,于是决定把它和python联合起来,打造一个强力的分布式系统,等将来需要系统级开发时,我再把 C++/C组...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1313.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1313.html">Erlang和Python互通</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>最近开发 Erlang ,对其字符串处理能力无言至极,于是决定把它和python联合起来,打造一个强力的分布式系统,等将来需要系统级开发时,我再把 C++/C组合进来.</p>
+<p>首先参考了 Erlang 官方文档和 <a href="http://www.zend2.com/DoIt.php?u=Oi8vd3d3LmJsb2dnZXIuY29tL2Jsb2cuZGV2ZWxvcGVycy5hcGkuc2luYS5jb20uY24vP3RhZz1lcmxhbmc%3D&amp;b=5">http://<cite>blog.developers.api.sina.com.cn/?tag=<strong>erlang</strong></cite></a> 以及<a href="http://www.zend2.com/DoIt.php?u=Oi8va2F6bWllci5uZXQvY29tcHV0ZXIvcG9ydC1ob3d0by8%3D&amp;b=5"> http://kazmier.net/computer/port-howto/</a> .</p>
+<p>研读了将近24个小时, 才终于完全把问题解决.  起名为town，town在英文里表示集市，也就是代表各种语言在这里的交流与互动。) )<br />
+<span id="more-1313"></span><br />
+[erl]-module(town).<br />
+-behaviour(gen_server).</p>
+<p>%% API<br />
+-export([start/0,combine/1]).</p>
+<p>%% gen_server callbacks<br />
+-export([init/1, handle_call/3, handle_cast/2, handle_info/2,<br />
+terminate/2, code_change/3]).<br />
+-record(state, {port}).</p>
+<p>start() -&amp;gt;<br />
+  gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).<br />
+stop() -&amp;gt;<br />
+  gen_server:cast(?SERVER, stop).<br />
+init([]) -&amp;gt;<br />
+  process_flag(trap_exit, true),<br />
+  Port = open_port({spawn, &quot;python -u /home/freefis/Desktop/town.py&quot;},[stream,{line, 1024}]),<br />
+  {ok, #state{port = Port}}.</p>
+<p>handle_call({combine,String}, _From, #state{port = Port} = State) -&amp;gt;<br />
+  port_command(Port,String),<br />
+  receive<br />
+    {Port,{data,{_Flag,Data}}} -&amp;gt;<br />
+      io:format(&quot;receiving:~p~n&quot;,[Data]),<br />
+      sleep(2000),<br />
+      {reply, Data, Port}<br />
+  end.<br />
+handle_cast(stop, State) -&amp;gt;<br />
+  {stop, normal, State};<br />
+handle_cast(_Msg, State) -&amp;gt;<br />
+  {noreply, State}.</p>
+<p>handle_info(Info, State) -&amp;gt;<br />
+  {noreply,State}.</p>
+<p>terminate(_Reason, Port) -&amp;gt;<br />
+  ok.</p>
+<p>code_change(_OldVsn, State, _Extra) -&amp;gt;<br />
+  {ok, State}.</p>
+<p>%%&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;<br />
+%%% Internal &#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;<br />
+combine(_String) -&amp;gt;<br />
+  start(),<br />
+  String = list_to_binary(&quot;combine|&quot;++_String++&quot;\n&quot;),<br />
+  gen_server:call(?SERVER,{combine,String},infinity),<br />
+  stop().[/erl]<br />
+这段是Python的脚本 当erlang中town:combine(&#8220;sentence1+sentence2&#8221;)执行时，会在后台启动python的脚本，处理完毕后返回给Erlang结果:sentence1sentence2，然后退出。 </p>
+<pre data-enlighter-language="python" class="EnlighterJSRAW">
+import sys
+def handle(_string):
+    if _string.startswith(&quot;combine|&quot;):
+        string = &quot;&quot;.join( _string[8:].split(&quot;,&quot;))
+        return string
+
+&quot;&quot;&quot;waiting for input &quot;&quot;&quot;
+while 1:
+    # Recv. Binary Stream as Standard IN
+    _stream = sys.stdin.readline()
+
+if not _stream: break
+    # Scheme, Turn into  Formal String
+    inString  = _stream.strip(&quot;\r\n&quot;)
+    # handle String
+    outString = handle(inString)
+    # send to port as Standart OUT
+    sys.stdout.write(&quot;%s\n&quot; % (outString,))
+    sys.exit(0)</pre>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/oscar-meyer-wienermobile-150x150.jpg" alt="编程语言汽车" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_title">编程语言汽车</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1313.html">Erlang和Python互通</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1313.html/feed</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

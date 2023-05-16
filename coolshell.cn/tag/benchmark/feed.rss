@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>benchmark | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/benchmark/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 13 Nov 2009 16:30:08 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>程序语言性能比拼</title>
+		<link>https://coolshell.cn/articles/1788.html</link>
+					<comments>https://coolshell.cn/articles/1788.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 16 Nov 2009 00:20:17 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[benchmark]]></category>
+		<category><![CDATA[GNU C]]></category>
+		<category><![CDATA[Go]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1788</guid>
+
+					<description><![CDATA[<p>  下面这个网页，你可以比较各种程序语言的性能： http://shootout.alioth.debian.org/u64/index.php 这个页面，安装...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1788.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1788.html">程序语言性能比拼</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="https://coolshell.cn/wp-content/uploads/2009/11/govsgnuc.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/11/govsgnuc.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/11/govsgnuc.jpg"></a> <a href="https://coolshell.cn/wp-content/uploads/2009/11/measurements_table.jpg"></a> 下面这个网页，你可以比较各种程序语言的性能：</p>
+<p style="text-align: center;"><a href="http://shootout.alioth.debian.org/u64/index.php">http://shootout.alioth.debian.org/u64/index.php</a></p>
+<p style="text-align: left;">这个页面，安装的是x64 Ubuntu，CPU是Intel® Q6600® 单核。这个网页支持的语言很多，什么C，C++，Java，python，PHP，Erlang，C#，Ruby，……，还有最新的G0语言。</p>
+<p style="text-align: left;">在主页上，你可以选择一个语言。比如，我们选择Google的Go语言——Go 6g8g，然后，点击Show按钮，于是，你会看到下面这个界面：</p>
+<p style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/11/govsgnuc.jpg"><img decoding="async" loading="lazy" title="go vs gnuc" src="https://coolshell.cn/wp-content/uploads/2009/11/govsgnuc.jpg" alt="go vs gnuc" width="525" height="404" /></a> <a href="https://coolshell.cn/wp-content/uploads/2009/11/govsgnuc.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/11/govsgnuc.jpg"></a></p>
+<p style="text-align: left;">在这个界面上方，你可以选择两种语言，我们选择的是，上面的是Go 6g8g，而下面是的GNU C，于是下面的图表，是这两个语言各种参数和算法的比较图表。</p>
+<p style="text-align: left;"><span id="more-1788"></span></p>
+<p style="text-align: left;">在这个图表中，其实就是“Go的性能” 除以 “C的性能”，所以，</p>
+<ul>
+<li>
+<div style="text-align: left;">如果柱状图是大于1的（也就是基线以上的）则说明Go的性能不如C。</div>
+</li>
+<li>
+<div style="text-align: left;">如果柱状图小于1的（也就是基线以下的），说明Go的性能超过了C。</div>
+</li>
+</ul>
+<p style="text-align: left;">再往下，是用来做比较的算法的图表，如下所示。在这个表中，我们可以看到很多算法，单击语言的链接，你就可以看到具体的实现源代码了。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/11/measurements_table.jpg"></a></p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2009/11/measurements_table.jpg"><img decoding="async" loading="lazy" title="measurements table" src="https://coolshell.cn/wp-content/uploads/2009/11/measurements_table.jpg" alt="measurements table" width="495" height="290" /></a></p>
+<p style="text-align: left;"> （全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/05/etcd-150x150.png" alt="ETCD的内存问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_title">ETCD的内存问题</a></li><li ><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/09/go-generics-150x150.png" alt="Go编程模式 ： 泛型编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_title">Go编程模式 ： 泛型编程</a></li><li ><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.k8s-150x150.png" alt="Go 编程模式：k8s Visitor 模式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_title">Go 编程模式：k8s Visitor 模式</a></li><li ><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.line_.-150x150.png" alt="Go编程模式：Pipeline" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_title">Go编程模式：Pipeline</a></li><li ><a href="https://coolshell.cn/articles/21214.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.pair_-150x150.png" alt="Go编程模式：委托和反转控制" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21214.html" class="wp_rp_title">Go编程模式：委托和反转控制</a></li><li ><a href="https://coolshell.cn/articles/21179.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.generate-150x150.png" alt="Go 编程模式：Go Generation" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21179.html" class="wp_rp_title">Go 编程模式：Go Generation</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1788.html">程序语言性能比拼</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1788.html/feed</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>编程语言的评测</title>
+		<link>https://coolshell.cn/articles/973.html</link>
+					<comments>https://coolshell.cn/articles/973.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Sat, 06 Jun 2009 14:50:49 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[benchmark]]></category>
+		<category><![CDATA[programming language]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=973</guid>
+
+					<description><![CDATA[<p>摘要：这篇文章的原文出处在这里 我意译了整篇文章。结合计算机语言评测基准这个网站来读此文还是比较有意思。当然也不能以这个评测结果就贸然断定什么语言最好，什么语言...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/973.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/973.html">编程语言的评测</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>摘要</strong>：这篇文章的原文出处在<a href="http://gmarceau.qc.ca/blog/2009/05/speed-size-and-dependability-of.html">这里</a> 我意译了整篇文章。结合<a href="http://shootout.alioth.debian.org/">计算机语言评测基准</a>这个网站来读此文还是比较有意思。当然也不能以这个评测结果就贸然断定什么语言最好，什么语言不好。没有好不好的语言，只有适不适用于你解决问题域的语言。就文章而言请大家还是不必太过认真，就当从另一个方面来了解一下这33种编程语言吧。</p>
+<p><a href="http://shootout.alioth.debian.org/">计算机语言评测基准</a>是一个由429个程序组成的集合，它评测了33个程序语言的13的重复实现的基准程序。如果你想量化的比较不同语言，那么这个是一个非常不错的资源。</p>
+<p>在计算机评测基准中，评测者为了尽量让评测准确，非常谨慎的选择了13个基准程序，这13个基准程序并不针对某以特定语言有特殊的优化。对于评测选择33中语言都实现了13个基准程序。当然，除了速度这个指标外，程序基准评测同时也为每一个基准测试程序发布一个编码大小指标。非常感谢基准评测让我们看到程序设计中非常重要的一个方面：程序语言的性能和程序语言灵活性之间的矛盾。正是这个矛盾给所谓“高级编程语言”带上一个含蓄的轻蔑的意思。即，当你在使用这些高级语言编码时，你也许可以编写出漂亮的代码，但是你是如此的远离了硬件，你不可能获得更好的性能，是这样的吗？</p>
+<p><span id="more-973"></span></p>
+<p><a rel="attachment wp-att-976" href="https://coolshell.cn/?attachment_id=976"><img decoding="async" loading="lazy" width="457" height="457" class="aligncenter size-full wp-image-976" title="size-vs-speed-vs-depandability-context-3" src="https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-context-3.png" alt="size-vs-speed-vs-depandability-context-3" srcset="https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-context-3.png 457w, https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-context-3-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-context-3-300x300.png 300w, https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-context-3-200x200.png 200w, https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-context-3-270x270.png 270w" sizes="(max-width: 457px) 100vw, 457px" /></a><br />
+如果我们将基准测试程序的结果放在一张XY的图表上，那么我们就可以为这张表的4个角命名。快速而复杂的语言应积聚在图表的左上角。我们把这类语言称为系统语言。简洁但慢速的语言应该聚集在右下角，我们称之为脚本语言。在右上角，应该是过时的语言。除非这些语言具有非常吸引人的特性，否则语言已经被新出现的语言所淘汰。最后在左下角，基本上找不到对应的语言，因为在这一区域的语言是理想状态的语言。在这个区域的语言是又快又短又利于使用的语言。</p>
+<p>图中每一个小点就代表一种语言的一个基准程序实现，因此这图里面共有429个点，每个点的XY轴分别代表了其和最好的语言实现差距的倍数(从语言的复杂性和语言执行性能来说)，其中一些点比较分散，我们就没有在图中画出。从上面这个图我们可以看到这些粉红色点沿着Y轴(复杂性)比X轴(执行性能)分布更统一，这是不是意味着，人类在提升语言表达的灵活性上还在稳步的不断进步，而在提升语言性能方面却遇到了很多的麻烦呢：）</p>
+<p>针对每一个种语言，比如说scala语言，我们用下面的图来描述：图的中心点，是这个语言测试结果的平均值，然后做每一个评测结果的具体值到这个均值的连线就够成了一个星型图。这个图说明了scala一些特性，在X轴性能上来说，大部分点都分布在靠近左边，说明scala的性能是不错的，如果优化JVM的话，scala可以大部分提高性能，但是scala性能分布并不一致，其中的一个点甚至到了最右边。就语言复杂性(Y轴)来说，scala的表现也不错，不过有时候为了获得高性能，也会导致语言复杂提高，比如scala的其中一个点就在最顶端。</p>
+<p><a rel="attachment wp-att-974" href="https://coolshell.cn/?attachment_id=974"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-974" title="size-vs-speed-vs-depandability-scala" src="https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-scala.png" alt="size-vs-speed-vs-depandability-scala" width="329" height="358" srcset="https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-scala.png 329w, https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-scala-275x300.png 275w" sizes="(max-width: 329px) 100vw, 329px" /></a></p>
+<p>通过为每一种语言形成如上的一个图，我们最后可以为这33种语言评的测结果形成了如下的一个图，这是一个6*6的图。其中每一个小图具有同样的轴和同样的精度。这张图的目的是为了方便的比较每一个语言的星型。这些图按语言的平均性能来组织列，最左边的语言的性能最好，最右边的语言性能最差，在每一列中的语言又按照平均的语言代码量(复杂程度)进行排列，代码量最小的语言在最低端，代码量最大的在最顶端。</p>
+<figure id="attachment_975" aria-describedby="caption-attachment-975" style="width: 275px" class="wp-caption aligncenter"><a title="点击看大图" href="https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-2009.png"><img decoding="async" loading="lazy" class="size-medium wp-image-975" title="size-vs-speed-vs-depandability-2009" src="https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-2009-275x300.png" alt="size-vs-speed-vs-depandability-2009" width="275" height="300" srcset="https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-2009-275x300.png 275w, https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-2009-940x1024.png 940w, https://coolshell.cn/wp-content/uploads/2009/06/size-vs-speed-vs-depandability-2009.png 1221w" sizes="(max-width: 275px) 100vw, 275px" /></a><figcaption id="caption-attachment-975" class="wp-caption-text">点击看大图</figcaption></figure>
+<p>在图的最左边的性能是最好的，又高又瘦的星型，我们可以看到，除了GCC和G++外，其他的性能都显示了惊人的一致性(每一个基准测试程序的性能都非常接近)。而JAVA也非常骄傲的出现在一组中，这说明经过了10年的优化后，Java运行时的性能已经得到长足的提高(要用Java做大系统的人是否还会犹豫呢：）)。<br />
+在图的右边，我们看到了一些又胖又矮的星型，这些是一些脚本语言，从图中可以看出，这些脚本语言社区的人们当他们在不断改善他们语言的表达性的同时并没有花大力气在性能的改善上。然而也有例外，Lua这门脚本语言就有很好的执行性能。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6639.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/02/programming-language-150x150.jpg" alt="千万别惹程序员 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6639.html" class="wp_rp_title">千万别惹程序员 </a></li><li ><a href="https://coolshell.cn/articles/4626.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="读书笔记：对线程模型的批评" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4626.html" class="wp_rp_title">读书笔记：对线程模型的批评</a></li><li ><a href="https://coolshell.cn/articles/3385.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/rank_scatter1-150x150.png" alt="编程语言流行度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3385.html" class="wp_rp_title">编程语言流行度</a></li><li ><a href="https://coolshell.cn/articles/3100.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/language-evolution-150x150.jpg" alt="编程语言进化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3100.html" class="wp_rp_title">编程语言进化</a></li><li ><a href="https://coolshell.cn/articles/2724.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04.eng_-150x150.jpg" alt="计算机编程简史图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2724.html" class="wp_rp_title">计算机编程简史图</a></li><li ><a href="https://coolshell.cn/articles/2598.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/22.jpg" alt="五个编程语言设计的失误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2598.html" class="wp_rp_title">五个编程语言设计的失误</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/973.html">编程语言的评测</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/973.html/feed</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Bash | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/bash/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sat, 12 Jan 2019 06:55:59 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>bash代码注入的安全漏洞</title>
+		<link>https://coolshell.cn/articles/11973.html</link>
+					<comments>https://coolshell.cn/articles/11973.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 27 Sep 2014 23:56:46 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[env]]></category>
+		<category><![CDATA[export]]></category>
+		<category><![CDATA[安全]]></category>
+		<category><![CDATA[安全补丁]]></category>
+		<category><![CDATA[环境变量]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11973</guid>
+
+					<description><![CDATA[<p>很多人或许对上半年发生的安全问题“心脏流血”（Heartbleed Bug）事件记忆颇深，这两天，又出现了另外一个“毁灭级”的漏洞——Bash软件安全漏洞。这个...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11973.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11973.html">bash代码注入的安全漏洞</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-11979" src="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-300x152.jpg" alt="bashbug" width="300" height="152" srcset="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-300x152.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/09/bashbug.jpg 315w" sizes="(max-width: 300px) 100vw, 300px" />很多人或许对上半年发生的安全问题“心脏流血”（Heartbleed Bug）事件记忆颇深，这两天，又出现了另外一个“毁灭级”的漏洞——Bash软件安全漏洞。这个漏洞由法国GNU/Linux爱好者Stéphane Chazelas所发现。随后，美国电脑紧急应变中心（US-CERT）、红帽以及多家从事安全的公司于周三（北京时间9月24日）发出警告。 关于这个安全漏洞的细节可参看美国政府计算安全的这两个漏洞披露：<a href="http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-6271">CVE-2014-6271</a> 和 <a href="http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-7169">CVE-2014-7169</a>。</p>
+<p>这个漏洞其实是非常经典的“注入式攻击”，也就是可以向 bash注入一段命令，从bash1.14 到4.3都存在这样的漏洞。我们先来看一下这个安全问题的症状。</p>
+<h4>Shellshock (CVE-2014-6271)</h4>
+<p>下面是一个简单的测试：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ env VAR=&#039;() { :;}; echo Bash is vulnerable!&#039; bash -c &quot;echo Bash Test&quot;</code></p>
+<p>如果你发现上面这个命令在你的bash下有这样的输出，那你就说明你的bash是有漏洞的：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW" data-enlighter-highlight="1">Bash is vulnerable!
+Bash Test</pre>
+<p>简单地看一下，其实就是向环境变量中注入了一段代码 <strong>echo Bash is vulnerable</strong>。关于其中的原理我会在后面给出。</p>
+<p>很快，CVE-2014-6271的官方补丁出来的了——<a href="https://lists.gnu.org/archive/html/bug-bash/2014-09/msg00081.html" target="_blank">Bash-4.3 Official Patch 25</a>。</p>
+<p><span id="more-11973"></span></p>
+<h4>AfterShock &#8211; CVE-2014-7169 （又叫Incomplete fix to Shellshock）</h4>
+<p>但随后，马上有人在Twitter上发贴——<a href="http://twitter.com/taviso/statuses/514887394294652929" target="_blank">说这是一个不完整的fix</a>，并给出了相关的攻击方法。</p>
+<p><a href="http://twitter.com/taviso/statuses/514887394294652929" target="_blank"><img decoding="async" loading="lazy" class="aligncenter size-medium wp-image-11974" src="https://coolshell.cn/wp-content/uploads/2014/09/bash-300x153.jpg" alt="" width="300" height="153" srcset="https://coolshell.cn/wp-content/uploads/2014/09/bash-300x153.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/09/bash.jpg 582w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p>也就是下面这段测试代码（注意，其中的sh在linux下等价于bash）：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">env X=&#039;() { (a)=&gt;\&#039; sh -c &quot;echo date&quot;; cat echo</code></p>
+<p>上面这段代码运行起来会报错，但是它要的就是报错，报错后会在你在当前目录下生成一个echo的文件，这个文件的内容是一个时间文本。下面是上面 这段命令执行出来的样子。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ env X=&#039;() { (a)=&gt;\&#039; sh -c &quot;echo date&quot;; cat echo
+sh: X: line 1: syntax error near unexpected token `=&#039;
+sh: X: line 1: `&#039;
+sh: error importing function definition for `X&#039;
+Sat Sep 27 22:06:29 CST 2014</pre>
+<p>这段测试脚本代码相当的诡异，就像“天书”一样，我会在后面详细说明这段代码的原理。</p>
+<h4>原理和技术细节</h4>
+<p>要说清楚这个原理和细节，我们需要从 bash的环境变量开始说起。</p>
+<h5>bash的环境变量</h5>
+<p>环境变量大家知道吧，这个不用我普及了吧。环境变量是操作系统运行shell中的变量，很多程序会通过环境变量改变自己的执行行为。在bash中要定义一个环境变量的语法很简单（注：=号的前后不能有空格）：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ var=&quot;hello world&quot;</code></p>
+<p>然后你就可以使用这个变量了，比如：echo $var什么的。但是，我们要知道，这个变量只是一个当前shell的“局部变量”，只在当前的shell进程中可以访问，这个shell进程fork出来的进程是访问不到的。</p>
+<p>你可以做这样的测试：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ var=&quot;hello coolshell&quot;
+$ echo $var
+hello coolshell
+$ bash
+$ echo $var
+</pre>
+<p>上面的测试中，第三个命令执行了一个bash，也就是开了一个bash的子进程，你就会发现var不能访问了。</p>
+<p>为了要让shell的子进程可以访问，我们需要export一下：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ export var=&quot;hello coolshell&quot;</code></p>
+<p>这样，这个环境变量就会在其子进程中可见了。</p>
+<p>如果你要查看一下有哪些环境变量可以在子进程中可见（也就是是否被export了），你可使用<strong>env</strong>命令。不过，env命令也可以用来定义export的环境变量。如下所示：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ env var=&quot;hello haoel&quot;</code></p>
+<p>有了这些基础知识还不够，我们还要知道一个基础知识——shell的函数。</p>
+<h5>bash的函数</h5>
+<p>在bash下定义一个函数很简单，如下所示：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ foo(){ echo &quot;hello coolshell&quot;; }
+$ foo
+hello coolshell</pre>
+<p>有了上面的环境变量的基础知识后，你一定会想试试这个函数是否可以在子进程中调用，答案当然是不行的。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ foo(){ echo &quot;hello coolshell&quot;; }
+$ foo
+hello coolshell
+$ bash
+$ foo
+bash: foo: command not found</pre>
+<p>你看，和环境变量是一样的，如果要在子进程中可以访问的话，那么，还是一样的，需要export，export有个参数 -f，意思是export一个函数。如：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW" data-enlighter-highlight="4">$ foo(){ echo &quot;hello coolshell&quot;; }
+$ foo
+hello coolshell
+$ export -f foo
+$ bash
+$ foo
+hello coolshell</pre>
+<p>好了，我讲了这么半天的基础知识，别烦，懂了这些，你才会很容易地理解这两个漏洞是怎么回事。</p>
+<p>好，现在要进入正题。</p>
+<h5>bash的bug</h5>
+<p>从上面我们可以看到，bash的变量和函数用了一模一样的机制，如果你用env命令看一下export出来的东西，你会看到上面我们定义的变量和函数都在，如下所示（我省略了其它的环境变量）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ env
+var=hello coolshell
+foo=() { echo &quot;hello coolshell&quot;
+}</pre>
+<p>原来，都用同样的方式啊——<strong>无论是函数还是变量都是变量啊</strong>。于是，看都不用看bash的源代码，聪明的黑客就能猜得到——<strong>bash判断一个环境变量是不是一个函数，就看它的值是否以&#8221;()&#8221;开始</strong>。于是，一股邪念涌上心头。</p>
+<p>黑客定义了这样的环境变量（注：() 和 { 间的空格不能少）：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ export X=&#039;() { echo &quot;inside X&quot;; }; echo &quot;outside X&quot;;&#039;</code></p>
+<p>env一下，你会看到X已经在了：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ env
+X=(){ echo &quot;inside X&quot;; }; echo &quot;outside X&quot;;</pre>
+<p>然后，<strong>当我们在当前的bash shell进程下产生一个bash的子进程时，新的子进程会读取父进程的所有export的环境变量，并复制到自己的进程空间中，很明显，上面的X变量的函数的后面还注入了一条命令：echo &#8220;outside X&#8221;，这会在父进程向子进程复制的过程中被执行吗？</strong>（关于fork相关的东西你可以看一下我以前写的《<a title="一个fork的面试题" href="https://coolshell.cn/articles/7965.html" target="_blank">fork的一个面试题</a>》）</p>
+<p>答案是肯定的。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ export X=&#039;() { echo &quot;inside X&quot;; }; echo &quot;outside X&quot;;&#039;
+$ bash
+outside X</pre>
+<p>你看，一个代码注入就这样完成了。这就是bash的bug—— <strong>函数体外面的代码被默认地执行了</strong>。</p>
+<p>我们并不一定非要像上面那样创建另一个bash的子进程，我们可以使用bash -c的参数来执行一个bash子进程命令。就像这个安全漏洞的测试脚本一样：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">env VAR=&#039;() { :;}; echo Bash is vulnerable!&#039; bash -c &quot;echo Bash Test&quot;</code></p>
+<p>其中，() { :;} 中的冒号就相当于/bin/true，返回true并退出。而bash -c其实就是在spawn一个bash的echo的子进程，用于触发函数体外的echo命令。所以，更为友好一点的测试脚本应该是：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">env VAR=&#039;() { :;}; echo Bash is vulnerable!&#039; bash -c &quot;echo 如果你看到了vulnerable字样说明你的bash有安全问题&quot;</code></p>
+<p>OK，你应该明白这个漏洞是怎么一回事了吧。</p>
+<h4>bash漏洞的影响有多大</h4>
+<p>在网上看到好多人说这个漏洞不大，还说这个事只有那些陈旧的执行CGI脚本的网站才会有，现在已经没有网站用CGI了。我靠，这真是无知者无畏啊。</p>
+<p>我举个例子，如果你的网站中有调用操作系统的shell命令，比如你用PHP执行个exec之类的东西。这样的需求是有的，特别是对于一些需要和操作系统交互的重要的后台用于系统管理的程序。于是就会开一个bash的进程来执行。</p>
+<p>我们还知道，现在的HTTP服务器基本上都是以子进程式的，所以，其中必然会存在export 一些环境变量的事，而有的环境变量的值是从用户端来的，比如：HTTP_USER_AGENT这样的环境变量，只由浏览器发出的。其实这个变量你想写成什么就写成什么。</p>
+<p>于是，我可以把这个HTTP_USER_AGENT的环境变量设置成上述的测试脚本，只不过，我会把echo Bash is vulnerable!这个东西换成别的更为凶残的命令。呵呵。</p>
+<p>关于这个漏洞会影响哪些已有的系统，你可以自己Google，几乎所有的报告这个漏洞的文章都说了（比如：<a href="https://securityblog.redhat.com/2014/09/24/bash-specially-crafted-environment-variables-code-injection-attack/" target="_blank">这篇</a>，<a href="https://www.digitalocean.com/community/tutorials/how-to-protect-your-server-against-the-shellshock-bash-vulnerability" target="_blank">这篇</a>），我这里就不复述了。</p>
+<p>注：如果你要看看你的网站有没有这样的问题，你可以用这个在线工具测试一下：<a href="http://shellshock.brandonpotter.com/">&#8216;ShellShock&#8217; Bash Vulnerability CVE-2014-6271 Test Tool</a>。</p>
+<p>现在，你知道这事可能会很大了吧。还不赶快去打补丁。（注，yum update bash 把bash版本升级到 4.1.2-15.el6_5.2 ，<!-- <strong>但是这个版本还没有fix CVE-2014-7169，载止本文发布之时，目前还没有正式的CVE-2014-7169的补丁，你可以<a href="https://access.redhat.com/security/cve/CVE-2014-7169" target="_blank">关注Redhat的官方关于CVE-2014-7169 的 ticket</a></strong>--> ）</p>
+<h4>关于 AfterShock &#8211; CVE-2014-7169 测试脚本的解释</h4>
+<p>很多同学没有看懂下面这个测试脚本是什么意思，我这里解释一下。</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">env X=&#039;() { (a)=&gt;\&#039; sh -c &quot;echo date&quot;; cat echo</code></p>
+<ul>
+<li>X='() { (a)=&gt;\&#8217; 这个不用说了，定义一个X的环境变量。但是，这个函数不完整啊，是的，这是故意的。另外你一定要注意，\&#8217;不是为了单引号的转义，X这个变量的值就是 <strong>() { (a)=&gt;\</strong></li>
+</ul>
+<ul>
+<li>其中的 (a)=这个东西目的就是为了让bash的解释器出错（语法错误）。</li>
+</ul>
+<ul>
+<li>语法出错后，在缓冲区中就会只剩下了 “&gt;\”这两个字符。</li>
+</ul>
+<ul>
+<li>于是，这个神奇的bash会把后面的命令echo date换个行放到这个缓冲区中，然后执行。</li>
+</ul>
+<p>相当于在shell 下执行了下面这个命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ &gt;\
+echo date</pre>
+<p>如果你了解bash，你会知道 \ 是用于命令行上换行的，于是相当于执行了：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW"> $ &gt;echo date</code></p>
+<p>这不就是一个重定向么？上述的命令相当于：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ date &gt; echo </code></p>
+<p>于是，你的当前目录下会出现一个echo的文件，这个文件的内容就是date命令的输出。</p>
+<p><strong>能发现这个种玩法的人真是个变态，完全是为bash的源代码量身定制的一个攻击</strong>。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="http://coolshell.cn/articles/1399.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/09/bashprompts-hurring-150x150.jpg" alt="8个实用而有趣Bash命令提示行" width="150" height="150" /></a><a href="http://coolshell.cn/articles/1399.html" class="wp_rp_title">8个实用而有趣Bash命令提示行</a></li><li ><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="http://coolshell.cn/articles/11021.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/Github-Security-150x150.png" alt="从“黑掉Github”学Web安全开发" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11021.html" class="wp_rp_title">从“黑掉Github”学Web安全开发</a></li><li ><a href="http://coolshell.cn/articles/11466.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/04/c99-150x150.jpg" alt="C语言的整型溢出问题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11466.html" class="wp_rp_title">C语言的整型溢出问题</a></li><li ><a href="http://coolshell.cn/articles/6976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/61e04755jw1drlo96bsktj-150x150.jpg" alt="谈谈数据安全和云存储" width="150" height="150" /></a><a href="http://coolshell.cn/articles/6976.html" class="wp_rp_title">谈谈数据安全和云存储</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11973.html">bash代码注入的安全漏洞</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11973.html/feed</wfw:commentRss>
+			<slash:comments>136</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>应该知道的Linux技巧</title>
+		<link>https://coolshell.cn/articles/8883.html</link>
+					<comments>https://coolshell.cn/articles/8883.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 09 Jan 2013 00:24:29 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Performance]]></category>
+		<category><![CDATA[Shell]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8883</guid>
+
+					<description><![CDATA[<p>这篇文章来源于Quroa的一个问答《What are some time-saving tips that every Linux user should kn...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8883.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8883.html">应该知道的Linux技巧</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-8899" alt="" src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225.jpg" width="300" height="225" />这篇文章来源于Quroa的一个问答《<a href="http://www.quora.com/Linux/What-are-some-time-saving-tips-that-every-Linux-user-should-know#" target="_blank">What are some time-saving tips that every Linux user should know?</a>》—— Linux用户有哪些应该知道的提高效率的技巧。我觉得挺好的，总结得比较好，把其转过来，并加了一些自己的理解。 首先，我想告诉大家，<strong>在Unix/Linux下，最有效率技巧的不是操作图形界面，而是命令行操作，因为命令行意味着自动化</strong>。如果你看过《<a title="你可能不知道的Shell" href="https://coolshell.cn/articles/8619.html" target="_blank">你可能不知道的Shell</a>》以及《<a title="28个Unix/Linux的命令行神器" href="https://coolshell.cn/articles/7829.html" target="_blank">28个Unix/Linux的命令行神器</a>》你就会知道Linux有多强大，这个强大完全来自于命令行，于是，就算你不知道怎么去<a title="做个环保主义的程序员" href="https://coolshell.cn/articles/7186.html" target="_blank">做一个环保主义的程序员</a>，至少他们可以让你少熬点夜，从而有利于你的身体健康和性生活。下面是一个有点长的列表，正如作者所说，你并不需要知道所有的这些东西，但是如果你还在很沉重地在使用Linux的话，这些东西都值得你看一看。 （注：如果你想知道下面涉及到的命令的更多的用法，你一定要man一点。对于一些命令，你可以需要先yum或apt-get来安装一下，如果有什么问题，别忘了Google。如果你要Baidu的话，我仅代表这个地球上所有的生物包括微生物甚至细菌病毒和小强BS你到宇宙毁灭）</p>
+<h4>基础</h4>
+<ul>
+<li><strong>学习 <a href="http://www.quora.com/Bash-shell" target="_blank">Bash</a> </strong>。你可以man bash来看看bash的东西，并不复杂也并不长。你用别的shell也行，但是bash是很强大的并且也是系统默认的。（学习zsh或tsch只会让你在很多情况下受到限制）</li>
+</ul>
+<ul>
+<li><strong>学习 vim</strong> 。在Linux下，基本没有什么可与之竞争的编<del>译</del>辑器（就算你是一个Emacs或Eclipse的重度用户）。你可以看看《<a title="简明 Vim 练级攻略" href="https://coolshell.cn/articles/5426.html" target="_blank">简明vim攻略</a>》和 《<a title="游戏：VIM大冒险" href="https://coolshell.cn/articles/7166.html" target="_blank">Vim的冒险游戏</a>》以及《<a title="给程序员的VIM速查卡" href="https://coolshell.cn/articles/5479.html" target="_blank">给程序员的Vim速查卡</a>》还有《<a title="将vim变得简单:如何在vim中得到你最喜爱的IDE特性" href="https://coolshell.cn/articles/894.html" target="_blank">把Vim变成一个编程的IDE</a>》等等。</li>
+</ul>
+<ul>
+<li><strong>了解 ssh</strong>。明白不需要口令的用户认证（通过ssh-agent, ssh-add），学会用ssh翻墙，用scp而不是ftp传文件，等等。你知道吗？scp 远端的时候，你可以按tab键来查看远端的目录和文件（当然，需要无口令的用户认证），这都是bash的功劳。</li>
+</ul>
+<p><span id="more-8883"></span></p>
+<ul>
+<li><strong>熟悉bash的作业管理</strong>，如： &amp;, Ctrl-Z, Ctrl-C, jobs, fg, bg, kill, 等等。当然，你也要知道Ctrl+\（SIGQUIT）和Ctrl+C （SIGINT）的区别。</li>
+</ul>
+<ul>
+<li><strong>简单的文件管理</strong> ： ls 和 ls -l (你最好知道 &#8220;ls -l&#8221; 的每一列的意思), less, head, tail 和 tail -f, ln 和 ln -s (你知道明白hard link和soft link的不同和优缺点), chown, chmod, du (如果你想看看磁盘的大小 du -sk *), df, mount。当然，原作者忘了find命令。</li>
+</ul>
+<ul>
+<li><strong>基础的网络管理</strong>： ip 或 ifconfig, dig。当然，原作者还忘了如netstat, ping, traceroute, 等</li>
+</ul>
+<ul>
+<li><strong>理解正则表达式</strong>，还有grep/egrep的各种选项。比如： -o, -A, 和 -B 这些选项是很值得了解的。</li>
+</ul>
+<ul>
+<li><strong>学习使用 apt-get 和 yum 来查找和安装软件</strong>（前者的经典分发包是Ubuntu，后者的经典分发包是Redhat），我还建议你试着从源码编译安装软件。</li>
+</ul>
+<p><b>日常</b></p>
+<ul>
+<li>在 bash 里，使用 Ctrl-R 而不是上下光标键来查找历史命令。</li>
+</ul>
+<ul>
+<li>在 bash里，使用 Ctrl-W 来删除最后一个单词，使用 Ctrl-U 来删除一行。请man bash后查找Readline Key Bindings一节来看看bash的默认热键，比如：Alt-. 把上一次命令的最后一个参数打出来，而Alt-* 则列出你可以输入的命令。</li>
+</ul>
+<ul>
+<li>回到上一次的工作目录： cd &#8211;  （回到home是 cd ~）</li>
+</ul>
+<ul>
+<li>使用 xargs。这是一个很强大的命令。你可以使用-L来限定有多少个命令，也可以用-P来指定并行的进程数。如果你不知道你的命令会变成什么样，你可以使用xargs echo来看看会是什么样。当然， -I{} 也很好用。示例：</li>
+</ul>
+<blockquote>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">find . -name \*.py | xargs grep some_function
+
+cat hosts | xargs -I{} ssh root@{} hostname</pre>
+</blockquote>
+<ul>
+<li>pstree -p 可以帮你显示进程树。（读过我的那篇《<a title="一个fork的面试题" href="https://coolshell.cn/articles/7965.html" target="_blank">一个fork的面试题</a>》的人应该都不陌生）</li>
+</ul>
+<ul>
+<li>使用 pgrep 和 pkill 来找到或是kill 某个名字的进程。 (-f 选项很有用).</li>
+</ul>
+<ul>
+<li>了解可以发给进程的信号。例如：要挂起一个进程，使用 kill -STOP [pid]. 使用 man 7 signal 来查看各种信号，使用kill -l 来查看数字和信号的对应表</li>
+</ul>
+<ul>
+<li>使用 nohup 或  disown 如果你要让某个进程运行在后台。</li>
+</ul>
+<ul>
+<li>使用netstat -lntp来看看有侦听在网络某端口的进程。当然，也可以使用 lsof。</li>
+</ul>
+<ul>
+<li>在bash的脚本中，你可以使用 set -x 来debug输出。使用 set -e 来当有错误发生的时候abort执行。考虑使用 set -o pipefail 来限制错误。还可以使用trap来截获信号（如截获ctrl+c）。</li>
+</ul>
+<ul>
+<li>在bash 脚本中，subshells (写在圆括号里的) 是一个很方便的方式来组合一些命令。一个常用的例子是临时地到另一个目录中，例如：</li>
+</ul>
+<blockquote>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># do something in current dir
+(cd /some/other/dir; other-command)
+# continue in original dir</pre>
+</blockquote>
+<ul>
+<li>在 bash 中，注意那里有很多的变量展开。如：检查一个变量是否存在: ${name:?error message}。如果一个bash的脚本需要一个参数，也许就是这样一个表达式 input_file=${1:?usage: $0 input_file}。一个计算表达式： i=$(( (i + 1) % 5 ))。一个序列： {1..10}。 截断一个字符串： ${var%suffix} 和 ${var#prefix}。 示例： if var=foo.pdf, then echo ${var%.pdf}.txt prints &#8220;foo.txt&#8221;.</li>
+</ul>
+<ul>
+<li>通过 &lt;(some command) 可以把某命令当成一个文件。示例：比较一个本地文件和远程文件 /etc/hosts： diff /etc/hosts &lt;(ssh somehost cat /etc/hosts)</li>
+</ul>
+<ul>
+<li>了解什么叫 &#8220;<a href="http://zh.wikipedia.org/wiki/Here%E6%96%87%E6%A1%A3" target="_blank">here documents</a>&#8221; ，就是诸如 cat &lt;&lt;EOF 这样的东西。</li>
+</ul>
+<ul>
+<li>在 bash中，使用重定向到标准输出和标准错误。如： some-command &gt;logfile 2&gt;&amp;1。另外，要确认某命令没有把某个打开了的文件句柄重定向给标准输入，最佳实践是加上 &#8220;&lt;/dev/null&#8221;，把/dev/null重定向到标准输入。</li>
+</ul>
+<ul>
+<li>使用 man ascii 来查看 ASCII 表。</li>
+</ul>
+<ul>
+<li>在远端的 ssh 会话里，使用 screen 或 dtach 来保存你的会话。（参看《<a title="28个Unix/Linux的命令行神器" href="https://coolshell.cn/articles/7829.html" target="_blank">28个Unix/Linux的命令行神器</a>》）</li>
+</ul>
+<ul>
+<li>要来debug Web，试试curl 和 curl -I 或是 wget 。我觉得debug Web的利器是firebug，curl和wget是用来抓网页的，呵呵。</li>
+</ul>
+<ul>
+<li>把 HTML 转成文本： lynx -dump -stdin</li>
+</ul>
+<ul>
+<li>如果你要处理XML，使用 xmlstarlet</li>
+</ul>
+<ul>
+<li>对于 Amazon S3， s3cmd 是一个很方便的命令（还有点不成熟）</li>
+</ul>
+<ul>
+<li>在 ssh中，知道怎么来使用ssh隧道。通过 -L or -D (还有-R) ，翻墙神器。</li>
+</ul>
+<ul>
+<li>你还可以对你的ssh 做点优化。比如，.ssh/config 包含着一些配置：避免链接被丢弃，链接新的host时不需要确认，转发认证，以前使用压缩（如果你要使用scp传文件）：</li>
+</ul>
+<blockquote>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">TCPKeepAlive=yes
+ServerAliveInterval=15
+ServerAliveCountMax=6
+StrictHostKeyChecking=no
+Compression=yes
+ForwardAgent=yes</pre>
+</blockquote>
+<ul>
+<li>如果你有输了个命令行，但是你改变注意了，但你又不想删除它，因为你要在历史命令中找到它，但你也不想执行它。那么，你可以按下 Alt-# ，于是这个命令关就被加了一个#字符，于是就被注释掉了。</li>
+</ul>
+<p><b>数据处理 </b></p>
+<ul>
+<li>了解 sort 和 uniq 命令 (包括 uniq 的 -u 和 -d 选项).</li>
+</ul>
+<ul>
+<li>了解用 cut, paste, 和 join 命令来操作文本文件。很多人忘了在cut前使用join。</li>
+</ul>
+<ul>
+<li>如果你知道怎么用sort/uniq来做集合交集、并集、差集能很大地促进你的工作效率。假设有两个文本文件a和b已解被 uniq了，那么，用sort/uniq会是最快的方式，无论这两个文件有多大（sort不会被内存所限，你甚至可以使用-T选项，如果你的/tmp目录很小）</li>
+</ul>
+<blockquote>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">cat a b | sort | uniq &gt; c   # c is a union b 并集
+
+cat a b | sort | uniq -d &gt; c   # c is a intersect b 交集
+
+cat a b b | sort | uniq -u &gt; c   # c is set difference a - b 差集</pre>
+</blockquote>
+<ul>
+<li>了解和字符集相关的命令行工具，包括排序和性能。很多的Linux安装程序都会设置LANG 或是其它和字符集相关的环境变量。这些东西可能会让一些命令（如：sort）的执行性能慢N多倍（注：就算是你用UTF-8编码文本文件，你也可以很安全地使用ASCII来对其排序）。如果你想Disable那个i18n 并使用传统的基于byte的排序方法，那就设置export LC_ALL=C （实际上，你可以把其放在 .bashrc）。如果这设置这个变量，你的sort命令很有可能会是错的。</li>
+</ul>
+<ul>
+<li>了解 awk 和 sed，并用他们来做一些简单的数据修改操作。例如：求第三列的数字之和： awk &#8216;{ x += $3 } END { print x }&#8217;。这可能会比Python快3倍，并比Python的代码少三倍。</li>
+</ul>
+<ul>
+<li>使用 shuf 来打乱一个文件中的行或是选择文件中一个随机的行。</li>
+</ul>
+<ul>
+<li>了解sort命令的选项。了解key是什么（-t和-k）。具体说来，你可以使用-k1,1来对第一列排序，-k1来对全行排序。</li>
+</ul>
+<ul>
+<li>Stable sort (sort -s) 会很有用。例如：如果你要想对两例排序，先是以第二列，然后再以第一列，那么你可以这样： sort -k1,1 | sort -s -k2,2</li>
+</ul>
+<ul>
+<li>我们知道，在bash命令行下，Tab键是用来做目录文件自动完成的事的。但是如果你想输入一个Tab字符（比如：你想在sort -t选项后输入&lt;tab&gt;字符），你可以先按Ctrl-V，然后再按Tab键，就可以输入&lt;tab&gt;字符了。当然，你也可以使用$&#8217;\t&#8217;。</li>
+</ul>
+<ul>
+<li>如果你想查看二进制文件，你可以使用hd命令（在CentOS下是hexdump命令），如果你想编译二进制文件，你可以使用bvi命令（<a href="http://bvi.sourceforge.net/" target="_blank">http://bvi.sourceforge.net/</a> 墙）</li>
+</ul>
+<ul>
+<li>另外，对于二进制文件，你可以使用strings（配合grep等）来查看二进制中的文本。</li>
+</ul>
+<ul>
+<li>对于文本文件转码，你可以试一下 iconv。或是试试更强的 uconv 命令（这个命令支持更高级的Unicode编码）</li>
+</ul>
+<ul>
+<li>如果你要分隔一个大文件，你可以使用split命令（split by size）和csplit命令（split by a pattern）。</li>
+</ul>
+<p><b>系统调试</b></p>
+<ul>
+<li>如果你想知道磁盘、CPU、或网络状态，你可以使用 iostat, netstat, top (或更好的 htop), 还有 dstat 命令。你可以很快地知道你的系统发生了什么事。关于这方面的命令，还有iftop, iotop等（参看《<a title="28个Unix/Linux的命令行神器" href="https://coolshell.cn/articles/7829.html" target="_blank">28个Unix/Linux的命令行神器</a>》）</li>
+</ul>
+<ul>
+<li>要了解内存的状态，你可以使用free和vmstat命令。具体来说，你需要注意 “cached” 的值，这个值是Linux内核占用的内存。还有free的值。</li>
+</ul>
+<ul>
+<li>Java 系统监控有一个小的技巧是，你可以使用kill -3 &lt;pid&gt; 发一个SIGQUIT的信号给JVM，可以把堆栈信息（包括垃圾回收的信息）dump到stderr/logs。</li>
+</ul>
+<ul>
+<li>使用 mtr 会比使用 traceroute 要更容易定位一个网络问题。</li>
+</ul>
+<ul>
+<li>如果你要找到哪个socket或进程在使用网络带宽，你可以使用 iftop 或 nethogs。</li>
+</ul>
+<ul>
+<li>Apache的一个叫 ab 的工具是一个很有用的，用quick-and-dirty的方式来测试网站服务器的性能负载的工作。如果你需要更为复杂的测试，你可以试试 siege。</li>
+</ul>
+<ul>
+<li>如果你要抓网络包的话，试试 wireshark 或 tshark。</li>
+</ul>
+<ul>
+<li>了解 strace 和 ltrace。这两个命令可以让你查看进程的系统调用，这有助于你分析进程的hang在哪了，怎么crash和failed的。你还可以用其来做性能profile，使用 -c 选项，你可以使用-p选项来attach上任意一个进程。</li>
+</ul>
+<ul>
+<li>了解用ldd命令来检查相关的动态链接库。注意：<a title="ldd 的一个安全问题" href="https://coolshell.cn/articles/1626.html" target="_blank">ldd的安全问题</a></li>
+</ul>
+<ul>
+<li>使用gdb来调试一个正在运行的进程或分析core dump文件。参看我写的《<a title="GDB中应该知道的几个调试方法" href="https://coolshell.cn/articles/3643.html" target="_blank">GDB中应该知道的几个调试方法</a>》</li>
+</ul>
+<ul>
+<li>学会到 /proc 目录中查看信息。这是一个Linux内核运行时记录的整个操作系统的运行统计和信息，比如： /proc/cpuinfo, /proc/xxx/cwd, /proc/xxx/exe, /proc/xxx/fd/, /proc/xxx/smaps.</li>
+</ul>
+<ul>
+<li>如果你调试某个东西为什么出错时，sar命令会有用。它可以让你看看 CPU, 内存, 网络, 等的统计信息。</li>
+</ul>
+<ul>
+<li>使用 dmesg 来查看一些硬件或驱动程序的信息或问题。</li>
+</ul>
+<p>作者最后加了一个免责声明：Disclaimer: Just because you <i>can</i> do something in bash, doesn&#8217;t necessarily mean you should. ;) （全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/awk-150x150.jpg" alt="AWK 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_title">AWK 简明教程</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8883.html">应该知道的Linux技巧</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8883.html/feed</wfw:commentRss>
+			<slash:comments>192</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>你可能不知道的Shell</title>
+		<link>https://coolshell.cn/articles/8619.html</link>
+					<comments>https://coolshell.cn/articles/8619.html#comments</comments>
+		
+		<dc:creator><![CDATA[404null]]></dc:creator>
+		<pubDate>Fri, 23 Nov 2012 00:19:24 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Shell]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8619</guid>
+
+					<description><![CDATA[<p>Shell也叫做命令行界面，它是*nix操作系统下用户和计算机的交互界面。Shell这个词是指操作系统中提供访问内核服务的程序。 这篇文章向大家介绍Shell一...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8619.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8619.html">你可能不知道的Shell</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Shell也叫做命令行界面，它是*nix操作系统下用户和计算机的交互界面。Shell这个词是指操作系统中提供访问内核服务的程序。</p>
+<p>这篇文章向大家介绍Shell一些非广为人知、但却实用有趣的知识，权当品尝shell主食后的甜点吧。</p>
+<h4>科普</h4>
+<p>先科普几个你可能不知道的事实：</p>
+<ul>
+<li>Shell几乎是和Unix操作系统一起诞生，第一个Unix Shell是肯·汤普逊（Ken Thompson）以Multics上的Shell为模范在1971年改写而成，并命名Thompson sh。即便是后来流行的bash（shell的一种变体），它的年龄实际上比当前流行的所有的Linux kernel都大，可谓在Linux系统上是先有Shell再有Kernel。</li>
+</ul>
+<ul>
+<li>当前绝大部分*nix和MacOS操作系统里的默认的Shell都是bash，bash由Brian Fox在1987年创造，全称Bourne Again shell ( bash)。</li>
+</ul>
+<ul>
+<li>你或许听说除了bash之外，还有Bourne shell ( sh)，Korn shell ( ksh)，C shell （包括 csh and tcsh），但是你知道这个星球上一共存在着大约50多种不同的shell么？想了解他们，请参考 <a href="http://www.freebsd.org/ports/shells.html" target="_blank" rel="noopener">http://www.freebsd.org/ports/shells.html</a>。</li>
+</ul>
+<ul>
+<li>每个月<a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html" target="_blank" rel="noopener">tiobe</a>上都会给一个编程语言的排名，来显示各种语言的流行度。排名指数综合了全球范围内使用该语言的工程师人数、教学的课程数和第三方供应商数。截止至2012年11月份，tiobe公布的编程语言排行榜里，bash的指数是0.56%排名22位。如果算上它旗下的awk 0.21%和tcl 0.146%，大概就能排到14名。注意这里还不包括bash的同源的兄弟姐妹csh、ksh等，算上它们，shell家族有望接近前十。值得一提的是一直以来shell的排名就很稳定，不像某些“暴发户”语言，比如objective-c，这些语言的流行完全是因为当前Apple系的崛起，但这种热潮极有可能来得快去得更快。</li>
+</ul>
+<p><span id="more-8619"></span></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-18796" src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01.png" alt="" width="616" height="614" srcset="https://coolshell.cn/wp-content/uploads/2012/11/shell.01.png 616w, https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2012/11/shell.01-300x300.png 300w, https://coolshell.cn/wp-content/uploads/2012/11/shell.01-200x200.png 200w, https://coolshell.cn/wp-content/uploads/2012/11/shell.01-271x270.png 271w" sizes="(max-width: 616px) 100vw, 616px" /></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-18797" src="https://coolshell.cn/wp-content/uploads/2012/11/shell.02.png" alt="" width="290" height="531" /></p>
+<p>&nbsp;</p>
+<p>全球最大的源代码仓库Github里，shell相关的项目数占到了8%，跻身前5和Java相当，可见在实战工程里，shell可谓宝刀不老。图片来源，<a href="https://github.com/languages">参见这里</a></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-18798" src="https://coolshell.cn/wp-content/uploads/2012/11/shell.03.png" alt="" width="700" height="284" /></p>
+<h4>一些强大的命令</h4>
+<p>再分享一些可能你不知道的shell用法和脚本，简单&amp;强大！</p>
+<p><em>在阅读以下部分前，强烈建议读者打开一个shell实验，这些都不是shell教科书里的大路货哦：）</em></p>
+<ul>
+<li><strong><code>!$</code></strong><br />
+<code>!$</code>是一个特殊的环境变量，它代表了上一个命令的最后一个字符串。如：你可能会这样：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$mkdir mydir
+$mv mydir yourdir
+$cd yourdir</pre>
+<p>可以改成：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$mkdir mydir
+$mv !$ yourdir
+$cd !$</pre>
+</li>
+</ul>
+<ul>
+<li><strong><code>sudo !!</code></strong><br />
+以root的身份执行上一条命令 。<br />
+场景举例：比如Ubuntu里用<code>apt-get</code>安装软件包的时候是需要root身份的，我们经常会忘记在<code>apt-get</code>前加<code>sudo</code>。每次不得不加上<code>sudo</code>再重新键入这行命令，这时可以很方便的用<code>sudo !!</code>完事。<br />
+（陈皓注：在shell下，有时候你会输入很长的命令，你可以使用!xxx来重复最近的一次命令，比如，你以前输入过，vi /where/the/file/is, 下次你可以使用 !vi 重得上次最近一次的vi命令。）</li>
+</ul>
+<ul>
+<li><strong><code>cd –</code></strong><br />
+回到上一次的目录 。<br />
+场景举例：当前目录为<code>/home/a</code>，用<code>cd ../b</code>切换到<code>/home/b</code>。这时可以通过反复执行<code>cd –</code>命令在<code>/home/a</code>和<code>/home/b</code>之间来回方便的切换。<br />
+（陈皓注：cd ~ 是回到自己的Home目录，cd ~user，是进入某个用户的Home目录）</li>
+</ul>
+<ul>
+<li><strong><code>'ALT+.' or '&lt;ESC&gt; .'</code></strong><br />
+热建alt+. 或 esc+. 可以把上次命令行的参数给重复出来。</li>
+</ul>
+<ul>
+<li><strong><code>^old^new</code></strong><br />
+替换前一条命令里的部分字符串。<br />
+场景：<code>echo "wanderful"</code>，其实是想输出<code>echo "wonderful"</code>。只需要<code>^a^o</code>就行了，对很长的命令的错误拼写有很大的帮助。（陈皓注：也可以使用 <strong>!!:gs/old/new</strong>）</li>
+</ul>
+<ul>
+<li><strong><code>du -s * | sort -n | tail</code></strong><br />
+列出当前目录里最大的10个文件。</li>
+</ul>
+<ul>
+<li><strong><code>:w !sudo tee %</code></strong><br />
+在vi中保存一个只有root可以写的文件</li>
+</ul>
+<ul>
+<li><strong><code>date -d@1234567890</code></strong><br />
+时间截转时间</li>
+</ul>
+<ul>
+<li>
+<div title="Click to select this command">
+<div><strong><code>&gt; file.txt</code></strong><br />
+创建一个空文件，比touch短。</div>
+</div>
+</li>
+</ul>
+<ul>
+<li><strong><code>mtr coolshell.cn</code></strong><br />
+mtr命令比traceroute要好。</li>
+</ul>
+<ul>
+<li>在命令行前加空格，该命令不会进入history里。</li>
+</ul>
+<ul>
+<li><strong><code>echo "ls -l" | at midnight</code></strong><br />
+在某个时间运行某个命令。</li>
+</ul>
+<ul>
+<li><strong><code>curl -u user:pass -d status="Tweeting from the shell" http://twitter.com/statuses/update.xml</code></strong><br />
+命令行的方式更新twitter。</li>
+</ul>
+<ul>
+<li><strong><code>curl -u username --silent "https://mail.google.com/mail/feed/atom" | perl -ne 'print "\t" if /&lt;name&gt;/; print "$2\n" if /&lt;(title|name)&gt;(.*)&lt;\/\1&gt;/;'</code></strong><br />
+检查你的gmail未读邮件</li>
+</ul>
+<ul>
+<li><strong><code>ps aux | sort -nk +4 | tail</code></strong><br />
+列出头十个最耗内存的进程</li>
+</ul>
+<ul>
+<li><strong><code>man ascii</code></strong><br />
+显示ascii码表。<br />
+场景：忘记ascii码表的时候还需要google么?尤其在天朝网络如此“顺畅”的情况下，就更麻烦在GWF多应用一次规则了，直接用本地的<code>man ascii</code>吧。</li>
+</ul>
+<ul>
+<li><strong><code>ctrl-x e</code></strong><br />
+快速启动你的默认编辑器（由变量$EDITOR设置）。</li>
+</ul>
+<ul>
+<li><strong><code>netstat –tlnp</code></strong><br />
+列出本机进程监听的端口号。（陈皓注：netstat -anop 可以显示侦听在这个端口号的进程）</li>
+</ul>
+<ul>
+<li><strong><code>tail -f /path/to/file.log | sed '/^Finished: SUCCESS$/ q'</code></strong><br />
+当file.log里出现Finished: SUCCESS时候就退出tail，这个命令用于实时监控并过滤log是否出现了某条记录。</li>
+</ul>
+<ul>
+<li><strong><code>ssh user@server bash &lt; /path/to/local/script.sh</code></strong><br />
+在远程机器上运行一段脚本。这条命令最大的好处就是不用把脚本拷到远程机器上。</li>
+</ul>
+<ul>
+<li><strong><code>ssh user@host cat /path/to/remotefile | diff /path/to/localfile -</code></strong><br />
+比较一个远程文件和一个本地文件</li>
+</ul>
+<ul>
+<li>
+<div title="Click to select this command">
+<div><strong><code>net rpc shutdown -I ipAddressOfWindowsPC -U username%password</code></strong><br />
+远程关闭一台Windows的机器</div>
+</div>
+</li>
+</ul>
+<ul>
+<li><strong><code>screen -d -m -S some_name ping my_router</code></strong><br />
+后台运行一段不终止的程序，并可以随时查看它的状态。<code>-d -m</code>参数启动“分离”模式，<code>-S</code>指定了一个session的标识。可以通过<code>-R</code>命令来重新“挂载”一个标识的session。更多细节请参考screen用法 <code>man screen</code>。</li>
+</ul>
+<ul>
+<li><strong><code>wget --random-wait -r -p -e robots=off -U mozilla http://www.example.com</code></strong><br />
+下载整个www.example.com网站。（注：别太过分，大部分网站都有防爬功能了：））</li>
+</ul>
+<ul>
+<li><strong><code>curl ifconfig.me</code></strong><br />
+当你的机器在内网的时候，可以通过这个命令查看外网的IP。</li>
+</ul>
+<ul>
+<li><strong><code>convert input.png -gravity NorthWest -background transparent -extent 720x200  output.png</code></strong><br />
+改一下图片的大小尺寸</li>
+</ul>
+<ul>
+<li><strong><code>lsof –i</code></strong><br />
+实时查看本机网络服务的活动状态。</li>
+</ul>
+<ul>
+<li><strong><code>vim scp://username@host//path/to/somefile</code></strong><br />
+vim一个远程文件</li>
+</ul>
+<ul>
+<li><strong><code>python -m SimpleHTTPServer</code></strong><br />
+一句话实现一个HTTP服务，把当前目录设为HTTP服务目录，可以通过<code>http://localhost:8000</code>访问 这也许是这个星球上最简单的HTTP服务器的实现了。</li>
+</ul>
+<ul>
+<li><strong><code>history | awk '{CMD[$2]++;count++;} END { for (a in CMD )print CMD[a] " " CMD[a]/count*100 "% " a }' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl | head -n10</code></strong><br />
+(陈皓注：有点复杂了，history|awk &#8216;{print $2}&#8217;|awk &#8216;BEGIN {FS=&#8221;|&#8221;} {print $1}&#8217;|sort|uniq -c|sort -rn|head -10)<br />
+这行脚本能输出你最常用的十条命令，由此甚至可以洞察你是一个什么类型的程序员。</li>
+</ul>
+<ul>
+<li>
+<div title="Click to select this command">
+<div><strong><code>tr -c "[:digit:]" " " &lt; /dev/urandom | dd cbs=$COLUMNS conv=unblock | GREP_COLOR="1;32" grep --color "[^ ]"</code></strong><br />
+想看看Marix的屏幕效果吗？（不是很像，但也很Cool!）</div>
+</div>
+</li>
+</ul>
+<p>看不懂行代码？没关系，系统的学习一下*nix shell脚本吧，力荐<a href="http://www.ituring.com.cn/book/980">《Linux命令行与Shell脚本编程大全》</a>。</p>
+<h4>参考文献：</h4>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Unix_shell#Shell_categories">Unix Shell Wiki</a></li>
+<li><a href="https://github.com">Github language ranking</a></li>
+<li><a href="http://www.softpanorama.org/People/Shell_giants/introduction.shtml">An introduction of Unix Shell history</a></li>
+<li><a href="http://www.tiobe.com/index.php/content/paperinfo/tpci/index.html" target="_blank" rel="noopener">Tiobe Software</a></li>
+<li><a href="http://www.commandlinefu.com/" target="_blank" rel="noopener">http://www.commandlinefu.com/</a></li>
+</ul>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/awk-150x150.jpg" alt="AWK 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_title">AWK 简明教程</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8619.html">你可能不知道的Shell</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8619.html/feed</wfw:commentRss>
+			<slash:comments>149</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>用脚本实现哄宝宝睡觉(Demo)</title>
+		<link>https://coolshell.cn/articles/2987.html</link>
+					<comments>https://coolshell.cn/articles/2987.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 20 Sep 2010 09:03:27 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2987</guid>
+
+					<description><![CDATA[<p>去年，本站发布了一篇文章《用脚本哄宝宝睡觉》，具体想法是把摇篮和光驱连一起，然后用脚本把光驱弹出和收入以实现驱动摇篮。今天在网上看到一个具体实现，呵呵。看下面的...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2987.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2987.html">用脚本实现哄宝宝睡觉(Demo)</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>去年，本站发布了一篇文章《<a href="https://coolshell.cn/articles/1539.html" target="_blank">用脚本哄宝宝睡觉</a>》，具体想法是把摇篮和光驱连一起，然后用脚本把光驱弹出和收入以实现驱动摇篮。今天在网上看到一个具体实现，呵呵。看下面的视频：</p>
+<p style="text-align: center;"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="480" height="400" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"><param name="align" value="middle" /><param name="src" value="http://player.youku.com/player.php/sid/XMTE1MzgwNjI0/v.swf" /><param name="quality" value="high" /><embed type="application/x-shockwave-flash" width="480" height="400" src="http://player.youku.com/player.php/sid/XMTE1MzgwNjI0/v.swf" quality="high" align="middle"></embed></object><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="https://coolshell.cn/articles/1539.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/baby_linux-150x150.jpg" alt="用脚本实现哄小孩睡觉" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1539.html" class="wp_rp_title">用脚本实现哄小孩睡觉</a></li><li ><a href="https://coolshell.cn/articles/1379.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何调试bash脚本" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1379.html" class="wp_rp_title">如何调试bash脚本</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2987.html">用脚本实现哄宝宝睡觉(Demo)</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2987.html/feed</wfw:commentRss>
+			<slash:comments>15</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>C语言和sh脚本的杂交代码</title>
+		<link>https://coolshell.cn/articles/1824.html</link>
+					<comments>https://coolshell.cn/articles/1824.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 19 Nov 2009 05:47:51 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[C++]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1824</guid>
+
+					<description><![CDATA[<p>在网上看到了一个把 C语言和bash杂并起来的例子，这个示子如下所示。在下面这个例子中，我们把脚本用#if 0这个预编译给起来，这样就不会让其编译到C语言中了。...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1824.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1824.html">C语言和sh脚本的杂交代码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在网上看到了一个把 C语言和bash杂并起来的例子，这个示子如下所示。在下面这个例子中，我们把脚本用#if 0这个预编译给起来，这样就不会让其编译到C语言中了。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#if 0
+echo &quot;Hello from bash!&quot;
+exit
+#endif
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+int main(int argc, char* argv[]) {
+  puts(&quot;Hello from C!&quot;);
+  return EXIT_SUCCESS;
+}</pre>
+<p>下面，让我看看如果来使用这样的程序：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">$ sh test.sh.c
+Hello from bash!
+$ gcc test.sh.c -o test
+$ ./test
+Hello from C!
+</pre>
+<p>你甚至还可以做一个自我编译，并自我运行的源代码。如下所示：</p>
+<p><span id="more-1824"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#if 0
+file=`mktemp`
+gcc -o $file $0
+$file
+rm $file
+exit
+#endif
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int main(int argc, char *argv[]) {
+  puts(&quot;Hello from C!&quot;);
+  return EXIT_SUCCESS;
+}</pre>
+<p>运行：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">$ sh test.sh.c
+Hello from C!
+$</pre>
+<p>当然，我并不建议你在真正的开发环境中这样使用，我只不过是在介绍一个比较有趣的用法，仅此而已！<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-150x150.jpg" alt="bash代码注入的安全漏洞" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_title">bash代码注入的安全漏洞</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1824.html">C语言和sh脚本的杂交代码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1824.html/feed</wfw:commentRss>
+			<slash:comments>11</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>bash 函数级重定向</title>
+		<link>https://coolshell.cn/articles/1574.html</link>
+					<comments>https://coolshell.cn/articles/1574.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 14 Oct 2009 15:47:25 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[Redirections]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1574</guid>
+
+					<description><![CDATA[<p>相信每一个人对于操作系统的重定向不会陌生了。就是&#62;, &#62;&#62;, &#60;, &#60;&#60;，关于重定向的基本知识我就不说了。这里主要讨论bas...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1574.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1574.html">bash 函数级重定向</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="size-full wp-image-1380 alignright" title="bash 函数级重定向" src="https://coolshell.cn/wp-content/uploads/2009/08/bash.jpg" alt="bash 函数级重定向" width="120" height="120" />相信每一个人对于操作系统的重定向不会陌生了。就是&gt;, &gt;&gt;, &lt;, &lt;&lt;，关于重定向的基本知识我就不说了。这里主要讨论bash的重定向中的一个鲜为人知的东西，那就是bash脚本的函数也可以定义相关的重定向操作。这可不是命令级的重定向，这是函数级的重点向。这并不是一个新的东西，我只是想告诉大家一个已经存在了多年但却可能不被人常用的功能。</p>
+<p>关于bash的这个函数级的重定向的语法其实很简单，你只需要在函数结尾时加上一些重定向的定义或指示符就可以了。下面是一个示例：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">function mytest()
+{
+        ...
+} &lt; mytest.in &gt; mytest.out 2&gt; mytest.err</pre>
+<p>现在，只要是test被调用，那么，这个函数就会从mytest.in读入数据，并把输出重定向到mytest.out文件中，然后标准错误则输出到mytest.err文件中。是不是很简单？</p>
+<p><span id="more-1574"></span></p>
+<p>因为函数级的重定向仅当在被函数调用的时候才会起作用，而且其也是脚本的一部分，所以，你自然也可以使用变量来借文件名。下面是一个示例：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">#!/bin/bash
+
+function mytest()
+{
+    echo Hello World CoolShell.cn
+} &gt;$out
+
+out=mytest1.out
+mytest
+out=mytest2.out
+mytest</pre>
+<p>这样一来，标准输出的重定向就可以随$out变量的改变而改变了。在上面的例子中，第一个调是重定向到mytest1.out，第二个则是到mytest2.out。</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">$ bash mytest.sh; more mytest?.out
+::::::::::::::
+mytest1.out
+::::::::::::::
+Hello World CoolShell.cn
+::::::::::::::
+mytest2.out
+::::::::::::::
+Hello World CoolShell.cn</pre>
+<p>正如前面所说的一样，这里并没有什么新的东西。上面的这个示例，转成传统的写法是：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">#!/bin/bash
+
+function mytest()
+{
+    echo Hello World CoolShell.cn
+}
+mytest &gt;mytest1.out
+mytest &gt;mytest2.out</pre>
+<p>到此为此，好像这个feature并没有什么特别的实用之处。有一个可能比较实用的用法可能是把把你所有代码的的标准错误重定向到一个文件中去。如下面所示：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">#!/bin/bash
+
+log=err.log
+function error()
+{
+    echo &quot;$*&quot; &gt;&amp;2
+}
+function mytest1()
+{
+    error mytest1 hello1 world1 coolshell.cn
+}
+
+function mytest2()
+{
+    error mytest2 hello2 world2 coolshell.cn
+}
+
+function main()
+{
+    mytest1
+    mytest2
+} 2&gt;$log
+
+main</pre>
+<p>运行上面的脚本，你可以得到下面的结果：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">$ bash mytest.sh ;cat err.log
+mytest1 hello1 world1 coolshell.cn
+mytest2 hello2 world2 coolshell.cn</pre>
+<p>当然，你也可以不用定义一个函数，只要是{&#8230;} 语句块，就可以使用函数级的重定向，就如下面的示例一样：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">#!/bin/bash
+
+log=err.log
+function error()
+{
+    echo &quot;$*&quot; &gt;&amp;2
+}
+function mytest1()
+{
+    error mytest1 hello1 world1 coolshell.cn
+}
+
+function mytest2()
+{
+    error mytest2 hello2 world2 coolshell.cn
+}
+
+{
+mytest1
+mytest2
+} 2&gt;$log</pre>
+<p>你也可以重定向 (&#8230;) 语句块，但那会导致语句被执行于一个sub-shell中，这可能会导致一些你不期望的行为或问题，因为sub-shell是在另一个进程中。</p>
+<p>如果你问，我们是否可以覆盖函数级的重定向。答案是否定的。如果你试图这样做，那么，函数调用点的重定向会首先执行，然后函数定义上的重定向会将其覆盖。下面是一个示例：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">#!/bin/bash
+
+function mytest()
+{
+    echo hello world coolshell.cn
+} &gt;out1.txt
+mytest &gt;out2.txt</pre>
+<p>运行结果是，out2.txt会被建立，但里面什么也没有。</p>
+<p>下面是一个重定向标准输入的例子：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">#!/bin/bash
+
+function mytest()
+{
+    while read line
+    do
+        echo $line
+    done
+} &lt;&lt;EOF
+hello
+coolshell.cn
+EOF
+mytest</pre>
+<p>下面是其运行结果：</p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">$ bash mytest.sh
+hello
+coolshell.cn</pre>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-150x150.jpg" alt="bash代码注入的安全漏洞" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_title">bash代码注入的安全漏洞</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="https://coolshell.cn/articles/2987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="用脚本实现哄宝宝睡觉(Demo)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2987.html" class="wp_rp_title">用脚本实现哄宝宝睡觉(Demo)</a></li><li ><a href="https://coolshell.cn/articles/1824.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="C语言和sh脚本的杂交代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1824.html" class="wp_rp_title">C语言和sh脚本的杂交代码</a></li><li ><a href="https://coolshell.cn/articles/1539.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/baby_linux-150x150.jpg" alt="用脚本实现哄小孩睡觉" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1539.html" class="wp_rp_title">用脚本实现哄小孩睡觉</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1574.html">bash 函数级重定向</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1574.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>用脚本实现哄小孩睡觉</title>
+		<link>https://coolshell.cn/articles/1539.html</link>
+					<comments>https://coolshell.cn/articles/1539.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 12 Oct 2009 02:05:38 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1539</guid>
+
+					<description><![CDATA[<p>当然，不并需要一个天才式的人才能做到这个事，其实这个事情很简单。让我来一点一点向你解释。下面是一些准备工作。 首先，你得找一台PC机，得配上光驱，光驱可以破一点...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1539.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1539.html">用脚本实现哄小孩睡觉</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="size-full wp-image-1541 alignright" title="baby_linux" src="https://coolshell.cn/wp-content/uploads/2009/10/baby_linux.jpg" alt="baby_linux" width="152" height="111" />当然，不并需要一个天才式的人才能做到这个事，其实这个事情很简单。让我来一点一点向你解释。下面是一些准备工作。</p>
+<ul>
+<li>首先，你得找一台PC机，得配上光驱，光驱可以破一点。</li>
+<li>然后，你得给这台PC机上装上Linux，不需要太多的东西，最基本的就行了。</li>
+<li>然后，你得写下下面的代码。</li>
+</ul>
+<p><span id="more-1539"></span></p>
+<pre data-enlighter-language="bash" class="EnlighterJSRAW">
+while [1 = 1]
+ do
+	#弹出光驱
+	eject
+	sleep 1
+
+	#收回光驱
+	eject -t
+	sleep 1
+ done
+</pre>
+<p>在运行代码之前，请确保你们小孩的摇篮和PC机的光驱连接在一起。当然，你也可以在脚本中播放一曲催眠曲。注意，脚本其中的sleep 1是为了配合上摇篮的节奏，这样需要你在实际过程中调试一下。</p>
+<p>这样的成本是不是有点高？居然还要达上一台电脑，呵呵。所以，我就不建议你用Windows来实现了，那样的成本可能会更高。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="https://coolshell.cn/articles/2987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="用脚本实现哄宝宝睡觉(Demo)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2987.html" class="wp_rp_title">用脚本实现哄宝宝睡觉(Demo)</a></li><li ><a href="https://coolshell.cn/articles/1379.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何调试bash脚本" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1379.html" class="wp_rp_title">如何调试bash脚本</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1539.html">用脚本实现哄小孩睡觉</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1539.html/feed</wfw:commentRss>
+			<slash:comments>33</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>8个实用而有趣Bash命令提示行</title>
+		<link>https://coolshell.cn/articles/1399.html</link>
+					<comments>https://coolshell.cn/articles/1399.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Mon, 07 Sep 2009 09:44:22 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Bash]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1399</guid>
+
+					<description><![CDATA[<p>很多人都对过命令行提示的重要性不屑一顾，甚至是一点都不关心。但是我却一点都不这么认为，一个好的命令行提示可以改变你使用命令的方式。为此，我在internet上找...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1399.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1399.html">8个实用而有趣Bash命令提示行</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">很多人都对过命令行提示的重要性不屑一顾，甚至是一点都不关心。但是我却一点都不这么认为，一个好的命令行提示可以改变你使用命令的方式。为此，我在internet上找到一些非常实用，优秀，并有趣的bash的命令行提示。下面我将我最喜欢使用的一些命令行提示罗列如下。</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">注意  &#8211;  要使用下面这些提示，你可以拷贝粘贴这些以&#8221;PS1&#8243;打头的内容到你的终端上，为了使你的改变永久生效，还要将这些内容粘贴到你使用用户的~/.bashrc文件中去。</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;"><span id="more-1399"></span></p>
+<h3>1. 在成功执行的命令上增加一个笑脸符号</h3>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">这个命令提示行可能是这个命令行提示列表中最有趣的一个，但是它也依然有使用的价值。这个提示的想法是基于当你命令被成功执行，你将会得到一个笑脸作为你的命令行提示，一旦的命令执行失败，命令行提示将会换成一个哭脸。</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">例子：</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px; text-align: center;"><img decoding="async" class="aligncenter" src="http://images.maketecheasier.com/2009/08/bashprompts-happyface.jpg" alt="bashprompts-happyface" /></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">代码：</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">PS1=&#8221;\<code data-enlighter-language="raw" class="EnlighterJSRAW">if [ \$? = 0 ]; then echo \[\e[33m\]^_^\[\e[0m\]; else echo \[\e[31m\]O_O\[\e[0m\]; fi\</code>[\u@\h:\w]\\$ &#8220;</p>
+<h3><strong>2.更改失败命令的颜色</strong></h3>
+<p><span style="color: #000000;">下面这个命令行提示是我最喜欢的命令行之一。和上一个相似，这个命令行提示的颜色会在你最后一个命令运行失败后改变，而且这个命令行长路径会缩短输入命令的空间，这个命令提示还包含了bash 每个历史命令的命令号，以方便重新提取运行。</span></p>
+<p><span style="color: #000000;">例子：</span></p>
+<p style="text-align: center;"><span style="color: #000000;"><img decoding="async" class="aligncenter" src="http://images.maketecheasier.com/2009/08/bashprompts-hurring.jpg" alt="bashprompts-hurring" /></span></p>
+<p><span style="color: #000000;">代码：</span></p>
+<p><span style="color: #000000;">PS1=&#8221;\[\033[0;33m\][\!]\<code data-enlighter-language="raw" class="EnlighterJSRAW">if [[ \$? = &quot;0&quot; ]]; then echo &quot;\\[\\033[32m\\]&quot;; else echo &quot;\\[\\033[31m\\]&quot;; fi\</code>[\u.\h: \<code data-enlighter-language="pwd" class="EnlighterJSRAW">if [[ </code>|wc -c|tr -d &#8221; &#8220;<code data-enlighter-language="raw" class="EnlighterJSRAW"> &gt; 18 ]]; then echo &quot;\\W&quot;; else echo &quot;\\w&quot;; fi\</code>]\$\[\033[0m\] &#8220;; echo -ne &#8220;\033]0;<code data-enlighter-language="raw" class="EnlighterJSRAW">hostname -s</code>:<code data-enlighter-language="raw" class="EnlighterJSRAW">pwd</code>\007&#8243;&#8216;</span></p>
+<h3 style="padding-top: 10px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; font-size: 18px; font-weight: 700; color: #333333; margin: 0px;">3. 多行提示</h3>
+<p>如果你是喜欢命令行提示中包含完整信息的那一类人，那么下边就有一个适合于你的命令行提示。这个命令行提示信息中包含日期/时间，全路径，用户，主机，活动终端，甚至包含文件数和占用空间等。</p>
+<p>例子：</p>
+<p style="TEXT-ALIGN: center"><br style="padding: 0px; margin: 0px;" /><img decoding="async" loading="lazy" class="aligncenter" style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; display: block; padding: 0px; border: thin solid #999999;" src="http://images.maketecheasier.com/2009/08/bashprompts-informant.jpg" alt="bashprompts-informant" width="392" height="162" /></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">代码：</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">PROMPT_COMMAND=&#8217;PS1=&#8221;\n\[\033[35m\]\$(/bin/date)\n\[\033[32m\]\w\n\[\033[1;31m\]\u@\h: \[\033[1;34m\]\$(/usr/bin/tty | /bin/sed -e &#8216;s:/dev/::&#8217;): \[\033[1;36m\]\$(/bin/ls -1 | /usr/bin/wc -l | /bin/sed &#8216;s: ::g&#8217;) files \[\033[1;33m\]\$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed &#8216;s/total //&#8217;)b\[\033[0m\] -&gt; \[\033[0m\]&#8221;&#8216;</p>
+<p><span style="font-family: 'Lucida Grande'; line-height: normal;"> </span></p>
+<h3 style="padding-top: 10px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; font-size: 18px; font-weight: 700; color: #333333; margin: 0px;">4. 多颜色提示</h3>
+<p>这个命令行提示除了使用了不同颜色来区别不同信息外，它并没有很特别的地方。就像你看到的那样，它提供了时间，用户名，主机名，当前目录。相当少的信息，但是非常地实用。</p>
+<p>例子：</p>
+<p style="TEXT-ALIGN: center; PADDING-BOTTOM: 2px; LINE-HEIGHT: 20px; MARGIN: 0px 0px 10px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 2px"><img decoding="async" loading="lazy" class="size-full wp-image-6808  aligncenter" style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; display: block; padding: 0px; border: thin solid #999999;" src="http://images.maketecheasier.com/2009/08/bashprompts-4.jpg" alt="bashprompts-4" width="333" height="69" /></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;"><span style="line-height: 20px;">代码：</span></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;"><span style="line-height: 20px;">PS1=&#8221;\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ &#8220;</span></p>
+<p><span style="font-family: 'Lucida Grande'; line-height: normal;"> </span></p>
+<h3 style="padding-top: 10px; padding-right: 0px; padding-bottom: 10px; padding-left: 0px; font-size: 18px; font-weight: 700; color: #333333; margin: 0px;">5.显示完整路径</h3>
+<p>这是一个良好，简洁，最小的2行提示(加上顶上的空行)。在第一行你能得到一个全路径信息，在第二行是一个用户名。如果你对每个命令提示行的空行不爽的话，你只要移走第一个\n就OK了</p>
+<p>例子：</p>
+<p style="TEXT-ALIGN: center"><img decoding="async" loading="lazy" class="size-full wp-image-6818    aligncenter" style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; display: block; padding: 0px; border: thin solid #999999;" src="http://images.maketecheasier.com/2009/08/bashprompts-5.jpg" alt="bashprompts-5" width="231" height="126" /></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">代码：</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;"><span style="line-height: 20px;">PS1=&#8221;[\[\033[32m\]\w]\[\033[0m\]\n\[\033[1;36m\]\u\[\033[1;33m\]-&gt; \[\033[0m\]&#8221;</span></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;"><span style="line-height: 20px;"> </span></p>
+<h3>6. 显示后台运行任务数</h3>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">这是另外的一个两行提示，但是这个两行提示具有更多的之前我们没有的信息。第一行是显示通常的user@host和全路径等信息。在第二行我们可以得到命令执行历史序号和一个后台运行任务个数信息。</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">例子：</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;"> </p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px; text-align: center;"><img decoding="async" src="http://images.maketecheasier.com/2009/08/bashprompts-61.jpg" alt="bashprompts-6" /></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">代码：</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">PS1=&#8217;\[\e[1;32m\]\u@\H:\[\e[m\] \[\e[1;37m\]\w\[\e[m\]\n\[\e[1;33m\]hist:\! \[\e[0;33m\] \[\e[1;31m\]jobs:\j \$\[\e[m\] &#8216;</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;"> </p>
+<h3>7. 显示路径信息</h3>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">这是一个非常眩的设计。我们可以从这个命令行提示信息的第一行中获取到用户/主机，运行任务数，和时间日期等信息。在第二行我们可以得到当前目录的文件数和他们占用的磁盘空间。</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">例子：</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;"> </p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px; text-align: center;"><img decoding="async" class="aligncenter" src="http://images.maketecheasier.com/2009/08/bashprompts-7.jpg" alt="bashprompts-7" /></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">代码:</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">PS1=&#8221;\n\[\e[30;1m\]\[\016\]l\[\017\](\[\e[34;1m\]\u@\h\[\e[30;1m\])-(\[\e[34;1m\]\j\[\e[30;1m\])-(\[\e[34;1m\]\@ \d\[\e[30;1m\])-&gt;\[\e[30;1m\]\n\[\016\]m\[\017\]-(\[\[\e[32;1m\]\w\[\e[30;1m\])-(\[\e[32;1m\]\$(/bin/ls -1 | /usr/bin/wc -l | /bin/sed &#8216;s: ::g&#8217;) files, \$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed &#8216;s/total //&#8217;)b\[\e[30;1m\])&#8211;&gt; \[\e[0m\]&#8221;</p>
+<h3>8. My Prompt</h3>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">最后这个命令提示行是我个人最喜欢的使用的命令提示行。它是#7的一个修改，这个命令提示行只包含我最希望知道的信息，因此节省了它的占用空间。我偏爱两行风格，因为这样不仅可以让我看到全路径信息，而且不影响我命令输入的可视空间。</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">例子:</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px; text-align: center;"><img decoding="async" class="aligncenter" src="http://images.maketecheasier.com/2009/08/bashprompts-8.jpg" alt="bashprompts-8" /></p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">代码:</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">PS1=&#8221;\n\[\e[32;1m\](\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-&gt; \[\e[0m\]&#8221;</p>
+<p style="margin-top: 0px; margin-right: 0px; margin-bottom: 10px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 2px; padding-left: 0px; line-height: 20px;">如果你愿意共享你的命令提示行，请在将这些命令提示代码加在下面的评论中。</p>
+<div id="_mcePaste" style="position: absolute; overflow-x: hidden; overflow-y: hidden; width: 1px; height: 1px; top: 765px; left: -10000px;">
+<p>PS1=&#8221;\n\[\033[35m\]\$(/bin/date)\n\[\033[32m\]\w\n\[\033[1;31m\]\u@\h: \[\033[1;34m\]\$(/usr/bin/tty | /bin/sed</p>
+<p>-e &#8216;s:/dev/::&#8217;): \[\033[1;36m\]\$(/bin/ls -1 | /usr/bin/wc -l | /bin/sed &#8216;s: ::g&#8217;) files \[\033[1;33m\]\$(/bin/ls -lah | /bin/grep -m 1 total | /bin/sed &#8216;s/total //&#8217;)b\[\033[0m\] -&gt; \[\033[0m\]&#8221;</p>
+</div>
+<p><a title="原文出处" href="http://maketecheasier.com/8-useful-and-interesting-bash-prompts/2009/09/04" target="_blank"> 出处</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-150x150.jpg" alt="bash代码注入的安全漏洞" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_title">bash代码注入的安全漏洞</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="https://coolshell.cn/articles/2987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="用脚本实现哄宝宝睡觉(Demo)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2987.html" class="wp_rp_title">用脚本实现哄宝宝睡觉(Demo)</a></li><li ><a href="https://coolshell.cn/articles/1824.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="C语言和sh脚本的杂交代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1824.html" class="wp_rp_title">C语言和sh脚本的杂交代码</a></li><li ><a href="https://coolshell.cn/articles/1574.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/27.jpg" alt="bash 函数级重定向" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1574.html" class="wp_rp_title">bash 函数级重定向</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1399.html">8个实用而有趣Bash命令提示行</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1399.html/feed</wfw:commentRss>
+			<slash:comments>15</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何调试bash脚本</title>
+		<link>https://coolshell.cn/articles/1379.html</link>
+					<comments>https://coolshell.cn/articles/1379.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 31 Aug 2009 07:53:40 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Bash]]></category>
+		<category><![CDATA[Debug]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1379</guid>
+
+					<description><![CDATA[<p>Bash 是Linux操作系统的默认Shell脚本。Shell是用来处理操作系统和用户交互的一个程序。Shell的脚本可以帮助用户自动化地和操作系统进行交互。你...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1379.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1379.html">如何调试bash脚本</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://en.wikipedia.org/wiki/Bash"><img decoding="async" loading="lazy" class="alignright" title="如何调试Bash脚本" src="https://coolshell.cn/wp-content/uploads/2009/08/bash.jpg" alt="如何调试Bash脚本" width="120" height="120" />Bash</a> 是Linux操作系统的默认Shell脚本。Shell是用来处理操作系统和用户交互的一个程序。Shell的脚本可以帮助用户自动化地和操作系统进行交互。你也可以理解为一种脚本式的编程。即然有编程，那么，程序的编译器，解释器，调试器就必不可少了，Bash也一样，但在调试方面可能会有一些和编程语言不一样的东西和技术，所以，下面这篇文章主要是说明调试bash脚本的各种技术。</p>
+<h4 id="Tracing_script_execution">跟踪脚本的执行</h4>
+<p>你可以让bash打印出你脚本执行的过程中的所有语句。这很简单，只需要使用bash的-x选项就可以做到，下面让我们来看一下。</p>
+<p><span id="more-1379"></span></p>
+<p>下面的这段脚本，先是输出一个问候语句，然后输出当前的时间：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+#!/bin/bash
+echo &quot;Hello $USER,&quot;
+echo &quot;Today is $(date +&#039;%Y-%m-%d&#039;)&quot;
+</pre>
+<p>下面让我们使用-x选项来运行这段脚本：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ bash -x example_script.sh
++ echo &#039;Hello chenhao,&#039;
+Hello chenhao,
+++ date +%Y-%m-%d
++ echo &#039;Today is 2009-08-31&#039;
+Today is 2009-08-31
+</pre>
+<p>这时，我们可以看到，bash在运行前打印出了每一行命令。而且每行前面的+号表明了嵌套。这样的输出可以让你看到命令执行的顺序并可以让你知道整个脚本的行为。<br />
+<strong>在跟踪里输出行号</strong></p>
+<p>在一个很大的脚本中，你会看到很多很多的执行跟踪的输出，阅读起来非常费劲，所以，你可以在每一行前加上文件的行号，这会非常有用。要做到这样，你只需要设置下面的环境变量：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"> 
+export PS4=&#039;+${BASH_SOURCE}:${LINENO}:${FUNCNAME[0]}: &#039;
+</pre>
+<p>让我们看看设置上了PS4这个环境变量后会是什么样的输出。</p>
+<p> </p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ bash -x example_script.sh
++example_script.sh:2:: echo &#039;Hello chenhao,&#039;
+Hello chenhao,
+++example_script.sh:3:: date +%Y-%m-%d
++example_script.sh:3:: echo &#039;Today is 2009-08-31&#039;
+Today is 2009-08-31
+</pre>
+<p> <br />
+<strong>调试部份的脚本</strong></p>
+<p>有些时候，你并不想调试整个脚本，你只要调试其中的一部份，那么，你可以在你想要调试的脚本之前，调用“set -x”，结束的时候调用“set +x”就可以了。如下面的脚本所示：</p>
+<p> </p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+#!/bin/bash
+echo &quot;Hello $USER,&quot;
+set -x
+echo &quot;Today is $(date %Y-%m-%d)&quot;
+set +x
+</pre>
+<p> </p>
+<p>让我们看看运行起来是啥样？</p>
+<p> </p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ ./example_script.sh
+Hello chenhao,
+++example_script.sh:4:: date +%Y-%m-%d
++example_script.sh:4:: echo &#039;Today is 2009-08-31&#039;
+Today is 2009-08-31
++example_script.sh:5:: set +x
+</pre>
+<p> </p>
+<p>注意：我们在运行脚本的时候，不需要使用<span>bash -x了。</span></p>
+<p><span> </span></p>
+<h4 id="Logging">日志输出</h4>
+<p>跟踪日志有时候太多了，多得都受不了，而且，输出的内容很难阅读。一般来说，我们很多时候只关心于条件表达式，变量值，或是函数调用，或是循环等。。在这种情况下，log一些感兴趣的特定的信息，可能会更好。</p>
+<p>使用log前，我们先写一个函数：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+_log() {
+    if [ &quot;$_DEBUG&quot; == &quot;true&quot; ]; then
+        echo 1&gt;&amp;2 &quot;$@&quot;
+    fi
+}
+</pre>
+<p> </p>
+<p>于是，你就可以在你的脚本中如下使用：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"> 
+_log &quot;Copying files...&quot;
+cp src/* dst/
+</pre>
+<p> <br />
+我们可以看到，上面那个_log函数，需要检查一个<span>_DEBUG</span> 变量，只有这个变量是真，才会真正开发输出日志。这样，你就只需要控制这个开关，而不需要删除你的debug信息。</p>
+<p> </p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"> 
+$ _DEBUG=true ./example_script.sh
+</pre>
+<p> </p>
+<h4 id="Using_the_Bash_debugger">使用Bash专用调试器</h4>
+<p>如果你在写一个相当复杂的脚本，并且，你需要一个完整的像调试别的语言一样的调试器，那么你可以试着用用这个开源软件—— <a href="http://bashdb.sourceforge.net/">bashdb</a>， 一个Bash的专用调试器。这个调试器很强大，你想得到的功能，他都有，比如，设置断点，单步跟踪，跳出函数，等等。它的用户接口很想GDB，这是他的<a href="http://bashdb.sourceforge.net/bashdb.html">文档</a> 。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li><li ><a href="https://coolshell.cn/articles/2987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="用脚本实现哄宝宝睡觉(Demo)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2987.html" class="wp_rp_title">用脚本实现哄宝宝睡觉(Demo)</a></li><li ><a href="https://coolshell.cn/articles/1539.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/baby_linux-150x150.jpg" alt="用脚本实现哄小孩睡觉" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1539.html" class="wp_rp_title">用脚本实现哄小孩睡觉</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1379.html">如何调试bash脚本</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1379.html/feed</wfw:commentRss>
+			<slash:comments>11</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

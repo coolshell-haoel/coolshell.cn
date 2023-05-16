@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>network | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/network/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sun, 05 Feb 2023 04:10:43 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>聊聊 nostr 和 审查</title>
+		<link>https://coolshell.cn/articles/22367.html</link>
+					<comments>https://coolshell.cn/articles/22367.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 03 Feb 2023 07:46:13 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[censorship]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[nostr]]></category>
+		<category><![CDATA[social media]]></category>
+		<category><![CDATA[Twitter]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22367</guid>
+
+					<description><![CDATA[<p>这两天在网络上又有一个东西火了，Twitter 的创始人 @jack 新的社交 iOS App  Damus 上苹果商店（第二天就因为违反中国法律在中国区下架了...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22367.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22367.html">聊聊 nostr 和 审查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-22368" src="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-300x150.png" alt="" width="300" height="150" srcset="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-300x150.png 300w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-1024x512.png 1024w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-768x384.png 768w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-540x270.png 540w, https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1.png 1140w" sizes="(max-width: 300px) 100vw, 300px" />这两天在网络上又有一个东西火了，Twitter 的创始人 <a href="https://twitter.com/jack">@jack</a> 新的社交 iOS App  <a href="https://apps.apple.com/ca/app/damus/id1628663131" target="_blank" rel="noopener">Damus</a> 上苹果商店（第二天就因为违反中国法律在中国区下架了），这个软件是一个去中心化的 Twitter，使用到的是 nostr &#8211; Notes and Other Stuff Transmitted by Relays 的协议（<a href="https://github.com/nostr-protocol/nostr" target="_blank" rel="noopener">协议简介</a>，<a href="https://github.com/nostr-protocol/nips" target="_blank" rel="noopener">协议细节</a>），协议简介中有很大的篇幅是在批评Twitter和其相类似的中心化的产品，如：<a href="https://mastodon.social/" target="_blank" rel="noopener">Mastodon</a> 和 <a href="https://scuttlebutt.nz/" target="_blank" rel="noopener">Secure Scuttlebutt</a> 。我顺着去看了一下这个协议，发现这个协议真是非常的简单，简单到几句话就可以讲清楚了。</p>
+<h4>通讯过程</h4>
+<ul>
+<li>这个协议中有两个东西，一个是 client，一个是 relay，client 就是用户社交的客户端，relay 就是转发服务器。</li>
+<li>用户不需要注册，用户只需要有一个密钥对（公钥+私钥）就好了，然后把要发的信息做签名，发给一组 relays</li>
+<li>然后你的 Follower 就可以从这些 relays 上订阅到你的信息。</li>
+</ul>
+<p><span id="more-22367"></span></p>
+<h4>技术细节摘要</h4>
+<ul>
+<li>技术实现上，nostr 使用 websocket + JSON 的方式。其中主要是下面这么几个指令
+<ul>
+<li>Client 到 Relay主要是下面这几个指令：
+<ul>
+<li><code>EVENT</code>。发出事件，可以扩展出很多很多的动作来，比如：发信息，删信息，迁移信息，建 Channel ……扩展性很好。</li>
+<li><code>REQ</code>。用于请求事件和订阅更新。收到<code>REQ</code>消息后，relay 会查询其内部数据库并返回与过滤器匹配的事件，然后存储该过滤器，并将其接收的所有未来事件再次发送到同一websocket，直到websocket关闭。</li>
+<li><code>CLOSE</code>。用于停止被 <code>REQ</code> 请求的订阅。</li>
+</ul>
+</li>
+<li>Relay 到 Client 主要是下面几个指令：
+<ul>
+<li><code>EVENT</code>。用于发送客户端请求的事件。</li>
+<li><code>NOTICE</code>。用于向客户端发送人类可读的错误消息或其他信息</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>关于 <code>EVENT</code> 下面是几个常用的基本事件：
+<ul>
+<li><code>0</code>: <code>set_metadata</code>：比如，用户名，用户头像，用户简介等这样的信息。</li>
+<li><code>1</code>: <code>text_note</code>：用户要发的信息内容</li>
+<li><code>2</code>： <code>recommend_server</code>：用户想要推荐给关注者的Relay的URL（例如<code>wss://somerelay.com</code>）</li>
+</ul>
+</li>
+</ul>
+<h4>如何对抗网络审查</h4>
+<p>那么，这个协议是如何对抗网络审查的？</p>
+<ul>
+<li>识别你的身份是通过你的签名，所以，只要你的私钥还在，你是不会被删号的</li>
+<li>任何人都可以运行一个或多个relay，所以，就很难有人控制所有的relay</li>
+<li>你还可以很方便的告诉其中的 relay 把你发的信息迁到另一个 relay 上</li>
+<li>你的信息是一次发给多个relay的，所以，只要不是所有的热门realy封了你，你就可以发出信息</li>
+<li>每个relay的运营者都可以自己制定规则，会审查哪些类型内容。用户据此选择即可。基本不会有一个全局的规则。</li>
+<li>如果你被全部的relay封了，你还是可以自建你的relay，然后，你可以通过各种方式告诉你身边的人你的relay服务器是什么？这样，他们把这个relay服务器加到他们的client列表中，你又可以从社死中复活了。</li>
+</ul>
+<p>嗯，听起来很简单，整个网络是构建在一种 “社区式”的松散结构，完全可能会出现若干个 relay zone。这种架构就像是互联网的架构，没有中心化，比如 DNS服务器和Email服务器一样，只要你愿意，你完全可以发展出自己圈子里的“私服”。</p>
+<p>其实，电子邮件是很难被封禁和审查的。我记得2003年中国非典的时候，我当时在北京，当时的卫生部部长说已经控制住了，才12个人感染，当局也在控制舆论和删除互联网上所有的真实信息。但是，大家都在用电子邮件传播信息，当时基本没有什么社交软件，大家分享信息都是通过邮件，尤其是外企工作的圈子，当时每天都要收很多的非典的群发邮件，大家还都是用公司的邮件服务器发……这种松散的，点对点的架构，让审查是基本不可能的。其实，<strong>我觉得 nostr 就是另外一个变种或是升级版的 email 的形式</strong>。</p>
+<h4>如何对抗Spam和骗子</h4>
+<p>但是问题来了，如果不能删号封人的话，那么如何对抗那些制造Spam，骗子或是反人类的信息呢？nostr目前的解决方案是通过比特币闪电网络。比如有些客户端实现了如果对方没有follow 你，如果给他发私信，需要支付一点点btc ，或是relay要求你给btc才给你发信息（注：我不认为这是一个好的方法，因为：1）因为少数的坏人让大多数正常人也要跟着付出成本，这是个糟糕的治理方式，2）不鼓励那些生产内容的人，那么平台就没有任何价值了）。</p>
+<p>不过，我觉得也有可以有下面的这些思路：</p>
+<ul>
+<li>用户主动拉黑，但很明显这个效率不高，而且体验不好</li>
+<li>社区或是同盟维护一个黑名单，relay定期更新（如同email中防垃圾邮件也是这样搞的），这其实也是审查。</li>
+<li>防Spam的算法过滤垃圾信息（如同email中干的），自动化审查。</li>
+<li>增加发Spam的成本，如: PoW 工作量证明（比特币的挖矿，最早也是用于Email），发信息要花钱（这个对正常用户伤害太大了）等。</li>
+<li>……</li>
+</ul>
+<p>总之，还是有相应的方法的，但是一定没有完美解，email对抗了这么多年，你还是可以收到大量的垃圾邮件和钓鱼邮件，所以，我觉得 nostr 也不可能做到……</p>
+<h4>怎么理解审查</h4>
+<p>最后，我们要明白的是，<strong>无论你用什么方法，审查是肯定需要的，所以，我觉得要完全干掉审查，最终的结果就是一个到处都垃圾内容的地方！</strong></p>
+<p><strong>我理解的审查不应该是为权力或是个体服务的，而是为大众和人民服务的，所以，审查必然是要有一个开放和共同决策的流程，而不是独断的</strong>。</p>
+<p>这点可以参考开源软件基金会的运作模式。</p>
+<ul>
+<li>最底端的是用户（User）参与开源社区的使用并提供问题和反馈。</li>
+<li>用户在使用过程中了解项目情况后贡献代码和文档就可以晋升为贡献者（Contributors），</li>
+<li>当贡献者提交一定数量贡献之后就可以晋升为提交者（Committers），此时你将拥有你参与仓库的代码读写权限。</li>
+<li>当提交者Committers在社区得到认可后，由项目管理委员会（PMC）选举并产生PMC成员（类似于议员），PMC成员拥有社区相关事务的投票、提名和共同决策权利和义务。</li>
+</ul>
+<p>注意下面几点</p>
+<ul>
+<li>整个社区的决策者，是要通过自己贡献来挣到被选举权的。</li>
+<li>社区所有的工作和决定都是要公开的。</li>
+<li>社区的方向和决策都是要投票的，PMC成员有binding的票权，大众也有non-binding的投票权供参考。</li>
+<li><strong>如果出现了价值观的不同，那么，直接分裂社区就好了，不同价值观的人加入到不同的社区就好了</strong>。</li>
+</ul>
+<p>如果审查是在这个框架下运作的话，虽然不完美，但至少会在一种公允的基础下运作，是透明公开的，也是集体决策的。</p>
+<p>开源软件社区是一个很成功的示范，所以，我觉得只有技术而没有一个良性的可持续运作的社区，是不可能解决问题的，<strong>干净整齐的环境是一定要有人打扫和整理的</strong>。</p>
+<p>&nbsp;</p>
+<figure id="attachment_22371" aria-describedby="caption-attachment-22371" style="width: 300px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22371 size-medium" src="https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-300x289.jpg" alt="欢迎关注我 npub1w6r99545cxea6z76e8nvzjxnymjt4nrsddld33almtm78z7fz95s3c94nu" width="300" height="289" srcset="https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-300x289.jpg 300w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-1024x987.jpg 1024w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-768x740.jpg 768w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533-280x270.jpg 280w, https://coolshell.cn/wp-content/uploads/2023/02/IMG_2533.jpg 1242w" sizes="(max-width: 300px) 100vw, 300px" /><figcaption id="caption-attachment-22371" class="wp-caption-text">欢迎关注我 npub1w6r99545cxea6z76e8nvzjxnymjt4nrsddld33almtm78z7fz95s3c94nu</figcaption></figure>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="国内微博和Twitter的最大不同" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_title">国内微博和Twitter的最大不同</a></li><li ><a href="https://coolshell.cn/articles/25.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="如何上网觅无踪" width="150" height="150" /></a><a href="https://coolshell.cn/articles/25.html" class="wp_rp_title">如何上网觅无踪</a></li><li ><a href="https://coolshell.cn/articles/19464.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/06/competition-360x200-1-150x150.png" alt="如何超过大多数人" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19464.html" class="wp_rp_title">如何超过大多数人</a></li><li ><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-150x150.jpg" alt="Bret Victor &#8211; Learnable Programming" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_title">Bret Victor &#8211; Learnable Programming</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22367.html">聊聊 nostr 和 审查</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22367.html/feed</wfw:commentRss>
+			<slash:comments>12</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>记一次Kubernetes/Docker网络排障</title>
+		<link>https://coolshell.cn/articles/18654.html</link>
+					<comments>https://coolshell.cn/articles/18654.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 08 Dec 2018 03:57:35 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Kubernetes]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[Systemd]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=18654</guid>
+
+					<description><![CDATA[<p>昨天周五晚上，临下班的时候，用户给我们报了一个比较怪异的Kubernetes集群下的网络不能正常访问的问题，让我们帮助查看一下，我们从下午5点半左右一直跟进到晚...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/18654.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/18654.html">记一次Kubernetes/Docker网络排障</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-18662" src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1.png" alt="" width="300" height="238" />昨天周五晚上，临下班的时候，用户给我们报了一个比较怪异的Kubernetes集群下的网络不能正常访问的问题，让我们帮助查看一下，我们从下午5点半左右一直跟进到晚上十点左右，在远程不能访问用户机器只能远程遥控用户的情况找到了的问题。这个问题比较有意思，我个人觉得其中的调查用到的的命令以及排障的一些方法可以分享一下，所以写下了这篇文章。</p>
+<h4>问题的症状</h4>
+<p>用户直接在微信里说，他们发现在Kuberbnetes下的某个pod被重启了几百次甚至上千次，于是开启调查这个pod，发现上面的服务时而能够访问，时而不能访问，也就是有一定概率不能访问，不知道是什么原因。而且并不是所有的pod出问题，而只是特定的一两个pod出了网络访问的问题。用户说这个pod运行着Java程序，为了排除是Java的问题，用户用 <code>docker exec -it</code> 命令直接到容器内启了一个 Python的 SimpleHttpServer来测试发现也是一样的问题。</p>
+<p>我们大概知道用户的集群是这样的版本，Kuberbnetes 是1.7，网络用的是flannel的gw模式，Docker版本未知，操作系统CentOS 7.4，直接在物理机上跑docker，物理的配置很高，512GB内存，若干CPU核，上面运行着几百个Docker容器。</p>
+<p><span id="more-18654"></span></p>
+<h4>问题的排查</h4>
+<h5>问题初查</h5>
+<p>首先，我们排除了flannel的问题，因为整个集群的网络通信都正常，只有特定的某一两个pod有问题。而用 <code>telnet ip port</code> 的命令手工测试网络连接时有很大的概率出现 <code>connection refused</code> 错误，大约 1/4的概率，而3/4的情况下是可以正常连接的。</p>
+<p>当时，我们让用户抓个包看看，然后，用户抓到了有问题的TCP连接是收到了 <code>SYN</code> 后，立即返回了 <code>RST, ACK</code></p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-18655" src="https://coolshell.cn/wp-content/uploads/2018/12/tcpdump.png" alt="" width="700" height="80" /></p>
+<p>我问一下用户这两个IP所在的位置，知道了，<code>10.233.14.129</code> 是 <code>docker0</code>，<code>10.233.14.145</code> 是容器内的IP。所以，这基本上可以排除了所有和kubernets或是flannel的问题，这就是本地的Docker上的网络的问题。</p>
+<p>对于这样被直接 Reset 的情况，在 <code>telnet</code> 上会显示 <code>connection refused</code> 的错误信息，对于我个人的经验，这种 <code>SYN</code>完直接返回 <code>RST, ACK</code>的情况只会有三种情况：</p>
+<ol>
+<li> TCP链接不能建立，不能建立连接的原因基本上是标识一条TCP链接的那五元组不能完成，绝大多数情况都是服务端没有相关的端口号。</li>
+<li>TCP链接建错误，有可能是因为修改了一些TCP参数，尤其是那些默认是关闭的参数，因为这些参数会导致TCP协议不完整。</li>
+<li>有防火墙iptables的设置，其中有 <code>REJECT</code> 规则。</li>
+</ol>
+<p>因为当时还在开车，在等红灯的时候，我感觉到有点像 NAT 的网络中服务端开启了 <code>tcp_tw_recycle</code> 和 <code>tcp_tw_reuse</code> 的症况（详细参看《<a href="https://coolshell.cn/articles/11564.html" target="_blank" rel="noopener noreferrer">TCP的那些事（上）</a>》），所以，让用户查看了一上TCP参数，发现用户一个TCP的参数都没有改，全是默认的，于是我们排除了TCP参数的问题。</p>
+<p>然后，我也不觉得容器内还会设置上iptables，而且如果有那就是100%的问题，不会时好时坏。所以，我怀疑容器内的端口号没有侦听上，但是马上又好了，这可能会是应用的问题。于是我让用户那边看一下，应用的日志，并用 <code>kublet describe</code>看一下运行的情况，并把宿主机的 iptables 看一下。</p>
+<p>然而，我们发现并没有任何的问题。这时，<strong>我们失去了所有的调查线索，感觉不能继续下去了……</strong></p>
+<h5>重新梳理</h5>
+<p>这个时候，回到家，大家吃完饭，和用户通了一个电话，把所有的细节再重新梳理了一遍，这个时候，用户提供了一个比较关键的信息—— “<strong>抓包这个事，在 <code>docker0</code> 上可以抓到，然而到了容器内抓不到容器返回 <code>RST, ACK</code> </strong>” ！然而，根据我的知识，我知道在 <code>docker0</code> 和容器内的 <code>veth</code> 网卡上，中间再也没有什么网络设备了（参看《<a href="https://coolshell.cn/articles/17029.html" target="_blank" rel="noopener noreferrer">Docker基础技术：LINUX NAMESPACE（下）</a>》）!</p>
+<p>于是这个事把我们逼到了最后一种情况 —— IP地址冲突了！</p>
+<p>Linux下看IP地址冲突还不是一件比较简单事的，而在用户的生产环境下没有办法安装一些其它的命令，所以只能用已有的命令，这个时候，我们发现用户的机器上有 <code>arping</code> 于是我们用这个命令来检测有没有冲突的IP地址。使用了下面的命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ arping -D -I docker0 -c 2 10.233.14.145
+$ echo $?
+</pre>
+<p>根据文档，<code>-D</code> 参数是检测IP地址冲突模式，如果这个命令的退状态是 <code>0</code> 那么就有冲突。结果返回了 <code>1</code> 。而且，我们用 <code>arping</code> IP的时候，没有发现不同的mac地址。 <strong>这个时候，似乎问题的线索又断了</strong>。</p>
+<p>因为客户那边还在处理一些别的事情，所以，我们在时断时续的情况下工作，而还一些工作都需要用户完成，所以，进展有点缓慢，但是也给我们一些时间思考问题。</p>
+<h5>柳暗花明</h5>
+<p>现在我们知道，IP冲突的可能性是非常大的，但是我们找不出来是和谁的IP冲突了。而且，我们知道只要把这台机器重启一下，问题一定就解决掉了，但是我们觉得这并不是解决问题的方式，因为重启机器可以暂时的解决掉到这个问题，而如果我们不知道这个问题怎么发生的，那么未来这个问题还会再来。而重启线上机器这个成本太高了。</p>
+<p>于是，我们的好奇心驱使我们继续调查。我让用户 <code>kubectl delete</code> 其中两个有问题的pod，因为本来就服务不断重启，所以，删掉也没有什么问题。删掉这两个pod后（一个是IP为 <code>10.233.14.145</code> 另一个是 <code>10.233.14.137</code>），我们发现，kubernetes在其它机器上重新启动了这两个服务的新的实例。然而，<strong>在问题机器上，这两个IP地址居然还可以ping得通</strong>。</p>
+<p>好了，IP地址冲突的问题可以确认了。因为<code>10.233.14.xxx</code> 这个网段是 docker 的，所以，这个IP地址一定是在这台机器上。所以，我们想看看所有的 network namespace 下的 veth 网卡上的IP。</p>
+<p>在这个事上，我们费了点时间，因为对相关的命令也 很熟悉，所以花了点时间Google，以及看相关的man。</p>
+<ul>
+<li>首先，我们到 <code>/var/run/netns</code>目录下查看系统的network namespace，发现什么也没有。</li>
+<li>然后，我们到 <code>/var/run/docker/netns</code> 目录下查看Docker的namespace，发现有好些。</li>
+<li>于是，我们用指定位置的方式查看Docker的network namespace里的IP地址</li>
+</ul>
+<p>这里要动用 <code>nsenter</code> 命令，这个命令可以进入到namespace里执行一些命令。比如</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ nsenter --net=/var/run/docker/netns/421bdb2accf1 ifconfig -a
+</pre>
+<p>上述的命令，到 <code>var/run/docker/netns/421bdb2accf1</code> 这个network namespace里执行了 <code>ifconfig -a</code> 命令。于是我们可以用下面 命令来遍历所有的network namespace。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ ls /var/run/docker/netns | xargs -I {} nsenter --net=/var/run/docker/netns/{} ip addr 
+</pre>
+<p>然后，我们发现了比较诡异的事情。</p>
+<ul>
+<li><code>10.233.14.145</code> 我们查到了这个IP，说明，docker的namespace下还有这个IP。</li>
+<li><code>10.233.14.137</code>，这个IP没有在docker的network namespace下查到。</li>
+</ul>
+<p>有namespace leaking？于是我上网查了一下，发现了一个docker的bug &#8211; 在docker remove/stop 一个容器的时候，没有清除相应的network namespace，这个问题被报告到了 <a href="https://github.com/moby/moby/issues/31597">Issue#31597</a> 然后被fix在了 <a href="https://github.com/moby/moby/pull/31996">PR#31996</a>，并Merge到了 Docker的 17.05版中。而用户的版本是 17.09，应该包含了这个fix。不应该是这个问题，感觉又走不下去了。</p>
+<p>不过， <code>10.233.14.137</code> 这个IP可以ping得通，说明这个IP一定被绑在某个网卡，而且被隐藏到了某个network namespace下。</p>
+<p>到这里，要查看所有network namespace，只有最后一条路了，那就是到 <code>/proc/</code> 目录下，把所有的pid下的 <code>/proc/&lt;pid&gt;/ns</code> 目录给穷举出来。好在这里有一个比较方便的命令可以干这个事 ： <code>lsns</code></p>
+<p>于是我写下了如下的命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ lsns -t net | awk ‘{print $4}&#039; | xargs -t -I {} nsenter -t {}&amp;nbsp;-n ip addr | grep -C 4 &quot;10.233.14.137&quot;
+</pre>
+<p>解释一下。</p>
+<ul>
+<li><code>lsns -t net</code> 列出所有开了network namespace的进程，其第4列是进程PID</li>
+<li>把所有开过network namespace的进程PID拿出来，转给 <code>xargs</code> 命令</li>
+<li>由 <code>xargs</code> 命令把这些PID 依次传给 <code>nsenter</code> 命令，
+<ul>
+<li><code>xargs -t</code> 的意思是会把相关的执行命令打出来，这样我知道是那个PID。</li>
+<li><code>xargs -I {}</code>  是声明一个占位符来替换相关的PID</li>
+</ul>
+</li>
+</ul>
+<p>最后，我们发现，虽然在 <code>/var/run/docker/netns</code> 下没有找到 <code>10.233.14.137</code> ，但是在 <code>lsns</code> 中找到了三个进程，他们都用了<code>10.233.14.137</code> 这个IP（冲突了这么多），<strong>而且他们的MAC地址全是一样的！</strong>（怪不得arping找不到）。通过<code>ps</code> 命令，可以查到这三个进程，有两个是java的，还有一个是<code>/pause</code> （这个应该是kubernetes的沙盒）。</p>
+<p>我们继续乘胜追击，穷追猛打，用<code>pstree</code>命令把整个进程树打出来。发现上述的三个进程的父进程都在多个同样叫 <code>docker-contiane</code> 的进程下！</p>
+<p><strong>这明显还是docker的，但是在<code>docker ps</code> 中却找不道相应的容器，什么鬼！快崩溃了……</strong></p>
+<p>继续看进程树，发现，这些 <code>docker-contiane</code> 的进程的父进程不在 <code>dockerd</code> 下面，而是在 <code>systemd</code> 这个超级父进程PID 1下，我靠！进而发现了一堆这样的野进程（这种野进程或是僵尸进程对系统是有害的，至少也是会让系统进入亚健康的状态，因为他们还在占着资源）。</p>
+<p><code>docker-contiane</code> 应该是 <code>dockerd</code> 的子进程，被挂到了 <code>pid 1</code> 只有一个原因，那就是父进程“飞”掉了，只能找 pid 1 当养父。这说明，这台机器上出现了比较严重的 <code>dockerd</code> 进程退出的问题，而且是非常规的，因为 <code>systemd</code> 之所以要成为 pid 1，其就是要监管所有进程的子子孙孙，居然也没有管理好，说明是个非常规的问题。（注，关于 systemd，请参看《<a href="https://coolshell.cn/articles/17998.html" target="_blank" rel="noopener noreferrer">Linux PID 1 和 Systemd </a>》，关于父子进程的事，请参看《Unix高级环境编程》一书）</p>
+<p>接下来就要看看 <code>systemd</code> 为 <code>dockerd</code> 记录的日志了…… （然而日志只有3天的了，这3天<code>dockerd</code>没有任何异常）</p>
+<h4>总结</h4>
+<p>通过这个调查，可以总结一下，</p>
+<p>1） 对于问题调查，需要比较扎实的基础知识，知道问题的成因和范围。</p>
+<p>2）如果走不下去了，要重新梳理一下，回头仔细看一下一些蛛丝马迹，认真推敲每一个细节。</p>
+<p>3） 各种诊断工具要比较熟悉，这会让你事半功倍。</p>
+<p>4）系统维护和做清洁比较类似，需要经常看看系统中是否有一些僵尸进程或是一些垃圾东西，这些东西要及时清理掉。</p>
+<p>最后，多说一下，很多人都说，<strong>Docker适合放在物理机内运行，这并不完全对，因为他们只考虑到了性能成本，没有考虑到运维成本，在这样512GB中启动几百个容器的玩法，其实并不好，因为这本质上是个大单体，因为你一理要重启某些关键进程或是机器，你的影响面是巨大的</strong>。</p>
+<p>&nbsp;</p>
+<p>———————— 更新 2018/12/10 —————————</p>
+<h4>问题原因</h4>
+<p>这两天在自己的环境下测试了一下，发现，只要是通过 <code>systemctl start/stop docker</code> 这样的命令来启停 Docker， 是可以把所有的进程和资源全部干掉的。这个是没有什么问题的。我唯一能重现用户问题的的操作就是直接 <code>kill -9 &lt;dockerd pid&gt;</code> 但是这个事用户应该不会干。而 Docker 如果有 crash 事件时，Systemd 是可以通过 <code>journalctl -u docker</code> 这样的命令查看相关的系统日志的。</p>
+<p>于是，我找用户了解一下他们在Docker在启停时的问题，用户说，<strong>他们的执行 <code>systemctl stop docker</code> 这个命令的时候，发现这个命令不响应了，有可能就直接按了 <code>Ctrl +C</code> 了</strong>！</p>
+<p>这个应该就是导致大量的 <code>docker-containe</code> 进程挂到 <code>PID 1</code> 下的原因了。前面说过，用户的一台物理机上运行着上百个容器，所以，那个进程树也是非常庞大的，我想，停服的时候，系统一定是要遍历所有的docker子进程来一个一个发退出信号的，这个过程可能会非常的长。导致操作员以为命令假死，而直接按了 <code>Ctrl + C</code> ，最后导致很多容器进程并没有终止……</p>
+<p>&nbsp;</p>
+<h4>其它事宜</h4>
+<p>有同学问，为什么我在这个文章里写的是 <code>docker-containe</code> 而不是 <code>containd</code> 进程？这是因为被 <code>pstree</code> 给截断了，用 <code>ps</code> 命令可以看全，只是进程名的名字有一个 <code>docker-</code>的前缀。</p>
+<p>下面是这两种不同安装包的进程树的差别（其中 <code>sleep</code> 是我用 <code>buybox</code> 镜像启动的）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+systemd───dockerd─┬─docker-contained─┬─3*[docker-contained-shim─┬─sleep]
+                  │                 │                    └─9*[{docker-containe}]]
+                  │                 ├─docker-contained-shim─┬─sleep
+                  │                 │                 └─10*[{docker-containe}]
+                  │                 └─14*[{docker-contained-shim}]
+                  └─17*[{dockerd}]
+</pre>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+systemd───dockerd─┬─containerd─┬─3*[containerd-shim─┬─sleep]
+                  │            │                 └─9*[{containerd-shim}]
+                  │            ├─2*[containerd-shim─┬─sleep]
+                  │            │                    └─9*[{containerd-shim}]]
+                  │            └─11*[{containerd}]
+                  └─10*[{dockerd}]
+
+</pre>
+<p>顺便说一下，自从 Docker 1.11版以后，Docker进程组模型就改成上面这个样子了.</p>
+<ul>
+<li><code>dockerd</code> 是 Docker Engine守护进程，直接面向操作用户。<code>dockerd</code> 启动时会启动 <code>containerd</code> 子进程，他们之前通过RPC进行通信。</li>
+<li><code>containerd</code> 是<code>dockerd</code>和<code>runc</code>之间的一个中间交流组件。他与 <code>dockerd</code> 的解耦是为了让Docker变得更为的中立，而支持OCI 的标准 。</li>
+<li><code>containerd-shim</code>  是用来真正运行的容器的，每启动一个容器都会起一个新的shim进程， 它主要通过指定的三个参数：容器id，boundle目录（containerd的对应某个容器生成的目录，一般位于：<code>/var/run/docker/libcontainerd/containerID</code>）， 和运行命令（默认为 <code>runc</code>）来创建一个容器。</li>
+<li><code>docker-proxy</code> 你有可能还会在新版本的Docker中见到这个进程，这个进程是用户级的代理路由。只要你用 <code>ps -elf</code> 这样的命令把其命令行打出来，你就可以看到其就是做端口映射的。如果你不想要这个代理的话，你可以在 <code>dockerd</code> 启动命令行参数上加上：  <code>--userland-proxy=false</code> 这个参数。</li>
+</ul>
+<p>更多的细节，大家可以自行Google。这里推荐两篇文章：</p>
+<ul>
+<li><a href="https://hackernoon.com/docker-containerd-standalone-runtimes-heres-what-you-should-know-b834ef155426" target="_blank" rel="noopener noreferrer">Docker, Containerd &amp; Standalone Runtimes — Here’s What You Should Know</a></li>
+<li><a href="http://alexander.holbreich.org/docker-components-explained/" target="_blank" rel="noopener noreferrer">Docker components explained</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-150x150.jpg" alt="Docker基础技术：DeviceMapper" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_title">Docker基础技术：DeviceMapper</a></li><li ><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-150x150.png" alt="Docker基础技术：AUFS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_title">Docker基础技术：AUFS</a></li><li ><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/filter-150x150.png" alt="Docker基础技术：Linux CGroup" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_title">Docker基础技术：Linux CGroup</a></li><li ><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/isolation-150x150.jpg" alt="Docker基础技术：Linux Namespace（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_title">Docker基础技术：Linux Namespace（上）</a></li><li ><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/jail_cell-150x150.jpg" alt="Docker基础技术：Linux Namespace（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_title">Docker基础技术：Linux Namespace（下）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/18654.html">记一次Kubernetes/Docker网络排障</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/18654.html/feed</wfw:commentRss>
+			<slash:comments>51</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Alan Cox：单向链表中prev指针的妙用</title>
+		<link>https://coolshell.cn/articles/9859.html</link>
+					<comments>https://coolshell.cn/articles/9859.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Sun, 30 Jun 2013 04:27:04 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Alan Cox]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[TCP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9859</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 之前发过一篇二级指针操作单向链表的例子，显示了C语言指针的灵活性，这次再探讨一个指针操作链表的例子，而且是一种完全不同的用...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9859.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9859.html">Alan Cox：单向链表中prev指针的妙用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><figure id="attachment_9906" aria-describedby="caption-attachment-9906" style="width: 200px" class="wp-caption alignright"><img decoding="async" loading="lazy" class="size-medium wp-image-9906" title="Alan Cox" alt="Alan Cox" src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-200x300.jpg" width="200" height="300" srcset="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-200x300.jpg 200w, https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-180x270.jpg 180w, https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox.jpg 667w" sizes="(max-width: 200px) 100vw, 200px" /><figcaption id="caption-attachment-9906" class="wp-caption-text">Alan Cox</figcaption></figure></p>
+<p><span style="color: #cc0000;"><strong> （感谢网友 </strong></span><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><span style="color: #cc0000;"><strong> 投稿）</strong></span></p>
+<p>之前发过一篇<a href="https://coolshell.cn/articles/8990.html" target="_blank">二级指针操作单向链表</a>的例子，显示了C语言指针的灵活性，这次再探讨一个指针操作链表的例子，而且是一种完全不同的用法。</p>
+<p>这个例子是linux-1.2.13网络协议栈里的，关于链表遍历&#038;数据拷贝的一处实现。源文件是/net/inet/dev.c，你可以从<a href="https://www.kernel.org/pub/linux/kernel/v1.2/" target="_blank">kernel.org</a>官网上下载。</p>
+<p>从最早的0.96c版本开始，linux网络部分一直采取TCP/IP协议族实现，这是最为广泛应用的网络协议，整个架构就是经典的OSI七层模型的描述，其中dev.c是属于链路层实现。从功能上看，其位于网络设备驱动程序和网络层协议实现模块之间，作为二者之间的数据包传输通道，一种接口模块而存在——对驱动层的接口函数netif_rx, 以及对网络层的接口函数net_bh。前者提供给驱动模块的中断例程调用，用于链路数据帧的封装；后者作为驱动中断例程<strong>底半部(buttom half)</strong>，用于对数据帧的解析处理并向上层传送。</p>
+<p>为了便于理解，这里补充一下网络通信原理和linux驱动中断机制的背景知识。从最底层的物理层说起，当主机和路由器相互之间进行通信的时候，在物理介质上（同轴、光纤等）以电平信号进行传输。主机或路由器的<strong>硬件接口（网卡）</strong>负责收发这些信号，当信号发送到接口，再由内置的<strong>调制解调器(modem)</strong>将数字信号转换成二进制码，这样才能驻留在主机的硬件缓存中。这时接口（网卡）设备驱动程序将通过<strong>硬中断</strong>来获取硬件缓存中的数据，驱动程序是操作系统中负责直接同硬件设备打交道的模块，硬中断的触发是初始化时通过设置控制寄存器实现的，用于通知驱动程序硬件缓存中有新的数据到来。linux卡设备驱动就是在<strong>中断处理例程(ISR)</strong>中将硬件缓存数据拷贝到内核缓存中，打包成数据链路帧进行解析处理，再向上分发到各种协议层。由于ISR上下文是原子性的、中断屏蔽的，整个步骤又较为繁琐，因此全部放在ISR中处理会影响到其它中断响应实时性，于是linux有实现一种bottom half的<strong>软中断</strong>处理机制，将整个ISR一分为二，前半部上下文屏蔽所有中断，专门处理紧急的、实时性强的事务，如拷贝硬件缓存并打包封装，后半部上下文没有屏蔽中断（但代码不可重入），用于处理比较耗时且非紧急事务，包括数据帧的解析处理和分发。下面要讲的net_bh就属于后半部。</p>
+<p>我们主要关心的是将链路帧分发到协议层那一段逻辑，下面摘自net_bh函数中的一段代码：</p>
+<p><span id="more-9859"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">526 void net_bh(void *tmp)
+527 {
+       ...
+577
+578    /*
+579    * We got a packet ID.  Now loop over the &quot;known protocols&quot;
+580    * table (which is actually a linked list, but this will
+581    * change soon if I get my way- FvK), and forward the packet
+582    * to anyone who wants it.
+583    *
+584    * [FvK didn&#039;t get his way but he is right this ought to be
+585    * hashed so we typically get a single hit. The speed cost
+586    * here is minimal but no doubt adds up at the 4,000+ pkts/second
+587    * rate we can hit flat out]
+588    */
+589   pt_prev = NULL;
+590   for (ptype = ptype_base; ptype != NULL; ptype = ptype-&gt;next)
+591   {
+592    if ((ptype-&gt;type == type || ptype-&gt;type == htons(ETH_P_ALL)) &amp;&amp; (!ptype-&gt;dev || ptype-&gt;dev==skb-&gt;dev))
+593    {
+594      /*
+595      * We already have a match queued. Deliver
+596      * to it and then remember the new match
+597      */
+598      if(pt_prev)
+599      {
+600        struct sk_buff *skb2;
+601        skb2=skb_clone(skb, GFP_ATOMIC);
+602        /*
+603        * Kick the protocol handler. This should be fast
+604        * and efficient code.
+605        */
+606        if(skb2)
+607          pt_prev-&gt;func(skb2, skb-&gt;dev, pt_prev);
+608      }
+609      /* Remember the current last to do */
+610      pt_prev=ptype;
+611    }
+612   } /* End of protocol list loop */
+613   /*
+614   * Is there a last item to send to ?
+615   */
+616   if(pt_prev)
+617     pt_prev-&gt;func(skb, skb-&gt;dev, pt_prev);
+618   /*
+619    *  Has an unknown packet has been received ?
+620    */
+621   else
+622     kfree_skb(skb, FREE_WRITE);
+623
+      ...
+640 }</pre>
+<p>在此稍稍解说一下数据结构，skb就是内核缓存中sock数据封装，协议栈里从链路层到传输层都会用到，只不过封装格式不同，主要是对<strong>协议首部(header)</strong>的由下而上层层剥离（反之由上而下是层层创建），在此你只需理解为一个链路数据帧即可。这段代码的逻辑是解析skb中的协议字段，从协议类型链表（由ptype_base维护）中查询对应的协议节点进行函数指针func回调，以便将数据帧分发到相应的协议层（如ARP、IP、8022、8023等）。</p>
+<p>第一眼看上去是不是有点奇怪？这段代码竟然用一个pt_prev指针去维护ptype链表中前一个节点，从而产生了额外的条件分支判断，咋一看是否多了很多“余”了？回顾一下那篇<a href="https://coolshell.cn/articles/8990.html" target="_blank">二级指针操作单向链表</a>的博文，简直完全是反其道而行之的。如果把pt_prev去掉，代码可以精简为：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">  for (ptype = ptype_base; ptype != NULL; ptype = ptype-&gt;next)
+  {
+    if ((ptype-&gt;type == type || ptype-&gt;type == htons(ETH_P_ALL)) &amp;&amp; (!ptype-&gt;dev || ptype-&gt;dev==skb-&gt;dev))
+    {
+        /*
+        * We already have a match queued. Deliver
+        * to it and then remember the new match
+        */
+        struct sk_buff *skb2;
+        skb2=skb_clone(skb, GFP_ATOMIC);
+        /*
+        * Kick the protocol handler. This should be fast
+        * and efficient code.
+        */
+        if(skb2)
+            pt_prev-&gt;func(skb2, skb-&gt;dev, pt_prev);
+    }
+} /* End of protocol list loop */
+
+kfree_skb(skb, FREE_WRITE);</pre>
+<p>咋看一下“干净”了很多，不是吗？但我们要记住一点，凡是网上发布的linux内核源代码，都是都是经过众多黑客高手们重重检视并验证过的，人家这么写肯定有十分充足的理由，所以不要太过于相信自己的直觉了，让我们再好好review一下代码吧！看看这段循环里做了什么事情？特别是第592~611行。</p>
+<p>由于从网络上拷贝过来skb是唯一的，而分发的协议对象可能是多个，所以在回调之前要做一次clone动作（注意这里是深度拷贝，相当于一次kmalloc）。分发之后还需要调用kfree_skb释放掉原始skb数据块，它的历史使命到此完成了，没有保留的必要（第622行）。<strong>注意，这两个动作都是存在内核开销的。</strong></p>
+<p>然而这里为啥要pt_prev维护一个后向节点呢？这是有深意的，它的作用就是将当前匹配协议项的回调操作延时了。举个例子，如果链表遍历中找到某个匹配项，当前循环仅仅用pt_prev去记录这个匹配项，除此之外不做任何事情，待到下一次匹配项找到时，才去做上一个匹配项pt_prev的回调操作，直到循环结束，才会去做最后的匹配项的回调（当然pt_prev==NULL表示没有一次匹配，直接释放掉），所以这是一种<strong>拖延战术</strong>。有什么好处呢？就是比原先节省了很多不必要的操作。那么哪些操作是不必要的呢？这里我们逆向思考一下，我们看到clone是在协议字段匹配并且pt_prev!=NULL的前提条件下执行的，而kfree是在pt_prev==NULL的前提条件下执行的。在此可以假设一下，如果ptype链表中存在N项协议与之匹配，那么这段代码只会执行N-1次clone，而没有pt_prev时将会执行N次clone和1次kfree，再如果ptype链表中有且仅有一项协议与之匹配，那么整个循环既不会执行到第601行的clone，也不会执行到第622行的kfree。</p>
+<p>也就是说，<strong>当整个链表至少有一项匹配的一般情况下，pt_prev存在比没有时减少了一次clone和一次kfree的开销；只有全部不匹配的最差情况下，两者都只做一次kfree动作，持平。这就是延迟策略产生的效益</strong>。</p>
+<p>熟悉TCP/IP协议族的开发人员应该知道<strong>MTU（最大传输单元）</strong>这个概念，遵循不同协议的MTU值是不同的。比如以太网帧MTU是1500个字节，802.3帧MTU是1492字节，PPP链路帧MTU是269字节，而超通道MTU理论上是65535字节。要知道在一个高速吞吐量通信网络环境下，在大块数据分片传输线路里，在内核级别代码中，减少一处系统开销意味着什么？</p>
+<p>其实我们完全可以抛开一切网络协议相关知识，这不过是一段极其普通的单向链表操作而已，逻辑并不复杂。但是看看人家顶级黑客是怎么思考和coding的，对比一下自己写过的代码，多少次数据处理是用一个简单的for循环匆匆敷衍了事而没有进一步思考其中的粗陋和不合理之处？面对真正的编程高手这种“心计”与“城府”，你是不是有种莫名不安感？你会怀疑你真的了解怎么去使用和操作C语言中基本的链表数据结构么？如果答案是肯定的，那就开始颤抖吧（哈，别误会，其实上面这段话不过是笔者的自我告解罢了）~~~</p>
+<p>最后，让我们感谢尊敬的<a href="http://en.wikipedia.org/wiki/Alan_Cox" target="_blank">Alan Cox</a>大大对Linux社区卓越精细、无与伦比的贡献！（Alan是图中中部戴红帽子的那位）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" alt="Linux Kernel Team" src="http://old.lwn.net/images/ks/group2.jpg" width="704" height="323" /></p>
+<p><strong>附注：</strong></p>
+<p>最新的Linux-2.6.x版本中协议栈实现部分变动很大，但/net/core/dev.c的netif_receive_skb函数里仍然保留了pt_prev这种用法，目的是一样的，都是为了减少一次系统开销的优化操作。</p>
+<p>关于Alan，他在斯旺西大学工作时，在学校服务器上安装了一个早期的linux版本，供学校使用。他修正了许多的问题，重写了网络系统中的许多部份。随后成为linux内核开发小组中的重要成员。<a href="http://en.wikipedia.org/wiki/Alan_Cox" target="_blank">Alan Cox</a>负责维持2.2版，在2.4版上拥有自己的分支（在版本号上会冠上ac，如 2.4.13-ac1）。他的分支版本非常稳定，修正许多错误，许多厂商都使用他的版本。在他去进修工商管理硕士之前，涉入许多linux内核开发的事务，在社群中有很高的地位，有时会被视为是Linus之下的第二号领导者。</p>
+<p>不过，今年1月28日的时候，Alan因为家庭原因宣布退出Linux项目了，下面是他Google+的声明：</p>
+<blockquote><p>“I’m leaving the Linux world and Intel for a bit for family reasons, I’m aware that ‘family reasons’ is usually management speak for ‘I think the boss is an asshole’ but I’d like to assure everyone that while I frequently think Linus is an asshole (and therefore very good as kernel dictator) I am departing quite genuinely for family reasons and not because I’ve fallen out with Linus or Intel or anyone else. Far from it I’ve had great fun working there.”</p></blockquote>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9859.html">Alan Cox：单向链表中prev指针的妙用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9859.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何上网觅无踪</title>
+		<link>https://coolshell.cn/articles/25.html</link>
+					<comments>https://coolshell.cn/articles/25.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 02 Mar 2009 06:00:43 +0000</pubDate>
+				<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[Tor]]></category>
+		<category><![CDATA[代理]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=25</guid>
+
+					<description><![CDATA[<p>Tor是一个是开源项目，网址http://www.torproject.org（很遗憾，这个网站因为GFW，在中国大陆你无法访问，），TOR这个项目，旨在把这个...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/25.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/25.html">如何上网觅无踪</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p><img decoding="async" loading="lazy" class="alignright" title="TOR" src="http://img.henku.com/softimages/small/20080714_111637_406_u.jpg" alt="" width="125" height="71" />Tor是一个是开源项目，网址<a href="http://www.torproject.org" target="_blank">http://www.torproject.org</a><cite></cite>（很遗憾，这个网站因为GFW，在中国大陆你无法访问，），TOR这个项目，旨在把这个世界上所有的代理服务器或是使用Tor的这各个客户端串在一起，形成一个虚似的网络。</p>
+<p>这是一个分布式的，通过一种P2P技术构建的网络。这个技术很像是BT或是电驴所使用的技术。不过，Tor 的目标是抵御流量分析，流量分析是一种对网络的监视行为，这种行为会威胁个人的匿名与隐私，商业活动与业务关系的保密和国家的安全，打破网络屏蔽。</p>
+<p><span id="more-25"></span></p>
+<p>也就是说，这是一种可以保护你私人上网信息的技术。你每次请求网页你都会通过第三方，每一次你都会使用不同的路由，不同的IP地址，从而达到你在网上的行踪无人可觅。</p>
+<p>这是我推荐你下载一个三套件，Vidalia Bundle，其中包括，Vidalia, Tor 和 Privoxy，也是属于Tor这个项目。你知道的，所有的开源项目都会互相借鉴，Tor也不例，除了自己的东西，同样也会借鉴别人的项目。</p>
+<p>安装后，你可以在你的开始菜单中找到“Vidalia Bundle”，然后，请先启动Privoxy，然后启动Tor，此时，你可以把你的浏览器的Sock代理设置为127.0.0.1，端口号是9050。（注意：这是Sock代理，不是HTTP代理）如果你使用的是Firefox，你只需要下载一个Firfox的Tor插件就可以完全代理的设置了。</p>
+<p>使用TOR，不但可以让自己的上网无踪迹，同样也可以突破我们国家的Great Firewall而去访问很多不能访问的国外站点。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22367.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-150x150.png" alt="聊聊 nostr 和 审查" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22367.html" class="wp_rp_title">聊聊 nostr 和 审查</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/4722.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="在Web上运行Linux" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4722.html" class="wp_rp_title">在Web上运行Linux</a></li><li ><a href="https://coolshell.cn/articles/7526.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="Lisp的永恒之道" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7526.html" class="wp_rp_title">Lisp的永恒之道</a></li><li ><a href="https://coolshell.cn/articles/10975.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一个“蝇量级” C 语言协程库" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10975.html" class="wp_rp_title">一个“蝇量级” C 语言协程库</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/25.html">如何上网觅无踪</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/25.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

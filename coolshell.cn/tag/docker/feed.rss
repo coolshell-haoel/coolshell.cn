@@ -1,0 +1,1949 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Docker | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/docker/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 08 Jul 2020 09:27:19 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>记一次Kubernetes/Docker网络排障</title>
+		<link>https://coolshell.cn/articles/18654.html</link>
+					<comments>https://coolshell.cn/articles/18654.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 08 Dec 2018 03:57:35 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Kubernetes]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[Systemd]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=18654</guid>
+
+					<description><![CDATA[<p>昨天周五晚上，临下班的时候，用户给我们报了一个比较怪异的Kubernetes集群下的网络不能正常访问的问题，让我们帮助查看一下，我们从下午5点半左右一直跟进到晚...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/18654.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/18654.html">记一次Kubernetes/Docker网络排障</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-18662" src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1.png" alt="" width="300" height="238" />昨天周五晚上，临下班的时候，用户给我们报了一个比较怪异的Kubernetes集群下的网络不能正常访问的问题，让我们帮助查看一下，我们从下午5点半左右一直跟进到晚上十点左右，在远程不能访问用户机器只能远程遥控用户的情况找到了的问题。这个问题比较有意思，我个人觉得其中的调查用到的的命令以及排障的一些方法可以分享一下，所以写下了这篇文章。</p>
+<h4>问题的症状</h4>
+<p>用户直接在微信里说，他们发现在Kuberbnetes下的某个pod被重启了几百次甚至上千次，于是开启调查这个pod，发现上面的服务时而能够访问，时而不能访问，也就是有一定概率不能访问，不知道是什么原因。而且并不是所有的pod出问题，而只是特定的一两个pod出了网络访问的问题。用户说这个pod运行着Java程序，为了排除是Java的问题，用户用 <code>docker exec -it</code> 命令直接到容器内启了一个 Python的 SimpleHttpServer来测试发现也是一样的问题。</p>
+<p>我们大概知道用户的集群是这样的版本，Kuberbnetes 是1.7，网络用的是flannel的gw模式，Docker版本未知，操作系统CentOS 7.4，直接在物理机上跑docker，物理的配置很高，512GB内存，若干CPU核，上面运行着几百个Docker容器。</p>
+<p><span id="more-18654"></span></p>
+<h4>问题的排查</h4>
+<h5>问题初查</h5>
+<p>首先，我们排除了flannel的问题，因为整个集群的网络通信都正常，只有特定的某一两个pod有问题。而用 <code>telnet ip port</code> 的命令手工测试网络连接时有很大的概率出现 <code>connection refused</code> 错误，大约 1/4的概率，而3/4的情况下是可以正常连接的。</p>
+<p>当时，我们让用户抓个包看看，然后，用户抓到了有问题的TCP连接是收到了 <code>SYN</code> 后，立即返回了 <code>RST, ACK</code></p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-18655" src="https://coolshell.cn/wp-content/uploads/2018/12/tcpdump.png" alt="" width="700" height="80" /></p>
+<p>我问一下用户这两个IP所在的位置，知道了，<code>10.233.14.129</code> 是 <code>docker0</code>，<code>10.233.14.145</code> 是容器内的IP。所以，这基本上可以排除了所有和kubernets或是flannel的问题，这就是本地的Docker上的网络的问题。</p>
+<p>对于这样被直接 Reset 的情况，在 <code>telnet</code> 上会显示 <code>connection refused</code> 的错误信息，对于我个人的经验，这种 <code>SYN</code>完直接返回 <code>RST, ACK</code>的情况只会有三种情况：</p>
+<ol>
+<li> TCP链接不能建立，不能建立连接的原因基本上是标识一条TCP链接的那五元组不能完成，绝大多数情况都是服务端没有相关的端口号。</li>
+<li>TCP链接建错误，有可能是因为修改了一些TCP参数，尤其是那些默认是关闭的参数，因为这些参数会导致TCP协议不完整。</li>
+<li>有防火墙iptables的设置，其中有 <code>REJECT</code> 规则。</li>
+</ol>
+<p>因为当时还在开车，在等红灯的时候，我感觉到有点像 NAT 的网络中服务端开启了 <code>tcp_tw_recycle</code> 和 <code>tcp_tw_reuse</code> 的症况（详细参看《<a href="https://coolshell.cn/articles/11564.html" target="_blank" rel="noopener noreferrer">TCP的那些事（上）</a>》），所以，让用户查看了一上TCP参数，发现用户一个TCP的参数都没有改，全是默认的，于是我们排除了TCP参数的问题。</p>
+<p>然后，我也不觉得容器内还会设置上iptables，而且如果有那就是100%的问题，不会时好时坏。所以，我怀疑容器内的端口号没有侦听上，但是马上又好了，这可能会是应用的问题。于是我让用户那边看一下，应用的日志，并用 <code>kublet describe</code>看一下运行的情况，并把宿主机的 iptables 看一下。</p>
+<p>然而，我们发现并没有任何的问题。这时，<strong>我们失去了所有的调查线索，感觉不能继续下去了……</strong></p>
+<h5>重新梳理</h5>
+<p>这个时候，回到家，大家吃完饭，和用户通了一个电话，把所有的细节再重新梳理了一遍，这个时候，用户提供了一个比较关键的信息—— “<strong>抓包这个事，在 <code>docker0</code> 上可以抓到，然而到了容器内抓不到容器返回 <code>RST, ACK</code> </strong>” ！然而，根据我的知识，我知道在 <code>docker0</code> 和容器内的 <code>veth</code> 网卡上，中间再也没有什么网络设备了（参看《<a href="https://coolshell.cn/articles/17029.html" target="_blank" rel="noopener noreferrer">Docker基础技术：LINUX NAMESPACE（下）</a>》）!</p>
+<p>于是这个事把我们逼到了最后一种情况 —— IP地址冲突了！</p>
+<p>Linux下看IP地址冲突还不是一件比较简单事的，而在用户的生产环境下没有办法安装一些其它的命令，所以只能用已有的命令，这个时候，我们发现用户的机器上有 <code>arping</code> 于是我们用这个命令来检测有没有冲突的IP地址。使用了下面的命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ arping -D -I docker0 -c 2 10.233.14.145
+$ echo $?
+</pre>
+<p>根据文档，<code>-D</code> 参数是检测IP地址冲突模式，如果这个命令的退状态是 <code>0</code> 那么就有冲突。结果返回了 <code>1</code> 。而且，我们用 <code>arping</code> IP的时候，没有发现不同的mac地址。 <strong>这个时候，似乎问题的线索又断了</strong>。</p>
+<p>因为客户那边还在处理一些别的事情，所以，我们在时断时续的情况下工作，而还一些工作都需要用户完成，所以，进展有点缓慢，但是也给我们一些时间思考问题。</p>
+<h5>柳暗花明</h5>
+<p>现在我们知道，IP冲突的可能性是非常大的，但是我们找不出来是和谁的IP冲突了。而且，我们知道只要把这台机器重启一下，问题一定就解决掉了，但是我们觉得这并不是解决问题的方式，因为重启机器可以暂时的解决掉到这个问题，而如果我们不知道这个问题怎么发生的，那么未来这个问题还会再来。而重启线上机器这个成本太高了。</p>
+<p>于是，我们的好奇心驱使我们继续调查。我让用户 <code>kubectl delete</code> 其中两个有问题的pod，因为本来就服务不断重启，所以，删掉也没有什么问题。删掉这两个pod后（一个是IP为 <code>10.233.14.145</code> 另一个是 <code>10.233.14.137</code>），我们发现，kubernetes在其它机器上重新启动了这两个服务的新的实例。然而，<strong>在问题机器上，这两个IP地址居然还可以ping得通</strong>。</p>
+<p>好了，IP地址冲突的问题可以确认了。因为<code>10.233.14.xxx</code> 这个网段是 docker 的，所以，这个IP地址一定是在这台机器上。所以，我们想看看所有的 network namespace 下的 veth 网卡上的IP。</p>
+<p>在这个事上，我们费了点时间，因为对相关的命令也 很熟悉，所以花了点时间Google，以及看相关的man。</p>
+<ul>
+<li>首先，我们到 <code>/var/run/netns</code>目录下查看系统的network namespace，发现什么也没有。</li>
+<li>然后，我们到 <code>/var/run/docker/netns</code> 目录下查看Docker的namespace，发现有好些。</li>
+<li>于是，我们用指定位置的方式查看Docker的network namespace里的IP地址</li>
+</ul>
+<p>这里要动用 <code>nsenter</code> 命令，这个命令可以进入到namespace里执行一些命令。比如</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ nsenter --net=/var/run/docker/netns/421bdb2accf1 ifconfig -a
+</pre>
+<p>上述的命令，到 <code>var/run/docker/netns/421bdb2accf1</code> 这个network namespace里执行了 <code>ifconfig -a</code> 命令。于是我们可以用下面 命令来遍历所有的network namespace。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ ls /var/run/docker/netns | xargs -I {} nsenter --net=/var/run/docker/netns/{} ip addr 
+</pre>
+<p>然后，我们发现了比较诡异的事情。</p>
+<ul>
+<li><code>10.233.14.145</code> 我们查到了这个IP，说明，docker的namespace下还有这个IP。</li>
+<li><code>10.233.14.137</code>，这个IP没有在docker的network namespace下查到。</li>
+</ul>
+<p>有namespace leaking？于是我上网查了一下，发现了一个docker的bug &#8211; 在docker remove/stop 一个容器的时候，没有清除相应的network namespace，这个问题被报告到了 <a href="https://github.com/moby/moby/issues/31597">Issue#31597</a> 然后被fix在了 <a href="https://github.com/moby/moby/pull/31996">PR#31996</a>，并Merge到了 Docker的 17.05版中。而用户的版本是 17.09，应该包含了这个fix。不应该是这个问题，感觉又走不下去了。</p>
+<p>不过， <code>10.233.14.137</code> 这个IP可以ping得通，说明这个IP一定被绑在某个网卡，而且被隐藏到了某个network namespace下。</p>
+<p>到这里，要查看所有network namespace，只有最后一条路了，那就是到 <code>/proc/</code> 目录下，把所有的pid下的 <code>/proc/&lt;pid&gt;/ns</code> 目录给穷举出来。好在这里有一个比较方便的命令可以干这个事 ： <code>lsns</code></p>
+<p>于是我写下了如下的命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ lsns -t net | awk ‘{print $4}&#039; | xargs -t -I {} nsenter -t {}&amp;nbsp;-n ip addr | grep -C 4 &quot;10.233.14.137&quot;
+</pre>
+<p>解释一下。</p>
+<ul>
+<li><code>lsns -t net</code> 列出所有开了network namespace的进程，其第4列是进程PID</li>
+<li>把所有开过network namespace的进程PID拿出来，转给 <code>xargs</code> 命令</li>
+<li>由 <code>xargs</code> 命令把这些PID 依次传给 <code>nsenter</code> 命令，
+<ul>
+<li><code>xargs -t</code> 的意思是会把相关的执行命令打出来，这样我知道是那个PID。</li>
+<li><code>xargs -I {}</code>  是声明一个占位符来替换相关的PID</li>
+</ul>
+</li>
+</ul>
+<p>最后，我们发现，虽然在 <code>/var/run/docker/netns</code> 下没有找到 <code>10.233.14.137</code> ，但是在 <code>lsns</code> 中找到了三个进程，他们都用了<code>10.233.14.137</code> 这个IP（冲突了这么多），<strong>而且他们的MAC地址全是一样的！</strong>（怪不得arping找不到）。通过<code>ps</code> 命令，可以查到这三个进程，有两个是java的，还有一个是<code>/pause</code> （这个应该是kubernetes的沙盒）。</p>
+<p>我们继续乘胜追击，穷追猛打，用<code>pstree</code>命令把整个进程树打出来。发现上述的三个进程的父进程都在多个同样叫 <code>docker-contiane</code> 的进程下！</p>
+<p><strong>这明显还是docker的，但是在<code>docker ps</code> 中却找不道相应的容器，什么鬼！快崩溃了……</strong></p>
+<p>继续看进程树，发现，这些 <code>docker-contiane</code> 的进程的父进程不在 <code>dockerd</code> 下面，而是在 <code>systemd</code> 这个超级父进程PID 1下，我靠！进而发现了一堆这样的野进程（这种野进程或是僵尸进程对系统是有害的，至少也是会让系统进入亚健康的状态，因为他们还在占着资源）。</p>
+<p><code>docker-contiane</code> 应该是 <code>dockerd</code> 的子进程，被挂到了 <code>pid 1</code> 只有一个原因，那就是父进程“飞”掉了，只能找 pid 1 当养父。这说明，这台机器上出现了比较严重的 <code>dockerd</code> 进程退出的问题，而且是非常规的，因为 <code>systemd</code> 之所以要成为 pid 1，其就是要监管所有进程的子子孙孙，居然也没有管理好，说明是个非常规的问题。（注，关于 systemd，请参看《<a href="https://coolshell.cn/articles/17998.html" target="_blank" rel="noopener noreferrer">Linux PID 1 和 Systemd </a>》，关于父子进程的事，请参看《Unix高级环境编程》一书）</p>
+<p>接下来就要看看 <code>systemd</code> 为 <code>dockerd</code> 记录的日志了…… （然而日志只有3天的了，这3天<code>dockerd</code>没有任何异常）</p>
+<h4>总结</h4>
+<p>通过这个调查，可以总结一下，</p>
+<p>1） 对于问题调查，需要比较扎实的基础知识，知道问题的成因和范围。</p>
+<p>2）如果走不下去了，要重新梳理一下，回头仔细看一下一些蛛丝马迹，认真推敲每一个细节。</p>
+<p>3） 各种诊断工具要比较熟悉，这会让你事半功倍。</p>
+<p>4）系统维护和做清洁比较类似，需要经常看看系统中是否有一些僵尸进程或是一些垃圾东西，这些东西要及时清理掉。</p>
+<p>最后，多说一下，很多人都说，<strong>Docker适合放在物理机内运行，这并不完全对，因为他们只考虑到了性能成本，没有考虑到运维成本，在这样512GB中启动几百个容器的玩法，其实并不好，因为这本质上是个大单体，因为你一理要重启某些关键进程或是机器，你的影响面是巨大的</strong>。</p>
+<p>&nbsp;</p>
+<p>———————— 更新 2018/12/10 —————————</p>
+<h4>问题原因</h4>
+<p>这两天在自己的环境下测试了一下，发现，只要是通过 <code>systemctl start/stop docker</code> 这样的命令来启停 Docker， 是可以把所有的进程和资源全部干掉的。这个是没有什么问题的。我唯一能重现用户问题的的操作就是直接 <code>kill -9 &lt;dockerd pid&gt;</code> 但是这个事用户应该不会干。而 Docker 如果有 crash 事件时，Systemd 是可以通过 <code>journalctl -u docker</code> 这样的命令查看相关的系统日志的。</p>
+<p>于是，我找用户了解一下他们在Docker在启停时的问题，用户说，<strong>他们的执行 <code>systemctl stop docker</code> 这个命令的时候，发现这个命令不响应了，有可能就直接按了 <code>Ctrl +C</code> 了</strong>！</p>
+<p>这个应该就是导致大量的 <code>docker-containe</code> 进程挂到 <code>PID 1</code> 下的原因了。前面说过，用户的一台物理机上运行着上百个容器，所以，那个进程树也是非常庞大的，我想，停服的时候，系统一定是要遍历所有的docker子进程来一个一个发退出信号的，这个过程可能会非常的长。导致操作员以为命令假死，而直接按了 <code>Ctrl + C</code> ，最后导致很多容器进程并没有终止……</p>
+<p>&nbsp;</p>
+<h4>其它事宜</h4>
+<p>有同学问，为什么我在这个文章里写的是 <code>docker-containe</code> 而不是 <code>containd</code> 进程？这是因为被 <code>pstree</code> 给截断了，用 <code>ps</code> 命令可以看全，只是进程名的名字有一个 <code>docker-</code>的前缀。</p>
+<p>下面是这两种不同安装包的进程树的差别（其中 <code>sleep</code> 是我用 <code>buybox</code> 镜像启动的）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+systemd───dockerd─┬─docker-contained─┬─3*[docker-contained-shim─┬─sleep]
+                  │                 │                    └─9*[{docker-containe}]]
+                  │                 ├─docker-contained-shim─┬─sleep
+                  │                 │                 └─10*[{docker-containe}]
+                  │                 └─14*[{docker-contained-shim}]
+                  └─17*[{dockerd}]
+</pre>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+systemd───dockerd─┬─containerd─┬─3*[containerd-shim─┬─sleep]
+                  │            │                 └─9*[{containerd-shim}]
+                  │            ├─2*[containerd-shim─┬─sleep]
+                  │            │                    └─9*[{containerd-shim}]]
+                  │            └─11*[{containerd}]
+                  └─10*[{dockerd}]
+
+</pre>
+<p>顺便说一下，自从 Docker 1.11版以后，Docker进程组模型就改成上面这个样子了.</p>
+<ul>
+<li><code>dockerd</code> 是 Docker Engine守护进程，直接面向操作用户。<code>dockerd</code> 启动时会启动 <code>containerd</code> 子进程，他们之前通过RPC进行通信。</li>
+<li><code>containerd</code> 是<code>dockerd</code>和<code>runc</code>之间的一个中间交流组件。他与 <code>dockerd</code> 的解耦是为了让Docker变得更为的中立，而支持OCI 的标准 。</li>
+<li><code>containerd-shim</code>  是用来真正运行的容器的，每启动一个容器都会起一个新的shim进程， 它主要通过指定的三个参数：容器id，boundle目录（containerd的对应某个容器生成的目录，一般位于：<code>/var/run/docker/libcontainerd/containerID</code>）， 和运行命令（默认为 <code>runc</code>）来创建一个容器。</li>
+<li><code>docker-proxy</code> 你有可能还会在新版本的Docker中见到这个进程，这个进程是用户级的代理路由。只要你用 <code>ps -elf</code> 这样的命令把其命令行打出来，你就可以看到其就是做端口映射的。如果你不想要这个代理的话，你可以在 <code>dockerd</code> 启动命令行参数上加上：  <code>--userland-proxy=false</code> 这个参数。</li>
+</ul>
+<p>更多的细节，大家可以自行Google。这里推荐两篇文章：</p>
+<ul>
+<li><a href="https://hackernoon.com/docker-containerd-standalone-runtimes-heres-what-you-should-know-b834ef155426" target="_blank" rel="noopener noreferrer">Docker, Containerd &amp; Standalone Runtimes — Here’s What You Should Know</a></li>
+<li><a href="http://alexander.holbreich.org/docker-components-explained/" target="_blank" rel="noopener noreferrer">Docker components explained</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-150x150.jpg" alt="Docker基础技术：DeviceMapper" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_title">Docker基础技术：DeviceMapper</a></li><li ><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-150x150.png" alt="Docker基础技术：AUFS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_title">Docker基础技术：AUFS</a></li><li ><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/filter-150x150.png" alt="Docker基础技术：Linux CGroup" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_title">Docker基础技术：Linux CGroup</a></li><li ><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/isolation-150x150.jpg" alt="Docker基础技术：Linux Namespace（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_title">Docker基础技术：Linux Namespace（上）</a></li><li ><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/jail_cell-150x150.jpg" alt="Docker基础技术：Linux Namespace（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_title">Docker基础技术：Linux Namespace（下）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/18654.html">记一次Kubernetes/Docker网络排障</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/18654.html/feed</wfw:commentRss>
+			<slash:comments>51</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Go语言、Docker 和新技术</title>
+		<link>https://coolshell.cn/articles/18190.html</link>
+					<comments>https://coolshell.cn/articles/18190.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 30 Oct 2017 01:24:20 +0000</pubDate>
+				<category><![CDATA[Go 语言]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[golang]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=18190</guid>
+
+					<description><![CDATA[<p>上个月，作为 Go 语言的三位创始人之一，Unix 老牌黑客罗勃·派克（Rob Pike）在新文章“Go: Ten years and climbing”中，回...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/18190.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/18190.html">Go语言、Docker 和新技术</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-sup_wechat_big " src="https://coolshell.cn/wp-content/uploads/2017/10/golang.docker-360x200.png" alt="" width="360" height="200" />上个月，作为 Go 语言的三位创始人之一，Unix 老牌黑客罗勃·派克（Rob Pike）在新文章“<a href="https://commandcenter.blogspot.com/2017/09/go-ten-years-and-climbing.html" target="_blank" rel="noopener noreferrer">Go: Ten years and climbing</a>”中，回顾了一下 Go 语言的发展过程。其中提到，Go 语言这十年的迅猛发展大到连他们自己都没有想到，并且还成为了云计算领域中新一代的开发语言。还提到了，中国程序员对 Go 语言的热爱完全超出了他们的想象，甚至他们都不敢相信是真的。</p>
+<p>这让我想起，我在 2015 年 5 月份拜访 Docker 公司在湾区的总部时，Docker 负责人也和我表达了相似的感叹：他们完全没有想到居然中国有那么多人喜欢 Docker，而且还有这么多人在为 Docker 做贡献，这让他们感到非常意外。此外，还跟我说，中国是除了美国本土之外的另一个如此喜欢 Docker 技术的国家，在其它国家都没有看到。</p>
+<p>的确如他们所说，Go 语言和 Docker 这两种技术已经成为新一代的云计算技术，而且可以看到其发展态势非常迅猛。而中国也成为了像美国一样在强力推动这两种技术的国家。这的确是一件让人感到非常高兴的事，因为中国在跟随时代潮流这件事上已经做得非常不错了。</p>
+<p>然而，从 2014-2015 年我在阿里推动 Docker 和 Go 语言的痛苦和失败过程中，以及这许多年来，有很多很多人问我是否要学 Go 语言，是否要学 Docker，Go 和 Docker 是否能用在生产线上，这些问题看来，对于 Go 语言和 Docker 这两种技术，在国内的技术圈中有相当大的一部分人和群体还在执观望或是不信任的态度。</p>
+<p>所以，我想写这篇文章，从两个方面来论述一下我的观点和看法。</p>
+<ul class="list-paddingleft-2">
+<li>一个方面，为什么 Go 语言和 Docker 会是新一代的云计算技术。</li>
+<li>另一个方面，作为技术人员，我们如何识别什么样的新技术会是未来的趋势。</li>
+</ul>
+<p>这两个问题是相辅相成的，所以我会把这两个问题揉在一起谈。</p>
+<p><span id="more-18190"></span></p>
+<p>虽然 Go 语言是在 2009 年底开源的，但我是从 2012 年才开始接触和学习 Go 语言的。我只花了一个周末两天的时间就学完了，而且在这两天，我还很快地写出了一个能工作很好的网页爬虫程序，以及一个简单的高并发文件处理服务，用于提取前面抓取的网页的关键内容。这两个程序都很简单，总共才写了不到 500 行代码。</p>
+<p>我当时对 Go 语言有几点体会。</p>
+<p><strong>第一，语言简单，上手快。</strong>Go 语言的语法特性简直是太简单了，简单到你几乎玩不出什么花招，直来直去的，学习曲线很低，上手非常快。</p>
+<p><strong>第二，并行和异步编程几乎无痛点。</strong>Go 语言的 Goroutine 和 Channel 这两个神器简直就是并发和异步编程的巨大福音。像 C、C++、Java、Python 和 JavaScript 这些语言的并发和异步方式太控制就比较复杂了，而且容易出错，而 Go 解决这个问题非常地优雅和流畅。这对于编程多年受尽并发和异步折磨的我来说，完全就是让我眼前一亮的感觉。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter " src="https://coolshell.cn/wp-content/uploads/2017/10/golang.01.png" alt="" width="664" height="403" /></p>
+<p style="text-align: center;">（图片来自 Medium：<a href="https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65" target="_blank" rel="noopener noreferrer">Why should you learn Go?</a>）</p>
+<p><strong>第三，Go 语言的 lib 库麻雀虽小五脏俱全。</strong>Go 语言的 lib 库中基本上有绝大多数常用的库，虽然有些库还不是很好，但我觉得不是问题，因为我相信在未来的发展中会把这些问题解决掉。</p>
+<p><strong>第四，C 语言的理念和 Python 的姿态。</strong>C 语言的理念是信任程序员，保持语言的小巧，不屏蔽底层且底层友好，关注语言的执行效率和性能。而 Python 的姿态是用尽量少的代码完成尽量多的事。于是我能够感觉到，Go 语言想要把 C 和 Python 统一起来，这是多棒的一件事啊。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter " src="https://coolshell.cn/wp-content/uploads/2017/10/golang.02.png" alt="" width="662" height="400" /></p>
+<p style="text-align: center;">（图片来自 Medium：<a href="https://medium.com/@kevalpatel2106/why-should-you-learn-go-f607681fad65" target="_blank" rel="noopener noreferrer">Why should you learn Go?</a>）</p>
+<p>所以，即便 Go 语言存在诸多的问题，比如垃圾回收、异常处理、泛型编程等，但相较于上面这几个优势，我认为这些问题都是些小问题。于是就毫不犹豫地入坑了。</p>
+<p>当然，一个技术能不能发展起来，关键还要看三点。</p>
+<ul class="list-paddingleft-2">
+<li><strong>有没有一个比较好的社区。</strong>像 C、C++、Java、Python 和 JavaScript 的生态圈都是非常丰富和火爆的。尤其是有很多商业机构参与的社区那就更为人气爆棚了，比如 Linux 的社区。</li>
+<li><strong>有没有一个工业化的标准。</strong>像 C、C++、Java 都是有标准化组织的。尤其是 Java，其在架构上还搞出了像 J2EE 这样的企业级标准。</li>
+<li><strong>有没有一个或多个杀手级应用。</strong>C、C++ 和 Java 的杀手级应用不用多说了，就算是对于 PHP 这样还不能算是一个好的编程语言来说，因为是 Linux 时代的第一个杀手级解决方案 LAMP 中的关键技术，所以，也发展起来了。</li>
+</ul>
+<p>上述的这三点是非常关键的，新的技术只需要占到其中一到两点就已经很不错了，何况有的技术，比如 Java，是三点全占到了，所以，Java 的发展是如此好。当然，除了上面这三点重要的，还有一些其它的影响因素，比如：</p>
+<ul class="list-paddingleft-2">
+<li><strong>学习曲线是否低，上手是否快。</strong>这点非常重要，C++ 在这点上越做越不好了。</li>
+<li><strong>有没有一个不错的提高开发效率的开发框架。</strong>如：Java 的 Spring 框架，C++ 的 STL 等。</li>
+<li><strong>是否有一个或多个巨型的技术公司作为后盾。</strong>如：Java 和 Linux 后面的 IBM、Sun……</li>
+<li><strong>有没有解决软件开发中的痛点。</strong>如：Java 解决了 C 和 C++ 的内存管理问题。</li>
+</ul>
+<p>用这些标尺来量一下 Go 语言，我们可以清楚地看到：</p>
+<ul class="list-paddingleft-2">
+<li>Go 语言容易上手；</li>
+<li>Go 语言解决了并发编程和写底层应用开发效率的痛点；</li>
+<li>Go 语言有 Google 这个世界一流的技术公司在后面；</li>
+<li>Go 语言的杀手级应用是 Docker，而 Docker 的生态圈在这几年完全爆棚了。</li>
+</ul>
+<p>所以，Go 语言的未来是不可限量的。当然，我个人觉得，Go 可能会吞食很多 C、C++、Java 的项目。不过，Go 语言所吞食主要的项目应该是中间层的项目，既不是非常底层也不会是业务层。</p>
+<p>也就是说，Go 语言不会吞食底层到 C 和 C++ 那个级别的，也不会吞食到高层如 Java 业务层的项目。Go 语言能吞食的一定是 PaaS 上的项目，比如一些消息缓存中间件、服务发现、服务代理、控制系统、Agent、日志收集等等，没有复杂的业务场景，也到不了特别底层（如操作系统）的中间平台层的软件项目或工具。而 C 和 C++ 会被打到更底层，Java 会被打到更上层的业务层。这是我的一个判断。</p>
+<p>好了，我们再用上面的标尺来量一下 Go 语言的杀手级应用 Docker，你会发现基本是一样的。</p>
+<ul class="list-paddingleft-2">
+<li>Docker 上手很容易。</li>
+<li>Docker 解决了运维中的环境问题以及服务调度的痛点。</li>
+<li>Docker 的生态圈中有大公司在后面助力。比如 Google。</li>
+<li>Docker 产出了工业界标准 OCI。</li>
+<li>Docker 的社区和生态圈已经出现像 Java 和 Linux 那样的态势。</li>
+<li>……</li>
+</ul>
+<p>所以，早在 3、4 年前我就觉得 Docker 一定会是未来的技术。虽然当时的坑儿还很多，但是，相对于这些大的因素来说，那些小坑儿都不是问题。只是需要一些时间，这些小坑儿在未来 5-10 年就可以完全被填平了。</p>
+<p>同样，我们可以看到 Kubernetes 作为服务和容器调度的关键技术一定会是最后的赢家。这点我在去年初就能够很明显地感觉到了。</p>
+<p>关于 Docker 我还想多说几句，这是云计算中 PaaS 的关键技术，虽然，这世上在出现 Docker 之前，几乎所有的要玩公有 PaaS 的公司和产品都玩不起来，比如：Google 的 GAE，国内的各种 XAE，如淘宝的 TAE，新浪的 SAE 等。但我还是想说，<strong>PaaS 是一个被世界或是被产业界严重低估的平台。</strong></p>
+<p><strong>PaaS 层是承上启下的关键技术，任何一个不重视 PaaS 的公司，其技术架构都不可能让这家公司成长为一个大型的公司</strong>。因为 PaaS 层的技术主要能解决下面这些问题。</p>
+<ul class="list-paddingleft-2">
+<li><strong>软件生产线的问题。</strong>持续集成和持续发布，以及 DevOps 中的技术必需通过 PaaS。</li>
+<li><strong>分布式服务化的问题。</strong>分布式服务化的服务高可用、服务编排、服务调度、服务发现、服务路由，以及分布式服务化的支撑技术完全是 PaaS 的菜。</li>
+<li><strong>提高服务的可用性 SLA。</strong>提高服务可用性 SLA 所需要的分布式、高可用的技术架构和运维工具，也是 PaaS 层提供的。</li>
+<li><strong>软件能力的复用。</strong>软件工程中的核心就是软件能力的复用，这一点也完美地体现在 PaaS 平台的技术上。</li>
+</ul>
+<p>老实说，这些问题的关键程度已经到了能判断一家依托技术的公司的研发能力是否靠谱的程度。没有这些技术，依托技术拓展业务的公司几乎没有可能发展得规模很大。</p>
+<p>在后面，我会在“<a href="https://time.geekbang.org/" target="_blank" rel="noopener noreferrer">极客时间</a>”<a href="https://time.geekbang.org/column/intro/48" target="_blank" rel="noopener noreferrer">我的付费专栏</a>里另外写几篇文章详细地讲一下分布式服务化和 PaaS 平台的重要程度。</p>
+<p>最后，我还要说一下，为什么要早一点地进入这些新技术，而不是等待这些技术成熟了后再进入。原因有这么几个。</p>
+<blockquote><p>技术的发展过程非常重要。我进入 Go 和 Docker 的技术不能算早，但也不算晚，从 2012 年学习 Go，到 2013 年学习 Docker 到今天，我清楚地看到了这两种技术的生态圈发展过程。让我收获最大的并不是这些技术本身，而是一个技术的变迁和行业的发展。</p></blockquote>
+<p>从中，我看到了非常具体的各种思潮和思路，这些东西比起 Go 和 Docker 来说更有价值。因为，这不但让我重新思考我已掌握的技术以及如何更好地解决已有的问题，而且还让我看到了未来。我不但有了技术优势，而且这些知识还让我的技术生涯多了很多的可能性。</p>
+<blockquote><p>这些关键新技术，可以让你拿到技术的先机。这些对一个需要技术领导力的个人或公司来说都是非常重要的。</p></blockquote>
+<p>一个公司或是个人能够占有技术先机，就会比其它公司或个人有更大的影响力。一旦未来行业需求引爆，那么这个公司或是个人的影响力就会形成一个比较大的护城河，并可以快速地产生经济利益。</p>
+<p>近期，在与中国移动、中国电信以及一些股份制银行进行交流的过程中，我已看到通讯行业、金融行业对于 PaaS 平台的理解已经超过了互联网公司，而我近 3 年来在这些技术上的研究让我也从中受益非浅。</p>
+<p>所以，Go 语和 Docker 作为 PaaS 平台的关键技术前途是无限的，我很庆幸赶上了这个浪潮，也很庆幸在 3 年前我就看到了这个趋势，现在我也在用这些技术开发相关的技术产品，助力于为高速成长的公司提供这些关键技术。</p>
+<p>&nbsp;</p>
+<p><strong>最后注明一下：</strong></p>
+<p><strong>这篇文章于上周发布于<a href="https://time.geekbang.org/column/intro/48" target="_blank" rel="noopener noreferrer">“极客时间”的我的付费专栏</a>中。极客时间中的付费是我受Geekbang邀请写的一个付费专栏，因为过去10多年给企业有过很多内训，过去2年又给好多企业做过一些咨询工作，所以，我会把一些商业化的内容写在极客时间里，当然，也会有一些我的新文章。关于这个事，我后面我专门开一篇文章说一下。（大家可以到 Apple的App Store上搜极客时间，Android版本等到12月初吧）<br />
+</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/09/go-generics-150x150.png" alt="Go编程模式 ： 泛型编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_title">Go编程模式 ： 泛型编程</a></li><li ><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.k8s-150x150.png" alt="Go 编程模式：k8s Visitor 模式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_title">Go 编程模式：k8s Visitor 模式</a></li><li ><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.line_.-150x150.png" alt="Go编程模式：Pipeline" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_title">Go编程模式：Pipeline</a></li><li ><a href="https://coolshell.cn/articles/21214.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.pair_-150x150.png" alt="Go编程模式：委托和反转控制" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21214.html" class="wp_rp_title">Go编程模式：委托和反转控制</a></li><li ><a href="https://coolshell.cn/articles/21179.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.generate-150x150.png" alt="Go 编程模式：Go Generation" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21179.html" class="wp_rp_title">Go 编程模式：Go Generation</a></li><li ><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-150x150.png" alt="Go编程模式：Map-Reduce" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_title">Go编程模式：Map-Reduce</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/18190.html">Go语言、Docker 和新技术</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/18190.html/feed</wfw:commentRss>
+			<slash:comments>70</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Docker基础技术：DeviceMapper</title>
+		<link>https://coolshell.cn/articles/17200.html</link>
+					<comments>https://coolshell.cn/articles/17200.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 26 Aug 2015 00:21:09 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Device Mapper]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Thin Provisioning]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17200</guid>
+
+					<description><![CDATA[<p>在上一篇介绍AUFS的文章中，大家可以看到，Docker的分层镜像是怎么通过UnionFS这种文件系统做到的，但是，因为Docker首选的AUFS并不在Linu...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17200.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17200.html">Docker基础技术：DeviceMapper</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-17217" src="https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-300x150.jpg" alt="how_to_set_up_an_iSCSI_LUN_with_thin" width="300" height="150" srcset="https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-300x150.jpg 300w, https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-540x270.jpg 540w, https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin.jpg 600w" sizes="(max-width: 300px) 100vw, 300px" />在上一篇<a href="https://coolshell.cn/articles/17061.html" target="_blank">介绍AUFS的文章</a>中，大家可以看到，Docker的分层镜像是怎么通过UnionFS这种文件系统做到的，但是，因为Docker首选的AUFS并不在Linux的内核主干里，所以，对于非Ubuntu的Linux分发包，比如CentOS，就无法使用AUFS作为Docker的文件系统了。于是作为第二优先级的DeviceMapper就被拿出来做分层镜像的一个实现。</p>
+<h4>Device Mapper 简介</h4>
+<p>DeviceMapper自Linux 2.6被引入成为了Linux最重要的一个技术。它在内核中支持逻辑卷管理的通用设备映射机制，它为实现用于存储资源管理的块设备驱动提供了一个高度模块化的内核架构，它包含三个重要的对象概念，Mapped Device、Mapping Table、Target device。</p>
+<p>Mapped Device 是一个逻辑抽象，可以理解成为内核向外提供的逻辑设备，它通过Mapping Table描述的映射关系和 Target Device 建立映射。Target device 表示的是 Mapped Device 所映射的物理空间段，对 Mapped Device 所表示的逻辑设备来说，就是该逻辑设备映射到的一个物理设备。</p>
+<p>Mapping Table里有 Mapped Device 逻辑的起始地址、范围、和表示在 Target Device 所在物理设备的地址偏移量以及Target 类型等信息（注：这些地址和偏移量都是以磁盘的扇区为单位的，即 512 个字节大小，所以，当你看到128的时候，其实表示的是128*512=64K）。</p>
+<p><span id="more-17200"></span></p>
+<p>DeviceMapper 中的逻辑设备Mapped Device不但可以映射一个或多个物理设备Target Device，还可以映射另一个Mapped Device，于是，就是构成了一个迭代或递归的情况，就像文件系统中的目录里除了文件还可以有目录，理论上可以无限嵌套下去。</p>
+<p>DeviceMapper在内核中通过一个一个模块化的 Target Driver 插件实现对 IO 请求的过滤或者重新定向等工作，当前已经实现的插件包括软 Raid、加密、多路径、镜像、快照等，这体现了在 Linux 内核设计中策略和机制分离的原则。如下图所示。从图中，我们可以<strong>看到DeviceMapper只是一个框架，在这个框架上，我们可以插入各种各样的策略</strong>（让我不自然地想到了面向对象中的策略模式），在这诸多“插件”中，<strong>有一个东西叫Thin Provisioning Snapshot，这是Docker使用DeviceMapper中最重要的模块</strong>。</p>
+<figure id="attachment_17204" aria-describedby="caption-attachment-17204" style="width: 640px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-17204" src="https://coolshell.cn/wp-content/uploads/2015/08/device.mapper.2.gif" alt="图片来源：http://people.redhat.com/agk/talks/FOSDEM_2005/" width="640" height="494" /><figcaption id="caption-attachment-17204" class="wp-caption-text">图片来源：<a href="http://people.redhat.com/agk/talks/FOSDEM_2005/" target="_blank">http://people.redhat.com/agk/talks/FOSDEM_2005/</a></figcaption></figure>
+<h4><strong>Thin Provisioning 简介</strong></h4>
+<p>Thin Provisioning要怎么翻译成中文，真是一件令人头痛的事，我就不翻译了。这个技术是虚拟化技术中的一种。它是什么意思呢？<strong>你可以联想一下我们计算机中的内存管理中用到的——“虚拟内存技术”</strong>——操作系统给每个进程N多N多用不完的内址地址（32位下，每个进程可以有最多2GB的内存空间），但是呢，我们知道，物理内存是没有那么多的，如果按照进程内存和物理内存一一映射来玩的话，那么，我们得要多少的物理内存啊。所以，操作系统引入了虚拟内存的设计，<strong>意思是，我逻辑上给你无限多的内存，但是实际上是实报实销</strong>，因为我知道你一定用不了那么多，于是，达到了内存使用率提高的效果。（今天云计算中很多所谓的虚拟化其实完全都是在用和“虚拟内存”相似的Thin Provisioning的技术，所谓的超配，或是超卖）</p>
+<p>&nbsp;</p>
+<p>好了，话题拉回来，我们这里说的是存储。看下面两个图（<a href="http://www.architecting.it/2009/06/04/enterprise-computing-why-thin-provisioning-is-not-the-holy-grail-for-utilisation/" target="_blank">图片来源</a>），第一个是Fat Provisioning，第二个是Thin Provisioning，其很好的说明了是个怎么一回事（和虚拟内存是一个概念）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17206" src="https://coolshell.cn/wp-content/uploads/2015/08/thin-provisioning-1.jpg" alt="thin-provisioning-1" width="606" height="399" srcset="https://coolshell.cn/wp-content/uploads/2015/08/thin-provisioning-1.jpg 606w, https://coolshell.cn/wp-content/uploads/2015/08/thin-provisioning-1-300x198.jpg 300w" sizes="(max-width: 606px) 100vw, 606px" /> <img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17207" src="https://coolshell.cn/wp-content/uploads/2015/08/thin-provisioning-2.jpg" alt="thin-provisioning-2" width="606" height="389" srcset="https://coolshell.cn/wp-content/uploads/2015/08/thin-provisioning-2.jpg 606w, https://coolshell.cn/wp-content/uploads/2015/08/thin-provisioning-2-300x193.jpg 300w" sizes="(max-width: 606px) 100vw, 606px" /></p>
+<p>那么，Docker是怎么使用Thin Provisioning这个技术做到像UnionFS那样的分层镜像的呢？答案是，Docker使用了Thin Provisioning的Snapshot的技术。下面我们来介绍一下Thin Provisioning的Snapshot。</p>
+<h4>Thin Provisioning Snapshot 演示</h4>
+<p>下面，我们用一系列的命令来演示一下Device Mapper的Thin Provisioning Snapshot是怎么玩的。</p>
+<p>首先，我们需要先建两个文件，一个是data.img，一个是meta.data.img：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo dd if=/dev/zero of=/tmp/data.img bs=1K count=1 seek=10M
+1+0 records in
+1+0 records out
+1024 bytes (1.0 kB) copied, 0.000621428 s, 1.6 MB/s
+
+~hchen$ sudo dd if=/dev/zero of=/tmp/meta.data.img bs=1K count=1 seek=1G
+1+0 records in
+1+0 records out
+1024 bytes (1.0 kB) copied, 0.000140858 s, 7.3 MB/s</pre>
+<p>注意命令中<code>seek</code>选项，其表示为略过<code>of</code>选项指定的输出文件的前10G个output的bloksize的空间后再写入内容。因为bs是1个字节，所以也就是10G的尺寸，但其实在硬盘上是没有占有空间的，占有空间只有1k的内容。当向其写入内容时，才会在硬盘上为其分配空间。我们可以用ls命令看一下，实际分配了12K和4K。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo ls -lsh /tmp/data.img
+12K -rw-r--r--. 1 root root 11G Aug 25 23:01 /tmp/data.img
+
+~hchen$ sudo ls -slh /tmp/meta.data.img
+4.0K -rw-r--r--. 1 root root 101M Aug 25 23:17 /tmp/meta.data.img</pre>
+<p>然后，我们为这个文件创建一个loopback设备。（loop2015和loop2016是我乱取的两个名字）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo losetup /dev/loop2015 /tmp/data.img
+~hchen$ sudo losetup /dev/loop2016 /tmp/meta.data.img
+
+~hchen$ sudo losetup -a
+/dev/loop2015: [64768]:103991768 (/tmp/data.img)
+/dev/loop2016: [64768]:103991765 (/tmp/meta.data.img)</pre>
+<p>现在，我们为这个设备建一个Thin Provisioning的Pool，用dmsetup命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo dmsetup create hchen-thin-pool \
+                  --table &quot;0 20971522 thin-pool /dev/loop2016 /dev/loop2015 \
+                           128 65536 1 skip_block_zeroing&quot;</pre>
+<p>其中的参数解释如下（更多信息可参看<a href="https://github.com/torvalds/linux/blob/master/Documentation/device-mapper/thin-provisioning.txt" target="_blank">Thin Provisioning的man page</a>）：</p>
+<ul>
+<li>dmsetup create是用来创建thin pool的命令</li>
+<li>hchen-thin-pool 是自定义的一个pool名，不冲突就好。</li>
+<li>&#8211;table是这个pool的参数设置
+<ul>
+<li>0代表起的sector位置</li>
+<li>20971522代码结句的sector号，前面说过，一个sector是512字节，所以，20971522个正好是10GB</li>
+<li>/dev/loop2016是meta文件的设备（前面我们建好了）</li>
+<li>/dev/loop2015是data文件的设备（前面我们建好了）</li>
+<li>128是最小的可分配的sector数</li>
+<li>65536是最少可用sector的water mark，也就是一个threshold</li>
+<li>1 代表有一个附加参数</li>
+<li>skip_block_zeroing是个附加参数，表示略过用0填充的块</li>
+</ul>
+</li>
+</ul>
+<p>然后，我们就可以看到一个Device Mapper的设备了：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo ll /dev/mapper/hchen-thin-pool
+lrwxrwxrwx. 1 root root 7 Aug 25 23:24 /dev/mapper/hchen-thin-pool -&gt; ../dm-4</pre>
+<p>接下来，我们的初始还没有完成，还要创建一个Thin Provisioning 的 Volume：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo dmsetup message /dev/mapper/hchen-thin-pool 0 &quot;create_thin 0&quot;
+~hchen$ sudo dmsetup create hchen-thin-volumn-001 \
+            --table &quot;0 2097152 thin /dev/mapper/hchen-thin-pool 0&quot;</pre>
+<p>其中：</p>
+<ul>
+<li>第一个命令中的create_thin是关键字，后面的0表示这个Volume的device 的 id</li>
+<li>第二个命令，是真正的为这个Volumn创建一个可以mount的设备，名字叫hchen-thin-volumn-001。2097152只有1GB</li>
+</ul>
+<p>好了，在mount前，我们还要格式化一下：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo mkfs.ext4 /dev/mapper/hchen-thin-volumn-001
+mke2fs 1.42.9 (28-Dec-2013)
+Discarding device blocks: done
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=16 blocks, Stripe width=16 blocks
+65536 inodes, 262144 blocks
+13107 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=268435456
+8 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks:
+32768, 98304, 163840, 229376
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done</pre>
+<p>好了，我们可以mount了（下面的命令中，我还创建了一个文件）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo mkdir -p /mnt/base
+~hchen$ sudo mount /dev/mapper/hchen-thin-volumn-001 /mnt/base
+~hchen$ sudo echo &quot;hello world, I am a base&quot; &gt; /mnt/base/id.txt
+~hchen$ sudo cat /mnt/base/id.txt
+hello world, I am a base</pre>
+<p>好了，接下来，我们来看看snapshot怎么搞：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo dmsetup message /dev/mapper/hchen-thin-pool 0 &quot;create_snap 1 0&quot;
+~hchen$ sudo dmsetup create mysnap1 \
+                   --table &quot;0 2097152 thin /dev/mapper/hchen-thin-pool 1&quot;
+
+~hchen$ sudo ll /dev/mapper/mysnap1
+lrwxrwxrwx. 1 root root 7 Aug 25 23:49 /dev/mapper/mysnap1 -&gt; ../dm-5</pre>
+<p>上面的命令中：</p>
+<ul>
+<li>第一条命令是向hchen-thin-pool发一个create_snap的消息，后面跟两个id，第一个是新的dev id，第二个是要从哪个已有的dev id上做snapshot（0这个dev id是我们前面就创建了了）</li>
+</ul>
+<ul>
+<li>第二条命令是创建一个mysnap1的device，并可以被mount。</li>
+</ul>
+<p>下面我们来看看：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo mkdir -p /mnt/mysnap1
+~hchen$ sudo mount /dev/mapper/mysnap1 /mnt/mysnap1
+
+~hchen$ sudo ll /mnt/mysnap1/
+total 20
+-rw-r--r--. 1 root root 25 Aug 25 23:46 id.txt
+drwx------. 2 root root 16384 Aug 25 23:43 lost+found
+
+~hchen$ sudo cat /mnt/mysnap1/id.txt
+hello world, I am a base</pre>
+<p>我们来修改一下/mnt/mysnap1/id.txt，并加上一个snap1.txt的文件：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo echo &quot;I am snap1&quot; &gt;&gt; /mnt/mysnap1/id.txt
+~hchen$ sudo echo &quot;I am snap1&quot; &gt; /mnt/mysnap1/snap1.txt
+
+~hchen$ sudo cat /mnt/mysnap1/id.txt
+hello world, I am a base
+I am snap1
+
+~hchen$ sudo cat /mnt/mysnap1/snap1.txt
+I am snap1</pre>
+<p>我们再看一下/mnt/base，你会发现没有什么变化：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo ls /mnt/base
+id.txt      lost+found
+~hchen$ sudo cat /mnt/base/id.txt
+hello world, I am a base</pre>
+<p>你是不是已经看到了分层镜像的样子了？</p>
+<p>你还要吧继续在刚才的snapshot上再建一个snapshot</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo dmsetup message /dev/mapper/hchen-thin-pool 0 &quot;create_snap 2 1&quot;
+~hchen$ sudo dmsetup create mysnap2 \
+                   --table &quot;0 2097152 thin /dev/mapper/hchen-thin-pool 2&quot;
+
+~hchen$ sudo ll /dev/mapper/mysnap2
+lrwxrwxrwx. 1 root root 7 Aug 25 23:52 /dev/mapper/mysnap1 -&gt; ../dm-7
+
+~hchen$ sudo mkdir -p /mnt/mysnap2
+~hchen$ sudo mount /dev/mapper/mysnap2 /mnt/mysnap2
+~hchen$ sudo  ls /mnt/mysnap2
+id.txt  lost+found  snap1.txt </pre>
+<p>好了，我相信你看到了分层镜像的样子了。</p>
+<p>看完演示，我们再来补点理论知识吧：</p>
+<ul>
+<li>Snapshot来自LVM（Logic Volumn Manager），它可以在不中断服务的情况下为某个device打一个快照。</li>
+<li>Snapshot是Copy-On-Write的，也就是说，只有发生了修改，才会对对应的内存进行拷贝。</li>
+</ul>
+<p>另外，这里有篇文章<a href="http://searchstorage.techtarget.com/tip/Storage-thin-provisioning-benefits-and-challenges" target="_blank">Storage thin provisioning benefits and challenges</a>可以前往一读。</p>
+<h4>Docker的DeviceMapper</h4>
+<p>上面基本上就是Docker的玩法了，我们可以看一下docker的loopback设备：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen $ sudo losetup -a
+/dev/loop0: [64768]:38050288 (/var/lib/docker/devicemapper/devicemapper/data)
+/dev/loop1: [64768]:38050289 (/var/lib/docker/devicemapper/devicemapper/metadata)</pre>
+<p>其中data 100GB，metadata 2.0GB</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen $ sudo ls -alhs /var/lib/docker/devicemapper/devicemapper
+506M -rw-------. 1 root root 100G Sep 10 20:15 data
+1.1M -rw-------. 1 root root 2.0G Sep 10 20:15 metadata </pre>
+<p>下面是相关的thin-pool。其中，有个当一大串hash串的device是正在启动的容器：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen $ sudo ll /dev/mapper/dock*
+lrwxrwxrwx. 1 root root 7 Aug 25 07:57 /dev/mapper/docker-253:0-104108535-pool -&gt; ../dm-2
+lrwxrwxrwx. 1 root root 7 Aug 25 11:13 /dev/mapper/docker-253:0-104108535-deefcd630a60aa5ad3e69249f58a68e717324be4258296653406ff062f605edf -&gt; ../dm-3</pre>
+<p>我们可以看一下它的device id（Docker都把它们记下来了）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen $ sudo cat /var/lib/docker/devicemapper/metadata/deefcd630a60aa5ad3e69249f58a68e717324be4258296653406ff062f605edf
+{&quot;device_id&quot;:24,&quot;size&quot;:10737418240,&quot;transaction_id&quot;:26,&quot;initialized&quot;:false}</pre>
+<p>device_id是24，size是10737418240，除以512，就是20971520 个 sector，我们用这些信息来做个snapshot看看（注：我用了一个比较大的dev id &#8211; 1024）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">~hchen$ sudo dmsetup message &quot;/dev/mapper/docker-253:0-104108535-pool&quot; 0 \
+                                    &quot;create_snap 1024 24&quot;
+~hchen$ sudo dmsetup create dockersnap --table \
+                    &quot;0 20971520 thin /dev/mapper/docker-253:0-104108535-pool 1024&quot;
+~hchen$ sudo mkdir /mnt/docker
+~hchen$ sudo mount /dev/mapper/dockersnap /mnt/docker/
+~hchen$ sudo ls /mnt/docker/
+id lost+found rootfs
+~hchen$ sudo ls /mnt/docker/rootfs/
+bin dev etc home lib lib64 lost+found media mnt opt proc root run sbin srv sys tmp usr var</pre>
+<p>我们在docker的容器里用findmnt命令也可以看到相关的mount的情况（因为太长，下面只是摘要）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># findmnt
+TARGET                SOURCE               
+/                 /dev/mapper/docker-253:0-104108535-deefcd630a60[/rootfs]
+/etc/resolv.conf  /dev/mapper/centos-root[/var/lib/docker/containers/deefcd630a60/resolv.conf]
+/etc/hostname     /dev/mapper/centos-root[/var/lib/docker/containers/deefcd630a60/hostname]
+/etc/hosts        /dev/mapper/centos-root[/var/lib/docker/containers/deefcd630a60/hosts]</pre>
+<h4>Device Mapper 行不行？</h4>
+<p>Thin Provisioning的文档中说，这还处理实验阶段，不要上Production.</p>
+<blockquote><p>These targets are very much still in the EXPERIMENTAL state. Please do not yet rely on them in production.</p></blockquote>
+<p>另外，Jeff Atwood在Twitter上发过这样的一推</p>
+<p><a href="https://twitter.com/codinghorror/status/604096348682485760"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17214" src="https://coolshell.cn/wp-content/uploads/2015/08/Jeff.Atwood.DeviceMapper.png" alt="Jeff.Atwood.DeviceMapper" width="607" height="311" srcset="https://coolshell.cn/wp-content/uploads/2015/08/Jeff.Atwood.DeviceMapper.png 607w, https://coolshell.cn/wp-content/uploads/2015/08/Jeff.Atwood.DeviceMapper-300x154.png 300w" sizes="(max-width: 607px) 100vw, 607px" /></a></p>
+<p>这个推指向的<a href="https://forums.docker.com/t/rmi-not-freeing-disk-space-in-devicemapper-sparse-file-centos-6-6/1640/3" target="_blank">这个讨论</a>中，其中指向了这个<a href="https://github.com/discourse/discourse_docker/commit/48f22d14f39496c8df446cbc65ee04b258c5a1a0" target="_blank">code diff</a>，基本上就是说，DeviceMapper这种东西问题太多了，我们应该把其加入黑名单。Doker的Founder也这样回复到：</p>
+<p><a href="https://twitter.com/solomonstre/status/604055267303636992"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17215" src="https://coolshell.cn/wp-content/uploads/2015/08/Solomon.Hykeys.DeviceMapper.png" alt="" width="620" height="229" srcset="https://coolshell.cn/wp-content/uploads/2015/08/Solomon.Hykeys.DeviceMapper.png 620w, https://coolshell.cn/wp-content/uploads/2015/08/Solomon.Hykeys.DeviceMapper-300x111.png 300w" sizes="(max-width: 620px) 100vw, 620px" /></a></p>
+<p>所以，如果你在使用loopback的devicemapper的话，当你的存储出现了问题后，正确的解决方案是：</p>
+<p style="text-align: center;">rm -rf /var/lib/docker</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-150x150.png" alt="Docker基础技术：AUFS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_title">Docker基础技术：AUFS</a></li><li ><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/filter-150x150.png" alt="Docker基础技术：Linux CGroup" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_title">Docker基础技术：Linux CGroup</a></li><li ><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/isolation-150x150.jpg" alt="Docker基础技术：Linux Namespace（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_title">Docker基础技术：Linux Namespace（上）</a></li><li ><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/jail_cell-150x150.jpg" alt="Docker基础技术：Linux Namespace（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_title">Docker基础技术：Linux Namespace（下）</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17200.html">Docker基础技术：DeviceMapper</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17200.html/feed</wfw:commentRss>
+			<slash:comments>25</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Docker基础技术：AUFS</title>
+		<link>https://coolshell.cn/articles/17061.html</link>
+					<comments>https://coolshell.cn/articles/17061.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 24 Aug 2015 00:01:13 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[AUFS]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[UnionFS]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17061</guid>
+
+					<description><![CDATA[<p>AUFS是一种Union File System，所谓UnionFS就是把不同物理位置的目录合并mount到同一个目录中。UnionFS的一个最主要的应用是，把...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17061.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17061.html">Docker基础技术：AUFS</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw.png"><img decoding="async" loading="lazy" class="alignright size-medium wp-image-17194" src="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-300x225.png" alt="docker-filesystems-busyboxrw" width="300" height="225" srcset="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-300x225.png 300w, https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-768x576.png 768w, https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-360x270.png 360w, https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw.png 800w" sizes="(max-width: 300px) 100vw, 300px" /></a>AUFS是一种Union File System，所谓UnionFS就是把不同物理位置的目录合并mount到同一个目录中。UnionFS的一个最主要的应用是，把一张CD/DVD和一个硬盘目录给联合 mount在一起，然后，你就可以对这个只读的CD/DVD上的文件进行修改（当然，修改的文件存于硬盘上的目录里）。</p>
+<p>AUFS又叫Another UnionFS，后来叫Alternative UnionFS，后来可能觉得不够霸气，叫成Advance UnionFS。是个叫Junjiro Okajima（岡島順治郎）在2006年开发的，AUFS完全重写了早期的UnionFS 1.x，其主要目的是为了可靠性和性能，并且引入了一些新的功能，比如可写分支的负载均衡。AUFS在使用上全兼容UnionFS，而且比之前的UnionFS在稳定性和性能上都要好很多，后来的UnionFS 2.x开始抄AUFS中的功能。但是他居然没有进到Linux主干里，就是因为Linus不让，基本上是因为代码量比较多，而且写得烂（相对于只有3000行的union mount和10000行的UnionFS，以及其它平均下来只有6000行代码左右的VFS，AUFS居然有30000行代码），所以，岡島不断地改进代码质量，不断地提交，不断地被Linus拒掉，所以，到今天AUFS都还进不了Linux主干（今天你可以看到AUFS的代码其实还好了，比起OpenSSL好N倍，要么就是Linus对代码的质量要求非常高，要么就是Linus就是不喜欢AUFS）。</p>
+<p>不过，好在有很多发行版都用了AUFS，比如：Ubuntu 10.04，Debian6.0, Gentoo Live CD支持AUFS，所以，也OK了。</p>
+<p>好了，扯完这些闲话，我们还是看一个示例吧（环境：Ubuntu 14.04）</p>
+<p><span id="more-17061"></span></p>
+<p>首先，我们建上两个目录（水果和蔬菜），并在这两个目录中放上一些文件，水果中有苹果和蕃茄，蔬菜有胡萝卜和蕃茄。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ tree
+.
+├── fruits
+│   ├── apple
+│   └── tomato
+└── vegetables
+    ├── carrots
+    └── tomato
+
+</pre>
+<p>然后，我们输入以下命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># 创建一个mount目录
+$ mkdir mnt
+
+# 把水果目录和蔬菜目录union mount到 ./mnt目录中
+$ sudo mount -t aufs -o dirs=./fruits:./vegetables none ./mnt
+
+#  查看./mnt目录
+$ tree ./mnt
+./mnt
+├── apple
+├── carrots
+└── tomato</pre>
+<p>我们可以看到在./mnt目录下有三个文件，苹果apple、胡萝卜carrots和蕃茄tomato。水果和蔬菜的目录被union到了./mnt目录下了。</p>
+<p>我们来修改一下其中的文件内容：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ echo mnt &gt; ./mnt/apple
+$ cat ./mnt/apple
+mnt
+$ cat ./fruits/apple
+mnt</pre>
+<p>上面的示例，我们可以看到./mnt/apple的内容改了，./fruits/apple的内容也改了。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ echo mnt_carrots &gt; ./mnt/carrots
+$ cat ./vegetables/carrots 
+
+$ cat ./fruits/carrots
+mnt_carrots
+</pre>
+<p>上面的示例，我们可以看到，我们修改了./mnt/carrots的文件内容，./vegetables/carrots并没有变化，反而是./fruits/carrots的目录中出现了carrots文件，其内容是我们在./mnt/carrots里的内容。</p>
+<p>也就是说，我们在mount aufs命令中，我们没有指它vegetables和fruits的目录权限，默认上来说，命令行上第一个（最左边）的目录是可读可写的，后面的全都是只读的。（一般来说，最前面的目录应该是可写的，而后面的都应该是只读的）</p>
+<p>所以，如果我们像下面这样指定权限来mount aufs，你就会发现有不一样的效果（记得先把上面./fruits/carrots的文件删除了）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ sudo mount -t aufs -o dirs=./fruits=rw:./vegetables=rw none ./mnt
+
+$ echo &quot;mnt_carrots&quot; &gt; ./mnt/carrots 
+
+$ cat ./vegetables/carrots
+mnt_carrots
+
+$ cat ./fruits/carrots
+cat: ./fruits/carrots: No such file or directory</pre>
+<p>现在，在这情况下，如果我们要修改./mnt/tomato这个文件，那么究竟是哪个文件会被改写？</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ echo &quot;mnt_tomato&quot; &gt; ./mnt/tomato 
+
+$ cat ./fruits/tomato
+mnt_tomato
+
+$ cat ./vegetables/tomato
+I am a vegetable</pre>
+<p>可见，如果有重复的文件名，在mount命令行上，越往前的就优先级越高。</p>
+<p>你可以用这个例子做一些各种各样的试验，我这里主要是给大家一个感性认识，就不展开试验下去了。</p>
+<p>那么，这种UnionFS有什么用？</p>
+<p>历史上，有一个叫<a href="http://zh.wikipedia.org/wiki/Knoppix" target="_blank">Knoppix的Linux发行版</a>，其主要用于Linux演示、光盘教学、系统急救，以及商业产品的演示，不需要硬盘安装，直接把CD/DVD上的image运行在一个可写的存储设备上（比如一个U盘上），其实，也就是把CD/DVD这个文件系统和USB这个可写的系统给联合mount起来，这样你对CD/DVD上的image做的任何改动都会在被应用在U盘上，于是乎，你可以对CD/DVD上的内容进行任意的修改，因为改动都在U盘上，所以你改不坏原来的东西。</p>
+<p>我们可以再发挥一下想像力，你也可以把一个目录，比如你的源代码，作为一个只读的template，和另一个你的working directory给union在一起，然后你就可以做各种修改而不用害怕会把源代码改坏了。有点像一个ad hoc snapshot。</p>
+<p>Docker把UnionFS的想像力发挥到了容器的镜像。你是否还记得我在<a title="Docker基础技术：Linux Namespace（上）" href="https://coolshell.cn/articles/17010.html" target="_blank">介绍Linux Namespace上篇</a>中用mount namespace和chroot山寨了一镜像。现在当你看过了这个UnionFS的技术后，你是不是就明白了，你完全可以用UnionFS这样的技术做出分层的镜像来。</p>
+<p>下图来自Docker的官方文档<a href="http://docs.docker.com/terms/layer/" target="_blank">Layer</a>，其很好的展示了Docker用UnionFS搭建的分层镜像。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17064" src="https://coolshell.cn/wp-content/uploads/2015/04/docker-filesystems-multilayer.png" alt="docker-filesystems-multilayer" width="500" height="375" srcset="https://coolshell.cn/wp-content/uploads/2015/04/docker-filesystems-multilayer.png 800w, https://coolshell.cn/wp-content/uploads/2015/04/docker-filesystems-multilayer-300x225.png 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p>关于docker的分层镜像，除了aufs，docker还支持btrfs, devicemapper和vfs，你可以使用 -s 或 &#8211;storage-driver= 选项来指定相关的镜像存储。在Ubuntu 14.04下，docker默认Ubuntu的 aufs（在CentOS7下，用的是devicemapper，关于devicemapper，我会以以后的文章中讲解）你可以在下面的目录中查看相关的每个层的镜像：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">/var/lib/docker/aufs/diff/&lt;id&gt; </code></p>
+<p>在docker执行起来后（比如：docker run -it ubuntu /bin/bash ），你可以从/sys/fs/aufs/si_[id]目录下查看aufs的mount的情况，下面是个示例：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">#ls /sys/fs/aufs/si_b71b209f85ff8e75/
+br0      br2      br4      br6      brid1    brid3    brid5    xi_path
+br1      br3      br5      brid0    brid2    brid4    brid6 
+
+# cat /sys/fs/aufs/si_b71b209f85ff8e75/*
+/var/lib/docker/aufs/diff/87315f1367e5703f599168d1e17528a0500bd2e2df7d2fe2aaf9595f3697dbd7=rw
+/var/lib/docker/aufs/diff/87315f1367e5703f599168d1e17528a0500bd2e2df7d2fe2aaf9595f3697dbd7-init=ro+wh
+/var/lib/docker/aufs/diff/d0955f21bf24f5bfffd32d2d0bb669d0564701c271bc3dfc64cfc5adfdec2d07=ro+wh
+/var/lib/docker/aufs/diff/9fec74352904baf5ab5237caa39a84b0af5c593dc7cc08839e2ba65193024507=ro+wh
+/var/lib/docker/aufs/diff/a1a958a248181c9aa6413848cd67646e5afb9797f1a3da5995c7a636f050f537=ro+wh
+/var/lib/docker/aufs/diff/f3c84ac3a0533f691c9fea4cc2ceaaf43baec22bf8d6a479e069f6d814be9b86=ro+wh
+/var/lib/docker/aufs/diff/511136ea3c5a64f264b78b5433614aec563103b4d4702f3ba7d4d2698e22c158=ro+wh
+64
+65
+66
+67
+68
+69
+70
+/run/shm/aufs.xino</pre>
+<p>你会看到只有最顶上的层（branch）是rw权限，其它的都是ro+wh权限只读的。</p>
+<p>关于docker的aufs的配置，你可以在/var/lib/docker/repositories-aufs这个文件中看到。</p>
+<h4>AUFS的一些特性</h4>
+<p>AUFS有所有Union FS的特性，把多个目录，合并成同一个目录，并可以为每个需要合并的目录指定相应的权限，实时的添加、删除、修改已经被mount好的目录。而且，他还能在多个可写的branch/dir间进行负载均衡。</p>
+<p>上面的例子，我们已经看到AUFS的mount的示例了。下面我们来看一看被union的目录（分支）的相关权限：</p>
+<ul>
+<li>rw表示可写可读read-write。</li>
+<li>ro表示read-only，如果你不指权限，那么除了第一个外ro是默认值，对于ro分支，其永远不会收到写操作，也不会收到查找whiteout的操作。</li>
+<li>rr表示real-read-only，与read-only不同的是，rr标记的是天生就是只读的分支，这样，AUFS可以提高性能，比如不再设置inotify来检查文件变动通知。</li>
+</ul>
+<p>权限中，我们看到了一个术语：whiteout，下面我来解释一下这个术语。</p>
+<p>一般来说ro的分支都会有wh的属性，比如 &#8220;[dir]=ro+wh&#8221;。所谓whiteout的意思，如果在union中删除的某个文件，实际上是位于一个readonly的分支（目录）上，那么，在mount的union这个目录中你将看不到这个文件，但是read-only这个层上我们无法做任何的修改，所以，我们就需要对这个readonly目录里的文件作whiteout。AUFS的whiteout的实现是通过在上层的可写的目录下建立对应的whiteout隐藏文件来实现的。</p>
+<p>看个例子：</p>
+<p>假设我们有三个目录和文件如下所示（test是个空目录）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># tree
+.
+├── fruits
+│   ├── apple
+│   └── tomato
+├── test
+└── vegetables
+    ├── carrots
+    └── tomato</pre>
+<p>我们如下mount：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># mkdir mnt
+
+# mount -t aufs -o dirs=./test=rw:./fruits=ro:./vegetables=ro none ./mnt
+
+# # ls ./mnt/
+apple  carrots  tomato </pre>
+<p>现在我们在权限为rw的test目录下建个whiteout的隐藏文件.wh.apple，你就会发现./mnt/apple这个文件就消失了:</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"> # touch ./test/.wh.apple
+
+# ls ./mnt
+carrots  tomato</pre>
+<p>上面这个操作和 rm ./mnt/apple是一样的。</p>
+<h5>相关术语</h5>
+<p><b>Branch</b> – 就是各个要被union起来的目录（就是我在上面使用的dirs的命令行参数）</p>
+<ul>
+<li>Branch根据被union的顺序形成一个stack，一般来说最上面的是可写的，下面的都是只读的。</li>
+<li>Branch的stack可以在被mount后进行修改，比如：修改顺序，加入新的branch，或是删除其中的branch，或是直接修改branch的权限</li>
+</ul>
+<p><b>Whiteout</b> 和 <b>Opaque</b></p>
+<ul>
+<li>如果UnionFS中的某个目录被删除了，那么就应该不可见了，就算是在底层的branch中还有这个目录，那也应该不可见了。</li>
+</ul>
+<ul>
+<li>Whiteout就是某个上层目录覆盖了下层的相同名字的目录。用于隐藏低层分支的文件，也用于阻止readdir进入低层分支。</li>
+</ul>
+<ul>
+<li>Opaque的意思就是不允许任何下层的某个目录显示出来。</li>
+</ul>
+<ul>
+<li>在隐藏低层档的情况下，whiteout的名字是’.wh.&lt;filename&gt;’。</li>
+</ul>
+<ul>
+<li>在阻止readdir的情况下，名字是’.wh..wh..opq’或者 ’.wh.__dir_opaque’。</li>
+</ul>
+<h5>相关问题</h5>
+<p>看到上面这些，你一定会有几个问题：</p>
+<p><strong>其一、你可能会问，要有文件在原来的地方被修改了会怎么样？</strong>mount的目录会一起改变吗？答案是会的，也可以是不会的。因为你可以指定一个叫udba的参数（全称：User’s Direct Branch Access），这个参数有三个取值：</p>
+<ul>
+<li><strong>udba=none</strong> – 设置上这个参数后，AUFS会运转的更快，因为那些不在mount目录里发生的修改，aufs不会同步过来了，所以会有数据出错的问题。</li>
+<li><strong>udba=reval</strong> – 设置上这个参数后，AUFS会去查文件有没有被更新，如果有的话，就会把修改拉到mount目录内。</li>
+<li><strong>udba=notify</strong> – 这个参数会让AUFS为所有的branch注册inotify，这样可以让AUFS在更新文件修改的性能更高一些。</li>
+</ul>
+<p><strong>其二、如果有多个rw的branch（目录）被union起来了，那么，当我创建文件的时候，aufs会创建在哪里呢？</strong> aufs提供了一个叫create的参数可以供你来配置相当的创建策略，下面有几个例子。</p>
+<p><strong>create=rr | round−robin</strong> 轮询。下面的示例可以看到，新创建的文件轮流写到三个目录中</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+hchen$ sudo mount -t aufs  -o dirs=./1=rw:./2=rw:./3=rw -o create=rr none ./mnt
+hchen$ touch ./mnt/a ./mnt/b ./mnt/c
+hchen$ tree
+.
+├── 1
+│   └── a
+├── 2
+│   └── c
+└── 3
+    └── b</pre>
+<p><strong>create=mfs[:second] | most−free−space[:second]</strong> 选一个可用空间最好的分支。可以指定一个检查可用磁盘空间的时间。</p>
+<p><strong>create=mfsrr:low[:second]</strong> 选一个空间大于low的branch，如果空间小于low了，那么aufs会使用 round-robin 方式。</p>
+<p>更多的关于AUFS的细节使用参数，大家可以直接在Ubuntu 14.04下通过<a href="http://aufs.sourceforge.net/aufs3/man.html" target="_blank"> man aufs </a>来看一下其中的各种参数和命令。</p>
+<h4>AUFS的性能</h4>
+<p>AUFS的性能慢吗？也慢也不慢。因为AUFS会把所有的分支mount起来，所以，在查找文件上是比较慢了。因为它要遍历所有的branch。是个O(n)的算法（很明显，这个算法有很大的改进空间的）所以，branch越多，查找文件的性能也就越慢。但是，一旦AUFS找到了这个文件的inode，那后以后的读写和操作原文件基本上是一样的。</p>
+<p>所以，如果你的程序跑在在AUFS下，open和stat操作会有明显的性能下降，branch越多，性能越差，但是在write/read操作上，性能没有什么变化。</p>
+<p>IBM的研究中心对Docker的性能给了一份非常不错的性能报告（PDF）《<a href="http://domino.research.ibm.com/library/cyberdig.nsf/papers/0929052195DD819C85257D2300681E7B/$File/rc25482.pdf" target="_blank">An Updated Performance Comparison of Virtual Machinesand Linux Containers</a>》</p>
+<p>我截了两张图出来，第一张是顺序读写，第二张是随机读写。基本没有什么性能损失的问题。而KVM在随机读写的情况也就有点慢了（但是，如果硬盘是SSD的呢？）</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2015/08/docker.seq_.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17191" src="https://coolshell.cn/wp-content/uploads/2015/08/docker.seq_.jpg" alt="" width="368" height="256" srcset="https://coolshell.cn/wp-content/uploads/2015/08/docker.seq_.jpg 368w, https://coolshell.cn/wp-content/uploads/2015/08/docker.seq_-300x209.jpg 300w" sizes="(max-width: 368px) 100vw, 368px" /></a></p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><strong>顺序读写</strong></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2015/08/docker.rand_.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17190" src="https://coolshell.cn/wp-content/uploads/2015/08/docker.rand_.jpg" alt="" width="363" height="236" srcset="https://coolshell.cn/wp-content/uploads/2015/08/docker.rand_.jpg 363w, https://coolshell.cn/wp-content/uploads/2015/08/docker.rand_-300x195.jpg 300w" sizes="(max-width: 363px) 100vw, 363px" /></a></p>
+<p>&nbsp;</p>
+<p style="text-align: center;"><strong>随机读写</strong></p>
+<h4>延伸阅读</h4>
+<ul>
+<li><a href="http://www.linuxjournal.com/article/7714" target="_blank">Introduce UnionFS</a></li>
+<li><a href="http://lwn.net/Articles/325369/" target="_blank">Union file systems: Implementations, part I</a></li>
+<li><a href="http://lwn.net/Articles/327738/" target="_blank">Union file systems: Implementations, part 2</a></li>
+<li><a href="http://lwn.net/Articles/403012/" target="_blank">Another union filesystem approach</a></li>
+<li><a href="http://lwn.net/Articles/324291/" target="_blank">Unioning file systems: Architecture, features, and design choices</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-150x150.jpg" alt="Docker基础技术：DeviceMapper" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_title">Docker基础技术：DeviceMapper</a></li><li ><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/filter-150x150.png" alt="Docker基础技术：Linux CGroup" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_title">Docker基础技术：Linux CGroup</a></li><li ><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/isolation-150x150.jpg" alt="Docker基础技术：Linux Namespace（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_title">Docker基础技术：Linux Namespace（上）</a></li><li ><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/jail_cell-150x150.jpg" alt="Docker基础技术：Linux Namespace（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_title">Docker基础技术：Linux Namespace（下）</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17061.html">Docker基础技术：AUFS</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17061.html/feed</wfw:commentRss>
+			<slash:comments>42</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Docker基础技术：Linux CGroup</title>
+		<link>https://coolshell.cn/articles/17049.html</link>
+					<comments>https://coolshell.cn/articles/17049.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 17 Apr 2015 01:03:57 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[cgroup]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17049</guid>
+
+					<description><![CDATA[<p>前面，我们介绍了Linux Namespace，但是Namespace解决的问题主要是环境隔离的问题，这只是虚拟化中最最基础的一步，我们还需要解决对计算机资源使...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17049.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17049.html">Docker基础技术：Linux CGroup</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2015/04/filter.png" alt="filter" width="224" height="225" class="alignright size-full wp-image-17097" srcset="https://coolshell.cn/wp-content/uploads/2015/04/filter.png 224w, https://coolshell.cn/wp-content/uploads/2015/04/filter-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2015/04/filter-200x200.png 200w" sizes="(max-width: 224px) 100vw, 224px" />前面，我们介绍了<a title="Docker基础技术：Linux Namespace" href="https://coolshell.cn/articles/17010.html" target="_blank">Linux Namespace</a>，但是Namespace解决的问题主要是环境隔离的问题，这只是虚拟化中最最基础的一步，我们还需要解决对计算机资源使用上的隔离。也就是说，虽然你通过Namespace把我Jail到一个特定的环境中去了，但是我在其中的进程使用用CPU、内存、磁盘等这些计算资源其实还是可以随心所欲的。所以，我们希望对进程进行资源利用上的限制或控制。这就是Linux CGroup出来了的原因。</p>
+<p>Linux CGroup全称Linux Control Group， 是Linux内核的一个功能，用来限制，控制与分离一个进程组群的资源（如CPU、内存、磁盘输入输出等）。这个项目最早是由Google的工程师在2006年发起（主要是Paul Menage和Rohit Seth），最早的名称为进程容器（process containers）。在2007年时，因为在Linux内核中，容器（container）这个名词太过广泛，为避免混乱，被重命名为cgroup，并且被合并到2.6.24版的内核中去。然后，其它开始了他的发展。</p>
+<p>Linux CGroupCgroup 可​​​让​​​您​​​为​​​系​​​统​​​中​​​所​​​运​​​行​​​任​​​务​​​（进​​​程​​​）的​​​用​​​户​​​定​​​义​​​组​​​群​​​分​​​配​​​资​​​源​​​ &#8212; 比​​​如​​​ CPU 时​​​间​​​、​​​系​​​统​​​内​​​存​​​、​​​网​​​络​​​带​​​宽​​​或​​​者​​​这​​​些​​​资​​​源​​​的​​​组​​​合​​​。​​​您​​​可​​​以​​​监​​​控​​​您​​​配​​​置​​​的​​​ cgroup，拒​​​绝​​​ cgroup 访​​​问​​​某​​​些​​​资​​​源​​​，甚​​​至​​​在​​​运​​​行​​​的​​​系​​​统​​​中​​​动​​​态​​​配​​​置​​​您​​​的​​​ cgroup。</p>
+<p>主要提供了如下功能：</p>
+<p><span id="more-17049"></span></p>
+<ul>
+<li><strong>Resource limitation</strong>: 限制资源使用，比如内存使用上限以及文件系统的缓存限制。</li>
+<li><strong>Prioritization</strong>: 优先级控制，比如：CPU利用和磁盘IO吞吐。</li>
+<li><strong>Accounting</strong>: 一些审计或一些统计，主要目的是为了计费。</li>
+<li><strong>Control</strong>: 挂起进程，恢复执行进程。</li>
+</ul>
+<p>使​​​用​​​ cgroup，系​​​统​​​管​​​理​​​员​​​可​​​更​​​具​​​体​​​地​​​控​​​制​​​对​​​系​​​统​​​资​​​源​​​的​​​分​​​配​​​、​​​优​​​先​​​顺​​​序​​​、​​​拒​​​绝​​​、​​​管​​​理​​​和​​​监​​​控​​​。​​​可​​​更​​​好​​​地​​​根​​​据​​​任​​​务​​​和​​​用​​​户​​​分​​​配​​​硬​​​件​​​资​​​源​​​，提​​​高​​​总​​​体​​​效​​​率​​​。</p>
+<p>在实践中，系统管理员一般会利用CGroup做下面这些事（有点像为某个虚拟机分配资源似的）：</p>
+<ul>
+<li>隔离一个进程集合（比如：nginx的所有进程），并限制他们所消费的资源，比如绑定CPU的核。</li>
+<li>为这组进程 分配其足够使用的内存</li>
+<li>为这组进程分配相应的网络带宽和磁盘存储限制</li>
+<li>限制访问某些设备（通过设置设备的白名单）</li>
+</ul>
+<p>那么CGroup是怎么干的呢？我们先来点感性认识吧。</p>
+<p>首先，Linux把CGroup这个事实现成了一个file system，你可以mount。在我的Ubuntu 14.04下，你输入以下命令你就可以看到cgroup已为你mount好了。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">hchen@ubuntu:~$ mount -t cgroup
+cgroup on /sys/fs/cgroup/cpuset type cgroup (rw,relatime,cpuset)
+cgroup on /sys/fs/cgroup/cpu type cgroup (rw,relatime,cpu)
+cgroup on /sys/fs/cgroup/cpuacct type cgroup (rw,relatime,cpuacct)
+cgroup on /sys/fs/cgroup/memory type cgroup (rw,relatime,memory)
+cgroup on /sys/fs/cgroup/devices type cgroup (rw,relatime,devices)
+cgroup on /sys/fs/cgroup/freezer type cgroup (rw,relatime,freezer)
+cgroup on /sys/fs/cgroup/blkio type cgroup (rw,relatime,blkio)
+cgroup on /sys/fs/cgroup/net_prio type cgroup (rw,net_prio)
+cgroup on /sys/fs/cgroup/net_cls type cgroup (rw,net_cls)
+cgroup on /sys/fs/cgroup/perf_event type cgroup (rw,relatime,perf_event)
+cgroup on /sys/fs/cgroup/hugetlb type cgroup (rw,relatime,hugetlb)</pre>
+<p>或者使用lssubsys命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ lssubsys  -m
+cpuset /sys/fs/cgroup/cpuset
+cpu /sys/fs/cgroup/cpu
+cpuacct /sys/fs/cgroup/cpuacct
+memory /sys/fs/cgroup/memory
+devices /sys/fs/cgroup/devices
+freezer /sys/fs/cgroup/freezer
+blkio /sys/fs/cgroup/blkio
+net_cls /sys/fs/cgroup/net_cls
+net_prio /sys/fs/cgroup/net_prio
+perf_event /sys/fs/cgroup/perf_event
+hugetlb /sys/fs/cgroup/hugetlb</pre>
+<p>我们可以看到，在/sys/fs下有一个cgroup的目录，这个目录下还有很多子目录，比如： cpu，cpuset，memory，blkio……这些，这些都是cgroup的子系统。分别用于干不同的事的。</p>
+<p>如果你没有看到上述的目录，你可以自己mount，下面给了一个示例：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">mkdir cgroup
+mount -t tmpfs cgroup_root ./cgroup
+mkdir cgroup/cpuset
+mount -t cgroup -ocpuset cpuset ./cgroup/cpuset/
+mkdir cgroup/cpu
+mount -t cgroup -ocpu cpu ./cgroup/cpu/
+mkdir cgroup/memory
+mount -t cgroup -omemory memory ./cgroup/memory/</pre>
+<p>一旦mount成功，你就会看到这些目录下就有好文件了，比如，如下所示的cpu和cpuset的子系统：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">hchen@ubuntu:~$ ls /sys/fs/cgroup/cpu /sys/fs/cgroup/cpuset/ 
+/sys/fs/cgroup/cpu:
+cgroup.clone_children  cgroup.sane_behavior  cpu.shares         release_agent
+cgroup.event_control   cpu.cfs_period_us     cpu.stat           tasks
+cgroup.procs           cpu.cfs_quota_us      notify_on_release  user
+
+/sys/fs/cgroup/cpuset/:
+cgroup.clone_children  cpuset.mem_hardwall             cpuset.sched_load_balance
+cgroup.event_control   cpuset.memory_migrate           cpuset.sched_relax_domain_level
+cgroup.procs           cpuset.memory_pressure          notify_on_release
+cgroup.sane_behavior   cpuset.memory_pressure_enabled  release_agent
+cpuset.cpu_exclusive   cpuset.memory_spread_page       tasks
+cpuset.cpus            cpuset.memory_spread_slab       user
+cpuset.mem_exclusive   cpuset.mems</pre>
+<p>你可以到/sys/fs/cgroup的各个子目录下去make个dir，你会发现，一旦你创建了一个子目录，这个子目录里又有很多文件了。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">hchen@ubuntu:/sys/fs/cgroup/cpu$ sudo mkdir haoel
+[sudo] password for hchen: 
+hchen@ubuntu:/sys/fs/cgroup/cpu$ ls ./haoel
+cgroup.clone_children  cgroup.procs       cpu.cfs_quota_us  cpu.stat           tasks
+cgroup.event_control   cpu.cfs_period_us  cpu.shares        notify_on_release</pre>
+<p>好了，我们来看几个示例。</p>
+<h4>CPU 限制</h4>
+<p>假设，我们有一个非常吃CPU的程序，叫deadloop，其源码如下：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int main(void)
+{
+    int i = 0;
+    for(;;) i++;
+    return 0;
+}</pre>
+<p>用sudo执行起来后，毫无疑问，CPU被干到了100%（下面是top命令的输出）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND     
+ 3529 root      20   0    4196    736    656 R 99.6  0.1   0:23.13 deadloop   </pre>
+<p>然后，我们这前不是在/sys/fs/cgroup/cpu下创建了一个haoel的group。我们先设置一下这个group的cpu利用的限制：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">hchen@ubuntu:~# cat /sys/fs/cgroup/cpu/haoel/cpu.cfs_quota_us 
+-1
+root@ubuntu:~# echo 20000 &gt; /sys/fs/cgroup/cpu/haoel/cpu.cfs_quota_us</pre>
+<p>我们看到，这个进程的PID是3529，我们把这个进程加到这个cgroup中：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW"># echo 3529 &gt;&gt; /sys/fs/cgroup/cpu/haoel/tasks</code></p>
+<p>然后，就会在top中看到CPU的利用立马下降成20%了。（前面我们设置的20000就是20%的意思）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND     
+ 3529 root      20   0    4196    736    656 R 19.9  0.1   8:06.11 deadloop    </pre>
+<p>下面的代码是一个线程的示例：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#define _GNU_SOURCE         /* See feature_test_macros(7) */
+
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/syscall.h&gt;
+
+
+const int NUM_THREADS = 5;
+
+void *thread_main(void *threadid)
+{
+    /* 把自己加入cgroup中（syscall(SYS_gettid)为得到线程的系统tid） */
+    char cmd[128];
+    sprintf(cmd, &quot;echo %ld &gt;&gt; /sys/fs/cgroup/cpu/haoel/tasks&quot;, syscall(SYS_gettid));
+    system(cmd); 
+    sprintf(cmd, &quot;echo %ld &gt;&gt; /sys/fs/cgroup/cpuset/haoel/tasks&quot;, syscall(SYS_gettid));
+    system(cmd);
+
+    long tid;
+    tid = (long)threadid;
+    printf(&quot;Hello World! It&#039;s me, thread #%ld, pid #%ld!\n&quot;, tid, syscall(SYS_gettid));
+    
+    int a=0; 
+    while(1) {
+        a++;
+    }
+    pthread_exit(NULL);
+}
+int main (int argc, char *argv[])
+{
+    int num_threads;
+    if (argc &gt; 1){
+        num_threads = atoi(argv[1]);
+    }
+    if (num_threads&lt;=0 || num_threads&gt;=100){
+        num_threads = NUM_THREADS;
+    }
+
+    /* 设置CPU利用率为50% */
+    mkdir(&quot;/sys/fs/cgroup/cpu/haoel&quot;, 755);
+    system(&quot;echo 50000 &gt; /sys/fs/cgroup/cpu/haoel/cpu.cfs_quota_us&quot;);
+
+    mkdir(&quot;/sys/fs/cgroup/cpuset/haoel&quot;, 755);
+    /* 限制CPU只能使用#2核和#3核 */
+    system(&quot;echo \&quot;2,3\&quot; &gt; /sys/fs/cgroup/cpuset/haoel/cpuset.cpus&quot;);
+
+    pthread_t* threads = (pthread_t*) malloc (sizeof(pthread_t)*num_threads);
+    int rc;
+    long t;
+    for(t=0; t&lt;num_threads; t++){
+        printf(&quot;In main: creating thread %ld\n&quot;, t);
+        rc = pthread_create(&amp;threads[t], NULL, thread_main, (void *)t);
+        if (rc){
+            printf(&quot;ERROR; return code from pthread_create() is %d\n&quot;, rc);
+            exit(-1);
+        }
+    }
+
+    /* Last thing that main() should do */
+    pthread_exit(NULL);
+    free(threads);
+}
+</pre>
+<h4>内存使用限制</h4>
+<p>我们再来看一个限制内存的例子（下面的代码是个死循环，其它不断的分配内存，每次512个字节，每次休息一秒）：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(void)
+{
+    int size = 0;
+    int chunk_size = 512;
+    void *p = NULL;
+
+    while(1) {
+
+        if ((p = malloc(p, chunk_size)) == NULL) {
+            printf(&quot;out of memory!!\n&quot;);
+            break;
+        }
+        memset(p, 1, chunk_size);
+        size += chunk_size;
+        printf(&quot;[%d] - memory is allocated [%8d] bytes \n&quot;, getpid(), size);
+        sleep(1);
+    }
+    return 0;
+}</pre>
+<p>然后，在我们另外一边：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># 创建memory cgroup
+$ mkdir /sys/fs/cgroup/memory/haoel
+$ echo 64k &gt; /sys/fs/cgroup/memory/haoel/memory.limit_in_bytes
+
+# 把上面的进程的pid加入这个cgroup
+$ echo [pid] &gt; /sys/fs/cgroup/memory/haoel/tasks </pre>
+<p>你会看到，一会上面的进程就会因为内存问题被kill掉了。</p>
+<h4>磁盘I/O限制</h4>
+<p>我们先看一下我们的硬盘IO，我们的模拟命令如下：（从/dev/sda1上读入数据，输出到/dev/null上）</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">sudo dd if=/dev/sda1 of=/dev/null</code></p>
+<p>我们通过iotop命令我们可以看到相关的IO速度是55MB/s（虚拟机内）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">  TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO&gt;    COMMAND          
+ 8128 be/4 root       55.74 M/s    0.00 B/s  0.00 % 85.65 % dd if=/de~=/dev/null...</pre>
+<p>然后，我们先创建一个blkio（块设备IO）的cgroup</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">mkdir /sys/fs/cgroup/blkio/haoel</code></p>
+<p>并把读IO限制到1MB/s，并把前面那个dd命令的pid放进去（注：8:0 是设备号，你可以通过ls -l /dev/sda1获得）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">root@ubuntu:~# echo &#039;8:0 1048576&#039;  &gt; /sys/fs/cgroup/blkio/haoel/blkio.throttle.read_bps_device 
+root@ubuntu:~# echo 8128 &gt; /sys/fs/cgroup/blkio/haoel/tasks</pre>
+<p>再用iotop命令，你马上就能看到读速度被限制到了1MB/s左右。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">  TID  PRIO  USER     DISK READ  DISK WRITE  SWAPIN     IO&gt;    COMMAND          
+ 8128 be/4 root      973.20 K/s    0.00 B/s  0.00 % 94.41 % dd if=/de~=/dev/null...</pre>
+<h4>CGroup的子系统</h4>
+<p>好了，有了以上的感性认识我们来，我们来看看control group有哪些子系统：</p>
+<ul>
+<li>blkio &#8212; 这​​​个​​​子​​​系​​​统​​​为​​​块​​​设​​​备​​​设​​​定​​​输​​​入​​​/输​​​出​​​限​​​制​​​，比​​​如​​​物​​​理​​​设​​​备​​​（磁​​​盘​​​，固​​​态​​​硬​​​盘​​​，USB 等​​​等​​​）。</li>
+<li>cpu &#8212; 这​​​个​​​子​​​系​​​统​​​使​​​用​​​调​​​度​​​程​​​序​​​提​​​供​​​对​​​ CPU 的​​​ cgroup 任​​​务​​​访​​​问​​​。​​​</li>
+<li>cpuacct &#8212; 这​​​个​​​子​​​系​​​统​​​自​​​动​​​生​​​成​​​ cgroup 中​​​任​​​务​​​所​​​使​​​用​​​的​​​ CPU 报​​​告​​​。​​​</li>
+<li>cpuset &#8212; 这​​​个​​​子​​​系​​​统​​​为​​​ cgroup 中​​​的​​​任​​​务​​​分​​​配​​​独​​​立​​​ CPU（在​​​多​​​核​​​系​​​统​​​）和​​​内​​​存​​​节​​​点​​​。​​​</li>
+<li>devices &#8212; 这​​​个​​​子​​​系​​​统​​​可​​​允​​​许​​​或​​​者​​​拒​​​绝​​​ cgroup 中​​​的​​​任​​​务​​​访​​​问​​​设​​​备​​​。​​​</li>
+<li>freezer &#8212; 这​​​个​​​子​​​系​​​统​​​挂​​​起​​​或​​​者​​​恢​​​复​​​ cgroup 中​​​的​​​任​​​务​​​。​​​</li>
+<li>memory &#8212; 这​​​个​​​子​​​系​​​统​​​设​​​定​​​ cgroup 中​​​任​​​务​​​使​​​用​​​的​​​内​​​存​​​限​​​制​​​，并​​​自​​​动​​​生​​​成​​​​​内​​​存​​​资​​​源使用​​​报​​​告​​​。​​​</li>
+<li>net_cls &#8212; 这​​​个​​​子​​​系​​​统​​​使​​​用​​​等​​​级​​​识​​​别​​​符​​​（classid）标​​​记​​​网​​​络​​​数​​​据​​​包​​​，可​​​允​​​许​​​ Linux 流​​​量​​​控​​​制​​​程​​​序​​​（tc）识​​​别​​​从​​​具​​​体​​​ cgroup 中​​​生​​​成​​​的​​​数​​​据​​​包​​​。​​​</li>
+<li>net_prio &#8212; 这个子系统用来设计网络流量的优先级</li>
+<li>hugetlb &#8212; 这个子系统主要针对于HugeTLB系统进行限制，这是一个大页文件系统。</li>
+<p>​​​</ul>
+<p>注意，你可能在Ubuntu 14.04下看不到net_cls和net_prio这两个cgroup，你需要手动mount一下：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ sudo modprobe cls_cgroup
+$ sudo mkdir /sys/fs/cgroup/net_cls
+$ sudo mount -t cgroup -o net_cls none /sys/fs/cgroup/net_cls
+
+$ sudo modprobe netprio_cgroup
+$ sudo mkdir /sys/fs/cgroup/net_prio
+$ sudo mount -t cgroup -o net_prio none /sys/fs/cgroup/net_prio</pre>
+<p>关于各个子系统的参数细节，以及更多的Linux CGroup的文档，你可以看看下面的文档：</p>
+<ul>
+<li><a href="https://www.kernel.org/doc/Documentation/cgroups/" target="_blank">Linux Kernel的官方文档</a></li>
+<li><a href="https://access.redhat.com/documentation/zh-CN/Red_Hat_Enterprise_Linux/6/html-single/Resource_Management_Guide/index.html#ch-Subsystems_and_Tunable_Parameters" target="_blank">Redhat的官方文档</a></li>
+</ul>
+<h4>CGroup的术语</h4>
+<p>CGroup有下述术语：</p>
+<ul>
+<li><strong>任务（Tasks）</strong>：就是系统的一个进程。</li>
+<li><strong>控制组（Control Group）</strong>：一组按照某种标准划分的进程，比如官方文档中的Professor和Student，或是WWW和System之类的，其表示了某进程组。Cgroups中的资源控制都是以控制组为单位实现。一个进程可以加入到某个控制组。而资源的限制是定义在这个组上，就像上面示例中我用的haoel一样。简单点说，cgroup的呈现就是一个目录带一系列的可配置文件。</li>
+<li><strong>层级（Hierarchy）</strong>：控制组可以组织成hierarchical的形式，既一颗控制组的树（目录结构）。控制组树上的子节点继承父结点的属性。简单点说，hierarchy就是在一个或多个子系统上的cgroups目录树。</li>
+<li><strong>子系统（Subsystem）</strong>：一个子系统就是一个资源控制器，比如CPU子系统就是控制CPU时间分配的一个控制器。子系统必须附加到一个层级上才能起作用，一个子系统附加到某个层级以后，这个层级上的所有控制族群都受到这个子系统的控制。Cgroup的子系统可以有很多，也在不断增加中。</li>
+</ul>
+<h4>下一代的CGroup</h4>
+<p>上面，我们可以看到，CGroup的一些常用方法和相关的术语。一般来说，这样的设计在一般情况下还是没什么问题的，除了操作上的用户体验不是很好，但基本满足我们的一般需求了。</p>
+<p>不过，对此，有个叫Tejun Heo的同学非常不爽，他在Linux社区里<a href="https://lwn.net/Articles/484254/" target="_blank">对cgroup吐了一把槽</a>，还引发了内核组的各种讨论。</p>
+<p>对于Tejun Heo同学来说，cgroup设计的相当糟糕。他给出了些例子，大意就是说，如果有多种层级关系，也就是说有多种对进程的分类方式，比如，我们可以按用户来分，分成Professor和Student，同时，也有按应用类似来分的，比如WWW和NFS等。那么，当一个进程即是Professor的，也是WWW的，那么就会出现多层级正交的情况，从而出现对进程上管理的混乱。另外，一个case是，如果有一个层级A绑定cpu，而层级B绑定memory，还有一个层级C绑定cputset，而有一些进程有的需要AB，有的需要AC，有的需要ABC，管理起来就相当不易。 </p>
+<p>层级操作起来比较麻烦，而且如果层级变多，更不易于操作和管理，虽然那种方式很好实现，但是在使用上有很多的复杂度。你可以想像一个图书馆的图书分类问题，你可以有各种不同的分类，分类和图书就是一种多对多的关系。</p>
+<p>所以，在Kernel 3.16后，引入了<a href="http://lwn.net/Articles/601840/" target="_blank">unified hierarchy</a>的新的设计，这个东西引入了一个叫<strong>__DEVEL__sane_behavior</strong>的特性（这个名字很明显意味目前还在开发试验阶段），它可以把所有子系统都挂载到根层级下，只有叶子节点可以存在tasks，非叶子节点只进行资源控制。</p>
+<p>我们mount一下看看：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">$ sudo mount -t cgroup -o __DEVEL__sane_behavior cgroup ./cgroup
+
+$ ls ./cgroup
+cgroup.controllers  cgroup.procs  cgroup.sane_behavior  cgroup.subtree_control 
+
+$ cat ./cgroup/cgroup.controllers
+cpuset cpu cpuacct memory devices freezer net_cls blkio perf_event net_prio hugetlb</pre>
+<p>我们可以看到有四个文件，然后，你在这里mkdir一个子目录，里面也会有这四个文件。<strong>上级的cgroup.subtree_control控制下级的cgroup.controllers。</strong></p>
+<p>举个例子：假设我们有以下的目录结构，b代表blkio，m代码memory，其中，A是root，包括所有的子系统（）。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+# A(b,m) - B(b,m) - C (b)
+#               \ - D (b) - E
+
+# 下面的命令中， +表示enable， -表示disable
+
+# 在B上的enable blkio
+# echo +blkio &gt; A/cgroup.subtree_control
+
+# 在C和D上enable blkio 
+# echo +blkio &gt; A/B/cgroup.subtree_control
+
+# 在B上enable memory  
+# echo +memory &gt; A/cgroup.subtree_control</pre>
+<p>在上述的结构中，</p>
+<ul>
+<li>cgroup只有上线控制下级，无法传递到下下级。所以，C和D中没有memory的限制，E中没有blkio和memory的限制。而本层的cgroup.controllers文件是个只读的，其中的内容就看上级的subtree_control里有什么了。</li>
+<li><strong>任何被配置过subtree_control的目录都不能绑定进程，根结点除外</strong>。所以，A,C,D,E可以绑上进程，但是B不行。</li>
+</ul>
+<p>我们可以看到，<strong>这种方式干净的区分开了两个事，一个是进程的分组，一个是对分组的资源控制</strong>（以前这两个事完全混在一起），在目录继承上增加了些限制，这样可以避免一些模棱两可的情况。</p>
+<p>当然，这个事还在演化中，cgroup的这些问题这个事目前由cgroup的吐槽人Tejun Heo和华为的Li Zefan同学负责解决中。总之，这是一个系统管理上的问题，而且改变会影响很多东西，但一旦方案确定，老的cgroup方式将一去不复返。</p>
+<h4>参考</h4>
+<ul>
+<li><a href="https://www.kernel.org/doc/Documentation/cgroups/" target="_blank">Linux Kernel Cgroup Documents</a></li>
+<li><a href="https://access.redhat.com/documentation/zh-CN/Red_Hat_Enterprise_Linux/6/html-single/Resource_Management_Guide/index.html" target="_blank">Reahat Resource Management Guide</a></li>
+<li><a href="https://lwn.net/Articles/484251/" target="_blank">Fixing control groups</a></li>
+<li><a href="http://lwn.net/Articles/601840/" target="_blank">The unified control group hierarchy in 3.16</a></li>
+<li><a href="http://events.linuxfoundation.org/sites/events/files/slides/2014-KLF.pdf" target="_blank">Cgroup v2(PDF)</a></li>
+</ul>
+<p>（全文完）<br />
+<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-150x150.jpg" alt="Docker基础技术：DeviceMapper" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_title">Docker基础技术：DeviceMapper</a></li><li ><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-150x150.png" alt="Docker基础技术：AUFS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_title">Docker基础技术：AUFS</a></li><li ><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/isolation-150x150.jpg" alt="Docker基础技术：Linux Namespace（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_title">Docker基础技术：Linux Namespace（上）</a></li><li ><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/jail_cell-150x150.jpg" alt="Docker基础技术：Linux Namespace（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_title">Docker基础技术：Linux Namespace（下）</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17049.html">Docker基础技术：Linux CGroup</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17049.html/feed</wfw:commentRss>
+			<slash:comments>87</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Docker基础技术：Linux Namespace（上）</title>
+		<link>https://coolshell.cn/articles/17010.html</link>
+					<comments>https://coolshell.cn/articles/17010.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 16 Apr 2015 02:20:08 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Mount]]></category>
+		<category><![CDATA[Namespace]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17010</guid>
+
+					<description><![CDATA[<p>时下最热的技术莫过于Docker了，很多人都觉得Docker是个新技术，其实不然，Docker除了其编程语言用go比较新外，其实它还真不是个新东西，也就是个新瓶...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17010.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17010.html">Docker基础技术：Linux Namespace（上）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-17085" src="https://coolshell.cn/wp-content/uploads/2015/04/isolation.jpg" alt="isolation" width="359" height="237" srcset="https://coolshell.cn/wp-content/uploads/2015/04/isolation.jpg 359w, https://coolshell.cn/wp-content/uploads/2015/04/isolation-300x198.jpg 300w" sizes="(max-width: 359px) 100vw, 359px" />时下最热的技术莫过于Docker了，很多人都觉得Docker是个新技术，其实不然，Docker除了其编程语言用go比较新外，其实它还真不是个新东西，也就是个新瓶装旧酒的东西，所谓的The New &#8220;Old Stuff&#8221;。Docker和Docker衍生的东西用到了很多很酷的技术，我会用几篇 文章来把这些技术给大家做个介绍，希望通过这些文章大家可以自己打造一个山寨版的docker。</p>
+<p>当然，文章的风格一定会尊重时下的“流行”——<strong>我们再也没有整块整块的时间去看书去专研，而我们只有看微博微信那样的碎片时间</strong>（那怕我们有整块的时间，也被那些在手机上的APP碎片化了）。所以，这些文章的风格必然坚持“马桶风格”（希望简单到占用你拉一泡屎就时间，而且你还不用动脑子，并能学到些东西）</p>
+<p>废话少说，我们开始。先从Linux Namespace开始。</p>
+<h4> 简介</h4>
+<p>Linux Namespace是Linux提供的一种内核级别环境隔离的方法。不知道你是否还记得很早以前的Unix有一个叫chroot的系统调用（通过修改根目录把用户jail到一个特定目录下），chroot提供了一种简单的隔离模式：chroot内部的文件系统无法访问外部的内容。Linux Namespace在此基础上，提供了对UTS、IPC、mount、PID、network、User等的隔离机制。</p>
+<p><span id="more-17010"></span></p>
+<p>举个例子，我们都知道，Linux下的超级父亲进程的PID是1，所以，同chroot一样，如果我们可以把用户的进程空间jail到某个进程分支下，并像chroot那样让其下面的进程 看到的那个超级父进程的PID为1，于是就可以达到资源隔离的效果了（不同的PID namespace中的进程无法看到彼此）</p>
+<p><b>Linux Namespace 有如下种类</b>，官方文档在这里《<a href="http://lwn.net/Articles/531114/" target="_blank" rel="noopener noreferrer">Namespace in Operation</a>》</p>
+<table width="100%">
+<thead>
+<tr>
+<th>分类</th>
+<th>系统调用参数</th>
+<th>相关内核版本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><b>Mount namespaces</b></td>
+<td>CLONE_NEWNS</td>
+<td><a href="http://lwn.net/2001/0301/a/namespaces.php3" target="_blank" rel="noopener noreferrer">Linux 2.4.19</a></td>
+</tr>
+<tr>
+<td><b>UTS namespaces</b></td>
+<td>CLONE_NEWUTS</td>
+<td><a href="http://lwn.net/Articles/179345/" target="_blank" rel="noopener noreferrer">Linux 2.6.19</a></td>
+</tr>
+<tr>
+<td><b>IPC namespaces</b></td>
+<td>CLONE_NEWIPC</td>
+<td><a href="http://lwn.net/Articles/187274/" target="_blank" rel="noopener noreferrer">Linux 2.6.19</a></td>
+</tr>
+<tr>
+<td><b>PID namespaces</b></td>
+<td>CLONE_NEWPID</td>
+<td><a href="http://lwn.net/Articles/259217/" target="_blank" rel="noopener noreferrer">Linux 2.6.24</a></td>
+</tr>
+<tr>
+<td><b>Network namespaces</b></td>
+<td>CLONE_NEWNET</td>
+<td><a href="http://lwn.net/Articles/219794/" target="_blank" rel="noopener noreferrer">始于Linux 2.6.24 完成于 Linux 2.6.29</a></td>
+</tr>
+<tr>
+<td><b>User namespaces</b></td>
+<td>CLONE_NEWUSER</td>
+<td><a href="http://lwn.net/Articles/528078/" target="_blank" rel="noopener noreferrer">始于 Linux 2.6.23 完成于 Linux 3.8)</a></td>
+</tr>
+</tbody>
+</table>
+<p>主要是三个系统调用</p>
+<ul>
+<li><b><code>clone</code></b><b>() </b>&#8211; 实现线程的系统调用，用来创建一个新的进程，并可以通过设计上述参数达到隔离。</li>
+<li><b><code>unshare</code></b><b>() </b>&#8211; 使某进程脱离某个namespace</li>
+<li><b><code>setns</code></b><b>() </b>&#8211; 把某进程加入到某个namespace</li>
+</ul>
+<p>unshare() 和 setns() 都比较简单，大家可以自己man，我这里不说了。</p>
+<p>下面还是让我们来看一些示例（以下的测试程序最好在Linux 内核为3.8以上的版本中运行，我用的是ubuntu 14.04）。</p>
+<h4>clone()系统调用</h4>
+<p>首先，我们来看一下一个最简单的clone()系统调用的示例，（后面，我们的程序都会基于这个程序做修改）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">#define _GNU_SOURCE
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sched.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+
+/* 定义一个给 clone 用的栈，栈大小1M */
+#define STACK_SIZE (1024 * 1024)
+static char container_stack[STACK_SIZE];
+
+char* const container_args[] = {
+    "/bin/bash",
+    NULL
+};
+
+int container_main(void* arg)
+{
+    printf("Container - inside the container!\n");
+    /* 直接执行一个shell，以便我们观察这个进程空间里的资源是否被隔离了 */
+    execv(container_args[0], container_args); 
+    printf("Something's wrong!\n");
+    return 1;
+}
+
+int main()
+{
+    printf("Parent - start a container!\n");
+    /* 调用clone函数，其中传出一个函数，还有一个栈空间的（为什么传尾指针，因为栈是反着的） */
+    int container_pid = clone(container_main, container_stack+STACK_SIZE, SIGCHLD, NULL);
+    /* 等待子进程结束 */
+    waitpid(container_pid, NULL, 0);
+    printf("Parent - container stopped!\n");
+    return 0;
+}</pre>
+<p>从上面的程序，我们可以看到，这和pthread基本上是一样的玩法。但是，对于上面的程序，父子进程的进程空间是没有什么差别的，父进程能访问到的子进程也能。</p>
+<p>下面， 让我们来看几个例子看看，Linux的Namespace是什么样的。</p>
+<h4>UTS Namespace</h4>
+<p>下面的代码，我略去了上面那些头文件和数据结构的定义，只有最重要的部分。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c" data-enlighter-highlight="4,14">int container_main(void* arg)
+{
+    printf("Container - inside the container!\n");
+    sethostname("container",10); /* 设置hostname */
+    execv(container_args[0], container_args);
+    printf("Something's wrong!\n");
+    return 1;
+}
+
+int main()
+{
+    printf("Parent - start a container!\n");
+    int container_pid = clone(container_main, container_stack+STACK_SIZE, 
+            CLONE_NEWUTS | SIGCHLD, NULL); /*启用CLONE_NEWUTS Namespace隔离 */
+    waitpid(container_pid, NULL, 0);
+    printf("Parent - container stopped!\n");
+    return 0;
+}</pre>
+<pre>运行上面的程序你会发现（需要root权限），子进程的hostname变成了 container。</pre>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~$ sudo ./uts
+Parent - start a container!
+Container - inside the container!
+root@container:~# hostname
+container
+root@container:~# uname -n
+container</pre>
+<h4>IPC Namespace</h4>
+<p>IPC全称 Inter-Process Communication，是Unix/Linux下进程间通信的一种方式，IPC有共享内存、信号量、消息队列等方法。所以，为了隔离，我们也需要把IPC给隔离开来，这样，只有在同一个Namespace下的进程才能相互通信。如果你熟悉IPC的原理的话，你会知道，IPC需要有一个全局的ID，即然是全局的，那么就意味着我们的Namespace需要对这个ID隔离，不能让别的Namespace的进程看到。</p>
+<p>要启动IPC隔离，我们只需要在调用clone时加上CLONE_NEWIPC参数就可以了。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">int container_pid = clone(container_main, container_stack+STACK_SIZE, 
+            CLONE_NEWUTS | CLONE_NEWIPC | SIGCHLD, NULL);</pre>
+<p>首先，我们先创建一个IPC的Queue（如下所示，全局的Queue ID是0）</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~$ ipcmk -Q 
+Message queue id: 0
+
+hchen@ubuntu:~$ ipcs -q
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages    
+0xd0d56eb2 0          hchen      644        0            0</pre>
+<p>如果我们运行没有CLONE_NEWIPC的程序，我们会看到，在子进程中还是能看到这个全启的IPC Queue。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~$ sudo ./uts 
+Parent - start a container!
+Container - inside the container!
+
+root@container:~# ipcs -q
+
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages    
+0xd0d56eb2 0          hchen      644        0            0</pre>
+<p>但是，如果我们运行加上了CLONE_NEWIPC的程序，我们就会下面的结果：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">root@ubuntu:~$ sudo./ipc
+Parent - start a container!
+Container - inside the container!
+
+root@container:~/linux_namespace# ipcs -q
+
+------ Message Queues --------
+key        msqid      owner      perms      used-bytes   messages</pre>
+<p>我们可以看到IPC已经被隔离了。</p>
+<h4>PID Namespace</h4>
+<p>我们继续修改上面的程序：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c" data-enlighter-highlight="4,16">
+int container_main(void* arg)
+{
+    /* 查看子进程的PID，我们可以看到其输出子进程的 pid 为 1 */
+    printf("Container [%5d] - inside the container!\n", getpid());
+    sethostname("container",10);
+    execv(container_args[0], container_args);
+    printf("Something's wrong!\n");
+    return 1;
+}
+
+int main()
+{
+    printf("Parent [%5d] - start a container!\n", getpid());
+    /*启用PID namespace - CLONE_NEWPID*/
+    int container_pid = clone(container_main, container_stack+STACK_SIZE, 
+            CLONE_NEWUTS | CLONE_NEWPID | SIGCHLD, NULL); 
+    waitpid(container_pid, NULL, 0);
+    printf("Parent - container stopped!\n");
+    return 0;
+}</pre>
+<p>运行结果如下（我们可以看到，子进程的pid是1了）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">
+hchen@ubuntu:~$ sudo ./pid
+Parent [ 3474] - start a container!
+Container [ 1] - inside the container!
+root@container:~# echo $$
+1</pre>
+<p>你可能会问，PID为1有个毛用啊？我们知道，在传统的UNIX系统中，PID为1的进程是init，地位非常特殊。他作为所有进程的父进程，有很多特权（比如：屏蔽信号等），另外，其还会为检查所有进程的状态，我们知道，如果某个子进程脱离了父进程（父进程没有wait它），那么init就会负责回收资源并结束这个子进程。所以，要做到进程空间的隔离，首先要创建出PID为1的进程，最好就像chroot那样，把子进程的PID在容器内变成1。</p>
+<p><strong>但是，我们会发现，在子进程的shell里输入ps,top等命令，我们还是可以看得到所有进程</strong>。说明并没有完全隔离。这是因为，像ps, top这些命令会去读/proc文件系统，所以，因为/proc文件系统在父进程和子进程都是一样的，所以这些命令显示的东西都是一样的。</p>
+<p>所以，我们还需要对文件系统进行隔离。</p>
+<h4>Mount Namespace</h4>
+<p>下面的例程中，我们在启用了mount namespace并在子进程中重新mount了/proc文件系统。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c" data-enlighter-highlight="6,17">int container_main(void* arg)
+{
+    printf("Container [%5d] - inside the container!\n", getpid());
+    sethostname("container",10);
+    /* 重新mount proc文件系统到 /proc下 */
+    system("mount -t proc proc /proc");
+    execv(container_args[0], container_args);
+    printf("Something's wrong!\n");
+    return 1;
+}
+
+int main()
+{
+    printf("Parent [%5d] - start a container!\n", getpid());
+    /* 启用Mount Namespace - 增加CLONE_NEWNS参数 */
+    int container_pid = clone(container_main, container_stack+STACK_SIZE, 
+            CLONE_NEWUTS | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD, NULL);
+    waitpid(container_pid, NULL, 0);
+    printf("Parent - container stopped!\n");
+    return 0;
+}</pre>
+<p>运行结果如下：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">
+hchen@ubuntu:~$ sudo ./pid.mnt
+Parent [ 3502] - start a container!
+Container [    1] - inside the container!
+root@container:~# ps -elf 
+F S UID        PID  PPID  C PRI  NI ADDR SZ WCHAN  STIME TTY          TIME CMD
+4 S root         1     0  0  80   0 -  6917 wait   19:55 pts/2    00:00:00 /bin/bash
+0 R root        14     1  0  80   0 -  5671 -      19:56 pts/2    00:00:00 ps -elf
+</pre>
+<p>上面，我们可以看到只有两个进程 ，而且pid=1的进程是我们的/bin/bash。我们还可以看到/proc目录下也干净了很多：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">
+root@container:~# ls /proc
+1          dma          key-users   net            sysvipc
+16         driver       kmsg        pagetypeinfo   timer_list
+acpi       execdomains  kpagecount  partitions     timer_stats
+asound     fb           kpageflags  sched_debug    tty
+buddyinfo  filesystems  loadavg     schedstat      uptime
+bus        fs           locks       scsi           version
+cgroups    interrupts   mdstat      self           version_signature
+cmdline    iomem        meminfo     slabinfo       vmallocinfo
+consoles   ioports      misc        softirqs       vmstat
+cpuinfo    irq          modules     stat           zoneinfo
+crypto     kallsyms     mounts      swaps
+devices    kcore        mpt         sys
+diskstats  keys         mtrr        sysrq-trigger
+</pre>
+<p>下图，我们也可以看到在子进程中的top命令只看得到两个进程了。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17020" src="https://coolshell.cn/wp-content/uploads/2015/04/mount.namespace.jpg" alt="" width="570" height="300" srcset="https://coolshell.cn/wp-content/uploads/2015/04/mount.namespace.jpg 740w, https://coolshell.cn/wp-content/uploads/2015/04/mount.namespace-300x158.jpg 300w" sizes="(max-width: 570px) 100vw, 570px" /></p>
+<p>这里，多说一下。在通过CLONE_NEWNS创建mount namespace后，父进程会把自己的文件结构复制给子进程中。而子进程中新的namespace中的所有mount操作都只影响自身的文件系统，而不对外界产生任何影响。这样可以做到比较严格地隔离。</p>
+<p><!--另外，如果你熟悉mount命令，你会知道，mount命令有以下这些参数：
+
+
+<ul>
+
+
+<ol>--make-shared ： 共享方式的mount，主要是为了文件的共享和镜像。</ol>
+
+
+
+
+<ol>--make-slave ： 这种mount方式更大的意义是为了“只读”的场景，也就是从动式的mount。</ol>
+
+
+
+
+<ol>--make-private：这种mount方式主要就是为了隔离。如proc文件系统。</ol>
+
+
+
+
+<ol>--make-unbindable：标记为不可绑定。</ol>
+
+
+</ul>
+
+
+--></p>
+<p>你可能会问，我们是不是还有别的一些文件系统也需要这样mount? 是的。</p>
+<h4>Docker的 Mount Namespace</h4>
+<p>下面我将向演示一个“山寨镜像”，其模仿了Docker的Mount Namespace。</p>
+<p>首先，我们需要一个rootfs，也就是我们需要把我们要做的镜像中的那些命令什么的copy到一个rootfs的目录下，我们模仿Linux构建如下的目录：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~/rootfs$ ls
+bin  dev  etc  home  lib  lib64  mnt  opt  proc  root  run  sbin  sys  tmp  usr  var</pre>
+<p>然后，我们把一些我们需要的命令copy到 rootfs/bin目录中（sh命令必需要copy进去，不然我们无法 chroot ）</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">
+hchen@ubuntu:~/rootfs$ ls ./bin ./usr/bin
+ 
+./bin:
+bash   chown  gzip      less  mount       netstat  rm     tabs  tee      top       tty
+cat    cp     hostname  ln    mountpoint  ping     sed    tac   test     touch     umount
+chgrp  echo   ip        ls    mv          ps       sh     tail  timeout  tr        uname
+chmod  grep   kill      more  nc          pwd      sleep  tar   toe      truncate  which
+
+./usr/bin:
+awk  env  groups  head  id  mesg  sort  strace  tail  top  uniq  vi  wc  xargs
+</pre>
+<p>注：你可以使用ldd命令把这些命令相关的那些so文件copy到对应的目录：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">
+hchen@ubuntu:~/rootfs/bin$ ldd bash
+  linux-vdso.so.1 =>  (0x00007fffd33fc000)
+  libtinfo.so.5 => /lib/x86_64-linux-gnu/libtinfo.so.5 (0x00007f4bd42c2000)
+  libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f4bd40be000)
+  libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f4bd3cf8000)
+  /lib64/ld-linux-x86-64.so.2 (0x00007f4bd4504000)
+</pre>
+<p>下面是我的rootfs中的一些so文件：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">
+hchen@ubuntu:~/rootfs$ ls ./lib64 ./lib/x86_64-linux-gnu/
+
+./lib64:
+ld-linux-x86-64.so.2
+
+./lib/x86_64-linux-gnu/:
+libacl.so.1      libmemusage.so         libnss_files-2.19.so    libpython3.4m.so.1
+libacl.so.1.1.0  libmount.so.1          libnss_files.so.2       libpython3.4m.so.1.0
+libattr.so.1     libmount.so.1.1.0      libnss_hesiod-2.19.so   libresolv-2.19.so
+libblkid.so.1    libm.so.6              libnss_hesiod.so.2      libresolv.so.2
+libc-2.19.so     libncurses.so.5        libnss_nis-2.19.so      libselinux.so.1
+libcap.a         libncurses.so.5.9      libnss_nisplus-2.19.so  libtinfo.so.5
+libcap.so        libncursesw.so.5       libnss_nisplus.so.2     libtinfo.so.5.9
+libcap.so.2      libncursesw.so.5.9     libnss_nis.so.2         libutil-2.19.so
+libcap.so.2.24   libnsl-2.19.so         libpcre.so.3            libutil.so.1
+libc.so.6        libnsl.so.1            libprocps.so.3          libuuid.so.1
+libdl-2.19.so    libnss_compat-2.19.so  libpthread-2.19.so      libz.so.1
+libdl.so.2       libnss_compat.so.2     libpthread.so.0
+libgpm.so.2      libnss_dns-2.19.so     libpython2.7.so.1
+libm-2.19.so     libnss_dns.so.2        libpython2.7.so.1.0
+</pre>
+<p>包括这些命令依赖的一些配置文件：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">
+hchen@ubuntu:~/rootfs$ ls ./etc
+bash.bashrc  group  hostname  hosts  ld.so.cache  nsswitch.conf  passwd  profile  
+resolv.conf  shadow
+</pre>
+<p>你现在会说，我靠，有些配置我希望是在容器起动时给他设置的，而不是hard code在镜像中的。比如：/etc/hosts，/etc/hostname，还有DNS的/etc/resolv.conf文件。好的。那我们在rootfs外面，我们再创建一个conf目录，把这些文件放到这个目录中。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~$ ls ./conf
+hostname     hosts     resolv.conf</pre>
+<p>这样，我们的父进程就可以动态地设置容器需要的这些文件的配置， 然后再把他们mount进容器，这样，容器的镜像中的配置就比较灵活了。</p>
+<p>好了，终于到了我们的程序。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">
+#define _GNU_SOURCE
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/mount.h>
+#include <stdio.h>
+#include <sched.h>
+#include <signal.h>
+#include <unistd.h>
+
+#define STACK_SIZE (1024 * 1024)
+
+static char container_stack[STACK_SIZE];
+char* const container_args[] = {
+    "/bin/bash",
+    "-l",
+    NULL
+};
+
+int container_main(void* arg)
+{
+    printf("Container [%5d] - inside the container!\n", getpid());
+
+    //set hostname
+    sethostname("container",10);
+
+    //remount "/proc" to make sure the "top" and "ps" show container's information
+    if (mount("proc", "rootfs/proc", "proc", 0, NULL) !=0 ) {
+        perror("proc");
+    }
+    if (mount("sysfs", "rootfs/sys", "sysfs", 0, NULL)!=0) {
+        perror("sys");
+    }
+    if (mount("none", "rootfs/tmp", "tmpfs", 0, NULL)!=0) {
+        perror("tmp");
+    }
+    if (mount("udev", "rootfs/dev", "devtmpfs", 0, NULL)!=0) {
+        perror("dev");
+    }
+    if (mount("devpts", "rootfs/dev/pts", "devpts", 0, NULL)!=0) {
+        perror("dev/pts");
+    }
+    if (mount("shm", "rootfs/dev/shm", "tmpfs", 0, NULL)!=0) {
+        perror("dev/shm");
+    }
+    if (mount("tmpfs", "rootfs/run", "tmpfs", 0, NULL)!=0) {
+        perror("run");
+    }
+    /* 
+     * 模仿Docker的从外向容器里mount相关的配置文件 
+     * 你可以查看：/var/lib/docker/containers/<container_id>/目录，
+     * 你会看到docker的这些文件的。
+     */
+    if (mount("conf/hosts", "rootfs/etc/hosts", "none", MS_BIND, NULL)!=0 ||
+          mount("conf/hostname", "rootfs/etc/hostname", "none", MS_BIND, NULL)!=0 ||
+          mount("conf/resolv.conf", "rootfs/etc/resolv.conf", "none", MS_BIND, NULL)!=0 ) {
+        perror("conf");
+    }
+    /* 模仿docker run命令中的 -v, --volume=[] 参数干的事 */
+    if (mount("/tmp/t1", "rootfs/mnt", "none", MS_BIND, NULL)!=0) {
+        perror("mnt");
+    }
+
+    /* chroot 隔离目录 */
+    if ( chdir("./rootfs") != 0 || chroot("./") != 0 ){
+        perror("chdir/chroot");
+    }
+
+    execv(container_args[0], container_args);
+    perror("exec");
+    printf("Something's wrong!\n");
+    return 1;
+}
+
+int main()
+{
+    printf("Parent [%5d] - start a container!\n", getpid());
+    int container_pid = clone(container_main, container_stack+STACK_SIZE, 
+            CLONE_NEWUTS | CLONE_NEWIPC | CLONE_NEWPID | CLONE_NEWNS | SIGCHLD, NULL);
+    waitpid(container_pid, NULL, 0);
+    printf("Parent - container stopped!\n");
+    return 0;
+}
+</pre>
+<p>sudo运行上面的程序，你会看到下面的挂载信息以及一个所谓的“镜像”：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">
+hchen@ubuntu:~$ sudo ./mount 
+Parent [ 4517] - start a container!
+Container [    1] - inside the container!
+root@container:/# mount
+proc on /proc type proc (rw,relatime)
+sysfs on /sys type sysfs (rw,relatime)
+none on /tmp type tmpfs (rw,relatime)
+udev on /dev type devtmpfs (rw,relatime,size=493976k,nr_inodes=123494,mode=755)
+devpts on /dev/pts type devpts (rw,relatime,mode=600,ptmxmode=000)
+tmpfs on /run type tmpfs (rw,relatime)
+/dev/disk/by-uuid/18086e3b-d805-4515-9e91-7efb2fe5c0e2 on /etc/hosts type ext4 (rw,relatime,errors=remount-ro,data=ordered)
+/dev/disk/by-uuid/18086e3b-d805-4515-9e91-7efb2fe5c0e2 on /etc/hostname type ext4 (rw,relatime,errors=remount-ro,data=ordered)
+/dev/disk/by-uuid/18086e3b-d805-4515-9e91-7efb2fe5c0e2 on /etc/resolv.conf type ext4 (rw,relatime,errors=remount-ro,data=ordered)
+
+root@container:/# ls /bin /usr/bin
+/bin:
+bash   chmod  echo  hostname  less  more  mv   ping  rm   sleep  tail  test    top   truncate  uname
+cat    chown  grep  ip        ln    mount  nc   ps    sed  tabs   tar   timeout  touch  tty     which
+chgrp  cp     gzip  kill      ls    mountpoint  netstat  pwd   sh   tac    tee   toe    tr   umount
+
+/usr/bin:
+awk  env  groups  head  id  mesg  sort  strace  tail  top  uniq  vi  wc  xargs
+</pre>
+<p>关于如何做一个chroot的目录，这里有个工具叫<a href="https://wiki.ubuntu.com/DebootstrapChroot" target="_blank" rel="noopener noreferrer">DebootstrapChroot</a>，你可以顺着链接去看看（英文的哦）</p>
+<p>接下来的事情，你可以自己玩了，我相信你的想像力 。：）</p>
+<p>在下一篇，我将向你介绍User Namespace、Network Namespace以及Namespace的其它东西。</p>
+<p align="center"><strong> <a title="Docker基础技术：Linux Namespace（下）" href="https://coolshell.cn/articles/17029.html" target="_blank" rel="noopener noreferrer"> &lt;&lt;&lt;&lt; Docker基础技术：Linux Namespace（下）&gt;&gt;&gt;&gt; </a></strong></p>
+<p>（上篇完，<a title="Docker基础技术：Linux Namespace（下）" href="https://coolshell.cn/articles/17029.html" target="_blank" rel="noopener noreferrer">请参看下篇</a>）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/jail_cell-150x150.jpg" alt="Docker基础技术：Linux Namespace（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17029.html" class="wp_rp_title">Docker基础技术：Linux Namespace（下）</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-150x150.jpg" alt="Docker基础技术：DeviceMapper" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_title">Docker基础技术：DeviceMapper</a></li><li ><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-150x150.png" alt="Docker基础技术：AUFS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_title">Docker基础技术：AUFS</a></li><li ><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/filter-150x150.png" alt="Docker基础技术：Linux CGroup" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_title">Docker基础技术：Linux CGroup</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17010.html">Docker基础技术：Linux Namespace（上）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17010.html/feed</wfw:commentRss>
+			<slash:comments>113</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Docker基础技术：Linux Namespace（下）</title>
+		<link>https://coolshell.cn/articles/17029.html</link>
+					<comments>https://coolshell.cn/articles/17029.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 16 Apr 2015 02:19:23 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[Docker]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Namespace]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17029</guid>
+
+					<description><![CDATA[<p>在 Docker基础技术：Linux Namespace（上篇）中我们了解了，UTD、IPC、PID、Mount 四个namespace，我们模仿Docker做...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17029.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17029.html">Docker基础技术：Linux Namespace（下）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-17084" src="https://coolshell.cn/wp-content/uploads/2015/04/jail_cell.jpg" alt="jail_cell" width="350" height="252" srcset="https://coolshell.cn/wp-content/uploads/2015/04/jail_cell.jpg 350w, https://coolshell.cn/wp-content/uploads/2015/04/jail_cell-300x216.jpg 300w" sizes="(max-width: 350px) 100vw, 350px" />在 <strong><a title="Docker基础技术：Linux Namespace（上）" href="https://coolshell.cn/articles/17010.html" target="_blank" rel="noopener noreferrer">Docker基础技术：Linux Namespace（上篇）</a></strong>中我们了解了，UTD、IPC、PID、Mount 四个namespace，我们模仿Docker做了一个相当相当山寨的镜像。在这一篇中，主要想向大家介绍Linux的User和Network的Namespace。</p>
+<p>好，下面我们就介绍一下还剩下的这两个Namespace。</p>
+<h4>User Namespace</h4>
+<p>User Namespace主要是用了CLONE_NEWUSER的参数。使用了这个参数后，内部看到的UID和GID已经与外部不同了，默认显示为65534。那是因为容器找不到其真正的UID所以，设置上了最大的UID（其设置定义在/proc/sys/kernel/overflowuid）。</p>
+<p>要把容器中的uid和真实系统的uid给映射在一起，需要修改 <strong>/proc/&lt;pid&gt;/uid_map</strong> 和 <strong>/proc/&lt;pid&gt;/gid_map</strong> 这两个文件。这两个文件的格式为：</p>
+<p><code><code></code></code><strong>ID-inside-ns ID-outside-ns length</strong></p>
+<p>其中：</p>
+<p><span id="more-17029"></span></p>
+<ul>
+<li>第一个字段ID-inside-ns表示在容器显示的UID或GID，</li>
+<li>第二个字段ID-outside-ns表示容器外映射的真实的UID或GID。</li>
+<li>第三个字段表示映射的范围，一般填1，表示一一对应。</li>
+</ul>
+<p>比如，把真实的uid=1000映射成容器内的uid=0</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">$ cat /proc/2465/uid_map
+         0       1000          1</pre>
+<p>再比如下面的示例：表示把namespace内部从0开始的uid映射到外部从0开始的uid，其最大范围是无符号32位整形</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">$ cat /proc/$$/uid_map
+         0          0          4294967295</pre>
+<p>另外，需要注意的是：</p>
+<ul>
+<li>写这两个文件的进程需要这个namespace中的CAP_SETUID (CAP_SETGID)权限（可参看<a href="http://man7.org/linux/man-pages/man7/capabilities.7.html" target="_blank" rel="noopener noreferrer">Capabilities</a>）</li>
+<li>写入的进程必须是此user namespace的父或子的user namespace进程。</li>
+<li>另外需要满如下条件之一：1）父进程将effective uid/gid映射到子进程的user namespace中，2）父进程如果有CAP_SETUID/CAP_SETGID权限，那么它将可以映射到父进程中的任一uid/gid。</li>
+</ul>
+<p>这些规则看着都烦，我们来看程序吧（下面的程序有点长，但是非常简单，如果你读过《Unix网络编程》上卷，你应该可以看懂）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">#define _GNU_SOURCE
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+#include &lt;sys/mount.h&gt;
+#include &lt;sys/capability.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;sched.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;unistd.h&gt;
+
+#define STACK_SIZE (1024 * 1024)
+
+static char container_stack[STACK_SIZE];
+char* const container_args[] = {
+    "/bin/bash",
+    NULL
+};
+
+int pipefd[2];
+
+void set_map(char* file, int inside_id, int outside_id, int len) {
+    FILE* mapfd = fopen(file, "w");
+    if (NULL == mapfd) {
+        perror("open file error");
+        return;
+    }
+    fprintf(mapfd, "%d %d %d", inside_id, outside_id, len);
+    fclose(mapfd);
+}
+
+void set_uid_map(pid_t pid, int inside_id, int outside_id, int len) {
+    char file[256];
+    sprintf(file, "/proc/%d/uid_map", pid);
+    set_map(file, inside_id, outside_id, len);
+}
+
+void set_gid_map(pid_t pid, int inside_id, int outside_id, int len) {
+    char file[256];
+    sprintf(file, "/proc/%d/gid_map", pid);
+    set_map(file, inside_id, outside_id, len);
+}
+
+int container_main(void* arg)
+{
+
+    printf("Container [%5d] - inside the container!\n", getpid());
+
+    printf("Container: eUID = %ld;  eGID = %ld, UID=%ld, GID=%ld\n",
+            (long) geteuid(), (long) getegid(), (long) getuid(), (long) getgid());
+
+    /* 等待父进程通知后再往下执行（进程间的同步） */
+    char ch;
+    close(pipefd[1]);
+    read(pipefd[0], &amp;ch, 1);
+
+    printf("Container [%5d] - setup hostname!\n", getpid());
+    //set hostname
+    sethostname("container",10);
+
+    //remount "/proc" to make sure the "top" and "ps" show container's information
+    mount("proc", "/proc", "proc", 0, NULL);
+
+    execv(container_args[0], container_args);
+    printf("Something's wrong!\n");
+    return 1;
+}
+
+int main()
+{
+    const int gid=getgid(), uid=getuid();
+
+    printf("Parent: eUID = %ld;  eGID = %ld, UID=%ld, GID=%ld\n",
+            (long) geteuid(), (long) getegid(), (long) getuid(), (long) getgid());
+
+    pipe(pipefd);
+ 
+    printf("Parent [%5d] - start a container!\n", getpid());
+
+    int container_pid = clone(container_main, container_stack+STACK_SIZE, 
+            CLONE_NEWUTS | CLONE_NEWPID | CLONE_NEWNS | CLONE_NEWUSER | SIGCHLD, NULL);
+
+    
+    printf("Parent [%5d] - Container [%5d]!\n", getpid(), container_pid);
+
+    //To map the uid/gid, 
+    //   we need edit the /proc/PID/uid_map (or /proc/PID/gid_map) in parent
+    //The file format is
+    //   ID-inside-ns   ID-outside-ns   length
+    //if no mapping, 
+    //   the uid will be taken from /proc/sys/kernel/overflowuid
+    //   the gid will be taken from /proc/sys/kernel/overflowgid
+    set_uid_map(container_pid, 0, uid, 1);
+    set_gid_map(container_pid, 0, gid, 1);
+
+    printf("Parent [%5d] - user/group mapping done!\n", getpid());
+
+    /* 通知子进程 */
+    close(pipefd[1]);
+
+    waitpid(container_pid, NULL, 0);
+    printf("Parent - container stopped!\n");
+    return 0;
+}</pre>
+<p>上面的程序，我们用了一个pipe来对父子进程进行同步，为什么要这样做？因为子进程中有一个execv的系统调用，这个系统调用会把当前子进程的进程空间给全部覆盖掉，我们希望在execv之前就做好user namespace的uid/gid的映射，这样，execv运行的/bin/bash就会因为我们设置了uid为0的inside-uid而变成#号的提示符。</p>
+<p>整个程序的运行效果如下：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~$ id
+uid=1000(hchen) gid=1000(hchen) groups=1000(hchen)
+
+hchen@ubuntu:~$ ./user #&lt;--以hchen用户运行
+Parent: eUID = 1000;  eGID = 1000, UID=1000, GID=1000 
+Parent [ 3262] - start a container!
+Parent [ 3262] - Container [ 3263]!
+Parent [ 3262] - user/group mapping done!
+Container [    1] - inside the container!
+Container: eUID = 0;  eGID = 0, UID=0, GID=0 #&lt;---Container里的UID/GID都为0了
+Container [    1] - setup hostname!
+
+root@container:~# id #&lt;----我们可以看到容器里的用户和命令行提示符是root用户了
+uid=0(root) gid=0(root) groups=0(root),65534(nogroup)</pre>
+<p>虽然容器里是root，但其实这个容器的/bin/bash进程是以一个普通用户hchen来运行的。这样一来，我们容器的安全性会得到提高。</p>
+<p>我们注意到，User Namespace是以普通用户运行，但是别的Namespace需要root权限，那么，如果我要同时使用多个Namespace，该怎么办呢？一般来说，我们先用一般用户创建User Namespace，然后把这个一般用户映射成root，在容器内用root来创建其它的Namesapce。</p>
+<h4>Network Namespace</h4>
+<p>Network的Namespace比较啰嗦。在Linux下，我们一般用ip命令创建Network Namespace（Docker的源码中，它没有用ip命令，而是自己实现了ip命令内的一些功能——是用了Raw Socket发些“奇怪”的数据，呵呵）。这里，我还是用ip命令讲解一下。</p>
+<p>首先，我们先看个图，下面这个图基本上就是Docker在宿主机上的网络示意图（其中的物理网卡并不准确，因为docker可能会运行在一个VM中，所以，这里所谓的“物理网卡”其实也就是一个有可以路由的IP的网卡）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17040" src="https://coolshell.cn/wp-content/uploads/2015/04/network.namespace.jpg" alt="network.namespace" width="407" height="300" srcset="https://coolshell.cn/wp-content/uploads/2015/04/network.namespace.jpg 886w, https://coolshell.cn/wp-content/uploads/2015/04/network.namespace-300x221.jpg 300w" sizes="(max-width: 407px) 100vw, 407px" /></p>
+<p>上图中，Docker使用了一个私有网段，172.40.1.0，docker还可能会使用10.0.0.0和192.168.0.0这两个私有网段，关键看你的路由表中是否配置了，如果没有配置，就会使用，如果你的路由表配置了所有私有网段，那么docker启动时就会出错了。</p>
+<p>当你启动一个Docker容器后，你可以使用ip link show或ip addr show来查看当前宿主机的网络情况（我们可以看到有一个docker0，还有一个veth22a38e6的虚拟网卡——给容器用的）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c" data-enlighter-highlight="6,8">hchen@ubuntu:~$ ip link show
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state ... 
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc ...
+    link/ether 00:0c:29:b7:67:7d brd ff:ff:ff:ff:ff:ff
+3: docker0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 ...
+    link/ether 56:84:7a:fe:97:99 brd ff:ff:ff:ff:ff:ff
+5: veth22a38e6: &lt;BROADCAST,UP,LOWER_UP&gt; mtu 1500 qdisc ...
+    link/ether 8e:30:2a:ac:8c:d1 brd ff:ff:ff:ff:ff:ff</pre>
+<p>那么，要做成这个样子应该怎么办呢？我们来看一组命令：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">## 首先，我们先增加一个网桥lxcbr0，模仿docker0
+brctl addbr lxcbr0
+brctl stp lxcbr0 off
+ifconfig lxcbr0 192.168.10.1/24 up #为网桥设置IP地址
+
+## 接下来，我们要创建一个network namespace - ns1
+
+# 增加一个namesapce 命令为 ns1 （使用ip netns add命令）
+ip netns add ns1 
+
+# 激活namespace中的loopback，即127.0.0.1（使用ip netns exec ns1来操作ns1中的命令）
+ip netns exec ns1   ip link set dev lo up 
+
+## 然后，我们需要增加一对虚拟网卡
+
+# 增加一个pair虚拟网卡，注意其中的veth类型，其中一个网卡要按进容器中
+ip link add veth-ns1 type veth peer name lxcbr0.1
+
+# 把 veth-ns1 按到namespace ns1中，这样容器中就会有一个新的网卡了
+ip link set veth-ns1 netns ns1
+
+# 把容器里的 veth-ns1改名为 eth0 （容器外会冲突，容器内就不会了）
+ip netns exec ns1  ip link set dev veth-ns1 name eth0 
+
+# 为容器中的网卡分配一个IP地址，并激活它
+ip netns exec ns1 ifconfig eth0 192.168.10.11/24 up
+
+
+# 上面我们把veth-ns1这个网卡按到了容器中，然后我们要把lxcbr0.1添加上网桥上
+brctl addif lxcbr0 lxcbr0.1
+
+# 为容器增加一个路由规则，让容器可以访问外面的网络
+ip netns exec ns1     ip route add default via 192.168.10.1
+
+# 在/etc/netns下创建network namespce名称为ns1的目录，
+# 然后为这个namespace设置resolv.conf，这样，容器内就可以访问域名了
+mkdir -p /etc/netns/ns1
+echo "nameserver 8.8.8.8" &gt; /etc/netns/ns1/resolv.conf</pre>
+<p>上面基本上就是docker网络的原理了，只不过，</p>
+<ul>
+<li>Docker的resolv.conf没有用这样的方式，而是用了<a title="Docker基础技术：Linux Namespace（上）" href="https://coolshell.cn/articles/17010.html" target="_blank" rel="noopener noreferrer">上篇中的Mount Namesapce的那种方式</a></li>
+<li>另外，docker是用进程的PID来做Network Namespace的名称的。</li>
+</ul>
+<p>了解了这些后，你甚至可以为正在运行的docker容器增加一个新的网卡：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">ip link add peerA type veth peer name peerB 
+brctl addif docker0 peerA 
+ip link set peerA up 
+ip link set peerB netns ${container-pid} 
+ip netns exec ${container-pid} ip link set dev peerB name eth1 
+ip netns exec ${container-pid} ip link set eth1 up ; 
+ip netns exec ${container-pid} ip addr add ${ROUTEABLE_IP} dev eth1 ;</pre>
+<p>上面的示例是我们为正在运行的docker容器，增加一个eth1的网卡，并给了一个静态的可被外部访问到的IP地址。</p>
+<p>这个需要把外部的“物理网卡”配置成混杂模式，这样这个eth1网卡就会向外通过ARP协议发送自己的Mac地址，然后外部的交换机就会把到这个IP地址的包转到“物理网卡”上，因为是混杂模式，所以eth1就能收到相关的数据，一看，是自己的，那么就收到。这样，Docker容器的网络就和外部通了。</p>
+<p>当然，无论是Docker的NAT方式，还是混杂模式都会有性能上的问题，NAT不用说了，存在一个转发的开销，混杂模式呢，网卡上收到的负载都会完全交给所有的虚拟网卡上，于是就算一个网卡上没有数据，但也会被其它网卡上的数据所影响。</p>
+<p>这两种方式都不够完美，我们知道，真正解决这种网络问题需要使用VLAN技术，于是Google的同学们为Linux内核实现了一个<a href="https://lwn.net/Articles/620087/" target="_blank" rel="noopener noreferrer">IPVLAN的驱动</a>，这基本上就是为Docker量身定制的。</p>
+<h4>Namespace文件</h4>
+<p>上面就是目前Linux Namespace的玩法。 现在，我来看一下其它的相关东西。</p>
+<p>让我们运行一下上篇中的那个pid.mnt的程序（也就是PID Namespace中那个mount proc的程序），然后不要退出。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">$ sudo ./pid.mnt 
+[sudo] password for hchen: 
+Parent [ 4599] - start a container!
+Container [    1] - inside the container!</pre>
+<p>我们到另一个shell中查看一下父子进程的PID：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~$ pstree -p 4599
+pid.mnt(4599)───bash(4600)</pre>
+<p>我们可以到proc下（/proc//ns）查看进程的各个namespace的id（内核版本需要3.8以上）。</p>
+<p>下面是父进程的：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~$ sudo ls -l /proc/4599/ns
+total 0
+lrwxrwxrwx 1 root root 0  4月  7 22:01 ipc -&gt; ipc:[4026531839]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 mnt -&gt; mnt:[4026531840]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 net -&gt; net:[4026531956]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 pid -&gt; pid:[4026531836]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 user -&gt; user:[4026531837]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 uts -&gt; uts:[4026531838]</pre>
+<p>下面是子进程的：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">hchen@ubuntu:~$ sudo ls -l /proc/4600/ns
+total 0
+lrwxrwxrwx 1 root root 0  4月  7 22:01 ipc -&gt; ipc:[4026531839]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 mnt -&gt; mnt:[4026532520]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 net -&gt; net:[4026531956]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 pid -&gt; pid:[4026532522]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 user -&gt; user:[4026531837]
+lrwxrwxrwx 1 root root 0  4月  7 22:01 uts -&gt; uts:[4026532521]</pre>
+<p>我们可以看到，其中的ipc，net，user是同一个ID，而mnt,pid,uts都是不一样的。如果两个进程指向的namespace编号相同，就说明他们在同一个namespace下，否则则在不同namespace里面。</p>
+<p>这些文件还有另一个作用，那就是，一旦这些文件被打开，只要其fd被占用着，那么就算PID所属的所有进程都已经结束，创建的namespace也会一直存在。比如：我们可以通过：mount &#8211;bind /proc/4600/ns/uts ~/uts 来hold这个namespace。</p>
+<p>另外，我们在上篇中讲过一个setns的系统调用，其函数声明如下：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">int setns(int fd, int nstype);</pre>
+<p>其中第一个参数就是一个fd，也就是一个open()系统调用打开了上述文件后返回的fd，比如：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">fd = open("/proc/4600/ns/nts", O_RDONLY);  // 获取namespace文件描述符
+setns(fd, 0); // 加入新的namespace</pre>
+<h4>参考文档</h4>
+<ul>
+<li style="list-style-type: none;">
+<ul>
+<li><a href="http://lwn.net/Articles/531114/" target="_blank" rel="noopener noreferrer">Namespaces in operation</a></li>
+<li><a href="http://man7.org/linux/man-pages/man7/namespaces.7.html" target="_blank" rel="noopener noreferrer">Linux Namespace Man Page</a></li>
+<li><a href="http://crosbymichael.com/creating-containers-part-1.html" target="_blank" rel="noopener noreferrer">Creat Containers &#8211; Part 1</a></li>
+<li><a href="https://blog.jtlebi.fr/2013/12/22/introduction-to-linux-namespaces-part-1-uts/" target="_blank" rel="noopener noreferrer">Introduction to Linux namespaces</a></li>
+</ul>
+</li>
+</ul>
+<p>（应网友card323加入）</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/isolation-150x150.jpg" alt="Docker基础技术：Linux Namespace（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17010.html" class="wp_rp_title">Docker基础技术：Linux Namespace（上）</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-150x150.jpg" alt="Docker基础技术：DeviceMapper" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17200.html" class="wp_rp_title">Docker基础技术：DeviceMapper</a></li><li ><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/docker-filesystems-busyboxrw-150x150.png" alt="Docker基础技术：AUFS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17061.html" class="wp_rp_title">Docker基础技术：AUFS</a></li><li ><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/filter-150x150.png" alt="Docker基础技术：Linux CGroup" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17049.html" class="wp_rp_title">Docker基础技术：Linux CGroup</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17029.html">Docker基础技术：Linux Namespace（下）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17029.html/feed</wfw:commentRss>
+			<slash:comments>51</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

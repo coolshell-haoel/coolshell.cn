@@ -1,0 +1,1045 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Ajax开发 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/category/proglanguage/ajaxdev/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 27 Aug 2012 07:35:47 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>一次Ajax查错的经历</title>
+		<link>https://coolshell.cn/articles/8170.html</link>
+					<comments>https://coolshell.cn/articles/8170.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 27 Aug 2012 06:56:59 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8170</guid>
+
+					<description><![CDATA[<p>先说故事，再说想法吧。 我有一朋友做网站，用jQuery的Ajax方法从后端载入一段HTML代码然后动态插入到网页的Div元件中。这个东西太普遍了。jQuery...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8170.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8170.html">一次Ajax查错的经历</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>先说故事，再说想法吧。</p>
+<p>我有一朋友做网站，用jQuery的Ajax方法从后端载入一段HTML代码然后动态插入到网页的Div元件中。这个东西太普遍了。jQuery强大的load方法可以完成这个事情。朋友的代码是这么写的：</p>
+<p>[javascript]var tab = jQuery(&quot;#dynamic_tab&quot;);<br />
+var url = &quot;/list_ajax/&quot;;<br />
+tab.load(url);[/javascript]</p>
+<p>简单到不能再简单了。在Chrome，Firefox，Safari下运行一点问题也没有，只有IE不行，不管是IE7，IE8，还是IE9。问题的症壮是，使用IE访问那个Ajax的链接，没有问题，但是在jQuery的Ajax方法返回了“undefined”的respons对象。没有任何报错！</p>
+<p>怎么搞也搞不定，只好Google了一下——“<a href="https://www.google.com/#hl=zh-CN&amp;newwindow=1&amp;site=&amp;source=hp&amp;q=jQuery+load+IE&amp;btnK=Google+%E6%90%9C%E7%B4%A2&amp;oq=jQuery+load+IE" target="_blank">jQuery load IE</a>”，一看，很多人都在问这个问题。于是开始了<a title="各种流行的编程风格" href="https://coolshell.cn/articles/2058.html" target="_blank">散弹枪编程方式</a>。</p>
+<p>排在第一的就是StackOverflow被浏览了33K次的这个问题：<a href="http://stackoverflow.com/questions/1061525/jquerys-load-not-working-in-ie-but-fine-in-firefox-chrome-and-safari" target="_blank">jQuery&#8217;s .load() not working in IE &#8211; but fine in Firefox, Chrome and Safari</a>，答案没有被打勾（不靠谱），StackOverflow还有很多人问相似的问题，不过都没有答案。不管三七二十一，先试了一下，散弹枪嘛。试了半天都没有用。</p>
+<p>然后上Google查，又看到有人说的IE缓存的问题，什么，要把cache设置成false，或是用下面的方法来解决：</p>
+<p>[javascript]var tab = jQuery(&quot;#dynamic_tab&quot;);<br />
+var fuckie = Math.random();<br />
+var url = &quot;/list_ajax/&quot;+&quot;?fuckie=&quot;+fuckie;<br />
+tab.load(url);[/javascript]</p>
+<p>反正还是一样，统统不Work，几乎所有的都试了，都不Work。搞了一天的朋友恼怒道：“Microsoft应该快点倒闭吧，产品太烂了”。IE的确是太烂了。</p>
+<p><span id="more-8170"></span></p>
+<p>于是我用IE9的网页调试器可以看到点了Ajax的链接后，<strong>IE对网站有http的Ajax请求，也可以看到请求返回了，但是就是不显示在我的页面上——jQuery的Ajax的responseText为undefined!</strong></p>
+<p>对于我这个老家伙，对jQuery也不熟，我只得开始调试jQuery的代码，想看看里面干了什么，报了什么错？调了一个小时，基本上把jQuery的Ajax的封装看懂了七七八八了，但是还是没找到为什么有问题。</p>
+<p>于是，我只得架起原生态的Ajax，看看IE的那个Ajax的ActiveX的对象干了什么事？写了下面的代码（当年写Ajax就是这么写的，所以也不费劲，况且网上还有例程可以抄）：</p>
+<p>[javascript]<br />
+function InitAjax()<br />
+{<br />
+    var ajax=false;<br />
+    try {<br />
+        ajax = new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;);<br />
+    } catch (e) {<br />
+        try {<br />
+            ajax = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);<br />
+        } catch (E) {<br />
+            ajax = false;<br />
+        }<br />
+    }<br />
+    if (!ajax &amp;&amp; typeof XMLHttpRequest!=&#8217;undefined&#8217;) {<br />
+        ajax = new XMLHttpRequest();<br />
+    }<br />
+    return ajax;<br />
+}</p>
+<p>var ajax = InitAjax();<br />
+ajax.open(&quot;GET&quot;, url, true);<br />
+ajax.onreadystatechange = function() {<br />
+    if (ajax.readyState == 4 &amp;&amp; ajax.status == 200) {<br />
+        var show = document.getElementById(&quot;HaoChenDIV&quot;).value;<br />
+        show.innerHTML = ajax.responseText;<br />
+    }<br />
+}<br />
+ajax.send(null);<br />
+[/javascript]</p>
+<p>一运行，还是不行，没见IE报什么错，不过，可以确定这不是jQuery的问题了，估计还是我们自己程序的问题。不过此时的程序太好调试了，调试中，在IE9下调式发现原生的IE的Ajax对象在onreadystatechange函数里，其responseText是下面这个样子：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8171" title="ajax error in ie" src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error.jpg" alt="" width="601" height="153" srcset="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error.jpg 601w, https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-300x76.jpg 300w" sizes="(max-width: 601px) 100vw, 601px" /></p>
+<p>什么是“<strong>系统错误: -1072896658</strong>”？上<a href="https://www.google.com/#hl=zh-CN&amp;newwindow=1&amp;q=ajax+%22%E7%B3%BB%E7%BB%9F%E9%94%99%E8%AF%AF:+-1072896658%22&amp;oq=ajax+%22%E7%B3%BB%E7%BB%9F%E9%94%99%E8%AF%AF:+-1072896658%22" target="_blank">google一查</a>，一堆页面，基本上是说乱码了，也就是ajax的后端程序返回的网页编码不认识吧。需要在返回的http header里加上 charset=utf-8。</p>
+<p>于是，修改后端的Ajax的程序，明确指定了返回的HTTP Header中的charset，于是IE下就工作正常了，再切回jQuery的load代码，一切正常了（后端的程序本来是utf-8的编码格式，但是不骨明确在HTTP Header中指定，但是只有IE不会自动检测）。</p>
+<p>这个问题的原因就是因为我们没有按照规范去写网页。所以，举一反三，HTML的规范还有哪些，太多了，记也记不住。但也许你会知道<strong>有一个叫 <a href="http://validator.w3.org" target="_blank">http://validator.w3.org</a> 的网站可以帮你校验你网页中的很多不规范的东西</strong>。这个工具会报很多很多错，很多都有点吹毛求疵，不过，可以让你看看（注：今天的coolshell装了很多插件，也被我调过一些东西，所以出错很多，我还记得以前没有插件没有我定制化的样式的时候，Wordpress一个错都不报）。</p>
+<h4>后记</h4>
+<p>我把这个问题和过程分享出来，主要有这么几个目的，并抛出几个问题，大家可以思考一下：</p>
+<p style="padding-left: 30px;">1）这个问题网上有很多人都在报，但是基本上找不到答案（包括StackOverflow），所以，我分享出来，填补一下空白。</p>
+<p style="padding-left: 30px;">2）我相信我们的程序员天天都在经历这样的事，我不知道大家在遇到这样的事情会怎么做？也许大多数人都在网上查各种解决方案，然后一个一个的试，直到试对了——散弹枪式的编程，呵呵。当然，大多数答案都是可能找到的。但<strong>当我们找到答案了后，我们还会深入去了解这个问题的具体原因并举一反三地去思考一其周边的东西吗</strong>？</p>
+<p style="padding-left: 30px;">3）另外，在今天这样N多框架，N多lib，N多开源的年代下，<strong>不知道大家有没有失去了从零开始自己写代码的能力？</strong>比如上面的这个问题，不知道有多少人还会自己写原生态的Ajax？不过，我还是建议大家能在使用各种框架的时候，明白那些最基础的知识，求甚解，知其然知其所以然，真的很重要。</p>
+<p>我是从那个“吃糠的年代”过来的程序员，那时的程序员什么都要自己干，很辛苦，今天我和很多人说我以前的那些经历，会被笑话，但是我从这些什么都自己的干的年代过的经历，让我受益很多。我把我的想法分享给大家，希望对大家有用。</p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8170.html">一次Ajax查错的经历</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8170.html/feed</wfw:commentRss>
+			<slash:comments>93</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些非常有意思的杂项资源</title>
+		<link>https://coolshell.cn/articles/3013.html</link>
+					<comments>https://coolshell.cn/articles/3013.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 28 Sep 2010 00:38:34 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[GUI]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Structure Synth]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3013</guid>
+
+					<description><![CDATA[<p>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3013.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇文章，这样有利于减轻本站的负载，也有利于节省网络带宽，同样，也就节省了能力和电力，因此也就很环保，很低碳。呵呵。</p>
+<ul>
+<li>先是一个《Windows Internal》第五版的第五章的电子版（英文的），你可以在<a href="http://download.sysinternals.com/Files/WindowsInternals-Ch05.pdf" target="_blank"><strong>这里下载</strong></a>。关于其它一些电子书，你可以看看本站的这篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/240.html">非常不错的编程技术教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/336.html">超过100本的linux免费书籍</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/355.html">20本最好的Linux免费书籍</a>》</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><a href="http://www.3dtin.com/" target="_blank"><strong>http://www.3dtin.com/</strong></a>是一个用纯Javascript搞的一个3D作图的网站，Javascript是越来越强大了。这个演示可以让你看到以后Web应用的潜力。关于<a href="https://coolshell.cn/articles/tag/javascript" target="_blank">Javascript的一些东西</a>，你可以参看本站的这些文章《<a rel="bookmark" href="https://coolshell.cn/articles/2785.html" target="_blank">JS1K 演示</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2276.html" target="_blank">又一个Javascript试验田</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2065.html" target="_blank">一个Windows 3.1的Web网站</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1932.html" target="_blank">哥是玩程序的</a>》。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到这些很酷很炫的东西，大家一定会想到使用Flash，不过，目前的<a href="https://coolshell.cn/articles/2735.html" target="_blank">Flash正在受到HTML5的强力挑战</a>，目前，对于HTML5的展示网站很多，让我们看到了HTML5完全可以做出Flash的样子，比如前些天本站说到的<a href="https://coolshell.cn/articles/2926.html" target="_blank">这个演示</a>，还有给大家展示的<a href="https://coolshell.cn/articles/2998.html" target="_blank">纯HTML5的小游戏</a>，不过，那些都是一些演示和展示罢了。今天在网上看到一个更强大的HTML5游戏，相当有可玩性，大家不妨一去试玩：<strong><a href="http://www.phoboslab.org/biolab/" target="_blank">http://www.phoboslab.org/biolab/</a></strong></li>
+</ul>
+<p><a href="http://www.phoboslab.org/biolab/"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3017" title="一个很不错的HTML5游戏" src="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg" alt="" width="483" height="321" srcset="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg 483w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-300x199.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-406x270.jpg 406w" sizes="(max-width: 483px) 100vw, 483px" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>HTML5 可以应用的还不只是游戏，这不，<a href="http://thechangelog.com/post/1097381443/vexflow-html5-canvas-javascript-library-music-and-guitar" target="_blank">有文章指出</a>，用<a href="http://www.vexflow.com/" target="_blank"><strong>VexFlow</strong></a>还可以很轻松地在网页上发布乐谱。而<a href="http://stepheneisenhauer.com/demos/drummachine/" target="_blank"><strong>这个网页</strong></a>还可以让你制作Hi-PoP音乐。</li>
+</ul>
+<p style="text-align: center;"><a href="http://www.vexflow.com/"><img decoding="async" loading="lazy" src="http://cl.ly/c4f966c6d51cfc9be20b/content" alt="Rendered music" width="530" height="240" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到Web开发，就得要提CSS了，这里有一个在线编辑CSS的网站，很不错，<a href="http://css3.mikeplate.com/" target="_blank"><strong>http://css3.mikeplate.com/</strong></a>。关于CSS和Web开发的一些文章，你可以查看本站的<a href="https://coolshell.cn/articles/tag/css" target="_blank">CSS的Tag</a>。现在，这种在线的东西是越来越多了，比如：《<a rel="bookmark" href="https://coolshell.cn/articles/2271.html" target="_blank">Emacs配色在线生成器</a><span style="font-weight: normal; font-size: 13px;">》、《</span><a rel="bookmark" href="https://coolshell.cn/articles/1883.html" target="_blank">Coderun.com 在线开发IDE</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1830.html" target="_blank">正则表达式生成器</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1611.html" target="_blank">Ajax开发利器UIzard</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/776.html" target="_blank">一个在线的画UML图的网站</a>》。</li>
+</ul>
+<p><span id="more-3013"></span></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起在线服务，就不得不说说在线代码编译的服务，我觉得这种服务相当好，不需要你在本机安装编译器或IDE，想试试某个语言的语法，真接上网就OK，很方便。以前本站向大家介绍过《<a rel="bookmark" href="https://coolshell.cn/articles/1310.html" target="_blank">在线代码编译服务Codepad.org</a>》其支持：C，C++，D，Haskell，Lua，OCaml，PHP，Perl，Plain Text，Python，Ruby，Scheme，Tcl。当然，在这里，向你介绍一个可以运行Go语言的：<strong><a href="http://golang.org/doc/play/" target="_blank">http://golang.org/doc/play/</a></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web开发，很自然的就能想到UI。下面是一个<a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns" target="_blank"><strong>UI的设计Patterns</strong></a>，这篇文章告诉了我们12个比较常用或是经典的图形UI Patterns。关于<a href="https://coolshell.cn/articles/tag/ui" target="_blank">UI方面的话题</a>，你可以参看酷壳的《<a rel="bookmark" href="https://coolshell.cn/articles/363.html" target="_blank">35个强大的UI设计教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1907.html" target="_blank">UI的恶梦</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/2313.html" target="_blank">史上最糟糕的网站</a>》。</li>
+</ul>
+<p><a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns"><img decoding="async" loading="lazy" class="aligncenter" title="12个标准的图形UI设计模式" src="http://theresaneil.files.wordpress.com/2008/12/standard_screen_patterns.png" alt="" width="476" height="705" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web的界面，最让各位WEB开发者痛苦的就是网页兼容性问题，IE是一个恶梦，因为其自己和自己都不兼容，在MSDN上，有这样的一个网页说明了<a href="http://msdn.microsoft.com/en-us/library/cc351024" target="_blank"><strong>从IE5一直到IE9的CSS的兼容性问题</strong></a>，很多很多的表格，头都看大了。当然，以前本站的《<a rel="bookmark" href="https://coolshell.cn/articles/757.html" target="_blank">检查网页浏览器的兼容性</a>》的文章向你介绍过如何查看网站在不同浏览器中和操作系统下的效果（其也是一个在线服务）。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>当然，Web上的开发，问题最大的还是安全问题，我们的Ruby on Rails给出了一个<a href="http://guides.rubyonrails.org/security.html" target="_blank"><strong>Web安全的开发教程</strong></a>，相当不错哦。谈到了几乎所有最有威胁和最常用的网上攻击，这个文档应该是所有Web开发者都需要注意的。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>下面是一个给新手学习linux用的一个桌面（点击图片看大图），其列出了很多常用的命令，以及VI的常用命令。关于VI的一些东西，你可以查看<a href="https://coolshell.cn/articles/tag/vim" target="_blank">本站的这些文章</a>，如：<a rel="bookmark" href="https://coolshell.cn/articles/1651.html" target="_blank">VIM有趣的命令</a>、<a rel="bookmark" href="https://coolshell.cn/articles/894.html" target="_blank">如何在vim中得到你最喜爱的IDE特性</a></li>
+</ul>
+<p style="text-align: center;"><a href="http://i.imgur.com/CJkR9.png"><img decoding="async" loading="lazy" class="aligncenter" title="Linux命令桌面" src="http://i.imgur.com/CJkR9.png" alt="" width="553" height="346" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>最后，给大家介绍一个关于文件格式方面东西，我们知道，很多文件的开头表明着这个文件的类型，所以，有这样的一个网站了维护了这么一个信息列表，其把几乎所有常见的文件头的那段和文件类型相关的Magic Number列了出来，而且还保持更新，非常不错哦，这个网站是：<strong><a href="http://www.garykessler.net/library/file_sigs.html">http://www.garykessler.net/library/file_sigs.html</a><span style="font-weight: normal;">，希望能对你有用哦。</span></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><strong><span style="font-weight: normal;">最最后，给大家介绍一个开源项目，叫<a href="http://structuresynth.sourceforge.net/" target="_blank"><strong>Structure Synth</strong></a>，这个东西可以用来画出一些很酷的图，相当不错，使用起来非常简单，我试用了一下，的确很强大。用一些简单的脚本就可以作出很不错的3D图，下面是他的一个示例，只需要写那么不到10行的代码，很简单。</span></strong></li>
+</ul>
+<p><a href="http://structuresynth.sourceforge.net/index.php"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3018" title="Structure Synth" src="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg" alt="" width="500" height="301" srcset="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth-300x180.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a></p>
+<p style="padding-left: 60px;">想看看，大家用这个东西做什么酷图了吗？上 <a href="http://www.flickr.com/groups/structuresynth/" target="_blank">http://www.flickr.com/groups/structuresynth/</a> 看看吧。</p>
+<p id="pool_4652540301" style="text-align: center;"><a title="structure 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540301/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4029/4652540301_db50832fdc_t.jpg" border="0" alt="structure 作者 Supreet Kumar" width="100" height="56" /></a> <a title="architecture x-ray 2 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540021/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4044/4652540021_0f17294ca5_t.jpg" border="0" alt="architecture x-ray 2 作者 Supreet Kumar" width="100" height="62" /></a> <a title="perspective 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4650270228/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4002/4650270228_8cc69948bc_t.jpg" border="0" alt="perspective 作者 Supreet Kumar" width="100" height="60" /></a> <a title="snake shade 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4649663253/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4042/4649663253_aa041ab239_t.jpg" border="0" alt="snake shade 作者 Supreet Kumar" width="100" height="57" /></a> <a title="thatched beauty 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641732162/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3414/4641732162_e2b078825f_t.jpg" border="0" alt="thatched beauty 作者 Supreet Kumar" width="100" height="63" /></a><br />
+<a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055399/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3353/4641055399_25688820a9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="70" /></a> <a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055019/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4064/4641055019_6ed80cd1b9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="65" /></a> <a title=" 作者 FracturedPixel" href="http://www.flickr.com/photos/cav666/4640849748/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4062/4640849748_0532451842_t.jpg" border="0" alt=" 作者 FracturedPixel" width="100" height="63" /></a> <a title="splash1 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4636427318/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4008/4636427318_c84acf4aa4_t.jpg" border="0" alt="splash1 作者 Supreet Kumar" width="100" height="63" /></a> <a title="joy 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4635820649/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4012/4635820649_720cd6599b_t.jpg" border="0" alt="joy 作者 Supreet Kumar" width="100" height="53" /></a></p>
+<p id="pool_4635820649">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3013.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Ajax开发利器UIzard</title>
+		<link>https://coolshell.cn/articles/1611.html</link>
+					<comments>https://coolshell.cn/articles/1611.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 22 Oct 2009 15:40:30 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[UIzard]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1611</guid>
+
+					<description><![CDATA[<p>正如UIzard这个名字所暗示的，这是一个User Interface 的Wizard，从字面上理解，这是一个做界面的向导。这有什么奇怪的，Dreamwave之...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1611.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1611.html">Ajax开发利器UIzard</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="https://coolshell.cn/wp-content/uploads/2009/10/uizard2.jpg"></a>正如UIzard这个名字所暗示的，这是一个User Interface 的Wizard，从字面上理解，这是一个做界面的向导。这有什么奇怪的，Dreamwave之流已经是相当的成熟了，还能好得过它？是的，这个开源的项目，也许并没有那些商业软件那么成熟，不过，我想告诉你的是，这个开源软件绝对是值得我们重点关注的一个软件。</p>
+<p>你可以理解为这是一个Web开发的IDE，不过其集成了Ajax方面的东西。这并不仅仅简单的是那种“所见即所得”的编辑器。而且，它也不信仅可以让那些非程序员非常简单地创建一个从前端到后端的Web应用，而且，他还可以让你连接数据库，创建非常复杂的布局和时间线，甚至于一些套件（白板，在线的类Word，Excel，PPT等功能），所有这些，你只需要简单的点几下按钮就可以了。真是相当的强大。（下面是个抓图）</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" title="UIzard" src="https://coolshell.cn/wp-content/uploads/2009/10/uizard2.jpg" alt="UIzard" width="500" height="344" /></p>
+<p><span id="more-1611"></span></p>
+<p>看上去很不错吧，上面的的屏幕抓图展示了，你可以非常简单地嵌入一些Google的API。而且，你还可以设置RSS相关的功能，是的，源代码是很复杂的，但是有了这个工具，你所需要的就是用鼠标点来点去。</p>
+<p>最NB的是，你不需要在你的硬盘上安装这个工具，你完全是一个基于Web的在线IDE，真是太强大了，这是我最最欣赏的地方，真是令人难以置信。</p>
+<p>最后需要说的，这个工具的作者是一个韩国人，叫 Ryu Sungtae（韩国人的软件MS越来越猛了，比如那个著名的Kmplayer也是韩国人做的）， UIzard 由 Yahoo’ User Interface Library (YUI) 构造，这是一个基于Javascript 的用于创建各种交互式应用的程序库。虽然，目前的UIzard 只是Beta版，版本号还很新，0.9版，不过，这个项目的潜力是相当的大，值我们关注。</p>
+<p>其官方站点是：<a href="http://www.uizard.org/" target="_blank">http://www.uizard.org/</a> </p>
+<p>如果你想体验一下，那么，请你猛击下面的链接吧：（使用Fixfox效果更好）</p>
+<p style="text-align: center;"><a href="http://www.uizard.org/UIzard/uizard.php" target="_blank">http://www.uizard.org/UIzard/uizard.php</a></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/10/uizard1.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-1614" title="UIzard创建工程" src="https://coolshell.cn/wp-content/uploads/2009/10/uizard1.jpg" alt="UIzard创建工程" width="500" height="310" srcset="https://coolshell.cn/wp-content/uploads/2009/10/uizard1.jpg 500w, https://coolshell.cn/wp-content/uploads/2009/10/uizard1-300x186.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a></p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Web版的VNC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_title">Web版的VNC</a></li><li ><a href="https://coolshell.cn/articles/909.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="7个免费强大的Ajax文件管理器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/909.html" class="wp_rp_title">7个免费强大的Ajax文件管理器</a></li><li ><a href="https://coolshell.cn/articles/154.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/webmail1-150x150.jpg" alt="10个基于Ajax的PHP Webmail客户端" width="150" height="150" /></a><a href="https://coolshell.cn/articles/154.html" class="wp_rp_title">10个基于Ajax的PHP Webmail客户端</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1611.html">Ajax开发利器UIzard</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1611.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>7个免费强大的Ajax文件管理器</title>
+		<link>https://coolshell.cn/articles/909.html</link>
+					<comments>https://coolshell.cn/articles/909.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 24 May 2009 12:46:56 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=909</guid>
+
+					<description><![CDATA[<p>如果你正在开发一个WEB应用，需要一个不错的强大的文件管理器，并且可以简单的定制，那么，下面的这七个免费开源的文件管理器你一会喜欢的。这些文件管理器都很强大，他...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/909.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/909.html">7个免费强大的Ajax文件管理器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>如果你正在开发一个WEB应用，需要一个不错的强大的文件管理器，并且可以简单的定制，那么，下面的这七个免费开源的文件管理器你一会喜欢的。这些文件管理器都很强大，他们全部都支持PHP，Javascript和Ajax，有几个还支持别的WEB开发语言。这些管理理可以让你完成目录文件浏览，搜索，上传/下载，编辑，拷贝，移动，删除等等文件操作功能。</p>
+<h3 class="title">1. <a href="http://www.ajaxplorer.info/">AjaXplorer</a></h3>
+<p class="img"><img decoding="async" src="http://devsnippets.com/img/file-manager4.jpg" alt="Ajax File Manager" /></p>
+<p>AjaXplorer 是一个免费的 Ajax 文件管理器，其很容易安装。而且它的布局很丰富，可以用于多种应用，比如：文件管理，文件共享，图片库，代码库等等。不过它只支持(4 呀 5) ，不支持数据库。</p>
+<p><span id="more-909"></span></p>
+<ul>
+<li>改名/拷贝/移动/删除/下载文件或目录。</li>
+<li>以进度条的方式上传多个文件 (需要Flash 支持，不支持https)</li>
+<li>创建目录和空文件。</li>
+<li>编辑纯文本文件和代码 (js, php, html, java, sql, perl)，支持语法高亮。</li>
+<li>查看图片，有缩略图功能。</li>
+<li>可以在线地播放MP3文件。</li>
+<li>在线地查看Flash videos (FLV) 文件。</li>
+<li>可以在线地浏览或解压ZIP 文件。</li>
+</ul>
+<p><strong>链接：</strong></p>
+<ul>
+<li><strong>下载</strong>：<a href="http://www.ajaxplorer.info/download/">http://www.ajaxplorer.info/download/</a></li>
+<li><strong>演示</strong>：<a href="http://www.ajaxplorer.info/demo/">http://www.ajaxplorer.info/demo/</a></li>
+</ul>
+<p> </p>
+<div id="livedownload"><a class="livedemo" href="http://www.ajaxplorer.info/demo/" target="_blank"></a><a class="livedownload" href="http://www.ajaxplorer.info/download/" target="_blank"></a></div>
+<h3 class="title">2. <a href="http://filenice.com/">fileNice</a></h3>
+<p class="img"><img decoding="async" src="http://devsnippets.com/img/file-manager1.jpg" alt="Ajax File Manager" /></p>
+<p>fileNice 是一个免费的PHP文件浏览器。</p>
+<p><strong>链接：</strong></p>
+<ul>
+<li><strong>主页：</strong><a href="http://filenice.com/">http://filenice.com/</a></li>
+<li><strong>演示：</strong><a href="http://filenice.com/demo/">http://filenice.com/demo/</a></li>
+</ul>
+<p> </p>
+<div id="livedownload"><a class="livedemo" href="http://filenice.com/demo/" target="_blank"></a><a class="livedownload" href="http://filenice.com/" target="_blank"></a></div>
+<h3 class="title">3. <a href="http://www.solitude.dk/filethingie/">File Thingie</a></h3>
+<p class="img"><img decoding="async" src="http://devsnippets.com/img/file-manager2.jpg" alt="Ajax File Manager" /></p>
+<p>File Thingie 是一个小型的文件管理器。由PHP写成。他主要的目的是提示一个WEB界面的文件管理器（如果你不能使用或是不会使用FTP）。通过File Thingie你可以完成下面这些事：</p>
+<ul>
+<li>安装简单— 只有一个文件</li>
+<li>多文件上传</li>
+<li>多用户和用户组</li>
+<li>创建子目录</li>
+<li>改名，移动，删除，拷贝文件和目录</li>
+<li>搜索文件或目录名</li>
+<li>通过黑/白名单进行文件级的存取控制</li>
+<li>编辑纯文本文件</li>
+<li>在线Unzip 文件</li>
+<li>非常容易地进行CSS界面定制</li>
+<li>支持多国语言</li>
+</ul>
+<p><strong>链接：</strong></p>
+<ul>
+<li><strong>教程：</strong><a href="http://www.solitude.dk/filethingie/tour">http://www.solitude.dk/filethingie/tour</a></li>
+<li><strong>下载：</strong><a href="http://www.solitude.dk/filethingie/download">http://www.solitude.dk/filethingie/download</a></li>
+</ul>
+<p> </p>
+<div id="livedownload"><a class="livedemo" href="http://www.solitude.dk/filethingie/tour" target="_blank"></a><a class="livedownload" href="http://www.solitude.dk/filethingie/download" target="_blank"></a></div>
+<h3 class="title">4. <a href="http://og5.net/christoph/article/MooTools_based_FileManager">MooTools based FileManager</a></h3>
+<p class="img"><img decoding="async" src="http://devsnippets.com/img/file-manager3.jpg" alt="Ajax File Manager" /></p>
+<p>MooTools based File-Manager 提供了预览，上传和修改文件和目录的功能。其主要功能如下：</p>
+<ul>
+<li>浏览文件和目录</li>
+<li>改名，删除，移动（拖放）,拷贝（Ctrl+拖放）和下载</li>
+<li>查看文件细节和预览图片文件，文本文件，压缩文件和音频文件。</li>
+<li>非常不错的UI设计 </li>
+<li>通过FancyUpload 上传文件</li>
+<li>提供在上传时自动缩放图片尺寸的选项</li>
+</ul>
+<p><strong>链接：</strong></p>
+<ul>
+<li><strong>演示：</strong><a href="http://og5.net/christoph/Scripts/FileManager/Demos/">http://og5.net/christoph/Scripts/FileManager/Demos/</a></li>
+<li><strong>下载：</strong><a href="http://og5.net/christoph/article/MooTools_based_FileManager">http://og5.net/christoph/article/MooTools_based_FileManager</a></li>
+</ul>
+<p> </p>
+<div id="livedownload"><a class="livedemo" href="http://og5.net/christoph/Scripts/FileManager/Demos/" target="_blank"></a><a class="livedownload" href="http://og5.net/christoph/article/MooTools_based_FileManager" target="_blank"></a></div>
+<h3 class="title">5. <a href="http://ecosmear.com/relay/">Relay</a></h3>
+<p class="img"><img decoding="async" src="http://devsnippets.com/img/file-manager5.jpg" alt="Ajax File Manager" /></p>
+<p>Relay 是一个极牛的Ajax 文件管理器。在上传和下载文件它做得相当出色。下面是它的一些功能：</p>
+<ul>
+<li>可以随意拖放文件和目录</li>
+<li>动态地载入文件目录结构 </li>
+<li>上传文件进度条 </li>
+<li>缩略图预览（包括PDF文件） </li>
+<li>多用户和帐号</li>
+</ul>
+<p><strong>链接：</strong></p>
+<ul>
+<li><strong>演示：</strong><a href="http://ecosmear.com/relay/demo/">http://ecosmear.com/relay/demo/</a></li>
+<li> <strong>主页：</strong><a href="http://ecosmear.com/relay/">http://ecosmear.com/relay/</a></li>
+</ul>
+<p> </p>
+<div id="livedownload"><a class="livedemo" href="http://ecosmear.com/relay/demo/" target="_blank"></a><a class="livedownload" href="http://ecosmear.com/relay/" target="_blank"></a></div>
+<h3 class="title">6. <a href="http://kfm.verens.com/">Kae’s File Manager</a></h3>
+<p class="img"><img decoding="async" src="http://devsnippets.com/img/file-manager8.jpg" alt="Ajax File Manager" /></p>
+<p>KFM 是一个在线的文件管理器，它可以单独使用或是以一个插件的方式给一些编辑器使用。比如这些编辑器：FCKeditor 或TinyMCE。KFM 是一个开源的免费的项目，下面是它的一些特性：</p>
+<ul>
+<li>鼠标拖放功能</li>
+<li>图标显示，列表显示</li>
+<li>支持插件</li>
+<li>图片操作，幻灯片播放</li>
+<li>简单的安装和升级</li>
+<li>文本编辑时语法高亮</li>
+<li>搜索引擎</li>
+<li>标签</li>
+<li>多语言</li>
+<li>mp3 和视频播放插件</li>
+</ul>
+<p><strong>链接：</strong></p>
+<ul>
+<li><strong>演示：</strong><a href="http://kfm.verens.com/demo/1.3.1/?lang=en">http://kfm.verens.com/demo/1.3.1/?lang=en</a></li>
+<li><strong>主页：</strong><a href="http://kfm.verens.com/">http://kfm.verens.com/</a></li>
+</ul>
+<p> </p>
+<div id="livedownload"><a class="livedemo" href="http://kfm.verens.com/demo/1.3.1/?lang=en" target="_blank"></a><a class="livedownload" href="http://kfm.verens.com/" target="_blank"></a></div>
+<h3 class="title">7. <a href="http://extplorer.sourceforge.net/">eXtplorer</a></h3>
+<p class="img"><img decoding="async" src="http://devsnippets.com/img/file-manager7.jpg" alt="Ajax File Manager" /></p>
+<p>eXtplorer 特性如下：</p>
+<ul>
+<li>文件目录浏览</li>
+<li>编辑，复制，移动，删除文件</li>
+<li>搜索，上传和下载文件</li>
+<li>创建和释放压缩文件</li>
+<li>创建文件和目录</li>
+<li>更改文件和目录权限</li>
+<li>其它更多更多的内容</li>
+</ul>
+<p><strong>链接：</strong></p>
+<ul>
+<li><strong>主页：</strong> <a href="http://extplorer.sourceforge.net/">http://extplorer.sourceforge.net/</a></li>
+</ul>
+<p> </p>
+<div id="livedownload"><a class="livedemo" href="http://extplorer.sourceforge.net/extplorer.png" target="_blank"></a>文章：<a href="http://devsnippets.com/article/ajax/7-free-powerful-file-managers.html" target="_blank">来源</a></div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Web版的VNC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_title">Web版的VNC</a></li><li ><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="最为奇怪的程序语言的特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_title">最为奇怪的程序语言的特性</a></li><li ><a href="https://coolshell.cn/articles/1850.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/programming_language-150x150.jpg" alt="Javascript程序员嘴最脏??" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1850.html" class="wp_rp_title">Javascript程序员嘴最脏??</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/909.html">7个免费强大的Ajax文件管理器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/909.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>10个基于Ajax的PHP Webmail客户端</title>
+		<link>https://coolshell.cn/articles/154.html</link>
+					<comments>https://coolshell.cn/articles/154.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 13 Mar 2009 09:16:30 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[Webmail]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=154</guid>
+
+					<description><![CDATA[<p> 下面是十个非常不错的，使用Ajax技术的用PHP开发Webmail的客户端。大家在使用的时候请注意其license。 1. RoundCube RoundCu...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/154.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/154.html">10个基于Ajax的PHP Webmail客户端</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail1.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail2.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail3.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail4.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail5.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail6.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail7.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail8.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail9.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail10.jpg"></a> 下面是十个非常不错的，使用Ajax技术的用PHP开发Webmail的客户端。大家在使用的时候请注意其license。</p>
+<h3 class="title">1. <a href="http://roundcube.net/">RoundCube</a></h3>
+<p>RoundCube Webmail 是一个基于浏览器的IMAP 客户端，其提供了丰富的功能，包含MIME，地址本，文件夹操作，邮件搜索和拼写检查。 RoundCube Webmail 由 PHP写成，需要 MySQL 或 Postgres 数据库的支持。其UI完全遵守于XHTML 和 CSS 2.</p>
+<p class="img"><a href="http://roundcube.net/"></a></p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail1.jpg"><img decoding="async" loading="lazy" class="aligncenter" title="webmail1" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail1.jpg" alt="webmail1" width="500" height="285" /></a></p>
+<p class="img"><span id="more-154"></span></p>
+<h3 class="title">2. <a href="http://www.zimbra.com/community/downloads.html">Zimbra</a></h3>
+<p>Zimbra 提供了一个开源的邮件和日历系统，也是基于Ajax技术，非常强大的客户端，他可以通过web service集成第三方的应用“mash-ups” ，于是你可以享有CRM，地图或其它更多的功能。</p>
+<p class="img"><a href="http://www.zimbra.com/community/downloads.html"></a></p>
+<h3 class="title" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail2.jpg"><img decoding="async" loading="lazy" title="webmail2" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail2.jpg" alt="webmail2" width="500" height="230" /></a></h3>
+<h3 class="title">3. <a href="http://www.xuheki.com/">Xuheki</a></h3>
+<p>Xuheki 是一个很快的 IMAP 使用AJAX技术开发的客户端。你能想到的功能它基本上都有了，它使用的是 GNU General Public License.</p>
+<p class="img"><a href="http://www.xuheki.com/"></a></p>
+<h3 class="title" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail3.jpg"><img decoding="async" loading="lazy" title="webmail3" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail3.jpg" alt="webmail3" width="500" height="230" /></a></h3>
+<h3 class="title">4. <a href="http://www.squirrelmail.org/">SquirrelMail</a></h3>
+<p>SquirrelMail 这是一个中规中矩的webmail，PHP语言写成，并没有使用AJAX技术，所以并不是很炫，不过它是使用了纯内建的PHP功能支持了IMAP和SMTP。所有的页面都是纯HTML 4.0 (没有任何JavaScript) ，这样的目的主要是为了最大化兼容于不同的浏览器。</p>
+<p class="img"><a href="http://www.squirrelmail.org/"></a></p>
+<h3 class="title" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail4.jpg"><img decoding="async" loading="lazy" title="webmail4" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail4.jpg" alt="webmail4" width="500" height="180" /></a></h3>
+<h3 class="title">5. <a href="http://atmail.com/index.php">Atmail</a></h3>
+<p>AtMail, 一个免费的轻量级的 Ajax Webmail 客户端，由PHP写成，支持WEB和WAP。</p>
+<p style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail5.jpg"><img decoding="async" loading="lazy" title="webmail5" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail5.jpg" alt="webmail5" width="500" height="247" /></a></p>
+<h3 class="title">6. <a href="http://www.afterlogic.com/products/webmail-lite">afterlogic</a></h3>
+<p>AfterLogic WebMail Lite PHP 是一个非常易用的 webmail 但其界面又非常Cool，其支持 AJAX 和皮肤。支持POP3 和 SMTP。支持收发邮件，多附件，多帐号，多域，邮件预览，站点管理。安装非常容易，需要PHP 4.1+，完全开源并完全免费。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail6.jpg"><img decoding="async" loading="lazy" title="webmail6" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail6.jpg" alt="webmail6" width="500" height="247" /></a></p>
+<p><a class="download"></a> </p>
+<h3 class="title">7. <a href="http://www.hastymail.org/">Hastymail</a></h3>
+<p>Hastymail 是一个有完整功能的 IMAP/SMTP 客户端，由 PHP 写成。兼容于 PDAs, 手机, 文本浏览器，以及所有的主流浏览器。 Hastymail 有强大的 <a href="http://www.hastymail.org/plugins/">插件 </a>系统，因为PHP程序员可以随意地改变或增加自己想要的插件。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail7.jpg"><img decoding="async" loading="lazy" title="webmail7" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail7.jpg" alt="webmail7" width="500" height="247" /></a></p>
+<h3 class="title">8. <a href="http://mailr.org/">Mailr</a></h3>
+<p>Mailr 是一个开源的 webmail 由 Ruby写成，它使用 Ruby On Rails 的web application 框架。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail8.jpg"><img decoding="async" loading="lazy" title="webmail8" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail8.jpg" alt="webmail8" width="500" height="247" /></a></p>
+<h3 class="title">9. <a href="http://www.claros.org/web/home.do">Claros inTouch</a></h3>
+<p>Claros inTouch 是一个Ajax 消息套装其包含了主要特性有webmail，地址本，记事本，日历(还在开发)，网络硬盘 (还在开发)，内建的即时聊天，以及RSS阅读器。这是第一个开源的webmail其包含了内建的垃圾邮件保护和即时聊天功能的项目。但主要使用了Java语言，利用 JSP/Servlets 及 J2EE技术和 MySQL 数据库。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail9.jpg"><img decoding="async" loading="lazy" title="webmail9" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail9.jpg" alt="webmail9" width="500" height="247" /></a></p>
+<h3 class="title">10. <a href="http://www.postaciwebmail.org/">Postaci</a></h3>
+<p>Postaci 是一个基于 PHP 的POP3/IMAP 邮件客户端，其支持 SMTP 认证。 其使用MySQL, mSQL, Microsoft SQL, Sybase 或PostgreSQL数据库。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail10.jpg"><img decoding="async" loading="lazy" title="webmail10" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail10.jpg" alt="webmail10" width="500" height="247" /></a></p>
+<p class="img">文章：<a href="http://www.noupe.com/ajax/10-ajax-webmail-clients.html" target="_blank">来源</a></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/5132.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="疯狂的 Web 应用开源项目" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5132.html" class="wp_rp_title">疯狂的 Web 应用开源项目</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Web版的VNC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_title">Web版的VNC</a></li><li ><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/uizard2-150x150.jpg" alt="Ajax开发利器UIzard " width="150" height="150" /></a><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_title">Ajax开发利器UIzard </a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/154.html">10个基于Ajax的PHP Webmail客户端</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/154.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>十个开源的Javascript框架</title>
+		<link>https://coolshell.cn/articles/91.html</link>
+					<comments>https://coolshell.cn/articles/91.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 11 Mar 2009 13:48:27 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=91</guid>
+
+					<description><![CDATA[<p>下面是十个最牛的也是最流行的Javascript框架。它们完全可以担任目前世界上几乎所有一些和Ajax技术相关的和图形界面相关的一切功能。 jQuery htt...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/91.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/91.html">十个开源的Javascript框架</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是十个最牛的也是最流行的Javascript框架。它们完全可以担任目前世界上几乎所有一些和Ajax技术相关的和图形界面相关的一切功能。</p>
+<li>
+<h2>jQuery</h2>
+</li>
+<p><a href="http://jquery.com/">http://jquery.com/</a></p>
+<p><a rel="nofollow" href="http://jquery.com/"><img decoding="async" src="http://www.ajaxline.com/files/jquery.png" alt="" /></a></p>
+<p>如果今天你还不知道jQuery的话，那么作为一个程序员你可能真的是从火星来的了。这恐怕是Ajax中应用最广的框架。包括了许多很不错的UI组件，做出网页的效果也是令人称道的。不过，他最牛的是它的文件大小，只有区区18K，实在是居家旅行，网站开发之首选。</p>
+<p><a rel="nofollow" href="http://jquery.com/"></a> 下面是一个日历控件，很不错吧。</p>
+<p><a rel="nofollow" href="http://jqueryui.com/"><img decoding="async" src="http://www.ajaxline.com/files/jquerygui.PNG" alt="" /></a> </p>
+<p><span id="more-91"></span></p>
+<li>
+<h2>Prototype</h2>
+</li>
+<p><a href="http://prototypejs.org/">http://prototypejs.org/</a></p>
+<p><a rel="nofollow" href="http://prototypejs.org/"><img decoding="async" src="http://www.ajaxline.com/files/prototypejs.png" alt="" /></a> </p>
+<p>一个面向对象的javascript类库，包函了很多很多很实用的功能，很多其它的框架都使用了他作为基础类库。大小128K，有点大，还好。下面一其一个UI的示例。</p>
+<p><a rel="nofollow" href="http://www.prototype-ui.com/"><img decoding="async" src="http://www.ajaxline.com/files/protoui.PNG" alt="" /></a></p>
+<li>
+<h2>script.aculo.us</h2>
+</li>
+<p><a href="http://script.aculo.us/">http://script.aculo.us/</a></p>
+<p><a rel="nofollow" href="http://script.aculo.us/"><img decoding="async" src="http://www.ajaxline.com/files/scriptaculous.png" alt="" /></a> </p>
+<p>这个框架是基础上面那个框架（Prototype ）上开发的，它被包含在Ruby on Rails框架中（<a href="http://rubyonrails.org/">http://rubyonrails.org/</a>）。</p>
+<li>
+<h2>MooTools</h2>
+</li>
+<p><a href="http://mootools.net/">http://mootools.net/</a></p>
+<p><a rel="nofollow" href="http://mootools.net/"><img decoding="async" src="http://www.ajaxline.com/files/Mootools.png" alt="" /></a> </p>
+<p>这是一个紧凑的，模块化的，面向对象风格的javascript框架，这并不是一个能直接用上的Javascript，他主要给程序员们方便地进行开发更高级的组件，因为这个框架主要是面对开发人员的，所以他是非常灵活和非常强大的。也不大，才63K。</p>
+<li>
+<h2>ExtJS</h2>
+</li>
+<p><a href="http://extjs.com/products/extjs/">http://extjs.com/products/extjs/</a></p>
+<p><a rel="nofollow" href="http://extjs.com/products/extjs/"><img decoding="async" class="alignleft" src="http://www.ajaxline.com/files/extjs.png" alt="" /></a>这是一个超级强大的Javascripts类库，简直是包罗万像，就像机器猫的口袋，想要什么就有什么。UI组件多的是令人发指，功能也是强大到不行。当然，其类库的尺寸也是强大到不行，一共6.6M，还是被压缩过的。看看下面的UI示例吧，这只不过是冰山一角。</p>
+<p><strong>我个人认为这个是所有框架里面最好的一个。</strong></p>
+<p><a rel="nofollow" href="http://extjs.com/products/extjs/"><img decoding="async" src="http://www.ajaxline.com/files/extjs_ex.PNG" alt="" /></a> </p>
+<li>
+<h2>Qooxdoo</h2>
+</li>
+<p><a href="http://qooxdoo.org/">http://qooxdoo.org/</a></p>
+<p><a rel="nofollow" href="http://qooxdoo.org/"><img decoding="async" src="http://www.ajaxline.com/files/qooxdoo.gif" alt="" /></a> </p>
+<p>Exjs才6.6M，这个javascript类库居然有19.9M，正所谓一山还有一山高，没有最BT，只有更BT。它包括一个独立于平台的开发工具链，一个最先进的图形用户界面工具和先进的客户端与服务器之间的通讯层。下面是其UI示例：</p>
+<p><a rel="nofollow" href="http://qooxdoo.org/"><img decoding="async" src="http://www.ajaxline.com/files/qoox_ex.PNG" alt="" /></a> </p>
+<li>
+<h2>Yahoo! UI Library (YUI)</h2>
+</li>
+<p><a href="http://developer.yahoo.com/yui/">http://developer.yahoo.com/yui/</a></p>
+<p><a rel="nofollow" href="http://developer.yahoo.com/yui/"><img decoding="async" src="http://www.ajaxline.com/files/yui.jpg" alt="" /></a> </p>
+<p>如果你不知道YUI的话，那么我想告诉你的是，你一定是在离地球20亿光年的亚美尼亚星居住。这个YUI类库也是包罗万象，他最好的不但是条件非常宽松的BSD的License，而且，你不必像别的类库一下，管你用不用你都要全部文件。YUI除了基础库外，你用多少就下载多少。这么丰富的UI也只有10.5M的大小，还OK了。下面是一个演示：</p>
+<p><a rel="nofollow" href="http://developer.yahoo.com/yui/"><img decoding="async" src="http://www.ajaxline.com/files/yui_ex.PNG" alt="" /></a> </p>
+<li>
+<h2>MochiKit</h2>
+</li>
+<p><a href="http://www.mochikit.com/">http://www.mochikit.com/</a></p>
+<p>一个很轻量级的类库，主要实际了异步请求的若干功能。</p>
+<p><a rel="nofollow" href="http://www.mochikit.com/"><img decoding="async" src="http://www.ajaxline.com/files/mochikit.PNG" alt="" /></a> </p>
+<p> </p>
+<li>
+<h2>Midori</h2>
+</li>
+<p><a href="http://www.midorijs.com/">http://www.midorijs.com/</a></p>
+<p>又一个轻量级的类库，没有用过。只有45K大小。主要是一些UI上的美化吧。</p>
+<p><a rel="nofollow" href="http://www.midorijs.com/"><img decoding="async" src="http://www.ajaxline.com/files/midory.png" alt="" /></a></p>
+<p>示例： </p>
+<p><a rel="nofollow" href="http://www.midorijs.com/"><img decoding="async" src="http://www.ajaxline.com/files/midori_ex.PNG" alt="" /></a> </p>
+<li>
+<h2>The Dojo Toolkit</h2>
+</li>
+<p><a href="http://www.dojotoolkit.org/">http://www.dojotoolkit.org/</a></p>
+<p><a rel="nofollow" href="http://www.dojotoolkit.org/"><img decoding="async" src="http://www.ajaxline.com/files/dojo.png" alt="" /></a> </p>
+<p>又一个超强大的类库，提供了非常丰富的UI。BSD的license，大小1.7M，看看下面的UI示例你就知道有多强大了。</p>
+<p><a rel="nofollow" href="http://www.dojotoolkit.org/"><img decoding="async" src="http://www.ajaxline.com/files/dojo_ex.PNG" alt="" /></a></p>
+<p>文章：<a href="http://www.ajaxline.com/10-most-popular-javascript-frameworks" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Web版的VNC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_title">Web版的VNC</a></li><li ><a href="https://coolshell.cn/articles/909.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="7个免费强大的Ajax文件管理器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/909.html" class="wp_rp_title">7个免费强大的Ajax文件管理器</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-150x150.jpg" alt="如何读懂并写出装逼的函数式代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_title">如何读懂并写出装逼的函数式代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/91.html">十个开源的Javascript框架</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/91.html/feed</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>80个优秀的AJAX方案</title>
+		<link>https://coolshell.cn/articles/57.html</link>
+					<comments>https://coolshell.cn/articles/57.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 07 Mar 2009 01:20:20 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=57</guid>
+
+					<description><![CDATA[<p>Ajax作为一种WEB上的技术，已经广被开发人员接受，在过去的两三年内，互联网上涌现出了很多很多的很有创意的Ajax的解决方案，令人赞叹。这里，介绍了80以上的...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/57.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/57.html">80个优秀的AJAX方案</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Ajax作为一种WEB上的技术，已经广被开发人员接受，在过去的两三年内，互联网上涌现出了很多很多的很有创意的Ajax的解决方案，令人赞叹。这里，介绍了80以上的AJAX用法以及其脚本资源，希望对你的开发有帮助。</p>
+<h1><strong>Auto Complete Scripts</strong></h1>
+<p>1. <a href="http://www.brandspankingnew.net/archive/2006/08/ajax_auto-suggest_auto-complete.html" target="_blank">AJAX AutoSuggest</a><br />
+<a href="http://www.brandspankingnew.net/archive/2006/08/ajax_auto-suggest_auto-complete.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-38" title="ajax-autosuggest1" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-autosuggest1.png" alt="" width="400" height="260" /></a></p>
+<p><span id="more-57"></span></p>
+<p>2. <a href="http://demo.script.aculo.us/ajax/autocompleter_customized" target="_blank">AJAX Autocompleter / script.aculo.us library</a><br />
+<a href="http://demo.script.aculo.us/ajax/autocompleter_customized"><img decoding="async" loading="lazy" class="size-full wp-image-37 alignnone" title="ajax-autocompleter-scriptaculous-library" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-autocompleter-scriptaculous-library.png" alt="" width="400" height="260" /></a></p>
+<p>3. <a href="http://digitarald.de/playground/auto2.html" target="_blank">AJAX AutoCompleter</a><br />
+<a href="http://digitarald.de/playground/auto2.html"><img decoding="async" loading="lazy" class="size-full wp-image-39 alignnone" title="ajax-autocompleter" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-autocompleter.png" alt="" width="400" height="140" /></a></p>
+<p>4. <a href="http://www.roscripts.com/Ajax_autosuggest_autocomplete_from_database-154.html" target="_blank">Ajax autosuggest/autocomplete from database</a><br />
+<a href="http://www.roscripts.com/Ajax_autosuggest_autocomplete_from_database-154.html"><img decoding="async" loading="lazy" class="size-full wp-image-40 alignnone" title="ajax-autosuggest-autocomplete-from-database" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-autosuggest-autocomplete-from-database.png" alt="" width="400" height="140" /></a></p>
+<p>5. <a href="http://www.dhtmlgoodies.com/index.html?whichScript=ajax-dynamic-list" target="_blank">Ajax dynamic list</a><br />
+<a href="http://www.dhtmlgoodies.com/index.html?whichScript=ajax-dynamic-list"><img decoding="async" loading="lazy" class="size-full wp-image-41 alignnone" title="ajax-dynamic-list" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-dynamic-list.png" alt="" width="401" height="260" /></a></p>
+<h3><strong>Instant Editor Scripts</strong></h3>
+<p>6. <a href="http://www.yvoschaap.com/index.php/weblog/ajax_inline_instant_update_text_20/" target="_blank">AJAX inline text edit 2.0</a><br />
+<a href="http://www.yvoschaap.com/index.php/weblog/ajax_inline_instant_update_text_20/"><img decoding="async" loading="lazy" class="size-full wp-image-42 alignnone" title="ajax-inline-text-edit-20" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-inline-text-edit-20.png" alt="" width="400" height="260" /></a></p>
+<p>7. <a href="http://dbachrach.com/blog/2007/01/07/create-flickr-like-editing-fields-using-ajax-css/" target="_blank">AJAX &amp; CSS Flickr-like Editing Fields</a><br />
+<a href="http://dbachrach.com/blog/2007/01/07/create-flickr-like-editing-fields-using-ajax-css/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-139" title="ajax-css-flickr-like-editing-fields1" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-css-flickr-like-editing-fields1.png" alt="" width="400" height="260" /></a><a href="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-css-flickr-like-editing-fields.png"><br />
+</a></p>
+<p>8. <a href="http://www.ideasfreelance.com/lab/instant_edit/" target="_blank">AJAX Instant Edit</a><br />
+<a href="http://www.ideasfreelance.com/lab/instant_edit/"><img decoding="async" loading="lazy" class="size-full wp-image-44 alignnone" title="ajax-instant-edit" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-instant-edit.png" alt="" width="400" height="260" /></a></p>
+<h3><strong>Tab and Menu Scripts</strong></h3>
+<p>9. <a href="http://www.smashingmagazine.com/2007/04/18/14-tab-based-inferface-techniques/" target="_blank">14 Tab-Based Interface Techniques</a><br />
+<a href="http://www.smashingmagazine.com/2007/04/18/14-tab-based-inferface-techniques/"><img decoding="async" loading="lazy" class="size-full wp-image-45 alignnone" title="14-tab-based-interface-techniques" src="http://delimitdesign.com/wp-content/uploads/2009/02/14-tab-based-interface-techniques.png" alt="" width="400" height="260" /></a></p>
+<p>10. <a href="http://demos.mootools.net/Accordion" target="_blank">AJAX Accordion Navigation</a><br />
+<a href="http://demos.mootools.net/Accordion"><img decoding="async" loading="lazy" class="size-full wp-image-47 alignnone" title="ajax-accordion-navigation1" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-accordion-navigation1.png" alt="" width="400" height="260" /></a></p>
+<p>11. <a href="http://extjs.com/deploy/ext/docs/" target="_blank">AJAX Dialogs, Menus, Grids, Trees and Views</a><br />
+<a href="http://extjs.com/deploy/ext/docs/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-54" title="ajax-dialogs-menus-grids-trees-and-views" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-dialogs-menus-grids-trees-and-views.png" alt="" width="400" height="260" /></a></p>
+<p>12. <a href="http://www.nodetraveller.com/sandbox/moduleTabs/closeable.php" target="_blank">AJAX Tab Module &#8211; Closeable Implementation</a><br />
+<a href="http://www.nodetraveller.com/sandbox/moduleTabs/closeable.php"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-55" title="ajax-tab-module-closeable-implementation" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-tab-module-closeable-implementation.png" alt="" width="400" height="197" /></a></p>
+<p>13. <a href="http://www.dynamicdrive.com/dynamicindex17/ajaxtabscontent/" target="_blank">Ajax Tabs Content</a><br />
+<a href="http://www.dynamicdrive.com/dynamicindex17/ajaxtabscontent/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-56" title="ajax-tabs-content" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-tabs-content.png" alt="" width="400" height="206" /></a></p>
+<p>14. <a href="http://www.silverscripting.com/mootabs/" target="_blank">MooTabs &#8211; Tiny tab class for MooTools</a><br />
+<a href="http://www.silverscripting.com/mootabs/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-57" title="mootabs-tiny-tab-class-for-mootools" src="http://delimitdesign.com/wp-content/uploads/2009/02/mootabs-tiny-tab-class-for-mootools.png" alt="" width="400" height="237" /></a></p>
+<p>15. <a href="http://www.dhtmlgoodies.com/index.html?whichScript=ajax_dynamicArticles" target="_blank">Dynamically loaded articles</a><br />
+<a href="http://www.dhtmlgoodies.com/index.html?whichScript=ajax_dynamicArticles"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-58" title="dynamically-loaded-articles" src="http://delimitdesign.com/wp-content/uploads/2009/02/dynamically-loaded-articles.png" alt="" width="400" height="260" /></a></p>
+<h3><strong>Calendar/Datetime Scripts</strong></h3>
+<p>16. <a href="http://datetime.toolbocks.com/" target="_blank">AJAX Datetime Toolbocks &#8211; Intuitive Date Input Selection</a><br />
+<a href="http://datetime.toolbocks.com/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-59" title="ajax-datetime-toolbocks-intuitive-date-input-selection" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-datetime-toolbocks-intuitive-date-input-selection.jpg" alt="" width="400" height="140" /></a></p>
+<p>17. <a href="http://www.ribosomatic.com/articulos/10-calendarios-con-php-css-y-javascript/" target="_blank">AJAX Calendars</a><br />
+<a href="http://www.ribosomatic.com/articulos/10-calendarios-con-php-css-y-javascript/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-60" title="ajax-calendars" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-calendars.jpg" alt="" width="400" height="261" /></a></p>
+<h3><strong>Interactive Elements Scripts</strong></h3>
+<p>18. <a href="http://prototype-window.xilinus.com/" target="_blank">AJAX Floating Windows</a><br />
+<a href="http://prototype-window.xilinus.com/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-61" title="ajax-floating-windows" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-floating-windows.png" alt="" width="400" height="260" /></a></p>
+<p>19. <a href="http://prototype-window.xilinus.com/" target="_blank">AJAX Star Rating Bar</a><br />
+<a href="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-star-rating-bar.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-62" title="ajax-star-rating-bar" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-star-rating-bar.png" alt="" width="400" height="260" /></a></p>
+<p>20. <a href="http://www.dhtmlgoodies.com/index.html?whichScript=ajax-poller" target="_blank">Ajax poller</a><br />
+<a href="http://www.dhtmlgoodies.com/index.html?whichScript=ajax-poller"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-140" title="ajax-poller1" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-poller1.png" alt="" width="400" height="260" /></a><a href="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-poller.png"></a></p>
+<h3><strong>Developer’s Suite Scripts</strong></h3>
+<p>21. <a href="http://digitarald.de/project/historymanager/" target="_blank">AJAX HistoryManager, Pagination</a><br />
+<a href="http://digitarald.de/project/historymanager/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-64" title="ajax-historymanager-pagination" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-historymanager-pagination.png" alt="" width="400" height="204" /></a></p>
+<p>22. <a href="http://www.jamesdam.com/ajax_login/login.html" target="_blank">AJAX Login System Demo</a><br />
+<a href="http://www.jamesdam.com/ajax_login/login.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-65" title="ajax-login-system-demo" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-login-system-demo.png" alt="" width="400" height="260" /></a></p>
+<p>23. <a href="http://www.roscripts.com/Javascript_image_preloader-111.html" target="_blank">AJAX image preloader</a><br />
+<a href="http://www.roscripts.com/Javascript_image_preloader-111.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-141" title="ajax-image-preloader" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-image-preloader1.png" alt="" width="400" height="130" /></a><a href="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-image-preloader.png"><br />
+</a></p>
+<p>24. <a href="http://www.1976design.com/blog/archive/2003/11/21/nice-titles/" target="_blank">AJAX Tooltips: Nice Titles revised | Blog | 1976design.com</a><br />
+<a href="http://www.1976design.com/blog/archive/2003/11/21/nice-titles/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-142" title="ajax-tooltips-nice-titles-revised-blog-1976design" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-tooltips-nice-titles-revised-blog-1976design1.gif" alt="" width="400" height="157" /></a><a href="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-tooltips-nice-titles-revised-blog-1976design.gif"></a></p>
+<p>25. <a href="http://www.1976design.com/blog/archive/2003/11/21/nice-titles/" target="_blank">40+ Tooltips Scripts With AJAX, JavaScript &amp; CSS | Smashing Magazine</a><br />
+<a href="http://delimitdesign.com/wp-content/uploads/2009/02/40-tooltips-scripts-with-ajax-javascript-css-smashing-magazine.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-70" title="40-tooltips-scripts-with-ajax-javascript-css-smashing-magazine" src="http://delimitdesign.com/wp-content/uploads/2009/02/40-tooltips-scripts-with-ajax-javascript-css-smashing-magazine.png" alt="" width="400" height="260" /></a></p>
+<p>26. <a href="http://www.mathertel.de/AJAXEngine/S03_AJAXControls/ConnectionsTestPage.aspx" target="_blank">AJAX Web Controls</a><br />
+<a href="http://www.mathertel.de/AJAXEngine/S03_AJAXControls/ConnectionsTestPage.aspx"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-71" title="ajax-web-controls" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-web-controls.png" alt="" width="400" height="260" /></a></p>
+<p>27. <a href="http://code.google.com/p/syntaxhighlighter/" target="_blank">AJAX syntaxhighlighter</a><br />
+<a href="http://code.google.com/p/syntaxhighlighter/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-72" title="ajax-syntaxhighlighter" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-syntaxhighlighter.png" alt="" width="400" height="260" /></a></p>
+<p>28. <a href="http://transparent-message.xilinus.com/" target="_blank">Transparent Message</a><br />
+<a href="http://transparent-message.xilinus.com/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-74" title="transparent-message" src="http://delimitdesign.com/wp-content/uploads/2009/02/transparent-message.png" alt="" width="400" height="222" /></a></p>
+<p>29. <a href="http://wildbit.com/demos/modalbox/" target="_blank">ModalBox — An easy way to create popups and wizards</a><br />
+<a href="http://wildbit.com/demos/modalbox/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-75" title="modalbox-e28094-an-easy-way-to-create-popups-and-wizards" src="http://delimitdesign.com/wp-content/uploads/2009/02/modalbox-e28094-an-easy-way-to-create-popups-and-wizards.png" alt="" width="399" height="260" /></a></p>
+<p>30. <a href="http://www.dhtmlgoodies.com/index.html?whichScript=ajax_chained_select" target="_blank">Chained select boxes</a><br />
+<a href="http://www.dhtmlgoodies.com/index.html?whichScript=ajax_chained_select"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-76" title="chained-select-boxes" src="http://delimitdesign.com/wp-content/uploads/2009/02/chained-select-boxes.png" alt="" width="400" height="194" /></a></p>
+<p>31. <a href="http://www.dhtmlgoodies.com/index.html?whichScript=fly-to-basket" target="_blank">Fly to basket</a><br />
+<a href="http://www.dhtmlgoodies.com/index.html?whichScript=fly-to-basket"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-77" title="fly-to-basket" src="http://delimitdesign.com/wp-content/uploads/2009/02/fly-to-basket.png" alt="" width="400" height="260" /></a></p>
+<p>32. <a href="http://www.mochikit.com/examples/key_events/index.html" target="_blank">AJAX Key Events Signal</a><br />
+<a href="http://www.mochikit.com/examples/key_events/index.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-81" title="ajax-key-events-signal" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-key-events-signal.png" alt="" width="400" height="217" /></a></p>
+<p>33. <a href="http://www.arraystudio.com/as-workshop/disable-form-submit-on-enter-keypress.html" target="_blank">Disable form submit on enter keypress</a><br />
+<a href="http://www.arraystudio.com/as-workshop/disable-form-submit-on-enter-keypress.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-82" title="disable-form-submit-on-enter-keypress" src="http://delimitdesign.com/wp-content/uploads/2009/02/disable-form-submit-on-enter-keypress.png" alt="" width="400" height="260" /></a></p>
+<h3><strong>Enhanced Solutions</strong></h3>
+<p>34. <a href="http://www.openrico.org/demos/complex_ajax" target="_blank">AJAX Instant Completion</a><br />
+<a href="http://www.openrico.org/demos/complex_ajax"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-83" title="ajax-instant-completion" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-instant-completion.png" alt="" width="400" height="260" /></a></p>
+<p>35. <a href="http://novemberborn.net/javascript/event-cache" target="_blank">Novemberborn: Event Cache</a><br />
+<a href="http://novemberborn.net/javascript/event-cache"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-84" title="novemberborn-event-cache" src="http://delimitdesign.com/wp-content/uploads/2009/02/novemberborn-event-cache.png" alt="" width="400" height="260" /></a></p>
+<p>36. <a href="http://www.shawnolson.net/a/503/altering-css-class-attributes-with-javascript.html" target="_blank">Altering CSS Class Attributes with JavaScript</a><br />
+<a href="http://www.shawnolson.net/a/503/altering-css-class-attributes-with-javascript.htm"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-85" title="altering-css-class-attributes-with-javascript" src="http://delimitdesign.com/wp-content/uploads/2009/02/altering-css-class-attributes-with-javascript.png" alt="" width="400" height="136" /></a></p>
+<p>37. <a href="http://www.shawnolson.net/a/1302/select-some-checkboxes-javascript-function.html" target="_blank">Select Some Checkboxes JavaScript Function</a><br />
+<a href="http://www.shawnolson.net/a/1302/select-some-checkboxes-javascript-function.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-86" title="select-some-checkboxes-javascript-function" src="http://delimitdesign.com/wp-content/uploads/2009/02/select-some-checkboxes-javascript-function.png" alt="" width="400" height="214" /></a></p>
+<p>38. <a href="http://www.ejschart.com/index.php" target="_blank">AJAX Emprise Charts</a><br />
+<a href="http://www.ejschart.com/index.php"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-87" title="ajax-emprise-charts" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-emprise-charts.png" alt="" width="401" height="262" /></a></p>
+<p>39. <a href="http://www.amcharts.com/pie/" target="_blank">amCharts: customizable flash Pie &amp; Donut chart</a><br />
+<a href="http://www.amcharts.com/pie/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-88" title="amcharts-customizable-flash-pie-donut-chart" src="http://delimitdesign.com/wp-content/uploads/2009/02/amcharts-customizable-flash-pie-donut-chart.png" alt="" width="404" height="264" /></a></p>
+<p>40. <a href="http://www.pjhyett.com/posts/190-the-lightbox-effect-without-lightbox" target="_blank">PJ Hyett : The Lightbox Effect without Lightbox</a><br />
+<a href="http://www.pjhyett.com/posts/190-the-lightbox-effect-without-lightbox"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-89" title="pj-hyett-the-lightbox-effect-without-lightbox" src="http://delimitdesign.com/wp-content/uploads/2009/02/pj-hyett-the-lightbox-effect-without-lightbox.jpg" alt="" width="402" height="260" /></a></p>
+<h3><strong>Forms</strong></h3>
+<p>41. <a href="http://digitarald.de/playground/uplooad.html" target="_blank">AJAX Upload Form</a><br />
+<a href="http://digitarald.de/playground/uplooad.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-90" title="ajax-upload-form" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-upload-form.png" alt="" width="399" height="260" /></a></p>
+<p>42. <a href="http://www.dustindiaz.com/ajax-contact-form/" target="_blank">An AJAX contact form</a><br />
+<a href="http://www.dustindiaz.com/ajax-contact-form/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-137" title="an-ajax-contact-form1" src="http://delimitdesign.com/wp-content/uploads/2009/02/an-ajax-contact-form1.png" alt="" width="400" height="189" /></a><a href="http://delimitdesign.com/wp-content/uploads/2009/02/an-ajax-contact-form.png"></a></p>
+<p>43. <a href="http://www.roscripts.com/AJAX_contact_form-144.html" target="_blank">AJAX contact form</a><br />
+<a href="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-contact-form.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-92" title="ajax-contact-form" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-contact-form.png" alt="" width="400" height="241" /></a></p>
+<p>44. <a href="http://www.roscripts.com/AJAX_contact_form-144.html" target="_blank">Ajax.Form</a><br />
+<a href="http://delimitdesign.com/wp-content/uploads/2009/02/ajaxform.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-93" title="ajaxform" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajaxform.png" alt="" width="399" height="189" /></a></p>
+<p>45. <a href="http://www.roscripts.com/Ajax_form_validation-152.html" target="_blank">Ajax form validation</a><br />
+<a href="http://www.roscripts.com/Ajax_form_validation-152.htm"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-96" title="ajax-form-validation" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-form-validation.png" alt="" width="400" height="214" /></a></p>
+<p>46. <a href="http://tetlaw.id.au/view/javascript/really-easy-field-validation" target="_blank">Really easy field validation</a><br />
+<a href="http://tetlaw.id.au/view/javascript/really-easy-field-validation"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-97" title="really-easy-field-validation" src="http://delimitdesign.com/wp-content/uploads/2009/02/really-easy-field-validation.png" alt="" width="400" height="260" /></a></p>
+<p>47. <a href="http://www.phil-taylor.com/fvalidate/" target="_blank">AJAX fValidate</a><br />
+<a href="http://www.phil-taylor.com/fvalidate/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-98" title="ajax-fvalidate" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-fvalidate.png" alt="" width="400" height="119" /></a></p>
+<p>48. <a href="http://www.roscripts.com/Ajax_newsletter_form-146.html" target="_blank">Ajax newsletter form</a><br />
+<a href="http://www.roscripts.com/Ajax_newsletter_form-146.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-99" title="ajax-newsletter-form" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-newsletter-form.png" alt="" width="400" height="91" /></a></p>
+<p>49. <a href="http://www.formassembly.com/wForms/" target="_blank">wForms</a><br />
+<a href="http://www.formassembly.com/wForms/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-100" title="wforms" src="http://delimitdesign.com/wp-content/uploads/2009/02/wforms.png" alt="" width="400" height="145" /></a></p>
+<h3><strong>Tables and Grids</strong></h3>
+<p>50. <a href="http://www.smashingmagazine.com/2007/05/30/tables-and-data-grids-with-ajax-dhtml-javascript/" target="_blank">Data Grids with AJAX, DHTML and JavaScript | Smashing Magazine</a><br />
+<a href="http://www.smashingmagazine.com/2007/05/30/tables-and-data-grids-with-ajax-dhtml-javascript/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-101" title="data-grids-with-ajax-dhtml-and-javascript-smashing-magazine" src="http://delimitdesign.com/wp-content/uploads/2009/02/data-grids-with-ajax-dhtml-and-javascript-smashing-magazine.png" alt="" width="400" height="260" /></a></p>
+<p>51. <a href="http://extjs.com/playpen/ext-2.0/examples/grid/grid3.html" target="_blank">Grid3 Example</a><br />
+<a href="http://extjs.com/playpen/ext-2.0/examples/grid/grid3.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-102" title="grid3-example" src="http://delimitdesign.com/wp-content/uploads/2009/02/grid3-example.png" alt="" width="400" height="260" /></a></p>
+<p>52. <a href="http://www.frequency-decoder.com/2006/09/16/unobtrusive-table-sort-script-revisited" target="_blank">AJAX Table Sort Script (revisited)</a><br />
+<a href="http://www.frequency-decoder.com/2006/09/16/unobtrusive-table-sort-script-revisited"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-103" title="ajax-table-sort-script-revisited" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-table-sort-script-revisited.png" alt="" width="400" height="150" /></a></p>
+<p>53. <a href="http://www.mochikit.com/examples/ajax_tables/index.html" target="_blank">AJAX Sortable Tables</a><br />
+<a href="http://www.mochikit.com/examples/ajax_tables/index.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-104" title="ajax-sortable-tables" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-sortable-tables.png" alt="" width="400" height="174" /></a></p>
+<p>54. <a href="http://www.millstream.com.au/view/code/tablekit/" target="_blank">AJAX TableKit</a><br />
+<a href="http://www.millstream.com.au/view/code/tablekit/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-105" title="ajax-tablekit" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-tablekit.png" alt="" width="400" height="260" /></a></p>
+<h3><strong>Showcases, Galleries, and Lightbox Scripts</strong></h3>
+<p>55. <a href="http://www.smashingmagazine.com/2007/05/18/30-best-solutions-for-image-galleries-slideshows-lightboxes/" target="_blank">30 Scripts For Galleries, Slideshows and Lightboxes | Smashing Magazine</a><br />
+<a href="http://www.smashingmagazine.com/2007/05/18/30-best-solutions-for-image-galleries-slideshows-lightboxes/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-107" title="30-scripts-for-galleries-slideshows-and-lightboxes-smashing-magazine1" src="http://delimitdesign.com/wp-content/uploads/2009/02/30-scripts-for-galleries-slideshows-and-lightboxes-smashing-magazine1.png" alt="" width="400" height="260" /></a></p>
+<p>56. <a href="http://www.nofunc.com/Sexy_Box/" target="_blank">AJAX LightBox, Sexy Box, Thick Box</a><br />
+<a href="http://www.nofunc.com/Sexy_Box/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-108" title="ajax-lightbox-sexy-box-thick-box" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-lightbox-sexy-box-thick-box.png" alt="" width="400" height="158" /></a></p>
+<p>57. <a href="http://www.huddletogether.com/projects/lightbox/" target="_blank">AJAX Lightbox JS</a><br />
+<a href="http://www.huddletogether.com/projects/lightbox"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-109" title="ajax-lightbox-js" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-lightbox-js.png" alt="" width="400" height="260" /></a></p>
+<p>58. <a href="http://orangoo.com/labs/GreyBox/" target="_blank">AJAX Unobtrusive Popup &#8211; GreyBox</a><br />
+<a href="http://orangoo.com/labs/GreyBox/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-110" title="ajax-unobtrusive-popup-greybox" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-unobtrusive-popup-greybox.png" alt="" width="400" height="260" /></a></p>
+<p>59. <a href="http://smoothgallery.jondesign.net/showcase/gallery/" target="_blank">SmoothGallery: Mootools Mojo for Images | Full gallery</a><br />
+<a href="http://smoothgallery.jondesign.net/showcase/gallery/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-111" title="smoothgallery-mootools-mojo-for-images-full-gallery" src="http://delimitdesign.com/wp-content/uploads/2009/02/smoothgallery-mootools-mojo-for-images-full-gallery.png" alt="" width="400" height="267" /></a></p>
+<p>60. <a href="http://www.smashingmagazine.com/2006/11/15/ajax-dhtml-and-javascript-libraries/" target="_blank">AJAX Libraries and Frameworks</a><br />
+<a href="http://www.smashingmagazine.com/2006/11/15/ajax-dhtml-and-javascript-libraries/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-112" title="ajax-libraries-and-frameworks" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-libraries-and-frameworks.png" alt="" width="400" height="260" /></a></p>
+<h3><strong>Animation and Visual Effects Scripts</strong></h3>
+<p>61. <a href="http://firblitz.com/2007/3/6/re-how-to-create-digg-comment-style-sliding-divs-with-javascript-and-css" target="_blank">How to Create Digg Comment Style Sliding DIVs with Javascript and CSS</a><br />
+<a href="http://firblitz.com/2007/3/6/re-how-to-create-digg-comment-style-sliding-divs-with-javascript-and-css"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-138" title="how-to-create-digg-comment-style-sliding-divs-with-javascript-and-css1" src="http://delimitdesign.com/wp-content/uploads/2009/02/how-to-create-digg-comment-style-sliding-divs-with-javascript-and-css1.gif" alt="" width="400" height="135" /></a></p>
+<p>62. <a href="http://www.harrymaugans.com/2007/03/05/how-to-create-a-collapsible-div-with-javascript-and-css/" target="_blank">How to Create a Collapsible DIV with Javascript and CSS</a><br />
+<a href="http://www.harrymaugans.com/2007/03/05/how-to-create-a-collapsible-div-with-javascript-and-css/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-117" title="how-to-create-a-collapsible-div-with-javascript-and-css1" src="http://delimitdesign.com/wp-content/uploads/2009/02/how-to-create-a-collapsible-div-with-javascript-and-css1.png" alt="" width="400" height="96" /></a></p>
+<p>63. <a href="http://www.harrymaugans.com/2007/03/06/how-to-create-an-animated-sliding-collapsible-div-with-javascript-and-css/" target="_blank">How to Create an Animated, Sliding, Collapsible DIV with Javascript and CSS</a><br />
+<a href="http://www.harrymaugans.com/2007/03/06/how-to-create-an-animated-sliding-collapsible-div-with-javascript-and-css/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-116" title="how-to-create-an-animated-sliding-collapsible-div-with-javascript-and-css" src="http://delimitdesign.com/wp-content/uploads/2009/02/how-to-create-an-animated-sliding-collapsible-div-with-javascript-and-css.png" alt="" width="400" height="124" /></a></p>
+<p>64. <a href="http://demo.script.aculo.us/shop" target="_blank"><span lang="FR">AJAX Shopcart</span></a><br />
+<a href="http://demo.script.aculo.us/shop"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-118" title="ajax-shopcart" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-shopcart.png" alt="" width="400" height="260" /></a></p>
+<p>65. <a href="http://www.dhtmlgoodies.com/index.html?showDownload=true&amp;whichScript=dragable-content" target="_blank"><span lang="FR">Draggable content</span></a><br />
+<a href="http://www.dhtmlgoodies.com/index.html?showDownload=true&amp;whichScript=dragable-content"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-119" title="draggable-content" src="http://delimitdesign.com/wp-content/uploads/2009/02/draggable-content.png" alt="" width="400" height="260" /></a></p>
+<p>66. <a href="http://www.dhtmlgoodies.com/index.html?whichScript=dragable-boxes" target="_blank"><span lang="FR">Dragable RSS boxes</span></a><br />
+<a href="http://www.dhtmlgoodies.com/index.html?whichScript=dragable-boxes"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-120" title="dragable-rss-boxes" src="http://delimitdesign.com/wp-content/uploads/2009/02/dragable-rss-boxes.png" alt="" width="400" height="260" /></a></p>
+<p>67. <a href="http://www.openrico.org/demos?demo=pull_down" target="_blank">AJAX Pull Down Effect</a><br />
+<a href="http://www.openrico.org/demos?demo=pull_down"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-121" title="ajax-pull-down-effect" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-pull-down-effect.png" alt="" width="400" height="151" /></a></p>
+<p>68. <a href="http://www.openrico.org/demos?demo=effect_animation" target="_blank">AJAX Animation Effects</a><br />
+<a href="http://www.openrico.org/demos?demo=effect_animation"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-122" title="ajax-animation-effects" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-animation-effects.png" alt="" width="400" height="175" /></a></p>
+<p>69. <a href="http://wiki.script.aculo.us/scriptaculous/show/CombinationEffects" target="_blank">Combination Effects in scriptaculous wiki</a><br />
+<a href="http://wiki.script.aculo.us/scriptaculous/show/CombinationEffects"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-123" title="combination-effects-in-scriptaculous-wiki" src="http://delimitdesign.com/wp-content/uploads/2009/02/combination-effects-in-scriptaculous-wiki.png" alt="" width="400" height="260" /></a></p>
+<p>70. <a href="http://demos.mootools.net/Fx.Morph" target="_blank">AJAX Motion Transition</a><br />
+<a href="http://demos.mootools.net/Fx.Morph"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-124" title="ajax-motion-transition" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-motion-transition.png" alt="" width="400" height="253" /></a></p>
+<h3><strong>Useful Javascript Scripts</strong></h3>
+<p>71. <a href="http://www.codecoffee.com/articles/9tips.html" target="_blank">9 Javascript(s) you better not miss!</a><br />
+<a href="http://www.codecoffee.com/articles/9tips.html"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-125" title="9-javascripts-you-better-not-miss" src="http://delimitdesign.com/wp-content/uploads/2009/02/9-javascripts-you-better-not-miss.png" alt="" width="400" height="260" /></a></p>
+<p>72. <a href="http://www.dustindiaz.com/top-ten-javascript/" target="_blank">Top 10 custom JavaScript functions of all time</a><br />
+<a href="http://www.dustindiaz.com/top-ten-javascript/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-127" title="top-10-custom-javascript-functions-of-all-time1" src="http://delimitdesign.com/wp-content/uploads/2009/02/top-10-custom-javascript-functions-of-all-time1.png" alt="" width="400" height="260" /></a></p>
+<p>73. <a href="http://hyperdisc.unitec.ac.nz/materials/javascript/top10/breadcrumbs.htm" target="_blank">Hyperdisc Materials: JavaScript: Top 10: Automatic Breadcrumb Trail</a><br />
+<a href="http://hyperdisc.unitec.ac.nz/materials/javascript/top10/breadcrumbs.htm"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-128" title="hyperdisc-materials-javascript-top-10-automatic-breadcrumb-trail" src="http://delimitdesign.com/wp-content/uploads/2009/02/hyperdisc-materials-javascript-top-10-automatic-breadcrumb-trail.png" alt="" width="400" height="260" /></a></p>
+<p>74. <a href="http://hyperdisc.unitec.ac.nz/materials/javascript/top10/" target="_blank">JavaScript: Top 10 Most Useful JavaScripts</a><br />
+<a href="http://hyperdisc.unitec.ac.nz/materials/javascript/top10/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-129" title="javascript-top-10-most-useful-javascripts" src="http://delimitdesign.com/wp-content/uploads/2009/02/javascript-top-10-most-useful-javascripts.png" alt="" width="400" height="214" /></a></p>
+<p>75. <a href="http://www.blakems.com/archives/000087.html?_required=first_name%2CFirst+Name%7Clast_name%2CLast+Name%7Cemailer%2CEmail&amp;first_name=asdad&amp;last_name=dasdad&amp;emailer=dasdad" target="_blank">My Favorite Javascripts for Designers: Blakems.com ?</a><br />
+<a href="http://www.blakems.com/archives/000087.html?_required=first_name%2CFirst+Name%7Clast_name%2CLast+Name%7Cemailer%2CEmail&amp;first_name=asdad&amp;last_name=dasdad&amp;emailer=dasdad"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-130" title="my-favorite-javascripts-for-designers-blakems-com" src="http://delimitdesign.com/wp-content/uploads/2009/02/my-favorite-javascripts-for-designers-blakems-com.png" alt="" width="400" height="260" /></a></p>
+<h3><strong>More Resources and Galleries</strong></h3>
+<p>76. <a href="http://www.maxkiesler.com/index.php/mhub/category/" target="_blank">Max Kiesler &#8211; mHub : Ajax and rails examples &amp; how-to’s</a><br />
+<a href="http://www.maxkiesler.com/index.php/mhub/category/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-133" title="max-kiesler-mhub-ajax-and-rails-examples-how-toe28099s" src="http://delimitdesign.com/wp-content/uploads/2009/02/max-kiesler-mhub-ajax-and-rails-examples-how-toe28099s.png" alt="" width="400" height="260" /></a></p>
+<p>77. <a href="http://ajax.solutoire.com/" target="_blank">Ajax Resources</a><br />
+<a href="http://ajax.solutoire.com/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-134" title="ajax-resources" src="http://delimitdesign.com/wp-content/uploads/2009/02/ajax-resources.png" alt="" width="400" height="260" /></a></p>
+<p>78. <a href="http://snippets.dzone.com/" target="_blank">DZone Snippets: Store, sort and share source code, with tag goodness</a><br />
+<a href="http://snippets.dzone.com/"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-135" title="dzone-snippets-store-sort-and-share-source-code-with-tag-goodness" src="http://delimitdesign.com/wp-content/uploads/2009/02/dzone-snippets-store-sort-and-share-source-code-with-tag-goodness.png" alt="" width="400" height="144" /></a></p>
+<p>文章来源：<a href="http://delimitdesign.com/ajax/80-ajax-solutions-that-are-usefull-and-innovative/" target="_blank">链接</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Web版的VNC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_title">Web版的VNC</a></li><li ><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/uizard2-150x150.jpg" alt="Ajax开发利器UIzard " width="150" height="150" /></a><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_title">Ajax开发利器UIzard </a></li><li ><a href="https://coolshell.cn/articles/909.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="7个免费强大的Ajax文件管理器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/909.html" class="wp_rp_title">7个免费强大的Ajax文件管理器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/57.html">80个优秀的AJAX方案</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/57.html/feed</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>你应该知道的20个Ajax技术(11-20)</title>
+		<link>https://coolshell.cn/articles/9.html</link>
+					<comments>https://coolshell.cn/articles/9.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 02 Mar 2009 05:36:00 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9</guid>
+
+					<description><![CDATA[<p>11) 表单字段帮助信息的自动提示 增强WEB表单的Usability有很多很多的方法，在网上一搜一大片，然后有些时候，用户会被表单搞得很混乱，而且，不同的用户...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9.html">你应该知道的20个Ajax技术(11-20)</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>11) 表单字段帮助信息的自动提示</strong></p>
+<p>增强WEB表单的Usability有很多很多的方法，在网上一搜一大片，然后有些时候，用户会被表单搞得很混乱，而且，不同的用户会对表单有不同的理解，其输入也是千奇百怪。所以，为表单字段增加一下自动帮助信息的提示绝对是非常不错的选择。这点在淘宝网上表现得比较出现。下面是一个非常简单短小的教程。</p>
+<p><a href="http://woork.blogspot.com/2008/04/improve-form-usability-with-auto.html" target="_blank">http://woork.blogspot.com/2008/04/improve-form-usability-with-auto.html</a></p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/10.png" alt="" /></p>
+<p> <span id="more-9"></span></p>
+<p><strong>12) qGallery (</strong><a href="http://qgallery.quadrifolia.de/" target="_blank"><strong>演示</strong></a><strong>)</strong></p>
+<p>虽然这不是一个有丰富功能的图库应用，但这绝对是一个非常优秀的Ajax应用。它基于Prototype Javascript框架（<a href="http://prototypejs.org/" target="_blank">http://prototypejs.org/</a>）制作，它对图片集的处理是非常优秀的。而且是它在节省网络带宽方面也很出色。本文写作之时，他目前还在开发阶段，还没有开放给大家下载。不过再等几个星期也就差不多该Release了。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/11.jpg" alt="" /></p>
+<p> </p>
+<p><strong>13）Ajax 星式打分（</strong><a href="http://www.masugadesign.com/download.php?ajaxstarrater_v122.zip" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://www.masugadesign.com/the-lab/scripts/unobtrusive-ajax-star-rating-bar/" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>人们总是想给他们身连的事物表达他们的喜恶，所以有一个星式打分控件绝对能满足他们的欲望。一个非常简单的Ajax脚本可以从下面的链接找到：<a href="http://www.masugadesign.com/the-lab/scripts/unobtrusive-ajax-star-rating-bar/" target="_blank">http://www.masugadesign.com/the-lab/scripts/unobtrusive-ajax-star-rating-bar/</a></p>
+<p><img decoding="async" loading="lazy" src="http://nettuts.s3.amazonaws.com/090_20ajax/12.jpg" alt="" width="505" height="224" /></p>
+<p> </p>
+<p><strong>14）CakePHP Ajax表单</strong></p>
+<p>如果你是 <a href="http://nettuts.com/web-roundups/10-insanely-useful-django-tips/" target="_blank"><span style="color: #468175;">Django</span></a> 或 <a href="http://www.cakephp.org/" target="_blank"><span style="color: #468175;">CakePHP</span></a>的使用者，那么你应该要感谢CakeBaker 的这个教程——《how to <a href="http://cakebaker.42dh.com/2006/01/18/submit-a-form-with-ajax/" target="_blank"><span style="color: #468175;">submit a form with Ajax</span></a>》，而它最强大的功能在于，如果我们的浏览器disable了Javascript，表单照样能够正常提交。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/13.jpg" alt="" /></p>
+<p> </p>
+<p><strong>15）Amberjack 站点导航（</strong><a href="http://amberjack.org/src/stable/" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://amberjack.org/?tourId=AJTour" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>在Web开发，<a href="http://www.amberjack.org/" target="_blank"><span style="color: #468175;">Amberjack</span></a>绝对令人过目难忘的Javascript库，它能够帮助你快速地创建站点导航。Amberjack 最优秀的地方是，这个javascript库只有4K大小，但却有令人难以置信的简易。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/14.jpg" alt="\' /&gt;&lt;/div&gt;  &lt;div class=" /> </p>
+<p> </p>
+<p><strong> 16）Prototype UI（</strong><a href="http://www.prototype-ui.com/download" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://www.prototype-ui.com/" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>Prototype UI基于<a href="http://www.prototypejs.org/" target="_blank"><span style="color: #468175;">Prototype</span></a> 和<a href="http://script.aculo.us/" target="_blank"><span style="color: #468175;">Scriptaculous</span></a>开发而成，它主要提供一堆图形界面的控件，本质上来说，他是一个用户接口类库，这个类库目前还持续增加中。而且所有的控件都可以很方便地定制。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/15.jpg" alt="" /></p>
+<p> </p>
+<p><strong>17）JCrop （</strong><a href="http://deepliquid.com/content/Jcrop_Download.html" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://deepliquid.com/content/Jcrop_Examples.html" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>在线的图片编辑显然是一个很棘手的事，那怕你使用photoshop，你也会觉得很难使用。当然，对于更多人，我们并不需要使用太多太复杂的图片编辑功能，如果有你上传图片的时候有这么一个功能可以让你剪裁你的图片，那么将会是一件很方便的事情。JCrop是一个<a href="http://www.jquery.com/" target="_blank"><span style="color: #468175;">jQuery</span></a> 的插件，它允许你上传图片，并提供了非常多丰富的图片剪裁功能。很有前途。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/16.jpg" alt="" /></p>
+<p> </p>
+<p><strong>18）JQuery Auto-tabbing 插件（</strong><a href="http://www.lousyllama.com/sites/www.lousyllama.com/files/jquery.autotab-1.1b.js.txt" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://www.lousyllama.com/sandbox/jquery-autotab" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>我们知道，在我们输入WEB表单的时候，当我们输入完一个字段的时候，我们需要按Tab键或是用鼠标去点击下一个输入域，所以，如果有一个好的插件可以让光标自动跳到下一个输入域，这会是一个非常不错的用户体验。这个JQuery的插件可以做到这件事。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/17.png" alt="" /></p>
+<p> </p>
+<p><strong>19) 表格排序Ajax（</strong><a href="http://www.box.net/shared/53al1imrk4" target="_blank"><strong>源码</strong></a><strong>）</strong></p>
+<p>单击表格头标题可以根据该列对整个表格排序，是一个非常不错的功能。这里有一个非常不错的<a href="http://woork.blogspot.com/2008/02/sort-table-rows-using-ajax.html" target="_blank">教程</a>教你如何做到这个事，其最终的Javascript是<a href="http://www.kryogenix.org/code/browser/sorttable/" target="_blank"><span style="color: #468175;">sortable.js</span></a>。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/19.png" alt="" /></p>
+<p> </p>
+<p>20)  DrasticMap (<a href="http://www.drasticdata.nl/DDDownloads.php" target="_blank">源码</a>，<a href="http://www.drasticdata.nl/DDExamples.php" target="_blank">演示</a>)</p>
+<p><a href="http://maps.google.com/" target="_blank"><span style="color: #468175;">Google Maps</span></a>大家都很熟悉了，DrasticMap 可能让你后台的PHP和Mysql数据库同Google Map链动起来，它可以方便地把存储在数据库里的经纬库坐标展示在Google Map上。而且，它相当的灵活，它似乎可以被无限度</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/20.jpg" alt="" /></p>
+<p>文章来源：<a href="http://nettuts.com/web-roundups/20-excellent-ajax-effects-you-should-know/" target="_blank">链接</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Web版的VNC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_title">Web版的VNC</a></li><li ><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/uizard2-150x150.jpg" alt="Ajax开发利器UIzard " width="150" height="150" /></a><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_title">Ajax开发利器UIzard </a></li><li ><a href="https://coolshell.cn/articles/909.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="7个免费强大的Ajax文件管理器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/909.html" class="wp_rp_title">7个免费强大的Ajax文件管理器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9.html">你应该知道的20个Ajax技术(11-20)</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9.html/feed</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>你应该知道的20个Ajax技术(01-10)</title>
+		<link>https://coolshell.cn/articles/7.html</link>
+					<comments>https://coolshell.cn/articles/7.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 02 Mar 2009 05:34:46 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7</guid>
+
+					<description><![CDATA[<p>1) TextboxList自动完成 （源码，演示） 这个控件主要来自Facebook吧，在网易的邮件里也能看到，还有hotmail等等，在文本框里输入文本不但...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7.html">你应该知道的20个Ajax技术(01-10)</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>1) TextboxList自动完成 （</strong><a href="http://devthought.com/textboxlist-meets-autocompletion/" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://devthought.com/wp-content/articles/autocompletelist/test.html" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>这个控件主要来自Facebook吧，在网易的邮件里也能看到，还有hotmail等等，在文本框里输入文本不但可以出现相关数据的列表，而且选中后的字符串还会变成一个小图标。这个控件主要用在电子邮件中吧。<br />
+<img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/1.png" alt="" /></p>
+<p><span id="more-7"></span></p>
+<p><strong>2) Ajax IM即时聊天 （</strong><a href="http://www.ajaxim.com/" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://www.ajaxim.net/" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>Ajax IM是一个很牛的即时聊天的客户端，你可以使用它制作一个Web-Based的即时聊天工具，这是一个非常强大的Ajax技术。</p>
+<p><img decoding="async" loading="lazy" src="http://nettuts.s3.amazonaws.com/090_20ajax/2.jpg" border="0" alt="" width="472" height="233" /></p>
+<p><strong>3）即时校验用户的输入（</strong><a href="http://www.livevalidation.com/download" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://www.livevalidation.com/examples" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>以前，检验WEB表单的输入需要放在后台，因此，用户需要提交表单数据到后台才能知道是否所填写的内容有误。Ajax把实时检测表单输入域变成了现实，如今，我们在网上已经能看到很多很多的这样的应用，比如在你注册一个用户输入一个用户名的时候，不用提交整个表单到后台，你就能知道用户名是否已被人使用。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/3.png" alt="" /></p>
+<p><strong>4）即时编辑器（</strong><a href="http://www.ideasfreelance.com/lab/instant_edit/remote_cont.js" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://www.ideasfreelance.com/lab/instant_edit/" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>所谓即时编辑器就是双击一下网页上的文本，于是你就要吧编辑它了，编辑完后再单击一下别的地方，编辑过的内容就会被提交到后台保存。在这里，给出的示例是一个非常小巧的即时编辑器—— <a href="http://www.ideasfreelance.com/lab/instant_edit/" target="_blank"><span style="color: #468175;">inline editor</span></a></p>
+<p><img decoding="async" loading="lazy" src="http://nettuts.s3.amazonaws.com/090_20ajax/4.png" alt="" width="511" height="193" /></p>
+<p><strong>5）Ajax 式文件上传</strong></p>
+<p>使用Ajax上传文件会让用户得到非常好的用户体验，上网随例搜索一下，有太多太多的各式各样的文件上传的Ajax源码可以使用。然而，在coderproject网站有，你可以下载到一款非常小又非常好的Ajax程序，网址如下：<a href="http://www.codeproject.com/KB/aspnet/AJAXUpload.aspx" target="_blank">http://www.codeproject.com/KB/aspnet/AJAXUpload.aspx</a>。</p>
+<p>当然，如果你要一次上传多个文件，那个这个小程序还不足以满足你。不过，你可以使用JQuery的<a href="http://plugins.jquery.com/project/jquploader" target="_blank">JQUploader</a>。</p>
+<p><strong>6）Fancy Upload （</strong><a href="http://digitarald.de/project/fancyupload/" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://digitarald.de/project/fancyupload/2-0/showcase/photoqueue/" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>更为迷人的文件上传程序，你可以试试Fancy Upload，它通非常优秀的Javascript框架MooTools(<a href="http://mootools.net/" target="_blank">http://mootools.net/</a>)构造。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/6.png" alt="" /></p>
+<p><strong> 7）点击记录ClickHeat （</strong><a href="http://sourceforge.net/project/showfiles.php?group_id=181196" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://www.labsmedia.com/clickheat/index.html#" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>ClickHeat是一个非常简单而非常强大的Ajax技术，它可以记录下访问者们对你网站的点击坐标，以便于你分析你网站的访问者的习惯和他们的关注点。</p>
+<p><img decoding="async" loading="lazy" src="http://nettuts.s3.amazonaws.com/090_20ajax/7.jpg" alt="" width="448" height="268" /></p>
+<p><strong>8）Ajax电子邮件表单 （</strong><a href="http://ninjadesigns.co.uk/enter/mailist.zip" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://ninjadesigns.co.uk/demo/mailist/index.php" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p>这里主要推荐一款叫Maillist的Ajax程序，这是用来校验并提交电子邮件的地址的（不需要刷新页面），这样的设计极大地方便了用户的使用邮件订阅某些更新。我们想想看，这样的用户体现绝对会让你网站的用户特别愿意提交他们的电子邮件。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/8.png" alt="" /></p>
+<p><strong>9) Ajax目录管理器 （</strong><a href="http://ecosmear.com/relay/download.php" target="_blank"><strong>源码</strong></a><strong>，</strong><a href="http://ecosmear.com/relay/demo/" target="_blank"><strong>演示</strong></a><strong>）</strong></p>
+<p> 使用Ajax做一个在线的WEB的目录浏览器是非常酷的事情，如果没有Ajax，这样的用户体验除上让用户装一个ActiveX控件，我们几乎无法在Web上实现。在这里，我们推荐Relay这个框架，它基本上有这样一些功能，a)支持文件拖拉，b)动态地载入文件目录列表， c)还有上传的进度条，d)支持多用户帐号。还有很多很多。Relay绝对实现了你所能想得到的功能。</p>
+<p><img decoding="async" src="http://nettuts.s3.amazonaws.com/090_20ajax/9.jpg" alt="" /></p>
+<p><strong>10）Ajax邮件客户端</strong></p>
+<p>目前，太多太多的邮件系统越来越多的使用Ajax技术。在用户体验方面，Gmail和网易邮箱最好。Hotmail的界面和outlook很相似了，可惜的是hotmail的运行速度感觉就像一辆后面拖着大石头的跑车。如果你想要开发一个Ajax的邮件客户端，那么，你一定要读一下下面的这篇文章：</p>
+<p><a href="http://www.devarticles.com/c/a/XML/Take-AJAX-to-Your-Email-Inbox-Developing-a-Webbased-POP-3-Client/" target="_blank">http://www.devarticles.com/c/a/XML/Take-AJAX-to-Your-Email-Inbox-Developing-a-Webbased-POP-3-Client/</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Web版的VNC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_title">Web版的VNC</a></li><li ><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/uizard2-150x150.jpg" alt="Ajax开发利器UIzard " width="150" height="150" /></a><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_title">Ajax开发利器UIzard </a></li><li ><a href="https://coolshell.cn/articles/909.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="7个免费强大的Ajax文件管理器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/909.html" class="wp_rp_title">7个免费强大的Ajax文件管理器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7.html">你应该知道的20个Ajax技术(01-10)</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>zombie | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/zombie/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sat, 25 Apr 2009 07:41:09 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Linux 的僵尸(zombie)进程</title>
+		<link>https://coolshell.cn/articles/656.html</link>
+					<comments>https://coolshell.cn/articles/656.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 25 Apr 2009 07:28:42 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[zombie]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=656</guid>
+
+					<description><![CDATA[<p>可能很少有人意识到，在一个进程调用了exit之后，该进程 并非马上就消失掉，而是留下一个称为僵尸进程（Zombie）的数据结构。在Linux进程的5种状态中，僵...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/656.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/656.html">Linux 的僵尸(zombie)进程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>可能很少有人意识到，在一个进程调用了exit之后，该进程 并非马上就消失掉，而是留下一个称为僵尸进程（Zombie）的数据结构。在Linux进程的5种状态中，僵尸进程是非常特殊的一种，它已经放弃了几乎所 有内存空间，没有任何可执行代码，也不能被调度，仅仅在进程列表中保留一个位置，记载该进程的退出状态等信息供其他进程收集，除此之外，僵尸进程不再占有 任何内存空间。</p>
+<p>僵尸进程的来由，要追溯到Unix，Unix的设计者们设计这个东西并非是因为闲来无事想装装酷什么的。上面说到，僵尸进程中保存着很多对程序员和系统管理员非常重要的信息，首先，这个进程是怎么死亡的？是正常退出呢，还是出现了错误，还是被其它进程强迫退出的？也就是说，这个程序的退出码是什么？其次，这个进程占用的总系统CPU时间和总用户CPU时间分别是多少？发生页错误的数目和收到信号的数目。这些信息都被存储在僵尸进程中，试想如果没有僵尸进程，进程执行多长我们并不知道，一旦其退出，所有与之相关的信息都立刻都从系统中清除，而如果此时父进程或系统管理员需要用到，就只好干瞪眼了。</p>
+<p><span id="more-656"></span></p>
+<p>所以，进程退出后，系统会把该进程的状态变成Zombie，然后给上一定的时间等着父进程来收集其退出信息，因为可能父进程正忙于别的事情来不及收集，所以，使用Zombie状态表示进程退出了，正在等待父进程收集信息中。</p>
+<p>Zombie进程不可以用kill命令清楚，因为进程已退出，如果需要清除这样的进程，那么需要清除其父进程，或是等很长的时间后被内核清除。因为Zombie的进程还占着个进程ID号呢，这样的进程如果很多的话，不利于系统的进程调度。</p>
+<p>下面，让我们来看看一个示例：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+/* zombie.c */
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;  main()
+{
+    pid_t pid; 
+    pid=fork();
+    if(pid&lt;0) { /* 如果出错 */ 
+        printf(&quot;error occurred!\n&quot;);
+    }else if(pid==0){ /* 如果是子进程 */ 
+        exit(0);
+    }else{  /* 如果是父进程 */ 
+        sleep(60);  /* 休眠60秒 */ 
+        wait(NULL); /* 收集僵尸进程 */
+    }
+}
+
+</pre>
+<p>编译这个程序：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ cc zombie.c -o zombie</code></p>
+<p>后台运行程序，以使我们能够执行下一条命令</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ ./zombie &amp;
+[1] 1217
+</pre>
+<p>列一下系统内的进程</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW" data-enlighter-highlight="5">
+$ ps -ax
+... ...
+1137   pts/0   S   0:00   -bash
+1217   pts/0   S   0:00   ./zombie
+1218   pts/0   Z   0:00   [zombie]
+1578   pts/0   R   0:00   ps   -ax
+</pre>
+<p>其中的&#8221;Z&#8221;就是僵尸进程的标志，它表示1218号进程现在就是一个僵尸进程。</p>
+<p>收集Zombie进程的信息，并终结这些僵尸进程，需要我们在父进程中使用waitpid调用和wait调用。这两者的作用都是收集僵尸进程留下的信息，同时使这个进程彻底消失。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/cache-150x150.png" alt="缓存更新的套路" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_title">缓存更新的套路</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/656.html">Linux 的僵尸(zombie)进程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/656.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

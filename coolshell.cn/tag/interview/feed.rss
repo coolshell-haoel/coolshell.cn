@@ -1,0 +1,1859 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>面试 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/interview/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 29 Aug 2018 15:02:26 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Leetcode 编程训练</title>
+		<link>https://coolshell.cn/articles/12052.html</link>
+					<comments>https://coolshell.cn/articles/12052.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 23 Oct 2014 02:51:54 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Leetcode]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[算法]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12052</guid>
+
+					<description><![CDATA[<p>Leetcode这个网站上的题都是一些经典的公司用来面试应聘者的面试题，很多人通过刷这些题来应聘一些喜欢面试算法的公司，比如：Google、微软、Faceboo...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12052.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12052.html">Leetcode 编程训练</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-12054 size-full" src="https://coolshell.cn/wp-content/uploads/2014/10/LeetCodeLogo-1.png" alt="LeetCodeLogo (1)" width="121" height="100" />Leetcode这个网站上的题都是一些经典的公司用来面试应聘者的面试题，很多人通过刷这些题来应聘一些喜欢面试算法的公司，比如：Google、微软、Facebook、Amazon之类的这些公司，基本上是应试教育的功利主义。</p>
+<p>我做这些题目的不是为了要去应聘这些公司，而是为了锻炼一下自己的算法和编程能力。因为我开始工作的时候基本没有这样的训练算法和编程的网站，除了大学里的“算法和数据结构”里的好些最基础最基础的知识，基本上没有什么训练。所以，当我看到有人在做这些题的时候，我也蠢蠢欲动地想去刷一下。</p>
+<p>于是，我花了3-4个月的业余时间，我把<a href="https://oj.leetcode.com/problems/" target="_blank">Leetcode的154道题</a>全部做完了。（这也是最近我没有太多的时间来写博客的原因，你可以看到我之前<a title="谜题的答案和活动的心得体会" href="https://coolshell.cn/articles/11847.html" target="_blank">做的那个活动</a>中有几个算法题来自于Leetcode）有人说我时间太多了，这里声明一下，我基本上都是利用了晚上10点以后的时间来做这些题的。</p>
+<p>LeetCode的题大致分成两类：</p>
+<p style="padding-left: 30px;"><strong>1）基础算法的知识</strong>。这些题里面有大量的算法题，解这些题都是有套路的，不是用递归（深度优先DFS，广度优先BFS），就是要用动态规划（Dynamic Programming），或是拆半查找（Binary Search），或是回溯（Back tracing），或是分治法（Divide and Conquer），还有大量的对树，数组、链表、字符串和hash表的操作。<strong>通过做这些题能让你对这些最基础的算法的思路有非常扎实的了解和训练</strong>。对我而言，Dynamic Programming 是我的短板，尤其是一些比较复杂的问题，在推导递推公式上总是有思维的缺陷（数学是我的硬伤），通过做了这些题后，我能感到我在DP的思路上有了很大的收获。</p>
+<p style="padding-left: 30px;"><strong>2）编程题</strong>。比如：atoi，strstr，add two num，括号匹配，字符串乘法，通配符匹配，文件路径简化，Text Justification，反转单词等等，这些题的Edge Case, Corner Case有很多。这些题需要你想清楚了再干，只要你稍有疏忽，就会有几个case让你痛不欲生，而且一不小心就会让你的代码会写得又臭又长，无法阅读。<strong>通过做这些题，可以非常好的训练你对各种情况的考虑，以及你对程序代码组织的掌控（其实就是其中的状态变量）。</strong>还记得我在《<a title="函数式编程" href="https://coolshell.cn/articles/10822.html" target="_blank">函数式编程</a>》中说的，程序中的状态是你程序变得复杂难维护的直接原因。</p>
+<p>我觉得每个程序员都应该花时间和精力做这些题，因为你会从这些题中得到很大的收益。做完这些题后你一定会明白下面几个道理：</p>
+<p><span id="more-12052"></span></p>
+<p style="padding-left: 30px;"><strong>1）想清楚了再干</strong>。这个观点我以前就在《<a title="多些时间能少写些代码" href="https://coolshell.cn/articles/5686.html" target="_blank">多些时间可以少些代码</a>》说过。如果你拿到题就上去直接写代码的话，你一定会被各种case打回来了。然后呢，你一着急，你就会进入那种我在《<a title="开发团队的效率" href="https://coolshell.cn/articles/11656.html" target="_blank">开发团队的效率</a>》中说的那种毫无效率case by case的开发模式，而你也进入了“平庸模式”。于是你就会出现下图那样的情况。</p>
+<figure id="attachment_12053" aria-describedby="caption-attachment-12053" style="width: 440px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-12053" src="https://coolshell.cn/wp-content/uploads/2014/10/bug_fixing.gif" alt="Case-by-Case Developement" width="440" height="231" /><figcaption id="caption-attachment-12053" class="wp-caption-text">Case-by-Case Development</figcaption></figure>
+<p style="padding-left: 30px;"><strong>2) 编程是脑力劳动，急不得</strong>。这个事情在这做这些题的时候你就会发现，要么是脑子转不过来了，要么就是明明就差一点了，但程序怎么都调不对。如果你越着急的话，你就会发现你会离目标越远，而花的时间也会更多。另外，你会发现这些题基本上都是50行代码内就可以搞定的，但是为了这50行以内的代码，你要花好多时间和精力。coding  50行代码在我们的日常工作中分分钟就完成，而Leetcode里的50行代码却没那么简单，也许，用这个你就可以区别什么是码农，什么是程序员了。</p>
+<p style="padding-left: 30px;"><strong>3）加班要不得。</strong>因为我总是在晚上10点以后做题，所以，基本上都是在加班状态中工作。这种状态过上两三天，你就会发现，整个大脑已经不转了，而且不但不转，还会犯很多低级错误，很多事情都想不清楚，一个晚上都在和程序的状态控制做搏斗，代码写得越来越乱，越来越没条理。于是这种时候，我都会休息几天，不做题了，然后再做题的时候，就觉得非常地清楚。可见加班 是编程最致命的敌人！</p>
+<p>我把我的C++代码放到了Github上，大家也帮我review一下，看看有没有可以改善的。</p>
+<p style="text-align: center;"><strong><a href="https://github.com/haoel/leetcode" target="_blank">https://github.com/haoel/leetcode</a></strong></p>
+<p>好了，不多说了，<strong>我希望大家有时间都去练练LeetCode，无论是找工作还是对你的编程能力会有非常大的提高</strong>。</p>
+<p>&nbsp;</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-150x150.jpg" alt="为什么我反对纯算法面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_title">为什么我反对纯算法面试题</a></li><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/9543.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/weibo-150x150.jpg" alt="“C++的数组不支持多态”？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9543.html" class="wp_rp_title">“C++的数组不支持多态”？</a></li><li ><a href="https://coolshell.cn/articles/8790.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/choice-150x150.jpg" alt="程序算法与人生选择" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8790.html" class="wp_rp_title">程序算法与人生选择</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12052.html">Leetcode 编程训练</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12052.html/feed</wfw:commentRss>
+			<slash:comments>96</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>C++面试中string类的一种正确写法</title>
+		<link>https://coolshell.cn/articles/10478.html</link>
+					<comments>https://coolshell.cn/articles/10478.html#comments</comments>
+		
+		<dc:creator><![CDATA[Solstice]]></dc:creator>
+		<pubDate>Wed, 09 Oct 2013 07:40:38 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10478</guid>
+
+					<description><![CDATA[<p>（感谢网友 @bnu_chenshuo 投稿） C++ 的一个常见面试题是让你实现一个 String 类，限于时间，不可能要求具备 std::string 的功...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10478.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10478.html">C++面试中string类的一种正确写法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 <a href="http://weibo.com/u/1701018393?source=webim" target="_blank"><img decoding="async" alt="" src="http://tp2.sinaimg.cn/1701018393/50/1297990315/1" /></a><a title="bnu_chenshuo" href="http://weibo.com/u/1701018393?source=webim" target="_blank"> @bnu_chenshuo </a>投稿）</strong></p>
+<p>C++ 的一个常见面试题是让你实现一个 String 类，限于时间，不可能要求具备 std::string 的功能，但至少要求能正确管理资源。具体来说：</p>
+<ol>
+<li>能像 int 类型那样定义变量，并且支持赋值、复制。</li>
+<li>能用作函数的参数类型及返回类型。</li>
+<li>能用作标准库容器的元素类型，即 vector/list/deque 的 value_type。（用作 std::map 的 key_type 是更进一步的要求，本文从略）。</li>
+</ol>
+<p>换言之，你的 String 能让以下代码编译运行通过，并且没有内存方面的错误。</p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">void foo(String x)
+{
+}
+
+void bar(const String&amp; x)
+{
+}
+
+String baz()
+{
+  String ret(&quot;world&quot;);
+  return ret;
+}
+
+int main()
+{
+  String s0;
+  String s1(&quot;hello&quot;);
+  String s2(s0);
+  String s3 = s1;
+  s2 = s1;
+
+  foo(s1);
+  bar(s1);
+  foo(&quot;temporary&quot;);
+  bar(&quot;temporary&quot;);
+  String s4 = baz();
+
+  std::vector&lt;String&gt; svec;
+  svec.push_back(s0);
+  svec.push_back(s1);
+  svec.push_back(baz());
+  svec.push_back(&quot;good job&quot;);
+}</pre>
+<p><span id="more-10478"></span>本文给出我认为适合面试的答案，强调正确性及易实现（白板上写也不会错），不强调效率。某种意义上可以说是以时间（运行快慢）换空间（代码简洁）。</p>
+<p>首先选择数据成员，最简单的 String 只有一个 char* 成员变量。好处是容易实现，坏处是某些操作的复杂度较高（例如 size() 会是线性时间）。为了面试时写代码不出错，本文设计的 String 只有一个 char* data_成员。而且规定 invariant 如下：一个 valid 的 string 对象的 data_ 保证不为 NULL，data_ 以 <code>'\0'</code> 结尾，以方便配合 C 语言的 str*() 系列函数。</p>
+<p>其次决定支持哪些操作，构造、析构、拷贝构造、赋值这几样是肯定要有的（以前合称 big three，现在叫 copy control）。如果钻得深一点，C++11的移动构造和移动赋值也可以有。为了突出重点，本文就不考虑 operator[] 之类的重载了。</p>
+<p>这样代码基本上就定型了：</p>
+<pre data-enlighter-language="cpp" class="EnlighterJSRAW">#include &lt;utility&gt;
+#include &lt;string.h&gt;
+
+class String
+{
+ public:
+  String()
+    : data_(new char[1])
+  {
+    *data_ = &#039;&#092;&#048;&#039;;
+  }
+
+  String(const char* str)
+    : data_(new char[strlen(str) + 1])
+  {
+    strcpy(data_, str);
+  }
+
+  String(const String&amp; rhs)
+    : data_(new char[rhs.size() + 1])
+  {
+    strcpy(data_, rhs.c_str());
+  }
+  /* Delegate constructor in C++11
+  String(const String&amp; rhs)
+    : String(rhs.data_)
+  {
+  }
+  */
+
+  ~String()
+  {
+    delete[] data_;
+  }
+
+  /* Traditional:
+  String&amp; operator=(const String&amp; rhs)
+  {
+    String tmp(rhs);
+    swap(tmp);
+    return *this;
+  }
+  */
+  String&amp; operator=(String rhs) // yes, pass-by-value
+  {
+    swap(rhs);
+    return *this;
+  }
+
+  // C++ 11
+  String(String&amp;&amp; rhs)
+    : data_(rhs.data_)
+  {
+    rhs.data_ = nullptr;
+  }
+
+  String&amp; operator=(String&amp;&amp; rhs)
+  {
+    swap(rhs);
+    return *this;
+  }
+
+  // Accessors
+
+  size_t size() const
+  {
+    return strlen(data_);
+  }
+
+  const char* c_str() const
+  {
+    return data_;
+  }
+
+  void swap(String&amp; rhs)
+  {
+    std::swap(data_, rhs.data_);
+  }
+
+ private:
+  char* data_;
+};</pre>
+<p>注意代码的几个要点：</p>
+<ol>
+<li>只在构造函数里调用 new char[]，只在析构函数里调用 delete[]。</li>
+<li>赋值操作符采用了《C++编程规范》推荐的现代写法。</li>
+<li>每个函数都只有一两行代码，没有条件判断。</li>
+<li>析构函数不必检查 data_ 是否为 NULL。</li>
+<li>构造函数 <code>String(const char* str)</code> 没有检查 str 的合法性，这是一个永无止境的争论话题。这里在初始化列表里就用到了 str，因此在函数体内用 assert() 是无意义的。</li>
+</ol>
+<p>这恐怕是最简洁的 String 实现了。</p>
+<p><strong>练习1</strong>：增加 operator==、operator&lt;、operator[] 等操作符重载。</p>
+<p><strong>练习2</strong>：实现一个带 int size_; 成员的版本，以空间换时间。</p>
+<p><strong>练习3</strong>：受益于右值引用及移动语意，在 C++11 中对 String 实施直接插入排序的性能比C++98/03要高，试编程验证之。（g++的标准库也用到了此技术。）</p>
+<p>陈皓注：同时，大家可以移步看看我的一篇老文《<a href="http://blog.csdn.net/haoel/article/details/1491219" target="_blank">STL中String类的问题</a>》<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10478.html">C++面试中string类的一种正确写法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10478.html/feed</wfw:commentRss>
+			<slash:comments>40</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>为什么我反对纯算法面试题</title>
+		<link>https://coolshell.cn/articles/8138.html</link>
+					<comments>https://coolshell.cn/articles/8138.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 22 Aug 2012 00:20:18 +0000</pubDate>
+				<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8138</guid>
+
+					<description><![CDATA[<p>算法面试可能是微软搞出来的面试方法，现在很多公司都在效仿，而且我们的程序员也乐于解算法题，我个人以为，这是应试教育的毒瘤！我在《再谈“我是怎么招程序员”》中比较...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8138.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8138.html">为什么我反对纯算法面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>算法面试可能是微软搞出来的面试方法，现在很多公司都在效仿，而且我们的程序员也乐于解算法题，我个人以为，这是应试教育的毒瘤！我在《<a title="再谈“我是怎么招聘程序员的”（上）" href="https://coolshell.cn/articles/4506.html">再谈“我是怎么招程序员”</a>》中比较保守地说过，“<strong>问难的算法题并没有错，错的很多面试官只是在肤浅甚至错误地理解着面试算法题的目的</strong>。”，今天，我想加强一下这个观点——<strong>我反对纯算法题面试</strong>！（注意，我说的是纯算法题）</p>
+<figure id="attachment_8140" aria-describedby="caption-attachment-8140" style="width: 250px" class="wp-caption alignright"><a href="http://en.wikipedia.org/wiki/Sheldon_Cooper"><img decoding="async" loading="lazy" class="size-full wp-image-8140" title="Sheldon_Cooper" src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper.jpg" alt="" width="250" height="333" srcset="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper.jpg 250w, https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-225x300.jpg 225w, https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-203x270.jpg 203w" sizes="(max-width: 250px) 100vw, 250px" /></a><figcaption id="caption-attachment-8140" class="wp-caption-text">图片源Wikipedia（点击图片查看词条）</figcaption></figure>
+<p>我再次引用我以前的一个观点——</p>
+<p style="padding-left: 30px;">能解算法题并不意味着这个人就有能力就能在工作中解决问题，你可以想想，小学奥数题可能比这些题更难，但并不意味着那些奥数能手就能解决实际问题。</p>
+<p>好了，让我们来看一个示例（这个示例是昨天在<a href="http://weibo.com/1401880315/yy9pvgNi2" target="_blank">微博上的一个讨论</a>），这个题是——“<strong>找出无序数组中第2大的数</strong>”，几乎所有的人都用了O(n)的算法，我相信对于我们这些应试教育出来的人来说，不用排序用O(n)算法是很正常的事，连我都不由自主地认为O(n)算法是这个题的标准答案。<strong>我们太习惯于标准答案了，这是我国教育最悲哀的地方</strong>。（广义的洗脑就是让你的意识依赖于某个标准答案，然后通过给你标准答案让你不会思考而控制你）</p>
+<h4>功能性需求分析</h4>
+<p>试想，如果我们在实际工作中得到这样一个题 我们会怎么做？我一定会分析这个需求，因为我害怕需求未来会改变，今天你叫我找一个第2大的数，明天你找我找一个第4大的数，后天叫我找一个第100大的数，我不搞死了。需求变化是很正常的事。分析完这个需求后，我会很自然地去写找第K大数的算法——难度一下子就增大了。</p>
+<p><span id="more-8138"></span></p>
+<p>很多人会以为找第K大的需求是一种“过早扩展”的思路，不是这样的，我相信我们在实际编码中写过太多这样的程序了，你一定不会设计出这样的函数接口—— Find2ndMaxNum(int* array, int len)，就好像你不会设计出 DestroyBaghdad(); 这样的接口，而是设计一个DestoryCity( City&amp; ); 的接口，而把Baghdad当成参数传进去！所以，你应该是声明一个叫FindKthMaxNum(int* array, int len, int kth)，把2当成参数传进去。<strong>这是最基本的编程方法，用数学的话来说，叫代数</strong>！最简单的需求分析方法就是把需求翻译成函数名，然后看看是这个接口不是很二？！</p>
+<p>（注：不要纠结于FindMaxNum()或FindMinNum()，因为这两个函数名的业务意义很清楚了，不像Find2ndMaxNum()那么二）</p>
+<h4>非功能性需求分析</h4>
+<p>性能之类的东西从来都是非功能性需求，对于算法题，我们太喜欢研究算法题的空间和时间复杂度了。我们希望做到空间和时间双丰收，这是算法学术界的风格。所以，<strong>习惯于标准答案的我们已经失去思考的能力，只会机械地思考算法之内的性能，而忽略了算法之外的性能</strong>。</p>
+<p>如果题目是——“从无序数组中找到第K个最大的数”，那么，我们一定会去思考用O(n)的线性算法找出第K个数。事实上，也有线性算法——STL中可以用nth_element求得类似的第n大的数，其利用快速排序的思想，从数组S中随机找出一个元素X，把数组分为两部分Sa和Sb。Sa中的元素大于等于X，Sb中元素小于X。这时有两种情况：1）Sa中元素的个数小于k，则Sb中的第k-|Sa|个元素即为第k大数；2） Sa中元素的个数大于等于k，则返回Sa中的第k大数。时间复杂度近似为O(n)。</p>
+<p>搞学术的nuts们到了这一步一定会欢呼胜利！但是他们哪里能想得到性能的需求分析也是来源自业务的！</p>
+<p><strong>我们一说性能，基本上是个人都会问，请求量有多大？如果我们的FindKthMaxNum()的请求量是m次，那么你的这个每次都要O(n)复杂度的算法得到的效果就是O(n*m)，这一点，是书呆子式的学院派人永远想不到的。</strong>因为应试教育让我们不会从实际思考了。</p>
+<h4>工程式的解法</h4>
+<p>根据上面的需求分析，有软件工程经验的人的解法通常会这样：</p>
+<p style="padding-left: 30px;">1）把数组排序，从大到小。</p>
+<p style="padding-left: 30px;">2）于是你要第k大的数，就直接访问 array[k]。</p>
+<p>排序只需要一次，O(n*log(n))，然后，接下来的m次对FindKthMaxNum()的调用全是O(1)的，整体复杂度反而成了线性的。</p>
+<p>其实，上述的还不是工程式的最好的解法，因为，在业务中，那数组中的数据可能会是会变化的，所以，如果是用数组排序的话，有数据的改动会让我重新排序，这个太耗性能了，如果实际情况中会有很多的插入或删除操作，那么可以考虑使用B+树。</p>
+<p>工程式的解法有以下特点：</p>
+<p style="padding-left: 30px;">1）很方便扩展，因为数据排好序了，你还可以方便地支持各种需求，如从第k1大到k2大的数据（那些学院派写出来的代码在拿到这个需求时又开始挠头苦想了）</p>
+<p style="padding-left: 30px;">2）规整的数据会简化整体的算法复杂度，从而整体性能会更好。（公欲善其事，必先利其器）</p>
+<p style="padding-left: 30px;">3）代码变得清晰，易懂，易维护！（学院派的和STL一样的近似O(n)复杂度的算法没人敢动）</p>
+<h4>争论</h4>
+<p>你可能会和我有以下争论，</p>
+<ul>
+<li><strong>如果程序员做这个算法题用排序的方式，他一定不会像你想那么多</strong>。是的，你说得对。但是我想说，很多时候，我们直觉地思考，恰恰是正确的路。因为“排序”这个思路符合人类大脑处理问题的方式，而使用学院派的方式是反大脑直觉的。反大脑直觉的，通常意味着晦涩难懂，维护成本上升。</li>
+</ul>
+<ul>
+<li><strong>就是一道面试题，我就是想测试一下你的算法技能，这也扯太多了</strong>。没问题，不过，我们要清楚我们是在招什么人？是一个只会写算法的人，还是一个会做软件的人？这个只有你自己最清楚。</li>
+</ul>
+<ul>
+<li><strong>这个算法题太容易诱导到学院派的思路了</strong>。是的这道“找出第K大的数”，其实可以变换为更为业务一点的题目——“<strong>我要和别的商户竞价，我想排在所有竞争对手报价的第K名，请写一个程序，我输入K，和一个商品名，系统告诉我应该订多少价？</strong>（商家的所有商品的报价在一数组中）”——业务分析，整体性能，算法，数据结构，增加需求让应聘者重构，这一个问题就全考了。</li>
+</ul>
+<ul>
+<li><strong><span style="color: #ff0000;">你是不是在说算法不重要，不用学？</span></strong>千万别这样理解我，搞得好像如果面试不面，我就可以不学。<strong>算法很重要，算法题能锻炼我们的思维，而且也有很多实际用处</strong>。我这篇文章不是让大家不要去学算法，这是完全错误的，我是让大家带着业务问题去使用算法。问你业务问题，一样会问到算法题上来。</li>
+</ul>
+<h4>小结</h4>
+<p>看过这上面的分析，我相信你明白我为什么反对纯算法面试题了。原因就是<strong>纯算法的面试题根本不能反应一个程序的综合素质</strong>！</p>
+<p>那么，在面试中，我们应该要考量程序员的那些综合素质呢？我以为有下面这些东西：</p>
+<ol>
+<li>会不会做需求分析？怎么理解问题的？</li>
+<li>解决问题的思路是什么？想法如何？</li>
+<li>会不会对基础的算法和数据结构灵活运用？</li>
+</ol>
+<p>另外，我们知道，对于软件开发来说，在工程上，难是的下面是这些挑战：</p>
+<ul>
+<li>软件的维护成本远远大于软件的开发成本。</li>
+<li>软件的质量变得越来越重要，所以，测试工作也变得越来越重要。</li>
+<li>软件的需求总是在变的，软件的需求总是一点一点往上加的。</li>
+<li>程序中大量的代码都是在处理一些错误的或是不正常的流程。</li>
+</ul>
+<p>所以，对于编程能力上，我们应该主要考量程序员的如下能力：</p>
+<ol>
+<li>设计是否满足对需求的理解，并可以应对可能出现的需求变化。</li>
+<li>程序是否易读，易维护？</li>
+<li>重构代码的能力如何？</li>
+<li>会不会测试自己写好的程序？</li>
+</ol>
+<p>所以，这段时间，我越来越倾向于问应聘者一些有业务意义的题，而且应增加或更改需求来看程序员的重构代码的能力，写完程序后，让应聘者设计测试案例。</p>
+<p>比如：解析加减乘除表达式，字符串转数字，洗牌程序，口令生成器，通过ip地址找地点，英汉词典双向检索……</p>
+<p><strong>总之，我反对纯算法面试题！</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8790.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/choice-150x150.jpg" alt="程序算法与人生选择" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8790.html" class="wp_rp_title">程序算法与人生选择</a></li><li ><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="给程序员新手的一些建议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_title">给程序员新手的一些建议</a></li><li ><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="再谈“我是怎么招聘程序员的”（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（上）</a></li><li ><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="再谈“我是怎么招聘程序员的”（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（下）</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8138.html">为什么我反对纯算法面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8138.html/feed</wfw:commentRss>
+			<slash:comments>181</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个fork的面试题</title>
+		<link>https://coolshell.cn/articles/7965.html</link>
+					<comments>https://coolshell.cn/articles/7965.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 01 Aug 2012 00:20:46 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[fork]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7965</guid>
+
+					<description><![CDATA[<p>前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7965.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7965.html">一个fork的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：</p>
+<p><strong>题目：请问下面的程序一共输出多少个“-”？</strong></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(void)
+{
+   int i;
+   for(i=0; i&lt;2; i++){
+      fork();
+      printf(&quot;-&quot;);
+   }
+
+   wait(NULL);
+   wait(NULL);
+
+   return 0;
+}
+</pre>
+<p>如果你对fork()的机制比较熟悉的话，这个题并不难，输出应该是6个“-”，但是，实际上这个程序会很tricky地输出8个“-”。</p>
+<p>要讲清这个题，我们首先需要知道fork()系统调用的特性，</p>
+<p><span id="more-7965"></span></p>
+<ul>
+<li>fork()系统调用是Unix下以自身进程创建子进程的系统调用，一次调用，两次返回，如果返回是0，则是子进程，如果返回值&gt;0，则是父进程（返回值是子进程的pid），这是众为周知的。</li>
+</ul>
+<ul>
+<li>还有一个很重要的东西是，在fork()的调用处，整个父进程空间会原模原样地复制到子进程中，包括指令，变量值，程序调用栈，环境变量，缓冲区，等等。</li>
+</ul>
+<p>所以，上面的那个程序为什么会输入8个“-”，这是因为printf(&#8220;-&#8220;);语句有buffer，所以，对于上述程序，printf(&#8220;-&#8220;);把“-”放到了缓存中，并没有真正的输出（参看《<a title="C语言的谜题" href="https://coolshell.cn/articles/945.html" target="_blank">C语言的迷题</a>》中的第一题），<strong>在fork的时候，缓存被复制到了子进程空间</strong>，所以，就多了两个，就成了8个，而不是6个。</p>
+<p>另外，多说一下，我们知道，Unix下的设备有“<a href="http://en.wikipedia.org/wiki/Device_file#Block_devices" target="_blank">块设备</a>”和“<a href="http://en.wikipedia.org/wiki/Device_file#Character_devices" target="_blank">字符设备</a>”的概念，所谓块设备，就是以一块一块的数据存取的设备，字符设备是一次存取一个字符的设备。磁盘、内存都是块设备，字符设备如键盘和串口。<strong>块设备一般都有缓存，而字符设备一般都没有缓存</strong>。</p>
+<p>对于上面的问题，我们如果修改一下上面的printf的那条语句为：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">printf(&quot;-\n&quot;);</code></p>
+<p>或是</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW"> printf(&quot;-&quot;);
+fflush(stdout);</pre>
+<p>就没有问题了（就是6个“-”了），因为程序遇到“\n”，或是EOF，或是缓中区满，或是文件描述符关闭，或是主动flush，或是程序退出，就会把数据刷出缓冲区。需要注意的是，标准输出是行缓冲，所以遇到“\n”的时候会刷出缓冲区，但对于磁盘这个块设备来说，“\n”并不会引起缓冲区刷出的动作，那是全缓冲，你可以使用setvbuf来设置缓冲区大小，或是用fflush刷缓存。</p>
+<p>我估计有些朋友可能对于fork()还不是很了解，那么我们把上面的程序改成下面这样：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+int main(void)
+{
+   int i;
+   for(i=0; i&lt;2; i++){
+      fork();
+      //注意：下面的printf有“\n”
+      printf(&quot;ppid=%d, pid=%d, i=%d \n&quot;, getppid(), getpid(), i);
+   }
+   sleep(10); //让进程停留十秒，这样我们可以用pstree查看一下进程树
+   return 0;
+}
+</pre>
+<p>于是，上面这段程序会输出下面的结果，（注：编译出的可执行的程序名为fork）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">ppid=8858, pid=8518, i=0
+ppid=8858, pid=8518, i=1
+ppid=8518, pid=8519, i=0
+ppid=8518, pid=8519, i=1
+ppid=8518, pid=8520, i=1
+ppid=8519, pid=8521, i=1
+
+$ pstree -p | grep fork
+|-bash(8858)-+-fork(8518)-+-fork(8519)---fork(8521)
+|            |            `-fork(8520)</pre>
+<p>面对这样的图你可能还是看不懂，没事，我好事做到底，画个图给你看看：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7968" title="fork 程序调用图" src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg.jpg" alt="" width="620" height="407" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg.jpg 620w, https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-300x197.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-411x270.jpg 411w" sizes="(max-width: 620px) 100vw, 620px" /></p>
+<p>注意：上图中的我用了几个色彩，相同颜色的是同一个进程。于是，我们的pstree的图示就可以成为下面这个样子：（下图中的颜色与上图对应）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7969" title="fork进程树" src="https://coolshell.cn/wp-content/uploads/2012/07/fork02.jpg" alt="" width="437" height="97" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork02.jpg 437w, https://coolshell.cn/wp-content/uploads/2012/07/fork02-300x66.jpg 300w" sizes="(max-width: 437px) 100vw, 437px" /></p>
+<p>这样，对于printf(&#8220;-&#8220;);这个语句，我们就可以很清楚的知道，哪个子进程复制了父进程标准输出缓中区里的的内容，而导致了多次输出了。（如下图所示，就是我阴影并双边框了那两个子进程）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7970" title="fork程序执行图" src="https://coolshell.cn/wp-content/uploads/2012/07/fork03.jpg" alt="" width="626" height="415" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork03.jpg 626w, https://coolshell.cn/wp-content/uploads/2012/07/fork03-300x198.jpg 300w" sizes="(max-width: 626px) 100vw, 626px" /></p>
+<p>现在你明白了吧。（另，对于图中的我本人拙劣的配色，请见谅!）</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="到处都是Unix的胎记" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_title">到处都是Unix的胎记</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7965.html">一个fork的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7965.html/feed</wfw:commentRss>
+			<slash:comments>223</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>给程序员新手的一些建议</title>
+		<link>https://coolshell.cn/articles/4976.html</link>
+					<comments>https://coolshell.cn/articles/4976.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 12 Jul 2011 00:37:49 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Intern]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[实习生]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4976</guid>
+
+					<description><![CDATA[<p>前段时间因为实习生计划花了很多时间做了实习生招聘的工作，产生的一些想法，写在这里。 这次招聘过程中，我发现我们在校的学生有下面的这些特点： 1）NB的项目。当说...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4976.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4976.html">给程序员新手的一些建议</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>前段时间因为实习生计划花了很多时间做了实习生招聘的工作，产生的一些想法，写在这里。</p>
+<p>这次招聘过程中，我发现我们在校的学生有下面的这些特点：</p>
+<p><strong>1）NB的项目。</strong>当说到自己做过的项目时， 我发现他们做的事都是很NB。要么是研究Linux的底层内核，要么是图像识别处理，要么是推荐算法，要么做高性能计算，要么做数据挖掘，要么是移动方面的协议，还有一些很高深的课题我听不太懂的项目。这让我想起当年我在学校里的实习，对比起我用Java Applet 和 HTML做操作系统的教学课件，或是在公司里用Delphi/PowerBuilder做的那些MIS系统。让我觉得有些汗颜。</p>
+<p><strong>2）OK的解决问题能力。</strong>当问到算法题时，我发现他们的问题解决能力还OK。我一般问1到2个中低难度的算法题和1个基本的面向对象设计的题，都不难。我相信只要在学校里好好学习的人都应该答得出来。无非就是一些基本的算法和基本数据结构操作的问题，和比较基础的面向对象设计的题，说白了就是作业题。可惜的是，只有5%不到的同学能够在不给提示的情况下答出来，70%的人可以在给一定的提示下答出来，15%左右的同学需要提示到几乎给出答案才能答出来，还有10%的同学怎么给提示都答不出来。</p>
+<p><strong>3）WTF的编码能力</strong>。老实说，对于解算法题，我还是比较可以接受的，因为80%左右的同学在给予提示后都能描述出解题的算法，于是，我让他们把这个算法用他们最熟悉的语言写出来。但结果让我出乎意料，一段在解法很清楚的情况下只需要不到30行代码的小算法题，只有一个人能在10分钟几写完，其它的人基本所有的需要30分钟左右（甚至40分钟），有2、3个人居然写不出来。有一个比较极端的case是——有个同学花了十分钟都写不出从一个整型数组中找到最小的正数的代码。这个事让我觉得很惊讶，难道大家在做项目的时候不编程吗？</p>
+<p>对于这种情况，我想给大家以下后一些建议：</p>
+<p><span id="more-4976"></span></p>
+<ul>
+<li>我感到我们在校的学生正如“<a title="为什么中国的网页设计那么烂？" href="https://coolshell.cn/articles/3605.html" target="_blank">为什么中国的网页这么烂</a>”中所说的——<strong>他们习惯于获取大量的知识，而从不对这些知识进行思考和总结</strong>。问题不是我们知道多少东西，问题是我们在获取这些知识的时候会不会去思考这些知识后的东西？比如：为什么会有这么多经典的数据结构，数组，链表，树，哈希表，图这些数据结构主要用来解决什么样的问题，他们的优势和劣势是什么？<strong>没有思考过，就不算真正的懂，没有思考过，你将无法应对万变的问题，没有思考过，你将成为书呆子</strong>。</li>
+</ul>
+<ul>
+<li><strong>多多实践而不是研究</strong>。编程不是在实验室做科研搞理论啊，计算机这本就是一个实践性很强的的学科啊，这不是数学，这需要你多多的实践啊。我们不要真以为读的是——计算机科学（Computer Science ）就是搞理论的了，这里面需要很多很多的Engineering的工作。（我实在是很难想像，居然有这么多人写一般难度的程序居然会是那么痛苦的事）</li>
+</ul>
+<ul>
+<li>我在我的新浪微博（<a href="http://weibo.com/haoel" target="_blank">@左耳朵耗子</a>）里说的，我们不要以为做过项目，会写程序，我们就是程序员了。如果你只是在按部就班地写代码，你就是Coder，江湖叫“码农”，不要把自己当成“码农”，我们一定要对自己的代码，自己的设计不停地反思和总结，并精益求精，写程序本来就是一件有价值的事，这就像写篇作文人人都会写，但并不是人人都能把文章写好。<strong>编程和写作都是一样的，这都是在搞创作啊。想做“码农”还是想做“程序员”？自己决定吧</strong>。</li>
+</ul>
+<ul>
+<li><strong>我们的教育的确很“废柴”，但这不是我们成为“废柴”的原因</strong>。如果我们的学习还停留在“别人给我什么我就学什么”的被动学习阶段，那么你真的不懂怎么是学习。虽然，我们的学校里并没有教你什么是“Version Control”，什么是“Coding Style”，什么是“Refactory”，什么是“Code Review”，什么是“Unit Test”，也没有告诉你一些经典的设计的和架构，等等，等等，但是这是什么年代了？这个时代不是像我上学那时——学校机房里上机用的电脑连内存和硬盘都没有，用5寸的低密软盘面对绿色显示器的286，上网还要“猫”，而且贵的要死（一小时22元），而且网上什么都没有时代了。<strong>我们身边有很多很多优秀的人，网上有很多优秀的文章，书店里也有很多不错的书，而且我们的软件开发日趋成熟，如果我们还学不好的话，那么我们就是在犯罪！</strong></li>
+</ul>
+<p>最后，和大家说一下公司的实习生招聘。这个事情其实是毕业生招聘的一个组成部分，也就是说，因为我国教育的问题，再加上学生自己的问题，导致毕业生量多质次的情况很严重，对于公司，其很难从学校招到一个比较不错的毕业生，这种情况已经不是新问题了，所以，也有很多公司都不招刚毕业的学生。因此，通过实习机会了解并招聘毕业生成了很多公司的毕业生招聘的手段。所以，在这里想告诉在校的同学们，千万不要以为实习计划就是字面上的实习。其实，这和正式的招聘没有什么差别，同样也要看你的能力的。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-150x150.jpg" alt="为什么我反对纯算法面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_title">为什么我反对纯算法面试题</a></li><li ><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="再谈“我是怎么招聘程序员的”（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（上）</a></li><li ><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="再谈“我是怎么招聘程序员的”（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（下）</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li><li ><a href="https://coolshell.cn/articles/1870.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/job-interview-150x150.gif" alt="我是怎么招聘程序员的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1870.html" class="wp_rp_title">我是怎么招聘程序员的</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4976.html">给程序员新手的一些建议</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4976.html/feed</wfw:commentRss>
+			<slash:comments>130</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>再谈“我是怎么招聘程序员的”（上）</title>
+		<link>https://coolshell.cn/articles/4506.html</link>
+					<comments>https://coolshell.cn/articles/4506.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 20 Apr 2011 00:36:55 +0000</pubDate>
+				<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4506</guid>
+
+					<description><![CDATA[<p>我以前写过一篇“我是怎么招聘程序员的”的文章（在CSDN那里有很多人进行了回复）。今天，我想再谈谈关于招聘和面试这方面的东西，主要是以下这些原因： 近半年来我在...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4506.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4506.html">再谈“我是怎么招聘程序员的”（上）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我以前写过一篇“<a title="我是怎么招聘程序员的" href="https://coolshell.cn/articles/1870.html" target="_blank">我是怎么招聘程序员的</a>”的文章（在<a title="我是怎么招聘程序员（CSDN）" href="http://blog.csdn.net/haoel/archive/2009/12/18/5032418.aspx" target="_blank">CSDN那里</a>有很多人进行了回复）。今天，我想再谈谈关于招聘和面试这方面的东西，主要是以下这些原因：</p>
+<ul>
+<li>近半年来我在进行了大量的招聘工作，对面试有一些新的体会。</li>
+<li>酷壳最近发布了几篇趣味面试题（<a title="面试题：火车运煤问题" href="https://coolshell.cn/articles/4429.html" target="_blank">面试题一</a>，<a title="又一个有趣的面试题" href="https://coolshell.cn/articles/4162.html" target="_blank">面试题二</a>，<a title="“火柴棍式”程序员面试题" href="https://coolshell.cn/articles/3961.html" target="_blank">面试题三</a>），从回复中让我有一些思考。</li>
+<li>我有一个同事最近面试了一家公司，他和我分享了一个博士专家对他的面试，也让我思考了一些。</li>
+<li>在豆瓣上看到“<a title="知乎上某人写面试豆瓣产品经理的经历，很欢乐" href="http://www.douban.com/note/146145117/" target="_blank">知乎上某人写面试豆瓣产品经理的经历，很欢乐</a>”(亮点是面试官现身知乎亲自作答)</li>
+</ul>
+<p>所以，我很想把自己的这些新的想法再次写下来的。还是和以前一样，这篇文章同样是献给面试官的。我认为，面试的好坏完全在面试官而不是面试的人。下面是我对“<a title="我是怎么招聘程序员的" href="../articles/1870.html" target="_blank">我是怎么招聘程序员的</a>”一文中的一些加强性的观点。（关于一些点评，请参看<a href="https://coolshell.cn/articles/4490.html" target="_blank">本文下篇</a>）</p>
+<p>为了让我的文章有连续性，请允许我重申一下前文的几个重要观点。</p>
+<ul>
+<li><strong>只有应聘者真实和自然的表现，才能了解到最真实的东西</strong></li>
+<li><strong>重要的不是知识，重要的是其查找知识的能力</strong></li>
+<li><strong>重要的不是那个解题的答案，而是解题的思路和方法</strong></li>
+</ul>
+<h4>操作，知识，经验，能力</h4>
+<p>我们有很多的面试官似乎分不清，什么是操作能力，什么是知识，什么是经验，什么是能力，这导致了我们的面试官经常错误地对面试者下结论，我认为分不清这些事的人是没有资格做面试官的。所以，我有必要在这里把这个问题先讲清楚。</p>
+<p><span id="more-4506"></span></p>
+<p><img decoding="async" title="更多..." alt="" src="https://coolshell.cn/wp-includes/js/tinymce/plugins/wordpress/img/trans.gif" /></p>
+<ul>
+<li><strong>操作</strong>。我们的面试官分不清楚什么是操作技能，什么是知识，他们甚至认为操作技能就是知识甚至经验。比如他们会 问如下的问题，请问Java中的 final是什么意思？怎么查看进程的CPU利用率？怎么编写一个管道程序？怎么查看进程的程序路径？VI中的拷贝粘贴命令是什么？包括面向对象的XX模 式是什么。等等。我以为，<strong>这些能够通过查况相关操作手册或是能够google到的东西只能说明这个人的操作技术，并不能说明他有知识或有经验</strong>。</li>
+</ul>
+<ul>
+<li><strong>知识</strong>。知识是一个人认知和学习的体现，可能会是一些基础概念和知识。比如这些问题：TCP和UDP的优缺点比 较，链表和哈希表的优缺点的比较。什么是堆什么是栈？进程间是怎么通信的？进程和线程的优缺点？同步和异步的优缺点？面向对象的XX设计模式的主要原则是 什么，等等。我以为，<strong>“知其然”只是操作技术，“知其所以然”才是真正的知识</strong>。知识不够并不代表他不能工作，会操作技能就可以应付工作，但是知识的欠缺一定会限制你的经验和能力，同样会影响你的开发质量。</li>
+</ul>
+<ul>
+<li><strong>经验</strong>。经验通常跟一个人的经历有关系。一个人的知识范围，一个人经历过的事，通常会成为一个人经验的体现。面 试中，我们会问这些问题：你解决过最难的问题是什么？你是怎么设计这个系统的？你是怎么调试和测试你的程序的？你是怎么做性能调优的？什么样的代码是好的 代码？等等。对于工作年限不长的人来说，经历和做过的事的确会成为其经验的主要因素，尤其是业务上的有行业背景的东西。但是，我更以为，<strong>经验可能更多的是你对知识的运用和驾驭，是你对做过事情的反思和总结，是你对他人的学习，观察和交流</strong>。</li>
+</ul>
+<ul>
+<li><strong>能力</strong>。一个人的能力并不会因为知道东西少而不行，也不会因为没有经验而没有能力。<strong>一个人的能力是他做事情的一种态度，性格，想法，思路，行为，方法和风格</strong>。<strong>只要有热情，有想法，有好的行为方法，以及好的行事风格，那么知识和经验对他来说只是一个时间问题</strong>。 比如：学习能力，专研精神，分析能力，沟通能力，组织能力，问题调查能力，合作能力等等。所以，对于一个新手来说，也许他的知识和经验有限，但并不代表他 能力上有问题，但是对于一个老手来说，如果其存在知识和经验欠缺的问题，那么通常都是其能力的问题。你可能暂时怀才不遇，但我不相信你会长期怀才不遇。如 果是的话，那么你必然些问题其让你的能力发挥不出来。而此时，“没有经历过”只会是你“没有能力”的一个借口。</li>
+</ul>
+<p>我不否认这四样东西对于一个优秀的程序员来说都很重要。但是，通过上述的分析，我们可以知道，能力和经验和知识需要分开对待。当然，这些东西是相辅相成的，你的能力可以让你获得知识，你的知识可以让你更有经验，你的经验又会改变你的想法和思路，从而改善你的能力。<strong>在面试中，我们需要清楚的认识到，应聘者的操作技能，知识和经验只是其能力的必要条件，并不是充要条件，而我们更应该关注于应聘者的能力</strong>。</p>
+<ul>
+<li>如果面试只是考查这个人的操作技能的话，那么这个面试完全失败。这是一个没有资格的面试官。</li>
+<li>如果面试只是在考查这个人的知识和经验的话，那么成功了一半。因为你了解了基础知和做过的事，但这并不代表你完全了解他的真正能力。</li>
+<li>如果你能够在了解这个人的知识和经验的过程中重点关注其能力（态度、性格、想法，思路，行为，方法和风格），并能正确地评估这个人的能力，那么你的面试算是非常成功的。</li>
+</ul>
+<p>也许用这四个词来描述定套东西并不太合适，但我相信你明白我想表达的。另外，我想说的是，<strong>我们不是出个题来考倒应聘者，而是要找到应聘者的亮点和长处</strong>。</p>
+<h4>不要肤浅地认识算法题和智力题</h4>
+<p>很多公司都会在面试的时候给一些算法题或是一些智力题或是一些设计题，我相信算法题或是智力题是程序员们在面试过程中最反感的事了。很多人都很BS面试官问的算法题，因为他们认为面试官问的这些算法题或智力题在实际工作当中用不到。但我想在这里说，<strong>问难的算法智力题并没有错，错的很多面试官只是在肤浅甚至错误地理解着面试中的难题的目的</strong>。他们认为，能做出算法题和智力题的人就是聪明的人就是有能力的人，这种想法实在是相当的肤浅。</p>
+<p>其实，能解难题并不意味着这个人就有能力就能在工作中解决问题，你可以想想，小学奥数题可能比这些题更难，但并不意味着那些奥数能手就有实际工作能力。你可 以想一想你们班考试得高分的同学并不一定就是聪明的人，也不一定就是有能力的人，相反，这样的人往往者是在应试教育下培养出来的书呆子。</p>
+<p>所以，我认为解难题的过程更重要，你要主要是通过解题查看这个应聘者的思路，方法，运用到的知识，有没有一些经验，和你一起交互时和沟通得是否顺畅，等等，这些才是你重点要去观察的。当然，最终是要找到答案的。</p>
+<p>我想，让面试者解决一个难题的真正思路是：</p>
+<ul>
+<li><strong>看看他对知识的应用和理解</strong>。比如，他是否会用一些基础的数据结构和算法来解决算法题？</li>
+<li><strong>看看他的整个解题思路和想法</strong>。答案是次要的，他的想法和行为才是重要的。</li>
+<li><strong>看看他是如何和你讨论交流的</strong>。把面试者当成你未来的同事，当成你的工作伙伴，一起解题，一起讨论，这样可以看看大家是否可以在一起工作。</li>
+</ul>
+<p>这些方面才是考查应聘者的能力（思路，方法、态度，性格等），并顺带着考查面试者的经验和知识。下面是一些面试的点：</p>
+<ul>
+<li>应聘者在解算法题时会不会分解或简化这个难题。这是分析能力。</li>
+<li>应聘者在解算法题 时会不会使用一些基础知识，如数据结构和基础算法。这是知识。</li>
+<li>应聘者在解题 时和你讨论的过程中你有没有感到应聘者的专研精神和良好的沟通。</li>
+<li>应聘者在对待这个算法题的心态和态度。如，面试面是否有畏难情绪。</li>
+<li>应聘者在解题时的思路和方法是否得当，是否是比较科学的方法？</li>
+<li>等等。</li>
+</ul>
+<p><strong>在解难题 的过程中考查应聘者的能力才是最终目的，而不是为难应聘者，不然，你只是一个傲慢而无知的面试官</strong>。</p>
+<h4>模拟实际中的挑战和能力</h4>
+<p>作为面试官的你，你应该多想想你的工作，以及你的成长经历。这会对你的面试很有帮助。你在工作中解决问题的实际情况是什么？你写代码的实际情况是什么？你的成长经历是什么？你是怎么获得知识和能力的？你喜欢和什么样的人工作？<strong>相信你不难会发现你工作中的实际情况和面试的情况完全是两码事，那么，你怎么可以用这种与实际情况差别那么大的面试来评估一个人的能力呢</strong>？</p>
+<p>所以，最为理想的面试是一起工作一段时间。当然，这个在招聘过程中，操作起来几乎不可能，因此，这就要求我们的面试官尽可能地把面试的过程模拟成平时工作的 过程。大家一些讨论来解决一个难题，和应聘者一起回顾一下他已经做过的事情，并在回础的过程中相互讨论相互学习。下面举一个例子。</p>
+<p>我们知道，对于软件开发来说，开发软件不难，难是的下面是这些挑战：</p>
+<ol>
+<li>软件的维护成本远远大于软件的开发成本。</li>
+<li>软件的质量变得越来越重要，所以，测试工作也变得越来越重要。</li>
+<li>软件的需求总是在变的，软件的需求总是一点一点往上加的。</li>
+<li>程序中大量的代码都是在处理一些错误的或是不正常的流程。</li>
+</ol>
+<p>所 以，当我们在考查应聘者的代码能力时候，我们为什么不能模拟这样的过程呢？比如，让应聘者实现一个atoi()的函数，实现起来应该很简单，然后 不断地往上加新的需求或新的案例，比如：处理符号，处理非数字的字母的情况，处理有空格的情况，处理十六进制，处理二进制，处理“逗号”，等等，我们要看 应聘者是怎么修改他的代码的，怎么写测试案例的，怎么重构的，随着要处理的东西越来越多，他的代码是否还是那么易读和清晰。如果只是考查编码能力，一个小时，就问这一个问题，足矣。真正的程序员每天都在和这样的事打交道的。</p>
+<p>如果要考查应聘者的设计能力，同样可以如法泡制。不断地加新的功 能，新的需求。看看面试者的思路，想法，分 析的方法，和你的讨论是否流畅，说没说在 点上，思想清不清晰，会应用什么样的知识，他在设计这个系统时的经验是会是什么样的，面对不断的修改和越来越复杂的需求，他的设计是否还是那么好？</p>
+<p>当然，因为时间比较短，所以，你不能出太复杂的问题，这需要你精心设计一些精制的有代表性的问题。</p>
+<p>（末完，<a title="再谈“我是怎么招聘程序员的”（下）" href="https://coolshell.cn/articles/4490.html" target="_blank">请参看下篇</a>）</p>
+<p style="text-align: right;"><a title="再谈“我是怎么招聘程序员的”（下）" href="https://coolshell.cn/articles/4490.html" target="_blank"><strong>再谈“我是怎么招聘程序员的”（下）&gt;&gt;&gt;</strong></a></p>
+<p><span style="color: #ff0000;"><strong>（请勿用于商业用途，转载时请注明作者和出处）</strong></span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-150x150.jpg" alt="为什么我反对纯算法面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_title">为什么我反对纯算法面试题</a></li><li ><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="给程序员新手的一些建议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_title">给程序员新手的一些建议</a></li><li ><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="再谈“我是怎么招聘程序员的”（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（下）</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li><li ><a href="https://coolshell.cn/articles/1870.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/job-interview-150x150.gif" alt="我是怎么招聘程序员的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1870.html" class="wp_rp_title">我是怎么招聘程序员的</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4506.html">再谈“我是怎么招聘程序员的”（上）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4506.html/feed</wfw:commentRss>
+			<slash:comments>94</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>再谈“我是怎么招聘程序员的”（下）</title>
+		<link>https://coolshell.cn/articles/4490.html</link>
+					<comments>https://coolshell.cn/articles/4490.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 20 Apr 2011 00:35:07 +0000</pubDate>
+				<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4490</guid>
+
+					<description><![CDATA[<p>&#60;&#60;&#60;再谈“我是怎么招聘程序员的”（上） 在上篇中，我们说到了一些认识人的方法（操作，知识，经验，能力），还有一些面试的方法（算法题，实际生产...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4490.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4490.html">再谈“我是怎么招聘程序员的”（下）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong><a title="再谈“我是怎么招聘程序员的”（上）" href="https://coolshell.cn/articles/4506.html" target="_blank"><strong>&lt;&lt;&lt;再谈“我是怎么招聘程序员的”（上）</strong></a></strong></p>
+<p>在上篇中，我们说到了一些认识人的方法（操作，知识，经验，能力），还有一些面试的方法（算法题，实际生产活动中的挑战），下面我们来说说，面试的风格，还有一些点评。<strong><strong><br />
+</strong></strong></p>
+<h4>把应聘者当成你的同事</h4>
+<p>有些公司的面试官，在面试过程中问你一个算法题，然后等着你解答了，如果你给出一个答案，然后就会问你有没有更好的答案，如果你给出了正确的答案，他们就会问你一个更难的问题，如此循环下去。他们基本上很少给你提示，甚至不停地质问你，挑战你，搞得应聘者很紧张。</p>
+<p>另外，有很多问题是没有标准答案的，或者说是，同一个答案的描述方法有多种，很多面试官会觉得你没有回答到他想要的答案，因此表现得有对你不屑，并表现出你不行的样子，并觉得你的能力有问题。真是可笑了。比如我一个朋友在回答什么是异步的问题时，举例说明了异步调用就是不能处理完就返回，并且需要传递一个回调函数给调用方以便完成后回调通知结果。这样的回答并没有错，但是这并不符合面试官心里想要的答案，面试官对此并不满意，进而认为我这个朋友还需要去多读读书。</p>
+<p>我相信大多数面试官都会这样干的。我想问问这样的面试官，<strong>你们有没有用面试的方式对过你的同事？在你的工作场景中，你会不会用面试的风格和你的同事进行交流和说话？</strong>不妨让我们来问我们自己下面几个问题：</p>
+<ul>
+<li>你在工作当中遇到难题时你是怎么解决的？你会和人讨论吗？你只用15分钟就能得出最优解吗？</li>
+<li>你在工作当中解决难题时是否会有一个人在旁边质问你并给你压力吗？</li>
+<li>你在工作当中会为难你的同事吗？会让你的同事紧张吗？你觉得在紧张的状态下能做好工作吗？</li>
+<li>你在工作中觉得同事的回答并不是你想要的答案，不是符合你的答案，你会认为你的同事不行吗？</li>
+<li>你的成长过程是什么样的？在是压力和天天被人质问的情况下成长的吗？</li>
+<li>大家都知道学校里应试教育的弊端，你觉得你的面试是不是一种应试呢？<br />
+（看看这么多的应聘者们都在做各种各样的算法题，这不就是一种应试吗？）</li>
+</ul>
+<p>想一想你的日常工作，问自己一下上面这些问题，想一想你自己的成长过程，想一想你和你的同事是怎么相处的，想一想你的日常工作中是什么样的，相信你自己也能得出结论的。</p>
+<p>如果你把应聘者当成自己未来的同事，那么你的面试会有下面的收获：</p>
+<p><span id="more-4490"></span></p>
+<ul>
+<li>面试的气氛会很不错，应聘者会放松，表现自然，更接受于真实的状态。</li>
+<li>面试中的交流和互动（而不是一问一答）会让你更全面的考查和了解一个人。</li>
+<li>非应试的面试，会让你了解得更多。</li>
+<li>真实的了解一个人，你才能做出真正正确的结论。</li>
+</ul>
+<h4>向应聘者学习</h4>
+<p>下面有几个观点</p>
+<ul>
+<li>面试的过程是一个相互学习的过程，并不是你为难面试者的过程。</li>
+<li>一问一答是很一种呆板死板的过程，相互讨论相互学习，有良好的互动才是好的面试过程。</li>
+<li>面试官要证明的不是你有多强有多聪明，而是要挖掘应聘者的优势和能力。</li>
+<li>面试官用为自己的问题预设好一个标准答案，看看应聘者能为你带来什么。</li>
+<li>向来应聘的人学习，而不是刁难。</li>
+</ul>
+<p><strong>无论你多牛，要难倒你实在是太容易了。出难题不是目的，难倒人也很容易，出难题只不过是用来了解应聘者能力的一个手段，而不是面试的全部</strong>。</p>
+<p>我不知道你喜欢不喜欢一些竞技类的运动？比如踢球，打篮球，羽毛球，下象棋等，你一般想和什么样的人玩？是差的，还是强的？所以，<strong>能够从面试者那里学到东西，喜欢和面试者一起工作，这才是面试真正的目的</strong>。</p>
+<p>对于一个团队来说，如果大家都是一样的想法，一样的主张，一样的倾向，那么这个团队最终会是一个闭塞的团队，你如果不能真正接纳不同想法的人，不同主张的人，那么你也将失去进步的机会。<strong>如果你的团队总是在招入和你一样的人，那么你的团队怎么可能会有out-of-box的想法呢？世界因为不同而美好</strong>。</p>
+<p>另外，对于公司来说，<strong>如果你招进来的人还不如已经有的人，作为一个公司，你又怎么能有更好的人让你的公司进步呢</strong>？</p>
+<p>所以，面试应该是向面试者学习的一个过程。当然，<strong>如果你从他身上学不到什么，那么你就教他一些吧。这样，就算是面试不通过，面试者也会欣然接受的</strong>。不然，让面试者产生一些负面情绪，出去说一些不好的话，也有损你和公司的形象。</p>
+<h4>一些相关的点评</h4>
+<p>下面是我根据酷壳的一些<a href="https://coolshell.cn/tag/interview" target="_blank">面试题的文章</a>后的回复、还有我朋友的经历，还有这篇有关豆瓣的产品经理的<a title="知乎上某人写面试豆瓣产品经理的经历，很欢乐" href="http://www.douban.com/note/146145117/" target="_blank">这篇文章</a>的一些点评。大家可以看看我从这些地方看到东西靠不靠谱。</p>
+<p><strong>酷壳的面试题中的答复</strong></p>
+<p>先说酷壳的那篇“<a title="“火柴棍式”程序员面试题" href="https://coolshell.cn/articles/3961.html" target="_blank">火柴棍式的面试题</a>”，这个面试题其实很没什么意思。主要考查你对代码逻辑的了解程度。因为设置了回复可见答案，所以这篇文章的回复量达千把条。从回复中，我看到：</p>
+<ul>
+<li>一些朋友想不出来就直接看答案了。我可以看出，有一些朋友习惯获得知识，而不习惯独立思考。甚至有畏难情绪，从另一方面来说，可以看出我国的教育还真不是一般的差。</li>
+<li>一些朋友想不全。从这点来看，我觉得很正常，尤其是想出两种来的，我可以感觉到他们的努力思考了，可能还做了一些尝试。挺不错的。可惜我看不到你思考的方式，是在纸上画了画，还是编译了个程序跑了跑，还是别的什么。这样我会了解你更多。</li>
+<li>一些朋友给出的答案中有错的。这说明了这类朋友可能不喜欢做测试，时常想当然，或是做事比较冲动，并不足够严谨。这么简单的程序，验证能花多少精力呢？</li>
+<li>还有少数的朋友没有看明白题目要求。这说明了这类朋友太粗心了，在工作当中可能会表现为误解需求和别人的话。沟通有问题。</li>
+</ul>
+<p>再说说那篇“<a title="面试题：火车运煤问题" href="https://coolshell.cn/articles/4429.html" target="_blank">火车运煤</a>”的问题，这个面试题我觉得主要是看看大家的解题思路，表达能力。</p>
+<ul>
+<li>首先，我很惊喜有人很快就用数学做了解答，很不错，这个人的数学功底很不错。能用数学解题的人一般来说都是算法比较强的人。</li>
+<li>有人说抱怨我没有说火车可以调头回去，所以没有想到这样的方法。如果是在面试中我会做提示的。我不会因为你不知道调头这个潜规则而否定你的。当然，如果你能想到的话说明你的脑袋还是比较灵的。</li>
+<li>还有很多人说他的方法比较土，只运了400吨煤，416吨的或333吨，一看就是没有看提示的，我觉得这些人能够通过独立思考找到方法，这类的人其实已经不错了。顺着这个思路优化也只是时间的问题了。</li>
+<li>更可喜的是，我看到了有一些朋友在看到别人的更好的方法后和自己的方法进行了比较，并找到了为什么自己的方法不如他的原因。这样的人我认为是懂得“总结”和“比较”的，这样的人总是在不断地学习和改善自己的。</li>
+<li>还有人说到了动态规划，如果是在面试的时候，我很想向这位朋友学习一下用动态规划来解这题。</li>
+<li>还有朋友说到了火车调头只能在有站的地方。这个朋友一看要么就是搞需求分析的人，要么就是较真的人。需要进一步了解。但不管怎么样，这样的朋友的观察能力是很不错的。</li>
+<li>还有一些朋友给出的答案是正确的。但是表达方面比较复杂，有些没有看懂。可见，解题 的能力是有的，只是表达能力还有待提高。</li>
+</ul>
+<p><strong>豆瓣产品经理的面试</strong></p>
+<p>再说说豆瓣上的<a title="知乎上某人写面试豆瓣产品经理的经历，很欢乐" href="http://www.douban.com/note/146145117/" target="_blank">这篇文章</a>，那篇文章里，面试官问了一个比较大的问题，那是仁者见仁，智者见智的问题，并且面试官并不满意应聘者给出的答案，并在用其主观意识强加一些东西给应聘者，并不断地和应聘者纠缠。后来，面试官回复到“重点测了两个问题：一是判别事情的标准和方法；二是在多种PK下产品经理的压力反应”。</p>
+<p>下面是我观察到的：</p>
+<ul>
+<li>其一、这种似事而非的仁者见仁，智者见仁，一万人有一万个答案。所以，这种怎么答都可以的问题是很难有标准的，我认为豆瓣的面试官以这种问题来考查面试者的标准太有问题了。更好的问题是：比较一下新浪和twitter这两个产品。</li>
+<li>其二、多种想法PK的压力反应。这点没有问题，如果有机会我想问问这位面试官，豆瓣产品经理们的PK各自的想法时是以这种纠缠的方式吗？如果是这样的话，那我很为你们担忧啊。</li>
+<li>其三、很明显，应聘者不知道面试官想说什么，所以应聘者总是给出一些模棱两可的回答。回答得很政客，呵呵。</li>
+<li>其四、问的问题都是一些假设性的问题，假设技术人员不可沟通。人家说了，还没有见过不能沟通的情况。结果还要继续追问。这样你既要观察不到你想要的，也搞得大家不愉快。更好的问题的：“请你给一个你和一个很难沟通的人沟通的示例”，或是当应聘者说了“坚持己见”的时候，也应该追问“能给一个你坚持己见的例子吗？”。</li>
+<li>其五、整个面试过程完全是在谈一些虚的东西，就像天上的浮云，一点实实在在的东西都没有。比如下面这两个实实在在的问题：“你以前设计过什么产品？”，“你和你的技术团队是怎么合作的？”</li>
+</ul>
+<p>这是一个完完全全失败的面试，这个面试官根本不懂面试，甚至工作方法也可能很有问题。也许他只是想找一个能够在工作中附和他的人。</p>
+<p><strong>朋友的面试</strong></p>
+<p>最后说说我那个朋友的面试，我的这个朋友学习能力很强，也很好专研，工作中解决了很多很困难甚至很底层的问题。他做软件开发时间并不长，但是他对这个行业很有热情，也很执着，并有着相当不错的技术功底。这天他遇到了一个面试官，根据朋友的描述，这位面试官，主要问题了三个问题，一个是关于异步的，一个是关于性能调优的，还有一个是关于学习能力的。</p>
+<ul>
+<li>问到异步的问题，我这个朋友说到了多线程中的异步调用，但是他可能问的是网络或是业务中的异步，要不然就是Linux 内核中的异步，当然他也没有说清楚，但他很不满意我朋友的答案，并让我朋友回去多看看书。</li>
+<li>问到性能调优的问题时，我这个朋友说了性能调优分三级，业务级，指令级和CPU级，并举例说了使用了一个叫VTune的性能分析工具。面试官却说原来你只懂Windows，有点不屑，并说他只会使用商业工具，更不屑。</li>
+<li>当我朋友向他澄清问题时，面试官只是摇头，叹气。并在应聘者作答的过程中不断的打断对方。</li>
+</ul>
+<p>我的看法如下：</p>
+<ul>
+<li>对于异步来说，我认为这是一种设计或是一种想法，可能会有很多种不同的实现方式，在不同的场景中会有不同的用法。面试官并没有考查应聘者对异步方法的理解，也没有考查异步方法可以用来解决什么，异步方法的优势和劣势，等等。只是觉得应聘者没有给出他想要的答案。</li>
+<li>对于性调优的问题，我认为应聘者的思路和知识都很不错，还有使用VTune的经验。无论使用Windows还是Linux，无论使用商业的还是开源的Profiler，很多东西都是相通的，怎么能够因为这个东西不对自己的口味而下结论。为什么不向人家学习一下VTune呢？使用工具只是操作技能啊。</li>
+<li>面试官应该是用微笑来鼓励应聘者的，而不是用摇头和叹气，频繁打断对方也是一个相当不好的习惯。看来这个面试官很不能接受不同的东西。</li>
+</ul>
+<p>这位有很不错的技术能力的人，看来并不适合做一个面试官，因为他面试的东西都只在知识层次，而且这位面试官有强烈的喜好和倾向，所以，他必然会错过那些有能力但并不合他口味的人。</p>
+<p>哎，面对这样的面试官，大家伤不起啊！</p>
+<p>（全文完）</p>
+<p><span style="color: #ff0000;"><strong>（请勿用于商业用途，转载时请注明作者和出处）</strong></span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-150x150.jpg" alt="为什么我反对纯算法面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_title">为什么我反对纯算法面试题</a></li><li ><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="给程序员新手的一些建议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_title">给程序员新手的一些建议</a></li><li ><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="再谈“我是怎么招聘程序员的”（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（上）</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li><li ><a href="https://coolshell.cn/articles/1870.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/job-interview-150x150.gif" alt="我是怎么招聘程序员的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1870.html" class="wp_rp_title">我是怎么招聘程序员的</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4490.html">再谈“我是怎么招聘程序员的”（下）</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4490.html/feed</wfw:commentRss>
+			<slash:comments>73</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>面试题：火车运煤问题</title>
+		<link>https://coolshell.cn/articles/4429.html</link>
+					<comments>https://coolshell.cn/articles/4429.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 11 Apr 2011 01:01:31 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4429</guid>
+
+					<description><![CDATA[<p>这个可能是一个比较经典的智力题了，和以前的那个《赛马问题》很相似，其题目如下： 你是山西的一个煤老板，你在矿区开采了有3000吨煤需要运送到市场上去卖，从你的矿...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4429.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4429.html">面试题：火车运煤问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-1209" title="Question" src="https://coolshell.cn/wp-content/uploads/2009/07/Question.jpg" alt="" width="158" height="158" srcset="https://coolshell.cn/wp-content/uploads/2009/07/Question.jpg 158w, https://coolshell.cn/wp-content/uploads/2009/07/Question-150x150.jpg 150w" sizes="(max-width: 158px) 100vw, 158px" />这个可能是一个比较经典的智力题了，和以前的那个《<a title="面试题：赛马问题" href="https://coolshell.cn/articles/1202.html" target="_blank">赛马问题</a>》很相似，其题目如下：</p>
+<p style="padding-left: 30px;"><strong><span style="color: #008000;">你是山西的一个煤老板，你在矿区开采了有3000吨煤需要运送到市场上去卖，从你的矿区到市场有1000公里，你手里有一列烧煤的火车，这个火车最多只能装1000吨煤，且其能耗比较大——每一公里需要耗一吨煤。请问，作为一个懂编程的煤老板的你，你会怎么运送才能运最多的煤到集市？</span></strong></p>
+<p>这道题一开始看上去好像是无解的，因为你的火车每一公里就要消耗一吨煤，而到目的地有1000公里，而火车最多只能装1000吨媒。如果你的火车可以全部装下，到目的地也会被全部烧光，一丁点也不剩。所以，很多人的第一反应都是觉得这个不太可能。</p>
+<p>如果你一开始就觉得不太可能的话，这是很正常的。不过我不知道你还会不会继续思考下去，如果你不想思考下去了，那么我很为你担忧，因为你可能并不是一个不善于思考的人，而是一个畏难的人，还有可能是一个容易放弃的人。这对于你做好 一个需要大量思考的工作的程序员来说可能并不适合。</p>
+<p>我一开始也觉得不可能，后来想了一想，想到一个解法可以最多运送500吨煤到市场，方法如下：（<span style="color: #ff0000;">希望你先自己想一想再查看这个答案</span>）<br />
+<span id="more-4429"></span><br />
+<script>// <![CDATA[
+function showAnswer(){
+    document.getElementById('answer').style.display = '';
+}
+// ]]&gt;</script><br />
+【<a href="javascript:showAnswer();"><strong>查看答案</strong></a>】</p>
+<div id="answer" style="display: none; background-color: #eeeeee; padding: 10px 0px 5px 10px; border-style: dashed;">
+<ol>
+<li>装1000吨煤，走250公里，扔下500吨煤，回矿山。</li>
+<li>装1000吨煤，走到250公里处，拿起250吨煤继续向前到500公里处，扔下500吨煤，回矿山。此时火车上还有250吨，再加上在250公里处还有250吨煤，所以，火车是可以回矿山的。</li>
+<li>装上最后1000吨煤，走到500公里处，装上那里的500吨煤，然后一直走到目的。</li>
+</ol>
+<p>于是，你最多可以运送500吨煤到市场（当然，火车也回不去了，因为那矿山没有煤了）</p>
+</div>
+<p>好像这样很不错的了，不过还有更好的方法能运更多的媒过去。你知道这个方法吗？可以提示的是，就是以上述这个方法的思路。我先暂时不把答案放上来，你可以自己想想。过两天我把答案放上来。</p>
+<p>&nbsp;</p>
+<p><strong>更新（2011年4月17日）</strong>：大家都很聪明，533是应该是最优解，大家用了很多种方法阐述了这一过程，我最初的想法和朋友<a href="https://coolshell.cn/articles/4429.html#comment-44698" target="_blank">xPacificCoolShell</a>的一致！很高兴看到有更为科学的解法，受教了。另外，还有一些朋友提出火车不能随时随地调头的实际情况，非常不错，所以，以后这题不能用火车运煤了，可能是用马运草更好一点了。;)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4429.html">面试题：火车运煤问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4429.html/feed</wfw:commentRss>
+			<slash:comments>335</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>又一个有趣的面试题</title>
+		<link>https://coolshell.cn/articles/4162.html</link>
+					<comments>https://coolshell.cn/articles/4162.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 02 Apr 2011 03:22:03 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4162</guid>
+
+					<description><![CDATA[<p>大家还记得前些天的那个火柴棍式的面试题吗？很有趣吧。下面是我今天在StackExchange上看到的一个有趣的面试题。大家不妨一起来思考一下。问题如下—— 有两...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4162.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4162.html">又一个有趣的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>大家还记得前些天的那个<a title="“火柴棍式”程序员面试题" href="https://coolshell.cn/articles/3961.html" target="_blank">火柴棍式的面试题</a>吗？很有趣吧。下面是我今天在StackExchange上看到的一个<a href="http://programmers.stackexchange.com/questions/64132/interesting-interview-question" target="_blank">有趣的面试题</a>。大家不妨一起来思考一下。问题如下——</p>
+<p>有两个相同功能代码如下，<strong>请在在A，B，C是什么的情况下，请给出三个原因case 1比case 2快，还有三个原因case 2会比case 1要执行的快。</strong>（不考虑编译器优化）</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+for (i=0; i&lt;N; ++i){
+    A;
+    B;
+    C;
+}</pre>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+for (i=0; i&lt;N; ++i){
+    A;
+}
+for (i=0; i&lt;N; ++i){
+    B;
+}
+for (i=0; i&lt;N; ++i){
+    C;
+}</pre>
+<p>我的第一个反应是——</p>
+<p><span id="more-4162"></span></p>
+<ul>
+<li>case1 要快一些，因为只有一个i++的i&lt;N的操作，而case 2却有三个，这在点上，case 1就比case 2要快。</li>
+<li>case2如果要快的话，有一个原因是，A, B, C其中一个需要去先获得一个资源（比如一个锁），在case1下，每次都要去拿这个资源，而case2下，只需要拿一次然后。但这个可能是不对的，因为我无法想出一个相同的语句块放在case 1中会和放在case 2中有差别。（不过可能比较接近了）</li>
+</ul>
+<p>继续思考：这个题有点像是“<strong>同步和异步</strong>”的问题，case 1是同步，case 2是异步，所以，异步快于同步，也许可以从这个方向出发，写出A, B, C的语句块。</p>
+<p>不过，其要三个原因啊。<strong>各位，你们有想法吗</strong>？</p>
+<p><strong>&#8212;-更新 1&#8212;-</strong></p>
+<p>刚才在twitter上与人讨论，发现又有一种情况，case 2要比case 1要快。比如，A, B, C分别访问是不同的内存块（数组），那么case 1就得在不同的内存块上来回切换寻址，而case2则可以连续地访问内存块。访问连续的内存效率要高。尤其是三块大内存。</p>
+<p><strong>&#8212;-更新 2&#8212;</strong></p>
+<p>正如本贴评论中所说的，CPU的cache也是其中一个因素。大家对底层知识了解的都很不错啊。赞一个。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="C++面试中string类的一种正确写法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_title">C++面试中string类的一种正确写法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4162.html">又一个有趣的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4162.html/feed</wfw:commentRss>
+			<slash:comments>71</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>“火柴棍式”程序员面试题</title>
+		<link>https://coolshell.cn/articles/3961.html</link>
+					<comments>https://coolshell.cn/articles/3961.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 21 Mar 2011 00:28:31 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3961</guid>
+
+					<description><![CDATA[<p>有时候，有些面试题是很是无厘头，这不，又有一个，还记得小时候玩的的“火柴棍游戏”吗，就是移动一根火柴棍改变一个图或字的游戏。程序面试居然也可以这么玩，看看下面这...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3961.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3961.html">“火柴棍式”程序员面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>有时候，有些面试题是很是无厘头，这不，又有一个，还记得小时候玩的的“火柴棍游戏”吗，就是移动一根火柴棍改变一个图或字的游戏。程序面试居然也可以这么玩，看看下面这个火柴棍式的程序面试题吧。</p>
+<p>下面是一个C程序，其想要输出20个减号，不过，粗心的程序员把代码写错了，你需要把下面的代码修改正确，不过，<strong>你只能增加或是修改其中的一个字符</strong>，请你给出三种答案。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int n = 20;
+
+for(int i = 0; i &lt; n; i--){
+    printf(&quot;-&quot;);
+}</pre>
+<p>不要以为这题不是很难，我相信你并不那么容易能找到3种方法。我觉得，如果你能在10分钟内找出这三种方法，说明你真的很聪明，而且反应很快。当然，15分钟内也不赖。不过，你要是30分钟内找不到三种方法，当然，不说明你笨了，最多就是你的反应还不够快。嘿嘿。就当是玩玩吧。</p>
+<p>下面是我的答案：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+//第一种解法：在for循环中给n加一个负号
+for(int i = 0; i &lt; -n; i--)
+
+//第二种解法：把 n 初始化成 -20
+int n = -20;
+
+//第三种解法：把for循环中的 i 初始化成40
+for(int i = 40; i &lt; n; i--)
+</pre>
+<p>不过，我要告诉你，<span style="color: #cc0000;">以上这些答案都不对（我就知道你会偷看答案的）</span>，不过，顺着这些思路走很接近了。呵呵。</p>
+<p>下面是正确答案——</p>
+<p><span id="more-3961"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+//第一种解法：在for循环中给 i 加一个负号
+for(int i = 0; -i &lt; n; i--)
+
+//第二种解法：在for循环中把 i-- 变成 n--
+for(int i = 0; i &lt; n; n--)
+
+//第三种解法：把for循环中的 &lt; 变成 +
+for(int i = 0; i + n; i--)
+</pre>
+<p>其它相关的变种题如下：</p>
+<ul>
+<li>通过修改、增加一个字符，让其输出21个减号</li>
+<li>通过修改、增加一个字符，让其只输出1个减号</li>
+<li>通过修改、增加一个字符，让其不输出减号</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="C++面试中string类的一种正确写法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_title">C++面试中string类的一种正确写法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3961.html">“火柴棍式”程序员面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3961.html/feed</wfw:commentRss>
+			<slash:comments>2728</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>打印质数的各种算法</title>
+		<link>https://coolshell.cn/articles/3738.html</link>
+					<comments>https://coolshell.cn/articles/3738.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 28 Feb 2011 01:14:10 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Coding]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[Template]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3738</guid>
+
+					<description><![CDATA[<p>打印质数的算法应该是学习计算机编程的一个经典的问题，在这里想给大家展示一些方法，相信这些方法会对你的编程有一定的启发作用。请你注意几点， 实际应用和教学应用有很...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3738.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3738.html">打印质数的各种算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>打印质数的算法应该是学习计算机编程的一个经典的问题，在这里想给大家展示一些方法，相信这些方法会对你的编程有一定的启发作用。请你注意几点，</p>
+<ul>
+<li>实际应用和教学应用有很大的差别。</li>
+<li>最后的那个使用编译时而不是运行时的方法大家可以重点看看。</li>
+</ul>
+<h4>教科书的示例</h4>
+<p>首先，先给一个教科书的示例。下面这个示例应该是教科书（至少是我上大学时的教科学）中算法复杂度最好的例子了。其想法很简单，先写一个判断是否是质数的函数isPrime()，然后从1到n分别调用isPrime()函数来检查。检查是否是质数的算法是核心，其简单的使用从2到n的开根的数作为除数。这样的算法复杂度几乎是O(n*log(n))，看上去不错，但其实很不经济。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#include &lt;iostream&gt;
+using namespace std;
+
+bool isPrime(int nr)
+{
+    for (int d = 2; (d * d) &lt; (nr + 1); ++d){
+        if (!(nr % d)){
+            return false;
+        }
+     }
+    return true;
+}
+
+int main (int argc, char * const argv[])
+{
+    for (int i = 0; i &lt; 50; ++i){
+        if (isPrime(i)){
+            cout &lt;&lt; i &lt;&lt; endl;
+        }
+    }
+}
+</pre>
+<h4><span id="more-3738"></span>较好的算法</h4>
+<p>我们知道，我们的算法如果写成线性算法，也就是O(n)，已经算是不错了，但是最好的是O(Log(n))的算法，这是一个对数级的算法，著名的二分取中（Binary Search）正是O(Log(n))的算法。<strong>通常来说，O(Log(n))的算法都是以排除法做为手段的</strong>。所以，找质数的算法完全可以采用排除法的方式。如下所示，这种算法的复杂度是<em>O</em><em>(n(log(logn)))。</em></p>
+<p><strong>示例：打印30以内的质数</strong></p>
+<p>一、初始化如下列表。</p>
+<pre> 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30</pre>
+<p>二、把第一个数（2）取出来，去掉所有可以被2整除的数。</p>
+<pre> 2  3     5     7     9    11    13    15    17    19    21    23    25    27    29</pre>
+<p>三、取第二个数（3），去掉所有可以被 3整除的数。</p>
+<pre> 2  3     5     7          11    13          17    19          23    25          29</pre>
+<p>四、取第三个数（5），因为4已经被去除了，再去掉所有可以被5整除的数。</p>
+<pre> 2  3     5     7          11    13          17    19          23                29</pre>
+<p>接下来的数是7，但是7的平方是49，其大于了30，所以我们可以停止计算了。剩下的数就是所有的质数了。</p>
+<h4>实际应用的算法</h4>
+<p>实际应用中，我们通常不会使用上述的两种算法，因为那是理论学院派的算法。实际中的算法是，我把质数事先就计算好，放在一个文件中，然后在程序启动时（注意是在启动时读这个文件，而不是运行时每调用一次就读一次文件），读取这个文件，然后打印出来就可以了。如果需要查找的化，二分查找或是hash表查找将会获得巨大的性能提升。当然，这样的方法对于空间来说比前面两个都要消耗得大，但是你可以有O(log(n))或是O(1)的时间复杂度。</p>
+<p>所以，我想在这里提醒大家——<strong>实际和理论的的方法很不一样的</strong>，千万不要读书读成书呆子。在游戏编程的世界里，大量的数据都不是运行计算的，而都是写在文件中的。比如，一个火焰效果，一个人物跑动的动作，都是事先写在文件中的。</p>
+<h4>使用编译时而不是运行时</h4>
+<p>下面这个例子（本例参考于<a href="http://www.intermediaware.com/blog/846/hack-of-the-day-fast-prime-numbers" target="_blank">这里</a>）你需要注意了，这是一个高级用法，使用模式来在编译时计算质数，而不是运行时。这种技术使用了C++编译器对模板的特化时的处理来生成自己相要的结果。这种方法在技术上是相当Cool的，但并不一定实用，这里只是想像大家展示这种用法。这是C++的最骨灰级的用法了。</p>
+<p>请看下面的两个模板类，第一个模板以递归的方式检查是否是质数，第二个方法是递归的退出条件（当N=1时），对于模板的重载，请参看相关的C++书籍。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+template&lt;int N, int D = N - 1&gt;
+struct isPrime {
+    enum {
+        result = (N % D) &amp;&amp; isPrime&lt;N, D-1&gt;::result
+    };
+};
+
+template&lt;int N&gt;
+struct isPrime&lt;N, 1&gt; {
+    enum {
+        result = true
+    };
+};
+</pre>
+<p>于是，通过这个模板，我们可以使用下面的代码来检查是否是质数：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+if (isPrime&lt;3&gt;::result)
+    cout &lt;&lt; &quot;Guess what: 3 is a prime!&quot;;
+</pre>
+<p>下一步，我们需要打出一个区间内的质数，所以，我们需要继续设计我们的print模板。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+template&lt;int N, bool ISPRIME&gt;
+struct printIfPrime {
+    static inline void print() {}
+};
+
+template &lt;int N&gt;
+struct printIfPrime&lt;N, true&gt; {
+    static inline void print() {
+        std::cout &lt;&lt; N &lt;&lt; endl;
+    }
+};
+</pre>
+<p>从上面的代码中，我们可以看到，我们的第一个实际是什么也没做，而第二个有输出，注意第二个的模板参数中有一个true，其意味着那个质数的判断。于是我们就可以给出下面的代码来尝试着打印出一段区间内的质数：（<strong>请不要编译！！</strong>因为那会让编译器进入无限循环中，原因是printPrimes会不停地调用自己永不停止）</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+template&lt;int N, int MAX&gt;
+struct printPrimes {
+    static inline void print()
+    {
+        printIfPrime&lt;N, isPrime&lt;N&gt;::result&gt;::print();
+        printPrimes&lt;N + 1, MAX&gt;::print();
+    }
+};
+</pre>
+<p>为了避免这个问题，你需要再加一个模板类，如下所示。这样当N变成MAX的时候，递归就结束了。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+template&lt;int N&gt;
+struct printPrimes&lt;N, N&gt; {
+    static inline void print() {
+        printIfPrime&lt;N, isPrime&lt;N&gt;::result&gt;::print();
+    }
+};
+</pre>
+<p>最后，让我们来看看最终的调用：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+int main (int argc, char * const argv[])
+{
+    printPrimes&lt;2, 40&gt;::print();
+    return 0;
+}
+</pre>
+<p>这个方法很NB，但是有两个问题：</p>
+<ul>
+<li>比较耗编译时间。</li>
+<li>不能在运行时输入MAX的值。</li>
+</ul>
+<p>不过，相信这种玩法会启动你很多的编程思路。</p>
+<p>当然，还有以前说过的那个——《<span style="font-weight: bold;"><a title="检查素数的正则表达式" rel="bookmark" href="https://coolshell.cn/articles/2704.html" target="_blank">检查素数的正则表达式</a></span>》</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="http://coolshell.cn/articles/1857.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="C 语言整型谜题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/1857.html" class="wp_rp_title">C 语言整型谜题</a></li><li ><a href="http://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="http://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="http://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="http://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="http://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="http://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3738.html">打印质数的各种算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3738.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>输出从1到1000的数</title>
+		<link>https://coolshell.cn/articles/3445.html</link>
+					<comments>https://coolshell.cn/articles/3445.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 07 Jan 2011 00:55:32 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3445</guid>
+
+					<description><![CDATA[<p>有这样一个面试题——请把从1到1000的数打印出来，但你不能使用任何的循环语句或是条件语句。更不能写1000个printf或是cout。用C/C++语言。 我相...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3445.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3445.html">输出从1到1000的数</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>有这样一个面试题——<strong>请把从1到1000的数打印出来，但你不能使用任何的循环语句或是条件语句。更不能写1000个printf或是cout</strong>。<strong>用C/C++语言</strong>。</p>
+<p>我相信，大多数人一开始你可能想到的是递归算法：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+void f(int n){
+    printf(&quot;%d\n&quot;,n);
+    (1000-n) ? f(n+1) : exit(0) ;
+}
+int main(){
+    f(1);
+}
+</pre>
+<p>当然，题目中说了不能使用条件语句，所以，上面那种解法的不符合题意的，因为还是变向地使用了条件表达式。不过，我们可以用别的方法来让这个递归终止，比如：</p>
+<p>除以零，当程序crash，呵呵。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">void f(int n){
+    printf(&quot;%d\n&quot;,n);
+    n/(1000-n);
+    f(n+1);
+}</pre>
+<p>还有这样退出递归的：</p>
+<p><span id="more-3445"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+void yesprint(int i);
+void noprint(int i);
+
+typedef void(*fnPtr)(int);
+fnPtr dispatch[] = { yesprint, noprint };
+
+void yesprint(int i) {
+    printf(&quot;%d\n&quot;, i);
+    dispatch[i / 1000](i + 1);
+}
+
+void noprint(int i) { /* do nothing. */ }
+
+int main() {
+      yesprint(1);
+}
+</pre>
+<p>还有下面这些各种各样的解法：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include&lt;stdio.h&gt;
+
+/* prints number  i */
+void print1(int i) {
+    printf(&quot;%d\n&quot;,i);
+}
+
+/* prints 10 numbers starting from i */
+void print10(int i) {
+    print1(i);
+    print1(i+1);
+    print1(i+2);
+    print1(i+3);
+    print1(i+4);
+    print1(i+5);
+    print1(i+6);
+    print1(i+7);
+    print1(i+8);
+    print1(i+9);
+}
+
+/* prints 100 numbers starting from i */
+void print100(int i) {
+    print10(i);
+    print10(i+10);
+    print10(i+20);
+    print10(i+30);
+    print10(i+40);
+    print10(i+50);
+    print10(i+60);
+    print10(i+70);
+    print10(i+80);
+    print10(i+90);
+}
+
+/* prints 1000 numbers starting from i */
+void print1000(int i) {
+    print100(i);
+    print100(i+100);
+    print100(i+200);
+    print100(i+300);
+    print100(i+400);
+    print100(i+500);
+    print100(i+600);
+    print100(i+700);
+    print100(i+800);
+    print100(i+900);
+}
+
+int main() {
+        print1000(1);
+        return 0;
+}</pre>
+<p>不过，print用得多了一些。我们可以用宏嘛。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include&lt;stdio.h&gt;
+#define Out(i)       printf(&quot;%d\n&quot;, i++);
+#define REP(N)       N N N N N N N N N N
+#define Out1000(i)   REP(REP(REP(Out(i))));
+void main()
+{
+    int i = 1;
+    Out1000(i);
+}</pre>
+<p>不过，我们应该使用C++的一些特性，比如：</p>
+<p>使用构造函数</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+class Printer
+{
+public:
+    Printer() { static unsigned i=1; cout &lt;&lt; i++ &lt;&lt; endl;; }
+
+};
+
+int main()
+{
+    Printer p[1000];
+}
+</pre>
+<p>或是更为NB的Template：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">template&lt;int N&gt;
+struct NumberGeneration{
+    static void out(std::ostream&amp; os)
+    {
+        NumberGeneration&lt;N-1&gt;::out(os);
+        os &lt;&lt; N &lt;&lt; std::endl;
+    }
+};
+
+template&lt;&gt;
+struct NumberGeneration&lt;1&gt;{
+    static void out(std::ostream&amp; os)
+    {
+        os &lt;&lt; 1 &lt;&lt; std::endl;
+    }
+};
+
+int main(){
+    NumberGeneration&lt;1000&gt;::out(std::cout);
+}</pre>
+<p>最后来个BT一点的：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+void main(int j) {
+    printf(&quot;%d\n&quot;, j);
+    (main + (exit - main)*(j/1000))(j+1);
+}
+</pre>
+<p>本文来自: <a href="http://stackoverflow.com/q/4568645/89806" target="_blank">http://stackoverflow.com/q/4568645/89806</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="C++面试中string类的一种正确写法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10478.html" class="wp_rp_title">C++面试中string类的一种正确写法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3445.html">输出从1到1000的数</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3445.html/feed</wfw:commentRss>
+			<slash:comments>70</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>140个Google的面试题</title>
+		<link>https://coolshell.cn/articles/3345.html</link>
+					<comments>https://coolshell.cn/articles/3345.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 02 Dec 2010 00:44:24 +0000</pubDate>
+				<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3345</guid>
+
+					<description><![CDATA[<p>来源：http://blog.seattleinterviewcoach.com/2009/02/140-google-interview-questions....</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3345.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3345.html">140个Google的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>来源：<a href="http://blog.seattleinterviewcoach.com/2009/02/140-google-interview-questions.html" target="_blank">http://blog.seattleinterviewcoach.com/2009/02/140-google-interview-questions.html</a>（墙）<br />
+<img decoding="async" loading="lazy" class="alignright size-medium wp-image-3349" title="Google 面试题 " src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-300x225.jpg" alt="" width="210" height="158" srcset="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-300x225.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-360x270.jpg 360w, https://coolshell.cn/wp-content/uploads/2010/12/googlequestion.jpg 400w" sizes="(max-width: 210px) 100vw, 210px" /></p>
+<div>某猎头收集了140多个Google的面试题，都张到他的Blog中了，主要是下面这些职位的，因为被墙，且无任何敏感信息，所以，我原文搬过来了。</div>
+<div>
+<ul>
+<li>Product Marketing Manager</li>
+<li>Product Manager</li>
+<li>Software Engineer</li>
+<li>Software Engineer in Test</li>
+<li>Quantitative Compensation Analyst</li>
+<li>Engineering Manager</li>
+<li>AdWords Associate</li>
+</ul>
+</div>
+<p>这篇Blog例举了Google用来面试下面这几个职位的面试题。很多不是很容易回答，不过都比较经典与变态，是Google，Microsoft，Amazon之类的公司的风格。对于本文，我没有翻译，因为我相信，英文问题是最好的。不过对于有些问题，我做了一些注释，不一定对，但希望对你有帮助启发。对于一些问题，如果你百思不得其解，可以Google一下，StackOverflow或是Wikipedia上可能会给你非常全面的答案。</p>
+<p><span id="more-3345"></span></p>
+<div><strong>Product Marketing Manager</strong></div>
+<div>
+<div>
+<ul>
+<li>Why do you want to join Google?</li>
+<li>What do you know about Google&#8217;s product and technology?</li>
+<li>If you are Product Manager for Google&#8217;s Adwords, how do you plan to market this?</li>
+<li>What would you say during an AdWords or AdSense product seminar?</li>
+<li>Who are Google&#8217;s competitors, and how does Google compete with them?</li>
+<li>Have you ever used Google&#8217;s products? Gmail?</li>
+<li>What&#8217;s a creative way of marketing Google&#8217;s brand name and product?</li>
+<li>If you are the product marketing manager for Google&#8217;s Gmail product, how do you plan to market it so as to achieve 100 million customers in 6 months?</li>
+<li>How much money you think Google makes daily from Gmail ads?</li>
+<li>Name a piece of technology you’ve read about recently. Now tell me your own creative execution for an ad for that product.</li>
+<li>Say an advertiser makes $0.10 every time someone clicks on their ad.  Only 20% of people who visit the site click on their ad.  How many people need to visit the site for the advertiser to make $20?<span style="white-space: pre;"> </span></li>
+<li>Estimate the number of students who are college seniors, attend four-year schools, and graduate with a job in the United States every year.</li>
+</ul>
+</div>
+</div>
+<div><strong>Product Manager</strong></div>
+<div>
+<div>
+<ul>
+<li>How would you boost the GMail subscription base?</li>
+<li>What is the most efficient way to sort a million integers?  （陈皓：merge sort）</li>
+<li>How would you re-position Google&#8217;s offerings to counteract competitive threats from Microsoft?</li>
+<li>How many golf balls can fit in a school bus? （陈皓：这种题一般来说是考你的解题思路的，注意，你不能单纯地把高尔夫球当成一个小立方体，其是一个圆球，堆起来的时候应该是错开的——也就是三个相邻的球的圆心是个等边三角形）</li>
+<li>You are shrunk to the height of a nickel and your mass is proportionally reduced so as to maintain your original density. You are then thrown into an empty glass blender. The blades will start moving in 60 seconds. What do you do?</li>
+<li>How much should you charge to wash all the windows in Seattle?</li>
+<li>How would you find out if a machine’s stack grows up or down in memory?</li>
+<li>Explain a database in three sentences to your eight-year-old nephew. （陈皓：用三句话向8岁的侄子解释什么是数据库，考你的表达能力了）</li>
+<li>How many times a day does a clock’s hands overlap?（陈皓：经典的时钟问题）</li>
+<li>You have to get from point A to point B. You don’t know if you can get there. What would you do?</li>
+<li>Imagine you have a closet full of shirts. It’s very hard to find a shirt. So what can you do to organize your shirts for easy retrieval? （陈皓：很不错的一道题，不要以为分类查询很容易，想想图书馆图书的分类查询问题吧。另外，你处想想如何在你在你的衣柜里实现一个相当于Hash表或是一个Tree之类的数据结构）</li>
+<li>Every man in a village of 100 married couples has cheated on his wife. Every wife in the village instantly knows when a man other than her husband has cheated, but does not know when her own husband has. The village has a law that does not allow for adultery. Any wife who can prove that her husband is unfaithful must kill him that very day. The women of the village would never disobey this law. One day, the queen of the village visits and announces that at least one husband has been unfaithful. What happens? （陈皓：这个问题很有限制级，哈哈，非常搞的一个问题，注意wife们的递归，这类的问题是经典的分布式通讯问题，上网搜 一搜吧。）</li>
+<li>In a country in which people only want boys, every family continues to have children until they have a boy. If they have a girl, they have another child. If they have a boy, they stop. What is the proportion of boys to girls in the country?（陈皓：第一反应是——这个国家是中国。一个概率问题，其实，无论你怎么生，50%的概率是永远不变的。）</li>
+<li>If the probability of observing a car in 30 minutes on a highway is 0.95, what is the probability of observing a car in 10 minutes (assuming constant default probability)?</li>
+<li>If you look at a clock and the time is 3:15, what is the angle between the hour and the minute hands? (The answer to this is not zero!)</li>
+<li>Four people need to cross a rickety rope bridge to get back to their camp at night. Unfortunately, they only have one flashlight and it only has enough light left for seventeen minutes. The bridge is too dangerous to cross without a flashlight, and it&#8217;s only strong enough to support two people at any given time. Each of the campers walks at a different speed. One can cross the bridge in 1 minute, another in 2 minutes, the third in 5 minutes, and the slow poke takes 10 minutes to cross. How do the campers make it across in 17 minutes?（陈皓：经典的过桥问题）</li>
+<li>You are at a party with a friend and 10 people are present including you and the friend. your friend makes you a wager that for every person you find that has the same birthday as you, you get $1; for every person he finds that does not have the same birthday as you, he gets $2. would you accept the wager?</li>
+<li>How many piano tuners are there in the entire world?</li>
+<li>You have eight balls all of the same size. 7 of them weigh the same, and one of them weighs slightly more. How can you find the ball that is heavier by using a balance and only two weighings?（陈皓：经典的称重问题。这样的问题花样很多，不过都不难回答）</li>
+<li>You have five pirates, ranked from 5 to 1 in descending order. The top pirate has the right to propose how 100 gold coins should be divided among them. But the others get to vote on his plan, and if fewer than half agree with him, he gets killed. How should he allocate the gold in order to maximize his share but live to enjoy it? (Hint: One pirate ends up with 98 percent of the gold.)</li>
+<li>You are given 2 eggs. You have access to a 100-story building. Eggs can be very hard or very fragile means it may break if dropped from the first floor or may not even break if dropped from 100th floor. Both eggs are identical. You need to figure out the highest floor of a 100-story building an egg can be dropped without breaking. The question is how many drops you need to make. You are allowed to break 2 eggs in the process. （陈皓：从3的倍数的楼层开始扔，比如3，6，9，12&#8230;..，如果鸡蛋在3n层碎了，那到在3n-1层扔第二个鸡蛋，如果没碎，则最高不碎楼层为3n-1，否则为3n-2）</li>
+<li>Describe a technical problem you had and how you solved it.</li>
+<li>How would you design a simple search engine?</li>
+<li>Design an evacuation plan for San Francisco.</li>
+<li>There&#8217;s a latency problem in South Africa. Diagnose it. （陈皓：这个问题完全是在考你的解决问题的能力。没有明确的答案。不过，解决性能问题的第一步通常是找出瓶颈，找瓶颈有很多种方法，工具，二分查，时间记录等等。）</li>
+<li>What are three long term challenges facing Google?</li>
+<li>Name three non-Google websites that you visit often and like.  What do you like about the user interface and design?  Choose one of the three sites and comment on what new feature or project you would work on.  How would you design it?</li>
+<li>If there is only one elevator in the building, how would you change the design?  How about if there are only two elevators in the building? （陈皓：经典的电梯设计问题，这种问题千变万化，主要是考你的设计能力和需求变化的适变能力，与此相似的是酒店订房系统。）</li>
+<li>How many vacuum’s are made per year in USA?</li>
+</ul>
+</div>
+</div>
+<div>
+<div><strong>Software Engineer</strong></div>
+<div>
+<div>
+<ul>
+<li>Why are manhole covers round? （陈皓：为什么下水井盖是圆的？这是有N种答案的，上Wiki看看吧）</li>
+<li>What is the difference between a mutex and a semaphore?  Which one would you use to protect access to an increment operation?</li>
+<li>A man pushed his car to a hotel and lost his fortune. What happened? （陈皓：脑筋急转弯？他在玩大富翁游戏？！！）</li>
+<li>Explain the significance of &#8220;dead beef&#8221;.（陈皓：要是你看到的是16进制 DEAD BEEF，你会觉得这是什么？IPv6的地址？）</li>
+<li>Write a C program which measures the the speed of a context switch on a UNIX/Linux system.</li>
+<li>Given a function which produces a random integer in the range 1 to 5, write a function which produces a random integer in the range 1 to 7.（陈皓：上StackOverflow看看吧，经典的问题）</li>
+<li>Describe the algorithm for a depth-first graph traversal.</li>
+<li>Design a class library for writing card games. （陈皓：用一系列的类来设计一个扑克游戏，设计题）</li>
+<li>You need to check that your friend, Bob, has your correct phone number, but you cannot ask him directly. You must write a the question on a card which and give it to Eve who will take the card to Bob and return the answer to you. What must you write on the card, besides the question, to ensure Bob can encode the message so that Eve cannot read your phone number?（陈皓：协议+数字加密，我试想了一个，纸条上可以这样写，“Bob，请把我的手机号以MD5算法加密后的字符串，比对下面的字符串——XXXXXX，它们是一样的吗？”）</li>
+<li>How are cookies passed in the HTTP protocol?</li>
+<li>Design the SQL database tables for a car rental database.</li>
+<li>Write a regular expression which matches a email address. （陈皓：上StackOverflow查相当的问题吧。）</li>
+<li>Write a function f(a, b) which takes two character string arguments and returns a string containing only the characters found in both strings in the order of a. Write a version which is order N-squared and one which is order N.（陈皓：算法题，不难，不说了。一个O(n^2)和一个O(n)的算法复杂度）</li>
+<li>You are given a the source to a application which is crashing when run. After running it 10 times in a debugger, you find it never crashes in the same place. The application is single threaded, and uses only the C standard library. What programming errors could be causing this crash? How would you test each one? （陈皓：和随机数有关系？或是时间？）</li>
+<li>Explain how congestion control works in the TCP protocol.</li>
+<li>In Java, what is the difference between final, finally, and finalize?</li>
+<li>What is multithreaded programming? What is a deadlock?</li>
+<li>Write a function (with helper functions if needed) called to Excel that takes an excel column value (A,B,C,D…AA,AB,AC,… AAA..) and returns a corresponding integer value (A=1,B=2,… AA=26..).</li>
+<li>You have a stream of infinite queries (ie: real time Google search queries that people are entering). Describe how you would go about finding a good estimate of 1000 samples from this never ending set of data and then write code for it.</li>
+<li>Tree search algorithms. Write BFS and DFS code, explain run time and space requirements. Modify the code to handle trees with weighted edges and loops with BFS and DFS, make the code print out path to goal state.</li>
+<li>You are given a list of numbers. When you reach the end of the list you will come back to the beginning of the list (a circular list). Write the most efficient algorithm to find the minimum # in this list. Find any given # in the list. The numbers in the list are always increasing but you don’t know where the circular list begins, ie: 38, 40, 55, 89, 6, 13, 20, 23, 36. （陈皓：循环排序数组的二分查找问题）</li>
+<li>Describe the data structure that is used to manage memory. (stack)</li>
+<li>What&#8217;s the difference between local and global variables?</li>
+<li>If you have 1 million integers, how would you sort them efficiently? (modify a specific sorting algorithm to solve this)</li>
+<li>In Java, what is the difference between static, final, and const. (if you don&#8217;t know Java they will ask something similar for C or C++).</li>
+<li>Talk about your class projects or work projects (pick something easy)… then describe how you could make them more efficient (in terms of algorithms).</li>
+<li>Suppose you have an NxN matrix of positive and negative integers. Write some code that finds the sub-matrix with the maximum sum of its elements.（陈皓：以前见过一维数组的这个问题，现在是二维的。感觉应该是把二维的第一行的最大和的区间算出来，然后再在这个基础之上进行二维的分析。思路应该是这个，不过具体的算法还需要想一想）</li>
+<li>Write some code to reverse a string.</li>
+<li>Implement division (without using the divide operator, obviously).（陈皓：想一想手算除法的过程。）</li>
+<li>Write some code to find all permutations of the letters in a particular string.</li>
+<li>What method would you use to look up a word in a dictionary? （陈皓：使用排序，哈希，树等算法和数据结构）</li>
+<li>Imagine you have a closet full of shirts. It’s very hard to find a shirt. So what can you do to organize your shirts for easy retrieval?</li>
+<li>You have eight balls all of the same size. 7 of them weigh the same, and one of them weighs slightly more. How can you fine the ball that is heavier by using a balance and only two weighings?</li>
+<li>What is the C-language command for opening a connection with a foreign host over the internet?</li>
+<li>Design and describe a system/application that will most efficiently produce a report of the top 1 million Google search requests. These are the particulars: 1) You are given 12 servers to work with. They are all dual-processor machines with 4Gb of RAM, 4x400GB hard drives and networked together.(Basically, nothing more than high-end PC’s) 2) The log data has already been cleaned for you. It consists of 100 Billion log lines, broken down into 12 320 GB files of 40-byte search terms per line. 3) You can use only custom written applications or available free open-source software.</li>
+<li>There is an array A[N] of N numbers. You have to compose an array Output[N] such that Output[i] will be equal to multiplication of all the elements of A[N] except A[i]. For example Output[0] will be multiplication of A[1] to A[N-1] and Output[1] will be multiplication of A[0] and from A[2] to A[N-1]. Solve it without division operator and in O(n).（陈皓：注意其不能使用除法。算法思路是这样的，把output[i]=a[i]左边的乘积 x a[i]右边的乘积，所以，我们可以分两个循环，第一次先把A[i]左边的乘积放在Output[i]中，第二次把A[i]右边的乘积算出来。我们先看第一次的循环，使用迭代累积的方式，代码如下：for(r=1; i=0; i&lt;n-1; i++){ Output[i]=r; r*=a[i]; }，看明白了吧。第二次的循环我就不说了，方法一样的。）</li>
+<li>There is a linked list of numbers of length N. N is very large and you don’t know N. You have to write a function that will return k random numbers from the list. Numbers should be completely random. Hint: 1. Use random function rand() (returns a number between 0 and 1) and irand() (return either 0 or 1) 2. It should be done in O(n).（陈皓：本题其实不难。在遍历链表的同时一边生成随机数，一边记录最大的K个随机数和其链接地址。）</li>
+<li>Find or determine non existence of a number in a sorted list of N numbers where the numbers range over M, M&gt;&gt; N and N large enough to span multiple disks. Algorithm to beat O(log n) bonus points for constant time algorithm.（陈皓：使用bitmap，如果一个长整形有64位，那么我们可以使用M/64个bitmap）</li>
+<li>You are given a game of Tic Tac Toe. You have to write a function in which you pass the whole game and name of a player. The function will return whether the player has won the game or not. First you to decide which data structure you will use for the game. You need to tell the algorithm first and then need to write the code. Note: Some position may be blank in the game। So your data structure should consider this condition also.</li>
+<li>You are given an array [a1 To an] and we have to construct another array [b1 To bn] where bi = a1*a2*&#8230;*an/ai. you are allowed to use only constant space and the time complexity is O(n). No divisions are allowed.（陈皓：前面说过了）</li>
+<li>How do you put a Binary Search Tree in an array in a efficient manner. Hint :: If the node is stored at the ith position and its children are at 2i and 2i+1(I mean level order wise)Its not the most efficient way.（陈皓：按顺序遍历树）</li>
+<li>How do you find out the fifth maximum element in an Binary Search Tree in efficient manner. Note: You should not use use any extra space. i.e sorting Binary Search Tree and storing the results in an array and listing out the fifth element.</li>
+<li>Given a Data Structure having first n integers and next n chars. A = i1 i2 i3 &#8230; iN c1 c2 c3 &#8230; cN.Write an in-place algorithm to rearrange the elements of the array ass A = i1 c1 i2 c2 &#8230; in cn（陈皓：这个算法其实就是从中间开始交换元素，代码：for(i=n-1; i&gt;1; i++) {  for(j=i; j&lt;2*n-i; j+=2) { swap(a[j], a[j+1]); } }，不好意思写在同一行上了。）</li>
+<li>Given two sequences of items, find the items whose absolute number increases or decreases the most when comparing one sequence with the other by reading the sequence only once.</li>
+<li>Given That One of the strings is very very long , and the other one could be of various sizes. Windowing will result in O(N+M) solution but could it be better? May be NlogM or even better?</li>
+<li>How many lines can be drawn in a 2D plane such that they are equidistant from 3 non-collinear points?</li>
+<li>Let&#8217;s say you have to construct Google maps from scratch and guide a person standing on Gateway of India (Mumbai) to India Gate(Delhi). How do you do the same?</li>
+<li>Given that you have one string of length N and M small strings of length L. How do you efficiently find the occurrence of each small string in the larger one?</li>
+<li>Given a binary tree, programmatically you need to prove it is a binary search tree.</li>
+<li>You are given a small sorted list of numbers, and a very very long sorted list of numbers &#8211; so long that it had to be put on a disk in different blocks. How would you find those short list numbers in the bigger one?</li>
+<li>Suppose you have given N companies, and we want to eventually merge them into one big company. How many ways are theres to merge?</li>
+<li>Given a file of 4 billion 32-bit integers, how to find one that appears at least twice? （陈皓：我能想到的是拆分成若干个小数组，排序，然后一点点归并起来）</li>
+<li>Write a program for displaying the ten most frequent words in a file such that your program should be efficient in all complexity measures.（陈皓：你可能需要看看这篇文章<a href="http://www.cs.rutgers.edu/~farach/pubs/FrequentStream.pdf" target="_blank"><span style="text-decoration: underline;">Finding Frequent Items in Data Streams</span></a>）</li>
+<li>Design a stack. We want to push, pop, and also, retrieve the minimum element in constant time.</li>
+<li>Given a set of coin denominators, find the minimum number of coins to give a certain amount of change.（陈皓：你应该查看一下这篇文章：<a href="http://www.algorithmist.com/index.php/Coin_Change" target="_blank"><span style="text-decoration: underline;">Coin Change Problem</span></a>）</li>
+<li>Given an array, i) find the longest continuous increasing subsequence. ii) find the longest increasing subsequence.（陈皓：这个题不难，O(n)算法是边遍历边记录当前最大的连续的长度。）</li>
+<li>Suppose we have N companies, and we want to eventually merge them into one big company. How many ways are there to merge?</li>
+<li>Write a function to find the middle node of a single link list. （陈皓：我能想到的算法是——设置两个指针p1和p2，每一次，p1走两步，p2走一步，这样，当p1走到最后时，p2就在中间）</li>
+<li>Given two binary trees, write a compare function to check if they are equal or not. Being equal means that they have the same value and same structure.（陈皓：这个很简单，使用递归算法。）</li>
+<li>Implement put/get methods of a fixed size cache with LRU replacement algorithm.</li>
+<li>You are given with three sorted arrays ( in ascending order), you are required to find a triplet ( one element from each array) such that distance is minimum. Distance is defined like this : If a[i], b[j] and c[k] are three elements then distance=max(abs(a[i]-b[j]),abs(a[i]-c[k]),abs(b[j]-c[k]))&#8221; Please give a solution in O(n) time complexity（陈皓：三个指针，a, b, c分别指向三个数组头，假设：a[0]&lt;b[0]&lt;c[0]，推进a直到a[i]&gt;b[0]，计算 abs(a[i-1] &#8211; c[0])，把结果保存在min中。现在情况变成找 a[i], b[0],c[0]，重复上述过程，如果有一个新的值比min要小，那就取代现有的min。）</li>
+<li>How does C++ deal with constructors and deconstructors of a class and its child class?</li>
+<li>Write a function that flips the bits inside a byte (either in C++ or Java). Write an algorithm that take a list of n words, and an integer m, and retrieves the mth most frequent word in that list.</li>
+<li>What&#8217;s 2 to the power of 64?</li>
+<li>Given that you have one string of length N and M small strings of length L. How do you efficiently find the occurrence of each small string in the larger one? （陈皓：我能想到的是——把那M个小字串排个序，然后遍历大字串，并在那M个字串中以二分取中的方式查找。）</li>
+<li>How do you find out the fifth maximum element in an Binary Search Tree in efficient manner.</li>
+<li>Suppose we have N companies, and we want to eventually merge them into one big company. How many ways are there to merge?</li>
+<li>There is linked list of millions of node and you do not know the length of it. Write a function which will return a random number from the list.</li>
+<li>You need to check that your friend, Bob, has your correct phone number, but you cannot ask him directly. You must write a the question on a card which and give it to Eve who will take the card to Bob and return the answer to you. What must you write on the card, besides the question, to ensure Bob can encode the message so that Eve cannot read your phone number?</li>
+<li>How long it would take to sort 1 trillion numbers? Come up with a good estimate.</li>
+<li>Order the functions in order of their asymptotic performance: 1) 2^n 2) n^100 3) n! 4) n^n</li>
+<li>There are some data represented by(x,y,z). Now we want to find the Kth least data. We say (x1, y1, z1) &gt; (x2, y2, z2) when value(x1, y1, z1) &gt; value(x2, y2, z2) where value(x,y,z) = (2^x)*(3^y)*(5^z). Now we can not get it by calculating value(x,y,z) or through other indirect calculations as lg(value(x,y,z)). How to solve it?</li>
+<li>How many degrees are there in the angle between the hour and minute hands of a clock when the time is a quarter past three?</li>
+<li>Given an array whose elements are sorted, return the index of a the first occurrence of a specific integer. Do this in sub-linear time. I.e. do not just go through each element searching for that element.</li>
+<li>Given two linked lists, return the intersection of the two lists: i.e. return a list containing only the elements that occur in both of the input lists. （陈皓：把第一个链表存入hash表，然后遍历第二个链表。不知道还没有更好的方法。）</li>
+<li>What&#8217;s the difference between a hashtable and a hashmap?</li>
+<li>If a person dials a sequence of numbers on the telephone, what possible words/strings can be formed from the letters associated with those numbers?（陈皓：这个问题和美国的电话有关系，大家可以试着想一下我们发短信的手机，按数字键出字母，一个组合的数学问题。）</li>
+<li>How would you reverse the image on an n by n matrix where each pixel is represented by a bit?</li>
+<li>Create a fast cached storage mechanism that, given a limitation on the amount of cache memory, will ensure that only the least recently used items are discarded when the cache memory is reached when inserting a new item. It supports 2 functions: String get(T t) and void put(String k, T t).</li>
+<li>Create a cost model that allows Google to make purchasing decisions on to compare the cost of purchasing more RAM memory for their servers vs. buying more disk space.</li>
+<li>Design an algorithm to play a game of Frogger and then code the solution. The object of the game is to direct a frog to avoid cars while crossing a busy road. You may represent a road lane via an array. Generalize the solution for an N-lane road.</li>
+<li>What sort would you use if you had a large data set on disk and a small amount of ram to work with?</li>
+<li>What sort would you use if you required tight max time bounds and wanted highly regular performance.</li>
+<li>How would you store 1 million phone numbers?（陈皓：试想电话是有区段的，可以把区段统一保存，Flyweight设计模式）</li>
+<li>Design a 2D dungeon crawling game. It must allow for various items in the maze &#8211; walls, objects, and computer-controlled characters. (The focus was on the class structures, and how to optimize the experience for the user as s/he travels through the dungeon.)</li>
+<li>What is the size of the C structure below on a 32-bit system? On a 64-bit? （陈皓：注意编译器的对齐）</li>
+</ul>
+<p style="padding-left: 90px;">struct foo {</p>
+<div style="padding-left: 90px;">char a;</div>
+<div style="padding-left: 90px;">char* b;</div>
+<div style="padding-left: 90px;">};</div>
+</div>
+</div>
+<div><strong>Software Engineer in Test</strong></div>
+<div>
+<ul>
+<li>Efficiently implement 3 stacks in a single array.</li>
+<li>Given an array of integers which is circularly sorted, how do you find a given integer.</li>
+<li>Write a program to find depth of binary search tree without using recursion.</li>
+<li>Find the maximum rectangle (in terms of area) under a histogram in linear time.</li>
+<li>Most phones now have full keyboards. Before there there three letters mapped to a number button. Describe how you would go about implementing spelling and word suggestions as people type.</li>
+<li>Describe recursive mergesort and its runtime. Write an iterative version in C++/Java/Python.</li>
+<li>How would you determine if someone has won a game of tic-tac-toe on a board of any size?</li>
+<li>Given an array of numbers, replace each number with the product of all the numbers in the array except the number itself *without* using division.</li>
+<li>Create a cache with fast look up that only stores the N most recently accessed items.</li>
+<li>How to design a search engine? If each document contains a set of keywords, and is associated with a numeric attribute, how to build indices?</li>
+<li>Given two files that has list of words (one per line), write a program to show the intersection.</li>
+<li>What kind of data structure would you use to index annagrams of words? e.g. if there exists the word &#8220;top&#8221; in the database, the query for &#8220;pot&#8221; should list that.</li>
+</ul>
+<div>
+<div><strong>Quantitative Compensation Analyst</strong></div>
+</div>
+</div>
+<div>
+<ul>
+<li>What is the yearly standard deviation of a stock given the monthly standard deviation?</li>
+<li>How many resumes does Google receive each year for software engineering?</li>
+<li>Anywhere in the world, where would you open up a new Google office and how would you figure out compensation for all the employees at this new office?</li>
+<li>What is the probability of breaking a stick into 3 pieces and forming a triangle?</li>
+</ul>
+</div>
+<div><strong>Engineering Manager</strong></div>
+<div>
+<ul>
+<li>You&#8217;re the captain of a pirate ship, and your crew gets to vote on how the gold is divided up. If fewer than half of the pirates agree with you, you die. How do you recommend apportioning the gold in such a way that you get a good share of the booty, but still survive?</li>
+</ul>
+</div>
+<div><strong>AdWords Associate</strong></div>
+<div>
+<ul>
+<li>How would you work with an advertiser who was not seeing the benefits of the AdWords relationship due to poor conversions?</li>
+<li>How would you deal with an angry or frustrated advertisers on the phone?</li>
+</ul>
+</div>
+<div><span style="font-size: small;"><em>Sources</em></span></div>
+<div style="padding-left: 30px;"><span><span style="font-size: small;"><a href="http://news.ycombinator.com/item?id=266663" target="_blank">http://news.ycombinator.com/item?id=266663</a> </span></span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://tihomir.org/crazy-questions-at-google-job-interview/" target="_blank">http://tihomir.org/crazy-questions-at-google-job-interview/</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://www.drizzle.com/~jpaint/google.html" target="_blank">http://www.drizzle.com/~jpaint/google.html</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://www.gamedev.net/community/forums/topic.asp?topic_id=299692" target="_blank">http://www.gamedev.net/community/forums/topic.asp?topic_id=299692</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://careers.cse.sc.edu/googleinterview" target="_blank">http://careers.cse.sc.edu/googleinterview</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://job-interview.blogspot.com/2005/02/google-interview-product-marketing.html" target="_blank">http://job-interview.blogspot.com/2005/02/google-interview-product-marketing.html</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://www.theregister.co.uk/2007/01/05/google_interview_tales/" target="_blank">http://www.theregister.co.uk/2007/01/05/google_interview_tales/</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://money.cnn.com/2007/08/29/technology/brain_teasers.biz2/index.htm" target="_blank">http://money.cnn.com/2007/08/29/technology/brain_teasers.biz2/index.htm</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://money.cnn.com/2007/08/29/technology/brain_teasers.biz2/index.htm" target="_blank">http://blogs.lessthandot.com/index.php/ITProfessionals/EthicsIT/google-interview-questions</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://placementsindia.blogspot.com/2007/09/google-top-interview-puzzles.html" target="_blank">http://placementsindia.blogspot.com/2007/09/google-top-interview-puzzles.html</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://linkmingle.com/user/interview_questions/google_interview_questions" target="_blank">http://linkmingle.com/user/interview_questions/google_interview_questions</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://discuss.joelonsoftware.com/default.asp?interview.11.626758.33" target="_blank">http://discuss.joelonsoftware.com/default.asp?interview.11.626758.33</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://mindcipher.com/puzzle/78-clock-works" target="_blank">http://mindcipher.com/puzzle/78-clock-works</a><br />
+</span></div>
+<div style="padding-left: 30px;"><span style="font-size: small;"><a href="http://www.glassdoor.com" target="_blank">http://www.glassdoor.com</a></span></div>
+<div style="padding-left: 30px;">
+<div><span style="font-size: small;"><a href="http://bluepixel.ca/blog/?p=69" target="_blank">http://bluepixel.ca/blog/?p=69</a></span></div>
+<div><span style="font-size: small;"> </span><span style="font-size: small;"><a href="http://www.businessinsider.com/my-nightmare-interviews-with-google-2009-11" target="_blank">http://www.businessinsider.com/my-nightmare-interviews-with-google-2009-11</a></span></div>
+<div><span style="font-size: small;"><br />
+</span></div>
+</div>
+</div>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-150x150.jpg" alt="为什么我反对纯算法面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_title">为什么我反对纯算法面试题</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="给程序员新手的一些建议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_title">给程序员新手的一些建议</a></li><li ><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="再谈“我是怎么招聘程序员的”（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（上）</a></li><li ><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="再谈“我是怎么招聘程序员的”（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（下）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3345.html">140个Google的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3345.html/feed</wfw:commentRss>
+			<slash:comments>27</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>面试题：布尔变量</title>
+		<link>https://coolshell.cn/articles/2514.html</link>
+					<comments>https://coolshell.cn/articles/2514.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 23 Jun 2010 00:50:24 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2514</guid>
+
+					<description><![CDATA[<p>下面这篇文章是从StackOverflow来的。LZ面试的时候遇到了一道面试题：“如果有三个Bool型变量，请写出一程序得知其中有2个以上变量的值是true”，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2514.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2514.html">面试题：布尔变量</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面这篇文章是从<a href="http://stackoverflow.com/questions/3076078/check-if-at-least-2-out-of-3-booleans-is-true/" target="_blank">StackOverflow</a>来的。LZ面试的时候遇到了一道面试题：“如果有三个Bool型变量，请写出一程序得知其中有2个以上变量的值是true”，于是LZ做了下面的这样的程序：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">boolean atLeastTwo(boolean a, boolean b, boolean c) {
+    if ((a &amp;&amp; b) || (b &amp;&amp; c) || (a &amp;&amp; c)) {
+        return true;
+    } else {
+        return false;
+    }
+}</pre>
+<p>面试官接着问到，请对你的这个程序改进一下，但LZ不知道怎么改进，于是上StackOverflow上问了一下，下面是StackOverflow上的众网友的回答。再往下看的时候，希望你自己能先想一想怎么改进。</p>
+<p><span id="more-2514"></span></p>
+<p>有人说，如果你有下面这样的代码？</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">    if (someExpression) {
+        return true;
+    } else {
+        return false;
+    }</pre>
+<p>你应该改成：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW"> return someExpression;</code></p>
+<p>所以，LZ的代码应该写成：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">return ((a &amp;&amp; b) || (b &amp;&amp; c) || (a &amp;&amp; c));</code></p>
+<p>当然，解法不单单只有一种，还有下面的这些解决：</p>
+<p><strong>1）使用</strong><a href="http://en.wikipedia.org/wiki/Karnaugh_map" target="_blank"><strong>卡诺图</strong></a></p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">return a ? (b || c) : (b &amp;&amp; c);</code></p>
+<p><strong>2）使用异或</strong></p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">return a ^ b ? c : a</code></p>
+<p><strong>3）按照字面</strong></p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">(a?1:0)+(b?1:0)+(c?1:0) &gt;= 2</code></p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">a&amp;&amp;b || b&amp;&amp;c || a&amp;&amp;c</code></p>
+<p><strong>4）把Bool当成0和1</strong></p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">a&amp;b | b&amp;c | c&amp;a</code></p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">a + b + c &lt;= 2</code></p>
+<p><strong>5）如果bool不能当成0和1，则：</strong></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int howManyBooleansAreTrue =
+(a ? 1 : 0)
++ (b ? 1 : 0)
++ (c ? 1 : 0);
+
+return howManyBooleansAreTrue &gt;= 2;</pre>
+<p>欢迎你留下你的想法。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/4429.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/07/Question-150x150.jpg" alt="面试题：火车运煤问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4429.html" class="wp_rp_title">面试题：火车运煤问题</a></li><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2514.html">面试题：布尔变量</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2514.html/feed</wfw:commentRss>
+			<slash:comments>53</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>我是怎么招聘程序员的</title>
+		<link>https://coolshell.cn/articles/1870.html</link>
+					<comments>https://coolshell.cn/articles/1870.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 02 Dec 2009 00:53:36 +0000</pubDate>
+				<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1870</guid>
+
+					<description><![CDATA[<p>很早以前就想写一篇和面试相关的文章了，今天在网络上看到一篇关于如何去面试程序员的英文文章，发现其中有很多和我共鸣的东西，所以仿照其标题通过自己的经历写下了这篇文...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1870.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1870.html">我是怎么招聘程序员的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" title="面试" alt="面试" src="https://coolshell.cn/wp-content/uploads/2009/12/job-interview.gif" width="221" height="160" />很早以前就想写一篇和面试相关的文章了，今天在网络上看到一篇关于如何去面试程序员的<a href="http://www.aaronsw.com/weblog/hiring" target="_blank">英文文章</a>，发现其中有很多和我共鸣的东西，所以仿照其标题通过自己的经历写下了这篇文章。</p>
+<p>工作这么多年来，即被面试过，也面试过他人，对于程序员的面试，经历过很不错的面试，很专业的面试，也经历过一些BT和令人不爽的面试，我个人觉得一个好的面试，面试官是很重要的，所以，本文想从“面试官”的角度来阐述一下。于是，有了下面这样一篇的文章，希望本文对你的职场经历有用，特别是那些正在招聘和面试程序员的朋友，我觉得这篇文章会对大家有很多启示。此外，做为被面试的人，你可以看看本站的《<a href="https://coolshell.cn/articles/1695.html" rel="bookmark">别的程序员是怎么读你的简历的</a>》《<a href="https://coolshell.cn/articles/428.html" rel="bookmark">程序员需要具备的基本技能</a>》《<a href="https://coolshell.cn/articles/222.html" rel="bookmark">优秀程序员的十个习惯</a>》其它一些和<a href="https://coolshell.cn/?tag=programmer" target="_blank">程序员相关的文章</a>。</p>
+<p>对于招聘方来说，在招聘程序员的时候，我估计面试应聘者时，最主要想知道的是下面三件事：</p>
+<ol>
+<li>这个程序员的是否够聪明？</li>
+<li>这个程序员能否把事情搞定？</li>
+<li>这个程序员能和我的团队在一起工作吗？</li>
+</ol>
+<p>我相信，这是所有团队经理招人要考虑的三个问题，所有的问题也基本上围绕着这三个问题。有些时候，你也许觉得程序员的技术技能可以同时解决这三个问题，一个技术能力优秀的人必然是一个聪明的，可以搞定事情的人，当然也就能和团队一起工作了。是的，感觉看起来是这个样子，但其实并不是这样的。有些人的确很聪明，但却不能处理好工作上的事情，这样人应该是你的朋友，你的顾问，但不应该是你的雇员。有的人为人很不错，和团队所有人都合得来，但并不是很聪明，但工作很刻苦很努力，这样的人可以成为你的下属，比如某个下属骨干的助手，或是整个团队的助手。如果某个人不能和团队一起工作，无论其有多聪明，解决问题的能力有多强，你都不应该和他在一起工作。人个认为，团队的和谐是一切事情的前提。</p>
+<p><img decoding="async" title="更多..." alt="" src="https://coolshell.cn/wp-includes/js/tinymce/plugins/wordpress/img/trans.gif" /><span id="more-1870"></span></p>
+<p>对于传统的面试招聘过程，基本上来说都是下面这样的样子的：</p>
+<ol>
+<li>阅读应聘者的简历，让应聘者做个自我介绍。</li>
+<li>问一些比较难的非常细节的技术问题，以一问一答的形式。</li>
+<li>给面试者一些和几个编程难题。（比如某些怪异的算法题）</li>
+</ol>
+<p>我个人觉得这种面试方法很可笑，也很糟糕，尤其是后面两点。通常来说，这样的面试只会让你面试到一些“书呆子”或是一些“技术痴迷者”，下面让我来一条一条地剖析一下这几条的弊端。</p>
+<ol>
+<li>你很难从一个人的简历或是自我介绍上了解一个人。因为这些都是当事人自己写的，或是自己阐述的。所以，这并不是很准确的，通过简历，你只能知道很简单的事情，这对于是否能招入团是远远不够的。而在面试的开始，让应聘者做自我介绍，只会让面试者以很正式的态度来面对整个面试。一但面试过程很正式，很严肃，就会让人很拘禁，其实，这并不是我们想要的，我要的是<strong>应聘者真实和自然的表现，从而才能了解到最真实的东西</strong>。</li>
+<li>问几个技术细节的问题。比如：我个人经历过的——“ps的-a参数是什么意思？”，“vi中删除换行符的命令是什么？”，“C++的关键字explict,mutable是用来干什么？”等等，等等。以前做为一个应聘者来说，我非常讨厌这样的问题，因为这样的问题查一下手册就知道。难道他要招的是一个字典手册？不是一个人？对于这方面，<strong>重要的不是知识，重要的是其查找知识的能力</strong>。</li>
+<li>给应聘者一个或几个很难的算法题，给上十几分钟，然后让面试者把伪代码或是代码写下来。这样的做法是相当可笑的，不能讨论不能查资料，让人在一种压力状态下作答，这根本就不是实际工作中的状态，而我们的面试也就成了一种刁难（我最变态的经历是，当我把写在两页纸上的代码上交上去后，面试官把其交给旁边程序员输出电脑做校验，结果程序员说，编译出错。于是，面试官说，“很遗憾，可能你写的程序还不多”，相当可笑）。对于这点来说，<strong>重要的不是那个解题的答案，而是解题的思路和方法</strong>。</li>
+</ol>
+<p>我以前经历过很多的面试，当技术人员来和我做面试的时候，我发现，“技术人员的思维”对于某些人来说根本分不清面试和考试，<strong>在潜意识里，他们在很多时候不是在面试这个人，而是在刁难这个人并以此展示自己的技能</strong>。我个人认为我是一个好的程序员，但我可以告诉你我无法通过那样的面试，因为那样的面试是为他们自己准备的，而不是为应聘者准备的。</p>
+<p>那么，我又是怎样去面试的呢？</p>
+<p><strong>一、确认简历。</strong>首先，阅读一下别人的简历是需要的，从简历上，工作经历，项目经历，技术技能这三个事情是你需要了解的。一般来说，你可以先通过电话确定一下他的工作经历，项目经历和技术技能，然后，如果他和你需要的人条件相符的话，可以叫到公司做面对面的面试。千万不要把别人叫来，你又说你的经历和我们的工作有差距之类的话。（我有过一次面试经历，公司我不说了，反正是那个号称需要有良好沟通的公司，面试了我9次左右，从一般的程序员，PM，经理，到总经理，而最后一次直接告诉我，我以前的经历和他们的要求差距很大。我不禁要问了，前面若干次的面试他们都在干什么呢？）</p>
+<p><strong>二、面试开场。</strong>其次，把人邀请来公司面试，应聘者到了公司来面试，有一点很重要，那就是你一定要让整个面试过程变得很随意，很放松，就像普通的聊天和一般朋友间的交流一样。这样应聘者才会放松并拿出真实的样子来和你谈话和聊天，你才能在很短的时间内了解得更多。让应聘者放下心理负担，让其表现得自然一些，这是招聘方的责任。千万不要说，别人太紧张发挥的不好，有时候，招聘方得想想自己的问题。</p>
+<p>面试开场的时候，千万不要让应聘者介绍自己，因为，应聘者早就给你发过简历了，而你也给其打过电话了。另外，应聘者对这个面试惯例通常都会准备得非常不错的，另一方面，这会让整个面试过程太正式太严肃了。所以，不妨问问应聘者是怎么过来的？最近怎么样？还可以和应聘者谈一个大众话题，比如喜欢什么体育，音乐，电影，社会热点什么的，自己也别板着个脸，说说笑笑，试图让大家都放松下来。另外，通过这些闲聊，你可以知道他/她的与人交往能力和一些性格。另外，不要让桌子放在你和应聘者之间，把环境搞得随意一些。</p>
+<p><strong>三、多让应聘者说说他的经历</strong>。接下来，如果你要觉得这个应聘者是否是一个可以解决问题，是一个可以把事情搞定的人，不用问他/她会做什么，直接问问其做过什么？干过什么事？对于一个好的程序员来说，很难想像其没有相关的实践，就算你是在大学里，你也应该做过什么。如果你有解决问题的能力，那么，很显然，今天你应该解决了很多问题，也搞定了很多事情，听听应聘者说一说他的那些事。（不要使用一问一答这种方式，应该让应聘者多说，而多听，多想）</p>
+<p>在他讲他的项目的时候，通常来说你要注意下面几点：</p>
+<ul>
+<li><strong>沟通表达能力</strong>。应聘者能不能把一个事情讲清楚。如果这个人聪明的话，他就可以用最简单的语言把一个复杂的事情讲清楚。而且，这是一个好的程序员最基本的能力。而且，你可以在应聘者一边描述其经历的时候，你可以和应聘者有一些的良好的来来回回的交谈，这样就可以知道，他的沟通能力和沟通方式，从而了解他的性格，。</li>
+<li><strong>角色和位置</strong>。也许他参与了一个很大的项目，但只是做了一个很简单的模块。所以，了解其在项目中的担任的角色和位置是非常必要的。当应聘者说到“我们”或者“大家”之类的词汇时，一定要向下细化和明确。</li>
+<li><strong>做出的贡献和解决了什么的问题</strong>。这个很重要，通过了解这个，你可以知道面试者是否聪明，是否有能力解决问题，是否有好的技术底子。</li>
+<li><strong>演示</strong>。如果可能，你可以让应聘者展示一些其写过的代码，做过的设计，或是直接给你看看他写的程序的演示。（从设计上，代码的风格，重用性，维护性上你可以了解很多很多）</li>
+<li><strong>基础知识</strong>。了解该项目中应聘者使用的技术的一些基础知识，比如，通过整个过程，你可以问一些网络，语言，面象对象，系统的一些基础知识。基础知识是非常重要的，这直接关系到了他的能力。</li>
+<li><strong>流程和工具</strong>。了解应聘者所熟悉的项目的流程（银弹，瀑布，敏捷，……），还有流程中的一些工件（如：需求文档，设计文档，测试方档等），以及在开发过程中使用的工具（内存测试，代码检查，BUG报告，版本维护，开发调试……）（关于程序员的基本技能，你可以参考——《<a href="https://coolshell.cn/articles/428.html" rel="bookmark">程序员需要具备的基本技能</a>》）</li>
+</ul>
+<p>有人会说，应聘者的经历可以被他自己编出来的，他可以把一些不是他做的事说成是他做的。是的，的确是有这种可能。不过，不要忘了，一个谎言背后需要用更多的谎言来圆谎的，所以，你不必担心这个问题，只要你在应聘者的描述过程中逐步求精，细化问题，你会知道应聘者是否是在编故事的。</p>
+<p>千万记住下面几点：</p>
+<ul>
+<li>谈话风格要随意和自然，不要正式。</li>
+<li>在了解应聘者以前做过的事的时候，不要太投入了。因为招聘方也是技术人员，所以有时候，招聘者自己会因为应聘者所做的项目中的技术太过迷人而被吸引了。</li>
+<li>要注意引导应聘人。相信我，应聘的程序员十个人有八个人讲不清楚以前做的是什么。因为他们直接跳过了项目背景和要解决什么样的问题，而直接进入具体实现。</li>
+<li>不要一问一答，应该多让应聘者说，这样才能多全方位了解一个人。</li>
+<li>了解一个人的过去，了解一个人做过的事情，比其会做什么更重要。</li>
+<li>了解一个人的性格，想法，思维和行为，比了解其技术技能更重要。</li>
+<li>沟通能力，表达能力，语言组织能力，理解能力，等方面的能力，关系到了是否能和别人一起工作。</li>
+<li>基础知识比知识的点滴要重要得多。你可能不知道其个C++的关键字，但你应该要知道C++的继承和多态。</li>
+<li>技术技能固然很重要，但比其更重要的是这个人获取知识的能力，学习能力是在计算机这样变化飞快行业中必需具备的。</li>
+<li>是否可以进行培养，比掌握的技能更重要。</li>
+</ul>
+<p><strong>四、实际参与？？</strong>这一步可能是很不好实施的。因为，这需要一些应聘者付出一定的时间，如果是毕业生，那没有问题，先让他来实习一段时间。但如果别人有工作，就不好了。也许你会说，这就是试用期的用处了。不过，我个人觉得，你得要尊重应聘者，人家把那边的工作辞了，来你这边工作，三个月试用期间，如果没有什么原则上的问题，你作为一个招聘方又反悔了，这样做很是相当的不好。如果发现这样的事，只能是招聘者自己的问题。</p>
+<p>在面试过程中，一些招聘者会让应聘者们一起做个游戏，或是搞个辩论比赛，或是现场组个团队干个简单的事情，有的甚至让应聘者请一天假到自己的公司里来和自己的团队一同工作一天，并要完成某个事情（甚至给其设置上deadline），并通过这些来考量应聘者的实际参与能力。</p>
+<p>是的，如果没有一起工作过，没有一些实际的事情发生，单靠几个小时的面试很难了解一个人的。设置上这些面试的环节，在最短的时间内来了解应聘者的一切，对于招聘方来说无可厚非。而且有的时候也能得到不错的效果。在这里，我只提一点，有时候这样的周期拉得很长，让应聘者付出了很多，反尔会让应聘者产生反感和厌烦情绪，从某种意义上来说，这实在是对应聘者的不尊重。</p>
+<p>对于这一点，我一直持疑问的态度，所以，我在其后打了两个问号。老实说，对于实际参与这一环节，我个人的意见是适可而止，因为时间太短了，无论你怎么做你都无法了解完整。即然无法了解完整，那就获取你最需要的吧，就是本文开头的那三个问题，以及上面所述的“第三点”（了解应聘者的以往经历）。</p>
+<p>也许这个文章中有一些你不同意的观点，没问题，欢迎批评，如果你有更好的做法，我也想听听，不妨在这里留个言，如果不想留也可以email给我。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-150x150.jpg" alt="为什么我反对纯算法面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_title">为什么我反对纯算法面试题</a></li><li ><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="给程序员新手的一些建议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4976.html" class="wp_rp_title">给程序员新手的一些建议</a></li><li ><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="再谈“我是怎么招聘程序员的”（上）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4506.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（上）</a></li><li ><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="再谈“我是怎么招聘程序员的”（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4490.html" class="wp_rp_title">再谈“我是怎么招聘程序员的”（下）</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1870.html">我是怎么招聘程序员的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1870.html/feed</wfw:commentRss>
+			<slash:comments>152</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

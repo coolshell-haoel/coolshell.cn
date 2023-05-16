@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>BusyBox | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/busybox/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 23 May 2011 16:03:35 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>在Web上运行Linux</title>
+		<link>https://coolshell.cn/articles/4722.html</link>
+					<comments>https://coolshell.cn/articles/4722.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 19 May 2011 00:35:08 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[BusyBox]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[QEMU]]></category>
+		<category><![CDATA[TinyCC]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4722</guid>
+
+					<description><![CDATA[<p>一个叫Fabrice Bellard的程序员写了一段Javascript在Web浏览器中启动Linux（原网页，我把这个网页iframe在了下面），目前，你只能...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4722.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4722.html">在Web上运行Linux</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>一个叫Fabrice Bellard的程序员写了一段Javascript在Web浏览器中启动Linux（<a href="http://bellard.org/jslinux/" target="_blank">原网页</a>，我把这个网页iframe在了下面），目前，你只能使用Firefox 4和Chrome 11运行这个Linux。这不是什么假的模仿Linux的东西，这是实实在在的运行一个Linux。这一举动还引起了很多很牛人的关注，包括Javascript的创建者<a href="http://twitter.com/#!/BrendanEich/status/70393502328045568" target="_blank">Brendan Eich</a>。</p>
+<p align=center><button id="jslinux-stop" style="display: none" onclick="document.getElementById('jslinux').src='about:blank';document.getElementById('jslinux-stop').style.display='none';document.getElementById('jslinux-start').style.display='block';">清除启动</button><button  id="jslinux-start" onclick="document.getElementById('jslinux').src='http://bellard.org/jslinux/';document.getElementById('jslinux-start').style.display='none';document.getElementById('jslinux-stop').style.display='block';">开始启动</button></p>
+<p align=center><iframe loading="lazy" id="jslinux" frameborder="0" style="background:#000;border:0" width="700" height="540" src=""></iframe></p>
+<p><span id="more-4722"></span></p>
+<p>随后，Fabrice Bellard发布了相关的技术说明：<a href="http://bellard.org/jslinux/tech.html" target="_blank">http://bellard.org/jslinux/tech.html</a>，从这份文档中我们可以看到：</p>
+<ul>
+<li>这个模似器完全由Javascript写成</li>
+<li>CPU仿真器使用的是<a href="http://qemu.org/">QEMU</a>（接近于原古的486），为了装上Linux，其做了一些改动。</li>
+<li>Javascript的终端本来可以使用<a href="http://www.masswerk.at/termlib/">termlib</a>，但他还是自己写了一个，因为OS的按键和Web浏览器不一样（<a href="http://unixpapa.com/js/key.html">here</a>）</li>
+<li>Linux  使用了2.6.20内核，编译配置在<a href="http://bellard.org/jslinux/config_linux-2.6.20" target="_blank">这里</a>，并做了一些<a href="http://bellard.org/jslinux/patch_linux-2.6.20" target="_blank">小改动</a>。</li>
+<li>磁盘用的是Ram Disk，在启动的时候装载。其文件系统由<a href="http://buildroot.uclibc.org/">Buildroot</a> 和<a href="http://www.busybox.net/">BusyBox</a>产生。</li>
+<li>在Home目录下有一个hello.c的程序，你可以使用<a href="http://bellard.org/tcc">TinyCC</a>编译（tcc，参看酷壳的<a title="用TCC可以干些什么？" href="https://coolshell.cn/articles/786.html" target="_blank">这篇文章</a>）</li>
+</ul>
+<p>从这个事我有这些感触，</p>
+<ol>
+<li>在Web上运行一个Linux的操作系统不是问题。那么在Web上还有什么不能做的吗？</li>
+<li>Linux真是性能很高，在Javascript下运行感觉也不慢啊。</li>
+<li>真是Techno-Geek。</li>
+</ol>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4722.html">在Web上运行Linux</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4722.html/feed</wfw:commentRss>
+			<slash:comments>97</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

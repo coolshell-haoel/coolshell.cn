@@ -1,0 +1,1694 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>OOP | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/oop/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Thu, 13 Dec 2012 02:08:10 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>如此理解面向对象编程</title>
+		<link>https://coolshell.cn/articles/8745.html</link>
+					<comments>https://coolshell.cn/articles/8745.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 13 Dec 2012 00:19:28 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Coding]]></category>
+		<category><![CDATA[Object-Oriented]]></category>
+		<category><![CDATA[OOP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8745</guid>
+
+					<description><![CDATA[<p>从Rob Pike 的 Google+上的一个推看到了一篇叫《Understanding Object Oriented Programming》的文章，我先把...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8745.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8745.html">如此理解面向对象编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>从Rob Pike 的 Google+上的一个推看到了一篇叫《<a href="http://www.csis.pace.edu/~bergin/patterns/ppoop.html" target="_blank">Understanding Object Oriented Programming</a>》的文章，我先把这篇文章简述一下，然后再说说老牌黑客Rob Pike的评论。</p>
+<p>先看这篇教程是怎么来讲述OOP的。它先给了下面这个问题，这个问题需要输出一段关于操作系统的文字：假设Unix很不错，Windows很差。</p>
+<p>这个把下面这段代码描述成是<strong>Hacker Solution</strong>。（这帮人觉得下面这叫黑客？我估计这帮人真是没看过C语言的代码）</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public class PrintOS
+{
+	public static void main(final String[] args)
+	{
+		String osName = System.getProperty(&quot;os.name&quot;) ;
+		if (osName.equals(&quot;SunOS&quot;) || osName.equals(&quot;Linux&quot;))
+		{
+			System.out.println(&quot;This is a UNIX box and therefore good.&quot;) ;
+		}
+		else if (osName.equals(&quot;Windows NT&quot;) || osName.equals(&quot;Windows 95&quot;))
+		{
+			System.out.println(&quot;This is a Windows box and therefore bad.&quot;) ;
+		}
+		else
+		{
+			System.out.println(&quot;This is not a box.&quot;) ;
+		}
+	}
+}</pre>
+<p>然后开始用面向对象的编程方式一步一步地进化这个代码。</p>
+<p>先是以过程化的思路来重构之。</p>
+<p><span id="more-8745"></span></p>
+<h4>过程化的方案</h4>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public class PrintOS
+{
+	private static String unixBox()
+	{
+		return &quot;This is a UNIX box and therefore good.&quot; ;
+	}
+	private static String windowsBox()
+  	{
+		return &quot;This is a Windows box and therefore bad.&quot; ;
+	}
+	private static String defaultBox()
+	{
+		return &quot;This is not a box.&quot; ;
+	}
+	private static String getTheString(final String osName)
+	{
+		if (osName.equals(&quot;SunOS&quot;) || osName.equals(&quot;Linux&quot;))
+		{
+			return unixBox() ;
+		}
+		else if (osName.equals(&quot;Windows NT&quot;) ||osName.equals(&quot;Windows 95&quot;))
+		{
+			return windowsBox() ;
+		}
+		else
+		{
+			return defaultBox() ;
+		}
+  	}
+	public static void main(final String[] args)
+	{
+		System.out.println(getTheString(System.getProperty(&quot;os.name&quot;))) ;
+	}
+}</pre>
+<p>然后是一个幼稚的面向对象的思路。</p>
+<h4>幼稚的面向对象编程</h4>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class PrintOS
+{
+	public static void main(final String[] args)
+  	{
+		System.out.println(OSDiscriminator.getBoxSpecifier().getStatement()) ;
+ 	}
+}</pre>
+<p>&nbsp;</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class OSDiscriminator // Factory Pattern
+{
+	private static BoxSpecifier theBoxSpecifier = null ;
+  	public static BoxSpecifier getBoxSpecifier()
+	{
+		if (theBoxSpecifier == null)
+		{
+			String osName = System.getProperty(&quot;os.name&quot;) ;
+ 			if (osName.equals(&quot;SunOS&quot;) || osName.equals(&quot;Linux&quot;))
+ 			{
+				theBoxSpecifier = new UNIXBox() ;
+			}
+			else if (osName.equals(&quot;Windows NT&quot;) || osName.equals(&quot;Windows 95&quot;))
+			{
+				theBoxSpecifier = new WindowsBox() ;
+			}
+			else
+			{
+				theBoxSpecifier = new DefaultBox () ;
+			}
+		}
+		return theBoxSpecifier ;
+	}
+}</pre>
+<p>&nbsp;</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public interface BoxSpecifier
+{
+	String getStatement() ;
+}</pre>
+<p>&nbsp;</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class DefaultBox implements BoxSpecifier
+{
+	public String getStatement()
+	{
+		return &quot;This is not a box.&quot; ;
+  	}
+}</pre>
+<p>&nbsp;</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class UNIXBox implements BoxSpecifier
+{
+	public String getStatement()
+	{
+		return &quot;This is a UNIX box and therefore good.&quot; ;
+  	}
+}</pre>
+<p>&nbsp;</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class WindowsBox implements BoxSpecifier
+{
+  	public String getStatement()
+	{
+		return &quot;This is a Windows box and therefore bad.&quot; ;
+	}
+}</pre>
+<p>他们觉得上面这段代码没有消除if语句，他们说这叫代码的“logic bottleneck”（逻辑瓶颈），因为如果你要增加一个操作系统的判断的话，你不但要加个类，还要改那段if-else的语句。</p>
+<p>所以，他们整出一个叫Sophisticated的面向对象的解决方案。</p>
+<h4>OO大师的方案</h4>
+<p>注意其中的Design Pattern</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class PrintOS
+{
+  	public static void main(final String[] args)
+  	{
+		System.out.println(OSDiscriminator.getBoxSpecifier().getStatement()) ;
+  	}
+}</pre>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class OSDiscriminator // Factory Pattern
+{
+  	private static java.util.HashMap storage = new java.util.HashMap() ;
+
+ 	public static BoxSpecifier getBoxSpecifier()
+	{
+		BoxSpecifier value = (BoxSpecifier)storage.get(System.getProperty(&quot;os.name&quot;)) ;
+		if (value == null)
+			return DefaultBox.value ;
+		return value ;
+ 	}
+  	public static void register(final String key, final BoxSpecifier value)
+  	{
+		storage.put(key, value) ; // Should guard against null keys, actually.
+  	}
+  	static
+  	{
+		WindowsBox.register() ;
+  		UNIXBox.register() ;
+  		MacBox.register() ;
+  	}
+}</pre>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public interface BoxSpecifier
+{
+  	String getStatement() ;
+}</pre>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class DefaultBox implements BoxSpecifier // Singleton Pattern
+{
+	public static final DefaultBox value = new DefaultBox () ;
+	private DefaultBox() { }
+	public String getStatement()
+	{
+		return &quot;This is not a box.&quot; ;
+	}
+}</pre>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class UNIXBox implements BoxSpecifier // Singleton Pattern
+{
+ 	public static final UNIXBox value = new UNIXBox() ;
+	private UNIXBox() { }
+	public  String getStatement()
+   	{
+		return &quot;This is a UNIX box and therefore good.&quot; ;
+ 	}
+  	public static final void register()
+  	{
+		OSDiscriminator.register(&quot;SunOS&quot;, value) ;
+  		OSDiscriminator.register(&quot;Linux&quot;, value) ;
+ 	}
+}</pre>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class WindowsBox implements BoxSpecifier  // Singleton Pattern
+{
+	public  static final WindowsBox value = new WindowsBox() ;
+	private WindowsBox() { }
+	public String getStatement()
+	{
+		return &quot;This is a Windows box and therefore bad.&quot; ;
+  	}
+  	public static final void register()
+  	{
+		OSDiscriminator.register(&quot;Windows NT&quot;, value) ;
+  		OSDiscriminator.register(&quot;Windows 95&quot;, value) ;
+	}
+}</pre>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public class MacBox implements BoxSpecifier // Singleton Pattern
+{
+ 	public static final MacBox value = new MacBox() ;
+	private MacBox() { }
+	public  String getStatement()
+   	{
+		return &quot;This is a Macintosh box and therefore far superior.&quot; ;
+ 	}
+  	public static final void register()
+  	{
+		OSDiscriminator.register(&quot;Mac OS&quot;, value) ;
+ 	}
+}</pre>
+<p>作者还非常的意地说，他加了一个“Mac OS”的东西。<strong>老实说，当我看到最后这段OO大师搞出来的代码，我快要吐了</strong>。我瞬间想到了两件事：一个是以前酷壳上的《<a style="line-height: 13px;" title="面向对象是个骗局？！" href="https://coolshell.cn/articles/3036.html" target="_blank">面向对象是个骗局</a>》和 《<a style="line-height: 13px;" title="各种流行的编程风格" href="https://coolshell.cn/articles/2058.html" target="_blank">各种流行的编程方式</a>》中说的“设计模式驱动编程”，另一个我想到了那些被敏捷洗过脑的程序员和咨询师，也是这种德行。</p>
+<p>于是我去看了一下第一作者<a href="http://csis.pace.edu/~bergin/" target="_blank">Joseph Bergin的主页</a>，这个Ph.D是果然刚刚完成了一本关于敏捷和模式的书。</p>
+<h4>Rob Pike的评论</h4>
+<p>（Rob Pike是当年在Bell lab里和Ken一起搞Unix的主儿，后来和Ken开发了UTF-8，现在还和Ken一起搞Go语言。注：不要以为Ken和Dennis是基友，其实他们才是真正的老基友！）</p>
+<p>Rob Pike在他的<a href="https://plus.google.com/101960720994009339267/posts/hoJdanihKwb" target="_blank">Google+的这贴</a>里评论到这篇文章——</p>
+<p>他并不确认这篇文章是不是搞笑？但是他觉得这些个写这篇文章是很认真的。他说他要评论这篇文章是因为他们是一名Hacker，至少这个词出现在这篇文章的术语中。</p>
+<p>他说，这个程序根本就不需要什么Object，只需要一张小小的配置表格，里面配置了对应的操作系统和你想输出的文本。这不就完了。这么简单的设计，非常容易地扩展，他们那个所谓的Hack Solution完全就是笨拙的代码。后面那些所谓的代码进化相当疯狂和愚蠢的，这个完全误导了对编程的认知。</p>
+<p>然后，他还说，<strong>他觉得这些OO的狂热份子非常害怕数据，他们喜欢用多层的类的关系来完成一个本来只需要检索三行数据表的工作</strong>。他说他曾经听说有人在他的工作种用各种OO的东西来替换While循环。（我听说中国Thoughtworks那帮搞敏捷的人的确喜欢用Object来替换所有的if-else语句，他们甚至还喜欢把函数的行数限制在10行以内）</p>
+<p>他还给了一个链接<a href="http://prog21.dadgum.com/156.html">http://prog21.dadgum.com/156.html</a>，你可以读一读。最后他说，<strong>OOP的本质就是——对数据和与之关联的行为进行编程</strong>。便就算是这样也不完全对，因为：</p>
+<p style="text-align: center;"><strong>Sometimes data is just data and functions are just functions.</strong></p>
+<h4>我的理解</h4>
+<p>我觉得，这篇文章的例子举得太差了，差得感觉就像是OO的高级黑。面向对象编程注重的是：<strong>1）数据和其行为的打包封装，2）程序的接口和实现的解耦</strong>。你那怕，举一个多个开关和多个电器的例子，不然就像STL中，一个排序算法对多个不同容器的例子，都比这个例子要好得多得多。老实说，Java SDK里太多这样的东西了。</p>
+<p>我以前给一些公司讲一些设计模式的培训课，我一再提到，<strong>那23个经典的设计模式和OO半毛钱关系没有</strong>，只不过人家用OO来实现罢了。<strong>设计模式就三个准则：1）中意于组合而不是继承，2）依赖于接口而不是实现，3）高内聚，低耦合。你看，这完全就是Unix的设计准则</strong>。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4535.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="一些软件设计的原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4535.html" class="wp_rp_title">一些软件设计的原则</a></li><li ><a href="https://coolshell.cn/articles/3036.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="面向对象是个骗局？！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3036.html" class="wp_rp_title">面向对象是个骗局？！</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/8961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/kiss-150x150.png" alt="从面向对象的设计模式看软件设计" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8961.html" class="wp_rp_title">从面向对象的设计模式看软件设计</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8745.html">如此理解面向对象编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8745.html/feed</wfw:commentRss>
+			<slash:comments>185</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>理解Javascript的闭包</title>
+		<link>https://coolshell.cn/articles/6731.html</link>
+					<comments>https://coolshell.cn/articles/6731.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Wed, 07 Mar 2012 00:30:43 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[ECMAScript]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[OOP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6731</guid>
+
+					<description><![CDATA[<p>【感谢 Neo 投递本文 &#8211; 微博帐号：_锟_ 】 前言：还是一篇入门文章。Javascript中有几个非常重要的语言特性——对象、原型继承、闭包。...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6731.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6731.html">理解Javascript的闭包</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>【<span style="color: #cc0000">感谢 Neo 投递本文 &#8211; 微博帐号：<a title="_锟_" href="http://weibo.com/gandalfthegrey" target="_blank">_锟_</a> </span>】</p>
+<p><strong>前言：还是一篇入门文章。</strong>Javascript中有几个非常重要的语言特性——对象、原型继承、闭包。其中闭包对于那些使用传统静态语言C/C++的程序员来说是一个新的语言特性。本文将以例子入手来介绍Javascript闭包的语言特性，并结合一点ECMAScript语言规范来使读者可以更深入的理解闭包。</p>
+<p>注：<strong>本文是入门文章，例子素材整理于网络<strong>，如果你是高手，欢迎针对文章提出技术性建议和意见。本文讨论的是Javascript，不想做语言对比，如果您对Javascript天生不适，请自行绕道。</strong></strong></p>
+<h4><strong><span style="color: #008000">什么是闭包</span></strong></h4>
+<p>闭包是什么?闭包是Closure，这是静态语言所不具有的一个新特性。但是闭包也不是什么复杂到不可理解的东西，简而言之，闭包就是：<strong></strong></p>
+<ul>
+<li><strong>闭包就是函数的局部变量集合，只是这些局部变量在函数返回后会继续存在。</strong></li>
+<li><strong>闭包就是就是函数的“堆栈”在函数返回后并不释放，我们也可以理解为这些函数堆栈并不在栈上分配而是在堆上分配</strong></li>
+<li><strong>当在一个函数内定义另外一个函数就会产生闭包</strong></li>
+</ul>
+<p>上面的第二定义是第一个补充说明，抽取第一个定义的主谓宾——闭包是<strong>函数的‘局部变量’集合</strong>。只是这个局部变量是可以在函数返回后被访问。（这个不是官方定义，但是这个定义应该更有利于你理解闭包）</p>
+<p>做为局部变量都可以被函数内的代码访问，这个和静态语言是没有差别。闭包的差别在于局部变变量可以在函数执行结束后仍然被函数外的代码访问。这意味着函数必须返回一个指向闭包的“引用”，或将这个&#8221;引用&#8221;赋值给某个外部变量，才能保证闭包中局部变量被外部代码访问。当然包含这个引用的实体应该是一个对象，因为在Javascript中除了基本类型剩下的就都是对象了。可惜的是，ECMAScript并没有提供相关的成员和方法来访问闭包中的局部变量。但是在ECMAScript中，函数对象中定义的<strong>内部函数(inner function)</strong>是可以直接访问外部函数的局部变量，通过这种机制，我们就可以以如下的方式完成对闭包的访问了。</p>
+<p><span id="more-6731"></span></p>
+<p>[javascript]<br />
+function greeting(name) {<br />
+    var text = &#8216;Hello &#8216; + name; // local variable<br />
+    // 每次调用时，产生闭包，并返回内部函数对象给调用者<br />
+    return function() { alert(text); }<br />
+}<br />
+var sayHello=greeting(&quot;Closure&quot;);<br />
+sayHello()  // 通过闭包访问到了局部变量text<br />
+[/javascript]</p>
+<p>上述代码的执行结果是：Hello Closure，因为sayHello()函数在greeting函数执行完毕后，仍然可以访问到了定义在其之内的局部变量text。</p>
+<p>好了，这个就是传说中闭包的效果，闭包在Javascript中有多种应用场景和模式，比如Singleton，Power Constructor等这些Javascript模式都离不开对闭包的使用。</p>
+<h4><strong><span style="color: #008000">ECMAScript闭包模型</span></strong></h4>
+<p>ECMAScript到底是如何实现闭包的呢？想深入了解的亲们可以获取<a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf">ECMAScript 规范</a>进行研究，我这里也只做一个简单的讲解，内容也是来自于网络。</p>
+<p>在ECMAscript的脚本的函数运行时，每个函数关联都有一个执行上下文场景(Execution Context) ，这个执行上下文场景中包含三个部分</p>
+<ul>
+<li>文法环境（The LexicalEnvironment）</li>
+<li>变量环境（The VariableEnvironment）</li>
+<li>this绑定</li>
+</ul>
+<p>其中第三点this绑定与闭包无关，不在本文中讨论。文法环境中用于解析函数执行过程使用到的变量标识符。我们可以将文法环境想象成一个对象，该对象包含了两个重要组件，环境记录(Enviroment Recode)，和外部引用(指针)。环境记录包含包含了函数内部声明的局部变量和参数变量，外部引用指向了外部函数对象的上下文执行场景。全局的上下文场景中此引用值为NULL。这样的数据结构就构成了一个单向的链表，每个引用都指向外层的上下文场景。</p>
+<p>例如上面我们例子的闭包模型应该是这样，sayHello函数在最下层，上层是函数greeting，最外层是全局场景。如下图：<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6741" src="https://coolshell.cn/wp-content/uploads/2012/03/closure.png" alt="" width="658" height="478" srcset="https://coolshell.cn/wp-content/uploads/2012/03/closure.png 658w, https://coolshell.cn/wp-content/uploads/2012/03/closure-300x218.png 300w, https://coolshell.cn/wp-content/uploads/2012/03/closure-372x270.png 372w" sizes="(max-width: 658px) 100vw, 658px" /><br />
+因此当sayHello被调用的时候，sayHello会通过上下文场景找到局部变量text的值，因此在屏幕的对话框中显示出&#8221;Hello Closure&#8221;<br />
+变量环境(The VariableEnvironment)和文法环境的作用基本相似，具体的区别请参看ECMAScript的规范文档。</p>
+<h4><strong><span style="color: #008000">闭包的样列</span></strong></h4>
+<p>前面的我大致了解了Javascript闭包是什么，闭包在Javascript是怎么实现的。下面我们通过针对一些例子来帮助大家更加深入的理解闭包，下面共有5个样例，例子来自于<a href="http://blog.morrisjohns.com/javascript_closures_for_dummies.html">JavaScript Closures For Dummies(</a><a href="http://web.archive.org/web/20080209105120/http://blog.morrisjohns.com/javascript_closures_for_dummies">镜像</a><a href="http://blog.morrisjohns.com/javascript_closures_for_dummies.html">)</a>。<br />
+<strong>例子1:闭包中局部变量是引用而非拷贝</strong></p>
+<p>[javascript]<br />
+function say667() {<br />
+    // Local variable that ends up within closure<br />
+    var num = 666;<br />
+    var sayAlert = function() { alert(num); }<br />
+    num++;<br />
+    return sayAlert;<br />
+}</p>
+<p>var sayAlert = say667();<br />
+sayAlert()<br />
+[/javascript]</p>
+<p>因此执行结果应该弹出的667而非666。</p>
+<p><strong>例子2：多个函数绑定同一个闭包，因为他们定义在同一个函数内。</strong></p>
+<p>[javascript]<br />
+function setupSomeGlobals() {<br />
+    // Local variable that ends up within closure<br />
+    var num = 666;<br />
+    // Store some references to functions as global variables<br />
+    gAlertNumber = function() { alert(num); }<br />
+    gIncreaseNumber = function() { num++; }<br />
+    gSetNumber = function(x) { num = x; }<br />
+}<br />
+setupSomeGlobals(); // 为三个全局变量赋值<br />
+gAlertNumber(); //666<br />
+gIncreaseNumber();<br />
+gAlertNumber(); // 667<br />
+gSetNumber(12);//<br />
+gAlertNumber();//12<br />
+[/javascript]</p>
+<p><strong>例子3：当在一个循环中赋值函数时，这些函数将绑定同样的闭包</strong></p>
+<p>[javascript]<br />
+function buildList(list) {<br />
+    var result = [];<br />
+    for (var i = 0; i &lt; list.length; i++) {<br />
+        var item = &#8216;item&#8217; + list[i];<br />
+        result.push( function() {alert(item + &#8216; &#8216; + list[i])} );<br />
+    }<br />
+    return result;<br />
+}</p>
+<p>function testList() {<br />
+    var fnlist = buildList([1,2,3]);<br />
+    // using j only to help prevent confusion &#8211; could use i<br />
+    for (var j = 0; j &lt; fnlist.length; j++) {<br />
+        fnlist[j]();<br />
+    }<br />
+}<br />
+[/javascript]</p>
+<p>testList的执行结果是弹出item3 undefined窗口三次，因为这三个函数绑定了同一个闭包，而且item的值为最后计算的结果，但是当i跳出循环时i值为4，所以list[4]的结果为undefined.</p>
+<p><strong>例子4：外部函数所有局部变量都在闭包内，即使这个变量声明在内部函数定义之后。</strong></p>
+<p>[javascript]<br />
+function sayAlice() {<br />
+    var sayAlert = function() { alert(alice); }<br />
+    // Local variable that ends up within closure<br />
+    var alice = &#8216;Hello Alice&#8217;;<br />
+    return sayAlert;<br />
+}<br />
+var helloAlice=sayAlice();<br />
+helloAlice();<br />
+[/javascript]</p>
+<p>执行结果是弹出&#8221;Hello Alice&#8221;的窗口。即使局部变量声明在函数sayAlert之后，局部变量仍然可以被访问到。</p>
+<p><strong>例子5：每次函数调用的时候创建一个新的闭包</strong></p>
+<p>[javascript]<br />
+function newClosure(someNum, someRef) {<br />
+    // Local variables that end up within closure<br />
+    var num = someNum;<br />
+    var anArray = [1,2,3];<br />
+    var ref = someRef;<br />
+    return function(x) {<br />
+        num += x;<br />
+        anArray.push(num);<br />
+        alert(&#8216;num: &#8216; + num +<br />
+        &#8216;\nanArray &#8216; + anArray.toString() +<br />
+        &#8216;\nref.someVar &#8216; + ref.someVar);<br />
+    }<br />
+}<br />
+closure1=newClosure(40,{someVar:&#8217;closure 1&#8242;});<br />
+closure2=newClosure(1000,{someVar:&#8217;closure 2&#8242;});</p>
+<p>closure1(5); // num:45 anArray[1,2,3,45] ref:&#8217;someVar closure1&#8242;<br />
+closure2(-10);// num:990 anArray[1,2,3,990] ref:&#8217;someVar closure2&#8217;<br />
+[/javascript]</p>
+<h4><strong><span style="color: #008000">闭包的应用</span></strong></h4>
+<p><strong>Singleton 单件：</strong></p>
+<p>[javascript]<br />
+var singleton = function () {<br />
+    var privateVariable;<br />
+    function privateFunction(x) {<br />
+        &#8230;privateVariable&#8230;<br />
+    }</p>
+<p>    return {<br />
+        firstMethod: function (a, b) {<br />
+            &#8230;privateVariable&#8230;<br />
+        },<br />
+        secondMethod: function (c) {<br />
+            &#8230;privateFunction()&#8230;<br />
+        }<br />
+    };<br />
+}();<br />
+[/javascript]</p>
+<p>这个单件通过闭包来实现。通过闭包完成了私有的成员和方法的封装。匿名主函数返回一个对象。对象包含了两个方法，方法1可以方法私有变量，方法2访问内部私有函数。需要注意的地方是匿名主函数结束的地方的'()&#8217;，如果没有这个'()&#8217;就不能产生单件。因为匿名函数只能返回了唯一的对象，而且不能被其他地方调用。这个就是利用闭包产生单件的方法。</p>
+<h2><strong><span style="color: #008000">参考：</span></strong></h2>
+<p><a href="http://blog.morrisjohns.com/javascript_closures_for_dummies.html">JavaScript Closures For Dummies(</a><a href="http://web.archive.org/web/20080209105120/http://blog.morrisjohns.com/javascript_closures_for_dummies">镜像</a><a href="http://blog.morrisjohns.com/javascript_closures_for_dummies.html">)</a> 可惜都被墙了。<br />
+<a href="http://yuiblog.com/blog/2006/11/27/video-crockford-advjs/">Advance Javascript</a> （Douglas Crockford 大神的视频，一定要看啊）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6668.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/02/joo_1-150x150.png" alt="再谈javascript面向对象编程 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6668.html" class="wp_rp_title">再谈javascript面向对象编程 </a></li><li ><a href="https://coolshell.cn/articles/6441.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Javascript 面向对象编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6441.html" class="wp_rp_title">Javascript 面向对象编程</a></li><li ><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="对象的消息模型" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_title">对象的消息模型</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-150x150.jpg" alt="如何读懂并写出装逼的函数式代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_title">如何读懂并写出装逼的函数式代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6731.html">理解Javascript的闭包</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6731.html/feed</wfw:commentRss>
+			<slash:comments>91</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>再谈javascript面向对象编程</title>
+		<link>https://coolshell.cn/articles/6668.html</link>
+					<comments>https://coolshell.cn/articles/6668.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Mon, 27 Feb 2012 00:25:13 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[ECMAScript]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[OOP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6668</guid>
+
+					<description><![CDATA[<p>前言:虽有陈皓《Javascript 面向对象编程》珠玉在前，但是我还是忍不住再画蛇添足的补上一篇文章，主要是因为javascript这门语言魅力。另外这篇文章...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6668.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6668.html">再谈javascript面向对象编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>前言:</strong>虽有陈皓<a href="https://coolshell.cn/articles/6441.html">《Javascript 面向对象编程》</a>珠玉在前，但是我还是忍不住再画蛇添足的补上一篇文章，主要是因为javascript这门语言魅力。另外这篇文章是一篇入门文章，我也是才开始学习Javascript，有一点心得，才想写一篇这样文章，文章中难免有错误的地方，还请各位不吝吐槽指正</p>
+<h4><strong><span style="color: #008000">吐槽Javascript</span></strong></h4>
+<p>初次接触Javascript，这门语言的确会让很多正规军感到诸多的不适，这种不适来自于Javascript的语法的简练和不严谨，这种不适也来自Javascript这个悲催的名称，我在想网景公司的Javascript设计者在给他起名称那天一定是脑壳进水了,让Javascript这么多年来受了这么多不白之冤，人们都认为他是Java的附属物，一个WEB玩具语言。因此才会有些人会对Javascript不屑，认为Javascript不是一门真正的语言，但是这此他们真的错了。Javascript不仅是一门语言，是一门真真正正的语言，而且他还是一门里程碑式的语言，他独创多种新的编程模式原型继承，闭包（<strong>作者注：闭包不是JS首创，应该Scheme首创，prototypal inheritance 和 dynamic objects 是self语言首创，Javascript的首创并不精彩,谢谢网友的指正。</strong>），对后来的动态语言产生了巨大的影响。做为当今最流行的语言（没有之一），看看git上提交的最多的语言类型就能明白。随着HTML5的登场，浏览器将在个人电脑上将大显身手，完全有替换OS的趋势的时候，Javascript做为浏览器上的一门唯一真真的语言，如同C之于 unix/linux，java之于JVM，Cobol之于MainFrame，我们也需要来重新的认真地认识和审视这门语言。另外Javascript的正式名称是：ECMAScript，这个名字明显比Javascript帅太多了！<br />
+<span id="more-6668"></span><br />
+言归正传，我们切入主题——Javascript的面向对象编程。要谈Javascript的面向对象编程，我们第一步要做的事情就是忘记我们所学的面向对象编程。传统C++或Java的面向对象思维来学习Javascript的面向对象会给你带来不少困惑，让我们先忘记我们所学的，从新开始学习这门特殊的面向对象编程。既然是OO编程，要如何来理解OO编程呢，记得以前学C++，学了很久都不入门，后来有幸读了《Inside The C++ Object Model》这本大作，顿时豁然开朗，因此本文也将以对象模型的方式来探讨的Javascript的OO编程。因为Javascript 对象模型的特殊性，所以使得Javascript的继承和传统的继承非常不一样，同时也因为Javascript里面没有类，这意味着Javascript里面没有extends,implements。那么Javascript到底是如何来实现OO编程的呢？好吧，让我们开始吧，一起在Javascript的OO世界里来一次漫游</p>
+<p>首先，我们需要先看看Javascript如何定义一个对象。下面是我们的一个对象定义：</p>
+<p>[javascript]<br />
+var o = {};<br />
+[/javascript]</p>
+<p>还可以这样定义一个对象</p>
+<p>[javascript]<br />
+function f() {<br />
+}<br />
+[/javascript]</p>
+<p>对，你们没有看错，在Javascript里面，函数也是对象。<br />
+当然还可以</p>
+<p>[javascript]<br />
+var array1= [ 1,2,3];<br />
+[/javascript]</p>
+<p>数组也是一个对象。<br />
+其他关于对象的基本的概念的描述，还是请各位亲们参见陈皓<a href="https://coolshell.cn/articles/6441.html">《Javascript 面向对象编程》</a>文章。<br />
+对象都有了，唯一没有的就是class，因为在Javascript里面是没有class关键字的，算好还有function，function的存在让我们可以变通的定义类，在扩展这个主题前，我们还需要了解一个Javascript对象最重要的属性，<strong>__proto__</strong>成员。</p>
+<h4><strong><span style="color: #008000">__proto__成员</span></strong></h4>
+<p>严格的说这个成员不应该叫这个名字，__proto__是Firefox中的称呼，__proto__只有在Firefox浏览器中才能被访问到。<strong>做为一个对象，当你访问其中的一个成员或方法的时候，如果这个对象中没有这个方法或成员，那么Javascript引擎将会访问这个对象的__proto__成员所指向的另外的一个对象，并在那个对象中查找指定的方法或成员，如果不能找到，那就会继续通过那个对象的__proto__成员指向的对象进行递归查找，直到这个链表结束</strong>。<br />
+好了，让我们举一个例子。<br />
+比如上上面定义的数组对象array1。当我们创建出array1这个对象的时候，array1实际在Javascript引擎中的对象模型如下：<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6675" src="https://coolshell.cn/wp-content/uploads/2012/02/joo_1.png" alt="" width="416" height="208" srcset="https://coolshell.cn/wp-content/uploads/2012/02/joo_1.png 416w, https://coolshell.cn/wp-content/uploads/2012/02/joo_1-300x150.png 300w" sizes="(max-width: 416px) 100vw, 416px" /><br />
+array1对象具有一个length属性值为3，但是我们可以通过如下的方法来为array1增加元素：</p>
+<p>[javascript]<br />
+array1.push(4);<br />
+[/javascript]</p>
+<p>push这个方法来自于array1的__proto__成员指向对象的一个方法(Array.prototye.push())。正是因为所有的数组对象（通过[]来创建的）都包含有一个指向同一个具有push,reverse等方法对象(Array.prototype)的__proto__成员，才使得这些数组对象可以使用push,reverse等方法。</p>
+<p>那么这个__proto__这个属性就相当于面向对象中的&#8221;has a&#8221;关系，这样的的话，只要我们有一个模板对象比如Array.prototype这个对象，然后把其他的对象__proto__属性指向这个对象的话就完成了一种继承的模式。不错！我们完全可以这么干。但是别高兴的太早，这个属性只在FireFox中有效，其他的浏览器虽然也有属性，但是不能通过__proto__来访问，只能通过getPrototypeOf方法进行访问，而且这个属性是只读的。看来我们要在Javascript实现继承并不是很容易的事情啊。</p>
+<h4><strong><span style="color: #008000">函数对象prototype成员</span></strong></h4>
+<p>首先我们先来看一段函数prototype成员的定义，</p>
+<blockquote><p><strong>When a function object is created, it is given a prototype member which is an object containing a constructor member which is a reference to the function object</strong><br />
+当一个函数对象被创建时，这个函数对象就具有一个prototype成员，这个成员是一个对象，这个对象包含了一个构造子成员，这个构造子成员会指向这个函数对象。</p></blockquote>
+<p>例如：</p>
+<p>[javascript]<br />
+function Base() {<br />
+    this.id = &quot;base&quot;<br />
+}<br />
+[/javascript]</p>
+<p>Base这个函数对象就具有一个prototype成员，关于构造子其实Base函数对象自身，为什么我们将这类函数称为构造子呢？原因是因为这类函数设计来和new 操作符一起使用的。为了和一般的函数对象有所区别，这类函数的首字母一般都大写。构造子的主要作用就是来创建一类相似的对象。</p>
+<p>上面这段代码在Javascript引擎的对象模型是这样的<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6678" src="https://coolshell.cn/wp-content/uploads/2012/02/joo_2.png" alt="" width="382" height="190" srcset="https://coolshell.cn/wp-content/uploads/2012/02/joo_2.png 382w, https://coolshell.cn/wp-content/uploads/2012/02/joo_2-300x149.png 300w" sizes="(max-width: 382px) 100vw, 382px" /></p>
+<h4><strong><span style="color: #008000">new 操作符</span></strong></h4>
+<p>在有上面的基础概念的介绍之后，在加上new操作符，我们就能完成传统面向对象的class + new的方式创建对象，在Javascript中，我们将这类方式成为Pseudoclassical。<br />
+基于上面的例子，我们执行如下代码</p>
+<p>[javascript]<br />
+var obj = new Base();<br />
+[/javascript]</p>
+<p>这样代码的结果是什么，我们在Javascript引擎中看到的对象模型是：<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6680" src="https://coolshell.cn/wp-content/uploads/2012/02/joo_3.png" alt="" width="403" height="207" srcset="https://coolshell.cn/wp-content/uploads/2012/02/joo_3.png 403w, https://coolshell.cn/wp-content/uploads/2012/02/joo_3-300x154.png 300w" sizes="(max-width: 403px) 100vw, 403px" /></p>
+<p>new操作符具体干了什么呢?其实很简单，就干了三件事情。</p>
+<p>[javascript]<br />
+var obj  = {};<br />
+obj.__proto__ = Base.prototype;<br />
+Base.call(obj);<br />
+[/javascript]</p>
+<p>第一行，我们创建了一个空对象obj<br />
+第二行，我们将这个空对象的__proto__成员指向了Base函数对象prototype成员对象<br />
+第三行，我们将Base函数对象的this指针替换成obj，然后再调用Base函数，于是我们就给obj对象赋值了一个id成员变量，这个成员变量的值是&#8221;base&#8221;，关于call函数的用法，请参看陈皓<a href="https://coolshell.cn/articles/6441.html">《Javascript 面向对象编程》</a>文章<br />
+如果我们给Base.prototype的对象添加一些函数会有什么效果呢？<br />
+例如代码如下：</p>
+<p>[javascript]<br />
+Base.prototype.toString = function() {<br />
+    return this.id;<br />
+}<br />
+[/javascript]</p>
+<p>那么当我们使用new创建一个新对象的时候，根据__proto__的特性，toString这个方法也可以做新对象的方法被访问到。于是我们看到了：<br />
+<strong>构造子中，我们来设置‘类’的成员变量（例如：例子中的id），构造子对象prototype中我们来设置‘类’的公共方法。于是通过函数对象和Javascript特有的__proto__与prototype成员及new操作符，模拟出类和类实例化的效果。</strong></p>
+<h4><strong><span style="color: #008000">Pseudoclassical 继承</span></strong></h4>
+<p>我们模拟类，那么继承又该怎么做呢？其实很简单，我们只要将构造子的prototype指向父类即可。例如我们设计一个Derive 类。如下</p>
+<p>[javascript]<br />
+function Derive(id) {<br />
+    this.id = id;<br />
+}<br />
+Derive.prototype = new Base();<br />
+Derive.prototype.test = function(id){<br />
+    return this.id === id;<br />
+}<br />
+var newObj = new Derive(&quot;derive&quot;);<br />
+[/javascript]</p>
+<p>这段代码执行后的对象模型又是怎么样的呢？根据之前的推导，应该是如下的对象模型<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6686" src="https://coolshell.cn/wp-content/uploads/2012/02/joo_4.png" alt="" width="645" height="216" srcset="https://coolshell.cn/wp-content/uploads/2012/02/joo_4.png 645w, https://coolshell.cn/wp-content/uploads/2012/02/joo_4-300x100.png 300w" sizes="(max-width: 645px) 100vw, 645px" /><br />
+这样我们的newObj也继承了基类Base的toString方法，并且具有自身的成员id。关于这个对象模型是如何被推导出来的就留给各位同学了，参照前面的描述，推导这个对象模型应该不难。<br />
+Pseudoclassical继承会让学过C++/Java的同学略微的感受到一点舒服，特别是new关键字，看到都特亲切，不过两者虽然相似，但是机理完全不同。当然不关什么样继承都是不能离不开__proto__成员的。</p>
+<h4><strong><span style="color: #008000">Prototypal继承</span></strong></h4>
+<p>这是Javascript的另外一种继承方式，这个继承也就是之前陈皓文章《Javascript 面向对象编程》中create函数，非常可惜的是这个是ECMAScript V5的标准，支持V5的浏览器目前看来也就是IE9，Chrome最新版本和Firefox。虽然看着多，但是做为IE6的重灾区的中国，我建议各位还是避免使用create函数。好在没有create函数之前，Javascript的使用者已经设计出了等同于这个函数的。例如：我们看看Douglas Crockford的object函数。</p>
+<p>[javascript]<br />
+function object(old) {<br />
+   function F() {};<br />
+   F.prototype = old;<br />
+   return new F();<br />
+}<br />
+var newObj = object(oldObject);<br />
+[/javascript]</p>
+<p>例如如下代码段</p>
+<p>[javascript]<br />
+var base ={<br />
+  id:&quot;base&quot;,<br />
+  toString:function(){<br />
+          return this.id;<br />
+  }<br />
+};<br />
+var derive = object(base);<br />
+[/javascript]</p>
+<p>上面函数的执行后的对象模型是：<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6688" src="https://coolshell.cn/wp-content/uploads/2012/02/joo_5.png" alt="" width="451" height="230" srcset="https://coolshell.cn/wp-content/uploads/2012/02/joo_5.png 451w, https://coolshell.cn/wp-content/uploads/2012/02/joo_5-300x152.png 300w" sizes="(max-width: 451px) 100vw, 451px" /><br />
+如何形成这样的对象模型，原理也很简单，只要把object这个函数扩展一下，就能画出这个模型，怎么画留给读者自己去画吧。<br />
+这样的继承方式被称为原型继承。相对来说要比Pseudoclassical继承来的简单方便。ECMAScript V5正是因为这原因也才增加create函数，让开发者可以快速的实现原型继承。<br />
+上述两种继承方式是Javascript中最常用的继承方式。通过本文的讲解，你应该对Javascript的OO编程有了一些‘原理’级的了解了吧</p>
+<h4><strong><span style="color: #008000">参考:</span></strong></h4>
+<p><a href="http://msdn.microsoft.com/en-us/scriptjunkie/ff852808">《Prototypes and Inheritance in JavaScript Prototypes and Inheritance in JavaScript》</a><br />
+<a href="http://yuiblog.com/blog/2006/11/27/video-crockford-advjs/" target="_blank">Advance Javascript</a> （Douglas Crockford 大神的视频，一定要看啊）</p>
+<h4><strong><span style="color: #008000">题外话：</span></strong></h4>
+<p>web2.0后，web应用可谓飞速发展，如今在HTML5发布之际，浏览器的功能被大大强化，我感觉Browser远远在不是一个Browser那么简单了。记得C++之父曾经这样说过JAVA，JAVA不是跨平台，JAVA本身就是一个平台。如今的Browser也本身就是一个平台了，好在这个平台是基于标准的。如果Browser是平台，由于Browser安全沙箱的限制，个人电脑的资源被使用的很少，感觉Browser就是一个NC（Network Computer）？我们居然又回到了Sun最初提出的构想，Sun是不是太强大了些？<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6731.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/closure-150x150.png" alt="理解Javascript的闭包" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6731.html" class="wp_rp_title">理解Javascript的闭包</a></li><li ><a href="https://coolshell.cn/articles/6441.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Javascript 面向对象编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6441.html" class="wp_rp_title">Javascript 面向对象编程</a></li><li ><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="对象的消息模型" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_title">对象的消息模型</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-150x150.jpg" alt="如何读懂并写出装逼的函数式代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_title">如何读懂并写出装逼的函数式代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6668.html">再谈javascript面向对象编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6668.html/feed</wfw:commentRss>
+			<slash:comments>77</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Javascript 面向对象编程</title>
+		<link>https://coolshell.cn/articles/6441.html</link>
+					<comments>https://coolshell.cn/articles/6441.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 09 Jan 2012 00:16:27 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[ECMAScript]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[OOP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6441</guid>
+
+					<description><![CDATA[<p>Javascript是一个类C的语言，他的面向对象的东西相对于C++/Java比较奇怪，但是其的确相当的强大，在 Todd 同学的“对象的消息模型”一文中我们已...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6441.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6441.html">Javascript 面向对象编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Javascript是一个类C的语言，他的面向对象的东西相对于C++/Java比较奇怪，但是其的确相当的强大，在 <a href="http://www.cnblogs.com/weidagang2046/" target="_blank">Todd 同学</a>的“<a title="对象的消息模型" href="https://coolshell.cn/articles/5202.html" rel="bookmark" target="_blank">对象的消息模型</a>”一文中我们已经可以看到一些端倪了。这两天有个前同事总在问我Javascript面向对象的东西，所以，索性写篇文章让他看去吧，这里这篇文章主要想从一个整体的角度来说明一下Javascript的面向对象的编程。（<strong>成文比较仓促，应该有不准确或是有误的地方，请大家批评指正</strong>）</p>
+<p>另，这篇文章主要基于 <a href="http://www.ecma-international.org/publications/standards/Ecma-262.htm" target="_blank">ECMAScript 5</a>， 旨在介绍新技术。关于兼容性的东西，请看最后一节。</p>
+<h4>初探</h4>
+<p>我们知道Javascript中的变量定义基本如下：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">var name = &#039;Chen Hao&#039;;;
+var email = &#039;haoel(@)hotmail.com&#039;;
+var website = &#039;https://coolshell.cn&#039;;</pre>
+<p>如果要用对象来写的话，就是下面这个样子：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">var chenhao = {
+    name :&#039;Chen Hao&#039;,
+    email : &#039;haoel(@)hotmail.com&#039;,
+    website : &#039;https://coolshell.cn&#039;
+};</pre>
+<p>于是，我就可以这样访问：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+//以成员的方式
+chenhao.name;
+chenhao.email;
+chenhao.website;
+
+//以hash map的方式
+chenhao[&quot;name&quot;];
+chenhao[&quot;email&quot;];
+chenhao[&quot;website&quot;];
+</pre>
+<p>关于函数，我们知道Javascript的函数是这样的：</p>
+<p><span id="more-6441"></span></p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">var doSomething = function(){
+   alert(&#039;Hello World.&#039;);
+};</pre>
+<p>于是，我们可以这么干：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+var sayHello = function(){
+   var hello = &quot;Hello, I&#039;m &quot;+ this.name
+                + &quot;, my email is: &quot; + this.email
+                + &quot;, my website is: &quot; + this.website;
+   alert(hello);
+};
+
+//直接赋值，这里很像C/C++的函数指针
+chenhao.Hello = sayHello;
+
+chenhao.Hello();
+</pre>
+<p>相信这些东西都比较简单，大家都明白了。 可以看到javascript对象函数是直接声明，直接赋值，直接就用了。runtime的动态语言。</p>
+<p>还有一种比较规范的写法是：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+//我们可以看到， 其用function来做class。
+var Person = function(name, email, website){
+    this.name = name;
+    this.email = email;
+    this.website = website;
+
+    this.sayHello = function(){
+        var hello = &quot;Hello, I&#039;m &quot;+ this.name  + &quot;, \n&quot; +
+                    &quot;my email is: &quot; + this.email + &quot;, \n&quot; +
+                    &quot;my website is: &quot; + this.website;
+        alert(hello);
+    };
+};
+
+var chenhao = new Person(&quot;Chen Hao&quot;, &quot;haoel@hotmail.com&quot;,
+                                     &quot;https://coolshell.cn&quot;);
+chenhao.sayHello(); </pre>
+<p>顺便说一下，要删除对象的属性，很简单：</p>
+<p><code data-enlighter-language="js" class="EnlighterJSRAW">delete chenhao[&#039;email&#039;]</code></p>
+<p>上面的这些例子，我们可以看到这样几点：</p>
+<ol>
+<li>Javascript的数据和成员封装很简单。没有类完全是对象操作。纯动态！</li>
+<li>Javascript function中的this指针很关键，如果没有的话，那就是局部变量或局部函数。</li>
+<li>Javascript对象成员函数可以在使用时临时声明，并把一个全局函数直接赋过去就好了。</li>
+<li>Javascript的成员函数可以在实例上进行修改，也就是说不同实例相同函数名的行为不一定一样。</li>
+</ol>
+<h4>属性配置 &#8211; Object.defineProperty</h4>
+<p>先看下面的代码：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+//创建对象
+var chenhao = Object.create(null);
+
+//设置一个属性
+ Object.defineProperty( chenhao,
+                &#039;name&#039;, { value:  &#039;Chen Hao&#039;,
+                          writable:     true,
+                          configurable: true,
+                          enumerable:   true });
+
+//设置多个属性
+Object.defineProperties( chenhao,
+    {
+        &#039;email&#039;  : { value:  &#039;haoel@hotmail.com&#039;,
+                     writable:     true,
+                     configurable: true,
+                     enumerable:   true },
+        &#039;website&#039;: { value: &#039;https://coolshell.cn&#039;,
+                     writable:     true,
+                     configurable: true,
+                     enumerable:   true }
+    }
+);
+</pre>
+<p>下面就说说这些属性配置是什么意思。</p>
+<ul>
+<li>writable：这个属性的值是否可以改。</li>
+<li>configurable：这个属性的配置是否可以改。</li>
+<li>enumerable：这个属性是否能在for&#8230;in循环中遍历出来或在Object.keys中列举出来。</li>
+<li>value：属性值。</li>
+<li>get()/set(_value)：get和set访问器。</li>
+</ul>
+<h4>Get/Set 访问器</h4>
+<p>关于get/set访问器，它的意思就是用get/set来取代value（其不能和value一起使用），示例如下：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">var  age = 0;
+Object.defineProperty( chenhao,
+            &#039;age&#039;, {
+                      get: function() {return age+1;},
+                      set: function(value) {age = value;}
+                      enumerable : true,
+                      configurable : true
+                    }
+);
+chenhao.age = 100; //调用set
+alert(chenhao.age); //调用get 输出101（get中+1了）;
+</pre>
+<p>我们再看一个更为实用的例子——利用已有的属性(age)通过get和set构造新的属性(birth_year)：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+Object.defineProperty( chenhao,
+            &#039;birth_year&#039;,
+            {
+                get: function() {
+                    var d = new Date();
+                    var y = d.getFullYear();
+                    return ( y - this.age );
+                },
+                set: function(year) {
+                    var d = new Date();
+                    var y = d.getFullYear();
+                    this.age = y - year;
+                }
+            }
+);
+
+alert(chenhao.birth_year);
+chenhao.birth_year = 2000;
+alert(chenhao.age);
+</pre>
+<p>这样做好像有点麻烦，你说，我为什么不写成下面这个样子：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+var chenhao = {
+    name: &quot;Chen Hao&quot;,
+    email: &quot;haoel@hotmail.com&quot;,
+    website: &quot;https://coolshell.cn&quot;,
+    age: 100,
+    get birth_year() {
+        var d = new Date();
+        var y = d.getFullYear();
+        return ( y - this.age );
+    },
+    set birth_year(year) {
+        var d = new Date();
+        var y = d.getFullYear();
+        this.age = y - year;
+    }
+
+};
+alert(chenhao.birth_year);
+chenhao.birth_year = 2000;
+alert(chenhao.age);
+</pre>
+<p>是的，你的确可以这样的，不过通过defineProperty()你可以干这些事：<br />
+1）设置如 writable，configurable，enumerable 等这类的属性配置。<br />
+2）动态地为一个对象加属性。比如：一些HTML的DOM对像。</p>
+<h4>查看对象属性配置</h4>
+<p>如果查看并管理对象的这些配置，下面有个程序可以输出对象的属性和配置等东西：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">//列出对象的属性.
+function listProperties(obj)
+{
+    var newLine = &quot;&lt;br /&gt;&quot;;
+    var names = Object.getOwnPropertyNames(obj);
+    for (var i = 0; i &lt; names.length; i++) {
+        var prop = names[i];
+        document.write(prop + newLine);
+
+        // 列出对象的属性配置（descriptor）动用getOwnPropertyDescriptor函数。
+        var descriptor = Object.getOwnPropertyDescriptor(obj, prop);
+        for (var attr in descriptor) {
+            document.write(&quot;...&quot; + attr + &#039;: &#039; + descriptor[attr]);
+            document.write(newLine);
+        }
+        document.write(newLine);
+    }
+}
+
+listProperties(chenhao);</pre>
+<h4>call，apply， bind 和 this</h4>
+<p>关于Javascript的this指针，和C++/Java很类似。 我们来看个示例：（这个示例很简单了，我就不多说了）</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function print(text){
+    document.write(this.value + &#039; - &#039; + text+ &#039;&lt;br&gt;&#039;);
+}
+
+var a = {value: 10, print : print};
+var b = {value: 20, print : print};
+
+print(&#039;hello&#039;);// this =&gt; global, output &quot;undefined - hello&quot;
+
+a.print(&#039;a&#039;);// this =&gt; a, output &quot;10 - a&quot;
+b.print(&#039;b&#039;); // this =&gt; b, output &quot;20 - b&quot;
+
+a[&#039;print&#039;](&#039;a&#039;); // this =&gt; a, output &quot;10 - a&quot;
+</pre>
+<p>我们再来看看call 和 apply，这两个函数的差别就是参数的样子不一样，另一个就是性能不一样，apply的性能要差很多。（关于性能，可到 <a href="http://jsperf.com/" target="_blank">JSPerf</a> 上去跑跑看看）</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">print.call(a, &#039;a&#039;); // this =&gt; a, output &quot;10 - a&quot;
+print.call(b, &#039;b&#039;); // this =&gt; b, output &quot;20 - b&quot;
+
+print.apply(a, [&#039;a&#039;]); // this =&gt; a, output &quot;10 - a&quot;
+print.apply(b, [&#039;b&#039;]); // this =&gt; b, output &quot;20 - b&quot;</pre>
+<p>但是在bind后，this指针，可能会有不一样，但是因为Javascript是动态的。如下面的示例</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">var p = print.bind(a);
+p(&#039;a&#039;);             // this =&gt; a, output &quot;10 - a&quot;
+p.call(b, &#039;b&#039;);     // this =&gt; a, output &quot;10 - b&quot;
+p.apply(b, [&#039;b&#039;]);  // this =&gt; a, output &quot;10 - b&quot;</pre>
+<h4>继承 和 重载</h4>
+<p>通过上面的那些示例，我们可以通过Object.create()来实际继承，请看下面的代码，Student继承于Object。</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW" data-enlighter-highlight="20">
+var Person = Object.create(null);
+
+Object.defineProperties
+(
+    Person,
+    {
+        &#039;name&#039;  : {  value: &#039;Chen Hao&#039;},
+        &#039;email&#039;  : { value : &#039;haoel@hotmail.com&#039;},
+        &#039;website&#039;: { value: &#039;https://coolshell.cn&#039;}
+    }
+);
+
+Person.sayHello = function () {
+    var hello = &quot;&lt;p&gt;Hello, I am &quot;+ this.name  + &quot;, &lt;br&gt;&quot; +
+                &quot;my email is: &quot; + this.email + &quot;, &lt;br&gt;&quot; +
+                &quot;my website is: &quot; + this.website;
+    document.write(hello + &quot;&lt;br&gt;&quot;);
+}
+
+var Student = Object.create(Person);
+Student.no = &quot;1234567&quot;; //学号
+Student.dept = &quot;Computer Science&quot;; //系
+
+//使用Person的属性
+document.write(Student.name + &#039; &#039; + Student.email + &#039; &#039; + Student.website +&#039;&lt;br&gt;&#039;);
+
+//使用Person的方法
+Student.sayHello();
+
+//重载SayHello方法
+Student.sayHello = function (person) {
+    var hello = &quot;&lt;p&gt;Hello, I am &quot;+ this.name  + &quot;, &lt;br&gt;&quot; +
+                &quot;my email is: &quot; + this.email + &quot;, &lt;br&gt;&quot; +
+                &quot;my website is: &quot; + this.website + &quot;, &lt;br&gt;&quot; +
+                &quot;my student no is: &quot; + this. no + &quot;, &lt;br&gt;&quot; +
+                &quot;my departent is: &quot; + this. dept;
+    document.write(hello + &#039;&lt;br&gt;&#039;);
+}
+//再次调用
+Student.sayHello();
+
+//查看Student的属性（只有 no 、 dept 和 重载了的sayHello）
+document.write(&#039;&lt;p&gt;&#039; + Object.keys(Student) + &#039;&lt;br&gt;&#039;);
+</pre>
+<p>通用上面这个示例，我们可以看到，Person里的属性并没有被真正复制到了Student中来，但是我们可以去存取。这是因为Javascript用委托实现了这一机制。其实，这就是Prototype，Person是Student的Prototype。</p>
+<p>当我们的代码需要一个属性的时候，Javascript的引擎会先看当前的这个对象中是否有这个属性，如果没有的话，就会查找他的Prototype对象是否有这个属性，一直继续下去，直到找到或是直到没有Prototype对象。</p>
+<p>为了证明这个事，我们可以使用Object.getPrototypeOf()来检验一下：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">Student.name = &#039;aaa&#039;;
+
+//输出 aaa
+document.write(&#039;&lt;p&gt;&#039; + Student.name + &#039;&lt;/p&gt;&#039;);
+
+//输出 Chen Hao
+document.write(&#039;&lt;p&gt;&#039; +Object.getPrototypeOf(Student).name + &#039;&lt;/p&gt;&#039;);</pre>
+<p>于是，你还可以在子对象的函数里调用父对象的函数，就好像C++里的 Base::func() 一样。于是，我们重载hello的方法就可以使用父类的代码了，如下所示：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW" data-enlighter-highlight="3">//新版的重载SayHello方法
+Student.sayHello = function (person) {
+    Object.getPrototypeOf(this).sayHello.call(this);
+    var hello = &quot;my student no is: &quot; + this. no + &quot;, &lt;br&gt;&quot; +
+                &quot;my departent is: &quot; + this. dept;
+    document.write(hello + &#039;&lt;br&gt;&#039;);
+}</pre>
+<p>这个很强大吧。</p>
+<h4>组合</h4>
+<p>上面的那个东西还不能满足我们的要求，我们可能希望这些对象能真正的组合起来。为什么要组合？因为我们都知道是这是OO设计的最重要的东西。不过，这对于Javascript来并没有支持得特别好，不好我们依然可以搞定个事。</p>
+<p>首先，我们需要定义一个Composition的函数：（target是作用于是对象，source是源对象），下面这个代码还是很简单的，就是把source里的属性一个一个拿出来然后定义到target中。</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+function Composition(target, source)
+{
+    var desc  = Object.getOwnPropertyDescriptor;
+    var prop  = Object.getOwnPropertyNames;
+    var def_prop = Object.defineProperty;
+
+    prop(source).forEach(
+        function(key) {
+            def_prop(target, key, desc(source, key))
+        }
+    )
+    return target;
+}
+</pre>
+<p>有了这个函数以后，我们就可以这来玩了：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW" data-enlighter-highlight="19,23">
+//艺术家
+var Artist = Object.create(null);
+Artist.sing = function() {
+    return this.name + &#039; starts singing...&#039;;
+}
+Artist.paint = function() {
+    return this.name + &#039; starts painting...&#039;;
+}
+
+//运动员
+var Sporter = Object.create(null);
+Sporter.run = function() {
+    return this.name + &#039; starts running...&#039;;
+}
+Sporter.swim = function() {
+    return this.name + &#039; starts swimming...&#039;;
+}
+
+Composition(Person, Artist);
+document.write(Person.sing() + &#039;&lt;br&gt;&#039;);
+document.write(Person.paint() + &#039;&lt;br&gt;&#039;);
+
+Composition(Person, Sporter);
+document.write(Person.run() + &#039;&lt;br&gt;&#039;);
+document.write(Person.swim() + &#039;&lt;br&gt;&#039;);
+
+//看看 Person中有什么？（输出：sayHello,sing,paint,swim,run）
+document.write(&#039;&lt;p&gt;&#039; + Object.keys(Person) + &#039;&lt;br&gt;&#039;);
+</pre>
+<h4>Prototype 和 继承</h4>
+<p>我们先来说说Prototype。我们先看下面的例程，这个例程不需要解释吧，很像C语言里的函数指针，在C语言里这样的东西见得多了。</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">var plus = function(x,y){
+    document.write( x + &#039; + &#039; + y + &#039; = &#039; + (x+y) + &#039;&lt;br&gt;&#039;);
+    return x + y;
+};
+
+var minus = function(x,y){
+    document.write(x + &#039; - &#039; + y + &#039; = &#039; + (x-y) + &#039;&lt;br&gt;&#039;);
+    return x - y;
+};
+
+var operations = {
+    &#039;+&#039;: plus,
+    &#039;-&#039;: minus
+};
+
+var calculate = function(x, y, operation){
+    return operations[operation](x, y);
+};
+
+calculate(12, 4, &#039;+&#039;);
+calculate(24, 3, &#039;-&#039;);
+</pre>
+<p>那么，我们能不能把这些东西封装起来呢，我们需要使用prototype。看下面的示例：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW" data-enlighter-highlight="6,11">var Cal = function(x, y){
+    this.x = x;
+    this.y = y;
+}
+
+Cal.prototype.operations = {
+    &#039;+&#039;: function(x, y) { return x+y;},
+    &#039;-&#039;: function(x, y) { return x-y;}
+};
+
+Cal.prototype.calculate = function(operation){
+    return this.operations[operation](this.x, this.y);
+};
+
+var c = new Cal(4, 5);
+
+c.calculate(&#039;+&#039;);
+c.calculate(&#039;-&#039;);</pre>
+<p>这就是prototype的用法，prototype 是javascript这个语言中最重要的内容。网上有太多的文章介始这个东西了。说白了，prototype就是对一对象进行扩展，其特点在于通过“复制”一个已经存在的实例来返回新的实例,而不是新建实例。被复制的实例就是我们所称的“原型”，这个原型是可定制的（当然，这里没有真正的复制，实际只是委托）。上面的这个例子中，我们扩展了实例Cal，让其有了一个operations的属性和一个calculate的方法。</p>
+<p>这样，我们可以通过这一特性来实现继承。还记得我们最最前面的那个Person吧， 下面的示例是创建一个Student来继承Person。</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+function Person(name, email, website){
+    this.name = name;
+    this.email = email;
+    this.website = website;
+};
+
+Person.prototype.sayHello = function(){
+    var hello = &quot;Hello, I am &quot;+ this.name  + &quot;, &lt;br&gt;&quot; +
+                &quot;my email is: &quot; + this.email + &quot;, &lt;br&gt;&quot; +
+                &quot;my website is: &quot; + this.website;
+    return hello;
+};
+
+function Student(name, email, website, no, dept){
+    var proto = Object.getPrototypeOf;
+    proto(Student.prototype).constructor.call(this, name, email, website);
+    this.no = no;
+    this.dept = dept;
+}
+
+// 继承prototype
+Student.prototype = Object.create(Person.prototype);
+
+//重置构造函数
+Student.prototype.constructor = Student;
+
+//重载sayHello()
+Student.prototype.sayHello = function(){
+    var proto = Object.getPrototypeOf;
+    var hello = proto(Student.prototype).sayHello.call(this) + &#039;&lt;br&gt;&#039;;
+    hello += &quot;my student no is: &quot; + this. no + &quot;, &lt;br&gt;&quot; +
+             &quot;my departent is: &quot; + this. dept;
+    return hello;
+};
+
+var me = new Student(
+    &quot;Chen Hao&quot;,
+    &quot;haoel@hotmail.com&quot;,
+    &quot;https://coolshell.cn&quot;,
+    &quot;12345678&quot;,
+    &quot;Computer Science&quot;
+);
+document.write(me.sayHello());</pre>
+<h4>兼容性</h4>
+<p>上面的这些代码并不一定能在所有的浏览器下都能运行，因为上面这些代码遵循 ECMAScript 5 的规范，关于ECMAScript 5 的浏览器兼容列表，你可以看这里“<a href="http://kangax.github.com/es5-compat-table/" target="_blank">ES5浏览器兼容表</a>”。</p>
+<p>本文中的所有代码都在Chrome最新版中测试过了。</p>
+<p>下面是一些函数，可以用在不兼容ES5的浏览器中：</p>
+<h5>Object.create()函数</h5>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function clone(proto) {
+    function Dummy() { }
+
+    Dummy.prototype             = proto;
+    Dummy.prototype.constructor = Dummy;
+
+    return new Dummy(); //等价于Object.create(Person);
+}
+
+var me = clone(Person);
+</pre>
+<h5>defineProperty()函数</h5>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function defineProperty(target, key, descriptor) {
+    if (descriptor.value){
+        target[key] = descriptor.value;
+    }else {
+        descriptor.get &amp;&amp; target.__defineGetter__(key, descriptor.get);
+        descriptor.set &amp;&amp; target.__defineSetter__(key, descriptor.set);
+    }
+
+    return target
+}</pre>
+<h5>keys()函数</h5>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function keys(object) { var result, key
+    result = [];
+    for (key in object){
+        if (object.hasOwnProperty(key))  result.push(key)
+    }
+
+    return result;
+}</pre>
+<h5>Object.getPrototypeOf() 函数</h5>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function proto(object) {
+    return !object?                null
+         : &#039;__proto__&#039; in object?  object.__proto__
+         : /* not exposed? */      object.constructor.prototype
+}</pre>
+<h5>bind 函数</h5>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">var slice = [].slice
+
+function bind(fn, bound_this) { var bound_args
+    bound_args = slice.call(arguments, 2)
+    return function() { var args
+        args = bound_args.concat(slice.call(arguments))
+        return fn.apply(bound_this, args) }
+}
+</pre>
+<h4>参考</h4>
+<ul>
+<li>W3CSchool</li>
+<li>MDN (Mozilla Developer Network)</li>
+<li>MSDN (Microsoft Software Development Network)</li>
+<li><a href="http://killdream.github.com/blog/2011/10/understanding-javascript-oop/" target="_blank">Understanding Javascript OOP</a>.</li>
+</ul>
+<p><span style="color: #cc0000;"><strong>（转载时请注明作者和出处，请勿用于任何商业用途）</strong></span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6731.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/closure-150x150.png" alt="理解Javascript的闭包" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6731.html" class="wp_rp_title">理解Javascript的闭包</a></li><li ><a href="https://coolshell.cn/articles/6668.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/02/joo_1-150x150.png" alt="再谈javascript面向对象编程 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6668.html" class="wp_rp_title">再谈javascript面向对象编程 </a></li><li ><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="对象的消息模型" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_title">对象的消息模型</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-150x150.jpg" alt="如何读懂并写出装逼的函数式代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_title">如何读懂并写出装逼的函数式代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6441.html">Javascript 面向对象编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6441.html/feed</wfw:commentRss>
+			<slash:comments>108</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>对象的消息模型</title>
+		<link>https://coolshell.cn/articles/5202.html</link>
+					<comments>https://coolshell.cn/articles/5202.html#comments</comments>
+		
+		<dc:creator><![CDATA[Todd]]></dc:creator>
+		<pubDate>Mon, 15 Aug 2011 02:37:13 +0000</pubDate>
+				<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[OOP]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5202</guid>
+
+					<description><![CDATA[<p>[ ———— 感谢 Todd 同学 投递本文，原文链接 ———— ] C++对象模型 话题从下面这段C++程序说起，你认为它可以顺利执行吗？ //C++ cla...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5202.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5202.html">对象的消息模型</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong><span style="color: #cc0000;">[ ———— 感谢</span> <a href="http://www.cnblogs.com/weidagang2046/" target="_blank">Todd 同学</a> <span style="color: #cc0000;">投递本文，<a href="http://www.cnblogs.com/weidagang2046/archive/2011/08/14/2138059.html" target="_blank">原文链接</a> ———— ]</span></strong></p>
+<h4><strong>C++对象模型</strong></h4>
+<p>话题从下面这段C++程序说起，你认为它可以顺利执行吗？</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">//C++
+class A {
+    public:
+        void Hello(const std::string&amp; name) {
+           std::cout &lt;&lt; &quot;hello &quot; &lt;&lt; name;
+         }
+};
+int main(int argc, char** argv)
+{
+    A* pa = NULL; //!!
+    pa-&gt;Hello(&quot;world&quot;);
+    return 0;
+}</pre>
+<p>试试的确可以顺利运行输出hello world，奇怪吗？其实并不奇怪，根据C++对象模型，类的非虚方法并不会存在于对象内存布局中，实际上编译器是把Hello方法转化成了类似这样的全局函数：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">void A_Hello_xxx(A * const this, const std::string&amp; name) {
+    std::cout &lt;&lt; “hello “ &lt;&lt; name;
+}</pre>
+<p>对象指针其实是作为第一个参数被隐式传递的，pa-&gt;Hello(“world”)实际上是调用的A_Hello_xxx(pa, “world”)，而恰好A_Hello_xxx内部没有使用pa，所以这段代码得以顺利运行。</p>
+<h4><strong>对象的消息模型</strong></h4>
+<p>如果是研究C++对象模型，上面的讨论可以到此为止，不过这里我想从另一个层面来继续探讨这个问题。OOP的先驱人物Alan Kay在总结Smalltalk的OO特征时强调：</p>
+<p><span id="more-5202"></span></p>
+<blockquote><p>Smalltalk is not only NOT its syntax or the class library, it is not even about classes. I&#8217;m sorry that I long ago coined the term &#8220;objects&#8221; for this topic because it gets many people to focus on the lesser idea. The big idea is &#8220;messaging&#8221;.</p></blockquote>
+<p>也就是说相比类和对象的概念来讲，他认为对象交互的消息模型是OOP更为本质的特征，因为消息关注的是对象间的接口和交互，在构建大的系统的时候重要的不是对象/模块的内部状态，而是它们的交互。根据消息模型，牛.吃(草) 的语义是发送一条消息给“牛”，消息的类型是“吃”，消息的内容是“草”。如果按照严格的消息模型，那么上面那段C++代码应解释为向一个NULL对象发送Hello消息，这显然是不应该顺利执行的。类似的代码如果是在Java或C#中则会抛出空引用异常，所以Java和C#的设计更符合消息模型。</p>
+<p>不过，Java和C#中也并非完全符合消息模型，来看一个经典的封装问题：</p>
+<pre data-enlighter-language="csharp" class="EnlighterJSRAW">//C#
+
+public class Account {
+    private int _amount;
+
+    public void Transfer(Account acc, int delta) {
+        acc._amount += delta;
+        this._amount -= delta;
+    }
+    …
+}</pre>
+<p>上面定义了一个Account类，问题在于为什么在这个类的Transfer方法中可以直接访问另一个对象acc的私有成员_amount呢？这是不是有破坏封装的嫌疑呢？这个问题经典的答案是：并不破坏封装，封装是划分了基于类的静态的代码边界，使得类的private代码修改不影响外界，而不是对于动态对象的保护。这个解释当然是合理的，不过正如上面C++代码的解释属于C++对象模型范畴，这个解释则属于基于类的静态类型OOP语言的范畴。消息模型强调了对象内部状态的保护，只能通过消息改变其状态，而对象内部是否真的具有_amout这样一个私有成员对其他任何对象（即使同类对象）都是未知的。</p>
+<p>如果要严格遵守消息模型实现对象内部状态的保护应该怎么做呢？我们来看一个例子，定义一个集合类，包括：1.集合对象的构造函数；2.In方法：判断元素是否存在；3.Join方法：对两个集合做交集；4.Union方法：对两个集合做并集。下面是一种Javascript实现：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">//Javascript
+
+//集合类Set的构造函数
+function Set() {
+    var _elements = arguments;
+    //In方法：判断元素e是否在集合中
+    this.In = function(e) {
+        for (var i = 0; i &lt; _elements.length; ++i) {
+            if (_elements[i] == e) return true;
+        }
+        return false;
+    };
+}
+
+//Join方法：对两个集合求交集
+Set.prototype.Join = function(s2) {
+    var s1 = this;
+    var s = new Set();
+    s.In = function(e) { return s1.In(e) &amp;&amp; s2.In(e); }
+    return s;
+};
+
+//Union方法：对两个集合求并集
+Set.prototype.Union = function(s2) {
+    var s1 = this;
+    var s = new Set();
+    s.In = function(e) { return s1.In(e) || s2.In(e); }
+    return s;
+};
+
+var s1 = new Set(1, 2, 3, 4, 5);
+var s2 = new Set(2, 3, 4, 5, 6);
+var s3 = new Set(3, 4, 5, 6, 7);
+assert(false == s1.Join(s2).Join(s3).In(2));
+assert(true == s1.Join(s2).Uion(s3).In(7));</pre>
+<p>如果是在静态类型OOP语言中，要实现集合类的Join或Union，我们多半会像上面Account的例子一样直接对s2内部的_elements进行操作，而上面这段Javascript定义的Set关于对象s2的访问完全是符合消息模型的基于接口的访问。要实现消息模型Javascript的prototype机制并非必须的，真正的关键在于函数式的高级函数和闭包特性。从这个例子我们也可以体会到函数式的优点不仅在于无副作用，函数的可组合性也是函数式编程强大的原因。</p>
+<h4><strong>Method Missing</strong></h4>
+<p>接下来我们还要进行深度历险，让我们思考一下如果发送一条对象不能识别的消息会怎样？这种情况在C++、Java、C#等静态类型语言中会得到一个方法未定义的编译错误，如果是在Javascript中则会产生运行时异常。比如，s1.count()会产生一个运行时异常：Object #&lt;Set&gt; has no method &#8216;count&#8217;。</p>
+<p>在静态类型语言这个问题很少受到重视，但在动态类型语言中却大有文章，来看下面的例子：<br />
+//Ruby</p>
+<pre data-enlighter-language="ruby" class="EnlighterJSRAW">
+builder = Builder::XmlMarkup.new
+xml = builder.books {|b|
+    b.book :isbn =&gt; &quot;14134&quot; do
+        b.title &quot;Revelation Space&quot;
+        b.author &quot;Alastair Reynolds&quot;
+    end
+    b.book :isbn =&gt; &quot;53534&quot; do
+        b.title &quot;Accelerando&quot;
+        b.author &quot;Charles Stross&quot;
+    end
+}</pre>
+<p>上面这段很DSL的Ruby代码创建了这样一个XML文件对象：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+
+&lt;books&gt;
+    &lt;book isbn=&quot;14134&quot;&gt;
+        &lt;title&gt;Revelation Space&lt;/title&gt;
+        &lt;author&gt;Alastair Reynolds&lt;/author&gt;
+    &lt;/book&gt;
+    &lt;book isbn=&quot;53534&quot;&gt;
+        &lt;title&gt;Accelerando&lt;/title&gt;
+        &lt;author&gt;Charles Stross&lt;/author&gt;
+    &lt;/book&gt;
+&lt;/books&gt;
+
+</pre>
+<p>builder.books, b.book, b.title都是对象方法调用，由于XML的元素名是任意的，所以不可能事先定义这些方法，类似的代码如果是在Javascript中就是no method异常。那为什么上面的Ruby代码可以正确执行呢？其实只要理解了消息模型就很容易想明白，只需要定义一个通用的消息处理方法，所有未明确定义的消息都交给它来处理就行了，这就是所谓的Method Missing模式：</p>
+<pre data-enlighter-language="ruby" class="EnlighterJSRAW">
+class Foo
+    def method_missing(method, *args, &amp;block)
+        …
+    end
+end
+</pre>
+<p>Method Missing除了对实现DSL很重要外，还可用于产生更好地调试和错误信息，把参数嵌入到方法名中等场合。目前，Ruby、Python、Groovy几种语言对Method Missing都有很好的支持，甚至在C# 4.0中也可以利用动态特性实现。</p>
+<h4>总结</h4>
+<p>本文主要介绍了对象的消息模型的特征，并比较了C++对象模型，Java、C#等基于类的静态类型语言中的对象模型与严格消息模型的差异，最后探讨了Method Missing相关话题。</p>
+<h4>参考</h4>
+<ul>
+<li><a href="http://book.douban.com/subject/1484262/" target="_blank">Inside the C++ Object Model</a></li>
+<li><a href="http://book.douban.com/subject/4031906/" target="_blank">冒号课堂 &#8211; 编程范式与OOP思想</a></li>
+<li><a href="http://c2.com/cgi/wiki?AlanKaysDefinitionOfObjectOriented" target="_blank">Alan Kays Definition Of Object Oriented</a></li>
+<li><a href="http://fitzgeraldnick.com/weblog/39/" target="_blank">OOP The Good Parts: Message Passing, Duck Typing, Object Composition, and not Inheritance</a></li>
+<li><a href="http://olabini.com/blog/2010/04/patterns-of-method-missing/">Patterns of Method Missing</a></li>
+<li><a href="http://haacked.com/archive/2009/08/26/method-missing-csharp-4.aspx">Fun With Method Missing and C# 4</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="数据即代码：元驱动编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_title">数据即代码：元驱动编程</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/10739.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/lua-150x150.gif" alt="Lua简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10739.html" class="wp_rp_title">Lua简明教程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/6731.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/closure-150x150.png" alt="理解Javascript的闭包" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6731.html" class="wp_rp_title">理解Javascript的闭包</a></li><li ><a href="https://coolshell.cn/articles/6668.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/02/joo_1-150x150.png" alt="再谈javascript面向对象编程 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6668.html" class="wp_rp_title">再谈javascript面向对象编程 </a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5202.html">对象的消息模型</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5202.html/feed</wfw:commentRss>
+			<slash:comments>42</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>面向对象的Shell脚本</title>
+		<link>https://coolshell.cn/articles/5035.html</link>
+					<comments>https://coolshell.cn/articles/5035.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 21 Jul 2011 04:39:11 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[OOP]]></category>
+		<category><![CDATA[Shell]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5035</guid>
+
+					<description><![CDATA[<p>还记得以前那个用算素数的正则表达式吗？编程这个世界太有趣了，总是能看到一些即别出心裁的东西。你有没有想过在写Shell脚本的时候可以把你的变量和函数放到一个类中...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5035.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5035.html">面向对象的Shell脚本</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>还记得以前那个用<a title="检查素数的正则表达式" href="https://coolshell.cn/articles/2704.html" target="_blank">算素数的正则表达式</a>吗？编程这个世界太有趣了，总是能看到一些即别出心裁的东西。你有没有想过在写Shell脚本的时候可以把你的变量和函数放到一个类中？不要以为这不可能，这不，我在<a href="http://lab.madscience.nl/oo.sh.txt" target="_blank">网上</a>又看到了一个把Shell脚本整成面向对象的东西。Shell本来是不支持的，需要自己做点东西，能搞出这个事事的人真的是hacker啊。</p>
+<p>当然，这里并不是真正的面向对象，因为其只是封装罢了，还没有支持继承和多态。最变态的是他居然还支持typeid，靠！</p>
+<p>下面让我们看看他是怎么来做的。下面的脚本可能会有点费解。本想解释一下，后来想想，还是大家自己专研一下吧，其实看懂也不难，给大家提几个点吧。</p>
+<ol>
+<li>我们可以看到，下面的这个脚本定义了class,  func, var, new 等函数，其实这些就是所谓的关键字。</li>
+<li>class是一个函数，主要是记录类名。</li>
+<li>func和var实际上是把成员函数名和成员变量记成有相同前缀的各种变量。</li>
+<li>new方法主要是记录实例。大家重点看看new函数里的那个for循环，最核心的就在那里了。</li>
+</ol>
+<div>脚本如下所示：</div>
+<div><span id="more-5035"></span></div>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">#!/bin/bash
+
+# -------------------------------------------------------------------
+# OO support functions
+# Kludged by Pim van Riezen &lt;pi@madscience.nl&gt;
+# -------------------------------------------------------------------
+DEFCLASS=&quot;&quot;
+CLASS=&quot;&quot;
+THIS=0
+
+class() {
+  DEFCLASS=&quot;$1&quot;
+  eval CLASS_${DEFCLASS}_VARS=&quot;&quot;
+  eval CLASS_${DEFCLASS}_FUNCTIONS=&quot;&quot;
+}
+
+static() {
+  return 0
+}
+
+func() {
+  local varname=&quot;CLASS_${DEFCLASS}_FUNCTIONS&quot;
+  eval &quot;$varname=\&quot;\${$varname}$1 \&quot;&quot;
+}
+
+var() {
+  local varname=&quot;CLASS_${DEFCLASS}_VARS&quot;
+  eval $varname=&quot;\&quot;\${$varname}$1 \&quot;&quot;
+}
+
+loadvar() {
+  eval &quot;varlist=\&quot;\$CLASS_${CLASS}_VARS\&quot;&quot;
+  for var in $varlist; do
+    eval &quot;$var=\&quot;\$INSTANCE_${THIS}_$var\&quot;&quot;
+  done
+}
+
+loadfunc() {
+  eval &quot;funclist=\&quot;\$CLASS_${CLASS}_FUNCTIONS\&quot;&quot;
+  for func in $funclist; do
+    eval &quot;${func}() { ${CLASS}::${func} \&quot;\$*\&quot;; return \$?; }&quot;
+  done
+}
+
+savevar() {
+  eval &quot;varlist=\&quot;\$CLASS_${CLASS}_VARS\&quot;&quot;
+  for var in $varlist; do
+    eval &quot;INSTANCE_${THIS}_$var=\&quot;\$$var\&quot;&quot;
+  done
+}
+
+typeof() {
+  eval echo \$TYPEOF_$1
+}
+
+new() {
+  local
+  local cvar=&quot;$2&quot;
+  shift
+  shift
+  local id=$(uuidgen | tr A-F a-f | sed -e &quot;s/-//g&quot;)
+  eval TYPEOF_${id}=$class
+  eval $cvar=$id
+  local funclist
+  eval &quot;funclist=\&quot;\$CLASS_${class}_FUNCTIONS\&quot;&quot;
+  for func in $funclist; do
+    eval &quot;${cvar}.${func}() {
+      local t=\$THIS; THIS=$id; local c=\$CLASS; CLASS=$class; loadvar;
+      loadfunc; ${class}::${func} \&quot;\$*\&quot;; rt=\$?; savevar; CLASS=\$c;
+      THIS=\$t; return $rt;
+    }&quot;
+
+  done
+  eval &quot;${cvar}.${class} \&quot;\$*\&quot; || true&quot;
+}</pre>
+<p>下面，让我们来看看例程吧。</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"># -------------------------------------------------------------------
+# Example code
+# -------------------------------------------------------------------
+
+# class definition
+class Storpel
+  func Storpel
+  func setName
+  func setQuality
+  func print
+  var name
+  var quality
+
+# class implementation
+Storpel::Storpel() {
+  setName &quot;$1&quot;
+  setQuality &quot;$2&quot;
+  if [ -z &quot;$name&quot; ]; then setName &quot;Generic&quot;; fi
+  if [ -z &quot;$quality&quot; ]; then setQuality &quot;Normal&quot;; fi
+}
+
+Storpel::setName() { name=&quot;$1&quot;; }
+Storpel::setQuality() { quality=&quot;$1&quot;; }
+Storpel::print() { echo &quot;$name ($quality)&quot;; }
+
+# usage
+new Storpel one &quot;Storpilator 1000&quot; Medium
+new Storpel two
+new Storpel three
+
+two.setName &quot;Storpilator 2000&quot;
+two.setQuality &quot;Strong&quot;
+
+one.print
+two.print
+three.print
+
+echo &quot;&quot;
+
+echo &quot;one: $one ($(typeof $one))&quot;
+echo &quot;two: $two ($(typeof $two))&quot;
+echo &quot;three: $three ($(typeof $two))&quot;</pre>
+<p>&nbsp;</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/9410.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/figure1-150x150.gif" alt="Unix考古记：一个“遗失”的shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9410.html" class="wp_rp_title">Unix考古记：一个“遗失”的shell</a></li><li ><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/awk-150x150.jpg" alt="AWK 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_title">AWK 简明教程</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/8745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="如此理解面向对象编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8745.html" class="wp_rp_title">如此理解面向对象编程</a></li><li ><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/11/shell.01-150x150.png" alt="你可能不知道的Shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8619.html" class="wp_rp_title">你可能不知道的Shell</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5035.html">面向对象的Shell脚本</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5035.html/feed</wfw:commentRss>
+			<slash:comments>17</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>那些炒作过度的技术和概念</title>
+		<link>https://coolshell.cn/articles/3609.html</link>
+					<comments>https://coolshell.cn/articles/3609.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 28 Jan 2011 02:00:52 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[COBRA]]></category>
+		<category><![CDATA[OOP]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[SOA]]></category>
+		<category><![CDATA[SOAP]]></category>
+		<category><![CDATA[UML]]></category>
+		<category><![CDATA[XML]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3609</guid>
+
+					<description><![CDATA[<p>StackExchange.com上有一个贴子在评论着最近20年来被炒作过度的技术，对于出现的结果，大多数赞同，也有一些不赞同。下面我从前15名挑了10个（Ja...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3609.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3609.html">那些炒作过度的技术和概念</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://stackexchange.com" target="_blank">StackExchange.com</a>上有一个<a href="http://programmers.stackexchange.com/questions/38505/most-overhyped-software-engineering-technologies-and-concepts-of-the-last-20-year" target="_blank">贴子</a>在评论着最近20年来被炒作过度的技术，对于出现的结果，大多数赞同，也有一些不赞同。下面我从前15名挑了10个（Java的WORE我去掉了，TDD我也去掉了，因为我觉得他们应该没有炒作过度，而且都不错），按原贴的顺序罗列如下：（后面的一些评论是我加的，欢迎大家讨论）</p>
+<h4>Top 10 过度炒作的技术和概念</h4>
+<ul>
+<li><strong>Unified Modeling Language (UML)</strong> &#8211; UML是一个程序员交流想法的不错的工具，但是他离程序员真正需要的设计工具还差得很远，比如：设计是否符合需求、架构设计、数据流等等。只有为数不多的程序员使用这个工具交流想法，而没有用在具体工作中。</li>
+</ul>
+<ul>
+<li><strong>Sharepoint </strong>&#8211; 现在N多的公司都在用微软的这个东西做公司内部的Intranet。不过安装和维护起来，代价相当的大。但是其市场做的很成功，不对技术上来说对技术人员来说，相当的蹩脚。Sharepoint的设计没有认真地分析过业务流程，仅仅是一个文档存储地。看上去我们似乎可以做任何的事，但是如果你要用其来管理你的项目和track你的项目问题，你会发现其是无比的难用。</li>
+</ul>
+<ul>
+<li><strong>eXtensible Mark-up Language (XML)</strong> &#8211;  XML嘛，以前说过很多了（<a href="https://coolshell.cn/articles/2504.html" target="_blank">XML1</a>，<a href="https://coolshell.cn/articles/3498.html" target="_blank"> XML2</a>）我们用他来做和程序数据封装，用来做配置文件，用来做网络传输格式。我们的程序处理起XML来，又慢，又不经济，没有工具，几乎无法维护XML文件。XML用来做数据封包真是很不经济，Yaml和JSON那个不比它简单？用XML来做程序配置文件不知道是谁想出来的主意，相当的愚蠢，看看Unix/Linux下的配置文件，简单易读，相当容易维护。真是高科技啊。</li>
+</ul>
+<ul>
+<li><strong>SOAP, XML-RPC, WSDL 的 Web Services</strong> &#8211; 这个东西前几年炒的很凶。所有人都相信，这是程序员的未来。可惜的，其中的复杂和不一致，相当的令人恶心。<a href="https://coolshell.cn/articles/3585.html" target="_blank">SOAP的那个S居然还是Simple</a>！看来，扯上XML的都不会是什么好的东东。不过，个人认为，CORBA比他更恶。</li>
+</ul>
+<p><span id="more-3609"></span></p>
+<ul>
+<li><strong>CORBA </strong>&#8211; 作为一个比其更恶的更过度炒作的COM技术的Linux/Unix下的补充技术，这个技术也好不到哪里去。相当的复杂，从理论上开始就是这样了。这是一个没有经过实践就搞出来的一个东西。然后开始炒作。</li>
+</ul>
+<ul>
+<li><strong>Cloud Computing</strong> &#8211; 这是一个靠炒作出现的东西。这个东西也就是说，我们可以使用不同的调备，比如电脑，平板电脑，手机，移动设备随时随地做想做的事。Google的Chrome笔记本的广告展示了这项技术，但是，把工作结果放在云端的人会有多少呢。更多的人更喜欢的是去使用那些自己可以控制的电脑或平台。Google在这点上做的明显不如Amazon，像Amazon EC2平台，你可以在世界上任何一个角落随时随地的去启动你那台远程的系统。（<strong><span style="color: #800000;"><em>更新（2011/1/29）</em></span></strong>：<span style="color: #808080;">解释一下，关于云计算，在写下这篇文章的时候我本来有点拿不定主意的，后来回顾了一下历史，如COM啊，ActiveX啊，EJB啊，当时感觉都是很强的东西，但是最终也只是被炒作的。云计算，我不知道未来怎么样，从今天来看，这项技术在今天存在炒作的情况——中移动云，阿里云，到处都是云，在云面前，神马都是浮云了。</span>）</li>
+</ul>
+<ul>
+<li><strong>SOA &#8211; Service Oriented Architecture</strong> &#8211; 这是一个没有人真正知道是什么玩意的概念。炒作了很多年，很多人都试图去了解它，但最后的结果是打个哈欠，看别的东西去了。现在没有人提了。中国一些银行在IBM的鼓动下搞了很多所谓的SOA应用，结果是系统很复杂，当然，也再离不开IBM了。</li>
+</ul>
+<ul>
+<li><strong>Software Industrial Process</strong> &#8211; 软件开发中有很多所谓的工业界的流程，用这些流程好像可以控制质量。外包公司和中国的本土公司很喜欢这些东西，比如ISO和CMMi，这些流程不能说不好，也有好的地方，尤其是对那些不会思考只要跟从的Worker来说。这些工业界流程中炒作过度的是，那些所谓的使用这些流程可以预测项目周期，质量控制，以前需求开发和管理等东西。其让流程上升到了一种神学的可预言的地步，同样也上升到了政治的地步。因为，这些流程中都必然会有SQA 的Audit的流程，还有统计和报告的流程，这些统统不是软件开发的流程，但是的确是相当的政治。使用这些工业届标准流程的公司，通常都是一些创造性有问题的公司。</li>
+</ul>
+<ul>
+<li><strong>Agile Software Development &#8211; 敏捷开发</strong>。首先，我承认其中的很多实践相当有效，在理论上也不错，还有很多不错方法的。不过，还是有炒作的成分（<span style="color: #008000;"><strong>下面的言论，我等着被骂</strong></span>）对我来说，在中国，“敏捷开发”的炒作简直就像是一个电视购物，ThoughtWorks中国各种咨询师们软件开发经验其实并不丰富，准确来说，他们有的是咨询经验，而没有具体项目实施经验（有的咨询师甚至都没有写过一行代码就去学教人怎么编程和开发软件了），和他们沟通起来能够感到他们对敏捷很亢奋，而且是唯敏捷主义，就差打出Once Process，One Agile的口号了，他们信仰敏捷流程的已经接近宗教信仰，他们的精神世界很朝鲜。因为，无论你和他们的咨询师谈什么，他们只说敏捷，从来不会分析一下，项目的特性是什么？开发这个项目的人的风格是什么？客户的特性是什么？有没有关心软件的stakeholder们（如：程序员，测试人员，客户，管理人员）是怎么想的？而XP和SCRUM也就成了Push工程师最强大的工具。<strong><span style="color: #800000;">流程这个东西，应该是项目组自发出来的东西，而不是被 灌输，被教条使用的东西。不同的团队、不同的项目、不同的人，不同的风格就是不同的流程，只有去使用适合自己的流程才是最好的流程</span></strong>。<strong>打个比方，足球队中，巴西队玩的是个人艺术足球，德国队玩的是整体和纪律性足球，意大利玩的是防守型足球，但是他们都有夺世界杯冠军的实力，如果你硬要让巴西队去整德国队或是意大利队的风格，那就悲剧了</strong>。很显然，ThoughtWorks很像把全中国的软件公司都整成Agile的，这注定了其在中国是杯具的，也只能争取到那些不知所措的公司和项目，没有合适的项目，也只有靠各种炒作（比如整一些大会，搞一些宣传）。他们总是觉得中国的用户和程序员需要去用时间不停地教育，但是，他们从来没有想想自己的原因 &#8212; 靠教育和灌输是永远赢不了的。<strong>我给他们的个人建议是，不要以为世界就像你所想像的那样，学会尊重程序员和项目还有很多非技术的东西，多听听程序员和客户怎么说，多分析一下项目的特质，从实际情况出发，而不是自己涛涛不绝地<strong>向大家</strong>灌输自己的理论</strong>。</li>
+</ul>
+<ul>
+<li><strong>Object-Oriented Programming (OOP</strong>) &#8211; 不多说了，以前本站说过了，所有的一切都在<a href="https://coolshell.cn/articles/3036.html" target="_blank">面向对象是个骗局</a>一文中。不过有一点我想告诉大家，面向对象的Design Pattern真是被滥用了，Design Pattern教你的是两件事，1）怎么去化繁为简，2）怎么能让对象的耦合性降低。而不是一个公式让你的套，但，更多的程序员则学会了“<a href="https://coolshell.cn/articles/2058.html" target="_blank">流行的设计模式编程</a>”。</li>
+</ul>
+<h4>附：下构面是我拿不定是否是过度炒作的技术</h4>
+<p><strong>Write Once Run Anywhere </strong>&#8211; 这个有点让我不解，不知道为什么会那么靠前。这是Java的口号，我觉得Java在跨平台方面还是成功的，没有过度炒作啊。用虚拟机的确是做到了这一点，对于那些需要有不同的硬件和操作系统平台并不断升级和更换它们的公司来说，这的确是个很不错的解决平台依赖性的方案。我个感觉这个技术并没有炒作过头，至少在Java这边是这样的。与其说这个，还不如说EJB，这才是炒作过度的技术。</p>
+<p>[<span style="color: #000080;">更新 2011/02/13</span>]下面的回复，在我形成这篇文章的时候我没有想过，经ming同学一说，我觉得似乎有些道理。</p>
+<blockquote cite="#commentbody-29425"><p><strong><a rel="nofollow" href="https://coolshell.cn/articles/3609.html/comment-page-1#comment-29425">ming</a> :</strong></p>
+<p>我从一开始就觉得java的“Write Once Run Anywhere”是彻头彻尾的炒作。</p>
+<p>想想，所谓的跨平台无非就是依靠虚拟机、解释器之类的东西实现的，那么，哪个脚本语言不是依靠解释器呢？古老的perl已经跨平台了。当然，跨平台的语言还有很多。但是，只有java炒作这个概念。</p></blockquote>
+<p><strong>Test Driven Design (TDD)</strong> &#8211; 从测试案例开始写程序这可能是很多程序员都不习惯的方法。其实这是一种比较好的编程方法，保证了代码怎么改动都不会break其它没有改动的代码，代码可以在一种持续集成中保证质量。但是，我们需要知道TDD的一些副作用（在<a title="十条不错的编程观点 " href="https://coolshell.cn/articles/2424.html">十条不错的编程观点</a>里也提到过TDD的弊端）：1）TDD可能会让程序员敷衍了事，以为test case 没有错就正确了。2）TDD可能会让你忽略了软件设计和架构以及程序的扩展性和重用性。T<strong>DD只是一种方法，并不是程序的核心</strong>。当然，TDD近几年的炒作也有点过头，已经出现了“TDD是一种Design方法”等“神乎其技”的论调，我对此表示质疑中。</p>
+<p>[更新 2011/02/13] 关于TDD，请参看我另一篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并不是看上去的那么美</a>》</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3609.html">那些炒作过度的技术和概念</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3609.html/feed</wfw:commentRss>
+			<slash:comments>278</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>面向对象是个骗局？！</title>
+		<link>https://coolshell.cn/articles/3036.html</link>
+					<comments>https://coolshell.cn/articles/3036.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 29 Sep 2010 00:37:54 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Alexander Stepanov]]></category>
+		<category><![CDATA[Bjarne Stroustrup]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Object-Oriented]]></category>
+		<category><![CDATA[OOP]]></category>
+		<category><![CDATA[STL]]></category>
+		<category><![CDATA[面向对象]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3036</guid>
+
+					<description><![CDATA[<p>今天在网上看到网页叫“Object Orientation Isa Hoax”——面向对象是一个骗局，标题很有煽动性（注：该网站上还有一个网页叫Object O...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3036.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3036.html">面向对象是个骗局？！</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今天在网上看到网页叫“<a href="http://c2.com/cgi/wiki?ObjectOrientationIsaHoax" target="_blank">Object Orientation Isa Hoax</a>”——面向对象是一个骗局，标题很有煽动性（注：该网站上还有一个网页叫<a href="http://c2.com/cgi/wiki?ObjectOrientationIsDead" target="_blank">Object Orientation Is Dead</a>），好吧，打开看看上面有些 什么，发现这个网页是在收集一些关于“面向对象的反动言论”，没想到的是，很多言论出自很多大师之口。比如：Alexander Stepanov和Bjarne Stroustrup。这些言论挺有意思的，所以，我摘两段在下面：</p>
+<p>第一段是Alexander Stepanov的（不要告诉我你不知道这个人，STL之父，关于他的故事，可以到<a href="http://www.techcn.com.cn/index.php?doc-view-131345.html" target="_blank">这里看看</a>）。他N年前作过一段采访，<a href="http://www.stlport.org/resources/StepanovUSA.html" target="_blank">原文在这里</a>（我非常建议大家去读一下这篇采访，相当过瘾），<a href="http://dev.csdn.net/htmls/11/11440.html" target="_blank">译文在这里</a>（不过有地方把原意都译反了，我重译了一下），其中有一个问答被上述的那个面向对象反动言论的网页收录了：</p>
+<figure style="width: 225px" class="wp-caption alignright"><img decoding="async" loading="lazy" title="Alexander Stepanov" src="http://www.techcn.com.cn/uploads/200906/s_1244557971yFeOfA84.jpg" alt="" width="225" height="300" /><figcaption class="wp-caption-text">Alexander Stepanov</figcaption></figure>
+<blockquote><p><strong>Question</strong>:<br />
+I think STL and Generic Programming mark a definite departure from the common C++ programming style, which I find is almost completely derived from SmallTalk. Do you agree?</p>
+<p><strong>提问</strong>：<br />
+我认为STL和泛型编程标志着非同一般的C++编程风格，而一般C++风格几乎完全是从SmallTalk派生过来的。你同意吗？</p>
+<p><strong>Answer</strong>:<br />
+Yes. STL is not object oriented. I think that object orientedness is almost as much of a hoax as Artificial Intelligence. I have yet to see an interesting piece of code that comes from these OO people. In a sense, I am unfair to AI: I learned a lot of stuff from the MIT AI Lab crowd, they have done some really fundamental work: Bill Gosper&#8217;s Hakmem is one of the best things for a programmer to read. AI might not have had a serious foundation, but it produced Gosper and Stallman (Emacs), Moses (Macsyma) and Sussman (Scheme, together with Guy Steele). I find OOP technically unsound. It attempts to decompose the world in terms of interfaces that vary on a single type. To deal with the real problems you need multisorted algebras &#8211; families of interfaces that span multiple types. I find OOP philosophically unsound. It claims that everything is an object. Even if it is true it is not very interesting &#8211; saying that everything is an object is saying nothing at all. I find OOP methodologically wrong. It starts with classes. It is as if mathematicians would start with axioms. You do not start with axioms &#8211; you start with proofs. Only when you have found a bunch of related proofs, can you come up with axioms. You end with axioms. The same thing is true in programming: you have to start with interesting algorithms. Only when you understand them well, can you come up with an interface that will let them work.</p>
+<p><strong>回答：</strong><br />
+是的。STL不是面向对象的。我认为面向对象和人工智能差不多，都是个骗局。我至今仍然没有从那些OO编程的人那里看到一丁点有意思的代码。从某种意义上来说，我这么说对人工智能（AI）并不公平：因为我听说过很多MIT（麻省理工大） AI实验室里一帮人搞出来的东西，而且他们的确直正干了一些基础性的工作：Bill Gosper的Hakmem是程序员最好的读物之一。AI或许没有一个实实在在的基础，但它造就了Gosper和Stallman（Emacs）， Moses（Macsyma）和Sussman（Scheme， 和Guy Steele一起）。</p>
+<ul>
+<li>我发现OOP在技术上是荒谬的，它企图把事物按照不同单个类型的接口来解构，为了处理实际问题，你需要多种代数方法——横跨多种类型的接口族；</li>
+<li>我发现OOP在哲学上是荒谬的，它声称一切都是对象。即使这是真的也不是很有趣——因为说一切都是对象跟什么都没说一样；</li>
+<li>我发现OOP的方法论是错误的，它从类开始，就好像数学应该从从公理开始一样。其实你不会是从公理开始的，而是从证明开始。直到你找到了一大堆相关证据后你才能归纳出公理，然后以公理结束。在程序设计方面存在着同样的事实：你要从有趣的算法开始。只有很好地理解了算法，你才有可能提炼出接口以让其工作。</li>
+</ul>
+</blockquote>
+<p><span style="color: #ffffff;">&lt;&#8212;&#8212;&#8212;&gt;</span></p>
+<p>下面，我们再来看C++的发明者Bjarne Stroustrup，在1998年IEEE采访时的一段话（<a href="http://www2.research.att.com/~bs/ieee_interview.html" target="_blank">全篇见这里</a>），下面是其中的几段话：（我的翻译如下）</p>
+<p><span id="more-3036"></span></p>
+<figure style="width: 200px" class="wp-caption alignright"><img decoding="async" loading="lazy" title="Bjarne Stroustrup" src="http://www.techcn.com.cn/uploads/200906/1244559516ywHaeEXL.png" alt="" width="200" height="245" /><figcaption class="wp-caption-text">Bjarne Stroustrup</figcaption></figure>
+<blockquote><p>So what is OO? Certainly not every good program is object-oriented, and not every object-oriented program is good. If this were so, &#8220;object-oriented&#8221; would simply be a synonym for &#8220;good,&#8221; and the concept would be a vacuous buzzword of little help when you need to make practical decisions. I tend to equate OOP with heavy use of class hierarchies and virtual functions (called methods in some languages). This definition is historically accurate because class hierarchies and virtual functions together with their accompanying design philosophy were what distinguished Simula from the other languages of its time. In fact, it is this aspect of Simula&#8217;s legacy that Smalltalk has most heavily emphasized.</p>
+<p>那么，什么是OO面向对象？当然，不会是所有的程序都是面向对象的，而且，也不是所有的面向对象程序就是好的。如果面向对象是好的，那么“Object-Oriented”应该成为“Good”的同义词，并且，OO概念只会成为一个假大空的口号，在你需要做出实际决定时只可能帮你那么一丁点。我倾向于把OOP等价于大量使用继承类和虚函数（某些语言的调用方法）。从历史上来说，这个定义是精确的，因为，在那个时候，只有类的继承和虚函数一起存在的设计哲学，才能把Simula和其它语言分别开来。事实上，Smalltalk相当地强调着这种Simula的遗留问题。</p>
+<p>Defining OO as based on the use of class hierarchies and virtual functions is also practical in that it provides some guidance as to where OO is likely to be successful. You look for concepts that have a hierarchical ordering, for variants of a concept that can share an implementation, and for objects that can be manipulated through a common interface without being of exactly the same type. Given a few examples and a bit of experience, this can be the basis for a very powerful approach to design.</p>
+<p>用继承类和虚函数来定义OO在实际上可以让很多OO指导性的东西更能成功一些。在解决问题时，寻找的那些有层级次序的对象，以应对不同对象也可以重用同一个实现，并且对象可以被某个共同的接口来操作而不需要完全相同的类型。在你了解了一些示例和拥有了一些经验后，OO可以成为Design的一个强有力的基础。</p>
+<p>However, not every concept naturally and usefully fits into a hierarchy, not every relationship among concepts is hierarchical, and not every problem is best approached with a primary focus on objects. For example, some problems really are primarily algorithmic. Consequently, a general-purpose programming language should support a variety of ways of thinking and a variety of programming styles. This variety results from the diversity of problems to be solved and the many ways of solving them. C++ supports a variety of programming styles and is therefore more appropriately called a multiparadigm, rather than an object-oriented, language (assuming you need a fancy label).</p>
+<p>然而，并不是每一个对象都自然地有效地适合继承，并不是每一个对象间的关系都是继承，也并不是每一个问题的最佳解决途径需要主要地通过对象。例如，很多问题主要是算法问题（译注：如业务逻辑，数据流等）。我们知道，一个一般性的编程语言都应该有能力支持不同的思路和不同的编程风格。这样，对于问题的多样性，我们可以使用许许多多不同的的方法去解决他们，这就产生了很多的不同解法。C++支持编程风格的多样性，因此，C++叫做“多范式  multi-paradigm”会更合适一些，而不是一个面向对象语言。</p></blockquote>
+<p><span style="color: #ffffff;">&lt;&#8212;&#8212;&#8212;&gt;</span></p>
+<p>我个人在看过这些言论后，我先不管“面向对象是不是一个骗局”，不过从某种角度上来看的确是有些问题的，C++、OO、XML、SOA、网格计算等等诸如此类的东西的确被挂上了神圣的光坏。这些东西出来的时候总是只有一种赞美的声音。无论好坏，只有一种声音总是令人恐怖的，无论好坏，有不同的声音总是好的，每当这个社会或是我们的IT界大张旗鼓地鼓吹或是信仰某些东西，却没有任何一点不同意见的时候，我就会感到一种莫名的恐慌。我知道，这是我们从小受到的那种“非黑即白”的价值观教育所致，事物要么全是好的，要么全是不好的。其实任何事物都是有好有不好的，C++，敏捷开发，CMMi，OO，设计模式，重构，等等等等，他们都有好的也有不好的，关键看你怎么来使用（如之前的《<a title="代码重构的一个示例" href="https://coolshell.cn/articles/3005.html" target="_blank">代码重构的一个示例</a>》）。这个世界只有适合不适合的东西，不会出现放之四海皆准的东西，也不可能出现一种可以解决所有问题的东西，如果有，那么这种东西必然是一种宗教性质的用来洗脑的东西。</p>
+<p>所以，每当在我身边看到或听到那些只有一种声音有如“电视购物”或是“新闻联播”之类的宣传或是鼓动的时候，我就感到很一种莫名的反感…… 不多说了，还是交给大家来评价吧。我仅以此篇文章献给那些OO-Oriented，Design Pattern-Oriented，Agile-Oriented，Process-Oriented，等等有着宗教信仰一般的人和事。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="如此理解面向对象编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8745.html" class="wp_rp_title">如此理解面向对象编程</a></li><li ><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="对象的消息模型" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_title">对象的消息模型</a></li><li ><a href="https://coolshell.cn/articles/4535.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="一些软件设计的原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4535.html" class="wp_rp_title">一些软件设计的原则</a></li><li ><a href="https://coolshell.cn/articles/12199.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/22.jpg" alt="C++ STL string的Copy-On-Write技术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12199.html" class="wp_rp_title">C++ STL string的Copy-On-Write技术</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3036.html">面向对象是个骗局？！</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3036.html/feed</wfw:commentRss>
+			<slash:comments>79</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>cache | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/cache/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 22 Dec 2020 05:02:17 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>与程序员相关的CPU缓存知识</title>
+		<link>https://coolshell.cn/articles/20793.html</link>
+					<comments>https://coolshell.cn/articles/20793.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 01 Mar 2020 11:43:41 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[cache]]></category>
+		<category><![CDATA[CPU]]></category>
+		<category><![CDATA[性能调优]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=20793</guid>
+
+					<description><![CDATA[<p>好久没有写一些微观方面的文章了，今天写一篇关于CPU Cache相关的文章，这篇文章比较长，主要分成这么几个部分：基础知识、缓存的命中、缓存的一致性、相关的代码...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/20793.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/20793.html">与程序员相关的CPU缓存知识</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-20817" src="https://coolshell.cn/wp-content/uploads/2020/03/cpu_512x512-300x300.png" alt="" width="300" height="300" srcset="https://coolshell.cn/wp-content/uploads/2020/03/cpu_512x512-300x300.png 300w, https://coolshell.cn/wp-content/uploads/2020/03/cpu_512x512-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2020/03/cpu_512x512-200x200.png 200w, https://coolshell.cn/wp-content/uploads/2020/03/cpu_512x512-270x270.png 270w, https://coolshell.cn/wp-content/uploads/2020/03/cpu_512x512.png 512w" sizes="(max-width: 300px) 100vw, 300px" />好久没有写一些微观方面的文章了，今天写一篇关于CPU Cache相关的文章，这篇文章比较长，主要分成这么几个部分：基础知识、缓存的命中、缓存的一致性、相关的代码示例和延伸阅读。其中会讲述一些多核 CPU 的系统架构以及其原理，包括对程序性能上的影响，以及在进行并发编程的时候需要注意到的一些问题。这篇文章我会尽量地写简单和通俗易懂一些，主要是讲清楚相关的原理和问题，而对于一些细节和延伸阅读我会在文章最后会给出相关的资源。</p>
+<p>因为无论你写什么样的代码都会交给CPU来执行，所以，如果你想写出性能比较高的代码，这篇文章中提到的技术还是值得认真学习的。另外，千万别觉得这些东西没用，这些东西非常有用，十多年前就是这些知识在性能调优上帮了我的很多大忙，从而跟很多人拉开了差距……</p>
+<h4>基础知识</h4>
+<p>首先，我们都知道现在的CPU多核技术，都会有几级缓存，老的CPU会有两级内存（L1和L2），新的CPU会有三级内存（L1，L2，L3 ），如下图所示：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-20794" src="https://coolshell.cn/wp-content/uploads/2020/02/cache.architecture.png" alt="" width="729" height="371" srcset="https://coolshell.cn/wp-content/uploads/2020/02/cache.architecture.png 729w, https://coolshell.cn/wp-content/uploads/2020/02/cache.architecture-300x153.png 300w, https://coolshell.cn/wp-content/uploads/2020/02/cache.architecture-531x270.png 531w" sizes="(max-width: 729px) 100vw, 729px" /><span id="more-20793"></span></p>
+<p>其中：</p>
+<ul>
+<li>L1缓存分成两种，一种是指令缓存，一种是数据缓存。L2缓存和L3缓存不分指令和数据。</li>
+<li>L1和L2缓存在每一个CPU核中，L3则是所有CPU核心共享的内存。</li>
+<li>L1、L2、L3的越离CPU近就越小，速度也越快，越离CPU远，速度也越慢。</li>
+</ul>
+<p>再往后面就是内存，内存的后面就是硬盘。我们来看一些他们的速度：</p>
+<ul class="">
+<li>L1 的存取速度：<strong class="hd jp">4 个CPU时钟周期</strong></li>
+<li>L2 的存取速度： <strong class="hd jp">11 个CPU时钟周期</strong></li>
+<li>L3 的存取速度：<strong class="hd jp">39 个CPU时钟周期</strong></li>
+<li>RAM内存的存取速度<strong class="hd jp">：107 个CPU时钟周期</strong></li>
+</ul>
+<p>我们可以看到，L1的速度是RAM的27倍，但是L1/L2的大小基本上也就是KB级别的，L3会是MB级别的。例如：<a href="https://en.wikichip.org/wiki/intel/core_i7/i7-8700k" target="_blank" rel="noopener noreferrer">Intel Core i7-8700K</a> ，是一个6核的CPU，每核上的L1是64KB（数据和指令各32KB），L2 是 256K，L3有2MB（我的苹果电脑是<a href="https://en.wikichip.org/wiki/intel/core_i9/i9-8950hk" target="_blank" rel="noopener noreferrer"> Intel Core i9-8950HK</a>，和Core i7-8700K的Cache大小一样）。</p>
+<p>我们的数据就从内存向上，先到L3，再到L2，再到L1，最后到寄存器进行CPU计算。为什么会设计成三层？这里有下面几个方面的考虑：</p>
+<ul>
+<li>一个方面是物理速度，如果要更大的容量就需要更多的晶体管，除了芯片的体积会变大，更重要的是大量的晶体管会导致速度下降，因为访问速度和要访问的晶体管所在的位置成反比，也就是当信号路径变长时，通信速度会变慢。这部分是物理问题。</li>
+<li>另外一个问题是，多核技术中，数据的状态需要在多个CPU中进行同步，并且，我们可以看到，cache和RAM的速度差距太大，所以，多级不同尺寸的缓存有利于提高整体的性能。</li>
+</ul>
+<p>这个世界永远是平衡的，一面变得有多光鲜，另一面也会变得有多黑暗。建立这么多级的缓存，一定就会引入其它的问题，这里有两个比较重要的问题，</p>
+<ul>
+<li>一个是比较简单的缓存的命中率的问题。</li>
+<li>另一个是比较复杂的缓存更新的一致性问题。</li>
+</ul>
+<p>尤其是第二个问题，在多核技术下，这就很像分布式的系统了，要对多个地方进行更新。</p>
+<h4>缓存的命中</h4>
+<p>在说明这两个问题之前。我们需要要解一个术语 Cache Line。缓存基本上来说就是把后面的数据加载到离自己近的地方，对于CPU来说，它是不会一个字节一个字节的加载的，因为这非常没有效率，一般来说都是要一块一块的加载的，对于这样的一块一块的数据单位，术语叫“Cache Line”，一般来说，一个主流的CPU的Cache Line 是 64 Bytes（也有的CPU用32Bytes和128Bytes），64Bytes也就是16个32位的整型，这就是CPU从内存中捞数据上来的最小数据单位。</p>
+<p>比如：Cache Line是最小单位（64Bytes），所以先把Cache分布多个Cache Line，比如：L1有32KB，那么，32KB/64B = 512 个 Cache Line。</p>
+<p>一方面，缓存需要把内存里的数据放到放进来，英文叫 CPU Associativity。Cache的数据放置的策略决定了内存中的数据块会拷贝到CPU Cache中的哪个位置上，因为Cache的大小远远小于内存，所以，需要有一种地址关联的算法，能够让内存中的数据可以被映射到Cache中来。这个有点像内存地址从逻辑地址向物理地址映射的方法，但不完全一样。</p>
+<p>基本上来说，我们会有如下的一些方法。</p>
+<ul>
+<li>一种方法是，任何一个内存地址的数据可以被缓存在任何一个Cache Line里，这种方法是最灵活的，但是，如果我们要知道一个内存是否存在于Cache中，我们就需要进行O(n)复杂度的Cache遍历，这是很没有效率的。</li>
+<li>另一种方法，为了降低缓存搜索算法，我们需要使用像Hash Table这样的数据结构，最简单的hash table就是做“求模运算”，比如：我们的L1 Cache有512个Cache Line，那么，公式：<code>（内存地址 mod 512）* 64</code> 就可以直接找到所在的Cache地址的偏移了。但是，这样的方式需要我们的程序对内存地址的访问要非常地平均，不然冲突就会非常严重。这成了一种非常理想的情况了。</li>
+<li>为了避免上述的两种方案的问题，于是就要容忍一定的hash冲突，也就出现了 N-Way 关联。也就是把连续的N个Cache Line绑成一组，然后，先把找到相关的组，然后再在这个组内找到相关的Cache Line。这叫 Set Associativity。如下图所示。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-20806" src="https://coolshell.cn/wp-content/uploads/2020/02/cache-associative-fill-both.png" alt="" width="546" height="271" srcset="https://coolshell.cn/wp-content/uploads/2020/02/cache-associative-fill-both.png 546w, https://coolshell.cn/wp-content/uploads/2020/02/cache-associative-fill-both-300x149.png 300w, https://coolshell.cn/wp-content/uploads/2020/02/cache-associative-fill-both-544x270.png 544w" sizes="(max-width: 546px) 100vw, 546px" /></p>
+<p>对于 N-Way 组关联，可能有点不好理解，这里个例子，并多说一些细节（不然后面的代码你会不能理解），Intel 大多数处理器的L1 Cache都是32KB，8-Way 组相联，Cache Line 是64 Bytes。这意味着，</p>
+<ul>
+<li>32KB的可以分成，32KB / 64 = 512 条 Cache Line。</li>
+<li>因为有8 Way，于是会每一Way 有 512 / 8 = 64 条 Cache Line。</li>
+<li>于是每一路就有 64 x 64 = 4096 Byts 的内存。</li>
+</ul>
+<p>为了方便索引内存地址，</p>
+<ul>
+<li><strong>Tag</strong>：每条 Cache Line 前都会有一个独立分配的 24 bits来存的 tag，其就是内存地址的前24bits</li>
+<li><strong>Index</strong>：内存地址后续的6个bits则是在这一Way的是Cache Line 索引，2^6 = 64 刚好可以索引64条Cache Line</li>
+<li><strong>Offset</strong>：再往后的6bits用于表示在Cache Line 里的偏移量</li>
+</ul>
+<p>如下图所示：（图片来自《<a href="https://manybutfinite.com/post/intel-cpu-caches/" target="_blank" rel="noopener noreferrer">Cache: a place for concealment and safekeeping</a>》）</p>
+<p>当拿到一个内存地址的时候，先拿出中间的 6bits 来，找到是哪组。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-20809" src="https://coolshell.cn/wp-content/uploads/2020/03/L1CacheExample.png" alt="" width="687" height="461" srcset="https://coolshell.cn/wp-content/uploads/2020/03/L1CacheExample.png 687w, https://coolshell.cn/wp-content/uploads/2020/03/L1CacheExample-300x201.png 300w, https://coolshell.cn/wp-content/uploads/2020/03/L1CacheExample-402x270.png 402w" sizes="(max-width: 687px) 100vw, 687px" /></p>
+<p>然后，在这一个8组的cache line中，再进行O(n) n=8 的遍历，主是要匹配前24bits的tag。如果匹配中了，就算命中，如果没有匹配到，那就是cache miss，如果是读操作，就需要进向后面的缓存进行访问了。L2/L3同样是这样的算法。而淘汰算法有两种，一种是随机一种是LRU。现在一般都是以LRU的算法（通过增加一个访问计数器来实现）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-20840" src="https://coolshell.cn/wp-content/uploads/2020/03/selectingCacheLine.png" alt="" width="681" height="283" srcset="https://coolshell.cn/wp-content/uploads/2020/03/selectingCacheLine.png 681w, https://coolshell.cn/wp-content/uploads/2020/03/selectingCacheLine-300x125.png 300w, https://coolshell.cn/wp-content/uploads/2020/03/selectingCacheLine-604x251.png 604w" sizes="(max-width: 681px) 100vw, 681px" /></p>
+<p>这也意味着：</p>
+<ul>
+<li>L1 Cache 可映射 36bits 的内存地址，一共 2^36 = 64GB的内存</li>
+<li>当CPU要访问一个内存的时候，通过这个内存中间的6bits 定位是哪个set，通过前 24bits 定位相应的Cache Line。</li>
+<li>就像一个hash Table的数据结构一样，先是O(1)的索引，然后进入冲突搜索。</li>
+<li>因为中间的 6bits 决定了一个同一个set，所以，对于一段连续的内存来说，每隔4096的内存会被放在同一个组内，导致缓存冲突。</li>
+</ul>
+<p>此外，当有数据没有命中缓存的时候，CPU就会以最小为Cache Line的单元向内存更新数据。当然，CPU并不一定只是更新64Bytes，因为访问主存实在是太慢了，所以，一般都会多更新一些。好的CPU会有一些预测的技术，如果找到一种pattern的话，就会预先加载更多的内存，包括指令也可以预加载。这叫 Prefetching 技术 （参看，Wikipedia 的 <a href="https://en.wikipedia.org/wiki/Cache_prefetching" target="_blank" rel="noopener noreferrer">Cache Prefetching</a> 和 <a href="http://compas.cs.stonybrook.edu/~nhonarmand/courses/sp16/cse502/slides/13-prefetch.pdf" target="_blank" rel="noopener noreferrer">纽约州立大学的 Memory Prefetching</a>）。比如，你在for-loop访问一个连续的数组，你的步长是一个固定的数，内存就可以做到prefetching。（注：指令也是以预加载的方式执行，参看本站的《<a href="https://coolshell.cn/articles/7886.html" target="_blank" rel="noopener noreferrer">代码执行的效率</a>》中的第三个示例）</p>
+<p>了解这些细节，会有利于我们知道在什么情况下有可以导致缓存的失效。</p>
+<h4>缓存的一致性</h4>
+<p>对于主流的CPU来说，缓存的写操作基本上是两种策略（参看本站《<a href="https://coolshell.cn/articles/17416.html" target="_blank" rel="noopener noreferrer">缓存更新的套路</a>》），</p>
+<ul>
+<li>一种是Write Back，写操作只要在cache上，然后再flush到内存上。</li>
+<li>一种是Write Through，写操作同时写到cache和内存上。</li>
+</ul>
+<p>为了提高写的性能，一般来说，主流的CPU（如：Intel Core i7/i9）采用的是Write Back的策略，因为直接写内存实在是太慢了。</p>
+<p>好了，现在问题来了，如果有一个数据 x 在 CPU 第0核的缓存上被更新了，那么其它CPU核上对于这个数据 x 的值也要被更新，这就是缓存一致性的问题。（当然，对于我们上层的程序我们不用关心CPU多个核的缓存是怎么同步的，这对上层的代码来说都是透明的）</p>
+<p>一般来说，在CPU硬件上，会有两种方法来解决这个问题。</p>
+<ul>
+<li><strong>Directory 协议</strong>。这种方法的典型实现是要设计一个集中式控制器，它是主存储器控制器的一部分。其中有一个目录存储在主存储器中，其中包含有关各种本地缓存内容的全局状态信息。当单个CPU Cache 发出读写请求时，这个集中式控制器会检查并发出必要的命令，以在主存和CPU Cache之间或在CPU Cache自身之间进行数据同步和传输。</li>
+<li><strong>Snoopy 协议</strong>。这种协议更像是一种数据通知的总线型的技术。CPU Cache通过这个协议可以识别其它Cache上的数据状态。如果有数据共享的话，可以通过广播机制将共享数据的状态通知给其它CPU Cache。这个协议要求每个CPU Cache 都可以<strong class="hu je"><em class="io">“</em>窥探<em class="io">”</em></strong>数据事件的通知并做出相应的反应。如下图所示，有一个Snoopy Bus的总线。</li>
+</ul>
+<p><strong><img decoding="async" loading="lazy" class="aligncenter wp-image-20797" style="font-weight: 400;" src="https://coolshell.cn/wp-content/uploads/2020/02/The-cache-coherence-problem-Initially-processors-0-and-1-both-read-location-x.png" alt="" width="400" height="217" srcset="https://coolshell.cn/wp-content/uploads/2020/02/The-cache-coherence-problem-Initially-processors-0-and-1-both-read-location-x.png 850w, https://coolshell.cn/wp-content/uploads/2020/02/The-cache-coherence-problem-Initially-processors-0-and-1-both-read-location-x-300x163.png 300w, https://coolshell.cn/wp-content/uploads/2020/02/The-cache-coherence-problem-Initially-processors-0-and-1-both-read-location-x-768x417.png 768w, https://coolshell.cn/wp-content/uploads/2020/02/The-cache-coherence-problem-Initially-processors-0-and-1-both-read-location-x-498x270.png 498w" sizes="(max-width: 400px) 100vw, 400px" /></strong></p>
+<p>因为Directory协议是一个中心式的，会有性能瓶颈，而且会增加整体设计的复杂度。而Snoopy协议更像是微服务+消息通讯，所以，现在基本都是使用Snoopy的总线的设计。</p>
+<p>这里，我想多写一些细节，因为这种微观的东西，让人不自然地就会跟分布式系统关联起来，在分布式系统中我们一般用Paxos/Raft这样的分布式一致性的算法。而在CPU的微观世界里，则不必使用这样的算法，原因是因为CPU的多个核的硬件不必考虑网络会断会延迟的问题。所以，CPU的多核心缓存间的同步的核心就是要管理好数据的状态就好了。</p>
+<p>这里介绍几个状态协议，先从最简单的开始，MESI协议，这个协议跟那个著名的足球运动员梅西没什么关系，其主要表示缓存数据有四个状态：Modified（已修改）, Exclusive（独占的）,Shared（共享的），Invalid（无效的）。</p>
+<p>这些状态的状态机如下所示（有点复杂，你可以先不看，这个图就是想告诉你状态控制有多复杂）：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-20804" src="https://coolshell.cn/wp-content/uploads/2020/02/MESI.png" alt="" width="420" height="406" srcset="https://coolshell.cn/wp-content/uploads/2020/02/MESI.png 420w, https://coolshell.cn/wp-content/uploads/2020/02/MESI-300x290.png 300w, https://coolshell.cn/wp-content/uploads/2020/02/MESI-279x270.png 279w" sizes="(max-width: 420px) 100vw, 420px" /></p>
+<p>下面是个示例（如果你想看一下动画演示的话，这里有一个网页（<a href="https://www.scss.tcd.ie/Jeremy.Jones/VivioJS/caches/MESIHelp.htm" target="_blank" rel="noopener noreferrer">MESI Interactive Animations</a>），你可以进行交互操作，这个动画演示中使用的Write Through算法）：</p>
+<table>
+<thead>
+<tr>
+<th>当前操作</th>
+<th>CPU0</th>
+<th>CPU1</th>
+<th>Memory</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1) CPU0 read(x)</td>
+<td> x=1 (E)</td>
+<td></td>
+<td>x=1</td>
+<td>只有一个CPU有 x 变量，<br />
+所以，状态是 Exclusive</td>
+</tr>
+<tr>
+<td>2) CPU1 read(x)</td>
+<td> x=1 (S)</td>
+<td>x=1(S)</td>
+<td>x=1</td>
+<td>有两个CPU都读取 x 变量，<br />
+所以状态变成 Shared</td>
+</tr>
+<tr>
+<td>3) CPU0 write(x,9)</td>
+<td> x=<span style="color: #ff0000;">9</span> (M)</td>
+<td>x=1(I)</td>
+<td>x=1</td>
+<td>变量改变，在CPU0中状态<br />
+变成 Modified，在CPU1中<br />
+状态变成 Invalid</td>
+</tr>
+<tr>
+<td>4) 变量 x 写回内存</td>
+<td> x=9 (M)</td>
+<td>X=1(I)</td>
+<td>x=9</td>
+<td>目前的状态不变</td>
+</tr>
+<tr>
+<td>5) CPU1  read(x)</td>
+<td> x=9 (S)</td>
+<td>x=9(S)</td>
+<td>x=9</td>
+<td>变量同步到所有的Cache中，<br />
+状态回到Shared</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>MESI 这种协议在数据更新后，会标记其它共享的CPU缓存的数据拷贝为Invalid状态，然后当其它CPU再次read的时候，就会出现 cache miss 的问题，此时再从内存中更新数据。从内存中更新数据意味着20倍速度的降低。我们能不能直接从我隔壁的CPU缓存中更新？是的，这就可以增加很多速度了，但是状态控制也就变麻烦了。还需要多来一个状态：Owner(宿主)，用于标记，我是更新数据的源。于是，出现了 <a href="https://en.wikipedia.org/wiki/MOESI_protocol" target="_blank" rel="noopener noreferrer">MOESI 协议</a></p>
+<p>MOESI协议的状态机和演示示例我就不贴了（有兴趣可以上<a href="https://inst.eecs.berkeley.edu/~cs61c/su18/disc/11/Disc11Sol.pdf" target="_blank" rel="noopener">Berkeley上看看相关的课件</a>），<strong>我们只需要理解MOESI协议允许 CPU Cache 间同步数据，于是也降低了对内存的操作</strong>，性能是非常大的提升，但是控制逻辑也非常复杂。</p>
+<p>顺便说一下，与 MOESI 协议类似的一个协议是 <a href="https://en.wikipedia.org/wiki/MESIF_protocol" target="_blank" rel="noopener noreferrer">MESIF</a>，其中的 F 是 Forward，同样是把更新过的数据转发给别的 CPU Cache 但是，MOESI 中的 Owner 状态 和MESIF 中的 Forward 状态有一个非常大的不一样—— <strong>Owner状态下的数据是dirty的，还没有写回内存，Forward状态下的数据是clean的，可以丢弃而不用另行通知</strong>。</p>
+<p>需要说明的是，AMD用MOESI，Intel用MESIF。所以，F 状态主要是针对 CPU L3 Cache 设计的（前面我们说过，L3是所有CPU核心共享的）。（相关的比较可以参看<a href="https://stackoverflow.com/a/49989985" target="_blank" rel="noopener noreferrer">StackOverlow上这个问题的答案</a>）</p>
+<h4>程序性能</h4>
+<p>了解了我们上面的这些东西后，我们来看一下对于程序的影响。</p>
+<h5>示例一</h5>
+<p>首先，假设我们有一个64M长的数组，设想一下下面的两个循环：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="cpp">const int LEN = 64*1024*1024;
+int *arr = new int[LEN];
+
+for (int i = 0; i &lt; LEN; i += 2) arr[i] *= i;
+
+for (int i = 0; i &lt; LEN; i += 8) arr[i] *= i;</pre>
+<p>按我们的想法来看，第二个循环要比第一个循环少4倍的计算量，其应该也是要快4倍的。但实际跑下来并不是，<strong>在我的机器上，第一个循环需要127毫秒，第二个循环则需要121毫秒，相差无几</strong>。这里最主要的原因就是 Cache Line，因为CPU会以一个Cache Line 64Bytes最小时单位加载，也就是16个32bits的整型，所以，无论你步长是2还是8，都差不多。而后面的乘法其实是不耗CPU时间的。</p>
+<h5>示例二</h5>
+<p>我们再来看一个与缓存命中率有关的代码，我们以一定的步长<code>increment</code> 来访问一个连续的数组。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="cpp">for (int i = 0; i &lt; 10000000; i++) {
+    for (int j = 0; j &lt; size; j += increment) {
+        memory[j] += j;
+    }
+}</pre>
+<p>我们测试一下，在下表中， 表头是步长，也就是每次跳多少个整数，而纵向是这个数组可以跳几次（你可以理解为要几条Cache Line），于是表中的任何一项代表了这个数组有多少，而且步长是多少。比如：横轴是 512，纵轴是4，意思是，这个数组有 <code>4*512 = 2048</code> 个长度，访问时按512步长访问，也就是访问其中的这几项：<code>[0, 512, 1024, 1536]</code> 这四项。</p>
+<p>表中同的项是，是循环1000万次的时间，单位是“微秒”（除以1000后是毫秒）</p>
+<pre>| count |   1    |   16  |  512  | 1024  |
+------------------------------------------
+|     1 |  17539 | 16726 | 15143 | 14477 |
+|     2 |  15420 | 14648 | 13552 | 13343 |
+|     3 |  14716 | 14463 | 15086 | 17509 |
+|     4 |  18976 | 18829 | 18961 | 21645 |
+|     5 |  23693 | 23436 | 74349 | 29796 |
+|     6 |  23264 | 23707 | 27005 | 44103 |
+|     7 |  28574 | 28979 | 33169 | 58759 |
+|     8 |  33155 | 34405 | 39339 | 65182 |
+|     9 |  37088 | 37788 | 49863 |<span style="color: #cc0000;"><strong>156745</strong></span> |
+|    10 |  41543 | 42103 | 58533 |<span style="color: #cc0000;"><strong>215278</strong></span> |
+|    11 |  47638 | 50329 | 66620 |<span style="color: #cc0000;"><strong>335603</strong></span> |
+|    12 |  49759 | 51228 | 75087 |<span style="color: #cc0000;"><strong>305075</strong></span> |
+|    13 |  53938 | 53924 | 77790 |<span style="color: #cc0000;"><strong>366879</strong></span> |
+|    14 |  58422 | 59565 | 90501 |<span style="color: #cc0000;"><strong>466368</strong></span> |
+|    15 |  62161 | 64129 | 90814 |<span style="color: #cc0000;"><strong>525780</strong></span> |
+|    16 |  67061 | 66663 | 98734 |<span style="color: #cc0000;"><strong>440558</strong></span> |
+|    17 |  71132 | 69753 |<span style="color: #cc0000;"><strong>171203</strong></span> |<span style="color: #cc0000;"><strong>506631</strong></span> |
+|    18 |  74102 | 73130 |<span style="color: #cc0000;"><strong>293947</strong></span> |<span style="color: #cc0000;"><strong>550920</strong></span> |
+</pre>
+<p>我们可以看到，从 <code>[9，1024]</code> 以后，时间显著上升。包括 <code>[17，512]</code> 和 <code>[18,512]</code> 也显著上升。这是因为，我机器的 L1 Cache 是 32KB, 8 Way 的，前面说过，8 Way的有64组，每组8个Cache Line，当for-loop步长超过1024个整型，也就是正好 4096 Bytes时，也就是导致内存地址的变化是变化在高位的24bits上，而低位的12bits变化不大，尤其是中间6bits没有变化，导致全部命中同一组set，导致大量的cache 冲突，导致性能下降，时间上升。而 [16, 512]也是一样的，其中的几步开始导致L1 Cache开始冲突失效。</p>
+<h5>示例三</h5>
+<p>接下来，我们再来看个示例。下面是一个二维数组的两种遍历方式，一个逐行遍历，一个是逐列遍历，这两种方式在理论上来说，寻址和计算量都是一样的，执行时间应该也是一样的。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="cpp">const int row = 1024;
+const int col = 512
+int matrix[row][col];
+
+//逐行遍历
+int sum_row=0;
+for(int _r=0; _r&lt;row; _r++) {
+    for(int _c=0; _c&lt;col; _c++){
+        sum_row += matrix[_r][_c];
+    }
+}
+
+//逐列遍历
+int sum_col=0;
+for(int _c=0; _c&lt;col; _c++) {
+    for(int _r=0; _r&lt;row; _r++){
+        sum_col += matrix[_r][_c];
+    }
+}</pre>
+<p>然而，并不是，在我的机器上，得到下面的结果。</p>
+<ul>
+<li>逐行遍历：0.081ms</li>
+<li>逐列遍历：1.069ms</li>
+</ul>
+<p>执行时间有十几倍的差距。其中的原因，就是逐列遍历对于CPU Cache 的运作方式并不友好，所以，付出巨大的代价。</p>
+<h5>示例四</h5>
+<p>接下来，我们来看一下多核下的性能问题，参看如下的代码。两个线程在操作一个数组的两个不同的元素（无需加锁），线程循环1000万次，做加法操作。在下面的代码中，我高亮了一行，就是<code>p2</code>指针，要么是<code>p[1]</code>，或是 <code>p[30]</code>，理论上来说，无论访问哪两个数组元素，都应该是一样的执行时间。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="cpp" data-enlighter-highlight="9">void fn (int* data) {
+    for(int i = 0; i &lt; 10*1024*1024; ++i)
+        *data += rand();
+}
+
+int p[32];
+
+int *p1 = &amp;p[0];
+int *p2 = &amp;p[1]; // int *p2 = &amp;p[30];
+
+thread t1(fn, p1);
+thread t2(fn, p2);</pre>
+<p>然而，并不是，在我的机器上执行下来的结果是：</p>
+<ul>
+<li>对于 <code>p[0]</code> 和 <code>p[1]</code> ：560ms</li>
+<li>对于 <code>p[0]</code> 和 <code>p[30]</code>：104ms</li>
+</ul>
+<p>这是因为 <code>p[0]</code> 和 <code>p[1]</code> 在同一条 Cache Line 上，而 <code>p[0]</code> 和 <code>p[30]</code> 则不可能在同一条Cache Line 上 ，CPU的缓存最小的更新单位是Cache Line，所以，<strong>这导致虽然两个线程在写不同的数据，但是因为这两个数据在同一条Cache Line上，就会导致缓存需要不断进在两个CPU的L1/L2中进行同步，从而导致了5倍的时间差异</strong>。</p>
+<h5>示例五</h5>
+<p>接下来，我们再来看一下另外一段代码：我们想统计一下一个数组中的奇数个数，但是这个数组太大了，我们希望可以用多线程来完成这个统计。下面的代码中，<strong>我们为每一个线程传入一个 id ，然后通过这个 id 来完成对应数组段的统计任务。这样可以加快整个处理速度</strong>。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="cpp">int total_size = 16 * 1024 * 1024; //数组长度
+int* test_data = new test_data[total_size]; //数组
+int nthread = 6; //线程数（因为我的机器是6核的）
+int result[nthread]; //收集结果的数组
+
+void thread_func (int id) {
+    result[id] = 0;
+    int chunk_size = total_size / nthread + 1;
+    int start = id * chunk_size;
+    int end = min(start + chunk_size, total_size);
+
+    for ( int i = start; i &lt; end; ++i ) {
+        if (test_data[i] % 2 != 0 ) ++result[id];
+    }
+}</pre>
+<p>然而，在执行过程中，<strong>你会发现，6个线程居然跑不过1个线程</strong>。因为根据上面的例子你知道 <code>result[]</code> 这个数组中的数据在一个Cache Line中，所以，所有的线程都会对这个 Cache Line 进行写操作，导致所有的线程都在不断地重新同步 <code>result[]</code> 所在的 Cache Line，所以，导致 6 个线程还跑不过一个线程的结果。这叫 <strong>False Sharing</strong>。</p>
+<p>优化也很简单，使用一个线程内的变量。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="cpp">void thread_func (int id) {
+    result[id] = 0;
+    int chunk_size = total_size / nthread + 1;
+    int start = id * chunk_size;
+    int end = min(start + chunk_size, total_size);
+
+    int c = 0; //使用临时变量，没有cache line的同步了
+    for ( int i = start; i &lt; end; ++i ) {
+        if (test_data[i] % 2 != 0 ) ++c;
+    }
+    result[id] = c;
+}</pre>
+<p>我们把两个程序分别在 1 到 32 个线程上跑一下，得出的结果画一张图如下所示（横轴是线程数，纵轴是完成统的时间，单位是微秒）：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-large wp-image-20813" src="https://coolshell.cn/wp-content/uploads/2020/03/false.sharing-1024x643.png" alt="" width="640" height="402" srcset="https://coolshell.cn/wp-content/uploads/2020/03/false.sharing-1024x643.png 1024w, https://coolshell.cn/wp-content/uploads/2020/03/false.sharing-300x188.png 300w, https://coolshell.cn/wp-content/uploads/2020/03/false.sharing-768x482.png 768w, https://coolshell.cn/wp-content/uploads/2020/03/false.sharing-430x270.png 430w, https://coolshell.cn/wp-content/uploads/2020/03/false.sharing.png 1320w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>上图中，我们可以看到，灰色的曲线就是第一种方法，橙色的就是第二种（用局部变量的）方法。当只有一个线程的时候，两个方法相当，基本没有什么差别，但是在线程数增加的时候的时候，你会发现，第二种方法的性能提高的非常快。直到到达6个线程的时候，开始变得稳定（前面说过，我的CPU是6核的）。而第一种方法无论加多少线程也没有办法超过第二种方法。因为第一种方法不是CPU Cache 友好的。也就是说，第二种方法，<strong>只要我的CPU核数足够多，就可以做到线性的性能扩展，让每一个CPU核都跑起来，而第一种则不能</strong>。</p>
+<p>篇幅问题，示例就写到这里，相关的代码参看<a href="https://github.com/haoel/cpu-cache" target="_blank" rel="noopener noreferrer">我的Github相关仓库</a>。</p>
+<h4>延伸阅读</h4>
+<ul>
+<li>Wikipedia : <a href="https://en.wikipedia.org/wiki/CPU_cache" target="_blank" rel="noopener noreferrer">CPU Cache </a></li>
+<li>经典文章：<a href="http://igoro.com/archive/gallery-of-processor-cache-effects/" target="_blank" rel="noopener noreferrer">Gallery of Processor Cache Effects</a> （这篇文章中的测试已经有点过时了，但是这篇文章中所说的那些东西还是非常适用的）</li>
+<li>Effective C++作者 Scott Meyers 的演讲 CPU Caches and Why You Care （<a href="https://www.youtube.com/watch?v=WDIkqP4JbkE" target="_blank" rel="noopener noreferrer">Youtube</a>，<a href="https://www.aristeia.com/TalkNotes/codedive-CPUCachesHandouts.pdf" target="_blank" rel="noopener noreferrer">PPT</a>）</li>
+<li>美国私立大学Swarthmore的教材 <a href="https://www.cs.swarthmore.edu/~kwebb/cs31/f18/memhierarchy/caching.html" target="_blank" rel="noopener noreferrer">Cache Architecture and Design</a></li>
+<li>经典文章：<a href="https://people.freebsd.org/~lstewart/articles/cpumemory.pdf" target="_blank" rel="noopener noreferrer">What Every Programmer Should Know About Memory</a> （这篇文章非常经典，但是开篇太晦涩了，居然告诉你晶体管内的构造，第三章和第六章是重点）</li>
+<li>Nonblocking Algorithms and Scalable Multicore Programming （<a href="https://queue.acm.org/detail.cfm?id=2492433" target="_blank" rel="noopener noreferrer">英文版</a>，<a href="https://www.oschina.net/translate/nonblocking-algorithms-and-scalable-multicore-programming" target="_blank" rel="noopener noreferrer">中文版</a>）</li>
+<li>Github上的一个代码库 <a href="https://github.com/Kobzol/hardware-effects" target="_blank" rel="noopener noreferrer">hardware-effects</a> 里面有受CPU影响的程序的演示</li>
+<li>Optimizing for instruction caches （<a href="https://www.eetimes.com/optimizing-for-instruction-caches-part-1/" target="_blank" rel="noopener noreferrer">Part 1</a>，<a href="https://www.eetimes.com/optimizing-for-instruction-caches-part-2/" target="_blank" rel="noopener noreferrer">Part 2</a>， <a href="https://www.eetimes.com/optimizing-for-instruction-caches-part-3/">Part 3</a>）</li>
+<li>经典数据：<a href="https://gist.github.com/jboner/2841832" target="_blank" rel="noopener noreferrer">Latency Numbers Every Programmer Should Know</a></li>
+<li>关于Java的可以看一下这篇<a href="https://dzone.com/articles/optimizing-memory-access-with-cpu-cache" target="_blank" rel="noopener noreferrer">Optimizing Memory Access With CPU Cache</a> 或是 <a href="https://www.stardog.com/blog/writing-cache-friendly-code/" target="_blank" rel="noopener noreferrer">Writing cache-friendly code</a></li>
+</ul>
+<p>总之，这个CPU Cache的调优技术不是什么新鲜的东西，只要Google就能找到有很多很多文章……</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10249.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/image6-150x150.png" alt="7个示例科普CPU Cache" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10249.html" class="wp_rp_title">7个示例科普CPU Cache</a></li><li ><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/cache-150x150.png" alt="缓存更新的套路" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_title">缓存更新的套路</a></li><li ><a href="https://coolshell.cn/articles/2039.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="CPU的性价比" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2039.html" class="wp_rp_title">CPU的性价比</a></li><li ><a href="https://coolshell.cn/articles/325.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/overall-150x150.jpg" alt="2009年脚本语言排名" width="150" height="150" /></a><a href="https://coolshell.cn/articles/325.html" class="wp_rp_title">2009年脚本语言排名</a></li><li ><a href="https://coolshell.cn/articles/1835.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="IE6/IE7 0day 漏洞" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1835.html" class="wp_rp_title">IE6/IE7 0day 漏洞</a></li><li ><a href="https://coolshell.cn/articles/804.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="关于C++构造函数的FAQ" width="150" height="150" /></a><a href="https://coolshell.cn/articles/804.html" class="wp_rp_title">关于C++构造函数的FAQ</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/20793.html">与程序员相关的CPU缓存知识</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/20793.html/feed</wfw:commentRss>
+			<slash:comments>107</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>缓存更新的套路</title>
+		<link>https://coolshell.cn/articles/17416.html</link>
+					<comments>https://coolshell.cn/articles/17416.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 27 Jul 2016 08:25:28 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[cache]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[design pattern]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17416</guid>
+
+					<description><![CDATA[<p>看到好些人在写更新缓存数据代码时，先删除缓存，然后再更新数据库，而后续的操作会把数据再装载的缓存中。然而，这个是逻辑是错误的。试想，两个并发操作，一个是更新操作...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17416.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17416.html">缓存更新的套路</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-17422" src="https://coolshell.cn/wp-content/uploads/2016/07/cache-300x158.png" alt="cache" width="300" height="158" srcset="https://coolshell.cn/wp-content/uploads/2016/07/cache-300x158.png 300w, https://coolshell.cn/wp-content/uploads/2016/07/cache-514x270.png 514w, https://coolshell.cn/wp-content/uploads/2016/07/cache.png 600w" sizes="(max-width: 300px) 100vw, 300px" />看到好些人在写更新缓存数据代码时，<strong>先删除缓存，然后再更新数据库</strong>，而后续的操作会把数据再装载的缓存中。<strong>然而，这个是逻辑是错误的</strong>。试想，两个并发操作，一个是更新操作，另一个是查询操作，更新操作删除缓存后，查询操作没有命中缓存，先把老数据读出来后放到缓存中，然后更新操作更新了数据库。于是，在缓存中的数据还是老的数据，导致缓存中的数据是脏的，而且还一直这样脏下去了。</p>
+<p>我不知道为什么这么多人用的都是这个逻辑，当我在微博上发了这个贴以后，我发现好些人给了好多非常复杂和诡异的方案，所以，我想写这篇文章说一下几个缓存更新的Design Pattern（让我们多一些套路吧）。</p>
+<p>这里，我们先不讨论更新缓存和更新数据这两个事是一个事务的事，或是会有失败的可能，我们先假设更新数据库和更新缓存都可以成功的情况（我们先把成功的代码逻辑先写对）。</p>
+<p>更新缓存的的Design Pattern有四种：Cache aside, Read through, Write through, Write behind caching，我们下面一一来看一下这四种Pattern。</p>
+<p><span id="more-17416"></span></p>
+<h4>Cache Aside Pattern</h4>
+<p>这是最常用最常用的pattern了。其具体逻辑如下：</p>
+<ul>
+<li><strong>失效</strong>：应用程序先从cache取数据，没有得到，则从数据库中取数据，成功后，放到缓存中。</li>
+</ul>
+<ul>
+<li><strong>命中</strong>：应用程序从cache中取数据，取到后返回。</li>
+</ul>
+<ul>
+<li><strong>更新</strong>：先把数据存到数据库中，成功后，再让缓存失效。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-17438 size-full" src="https://coolshell.cn/wp-content/uploads/2016/07/Cache-Aside-Design-Pattern-Flow-Diagram-e1470471723210.png" alt="Cache-Aside-Design-Pattern-Flow-Diagram" width="600" height="188" /></p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-17437 size-full" src="https://coolshell.cn/wp-content/uploads/2016/07/Updating-Data-using-the-Cache-Aside-Pattern-Flow-Diagram-1-e1470471761402.png" alt="Updating-Data-using-the-Cache-Aside-Pattern-Flow-Diagram-1" width="600" height="186" /></p>
+<p>注意，我们的更新是先更新数据库，成功后，让缓存失效。那么，这种方式是否可以没有文章前面提到过的那个问题呢？我们可以脑补一下。</p>
+<p>一个是查询操作，一个是更新操作的并发，首先，没有了删除cache数据的操作了，而是先更新了数据库中的数据，此时，缓存依然有效，所以，并发的查询操作拿的是没有更新的数据，但是，更新操作马上让缓存的失效了，后续的查询操作再把数据从数据库中拉出来。而不会像文章开头的那个逻辑产生的问题，后续的查询操作一直都在取老的数据。</p>
+<p>这是标准的design pattern，包括Facebook的论文《<a href="https://www.usenix.org/system/files/conference/nsdi13/nsdi13-final170_update.pdf" target="_blank">Scaling Memcache at Facebook</a>》也使用了这个策略。为什么不是写完数据库后更新缓存？你可以看一下Quora上的这个问答《<a href="https://www.quora.com/Why-does-Facebook-use-delete-to-remove-the-key-value-pair-in-Memcached-instead-of-updating-the-Memcached-during-write-request-to-the-backend">Why does Facebook use delete to remove the key-value pair in Memcached instead of updating the Memcached during write request to the backend?</a>》，主要是怕两个并发的写操作导致脏数据。</p>
+<p>那么，是不是Cache Aside这个就不会有并发问题了？不是的，比如，一个是读操作，但是没有命中缓存，然后就到数据库中取数据，此时来了一个写操作，写完数据库后，让缓存失效，然后，之前的那个读操作再把老的数据放进去，所以，会造成脏数据。</p>
+<p>但，这个case理论上会出现，不过，实际上出现的概率可能非常低，因为这个条件需要发生在读缓存时缓存失效，而且并发着有一个写操作。而实际上数据库的写操作会比读操作慢得多，而且还要锁表，而读操作必需在写操作前进入数据库操作，而又要晚于写操作更新缓存，所有的这些条件都具备的概率基本并不大。</p>
+<p><strong>所以，这也就是Quora上的那个答案里说的，要么通过2PC或是Paxos协议保证一致性，要么就是拼命的降低并发时脏数据的概率，而Facebook使用了这个降低概率的玩法，因为2PC太慢，而Paxos太复杂。当然，最好还是为缓存设置上过期时间。</strong></p>
+<h4>Read/Write Through Pattern</h4>
+<p>我们可以看到，在上面的Cache Aside套路中，我们的应用代码需要维护两个数据存储，一个是缓存（Cache），一个是数据库（Repository）。所以，应用程序比较啰嗦。而Read/Write Through套路是把更新数据库（Repository）的操作由缓存自己代理了，所以，对于应用层来说，就简单很多了。<strong>可以理解为，应用认为后端就是一个单一的存储，而存储自己维护自己的Cache。</strong></p>
+<h5>Read Through</h5>
+<p>Read Through 套路就是在查询操作中更新缓存，也就是说，当缓存失效的时候（过期或LRU换出），Cache Aside是由调用方负责把数据加载入缓存，而Read Through则用缓存服务自己来加载，从而对应用方是透明的。</p>
+<h5>Write Through</h5>
+<p>Write Through 套路和Read Through相仿，不过是在更新数据时发生。当有数据更新的时候，如果没有命中缓存，直接更新数据库，然后返回。如果命中了缓存，则更新缓存，然后再由Cache自己更新数据库（这是一个同步操作）</p>
+<p>下图自来Wikipedia的<a href="https://en.wikipedia.org/wiki/Cache_(computing)">Cache词条</a>。其中的Memory你可以理解为就是我们例子里的数据库。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17417" src="https://coolshell.cn/wp-content/uploads/2016/07/460px-Write-through_with_no-write-allocation.svg_.png" alt="Write-through_with_no-write-allocation" width="460" height="620" srcset="https://coolshell.cn/wp-content/uploads/2016/07/460px-Write-through_with_no-write-allocation.svg_.png 460w, https://coolshell.cn/wp-content/uploads/2016/07/460px-Write-through_with_no-write-allocation.svg_-223x300.png 223w" sizes="(max-width: 460px) 100vw, 460px" /></p>
+<h4>Write Behind Caching Pattern</h4>
+<p>Write Behind 又叫 Write Back。<strong>一些了解Linux操作系统内核的同学对write back应该非常熟悉，这不就是Linux文件系统的Page Cache的算法吗？是的，你看基础这玩意全都是相通的。</strong>所以，基础很重要，我已经不是一次说过基础很重要这事了。</p>
+<p>Write Back套路，一句说就是，在更新数据的时候，只更新缓存，不更新数据库，而我们的缓存会异步地批量更新数据库。这个设计的好处就是让数据的I/O操作飞快无比（因为直接操作内存嘛 ），因为异步，write backg还可以合并对同一个数据的多次操作，所以性能的提高是相当可观的。</p>
+<p>但是，其带来的问题是，数据不是强一致性的，而且可能会丢失（我们知道Unix/Linux非正常关机会导致数据丢失，就是因为这个事）。在软件设计上，我们基本上不可能做出一个没有缺陷的设计，就像算法设计中的时间换空间，空间换时间一个道理，有时候，强一致性和高性能，高可用和高性性是有冲突的。软件设计从来都是取舍Trade-Off。</p>
+<p>另外，Write Back实现逻辑比较复杂，因为他需要track有哪数据是被更新了的，需要刷到持久层上。操作系统的write back会在仅当这个cache需要失效的时候，才会被真正持久起来，比如，内存不够了，或是进程退出了等情况，这又叫lazy write。</p>
+<p>在wikipedia上有一张write back的流程图，基本逻辑如下：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17428" src="https://coolshell.cn/wp-content/uploads/2016/07/Write-back_with_write-allocation.png" alt="Write-back_with_write-allocation" width="640" height="820" srcset="https://coolshell.cn/wp-content/uploads/2016/07/Write-back_with_write-allocation.png 640w, https://coolshell.cn/wp-content/uploads/2016/07/Write-back_with_write-allocation-234x300.png 234w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>&nbsp;</p>
+<h4>再多唠叨一些</h4>
+<p>1）上面讲的这些Design Pattern，其实并不是软件架构里的mysql数据库和memcache/redis的更新策略，这些东西都是计算机体系结构里的设计，比如CPU的缓存，硬盘文件系统中的缓存，硬盘上的缓存，数据库中的缓存。<strong>基本上来说，这些缓存更新的设计模式都是非常老古董的，而且历经长时间考验的策略</strong>，所以这也就是，工程学上所谓的Best Practice，遵从就好了。</p>
+<p>2）有时候，我们觉得能做宏观的系统架构的人一定是很有经验的，其实，宏观系统架构中的很多设计都来源于这些微观的东西。比如，云计算中的很多虚拟化技术的原理，和传统的虚拟内存不是很像么？Unix下的那些I/O模型，也放大到了架构里的同步异步的模型，还有Unix发明的管道不就是数据流式计算架构吗？TCP的好些设计也用在不同系统间的通讯中，仔细看看这些微观层面，你会发现有很多设计都非常精妙……所以，<strong>请允许我在这里放句观点鲜明的话——如果你要做好架构，首先你得把计算机体系结构以及很多老古董的基础技术吃透了</strong>。</p>
+<p>3）在软件开发或设计中，我非常建议在之前先去参考一下已有的设计和思路，<strong>看看相应的guideline，best practice或design pattern，吃透了已有的这些东西，再决定是否要重新发明轮子</strong>。千万不要似是而非地，想当然的做软件设计。</p>
+<p>4）上面，我们没有考虑缓存（Cache）和持久层（Repository）的整体事务的问题。比如，更新Cache成功，更新数据库失败了怎么吗？或是反过来。关于这个事，如果你需要强一致性，你需要使用“两阶段提交协议”——prepare, commit/rollback，比如Java 7 的<a href="http://docs.oracle.com/javaee/7/api/javax/transaction/xa/XAResource.html" target="_blank">XAResource</a>，还有MySQL 5.7的 <a href="http://dev.mysql.com/doc/refman/5.7/en/xa.html" target="_blank">XA Transaction</a>，有些cache也支持XA，比如<a href="http://www.ehcache.org/documentation/3.0/xa.html" target="_blank">EhCache</a>。当然，XA这样的强一致性的玩法会导致性能下降，关于分布式的事务的相关话题，你可以看看《<a href="https://coolshell.cn/articles/10910.html" target="_blank">分布式系统的事务处理</a>》一文。</p>
+<p>（全文完）</p>
+<p>&nbsp;</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/8961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/kiss-150x150.png" alt="从面向对象的设计模式看软件设计" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8961.html" class="wp_rp_title">从面向对象的设计模式看软件设计</a></li><li ><a href="https://coolshell.cn/articles/7236.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/05/Bannière-Unix-linux-150x150.jpg" alt="用Unix的设计思想来应对多变的需求" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7236.html" class="wp_rp_title">用Unix的设计思想来应对多变的需求</a></li><li ><a href="https://coolshell.cn/articles/6950.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="需求变化与IoC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6950.html" class="wp_rp_title">需求变化与IoC</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/12/bachelor-mechanical-eng-icon@72x-150x150.png" alt="我做系统架构的一些原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_title">我做系统架构的一些原则</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17416.html">缓存更新的套路</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17416.html/feed</wfw:commentRss>
+			<slash:comments>186</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>7个示例科普CPU Cache</title>
+		<link>https://coolshell.cn/articles/10249.html</link>
+					<comments>https://coolshell.cn/articles/10249.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Tue, 30 Jul 2013 01:05:38 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[cache]]></category>
+		<category><![CDATA[CPU]]></category>
+		<category><![CDATA[并发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10249</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 翻译投稿） CPU cache一直是理解计算机体系架构的重要知识点，也是并发编程设计中的技术难点，而且相关参考资料如同过江之鲫，浩...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10249.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10249.html">7个示例科普CPU Cache</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 翻译投稿）</strong></p>
+<p>CPU cache一直是理解计算机体系架构的重要知识点，也是并发编程设计中的技术难点，而且相关参考资料如同过江之鲫，浩瀚繁星，阅之如临深渊，味同嚼蜡，三言两语难以入门。正好网上有人推荐了微软大牛Igor Ostrovsky一篇博文<strong>《漫游处理器缓存效应》</strong>，文章不仅仅用7个最简单的源码示例就将CPU cache的原理娓娓道来，还附加图表量化分析做数学上的佐证，个人感觉这种案例教学的切入方式绝对是俺的菜，故而忍不住贸然译之，以飨列位看官。</p>
+<p>原文地址：<a href="http://igoro.com/archive/gallery-of-processor-cache-effects/">Gallery of Processor Cache Effects</a></p>
+<p>大多数读者都知道cache是一种快速小型的内存，用以存储最近访问内存位置。这种描述合理而准确，但是更多地了解一些处理器缓存工作中的“烦人”细节对于理解程序运行性能有很大帮助。</p>
+<p>在这篇博客中，我将运用代码示例来详解cache工作的方方面面，以及对现实世界中程序运行产生的影响。</p>
+<p>下面的例子都是用C#写的，但语言的选择同程序运行状况以及得出的结论几乎没什么影响。</p>
+<h4>示例1：内存访问和运行</h4>
+<p>你认为相较于循环1，循环2会运行多快？</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int[] arr = new int[64 * 1024 * 1024];
+
+// Loop 1
+for (int i = 0; i &lt; arr.Length; i++) arr[i] *= 3;
+
+// Loop 2
+for (int i = 0; i &lt; arr.Length; i += 16) arr[i] *= 3;</pre>
+<p><span id="more-10249"></span></p>
+<p>第一个循环将数组的每个值乘3，第二个循环将每16个值乘3，第二个循环只做了第一个约6%的工作，但在现代机器上，两者几乎运行相同时间：在我机器上分别是80毫秒和78毫秒。</p>
+<p>两个循环花费相同时间的原因跟内存有关。<strong>循环执行时间长短由数组的内存访问次数决定的，而非整型数的乘法运算次数。</strong>经过下面对第二个示例的解释，你会发现硬件对这两个循环的主存访问次数是相同的。</p>
+<h4>示例2：缓存行的影响</h4>
+<p>让我们进一步探索这个例子。我们将尝试不同的循环步长，而不仅仅是1和16。</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">for (int i = 0; i &lt; arr.Length; i += K) arr[i] *= 3;</code></p>
+<p>下图为该循环在不同步长(K)下的运行时间：</p>
+<p><img decoding="async" class="aligncenter" alt="running times of this loop for different step values (K)" src="http://igoro.com/wordpress/wp-content/uploads/2010/01/image6.png" /></p>
+<p>注意当步长在1到16范围内，循环运行时间几乎不变。但从16开始，每次步长加倍，运行时间减半。</p>
+<p>背后的原因是今天的CPU不再是按字节访问内存，而是以64字节为单位的块(chunk)拿取，称为一个缓存行(cache line)。当你读一个特定的内存地址，整个缓存行将从主存换入缓存，并且访问同一个缓存行内的其它值的开销是很小的。</p>
+<p>由于16个整型数占用64字节（一个缓存行），for循环步长在1到16之间必定接触到相同数目的缓存行：即数组中所有的缓存行。当步长为32，我们只有大约每两个缓存行接触一次，当步长为64，只有每四个接触一次。</p>
+<p>理解缓存行对某些类型的程序优化而言可能很重要。比如，数据字节对齐可能决定一次操作接触1个还是2个缓存行。那上面的例子来说，很显然操作不对齐的数据将损失一半性能。</p>
+<h4>示例3：L1和L2缓存大小</h4>
+<p>今天的计算机具有两级或三级缓存，通常叫做L1、L2以及可能的L3（译者注：如果你不明白什么叫二级缓存，可以参考<a href="https://coolshell.cn/articles/3236.html" target="_blank">这篇精悍的博文</a>lol）。如果你想知道不同缓存的大小，你可以使用系统内部工具<a href="http://technet.microsoft.com/en-us/sysinternals/cc835722.aspx" target="_blank">CoreInfo</a>，或者Windows API调用<a href="http://msdn.microsoft.com/en-us/library/ms683194(VS.85).aspx" target="_blank">GetLogicalProcessorInfo</a>。两者都将告诉你缓存行以及缓存本身的大小。</p>
+<p>在我的机器上，CoreInfo现实我有一个32KB的L1数据缓存，一个32KB的L1指令缓存，还有一个4MB大小L2数据缓存。L1缓存是处理器独享的，L2缓存是成对处理器共享的。</p>
+<p>Logical Processor to Cache Map:<br />
+*&#8212; Data Cache 0, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+*&#8212; Instruction Cache 0, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+-*&#8211; Data Cache 1, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+-*&#8211; Instruction Cache 1, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+**&#8211; Unified Cache 0, Level 2, 4 MB, Assoc 16, LineSize 64<br />
+&#8211;*- Data Cache 2, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+&#8211;*- Instruction Cache 2, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+&#8212;* Data Cache 3, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+&#8212;* Instruction Cache 3, Level 1, 32 KB, Assoc 8, LineSize 64<br />
+&#8211;** Unified Cache 1, Level 2, 4 MB, Assoc 16, LineSize 64</p>
+<p>（译者注：作者平台是四核机，所以L1编号为0~3，数据/指令各一个，L2只有数据缓存，两个处理器共享一个，编号0~1。关联性字段在后面例子说明。）</p>
+<p>让我们通过一个实验来验证这些数字。遍历一个整型数组，每16个值自增1——一种节约地方式改变每个缓存行。当遍历到最后一个值，就重头开始。我们将使用不同的数组大小，可以看到当数组溢出一级缓存大小，程序运行的性能将急剧滑落。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int steps = 64 * 1024 * 1024;
+// Arbitrary number of steps
+int lengthMod = arr.Length - 1;
+for (int i = 0; i &lt; steps; i++)
+{
+    arr[(i * 16) &amp; lengthMod]++; // (x &amp; lengthMod) is equal to (x % arr.Length)
+}</pre>
+<p>下图是运行时间图表：<br />
+<img decoding="async" class="aligncenter" alt="cache size" src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image.png" /></p>
+<p>你可以看到在32KB和4MB之后性能明显滑落——正好是我机器上L1和L2缓存大小。</p>
+<h4>示例4：指令级别并发</h4>
+<p>现在让我们看一看不同的东西。下面两个循环中你以为哪个较快？</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int steps = 256 * 1024 * 1024;
+int[] a = new int[2];
+
+// Loop 1
+for (int i=0; i&lt;steps; i++) { a[0]++; a[0]++; }
+
+// Loop 2
+for (int i=0; i&lt;steps; i++) { a[0]++; a[1]++; }</pre>
+<p>结果是第二个循环约比第一个快一倍，至少在我测试的机器上。为什么呢？这跟两个循环体内的操作指令依赖性有关。</p>
+<p>第一个循环体内，操作做是相互依赖的（译者注：下一次依赖于前一次）：<br />
+<img decoding="async" class="aligncenter" alt="same value dependency" src="http://igoro.com/wordpress/wp-content/uploads/2010/01/image.png" /><br />
+但第二个例子中，依赖性就不同了：<br />
+<img decoding="async" class="aligncenter" alt="different values dependency" src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image2.png" /></p>
+<p>现代处理器中对不同部分指令拥有一点并发性（译者注：跟流水线有关，比如Pentium处理器就有U/V两条流水线，后面说明）。这使得CPU在同一时刻访问L1两处内存位置，或者执行两次简单算术操作。在第一个循环中，处理器无法发掘这种指令级别的并发性，但第二个循环中就可以。</p>
+<p>[原文更新]：许多人在reddit上询问有关编译器优化的问题，像{ a[0]++; a[0]++; }能否优化为{ a[0]+=2; }。实际上，C#编译器和CLR JIT没有做优化——在数组访问方面。我用release模式编译了所有测试（使用优化选项），但我查询了JIT汇编语言证实优化并未影响结果。</p>
+<h4>示例5：缓存关联性</h4>
+<p>缓存设计的一个关键决定是确保每个主存块(chunk)能够存储在任何一个缓存槽里，或者只是其中一些（译者注：此处一个槽位就是一个缓存行）。</p>
+<p>有三种方式将缓存槽映射到主存块中：</p>
+<ol>
+<li><strong>直接映射(Direct mapped cache)</strong><br />
+每个内存块只能映射到一个特定的缓存槽。一个简单的方案是通过块索引chunk_index映射到对应的槽位(chunk_index % cache_slots)。被映射到同一内存槽上的两个内存块是不能同时换入缓存的。（译者注：chunk_index可以通过物理地址/缓存行字节计算得到）</li>
+<li><strong>N路组关联(N-way set associative cache)</strong><br />
+每个内存块能够被映射到N路特定缓存槽中的任意一路。比如一个16路缓存，每个内存块能够被映射到16路不同的缓存槽。一般地，具有一定相同低bit位地址的内存块将共享16路缓存槽。（译者注：相同低位地址表明相距一定单元大小的连续内存）</li>
+<li><strong>完全关联(Fully associative cache)</strong><br />
+每个内存块能够被映射到任意一个缓存槽。操作效果上相当于一个散列表。</li>
+</ol>
+<p>直接映射缓存会引发冲突——当多个值竞争同一个缓存槽，它们将相互驱逐对方，导致命中率暴跌。另一方面，完全关联缓存过于复杂，并且硬件实现上昂贵。N路组关联是处理器缓存的典型方案，它在电路实现简化和高命中率之间取得了良好的折中。</p>
+<p><img decoding="async" class="aligncenter" alt="完全关联与多路关联的cache映射" src="http://my.csdn.net/uploads/201204/18/1334757273_8141.png" /><br />
+（此图由译者给出，直接映射和完全关联可以看做N路组关联的两个极端，从图中可知当N=1时，即直接映射；当N取最大值时，即完全关联。读者可以自行想象直接映射图例，具体表述见参考资料。）</p>
+<p>举个例子，4MB大小的L2缓存在我机器上是16路关联。所有64字节内存块将分割为不同组，映射到同一组的内存块将竞争L2缓存里的16路槽位。</p>
+<p>L2缓存有65,536个缓存行（译者注：4MB/64），每个组需要16路缓存行，我们将获得4096个集。这样一来，块属于哪个组取决于块索引的低12位bit(2^12=4096)。<strong>因此缓存行对应的物理地址凡是以262,144字节(4096*64)的倍数区分的，将竞争同一个缓存槽。我机器上最多维持16个这样的缓存槽。</strong>（译者注：请结合上图中的2路关联延伸理解，一个块索引对应64字节，chunk0对应组0中的任意一路槽位，chunk1对应组1中的任意一路槽位，以此类推chunk4095对应组4095中的任意一路槽位，chunk0和chunk4096地址的低12bit是相同的，所以chunk4096、chunk8192将同chunk0竞争组0中的槽位，它们之间的地址相差262,144字节的倍数，而最多可以进行16次竞争，否则就要驱逐一个chunk）。</p>
+<p>为了使得缓存关联效果更加明了，我需要重复地访问同一组中的16个以上的元素，通过如下方法证明：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">public static long UpdateEveryKthByte(byte[] arr, int K)
+{
+    Stopwatch sw = Stopwatch.StartNew();
+    const int rep = 1024*1024; // Number of iterations – arbitrary
+    int p = 0;
+    for (int i = 0; i &lt; rep; i++)
+    {
+        arr[p]++;
+        p += K;
+        if (p &gt;= arr.Length) p = 0;
+    }
+    sw.Stop();
+    return sw.ElapsedMilliseconds;
+}</pre>
+<p>该方法每次在数组中迭代K个值，当到达末尾时从头开始。循环在运行足够长（2^20次）之后停止。</p>
+<p>我使用不同的数组大小（每次增加1MB）和不同的步长传入UpdateEveryKthByte()。以下是绘制的图表，蓝色代表运行较长时间，白色代表较短时间：<br />
+<img decoding="async" class="aligncenter" alt="timing" src="http://igoro.com/wordpress/wp-content/uploads/2010/02/image_thumb1_opt.png" /><br />
+蓝色区域（较长时间）表明当我们重复数组迭代时，更新的值无法同时放在缓存中。浅蓝色区域对应80毫秒，白色区域对应10毫秒。</p>
+<p>让我们来解释一下图表中蓝色部分：</p>
+<p><strong>1.为何有垂直线？</strong>垂直线表明步长值过多接触到同一组中内存位置（大于16次）。在这些次数里，我的机器无法同时将接触过的值放到16路关联缓存中。</p>
+<p>一些糟糕的步长值为2的幂：256和512。举个例子，考虑512步长遍历8MB数组，存在32个元素以相距262,144字节空间分布，所有32个元素都会在循环遍历中更新到，因为512能够整除262,144（译者注：此处一个步长代表一个字节）。</p>
+<p>由于32大于16，这32个元素将一直竞争缓存里的16路槽位。</p>
+<p>（译者注：为何512步长的垂直线比256步长颜色更深？在同样足够多的步数下，512比256访问到存在竞争的块索引次数多一倍。比如跨越262,144字节边界512需要512步，而256需要1024步。那么当步数为2^20时，512访问了2048次存在竞争的块而256只有1024次。最差情况下步长为262,144的倍数，因为每次循环都会引发一个缓存行驱逐。）</p>
+<p>有些不是2的幂的步长运行时间长仅仅是运气不好，最终访问到的是同一组中不成比例的许多元素，这些步长值同样显示为蓝线。</p>
+<p><strong>2.为何垂直线在4MB数组长度的地方停止？</strong>因为对于小于等于4MB的数组，16路关联缓存相当于完全关联缓存。</p>
+<p>一个16路关联缓存最多能够维护16个以262,144字节分隔的缓存行，4MB内组17或更多的缓存行都没有对齐在262,144字节边界上，因为16*262,144=4,194,304。</p>
+<p><strong>3.为何左上角出现蓝色三角？</strong>在三角区域内，我们无法在缓存中同时存放所有必要的数据，不是出于关联性，而仅仅是因为L2缓存大小所限。</p>
+<p>举个例子，考虑步长128遍历16MB数组，数组中每128字节更新一次，这意味着我们一次接触两个64字节内存块。为了存储16MB数组中每两个缓存行，我们需要8MB大小缓存。但我的机器中只有4MB缓存（译者注：这意味着必然存在冲突从而延时）。</p>
+<p>即使我机器中4MB缓存是全关联，仍无法同时存放8MB数据。</p>
+<p><strong>4.为何三角最左边部分是褪色的？</strong>注意左边0~64字节部分——正好一个缓存行！就像上面示例1和2所说，额外访问相同缓存行的数据几乎没有开销。比如说，步长为16字节，它需要4步到达下一个缓存行，也就是说4次内存访问只有1次开销。</p>
+<p>在相同循环次数下的所有测试用例中，采取省力步长的运行时间来得短。</p>
+<p>将图表延伸后的模型：<br />
+<img decoding="async" class="aligncenter" alt="timing2" src="http://igoro.com/wordpress/wp-content/uploads/2010/02/assoc_big_thumb1_opt.png" /></p>
+<p>缓存关联性理解起来有趣而且确能被证实，但对于本文探讨的其它问题比起来，它肯定不会是你编程时所首先需要考虑的问题。</p>
+<h4>示例6：缓存行的伪共享(false-sharing)</h4>
+<p>在多核机器上，缓存遇到了另一个问题——一致性。不同的处理器拥有完全或部分分离的缓存。在我的机器上，L1缓存是分离的（这很普遍），而我有两对处理器，每一对共享一个L2缓存。这随着具体情况而不同，如果一个现代多核机器上拥有多级缓存，那么快速小型的缓存将被处理器独占。</p>
+<p><strong>当一个处理器改变了属于它自己缓存中的一个值，其它处理器就再也无法使用它自己原来的值，因为其对应的内存位置将被刷新(invalidate)到所有缓存。而且由于缓存操作是以缓存行而不是字节为粒度，所有缓存中整个缓存行将被刷新！</strong></p>
+<p>为证明这个问题，考虑如下例子：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">private static int[] s_counter = new int[1024];
+private void UpdateCounter(int position)
+{
+    for (int j = 0; j &lt; 100000000; j++)
+    {
+        s_counter[position] = s_counter[position] + 3;
+    }
+}</pre>
+<p>在我的四核机上，如果我通过四个线程传入参数0,1,2,3并调用UpdateCounter，所有线程将花费4.3秒。</p>
+<p>另一方面，如果我传入16,32,48,64，整个操作进花费0.28秒！</p>
+<p>为何会这样？第一个例子中的四个值很可能在同一个缓存行里，每次一个处理器增加计数，这四个计数所在的缓存行将被刷新，而其它处理器在下一次访问它们各自的计数（译者注：注意数组是private属性，每个线程独占）将失去命中(miss)一个缓存。这种多线程行为有效地禁止了缓存功能，削弱了程序性能。</p>
+<h4>示例7：硬件复杂性</h4>
+<p>即使你懂得了缓存的工作基础，有时候硬件行为仍会使你惊讶。不用处理器在工作时有不同的优化、探试和微妙的细节。</p>
+<p>有些处理器上，L1缓存能够并发处理两路访问，如果访问是来自不同的存储体，而对同一存储体的访问只能串行处理。而且处理器聪明的优化策略也会使你感到惊讶，比如在伪共享的例子中，以前在一些没有微调的机器上运行表现并不良好，但我家里的机器能够对最简单的例子进行优化来减少缓存刷新。</p>
+<p>下面是一个“硬件怪事”的奇怪例子：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">private static int A, B, C, D, E, F, G;
+private static void Weirdness()
+{
+    for (int i = 0; i &lt; 200000000; i++)
+    {
+        // do something...
+    }
+}</pre>
+<p>当我在循环体内进行三种不同操作，我得到如下运行时间：</p>
+<p><strong>           操作</strong>                    <strong>时间</strong><br />
+A++; B++; C++; D++;     719 ms<br />
+A++; C++; E++; G++;     448 ms<br />
+A++; C++;                      518 ms</p>
+<p>增加A,B,C,D字段比增加A,C,E,G字段花费更长时间，更奇怪的是，增加A,C两个字段比增加A,C,E,G执行更久！</p>
+<p>我无法肯定这些数字背后的原因，但我怀疑这跟存储体有关，如果有人能够解释这些数字，我将洗耳恭听。</p>
+<p>这个例子的教训是，你很难完全预测硬件的行为。你可以预测很多事情，但最终，衡量及验证你的假设非常重要。</p>
+<h4>关于第7个例子的一个回帖</h4>
+<p>Goz：我询问Intel的工程师最后的例子，得到以下答复：</p>
+<p>“很显然这涉及到执行单元里指令是怎样终止的，机器处理存储-命中-加载的速度，以及如何快速且优雅地处理试探性执行的循环展开（比如是否由于内部冲突而多次循环）。但这意味着你需要非常细致的流水线跟踪器和模拟器才能弄明白。在纸上预测流水线里的乱序指令是无比困难的工作，就算是设计芯片的人也一样。对于门外汉来说，没门，抱歉！”</p>
+<h4>P.S.个人感悟——局部性原理和流水线并发</h4>
+<p>程序的运行存在<strong>时间和空间上的局部性</strong>，前者是指只要内存中的值被换入缓存，今后一段时间内会被多次引用，后者是指该内存附近的值也被换入缓存。如果在编程中特别注意运用局部性原理，就会获得性能上的回报。</p>
+<p>比如<strong>C语言中应该尽量减少静态变量的引用，</strong>这是因为静态变量存储在全局数据段，在一个被反复调用的函数体内，引用该变量需要对缓存多次换入换出，而如果是分配在堆栈上的局部变量，函数每次调用CPU只要从缓存中就能找到它了，因为堆栈的重复利用率高。</p>
+<p>再比如<strong>循环体内的代码要尽量精简，</strong>因为代码是放在指令缓存里的，而指令缓存都是一级缓存，只有几K字节大小，如果对某段代码需要多次读取，而这段代码又跨越一个L1缓存大小，那么缓存优势将荡然无存。</p>
+<p>关于<strong>CPU的流水线(pipeline)并发性</strong>简单说说，Intel Pentium处理器有两条流水线U和V，每条流水线可各自独立地读写缓存，所以可以在一个时钟周期内同时执行两条指令。但这两条流水线不是对等的，U流水线可以处理所有指令集，V流水线只能处理简单指令。</p>
+<p>CPU指令通常被分为四类，第一类是常用的简单指令，像mov, nop, push, pop, add, sub, and, or, xor, inc, dec, cmp, lea，可以在任意一条流水线执行，只要相互之间不存在依赖性，完全可以做到指令并发。</p>
+<p>第二类指令需要同别的流水线配合，像一些进位和移位操作，这类指令如果在U流水线中，那么别的指令可以在V流水线并发运行，如果在V流水线中，那么U流水线是暂停的。</p>
+<p>第三类指令是一些跳转指令，如cmp,call以及条件分支，它们同第二类相反，当工作在V流水线时才能通U流水线协作，否则只能独占CPU。</p>
+<p>第四类指令是其它复杂的指令，一般不常用，因为它们都只能独占CPU。</p>
+<p>如果是汇编级别编程，<strong>要达到指令级别并发，必须要注重指令之间的配对。</strong>尽量使用第一类指令，避免第四类，还要在顺序上减少上下文依赖。</p>
+<h4>参考资料</h4>
+<p>wiki上的CPU cache解析（<a href="http://zh.wikipedia.org/zh-cn/CPU%E7%BC%93%E5%AD%98" target="_blank">中文版</a>）（<a href="https://en.wikipedia.org/wiki/CPU_cache" target="_blank">英文版</a>）。</p>
+<p>上海交通大学师生制作的一个关于<a href="http://yoursunny.com/study/EI209/?topic=cache" target="_blank">cache映射功能、命中率计算</a>的教学演示程序，模拟了不同关联模式下cache的映射和命中几率，形象直观。</p>
+<p>网易数据库大牛<a href="http://weibo.com/u/2216172320" target="_blank">@何_登成</a>自制PPT<a href="http://vdisk.weibo.com/s/dBzv2sibdUB8" target="_blank">《CPU Cache and Memory Ordering》</a>，信息量超大！</p>
+<p>南京大学计算机教学<a href="http://cs.nju.edu.cn/swang/CompArchOrg_12F/slides/lecture09.pdf" target="_blank">公开PPT</a>，温馨提示，地址域名里面改变字段&#8221;lecture&#8221;后面的数字编号可切换课程;-)</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20793.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/cpu_512x512-150x150.png" alt="与程序员相关的CPU缓存知识" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20793.html" class="wp_rp_title">与程序员相关的CPU缓存知识</a></li><li ><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/cache-150x150.png" alt="缓存更新的套路" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_title">缓存更新的套路</a></li><li ><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/图1-3-150x150.jpg" alt="无锁HashMap的原理与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_title">无锁HashMap的原理与实现</a></li><li ><a href="https://coolshell.cn/articles/9606.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/race_condition-150x150.jpg" alt="疫苗：Java HashMap的死循环" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9606.html" class="wp_rp_title">疫苗：Java HashMap的死循环</a></li><li ><a href="https://coolshell.cn/articles/2039.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="CPU的性价比" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2039.html" class="wp_rp_title">CPU的性价比</a></li><li ><a href="https://coolshell.cn/articles/757.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="如何检查网页浏览器的兼容性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/757.html" class="wp_rp_title">如何检查网页浏览器的兼容性</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10249.html">7个示例科普CPU Cache</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10249.html/feed</wfw:commentRss>
+			<slash:comments>73</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

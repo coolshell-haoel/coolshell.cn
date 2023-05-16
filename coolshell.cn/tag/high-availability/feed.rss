@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>High Availability | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/high-availability/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 03 Mar 2017 11:13:01 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>AWS 的 S3 故障回顾和思考</title>
+		<link>https://coolshell.cn/articles/17737.html</link>
+					<comments>https://coolshell.cn/articles/17737.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 03 Mar 2017 06:20:03 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Amazon S3]]></category>
+		<category><![CDATA[AWS]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[High Availability]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17737</guid>
+
+					<description><![CDATA[<p>继Gitlab的误删除数据事件没几天，“不沉航母” AWS S3 （Simple Storage Service）几天前也“沉”了4个小时，墙外的半个互联网也跟...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17737.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17737.html">AWS 的 S3 故障回顾和思考</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-17738" src="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down.png" width="360" height="197" srcset="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down.png 553w, https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-300x164.png 300w, https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-494x270.png 494w" sizes="(max-width: 360px) 100vw, 360px" />继<a href="https://coolshell.cn/articles/17680.html" target="_blank">Gitlab的误删除数据事件</a>没几天，“不沉航母” AWS S3 （Simple Storage Service）几天前也“沉”了4个小时，墙外的半个互联网也跟着挂了。如约，按 AWS 惯例，AWS今天给出了一个简单的故障报告《<span class="s1"><a href="https://aws.amazon.com/cn/message/41926/" target="_blank">Summary of the Amazon S3 Service Disruption in the Northern Virginia (US-EAST-1) Region</a>》。这个故障和简单来说和Gitlab一样，也是人员误操作。先简单的说一下这份报中说了什么。</span></p>
+<h4>故障原因</h4>
+<p>简单来说，这天，有一个 AWS 工程师在调查 <span class="s1">Northern Virginia (US-EAST-1) Region 上 S3 的一个和账务系统相关的问题，这个问题是S3的账务系统变慢了（我估计这个故障在Amazon里可能是Sev2级，Sev2级的故障在Amazon算是比较大的故障，需要很快解决），Oncall的开发工程师（注：Amazon的运维都是由开发工程师来干的，所以Amazon内部嬉称SDE-Software Developer Engineer 为 Someone Do Everything）想移除一个账务系统里的一个子系统下的一些少量的服务器（估计这些服务器上有问题，所以想移掉后重新部署），结果呢，有一条命令搞错了，导致了移除了大量的S3的控制系统。包括两个很重要的子系统：</span></p>
+<p><span id="more-17737"></span></p>
+<p style="padding-left: 30px;">1）<strong>一个是S3的对象索引服务（Index）</strong>，其中存储了S3对象的metadata和位置信息。这个服务也提供了所有的 GET，LIST，PUT 和DELETE请求。</p>
+<p style="padding-left: 30px;">2）<strong>一个是S3的位置服务系统（Placement）</strong>，这个服务提供对象的存储位置和索引服务的系统。这个系统主要是用于处理PUT新对象请求。</p>
+<p>这就是为什么S3不可访问的原因。</p>
+<p>在后面，AWS也说明了一下故障恢复的过程，其中重点提到了这点——</p>
+<p style="padding-left: 30px;">虽然整个S3的是做过充分的故障设计的（注：AWS的七大Design Principle 之一 Design for Failure）—— 就算是最核心的组件或服务出问题了，系统也能恢复。但是，可能是在过去的日子里 S3 太稳定了，所以，AWS 在很长很长一段时间内都没有重启过 S3 的核心服务，而过去这几年，S3 的数据对象存储级数级的成长（S3存了什么样数量级的对象，因为在Amazon工作过，所以多大概知道是个什么数量级，这里不能说，不过，老实说，很惊人的），所以，这两个核心服务在启动时要重建并校验对象索引元数据的完整性，这个过程没想到花了这么长的时候。而Placement服务系统依赖于Index 服务，所以花了更长的时间。</p>
+<p>了解过系统底层的技术人员应该都知道这两个服务有多重要，简而言之，这两个系统就像是Unix/Linux文件系统中的inode，或是像HDFS里的node name，如果这些元数据丢失，那么，用户的所有数据基本上来说就等于全丢了。</p>
+<p>而要恢复索引系统，就像你的操作系统从异常关机后启动，文件系统要做系统自检那样，硬盘越大，文件越多，这个过程就越慢。</p>
+<p>另外，这次，AWS没有使用像以前那样 Outage 的故障名称，用的是 “Increased Error Rate” 这样的东西。我估计是没有把所有这两个服务删除完，估计有些用户是可以用的，有的用户是则不行了。</p>
+<h4>后续改进</h4>
+<p>在这篇故障简报中，AWS 也提到了下面的这些改进措施——</p>
+<p>1）<strong>改进运维操作工具</strong>。对于此次故障的运维工具，有下面改进：</p>
+<ul>
+<li><strong>让删除服务这个操作变慢一些</strong>（陈皓注：这样错了也可以有时间反悔，相对于一个大规模的分布式系统，这招还是很不错的，至少在系统报警时有也可以挽救）</li>
+</ul>
+<ul>
+<li><strong>加上一个最小资源数限制的SafeGuard</strong>（陈皓注：就是说，任何服务在运行时都应该有一个最小资源数，分布式集群控制系统会强行维护服务正常运行的最小的一个资源数）</li>
+</ul>
+<ul>
+<li>举一反三，Review所有和其它的运维工具，保证他们也相关的检查。</li>
+</ul>
+<p>2）<strong>改进恢复过程。</strong>对于恢复时间过长的问题，有如下改进：</p>
+<ul>
+<li><strong>分解现有厚重的重要服务成更小的单元</strong>（在 AWS，Service是大服务，小服务被称之为 Cell），AWS 会把这几个重要的服务重构成 Cell服务。（陈皓注：这应该就是所谓的“微服务”了吧）。这样，服务粒度变小，重启也会快一些，而且还可以减少故障面（原文：blast radius &#8211; 爆炸半径）</li>
+</ul>
+<ul>
+<li><strong>今年内完成对 Index 索引服务的分区计划</strong>。</li>
+</ul>
+<p>&nbsp;</p>
+<h4>相关思考</h4>
+<p>下面是我对这一故障的相关思考——</p>
+<p>0）<strong>太喜欢像Gitlab和AWS这样的故障公开了</strong>，那怕是一个自己人为的低级错误。不掩盖，不文过饰非，透明且诚恳。Cool!</p>
+<p>1）这次事件，还好没有丢失这么重要的数据，不然的话，将是灾难性的。</p>
+<p>2）另外，面对在 US-EASE-1 这个老牌 Region 上的海量的对象，而且能在几个小时内恢复，很不容易了。</p>
+<p>3）这个事件，再次映证了我在《<a href="https://coolshell.cn/articles/17459.html">关于高可用的系统</a>》中提到的观点：<strong>一个系统的高可用的因素很多，不仅仅只是系统架构，更重要的是——高可用运维</strong>。</p>
+<p>4）<strong>对于高可用的运维，平时的故障演习是很重要的。</strong>AWS 平时应该没有相应的故障演习，所以导致要么长期不出故障，一出就出个大的让你措手不及。这点，Facebook就好一些，他们每个季度扔个骰子，随机关掉一个IDC一天。Netflix 也有相关的 Chaos Monkey，我以前在的路透每年也会做一次大规模的故障演练——灾难演习。</p>
+<p>5）AWS对于后续的改进可以看出他的技术范儿。可以看到其改进方案是用技术让自己的系统更为的高可用。然后，对比国内的公司对于这样的故障，基本上会是下面这样的画风：</p>
+<p style="padding-left: 30px;">a）加上更多更为严格的变更和审批流程，</p>
+<p style="padding-left: 30px;">b）使用限制更多的权限系统和审批系统</p>
+<p style="padding-left: 30px;">c）使用更多的人来干活（一个人干事，另一个人在旁边看）</p>
+<p style="padding-left: 30px;">d）使用更为厚重的测试和发布过程</p>
+<p style="padding-left: 30px;">e）惩罚故障人，用价值观教育工程师。</p>
+<p>这还是我老生长谈的那句话——<strong>如果你是一个技术公司，你就会更多的相信技术而不是管理。相信技术会用技术来解决问题，相信管理，那就只会有制度、流程和价值观来解决问题</strong>。（注意：这里我并没有隔离技术和管理，只是更为倾向于用技术解决问题）</p>
+<p><strong>最后，你是要建一个 “高可用的技术系统” ，还是一个 “高用的管理系统”？ ;-)</strong></p>
+<p>（全文完）</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/22422.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/05/monolith.microservices-150x150.png" alt="是微服务架构不香还是云不香？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22422.html" class="wp_rp_title">是微服务架构不香还是云不香？</a></li><li ><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/12/bachelor-mechanical-eng-icon@72x-150x150.png" alt="我做系统架构的一些原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_title">我做系统架构的一些原则</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/cache-150x150.png" alt="缓存更新的套路" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_title">缓存更新的套路</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17737.html">AWS 的 S3 故障回顾和思考</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17737.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>从Gitlab误删除数据库想到的</title>
+		<link>https://coolshell.cn/articles/17680.html</link>
+					<comments>https://coolshell.cn/articles/17680.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 02 Feb 2017 08:11:28 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[Gitlab]]></category>
+		<category><![CDATA[High Availability]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[分布式]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17680</guid>
+
+					<description><![CDATA[<p>昨天，Gitlab.com发生了一个大事，某同学误删了数据库，这个事看似是个低级错误，不过，因为Gitlab把整个过程的细节都全部暴露出来了，所以，可以看到很多...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17680.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17680.html">从Gitlab误删除数据库想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-17685" src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600.jpg" width="300" height="215" srcset="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600.jpg 439w, https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-300x215.jpg 300w, https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-377x270.jpg 377w" sizes="(max-width: 300px) 100vw, 300px" />昨天，Gitlab.com发生了一个大事，某同学误删了数据库，这个事看似是个低级错误，不过，因为Gitlab把整个过程的细节都全部暴露出来了，所以，可以看到很多东西，而对于类似这样的事情，我自己以前也干过，而在最近的两公司中我也见过（Amazon中见过一次，阿里中见过至少四次），正好通过这个事来说说一下自己的一些感想和观点吧。<strong>我先放个观点：你觉得有备份系统就不会丢数据了吗？</strong></p>
+<h4>事件回顾</h4>
+<p>整个事件的回顾Gitlab.com在第一时间就放到了<a href="https://docs.google.com/document/d/1GCK53YDcBWQveod9kfzW-VCxIABGiryG7_z_6jHdVik/pub" target="_blank">Google Doc上</a>，事后，又发了<a href="https://about.gitlab.com/2017/02/01/gitlab-dot-com-database-incident/" target="_blank">一篇Blog</a>来说明这个事，在这里，我简单的回顾一下这个事件的过程。</p>
+<p>首先，一个叫YP的同学在给gitlab的线上数据库做一些负载均衡的工作，在做这个工作时的时候突发了一个情况，Gitlab被DDoS攻击，数据库的使用飙高，在block完攻击者的IP后，发现有个staging的数据库(db2.staging)已经落后生产库4GB的数据，于是YP同学在Fix这个staging库的同步问题的时候，发现db2.staging有各种问题都和主库无法同步，在这个时候，YP同学已经工作的很晚了，在尝试过多个方法后，发现db2.staging都hang在那里，无法同步，于是他想把db2.staging的数据库删除了，这样全新启动一个新的复制，结果呢，删除数据库的命令错误的敲在了生产环境上（db1.cluster），结果导致整个生产数据库被误删除。（<strong>陈皓注：这个失败基本上就是 “工作时间过长” + “在多数终端窗口中切换中迷失掉了”</strong>）</p>
+<p><span id="more-17680"></span></p>
+<p>在恢复的过程中，他们发现只有db1.staging的数据库可以用于恢复，而其它的5种备份机制都不可用，第一个是数据库的同步，没有同步webhook，第二个是对硬盘的快照，没有对数据库做，第三个是用pg_dump的备份，发现版本不对（用9.2的版本去dump 9.6的数据）导致没有dump出数据，第四个S3的备份，完全没有备份上，第五个是相关的备份流程是问题百出的，只有几个粗糙的人肉的脚本和糟糕的文档，也就是说，不但是是人肉的，而且还是完全不可执行的。（<strong>陈皓注：就算是这些备份机制都work，其实也有问题，因为这些备份大多数基本上都是24小时干一次，所以，要从这些备份恢复也一定是是要丢数据的了，只有第一个数据库同步才会实时一些</strong>）</p>
+<p>最终，gitlab从db1.staging上把6个小时前的数据copy回来，结果发现速度非常的慢，备份结点只有60Mbits/S，拷了很长时间（<strong>陈皓注：为什么不把db1.staging给直接变成生产机？因为那台机器的性能很差</strong>）。数据现在的恢复了，不过，因为恢复的数据是6小时前的，所以，有如下的数据丢失掉了：</p>
+<ul class="ul1">
+<li class="li1"><span class="s2">粗略估计，有4613 的项目， 74 forks,  和 350 imports 丢失了；但是，因为Git仓库还在，所以，可以从Git仓库反向推导数据库中的数据，但是，项目中的issues等就完全丢失了。</span></li>
+<li class="li1"><span class="s2">大约有±4979 提交记录丢失了（陈皓注：估计也可以用git仓库中反向恢复）。</span></li>
+<li class="li1"><span class="s2">可能有 707  用户丢失了，这个数据来自Kibana的日志。</span></li>
+<li class="li2"><span class="s4">在1月31日17:20 后的Webhooks 丢失了。</span></li>
+</ul>
+<p>因为Gitlab把整个事件的细节公开了出来，所以，也得到了很多外部的帮助，2nd Quadrant的CTO &#8211; <span class="s1"><a href="https://www.linkedin.com/in/simonat2ndquadrantdotcom" target="_blank">Simon Riggs</a> 在他的blog上也发布文章 <a href="http://blog.2ndquadrant.com/dataloss-at-gitlab/" target="_blank">Dataloss at Gitlab </a>给了一些非常不错的建议：</span></p>
+<ul>
+<li>关于PostgreSQL 9.6的数据同步hang住的问题，可能有一些Bug，正在fix中。</li>
+<li>PostgreSQL有4GB的同步滞后是正常的，这不是什么问题。</li>
+<li>正常的停止从结点，会让主结点自动释放WALSender的链接数，所以，不应该重新配置主结点的 max_wal_senders 参数。但是，停止从结点时，主结点的复数连接数不会很快的被释放，而新启动的从结点又会消耗更多的链接数。他认为，Gitlab配置的32个链接数太高了，通常来说，2到4个就足够了。</li>
+<li>另外，之前gitlab配置的max_connections=8000太高了，现在降到2000个是合理的。</li>
+<li>pg_basebackup 会先在主结点上建一个checkpoint，然后再开始同步，这个过程大约需要4分钟。</li>
+<li>手动的删除数据库目录是非常危险的操作，这个事应该交给程序来做。推荐使用刚release 的 <a href="https://www.2ndquadrant.com/en/resources/repmgr/" target="_blank">repmgr</a></li>
+<li>恢复备份也是非常重要的，所以，也应该用相应的程序来做。推荐使用 <a href="https://www.2ndquadrant.com/en/resources/barman/" target="_blank">barman</a> （其支持S3）</li>
+<li>测试备份和恢复是一个很重要的过程。</li>
+</ul>
+<p>看这个样子，估计也有一定的原因是——Gitlab的同学对PostgreSQL不是很熟悉。</p>
+<p>随后，Gitlab在其网站上也开了一系列的issues，其issues列表在这里 <a href="https://gitlab.com/gitlab-com/www-gitlab-com/issues/1108" target="_blank">Write post-mortem</a> (这个列表可能还会在不断更新中)</p>
+<ul class="ul1">
+<li class="li1"><span class="s1"><span class="s2"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1094">infrastructure#1094</a> &#8211; Update PS1 across all hosts to more clearly differentiate between hosts and environments</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1095">infrastructure#1095</a> &#8211; Prometheus monitoring for backups</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1096">infrastructure#1096</a> &#8211; Set PostgreSQL&#8217;s max_connections to a sane value</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1097">infrastructure#1097</a> &#8211; Investigate Point in time recovery &amp; continuous archiving for PostgreSQL</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1098">infrastructure#1098</a> &#8211; Hourly LVM snapshots of the production databases</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1099">infrastructure#1099</a> &#8211; Azure disk snapshots of production databases</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1100">infrastructure#1100</a> &#8211; Move staging to the ARM environment</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1101">infrastructure#1101</a> &#8211; Recover production replica(s)</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1102">infrastructure#1102</a> &#8211; Automated testing of recovering PostgreSQL database backups</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1103">infrastructure#1103</a> &#8211; Improve PostgreSQL replication documentation/runbooks</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1104">infrastructure#1104</a> &#8211; Kick out SSH users inactive for N minutes</span></span></li>
+<li class="li2"><span class="s5"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1105">infrastructure#1105</a> &#8211; Investigate pgbarman for creating PostgreSQL backups</span></span></li>
+</ul>
+<p>从上面的这个列表中，我们可以看到一些改进措施了。挺好的，不过我觉得还不是很够。</p>
+<h4>相关的思考</h4>
+<p>因为类似这样的事，我以前也干过（误删除过数据库，在多个终端窗口中迷失掉了自己所操作的机器……），而且我在amazon里也见过一次，在阿里内至少见过四次以上（在阿里人肉运维的误操作的事故是我见过最多的），但是我无法在这里公开分享，私下可以分享。在这里，我只想从非技术和技术两个方面分享一下我的经验和认识。</p>
+<h5>技术方面</h5>
+<p><strong>人肉运维</strong></p>
+<p>一直以来，我都觉得直接到生产线上敲命令是一种非常不好的习惯。我认为，<strong>一个公司的运维能力的强弱和你上线上环境敲命令是有关的，你越是喜欢上线敲命令你的运维能力就越弱，越是通过自动化来处理问题，你的运维能力就越强</strong>。理由如下：</p>
+<p style="padding-left: 30px;">其一，如果说对代码的改动都是一次发布的话，那么，对生产环境的任何改动（包括硬件、操作系统、网络、软件配置……），也都算是一次发布。那么这样的发布就应该走发布系统和发布流程，要被很好的测试、上线和回滚计划。关键是，走发布过程是可以被记录、追踪和回溯的，而在线上敲命令是完全无法追踪的。没人知道你敲了什么命令。</p>
+<p style="padding-left: 30px;">其二，真正良性的运维能力是——人管代码，代码管机器，而不是人管机器。你敲了什么命令没人知道，但是你写个工具做变更线上系统，这个工具干了什么事，看看工具的源码就知道了。</p>
+<p>另外、有人说，以后不要用rm了，要用mv，还有人说，以后干这样的事时，一个人干，另一个人在旁边看，还有人说，要有一个checklist的强制流程做线上的变更，还有人说要增加一个权限系统。我觉得，这些虽然可以work，但是依然不好，再由如下：</p>
+<p style="padding-left: 30px;">其一、如果要解决一个事情需要加更多的人来做的事，那这事就做成劳动密集型了。今天我们的科技就是在努力消除人力成本，而不是在增加人力成本。而做为一个技术人员，解决问题的最好方式是努力使用技术手段，而不是使用更多的人肉手段。<strong>人类区别于动物的差别就是会发明和使用现代化的工具，而不是使用更多的人力</strong>。另外，<strong>这不仅仅因为是，人都是会有这样或那样的问题（疲惫、情绪化、急燥、冲动……），而机器是单一无脑不知疲惫的，更是因为，机器干活的效率和速度是比人肉高出N多倍的</strong>。</p>
+<p style="padding-left: 30px;">其二、增加一个权限系统或是别的一个watch dog的系统完全是在开倒车，权限系统中的权限谁来维护和审批？不仅仅是因为多出来的系统需要多出来的维护，关键是这个事就没有把问题解决在root上。除了为社会解决就业问题，别无好处，故障依然会发生，有权限的人一样会误操作。对于Gitlab这个问题，正如2nd Quadrant的CTO建议的那样，你需要的是一个自动化的备份和恢复的工具，而不是一个权限系统。</p>
+<p style="padding-left: 30px;">其三、像使用mv而不rm，搞一个checklist和一个更重的流程，更糟糕。这里的逻辑很简单，因为，1）这些规则需要人去学习和记忆，本质上来说，你本来就不相信人，所以你搞出了一些规则和流程，而这些规则和流程的执行，又依赖于人，换汤不换药，2）另外，<strong>写在纸面上的东西都是不可执行的，可以执行的就是只有程序，所以，为什么不把checklist和流程写成代码呢</strong>？（你可能会说程序也会犯错，是的，程序的错误是consistent，而人的错误是inconsistent）</p>
+<p>最关键的是，<strong>数据丢失有各种各样的情况，不单单只是人员的误操作，比如，掉电、磁盘损坏、中病毒等等，在这些情况下，你设计的那些想流程、规则、人肉检查、权限系统、checklist等等统统都不管用了，这个时候，你觉得应该怎么做呢？是的，你会发现，你不得不用更好的技术去设计出一个高可用的系统！别无它法。</strong></p>
+<h4>关于备份</h4>
+<p>一个系统是需要做数据备份的，但是，你会发现，<strong>Gitlab这个事中，就算所有的备份都可用，也不可避免地会有数据的丢失，或是也会有很多问题</strong>。理由如下：</p>
+<p style="padding-left: 30px;">1）备份通常来说都是周期性的，所以，如果你的数据丢失了，从你最近的备份恢复数据里，从备份时间到故障时间的数据都丢失了。</p>
+<p style="padding-left: 30px;">2）备份的数据会有版本不兼容的问题。比如，在你上次备份数据到故障期间，你对数据的scheme做了一次改动，或是你对数据做了一些调整，那么，你备份的数据就会和你线上的程序出现不兼容的情况。</p>
+<p style="padding-left: 30px;">3）有一些公司或是银行有灾备的数据中心，但是灾备的数据中心没有一天live过。等真正灾难来临需要live的时候，你就会发现，各种问题让你live不起来。你可以读一读几年前的这篇报道好好感受一下《<a href="http://finance.sina.com.cn/money/bank/20140804/091219903553.shtml" target="_blank">以史为鉴 宁夏银行7月系统瘫痪最新解析</a>》</p>
+<p>所以，在灾难来临的时候，你会发现你所设计精良的“备份系统”或是“灾备系统”就算是平时可以工作，但也会导致数据丢失，而且可能长期不用的备份系统很难恢复（比如应用、工具、数据的版本不兼容等问题）。</p>
+<p>我之前写过一篇《<a href="https://coolshell.cn/articles/10910.html" target="_blank">分布式系统的事务处理</a>》，你还记得下面这张图吗？看看 Data Loss 那一行的，在Backups, Master/Slave 和 Master/Master的架构下，都是会丢的。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10942" src="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg" alt="" width="566" height="255" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg 566w, https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter-300x135.jpg 300w" sizes="(max-width: 566px) 100vw, 566px" /></p>
+<p>所以说，<strong>如果你要让你的备份系统随时都可以用，那么你就要让它随时都Live着</strong>，而随时都Live着的多结点系统，基本上就是一个分布式的高可用的系统。因为<strong>，数据丢失的原因有很多种，比如掉电、磁盘损坏、中病毒等等，而那些流程、规则、人肉检查、权限系统、checklist等等都只是让人不要误操作，都不管用，这个时候，你不得不用更好的技术去设计出一个高可用的系统！别无它法。（重要的事，得再说一篇）</strong></p>
+<p>另外，你可以参看我的另一篇《<a href="https://coolshell.cn/articles/17459.html" target="_blank">关于高可用系统</a>》，这篇文章中以MySQL为例，数据库的replication也只能达到 两个9。</p>
+<p><strong>AWS 的 S3 的的高可用是4个加11个9的持久性（</strong>所谓11个9的持久性durability，AWS是这样定义的，如果你存了1万个对象，那么丢一个的时间是1000万年<strong>），这意味着，不仅仅只是硬盘坏，机器掉电，整个机房挂了，其保证可以承受有两个设施的数据丢失，数据还是可用的。试想，如果你把数据的可用性通过技术做到了这个份上，那么，你还怕被人误删一个结点上的数据吗？</strong></p>
+<h5>非技术方面</h5>
+<p><strong>故障反思</strong></p>
+<p>一般说来，故障都需要反思，在Amazon，S2以上的故障都需要写COE（Correction of Errors），其中一节就是需要Ask 5 Whys，我发现在Gitlab的故障回顾的blog中第一段中也有说要在今天写个Ask 5 Whys。关于Ask 5 Whys，其实并不是亚马逊的玩法，这还是算一个业内常用的玩法，也就是说不断的为自己为为什么，直到找到问题的概本原因，这会逼着所有的当事人去学习和深究很多东西。在Wikipedia上有相关的词条 <a href="https://en.wikipedia.org/wiki/5_Whys" target="_blank">5 Whys</a>，其中罗列了14条规则：</p>
+<ol>
+<li>你需要找到正确的团队来完成这个故障反思。</li>
+<li>使用纸或白板而不是电脑。</li>
+<li>写下整个问题的过程，确保每个人都能看懂。</li>
+<li>区别原因和症状。</li>
+<li>特别注意因果关系。</li>
+<li>说明Root Cause以及相关的证据。</li>
+<li>5个为什么的答案需要是精确的。</li>
+<li>寻找问题根源的步骤，而不是直接跳到结论。</li>
+<li>要基础客观的事实、数据和知识。</li>
+<li>评估过程而不是人。</li>
+<li>千万不要把“人为失误”或是“工作不注意”当成问题的根源。</li>
+<li>培养信任和真诚的气氛和文化。</li>
+<li>不断的问“为什么”直到问题的根源被找到。这样可以保证同一个坑不会掉进去两次。<sup id="cite_ref-7" class="reference"></sup></li>
+<li>当你给出“为什么”的答案时，你应该从用户的角度来回答。</li>
+</ol>
+<p><strong>工程师文化</strong></p>
+<p>上述的这些观点，其实，我在我的以住的博客中都讲过很多遍了，你可以参看《<a href="https://coolshell.cn/articles/17497.html" target="_blank">什么是工程师文化？</a>》以及《<a href="https://coolshell.cn/articles/11656.html" target="_blank">开发团队的效率</a>》。其实，说白了就是这么一个事——<strong>如果你是一个技术公司，你就会更多的相信技术而不是管理。相信技术会用技术来解决问题，相信管理，那就只会有制度、流程和价值观来解决问题</strong>。</p>
+<p>这个道理很简单，<strong>数据丢失有各种各样的情况，不单单只是人员的误操作，比如，掉电、磁盘损坏、中病毒等等，在这些情况下，你设计的那些流程、规则、人肉检查、权限系统、checklist等等统统都不管用，这个时候，你觉得应该怎么做呢？是的，你会发现，你不得不用更好的技术去设计出一个高可用的系统！别无它法。（重要的事得说三遍）</strong></p>
+<p><strong>事件公开</strong></p>
+<p>很多公司基本上都是这样的套路，首先是极力掩盖，如果掩盖不了了就开始撒谎，撒不了谎了，就“文过饰非”、“避重就轻”、“转移视线”。然而，面对危机的最佳方法就是——“多一些真诚，少一些套路”，<strong>所谓的“多一些真诚”的最佳实践就是——“透明公开所有的信息”</strong>，Gitlab此次的这个事给大家树立了非常好的榜样。AWS也会把自己所有的故障和细节都批露出来。</p>
+<p><strong>事情本来就做错了，而公开所有的细节，会让大众少很多猜测的空间，有利于抵制流言和黑公关，同时，还会赢得大众的理解和支持</strong>。看看Gitlab这次还去YouTube上直播整个修复过程，是件很了不起的事，大家可以到他们的blog上看看，对于这样的透明和公开，一片好评。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li><li ><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="多些时间能少写些代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_title">多些时间能少写些代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17680.html">从Gitlab误删除数据库想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17680.html/feed</wfw:commentRss>
+			<slash:comments>67</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>关于高可用的系统</title>
+		<link>https://coolshell.cn/articles/17459.html</link>
+					<comments>https://coolshell.cn/articles/17459.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 21 Aug 2016 04:34:53 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[High Availability]]></category>
+		<category><![CDATA[Paxos]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[分布式]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17459</guid>
+
+					<description><![CDATA[<p>在《这多年来我一直在钻研的技术》这篇文章中，我讲述了一下，我这么多年来一直在关注的技术领域，其中我多次提到了工业级的软件，我还以为有很多人会问我怎么定义工业级？...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17459.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17459.html">关于高可用的系统</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-17475" src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-300x300.png" alt="HighAvailability-BK" width="300" height="300" srcset="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-300x300.png 300w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-768x768.png 768w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-200x200.png 200w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-270x270.png 270w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK.png 1000w" sizes="(max-width: 300px) 100vw, 300px" />在《<a href="https://coolshell.cn/articles/17446.html" target="_blank">这多年来我一直在钻研的技术</a>》这篇文章中，我讲述了一下，我这么多年来一直在关注的技术领域，其中我多次提到了工业级的软件，我还以为有很多人会问我怎么定义工业级？以及一个高可用性的软件系统应该要怎么干出来？这样我也可以顺理成章的写下这篇文章，但是没有人问，那么，我只好厚颜无耻的自己写下这篇文章了。哈哈。</p>
+<p>另外，我在一些讨论高可用系统的地方看到大家只讨论各个公司的技术方案，<strong>其实，高可用的系统并不简单的是技术方案，一个高可用的系统其实还包括很多别的东西，所以，我觉得大家对高可用的系统了解的还不全面，为了让大家的认识更全面，所以，我写下这篇文章</strong>。</p>
+<h4>理解高可用系统</h4>
+<p>首先，我们需要理解什么是高可用，英文叫High Availability（<a href="https://en.wikipedia.org/wiki/High_availability">Wikipedia词条</a>），基本上来说，就是要让我们的计算环境（包括软硬件）做到full-time的可用性。在设计上一般来说，需要做好如下的设计：</p>
+<p><span id="more-17459"></span></p>
+<ol>
+<li>对软硬件的冗余，以消除单点故障。任何系统都会有一个或多个冗余系统做standby</li>
+<li>对故障的检测和恢复。检测故障以及用备份的结点接管故障点。这也就是failover</li>
+<li>需要很可靠的交汇点（CrossOver）。这是一些不容易冗余的结点，比如域名解析，负载均衡器等。</li>
+</ol>
+<p>听起似乎很简单吧，然而不是，细节之处全是魔鬼，冗余结点最大的难题就是对于有状态的结点的数据复制和数据一致性的保证（无状态结点的冗余相对比较简单）。冗余数据所带来的一致性问题是魔鬼中的魔鬼：</p>
+<ul>
+<li>如果系统的数据镜像到冗余结点是异步的，那么在failover的时候就会出现数据差异的情况。</li>
+</ul>
+<ul>
+<li>如果系统在数据镜像到冗余结点是同步的，那么就会导致冗余结点越多性能越慢。</li>
+</ul>
+<p>所以，很多高可用系统都是在做各种取舍，这需要比对着业务的特点来的，比如银行账号的余额是一个状态型的数据，那么，冗余时就必需做到强一致性，再比如说，订单记录属于追加性的数据，那么在failover的时候，就可以到备机上进行追加，这样就比较简单了（阿里目前所谓的异地双活其实根本做不到状态型数据的双活）。</p>
+<p>下面，总结一下高可用的设计原理：</p>
+<ul>
+<li>要做到数据不丢，就必需要持久化</li>
+<li>要做到服务高可用，就必需要有备用（复本），无论是应用结点还是数据结点</li>
+<li>要做到复制，就会有数据一致性的问题。</li>
+<li>我们不可能做到100%的高可用，也就是说，我们能做到几个9个的SLA。</li>
+</ul>
+<h4>高可用系统的技术解决方案</h4>
+<p>我在《<a href="https://coolshell.cn/articles/10910.html" target="_blank">分布式系统的事务处理</a>》中引用过下面这个图：这个图来自来自：Google App Engine的co-founder Ryan Barrett在2009年的Google I/O上的演讲《<a href="http://snarfed.org/transactions_across_datacenters_io.html" target="_blank">Transaction Across DataCenter</a>》（视频： <a title="阿里旺旺无法确定该链接的安全性" href="http://www.youtube.com/watch?v=srOgpXECblk" target="_blank">http://www.youtube.com/watch?v=srOgpXECblk</a>）</p>
+<p><img decoding="async" loading="lazy" class="size-full wp-image-10942 aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg" alt="Transaction Across DataCenter" width="566" height="255" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg 566w, https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter-300x135.jpg 300w" sizes="(max-width: 566px) 100vw, 566px" /></p>
+<p>这个图基本上来说是目前高可用系统中能看得到的所有的解决方案的基础了。M/S、MM实现起来不难，但是会有很多问题，2PC的问题就是性能不行，而Paxos的问题就是太复杂，实现难度太大。</p>
+<p>总结一下各个高可用方案的的问题：</p>
+<ul>
+<li>对于最终一致性来说，在宕机的情况下，会出现数据没有完全同步完成，会出现数据差异性。</li>
+<li>对于强一致性来说，要么使用性能比较慢的<a href="https://en.wikipedia.org/wiki/X/Open_XA">XA系</a>的两阶段提交的方案，要么使用性能比较好，但是实现比较复杂的Paxos协议。</li>
+</ul>
+<p>注：这是软件方面的方案。当然，也可以使用造价比较高的硬件解决方案，不过本文不涉及硬件解决方案。</p>
+<p>另外，现今开源软件中，很多缓存，消息中间件或数据库都有持久化和Replication的设计，从而也都有高可用解决方案，但是开源软件一般都没有比较高的SLA，所以，如果我们使用开源软件的话，需要注意这一点。</p>
+<h4>高可用技术方案的示例</h4>
+<p>下面，我们来看一下MySQL的高可用的方案的SLA（下图下面红色的标识表示了这个方案有几个9）：</p>
+<p><a href="http://www.slideshare.net/andrewjamesmorgan/mysql-high-availability-solutions-feb-2015-webinar"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17461" src="https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638.jpg" alt="mysql-high-availability-solutions-feb-2015-webinar-9-638" width="638" height="359" srcset="https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638.jpg 638w, https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638-300x169.jpg 300w" sizes="(max-width: 638px) 100vw, 638px" /></a></p>
+<p style="text-align: center;">图片来源：<a href="http://www.slideshare.net/andrewjamesmorgan/mysql-high-availability-solutions-feb-2015-webinar">MySQL High Availability Solutions</a></p>
+<p>简单解释一下MySQL的这几个方案（主要是想表达一个越多的9就越复杂）</p>
+<ul>
+<li>MySQL Repleaction就是传统的异步数据同步或是半同步Semi-Sync（只要有一个slave收到更新就返回成功）这个方式本质上不到2个9。</li>
+<li>MySQL Fabric简单来说就是数据分片下的M/S的读写分离模式。这个方案的的可用性可以达到99%</li>
+<li>DRBD通过底层的磁盘同步技术来解决数据同步的问题，就是RAID 1——把两台以上的主机的硬盘镜像成一个。这个方案不到3个9</li>
+<li>Solaris Clustering/Oracle VM ，这个机制监控了包括硬件、操作系统、网络和数据库。这个方案一般会伴随着节点间的“心跳机制”，而且还会动用到SAN（Storage Area Network）或是本地的分布式存储系统，还会动用虚拟化技术来做虚拟机的迁移以降低宕机时间的概率。这个解决方案完全就是一个“全栈式的解决方案”。这个方案接近4个9。</li>
+<li>MySQL Cluster是官方的一个开源方案，其把MySQL的集群分成SQL Node 和Data Node，Data Node是一个自动化sharing和复制的集群NDB，为了更高的可用性，MySQL Cluster采用了“完全同步”的数据复制的机制来冗余数据结点。这个方案接近5个9。</li>
+</ul>
+<p>那么，这些2个9，3个9，4个9，5个9是什么意思呢？又是怎么来的呢？请往下看。</p>
+<h4>高可用性的SLA的定义</h4>
+<p><strong>上面那些都不是本文的重点，本文的重点现在开始，如何测量系统的高可用性</strong>。当然是SLA，全称<a href="https://en.wikipedia.org/wiki/Service-level_agreement" target="_blank">Service Level Agrement</a>，也就是有几个9的高可用性。</p>
+<p>工业界有两种方法来测量SLA，</p>
+<ul>
+<li>一个是故障发生到恢复的时间</li>
+<li>另一个是两次故障间的时间</li>
+</ul>
+<p>但大多数都采用第一种方法，也就是故障发生到恢复的时间，也就是服务不可用的时间，如下表所示：</p>
+<table class="wikitable" align="center">
+<tbody>
+<tr>
+<th>系统可用性%</th>
+<th>宕机时间/年</th>
+<th>宕机时间/月</th>
+<th>宕机时间/周</th>
+<th>宕机时间/天</th>
+</tr>
+<tr>
+<td align="left">90% (1个9)</td>
+<td>36.5 天</td>
+<td>72 小时</td>
+<td>16.8 小时</td>
+<td>2.4 小时</td>
+</tr>
+<tr>
+<td align="left">99% (2个9)</td>
+<td>3.65 天</td>
+<td>7.20 小时</td>
+<td>1.68 小时</td>
+<td>14.4 分</td>
+</tr>
+<tr>
+<td align="left">99.9% (3个9)</td>
+<td>8.76 小时</td>
+<td>43.8 分</td>
+<td>10.1 分钟</td>
+<td>1.44 分</td>
+</tr>
+<tr>
+<td align="left">99.99% (4个9)</td>
+<td>52.56 分</td>
+<td>4.38 分</td>
+<td>1.01 分钟</td>
+<td>8.66 秒</td>
+</tr>
+<tr>
+<td align="left">99.999% (5个9)</td>
+<td>5.26 分</td>
+<td>25.9 秒</td>
+<td>6.05 秒</td>
+<td>0.87 秒</td>
+</tr>
+</tbody>
+</table>
+<p>比如，99.999%的可用性，一年只能有5分半钟的服务不可用。感觉很难做到吧。</p>
+<p><strong>就算是3个9的可用性，一个月的宕机时间也只有40多分钟，看看那些设计和编码不认真的团队，把所有的期望寄托在人肉处理故障的运维团队， 一个故障就能处理1个多小时甚至2-3个小时，连个自动化的工具都没有，还好意思在官网上声明自己的SLA是3个9或是5个9，这不是欺骗大众吗？</strong>。</p>
+<h4>影响高可用的因素</h4>
+<p>老实说，我们很难计算我们设计的系统有多少的可用性，因为影响一个系统的因素实在是太多了，除了软件设计，还有硬件，还有每三方的服务（如电信联通的宽带SLA），当然包括“建筑施工队的挖掘机”。所以，正如SLA的定义，<strong>这不仅仅只是一个技术指标，而是一种服务提供商和用户之间的contract或契约</strong>。<strong>这种工业级的玩法，就像飞机一样，并不是把飞机造出来就好了，还有大量的无比专业的配套设施、工具、流程、管理和运营</strong>。</p>
+<p>简而言之，SLA的几个9就是能持续提供可用服务的级别，不过，工业界中，会把服务不可用的因素分成两种：一种是有计划的，一种是无计划的。</p>
+<h5>无计划的宕机原因</h5>
+<p>下图来自Oracle的 《<a href="https://docs.oracle.com/cd/A91202_01/901_doc/rac.901/a89867/pshavdtl.htm">High Availability Concepts and Best Practices</a>》</p>
+<p>&nbsp;</p>
+<h5><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17467" src="https://coolshell.cn/wp-content/uploads/2016/08/unplaned_downtime.gif" alt="unplaned_downtime" width="600" height="602" />有计划的宕机原因</h5>
+<p>下图来自Oracle的 《<a href="https://docs.oracle.com/cd/A91202_01/901_doc/rac.901/a89867/pshavdtl.htm">High Availability Concepts and Best Practices</a>》</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17466" src="https://coolshell.cn/wp-content/uploads/2016/08/planned_downtime.gif" alt="planned_downtime" width="600" height="356" /></p>
+<p>&nbsp;</p>
+<p>我们可以看到，上面的宕机原因包括如下：</p>
+<p>无计划的</p>
+<ul>
+<li>系统级的故障 &#8211;  包括主机、操作系统、中间件、数据库、网络、电源以及外围设备</li>
+<li>数据和中介的故障 &#8211; 包括人员误操作、硬盘故障、数据乱了</li>
+<li>还有：自然灾害、人为破坏、以及供电问题。</li>
+</ul>
+<p>有计划的</p>
+<ul>
+<li>日常任务：备份，容量规划，用户和安全管理，后台批处理应用</li>
+<li>运维相关：数据库维护、应用维护、中间件维护、操作系统维护、网络维护</li>
+<li>升级相关：数据库、应用、中间件、操作系统、网络、包括硬件升级</li>
+</ul>
+<h4>真正决定高可用系统的本质原因</h4>
+<p>从上面这些会影响高可用的SLA的因素，你看到了什么？如果你还是只看到了技术方面或是软件设计的东西，那么你只看到了冰山一角。我们再仔细想一想，<strong>那个5个9的SLA在一年内只能是5分钟的不可用时间，5分钟啊，如果按一年只出1次故障，你也得在五分钟内恢复故障，让我们想想，这意味着什么？</strong></p>
+<p><strong>如果你没有一套科学的牛逼的软件工程的管理，没有牛逼先进的自动化的运维工具，没有技术能力很牛逼的工程师团队，怎么可能出现高可用的系统啊</strong>。</p>
+<p>是的，<strong>要干出高可用的系统，这TMD就是一套严谨科学的工程管理</strong>，其中包括但不限于了：</p>
+<ul>
+<li>软件的设计、编码、测试、上线和软件配置管理的水平</li>
+<li>工程师的人员技能水平</li>
+<li>运维的管理和技术水平</li>
+<li>数据中心的运营管理水平</li>
+<li>依赖于第三方服务的管理水平</li>
+</ul>
+<p>深层交的东西则是——对工程这门科学的尊重：</p>
+<ul>
+<li>对待技术的态度</li>
+<li>一个公司的工程文化</li>
+<li>领导者对工程的尊重</li>
+</ul>
+<p><strong>所以，以后有人在你面前提高可用，你要看的不是他的技术设计，而还要看看他们的工程能力，看看他们公司是否真正的尊重工程这门科学</strong>。</p>
+<h4>其它</h4>
+<p>有好些非技术甚至技术人员和我说过，做个APP做个网站，不就是找几个码农过来写写代码嘛。等系统不可用的时候，他们才会明白，要找技术能力比较强的人，但是，<strong>就算你和他们讲一万遍道理，他们也很难会明白写代码怎么就是一种工程了，而工程怎么就成了一门科学了。其实，很多做技术的人都不明白这个道理</strong>。</p>
+<p>包括很多技术人员也永远不会理解，为什么要做好多像Code Review、自动化运维、自动化测试、持续集成之类这样很无聊的东西。就像我在《<a href="https://coolshell.cn/articles/11432.html" target="_blank">从Code Review 谈如何做技术</a>》中提到的，阿里很多的工程师，架构师/专家，甚至资深架构师都没有这个意识，当然，这不怪他们，因为经历决定思维方式，他们的经历的是民用级的系统，做的都是堆功能的工作，的确不需要。</p>
+<p>看完这些，最后让我们都扪心自问一下，你还敢说你的系统是高可用的了么？ ;-)</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/01/trade-off-150x150.jpg" alt="分布式系统的事务处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_title">分布式系统的事务处理</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17459.html">关于高可用的系统</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17459.html/feed</wfw:commentRss>
+			<slash:comments>87</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

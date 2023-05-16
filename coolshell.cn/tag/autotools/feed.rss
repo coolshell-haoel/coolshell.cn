@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>AutoTools | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/autotools/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 18 Dec 2012 16:04:43 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Web工程师的工具箱</title>
+		<link>https://coolshell.cn/articles/8767.html</link>
+					<comments>https://coolshell.cn/articles/8767.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 18 Dec 2012 16:04:43 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[AutoTools]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<category><![CDATA[http load]]></category>
+		<category><![CDATA[test]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8767</guid>
+
+					<description><![CDATA[<p>本文出自Ivan Zuzak 的《The Web engineer&#8217;s online toolbox》，作者给了一个各种可以用来进行开发、测试、调试...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8767.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8767.html">Web工程师的工具箱</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright  wp-image-8771" alt="Web Toolbox" src="https://coolshell.cn/wp-content/uploads/2012/12/webtoolbox.jpg" width="318" height="196" srcset="https://coolshell.cn/wp-content/uploads/2012/12/webtoolbox.jpg 397w, https://coolshell.cn/wp-content/uploads/2012/12/webtoolbox-300x185.jpg 300w" sizes="(max-width: 318px) 100vw, 318px" />本文出自<a href="http://ivanzuzak.info/" target="_blank">Ivan Zuzak</a> 的《<a href="http://ivanzuzak.info/2012/11/18/the-web-engineers-online-toolbox.html" target="_blank">The Web engineer&#8217;s online toolbox</a>》，作者给了一个各种可以用来进行开发、测试、调试以及文档编排的在线工具集。（注：我发现CSDN上已经有了这篇文章《<a href="http://www.csdn.net/article/2012-11-19/2811992" target="_blank">Web工程师必备的18款工具</a>》，但可惜的是这篇文章并不全（原文后来被更新到了33个工具），而且其中并没有包括原文评论中出现的所有工具，所以，我一并补全了更出来，一共40多个工具）</p>
+<h4><strong>Web工程师在线工具箱</strong></h4>
+<ul>
+<li><a href="http://requestb.in/" target="_blank"><strong>RequestBin</strong></a><strong>：</strong>允许你创建一个URL，利用这款工具进行收集请求，然后通过个性化方式进行检查。</li>
+</ul>
+<ul>
+<li><a href="http://hurl.it/" target="_blank"><strong>Hurl</strong></a><strong>：</strong>发出HTTP请求，输入URL，设置标题，查看响应，最后分享给其他人。类似的工具有：<a href="http://resttesttest.com/" target="_blank">REST test test</a>, <a href="https://apigee.com/console/others" target="_blank">Apigee console</a>.。</li>
+</ul>
+<ul>
+<li><a href="http://httpbin.org/" target="_blank"><strong>Httpbin</strong></a><strong>：</strong>HTTP请求&amp;响应服务，涵盖所有的HTTP方案（例如不同的HTTP verbs、状态代码和重定向）。类似工具：<a href="http://ivanzuzak.info/urlecho/">UrlEcho</a>。</li>
+</ul>
+<ul>
+<li><a href="http://redbot.org/" target="_blank"><strong>REDbot</strong></a><strong>：</strong>这是一个机器人工具，帮助用户检查HTTP资源，可查看它的操作情况，指出常见的问题并提出改进。类似工具：<a href="http://zamez.org/httplint">HTTP lint</a>。</li>
+</ul>
+<ul>
+<li><a href="http://webgun.io/" target="_blank"><strong>WebGun</strong></a><strong>：</strong>用于创建webhooks模板的API。类似工具：<a href="https://github.com/izuzak/urlreq">UrlReq</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="https://www.webscript.io/">Webscript</a> </strong> 自选一个url，填一段Lua代码，就能对访问做各种respond，还可以主动运行任务，cron job等等&#8230;</li>
+</ul>
+<p><span id="more-8767"></span></p>
+<ul>
+<li><strong><a href="http://www.clickhooks.com/">ClickHooks</a> </strong>这是一个短网址服务， 当用户访问了你的这个短网址跳转链接，服务器会通过HTTP POST的方式回调你的一个URL。这也是一种WebHooks方式。（陈皓注：所谓WebHooks，你可以理解为一种trigger，或是一种handler，比如当你你提交了代码，会调用某个URL链接以POST的方式告诉那个网站你提交了代码（如：发一个twitter 之类的，或是通知某个bug tracker系统））</li>
+</ul>
+<ul>
+<li><strong><a href="http://mailhooks2.appspot.com/">MailHooks</a> </strong>让你可以通过HTTP POST方法收电子邮件（又叫WebHooks），你可以为你的一个邮件地址创建N多的hooks，当一个邮件收到了，可以把这个邮件以POST的方式发到你的某个URL上去。</li>
+</ul>
+<ul>
+<li><strong><a href="http://a.quil.la/">Quilla</a> </strong>提供一个人们可以找到你的短网站服务，在那里，当人们提交到你的短网址上的请求会给你发邮件。好像是一种HTTP到SMTP的代理服务。</li>
+</ul>
+<ul>
+<li><a href="http://apify.heroku.com/resources" target="_blank"><strong>Apify</strong></a><strong>：</strong>公开锁定在HTML文档没有任何API数据集。APIfy从结构标记中提取数据，并将其转换为JSON APIs。</li>
+</ul>
+<ul>
+<li><a href="http://validator.w3.org/unicorn/" target="_blank"><strong>Unicorn</strong></a><strong>：</strong>W3C统一的验证程序，可在各种流行的HTML和CSS验证器中执行各种检查。类似工具：<a href="http://lint.brihten.com/html/">HTML lint</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://jsonlint.com/">JSONLint</a> </strong>JSON 格式验证程序</li>
+</ul>
+<ul>
+<li><a href="http://validator.w3.org/feed/" target="_blank"><strong>Feed validator</strong></a><strong>：</strong>支持W3C验证，为RSS和ATOM提供阅读源。</li>
+</ul>
+<ul>
+<li><a href="http://validator.w3.org/checklink" target="_blank"><strong>Link checker</strong></a><strong>：</strong>从网站中提取链接（递归）并确保没有链接被定义为两次（重复定义），所有的链接被引用并警告HTTP重新定向。</li>
+</ul>
+<ul>
+<li><a href="http://www.host-tracker.com/" target="_blank"><strong>Host tracker</strong></a><strong>：</strong>通过分布式ping/跟踪检查、定期监测、邮件/SMS /IM通知和统计进行网站检测性服务。类似工具有：<a href="http://www.downforeveryoneorjustme.com/">Down for everyone or just me</a>, <a href="http://tools.pingdom.com/ping/">Pimgdom ping service</a></li>
+</ul>
+<ul>
+<li><strong><a href="http://www.viewdns.info/">ViewDNS</a> </strong>一组 DNS 和网络工具，如：反向IP解析，DNS记录查询或traceroute之类的。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.necrohost.com/">Necrohost</a>  </strong>一个URL列表来模拟不同网络链接的问题，如：响应慢，无法解析DNS，或是404什么的。</li>
+</ul>
+<ul>
+<li><strong><a href="https://code.google.com/p/mirrorrr/">Mirrorrr</a>  </strong>一个可以用来镜像某网页的应用（经常被国人用来搞Web 代理来翻墙）。</li>
+</ul>
+<ul>
+<li><strong><a href="http://certlogik.com/ssl-checker/">SSL Checker</a>  </strong>测试SSL认证</li>
+</ul>
+<ul>
+<li><strong><a href="http://certlogik.com/decoder/">CSR/Cert decoder</a>  </strong>对你的CSR和SSL认证decode检查。</li>
+</ul>
+<ul>
+<li><strong><a href="http://loadzen.com/">Loadzen</a>  </strong>Web压力测试工具（注：以前酷壳介绍过《<a href="https://coolshell.cn/articles/2589.html" target="_blank">十个Web压力测试工具</a>》）</li>
+</ul>
+<ul>
+<li><a href="http://tools.pingdom.com/fpt/" target="_blank"><strong>Pingdom Full page test</strong></a><strong>：</strong>允许用户测试网页记载时间、分析、监控，发现瓶颈并导出HAR格式的结果。类似工具：<a href="http://www.webpagetest.org/">Web page test</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="https://developers.google.com/speed/pagespeed/insights">Google PageSpeed Insights</a> </strong>Analyzes the content of a web page, then generates suggestions to make that page faster.</li>
+</ul>
+<ul>
+<li><a href="http://www.softwareishard.com/har/viewer/" target="_blank"><strong>HAR viewer</strong></a><strong>：</strong>通过 HTTP 追踪工具创建可视化的HTTP Archive (HAR)日志文件。</li>
+</ul>
+<ul>
+<li><a href="http://www.corsproxy.com/" target="_blank"><strong>CORS proxy</strong></a><strong>：</strong>通常会由于相同的域而被阻止，而这款工具在网站上允许JavaScript代码访问其他域上的资源，</li>
+</ul>
+<ul>
+<li><a href="https://browserling.com/" target="_blank"><strong>Browserling</strong></a><strong>：</strong>支持使用所有主要浏览器以及各种版本进行交互式跨浏览器测试。</li>
+</ul>
+<ul>
+<li><a href="http://www.websocket.org/echo.html" target="_blank"><strong>WebSocket Echo Test</strong></a><strong>:</strong> 从浏览器定向到WebSocket echo服务器进行WebSocket连接测试。</li>
+</ul>
+<ul>
+<li><a href="http://developer.yahoo.com/yql/" target="_blank"><strong>YQL</strong></a><strong>：</strong>极富表现力类似于SQL的语言，允许您查询、筛选和联接数据跨Web服务。</li>
+</ul>
+<ul>
+<li><strong><a href="http://webshell.io/">Webshell</a> </strong>使用命令行脚本的方式来调用一些Web API。</li>
+</ul>
+<ul>
+<li><a href="http://pipes.yahoo.com/pipes/" target="_blank"><strong>Yahoo Pipes</strong></a><strong>：</strong>一个图形化的用户界面，用于创建数据混搭，生成聚合Web源，Web页面和其他服务。</li>
+</ul>
+<ul>
+<li><a href="http://apiary.io/" target="_blank"><strong>Apiary</strong></a><strong>：</strong>语言和工具用于生成REST API文档及进行交互式督查。类似工具：<a href="http://swagger.wordnik.com/">Swagger</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://jsfiddle.net/">JSFiddle</a>  </strong>一个在线的代码编辑可以让你编译一些HTML, CSS 和 JavaScript的东西，并演示之。相似工具: <a href="http://jsbin.com/">JSBin</a></li>
+</ul>
+<ul>
+<li><a href="https://developers.google.com/feed/v1/jsondevguide">Google Feed API</a> 你可以使用这个API来查询有RSS Feed的网站 (<a href="http://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0&amp;q=http://ivanzuzak.info/">example</a>)，或是搜索有RSS Feed(<a href="https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&amp;q=ivan%20zuzak">example</a>) ，或是把JSON变成一个JSON返回 (<a href="https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&amp;q=http://ivanzuzak.info/atom.xml">example</a>)</li>
+</ul>
+<h4>未在列表的工具</h4>
+<ul>
+<li><a href="http://www.fiddler2.com/fiddler2/">Fiddler</a> &#8212; 可能是最强大最好用的Web调试工具之一，它能记录所有客户端和服务器的http和https请求，允许你监视，设置断点，甚至修改输入输出数据. 使用Fiddler无论对开发还是测试来说，都有很大的帮助。.</li>
+</ul>
+<ul>
+<li><a href="http://grids.heroku.com/">960 grid system generator</a> 和 <a href="http://meyerweb.com/eric/tools/css/reset/">CSS reset</a> &#8212; 两个关注于Web站点设计的工具。</li>
+</ul>
+<ul>
+<li><a href="http://www.nuvolabase.com/site/index.html">NuvolaBase</a> &#8212; 一个可以共享个人私有数据的解决方案。正如作者所说，这不是一个开发工具。</li>
+</ul>
+<ul>
+<li><a href="https://openexchangerates.org/">Open exchange rates</a> &#8212; 一个和汇率货币相关的JSON式的API。这样的API你可以到 <a href="http://www.programmableweb.com/">Programmable Web</a> 上查找。</li>
+</ul>
+<ul>
+<li><a href="https://workflowy.com/">Workflowy</a>, <a href="http://www.lastcalc.com/">LastCalc</a>, <a href="http://codepad.org/">Codepad</a>, <a href="http://www.mailinator.com/">Mailinator</a> and <a href="http://10minutemail.com/">10MinuteMail</a>, <a href="https://onetimesecret.com/">One time secret</a> and <a href="http://copypastecharacter.com/">CopyPasteCharacter</a> &#8212; 这些App似乎和Web开发没什么关系。</li>
+</ul>
+<ul>
+<li><a href="https://browsershots.org/">Browsershots</a> &#8212; 一个用来测试网页在不同平台下的工具。（参看）</li>
+</ul>
+<ul>
+<li><a href="http://scriptular.com/">Scriptular</a> and <a href="http://rubular.com/">Rubular</a> &#8212; 正则表达式工具，这样的工具太多了，如： <a href="http://refiddle.com/">ReFiddle</a>, <a href="http://regexpal.com/">Regex pal</a> and <a href="http://www.txt2re.com/">Txt2Re</a>。</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/2589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/get_more_web_traffic-150x150.jpg" alt="十个免费的Web压力测试工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2589.html" class="wp_rp_title">十个免费的Web压力测试工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17381.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/PerfTest-150x150.png" alt="性能测试应该怎么做？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17381.html" class="wp_rp_title">性能测试应该怎么做？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8767.html">Web工程师的工具箱</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8767.html/feed</wfw:commentRss>
+			<slash:comments>41</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的网站和贴子</title>
+		<link>https://coolshell.cn/articles/3480.html</link>
+					<comments>https://coolshell.cn/articles/3480.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 18 Jan 2011 00:53:24 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[AutoTools]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Kinect]]></category>
+		<category><![CDATA[makefile]]></category>
+		<category><![CDATA[MikeOS]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[TeleHash]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3480</guid>
+
+					<description><![CDATA[<p>各位朋友，又到了介绍各种杂项的时候了，正如以前的这篇和这篇文章一样，本篇文章也给你介绍一些最近出现的一些有趣的东西。希望你能喜欢。 首先是华尔街的一篇报道，20...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3480.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3480.html">一些有意思的网站和贴子</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>各位朋友，又到了介绍各种杂项的时候了，正如以前的<a href="https://coolshell.cn/articles/3013.html" target="_blank">这篇</a>和<a href="https://coolshell.cn/articles/3437.html" target="_blank">这篇</a>文章一样，本篇文章也给你介绍一些最近出现的一些有趣的东西。希望你能喜欢。</p>
+<ul>
+<li>首先是<a href="http://online.wsj.com/article/SB10001424052748704723104576062173458318658.html?mod=WSJ_hps_sections_careerjournal#articleTabs%3Darticle" target="_blank">华尔街的一篇报道</a>，2011年最好和最不好的工作，其引用了<a href="http://careercast.com/" target="_blank">CareerCast.com</a>的数据，其列出了<a href="http://online.wsj.com/public/resources/documents/st_BESTJOBS0104_20110105.html" target="_blank">100个工作种类</a>，并根据薪资、工作环境、工作鸭梨、体力消耗和就业前景做了一个排序。结果<strong>排第一位的是“软件工程师”</strong>，其理由是：高科技产品的需求呈爆炸式增长，以及人们对iPod、平板电脑、和其它科技产品应用软件的喜好，软件工程师被评为最佳职业。软件工程师有弹性工作时间，可以在家办公，而且每个月都有猎头找来。而最差是的则是码头工人。</li>
+</ul>
+<div>
+<div style="text-align: center;"><a href="http://online.wsj.com/public/resources/documents/st_BESTJOBS0104_20110105.html"><img decoding="async" loading="lazy" src="http://si.wsj.net/public/resources/images/OB-LP754_bestjo_D_20110104181820.jpg" border="0" alt="[bestjobspromo]" hspace="0" vspace="0" width="262" height="174" /></a></div>
+</div>
+<ul>
+<li>接下来是一个叫<a href="http://www.theserverside.com/news/thread.tss?track=NL-461&amp;ad=808081&amp;thread_id=61622&amp;asrc=EM_NLN_13145929&amp;uid=2780877" target="_blank">“Java pass by value”的长贴</a>，楼主说有一天在LinkedIn.com上看到了Java Group里有人讨论Java是pass by value的，长达240+贴子。贴子里说，如果你使用Java的原始类型如int, long，就是传值，如果你用object, array，其实传的是一个引用的拷贝，所以，Java是传值的。呵呵，你觉得有道理吗？于是，成就了这个大讨论战。<a href="http://www.reddit.com/r/programming/comments/f1d7r/huge_war_over_whether_java_is_pass_by_reference/" target="_blank">reddit.com上也有N多的回贴</a>。有空可以看看。</li>
+</ul>
+<p><span id="more-3480"></span></p>
+<ul>
+<li>然后是两个网站，不知道你是否还记得我们介绍的那个<a rel="bookmark" href="https://coolshell.cn/articles/2065.html" target="_blank">Windows 3.1的Web网站</a>，用Web来实现一切看来是迟早的问题。下面，让我们来看两个网站：
+<ul>
+<li>第一个是仿MS-DOS的个人网站——<a href="http://stopwilson.com/" target="_blank">http://stopwilson.com/</a></li>
+</ul>
+</li>
+</ul>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2011/01/msdos_website.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3482" title="msdos_website" src="https://coolshell.cn/wp-content/uploads/2011/01/msdos_website.jpg" alt="" width="650" height="446" srcset="https://coolshell.cn/wp-content/uploads/2011/01/msdos_website.jpg 650w, https://coolshell.cn/wp-content/uploads/2011/01/msdos_website-300x205.jpg 300w" sizes="(max-width: 650px) 100vw, 650px" /></a> <a href="https://coolshell.cn/wp-content/uploads/2011/01/Javascript_ipad.jpg"></a></p>
+<ul>
+<li>
+<ul>
+<li>第二个是仿iPad的网站——<a href="http://alexw.me/ipad/" target="_blank">http://alexw.me/ipad/</a></li>
+</ul>
+</li>
+</ul>
+<p style="text-align: center;"><img decoding="async" loading="lazy" title="Javascript ipad" src="https://coolshell.cn/wp-content/uploads/2011/01/Javascript_ipad.jpg" alt="" width="506" height="336" /></p>
+<p style="padding-left: 60px;">如果以后的上网设备必然是以移动为主，那么Web开发中的HTML+ Javascript将有可能成为最所有应用都需要去支持的东西。</p>
+<ul>
+<li>说到Web开发，表单提交功能是每个网站都会最到的事情。这里有一篇文章告诉你了如何增强表单的可用性。非常不错，Web程序员可以前往一读：<a href="http://sixrevisions.com/user-interface/10-tips-for-optimizing-web-form-submission-usability/" target="_blank">http://sixrevisions.com/user-interface/10-tips-for-optimizing-web-form-submission-usability/</a></li>
+</ul>
+<div>
+<ul>
+<li>接下来，向大家介绍一个开源项目——TeleHash，其基于<a href="http://en.wikipedia.org/wiki/Kademlia">Kademlia</a>在<a href="http://en.wikipedia.org/wiki/Distributed_hash_table" target="_blank">DHT网络</a>上以P2P的方式用<a href="http://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank">UDP协议</a>来发送一些<a href="http://www.json.org/" target="_blank">JSON数据</a>。于是你的应用程序就可以使用这个库来开发你的应用了。其源码在：<a href="https://github.com/quartzjer/TeleHash" target="_blank">https://github.com/quartzjer/TeleHash</a>，它的口号是：JSON + UDP + DHT = Freedom</li>
+</ul>
+</div>
+<ul>
+<li>如果你想使用autotools（autoconf和automake）写Makefile，这里有一个非常不错的教程：<a href="http://www.lrde.epita.fr/~adl/autotools.html" target="_blank">http://www.lrde.epita.fr/~adl/autotools.html</a></li>
+</ul>
+<ul>
+<li>不知道大家知不知道微软xbox 360上的<a href="http://www.xbox.com/en-US/kinect" target="_blank">Kinect</a>？其是XBox的一个硬件插件，有点类似于Wii，不过它的强大之处在于，你只需要用你的肢体动作就可以玩游戏了，不需要手上拿个什么。现在，几乎全世界的程序员都在hack这个东东，有人还用他玩WoW，也是强大。这里有一个教程教你如何通过<a href="http://openkinect.org/" target="_blank">openkinect.org</a>和C#开发点自己的小玩意。</li>
+</ul>
+<ul>
+<li>相试着写一个最简单的操作系统吗？这里有<a href="http://mikeos.berlios.de/write-your-own-os.html" target="_blank">一篇教程</a>教你用x86的汇编做一个操作系统，如果你想走得更远，可以看看<a href="http://mikeos.berlios.de/" target="_blank">MikeOS project</a>。</li>
+</ul>
+<p style="text-align: center;"><a href="http://mikeos.berlios.de/"><img decoding="async" loading="lazy" class="aligncenter" title="MikeOS" src="http://mikeos.berlios.de/images/shot-3.png" alt="" width="504" height="280" /></a></p>
+<ul>
+<li>下面是一个HTML5 Canvas Cheat Sheet（点击看大图），关于更多的Cheat Sheet，你可以看看《<a href="https://coolshell.cn/articles/1566.html" target="_blank">程序员小抄大全</a>》《<a rel="bookmark" href="https://coolshell.cn/articles/2964.html" target="_blank">25个jQuery的编程小抄</a>》</li>
+</ul>
+<figure id="attachment_3492" aria-describedby="caption-attachment-3492" style="width: 300px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet.png"><img decoding="async" loading="lazy" class="size-medium wp-image-3492" title="HTML5 Canvas Cheat Sheet" src="https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet-300x221.png" alt="HTML5 Canvas Cheat Sheet" width="300" height="221" srcset="https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet-300x221.png 300w, https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet-1024x757.png 1024w, https://coolshell.cn/wp-content/uploads/2011/01/HTML5_Canvas_Cheat_Sheet.png 1388w" sizes="(max-width: 300px) 100vw, 300px" /></a><figcaption id="caption-attachment-3492" class="wp-caption-text">HTML5 Canvas Cheat Sheet</figcaption></figure>
+<ul>
+<li><a href="http://monodroid.net/" target="_blank">Mono开始支持Android</a>。Mono是一个由Novell公司（先前是Ximian）主持的项目。该项目的目标是创建一系列符合ECMA标准（Ecma-334和Ecma-335）的.NET工具，包括C#编译器和共通語言執行平臺。与微软的.NET Framework不同，Mono项目不仅可以运行于Windows系统上，还可以运行于Linux，FreeBSD，Unix，Mac OS X和Solaris。这个项目叫MonoDroid。</li>
+</ul>
+<p style="text-align: center;"><a href="http://monodroid.net/"><img decoding="async" loading="lazy" class="alignnone" title="http://monodroid.net/" src="http://tirania.org/images/mono-android.png" alt="" width="188" height="300" /></a></p>
+<p style="text-align: center;">&nbsp;</p>
+<ul>
+<li>最后来一个给力的教程吧，这是一个关于教你如何制作一个<a href="http://daid.mine.nu/instructabliss/?url=http://www.instructables.com/id/Led-Cube-8x8x8/" target="_blank">3D的LED显示的教程</a>，相当的详细，甚至教你如何上ebay采购相关的电子元件和设备，还有如何编程，有兴趣的朋友可以一读。</li>
+</ul>
+<p style="text-align: center;"><a href="http://daid.mine.nu/instructabliss/?url=http://www.instructables.com/id/Led-Cube-8x8x8/"><img decoding="async" loading="lazy" src="http://www.instructables.com/image/FUXO1RWGICYBAOS/Led-Cube-8x8x8.jpg" alt="Led Cube 8x8x8" width="500" height="375" /></a></p>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: left;">这回就这么多，希望你喜欢。</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3480.html">一些有意思的网站和贴子</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3480.html/feed</wfw:commentRss>
+			<slash:comments>23</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

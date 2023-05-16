@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Pipe | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/pipe/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 24 Aug 2009 16:17:11 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Unix Pipes 管道原稿</title>
+		<link>https://coolshell.cn/articles/1351.html</link>
+					<comments>https://coolshell.cn/articles/1351.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 24 Aug 2009 16:17:11 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[Pipe]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1351</guid>
+
+					<description><![CDATA[<p>40年前，Unix操作系统横空出世，Unix不仅仅带来了一个操作系统，还创造C语言，Socket，开源，黑客等等文化，这些文化影响着整个计算机世界的文明，直到今...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1351.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1351.html">Unix Pipes 管道原稿</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" title="Douglas McIlroy" src="https://coolshell.cn/wp-content/uploads/2009/08/Douglas-McIlroy.jpg" alt="Douglas McIlroy" width="147" height="193" /></p>
+<p>40年前，Unix操作系统横空出世，Unix不仅仅带来了一个操作系统，还创造C语言，Socket，开源，黑客等等文化，这些文化影响着整个计算机世界的文明，直到今天。</p>
+<p>如果说Unix是计算机文明中最伟大的发明，那么，Unix下的Pipe管道就是跟随Unix所带来的另一个伟大的发明。管道的出现，解决的就是让不同功能的程序可以互相连通通讯，从而可以让软件开发，程序开发更加的“高内聚，低耦合”，从而可以让程序“Do one thing, Do it well”，从而可以让程序“Keep it Simple Stupid”等等，这一哲学引影了一代又一代的软件架构，直到今天的云计算。</p>
+<p>管道的发名者叫，<a href="http://en.wikipedia.org/wiki/Douglas_McIlroy" target="_blank"><strong>Malcolm Douglas McIlroy</strong></a>，他也是Unix的创建者，是Unix文化的缔造者之一。他归纳的Unix哲学如下：</p>
+<blockquote><p>程序应该只关注一个目标，并尽可能把它做好。让程序能够互相协同工作。应该让程序处理文本数据流，因为这是一个通用的接口。</p></blockquote>
+<p><span id="more-1351"></span></p>
+<p>下面是管道在1964年10月11日，出现的第一个打印稿，下面是扫描件。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/08/pipe.png"></a></p>
+<p><img decoding="async" loading="lazy" title="Unix Pipes" src="https://coolshell.cn/wp-content/uploads/2009/08/pipe.png" alt="Unix Pipes" width="612" height="790" /></p>
+<p>全文如下：</p>
+<pre><code>                        - 10 -
+            Summary--what's most important.
+    To put my strongest concerns into a nutshell:
+1. We should have some ways of connecting programs like
+garden hose--screw in another segment when it becomes when
+it becomes necessary to massage data in another way.
+This is the way of IO also.
+2. Our loader should be able to do link-loading and
+controlled establishment.
+3. Our library filing scheme should allow for rather
+general indexing, responsibility, generations, data path
+switching.
+4. It should be possible to get private system components
+(all routines are system components) for buggering around with.
+
+                                                M. D. McIlroy
+                                                October 11, 1964
+</code></pre>
+<p>我就不翻译了，因为这段文字足够的简单，就像连接花园中浇花用的软管一样，相信你不但能够读懂它，还能从中收益。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19996.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/11/ken.dennis-300x186-1-150x150.jpeg" alt="Unix 50 年：Ken Thompson 的密码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19996.html" class="wp_rp_title">Unix 50 年：Ken Thompson 的密码</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/9410.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/figure1-150x150.gif" alt="Unix考古记：一个“遗失”的shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9410.html" class="wp_rp_title">Unix考古记：一个“遗失”的shell</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1351.html">Unix Pipes 管道原稿</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1351.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

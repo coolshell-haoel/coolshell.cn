@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Mozilla | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/mozilla/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 13 Sep 2010 14:58:05 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Mozilla的一个BUG</title>
+		<link>https://coolshell.cn/articles/2936.html</link>
+					<comments>https://coolshell.cn/articles/2936.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 13 Sep 2010 23:57:12 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Firefox]]></category>
+		<category><![CDATA[Mozilla]]></category>
+		<category><![CDATA[V8]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2936</guid>
+
+					<description><![CDATA[<p>以前，本站给大家介绍过一些BUG，如：《谷歌Chrome取消”http://”》，《Go语言的Issue 9》和《telnet的一个Bug》。今天，和大家再说一...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2936.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2936.html">Mozilla的一个BUG</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前，本站给大家介绍过一些BUG，如：《<a rel="bookmark" href="https://coolshell.cn/articles/2367.html" target="_blank">谷歌Chrome取消”http://”</a>》，《<a rel="bookmark" href="https://coolshell.cn/articles/1781.html" target="_blank">Go语言的Issue 9</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/2352.html" target="_blank">telnet的一个Bug</a>》。今天，和大家再说一个Mozilla的Bug，这个Bug的网址在这里：<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=579522" target="_blank">https://bugzilla.mozilla.org/show_bug.cgi?id=579522</a></p>
+<p>这个Bug的标题是这样的：“Buy cots for the JS interns” （为JS实习生买一些轻便小床），并说明“This bug is not actually a joke.”，这个BUG估计是在抱怨在Mozilla工作的实习生太辛苦了。在后面的跟贴中，很多人都提到了V8，呵呵。看来，大家还是在嘲笑Mozilla更多一些，大家不妨前往一看。</p>
+<p>Mozilla的firefox还是很让人失望的，作为一个Linux下默认的浏览器，其居然让Firefox的Windows版比Linux版更强大，在firefox 4.0 beta中居然出现了Windows Only的东东，着着实实地伤了很多firefox的粉丝的心，正因为这个，整个社区都开始BS并嘲笑Mozilla，并转投Chrome阵营。</p>
+<p>当然，最后这个BUG被fix了，有图为证：</p>
+<p><figure id="attachment_2937" aria-describedby="caption-attachment-2937" style="width: 560px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-2937  " title="Mozilla的Bug fixing" src="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla.jpg" alt="" width="560" height="420" srcset="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla.jpg 800w, https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-300x225.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-768x576.jpg 768w, https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-360x270.jpg 360w" sizes="(max-width: 560px) 100vw, 560px" /><figcaption id="caption-attachment-2937" class="wp-caption-text">Mozilla的Bug fixing</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="浏览器正则表达式检查插件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_title">浏览器正则表达式检查插件</a></li><li ><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/01/browser_history-150x150.jpg" alt="一个浏览器市场占有量的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_title">一个浏览器市场占有量的图</a></li><li ><a href="https://coolshell.cn/articles/1714.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="Firefox插件WebMail Notifier" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1714.html" class="wp_rp_title">Firefox插件WebMail Notifier</a></li><li ><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/01/trade-off-150x150.jpg" alt="分布式系统的事务处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_title">分布式系统的事务处理</a></li><li ><a href="https://coolshell.cn/articles/2967.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="代码优化概要" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2967.html" class="wp_rp_title">代码优化概要</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2936.html">Mozilla的一个BUG</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2936.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

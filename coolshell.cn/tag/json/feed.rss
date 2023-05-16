@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>JSON | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/json/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 15 Aug 2011 08:24:10 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>语言的数据亲和力</title>
+		<link>https://coolshell.cn/articles/4905.html</link>
+					<comments>https://coolshell.cn/articles/4905.html#comments</comments>
+		
+		<dc:creator><![CDATA[Todd]]></dc:creator>
+		<pubDate>Wed, 29 Jun 2011 00:10:44 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Groovy]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[JSON]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4905</guid>
+
+					<description><![CDATA[<p>[ 感谢 Todd 同学投递本文 ] 目前，程序设计语言似乎进入了一个蓬勃发展的时期，Javascript、Perl、Python、Ruby、Groovy等一批...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4905.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4905.html">语言的数据亲和力</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>[ 感谢 <a href="http://www.cnblogs.com/weidagang2046/" target="_blank">Todd 同学</a>投递本文 ]</strong></p>
+<p><span style="font-family: 'Lucida Console';">目前，程序设计语言似乎进入了一个蓬勃发展的时期，Javascript、Perl、Python、Ruby、Groovy等一批较新的语言正越来越多地被熟悉和使用，而C++、C#、Java等主流语言也在不断地融入函数式和动态性特征。程序员的百宝箱中可供选择的宝贝是越来多了，而社区中关于语言间的比较和争论也更为热烈，我们常常见到关于“面向过程和面向对象的比较”、“动态语言和静态语言的比较”、“命令式和函数式范式的比较”等比较。我注意到这类讨论的关注点多集中于设计相关话题，如“动态语言的Duck typing多态和静态语言的继承多态的比较”，“Prototype based和Class based的比较”等。但我认为还有一个十分重要的方面值得关注，这就是数据处理。</span></p>
+<p><span style="font-family: 'Lucida Console';">数据处理之所以重要是因为不论是本地信息存储还是系统间信息交换都需要建立在一定的数据格式基础上。另外，不管语言属于那种范式，设计上采用什么模式，在微观层次上程序很大一部分工作都是在做数据处理。所以，从数据处理角度比较和理解语言间的差异有重要的现实意义。虽然数据通常是平台和语言无关的，但不同的语言在处理某种格式的数据时会表现出不同的难度，甚至某些数据格式只能采用特定的语言才能实现，这就是数据亲和力的不同。</span></p>
+<p><span style="font-family: 'Lucida Console';">语言的数据亲和力(Data Affinity)指的是语言的数据模型与某种数据格式之间的匹配程度。语言对某种数据格式亲和力越强，则操作某类数据越容易。</span></p>
+<p>&nbsp;</p>
+<h4><strong><span style="font-family: 'Lucida Console';">二进制字节块格式</span></strong></h4>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">在偏底层的操作系统、嵌入式和通信系统中，二进制的字节块是最常见的一种数据格式。二进制数据布局紧凑和接近机器的特点使得它常常作为系统间通信或系统文件的数据格式，但一般高级语言都不方便直接和0101打交道，而是基于记录、结构体和类等结构化表示操作数据，这就存在着在底层的二进制字节块和高层的结构化数据直接的转换问题。</span></p>
+<p><span style="font-family: 'Lucida Console';"><span id="more-4905"></span><br />
+</span></p>
+<p><span style="font-family: 'Lucida Console';">C语言作为最主要的系统语言具有很高的字节块数据亲和力。这不仅因为C语言具有指针可以直接访问内存以外，还因为C的结构体(struct)可以和字节块建立起直接的映射关系。例如，在基于Socket连接的分布式系统中服务器端和客户端通过二进制的字节数据进行通信，通信双方只要事先定义共用的结构体，发送方先创建相应的结构体变量并填充字段，然后把变量对应的内存块copy到Socket，接收方从Socket读取字节块，然后把字节块强制类型转换为相应的结构体指针即可读取个字段信息。整个过程中通信的双方都没有复杂的信息编码和解码的过程。示例代码如下：</span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">struct t_data {
+    int version;
+    char type[10];
+    float value;
+};
+
+//发送方
+struct t_data data;
+data.version = 1;
+strcpy(data.type,  “degree”);
+data.value = 189.0;
+send(socket,  &amp;data,  sizeof(data));
+
+//接收方
+struct t_data data;
+read(socket,  &amp;data,  sizeof(data));
+printf(“%d, %s, %f”, data.version,  data.type, data.value);</pre>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">上面的方法在实际应用中还需要注意内存对齐问题和大小端问题。内存对齐问题可以通过编译器预处理命令来进行控制，保证内存中struct结构与传输的字节块具有相同的对齐方式；大小端问题需要通信的双方采用同样的大小端方式，否则就需要进行转换。</span></p>
+<p><span style="font-family: 'Lucida Console';">C++可以完全兼容C的结构体，但C++的类(包括class和struct)中如果定义了虚函数，则会丧失结构的字节块数据亲和力，这是C++编程时需要权衡的一个因素。而除了C/C++，其他语言中则难以见到字节块数据亲和力，其原因在于C/C++允许控制结构体/对象的内存布局，并允许对指针进行非类型安全的强制类型转换，这都是在Java，C#等语言中不允许的。所以，在Java、C#中进行字节块的编码解码就只能按照协议一个字段一个字段地按偏移量和长度进行解析。C/C++的指针以及结构体和内存的直接映射带来了对字节块数据的亲和力，但同时也留下了内存访问和类型安全的隐患；而Java、C#在拥有引用安全和类型安全的同时也失去了对字节块数据的亲和力。</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<h4><span style="font-family: 'Lucida Console';"><strong>文本格式</strong> </span></h4>
+<p><span style="font-family: 'Lucida Console';">文本格式是另一种十分常见的数据格式。《Unix编程艺术》中是这样描述文本格式的：&#8221;Text streams are a valuable universal format because they&#8217;re easy for human beings to read, write, and edit without specialized tools ”。基于文本流的管道处理是一种备受赞誉的Unix风格。Shell可以通过管道把各种功能单一的命令串联起来，让文本流在管道上流动，因而Shell语言具有很好的文本数据亲和力。许多文本数据处理任务Bash都可以一行搞定，这就是Hacker们酷爱的One Liner风格。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">下面我们来看两个用Bash进行文本处理的例子：</span></p>
+<p><span style="font-family: 'Lucida Console';">1. 统计当前目录下的gz文件数目：</span></p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">ls –l *.gz | wc –l</code></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">2. 在Web服务器日子service.log中统计2011年6月26和27两天中每天中各页面的PV</span></p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">cat service.log | grep  ^2011-06-2[6-7] | cut –d ‘ ‘ –f 1, 3 | sort | uniq –c</code></p>
+<p>&nbsp;</p>
+<p>service.log:</p>
+<p style="padding-left: 30px;"><span style="font-family: 'Lucida Console';">2011-06-25 13:00:55 /music/c.htm Safari<br />
+…<br />
+2011-06-26 08:01:23 /main.htm IE<br />
+2011-06-26 08:03:01 /sports/b.htm Chrome<br />
+…<br />
+2011-06-27 11:41:06 /main.htm IE<br />
+2011-06-27 11:52:41 /news/a.htm Firefox</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">输出:</span></p>
+<p style="padding-left: 30px;"><span style="font-family: 'Lucida Console';">210 2011-06-26 /main.htm<br />
+231 2011-06-26 /news/a.htm<br />
+155 2011-06-26 /sports/b.htm<br />
+288 2011-06-27 /main.htm<br />
+292 2011-06-27 /news/a.htm<br />
+161 2011-06-27 /sports/b.htm</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">上面的两个简单文本数据处理任务如果是在C或C++下实现则要麻烦得多，代码量至少是十几行或者数十行，加上编译调试，整个开发效率可能比Shell低一个数量级。除了Shell外，Perl也是以强大的文本数据处理而闻名的。我们来看一个Perl正则表达式的例子：</span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">while (&lt;STDIN&gt;) {
+    if (/hello\s(\w+)/i)  {
+        print “say hello to $1“
+     }
+     elsif (/goodbye\s(\w+)/i)  {
+         print “say goodbye to  $1”
+    }
+}</pre>
+<p><span style="font-family: 'Lucida Console';">输入：</span></p>
+<p style="padding-left: 30px;">HeLLo world</p>
+<p style="padding-left: 30px;">Goodbye bug</p>
+<p><span style="font-family: 'Lucida Console';">输出：</span></p>
+<p style="padding-left: 30px;">say hello to world</p>
+<p style="padding-left: 30px;">say goodbye to bug</p>
+<p><span style="font-family: 'Lucida Console';">上面的例子中我们看到Perl直接进行字符串匹配并进行数据提取的强大威力。Perl基于正则表达式的字符串处理不仅比C/C++等系统语言更强大，甚至比Python这样的动态语言也更强大和更方便，这是因为正则表达式是Perl语言的“一等公民”，这就使得Perl比其他以库的方式支持正则表达式功能的语言具有更好的文本数据亲和力。后来的Ruby也学习Perl把直接在语言上支持正则表达式。</span></p>
+<p>&nbsp;</p>
+<h4><strong><span style="font-family: 'Lucida Console';">结构化文本格式</span></strong></h4>
+<p><span style="font-family: 'Lucida Console';">XML是最近十几年来流行起来的一种通用（半）结构化的文本数据交换格式。XML除具有一般文本格式的优点外，还具有表达复杂的层次信息的优势，所以它至诞生以来就被大量用于配置文件和各种Web Service中。现代程序设计基本都少不了了XML打交道，不过在C++、Java和C#集中静态类型语言中处理XML却并不是一件十分轻松的事情。我们先来看一个Java解析和构建下面这个XML的例子：</span></p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">&lt;langs type=&quot;current&quot;&gt;
+  &lt;language&gt;Java&lt;/language&gt;
+  &lt;language&gt;Groovy&lt;/language&gt;
+  &lt;language&gt;JavaScript&lt;/language&gt;
+&lt;/langs&gt;</pre>
+<p>&nbsp;</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">//Java解析XML
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+try {
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.parse(&quot;src/languages.xml&quot;);
+    Element langs = doc.getDocumentElement();
+    System.out.println(&quot;type = &quot; + langs.getAttribute(&quot;type&quot;));
+    NodeList list = langs.getElementsByTagName(&quot;language&quot;);
+    for(int i = 0 ; i &amp;lt; list.getLength();i++) {
+        Element language = (Element) list.item(i);
+        System.out.println(language.getTextContent());
+    }
+}catch(Exception e) {
+    e.printStackTrace();
+}
+
+//Java创建XML
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+try {
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document doc = db.newDocument();
+    Element langs = doc.createElement(&quot;langs&quot;);
+    langs.setAttribute(&quot;type&quot;, &quot;current&quot;);
+    doc.appendChild(langs);
+
+    Element language1 = doc.createElement(&quot;language&quot;);
+    Text text1 = doc.createTextNode(&quot;Java&quot;);
+    language1.appendChild(text1);
+    langs.appendChild(language1);
+
+    Element language2 = doc.createElement(&quot;language&quot;);
+    Text text2 = doc.createTextNode(&quot;Groovy&quot;);
+    language2.appendChild(text2);
+    langs.appendChild(language2);
+    Element language3 = doc.createElement(&quot;language&quot;);
+    Text text3 = doc.createTextNode(&quot;JavaScript&quot;);
+    language3.appendChild(text3);
+    langs.appendChild(language3);
+} catch (Exception e) {
+    e.printStackTrace();
+}</pre>
+<p><span style="color: #800040; font-family: 'Lucida Console';"><br />
+</span> 为了解析和创建小小的一段XML代码需要编写如此冗长的Java代码，而实现同样的功能动态语言Groovy则十分简洁：</p>
+<pre data-enlighter-language="groovy" class="EnlighterJSRAW">//Groovy解析XML
+def langs = new XmlParser().parse(&quot;languages.xml&quot;)
+println &quot;type = ${langs.attribute(&quot;type&quot;)}&quot;
+langs.language.each{
+    println it.text()
+}
+//Groovy创建XML
+def xml = new groovy.xml.MarkupBuilder()
+xml.langs(type:&quot;current&quot;){
+   language(&quot;Java&quot;)
+   language(&quot;Groovy&quot;)
+   language(&quot;JavaScript&quot;)
+}</pre>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">上面Groovy操作XML的代码简洁而富有表达力，代码与XML几乎是一一对应的，如同直接在XML上进行操作的DSL一样，而相应的Java代码则看不到XML的影子。这说明Groovy具有很高的XML数据的亲和力。为什么Java和Groovy在XML亲和力方面有这样的差异呢？原因在于Java要求所有的方法和属性都必须先定义再调用，严格的静态类型检查使得Java只能把XML元素作为“二等公民”来表达；而Groovy则没有静态类型检查的限制，可以自由地使用方法和属性来表达XML结构。上面用Groovy创建XML的例子中，groovy.xml.MarkupBuilder类中实际上并没有langs, language这些方法，但会在调用的时候自动创建相应的XML结构。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">除了XML外，JSON是另一种通用的半结构化的纯文本数据交换格式，它常被视为轻量级的XML。JSON的本意是Javascript的对象表示(Javascript Object Notation)，它属于Javascript的语法子集，所以Javascript对JSON有原生的支持。下面就是一个在Javascript中创建JSON对象的例子：</span></p>
+<p>[javascript]var json = { “langs” :<br />
+    {<br />
+        &quot;type” : &quot;current”,<br />
+       &quot;language” :  [&quot;Java”, &quot;Groovy”, &quot;Javascript”]<br />
+    }<br />
+}[/javascript]</p>
+<p><span style="font-family: 'Lucida Console';">许多Javascript程序都会通过AJAX都从服务器获取JSON字符串，然后把字符串解析为JSON对象。由于Javascript对JSON的原生支持，所以，在Javascript中解析JSON字符串可以采用通用的eval方式，如：</span></p>
+<p>[javascript]var json = eval(“(&quot; +  jsonStr + “)&quot;);</p>
+<p>alert(json.langs.type);[/javascript]</p>
+<p><span style="font-family: 'Lucida Console';">甚至可以：</span></p>
+<p>[javascript]eval(“var json = ” +  jsonStr);</p>
+<p>alert(json.langs.type);[/javascript]</p>
+<p>&nbsp;</p>
+<p><span style="font-family: 'Lucida Console';">不过eval的通用性带来了一定的安全隐患，所以一般只建议对受信任的数据源采用eval方式解析JSON，对于不受信任的数据源可以采用专门的JSON解析库。无论如何Javascript对JSON的原生支持都使得Javascript创建和解析JSON数据十分的简单，也就是说Javascript具有很高的JSON数据亲和力。另外，Groovy 1.8也加入了对JSON的原生支持，操作JSON与Javascript一样方便。</span></p>
+<h4><strong><span style="font-family: 'Lucida Console';">总结</span></strong></h4>
+<p><span style="font-family: 'Lucida Console';">到这里为止本文篇幅已经很长了，只能列举二进制字节块格式、文本格式和结构化文本格式3种典型的数据格式。实际上，数据亲和力的话题还有很多值得探讨的，比如C#的Linq。本文的探讨算是抛砖引玉，目的在于引起大家注意在比较语言的时候不要忽略了数据亲和力这样一个重要方面。本文的错误或不足，敬请指正，谢谢！</span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/7992.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/cpp_small-150x150.jpg" alt="C++的坑真的多吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7992.html" class="wp_rp_title">C++的坑真的多吗？</a></li><li ><a href="https://coolshell.cn/articles/5576.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/10/00.QuickBasic_PDS_IDE-150x150.png" alt="那些曾伴我走过编程之路的软件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5576.html" class="wp_rp_title">那些曾伴我走过编程之路的软件</a></li><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4905.html">语言的数据亲和力</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4905.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Web程序的最佳测试数据</title>
+		<link>https://coolshell.cn/articles/1957.html</link>
+					<comments>https://coolshell.cn/articles/1957.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 15 Dec 2009 07:50:35 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[JSON]]></category>
+		<category><![CDATA[SQL]]></category>
+		<category><![CDATA[Unicode]]></category>
+		<category><![CDATA[转义]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1957</guid>
+
+					<description><![CDATA[<p>这里有一篇Matthias写的关于转义字符文章-“The art of escaping”，这篇文章告诉你有一些比较特殊的字符需要你去认真的处理，不然，你的网站...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1957.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1957.html">Web程序的最佳测试数据</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="text-align: left;">这里有一篇Matthias写的<a title="The art of escaping" href="http://united-coders.com/matthias-reuter/the-art-of-escaping">关于转义字符文章-“The art of escaping”</a>，这篇文章告诉你有一些比较特殊的字符需要你去认真的处理，不然，你的网站程序轻则出错，重则被人黑了。这些物殊的字符是[<code>&lt;"@%'&amp;_\?/:;,&gt;কী €</code>] ，你可以使用这个字符串到任意一个可以输入的Web程序上去做测试。</p>
+<p>下面这个表格告诉你为什么这些字符很特殊。这个列表不会是完整的，而且也永远不会完整。<br />
+<center></p>
+<table border="0">
+<thead>
+<tr>
+<th>相关领域</th>
+<th>转义字符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a title="W3C" href="http://www.w3.org/">HTML</a></td>
+<td>&lt; , &gt; , &amp;</td>
+</tr>
+<tr>
+<td><a title="JSON-Resource" href="http://json.org/">JSON</a></td>
+<td>&#8220;</td>
+</tr>
+<tr>
+<td><a title="mysql character" href="http://dev.mysql.com/doc/refman/5.0/en/string-syntax.html">SQL</a> in mySql</td>
+<td>字符串 &#8220;, &#8216;, 通配符 %, _</td>
+</tr>
+<tr>
+<td><a title="rfc 1738 for urls" href="http://www.faqs.org/rfcs/rfc1738.html">rfc 1738</a> for URL-parameter</td>
+<td>;, /, ?, :, &#8220;, @, =, &amp; 空格</td>
+</tr>
+</tbody>
+</table>
+<p></center><br />
+把这些转义字符放在一起，然后再整些 utf-8 的一些特殊字符。这些utf-8的字符你可以参看本站的<a rel="bookmark" href="https://coolshell.cn/articles/1331.html">Unicode字符预览表</a>一文，并从中获取。另外，你还可以使用下面的这些工具来对你的程序进行调试或检查：</p>
+<ul>
+<li>一个高级Web调试插件： <a title="firebug plugin" href="https://addons.mozilla.org/de/firefox/addon/1843">firebug</a></li>
+<li>标准的请求/响应插件： <a href="https://addons.mozilla.org/de/firefox/addon/3829">Live HTTP headers</a></li>
+<li>一些抓包程序： <a href="https://addons.mozilla.org/en-US/firefox/addon/6647">HTTPfox</a> or <a href="https://addons.mozilla.org/en-US/firefox/addon/966">tamper data</a></li>
+<li>IE的开发者可以试试这个：<a href="http://www.fiddler2.com/fiddler2/">Fiddler.com</a></li>
+</ul>
+<p>如果上面的工具都不能帮助你的话，你可能需要打调试日志，或是使用一个透明的代理服务器：如： <a href="http://www.charlesproxy.com/">Charles Web Debugging Proxy</a> （Windows）</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/21649.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/11/il_340x270_pggv-150x150.jpg" alt="源代码特洛伊木马攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21649.html" class="wp_rp_title">源代码特洛伊木马攻击</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/html6-150x150.jpeg" alt="HTML6 展望" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_title">HTML6 展望</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1957.html">Web程序的最佳测试数据</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1957.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>9个强大免费的PHP库</title>
+		<link>https://coolshell.cn/articles/455.html</link>
+					<comments>https://coolshell.cn/articles/455.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 12 Apr 2009 04:29:53 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Akismet]]></category>
+		<category><![CDATA[Amazon S3]]></category>
+		<category><![CDATA[JSON]]></category>
+		<category><![CDATA[pChart]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[PHPMailer]]></category>
+		<category><![CDATA[ReCAPTCHA]]></category>
+		<category><![CDATA[SimplePie]]></category>
+		<category><![CDATA[Smarty]]></category>
+		<category><![CDATA[XML-RPC]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=455</guid>
+
+					<description><![CDATA[<p>1. ReCAPTCHA reCAPTCHA  允许你的网站集成一个Advanced CAPTCHA 系统，这个系统可以帮助你阻止一些垃圾信息。可视化的CAPT...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/455.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/455.html">9个强大免费的PHP库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<h3>1. ReCAPTCHA</h3>
+<p><a href="http://recaptcha.net/plugins/php/"><span style="color: #468175;">reCAPTCHA </span></a> 允许你的网站集成一个Advanced CAPTCHA 系统，这个系统可以帮助你阻止一些垃圾信息。可视化的CAPTCHA 同样也有一个有用的声音功能。另外，在reCAPTCHA 服务里，这个PHP库也包含了一个给 &#8220;Mailhide&#8221; 服务用的API，这个可以把你的邮件地址隐藏于一些抓邮件地址的程序。</p>
+<p>这个API是免费并且非常容易使用的，你需要做的就是申请一个API的KEY。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 327px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/recaptcha.png" alt="ReCAPTCHA" /></div>
+<p><a href="http://code.google.com/p/recaptcha/downloads/list?q=label:phplib-Latest"><span style="color: #468175;">下载 ReCAPTCHA</span></a> | <a href="http://recaptcha.net/api/getkey?app=php"><span style="color: #468175;">获取一个API Key</span></a> | <a href="http://recaptcha.net/plugins/php/"><span style="color: #468175;">相关文档</span></a></p>
+<p><span id="more-455"></span></p>
+<h3>2. Akismet</h3>
+<p><a href="http://akismet.com/"><span style="color: #468175;">Akismet</span></a> 是一个免费的服务项目，对于一些小型的网站它是完全免费的，对于一些大型的网址，他是部分免费的。这个库也是提供了处理一些和垃圾信息相关的功能。它主要通过比对自己数据库中已存在的被认定为垃圾的信息，而做出决定的。当然，数据库中的垃圾信息可能通过各个网站举报，大家供享的。这是一个每天都在更新，每天都在改进的库。许多许多的WordPress都装有这个库。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 455px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/akismet.jpg" alt="Akismet" /></div>
+<p><a href="http://net.tutsplus.com/tutorials/tools-and-tips/the-best-ways-to-fight-spam/"><span style="color: #468175;">实施Akismet</span></a></p>
+<h3>3. Services_JSON</h3>
+<p>JSON 是一个非常小巧敏捷的PHP库，它主要用于把一些数据格式转成易于人们阅读的格式。并不是所有的人都会喜欢PHP5 （因为自PHP5.20后其中已经集成了JSON），所以，这个小PHP库可以在低版本的PHP中让你得到 JSON 的功能。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 404px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/json.png" alt="JSON" /></div>
+<p><a href="http://pear.php.net/package/Services_JSON"><span style="color: #468175;">查看 Services_JSON</span></a></p>
+<h3>4. Smarty</h3>
+<p><a href="http://smarty.net/"><span style="color: #468175;">Smarty</span></a> 是一个网面模板引擎，它主要是把程序和界面分开。Smarty 提供了许多强大的功能，比如循环，变量，以及一个强大的缓存系统。这个库不是一个新库了，其已经发展了很多年了，虽然只有3个release版，但应该是比较成熟了。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 257px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/smarty.png" alt="Smarty" /></div>
+<p><a href="http://smarty.net/download.php"><span style="color: #468175;">下载 Smarty</span></a> | <a href="http://smarty.net/docs.php"><span style="color: #468175;">查看文档</span></a></p>
+<h3>5. pChart</h3>
+<p>这是一个强大的画统计图的PHP库，像一些饼图或是柱状图，<a href="http://pchart.sourceforge.net/index.php"><span style="color: #468175;">pChart</span></a> 还允许你通过SQL查询语句或是手动的输入数据来创建一个统计图。当然它需要GD库的支持以便创建图片。这个库一看就是有很多非常专业的美工设计过，因为它可以让你的统计图显示的相当漂亮。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 599px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/pchart.png" alt="pChart" /></div>
+<p><a href="http://pchart.sourceforge.net/download.php"><span style="color: #468175;">下载 pChart</span></a> | <a href="http://pchart.sourceforge.net/documentation.php"><span style="color: #468175;">相关文档</span></a> | <a href="http://pchart.sourceforge.net/demo.php"><span style="color: #468175;">查看演示</span></a></p>
+<h3>6. SimplePie</h3>
+<p><a href="http://simplepie.org/"><span style="color: #468175;">SimplePie</span></a>  允许你可以容易地 pull 一些信息，比如RSS feeds。它同样可以被集成于不同的平台和语言。并且可以通过很多不同的方法来处理远端的feed。</p>
+<p><img decoding="async" style="width: 449px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/simplepie.png" alt="SimplePie" /></p>
+<p><a href="http://simplepie.org/downloads/"><span style="color: #468175;">下载 SimplePie</span></a> | <a href="http://simplepie.org/wiki/"><span style="color: #468175;">相关文档</span></a> | <a href="http://net.tutsplus.com/videos/screencasts/extending-simplepie-to-parse-unique-rss-feeds/"><span style="color: #468175;">Extending SimplePie to Parse Unique RSS Feeds</span></a></p>
+<h3>7. XML-RPC PHP</h3>
+<p>我们的应用程序有时需要一些类似于 &#8220;ping&#8221; 的功能去探测一下其它站点，如BLOG的 trackbacks。一般来说，这都是通过一个叫做XML-RPC的协议来完成的。<a href="http://phpxmlrpc.sourceforge.net/"><span style="color: #468175;">XML-RPC PHP</span></a> 库可以让你的站点集成这些功能。</p>
+<p><img decoding="async" style="width: 231px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/xmlrpc.png" alt="XML-RPC" /></p>
+<p><a href="http://phpxmlrpc.sourceforge.net/#download"><span style="color: #468175;">下载 XML-RPC PHP</span></a> | <a href="http://phpxmlrpc.sourceforge.net/#interest"><span style="color: #468175;">相关文档</span></a></p>
+<h3>8. Amazon S3</h3>
+<p>Amazon 提供了一个“云服务”叫&#8221;S3&#8243;. 这个PHP库可以让你不需要第三方的插件就可以上传大的文件。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 563px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/s3.png" alt="Amazon S3" /></div>
+<p><a href="http://amazon-s3-php-class.googlecode.com/files/s3-php5-curl_0.3.9.tar.gz"><span style="color: #468175;">下载 Amazon S3 PHP 类</span></a></p>
+<h3>9. PHPMailer</h3>
+<p>很多应用都需要对外发送邮件，但是PHP的mail() 函数并不是特别好用。于是 PHPMailer 应运而生，这是一个功能强大的类，其允许你发送不同格式的邮件，并支持附件和自定义邮件头。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 245px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/mail.png" alt="Sending Mail" /></div>
+<p><a href="http://phpmailer.codeworxtech.com/index.php?pg=sf&amp;p=dl"><span style="color: #468175;">下载 PHPMailer</span></a> | <a href="http://phpmailer.codeworxtech.com/index.php?pg=tutorial"><span style="color: #468175;">相关文档</span></a></p>
+<p>文章：<a href="http://net.tutsplus.com/articles/web-roundups/9-extremely-useful-and-free-php-libraries/" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/559.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="菜鸟学PHP之Smarty入门" width="150" height="150" /></a><a href="https://coolshell.cn/articles/559.html" class="wp_rp_title">菜鸟学PHP之Smarty入门</a></li><li ><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-150x150.png" alt="AWS 的 S3 故障回顾和思考" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_title">AWS 的 S3 故障回顾和思考</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/455.html">9个强大免费的PHP库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/455.html/feed</wfw:commentRss>
+			<slash:comments>33</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

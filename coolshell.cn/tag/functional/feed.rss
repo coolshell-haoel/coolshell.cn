@@ -1,0 +1,2237 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>functional | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/functional/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 28 Dec 2020 15:18:30 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Go编程模式：Map-Reduce</title>
+		<link>https://coolshell.cn/articles/21164.html</link>
+					<comments>https://coolshell.cn/articles/21164.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 24 Dec 2020 07:13:52 +0000</pubDate>
+				<category><![CDATA[Go 语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[functional]]></category>
+		<category><![CDATA[functional-programming]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[golang]]></category>
+		<category><![CDATA[MapReduce]]></category>
+		<category><![CDATA[函数式]]></category>
+		<category><![CDATA[函数式编程]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=21164</guid>
+
+					<description><![CDATA[<p>在本篇文章中，我们学习一下函数式编程的中非常重要的Map、Reduce、Filter的三种操作，这三种操作可以让我们非常方便灵活地进行一些数据处理——我们的程序...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/21164.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/21164.html">Go编程模式：Map-Reduce</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-21251" src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-300x192.png" alt="" width="300" height="192" srcset="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-300x192.png 300w, https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-768x491.png 768w, https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-422x270.png 422w, https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce.png 992w" sizes="(max-width: 300px) 100vw, 300px" />在本篇文章中，我们学习一下函数式编程的中非常重要的Map、Reduce、Filter的三种操作，这三种操作可以让我们非常方便灵活地进行一些数据处理——我们的程序中大多数情况下都是在到倒腾数据，尤其对于一些需要统计的业务场景，Map/Reduce/Filter是非常通用的玩法。下面先来看几个例子：</p>
+<section class="post-series"><h3 class="post-series-title">本文是全系列中第5 / 10篇：<a href="https://coolshell.cn/articles/series/go%e7%bc%96%e7%a8%8b%e6%a8%a1%e5%bc%8f">Go编程模式</a></h3><ul class="post-series-list"><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21128.html">Go编程模式：切片，接口，时间和性能</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21140.html">Go 编程模式：错误处理</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21146.html">Go 编程模式：Functional Options</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21214.html">Go编程模式：委托和反转控制</a></span></li><li class="post-series-item-current post-series-item"><span class="post-series-item-title">Go编程模式：Map-Reduce</span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21179.html">Go 编程模式：Go Generation</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/17929.html">Go编程模式：修饰器</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21228.html">Go编程模式：Pipeline</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21263.html">Go 编程模式：k8s Visitor 模式</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21615.html">Go编程模式 ： 泛型编程</a></span></li></ul><nav class="post-series-nav"><span class="post-series-nav-prev">&laquo; <a href="https://coolshell.cn/articles/21214.html" rel="prev" title="Go编程模式：委托和反转控制">上一篇文章</a></span><span class="post-series-nav-next"><a href="https://coolshell.cn/articles/21179.html" rel="next" title="Go 编程模式：Go Generation">下一篇文章</a> &raquo;</span></nav></section>
+<h4>基本示例</h4>
+<h5>Map示例</h5>
+<p>下面的程序代码中，我们写了两个Map函数，这两个函数需要两个参数，</p>
+<ul>
+<li>一个是字符串数组 <code>[]string</code>，说明需要处理的数据一个字符串</li>
+<li>另一个是一个函数<code>func(s string) string</code> 或 <code>func(s string) int</code></li>
+</ul>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func MapStrToStr(arr []string, fn func(s string) string) []string {
+    var newArray = []string{}
+    for _, it := range arr {
+        newArray = append(newArray, fn(it))
+    }
+    return newArray
+}
+
+func MapStrToInt(arr []string, fn func(s string) int) []int {
+    var newArray = []int{}
+    for _, it := range arr {
+        newArray = append(newArray, fn(it))
+    }
+    return newArray
+}</pre>
+<p>整个Map函数运行逻辑都很相似，函数体都是在遍历第一个参数的数组，然后，调用第二个参数的函数，然后把其值组合成另一个数组返回。</p>
+<p><span id="more-21164"></span></p>
+<p>于是我们就可以这样使用这两个函数：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">var list = []string{"Hao", "Chen", "MegaEase"}
+
+x := MapStrToStr(list, func(s string) string {
+    return strings.ToUpper(s)
+})
+fmt.Printf("%v\n", x)
+//["HAO", "CHEN", "MEGAEASE"]
+
+y := MapStrToInt(list, func(s string) int {
+    return len(s)
+})
+fmt.Printf("%v\n", y)
+//[3, 4, 8]</pre>
+<p>我们可以看到，我们给第一个 <code>MapStrToStr()</code> 传了函数做的是 转大写，于是出来的数组就成了全大写的，给<code>MapStrToInt()</code> 传的是算其长度，所以出来的数组是每个字符串的长度。</p>
+<p>我们再来看一下Reduce和Filter的函数是什么样的。</p>
+<h5><strong>Reduce 示例</strong></h5>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func Reduce(arr []string, fn func(s string) int) int {
+    sum := 0
+    for _, it := range arr {
+        sum += fn(it)
+    }
+    return sum
+}
+
+var list = []string{"Hao", "Chen", "MegaEase"}
+
+x := Reduce(list, func(s string) int {
+    return len(s)
+})
+fmt.Printf("%v\n", x)
+// 15
+</pre>
+<h5><strong>Filter示例</strong></h5>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func Filter(arr []int, fn func(n int) bool) []int {
+    var newArray = []int{}
+    for _, it := range arr {
+        if fn(it) {
+            newArray = append(newArray, it)
+        }
+    }
+    return newArray
+}
+
+var intset = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+out := Filter(intset, func(n int) bool {
+   return n%2 == 1
+})
+fmt.Printf("%v\n", out)
+
+out = Filter(intset, func(n int) bool {
+    return n &gt; 5
+})
+fmt.Printf("%v\n", out)
+</pre>
+<p>下图是一个比喻，其非常形象地说明了Map-Reduce是的业务语义，其在数据处理中非常有用。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-21169" src="https://coolshell.cn/wp-content/uploads/2020/12/map-reduce.png" alt="" width="794" height="442" srcset="https://coolshell.cn/wp-content/uploads/2020/12/map-reduce.png 794w, https://coolshell.cn/wp-content/uploads/2020/12/map-reduce-300x167.png 300w, https://coolshell.cn/wp-content/uploads/2020/12/map-reduce-768x428.png 768w, https://coolshell.cn/wp-content/uploads/2020/12/map-reduce-360x200.png 360w, https://coolshell.cn/wp-content/uploads/2020/12/map-reduce-485x270.png 485w" sizes="(max-width: 794px) 100vw, 794px" /></p>
+<h4>业务示例</h4>
+<p>通过上面的一些示例，你可能有一些明白，Map/Reduce/Filter只是一种控制逻辑，真正的业务逻辑是在传给他们的数据和那个函数来定义的。是的，这是一个很经典的“业务逻辑”和“控制逻辑”分离解耦的编程模式。下面我们来看一个有业务意义的代码，来让大家强化理解一下什么叫“控制逻辑”与业务逻辑分离。</p>
+<h5>员工信息</h5>
+<p>首先，我们一个员工对象，以及一些数据</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">type Employee struct {
+    Name     string
+    Age      int
+    Vacation int
+    Salary   int
+}
+
+var list = []Employee{
+    {"Hao", 44, 0, 8000},
+    {"Bob", 34, 10, 5000},
+    {"Alice", 23, 5, 9000},
+    {"Jack", 26, 0, 4000},
+    {"Tom", 48, 9, 7500},
+    {"Marry", 29, 0, 6000},
+    {"Mike", 32, 8, 4000},
+}</pre>
+<h5>相关的Reduce/Fitler函数</h5>
+<p>然后，我们有如下的几个函数：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">func EmployeeCountIf(list []Employee, fn func(e *Employee) bool) int {
+    count := 0
+    for i, _ := range list {
+        if fn(&amp;list[i]) {
+            count += 1
+        }
+    }
+    return count
+}
+
+func EmployeeFilterIn(list []Employee, fn func(e *Employee) bool) []Employee {
+    var newList []Employee
+    for i, _ := range list {
+        if fn(&amp;list[i]) {
+            newList = append(newList, list[i])
+        }
+    }
+    return newList
+}
+
+func EmployeeSumIf(list []Employee, fn func(e *Employee) int) int {
+    var sum = 0
+    for i, _ := range list {
+        sum += fn(&amp;list[i])
+    }
+    return sum
+}</pre>
+<p>简单说明一下：</p>
+<ul>
+<li><code>EmployeeConutIf</code> 和 <code>EmployeeSumIf</code> 分别用于统满足某个条件的个数或总数。它们都是Filter + Reduce的语义。</li>
+<li><code>EmployeeFilterIn</code> 就是按某种条件过虑。就是Fitler的语义。</li>
+</ul>
+<h5>各种自定义的统计示例</h5>
+<p>于是我们就可以有如下的代码。</p>
+<p><strong>1）统计有多少员工大于40岁</strong></p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">old := EmployeeCountIf(list, func(e *Employee) bool {
+    return e.Age &gt; 40
+})
+fmt.Printf("old people: %d\n", old)
+//old people: 2
+</pre>
+<p><strong>2）统计有多少员工薪水大于6000</strong></p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">high_pay := EmployeeCountIf(list, func(e *Employee) bool {
+    return e.Salary &gt;= 6000
+})
+fmt.Printf("High Salary people: %d\n", high_pay)
+//High Salary people: 4
+</pre>
+<p><strong>3）列出有没有休假的员工</strong></p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">no_vacation := EmployeeFilterIn(list, func(e *Employee) bool {
+    return e.Vacation == 0
+})
+fmt.Printf("People no vacation: %v\n", no_vacation)
+//People no vacation: [{Hao 44 0 8000} {Jack 26 0 4000} {Marry 29 0 6000}]
+</pre>
+<p><strong>4）统计所有员工的薪资总和</strong></p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">total_pay := EmployeeSumIf(list, func(e *Employee) int {
+    return e.Salary
+})
+
+fmt.Printf("Total Salary: %d\n", total_pay)
+//Total Salary: 43500
+</pre>
+<p><strong>5）统计30岁以下员工的薪资总和</strong></p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">younger_pay := EmployeeSumIf(list, func(e *Employee) int {
+    if e.Age &lt; 30 {
+        return e.Salary
+    } 
+    return 0
+})</pre>
+<h4>泛型Map-Reduce</h4>
+<p>我们可以看到，上面的Map-Reduce都因为要处理数据的类型不同而需要写出不同版本的Map-Reduce，虽然他们的代码看上去是很类似的。所以，这里就要带出来泛型编程了，Go语言在本文写作的时候还不支持泛型（注：Go开发团队技术负责人Russ Cox在2012年11月21golang-dev上的mail确认了Go泛型(type parameter)将在Go 1.18版本落地，即2022.2月份）。</p>
+<h5>简单版 Generic Map</h5>
+<p>所以，目前的Go语言的泛型只能用 <code>interface{}</code> + <code>reflect</code>来完成，<code>interface{}</code> 可以理解为C中的 <code>void*</code>，Java中的 <code>Object</code> ，<code>reflect</code>是Go的反射机制包，用于在运行时检查类型。</p>
+<p>下面我们来看一下一个非常简单不作任何类型检查的泛型的Map函数怎么写。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">func Map(data interface{}, fn interface{}) []interface{} {
+    vfn := reflect.ValueOf(fn)
+    vdata := reflect.ValueOf(data)
+    result := make([]interface{}, vdata.Len())
+
+    for i := 0; i &lt; vdata.Len(); i++ {
+        result[i] = vfn.Call([]reflect.Value{vdata.Index(i)})[0].Interface()
+    }
+    return result
+}</pre>
+<p>上面的代码中，</p>
+<ul>
+<li>通过 <code>reflect.ValueOf()</code> 来获得 <code>interface{}</code> 的值，其中一个是数据 <code>vdata</code>，另一个是函数 <code>vfn</code>，</li>
+<li>然后通过 <code>vfn.Call()</code> 方法来调用函数，通过 <code>[]refelct.Value{vdata.Index(i)}</code>来获得数据。</li>
+</ul>
+<p>Go语言中的反射的语法还是有点令人费解的，但是简单看一下手册还是能够读懂的。我这篇文章不讲反射，所以相关的基础知识还请大家自行Google相关的教程。</p>
+<p>于是，我们就可以有下面的代码——不同类型的数据可以使用相同逻辑的<code>Map()</code>代码。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">square := func(x int) int {
+  return x * x
+}
+nums := []int{1, 2, 3, 4}
+
+squared_arr := Map(nums,square)
+fmt.Println(squared_arr)
+//[1 4 9 16]
+
+
+
+upcase := func(s string) string {
+  return strings.ToUpper(s)
+}
+strs := []string{"Hao", "Chen", "MegaEase"}
+upstrs := Map(strs, upcase);
+fmt.Println(upstrs)
+//[HAO CHEN MEGAEASE]</pre>
+<p>但是因为反射是运行时的事，所以，如果类型什么出问题的话，就会有运行时的错误。比如：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">x := Map(5, 5)
+fmt.Println(x)</pre>
+<p>上面的代码可以很轻松的编译通过，但是在运行时就出问题了，还是panic错误……</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">panic: reflect: call of reflect.Value.Len on int Value
+
+goroutine 1 [running]:
+reflect.Value.Len(0x10b5240, 0x10eeb58, 0x82, 0x10716bc)
+        /usr/local/Cellar/go/1.15.3/libexec/src/reflect/value.go:1162 +0x185
+main.Map(0x10b5240, 0x10eeb58, 0x10b5240, 0x10eeb60, 0x1, 0x14, 0x0)
+        /Users/chenhao/.../map.go:12 +0x16b
+main.main()
+        /Users/chenhao/.../map.go:42 +0x465
+exit status 2</pre>
+<h5>健壮版的Generic Map</h5>
+<p>所以，如果要写一个健壮的程序，对于这种用<code>interface{}</code> 的“过度泛型”，就需要我们自己来做类型检查。下面是一个有类型检查的Map代码：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func Transform(slice, function interface{}) interface{} {
+  return transform(slice, function, false)
+}
+
+func TransformInPlace(slice, function interface{}) interface{} {
+  return transform(slice, function, true)
+}
+
+func transform(slice, function interface{}, inPlace bool) interface{} {
+ 
+  //check the <code data-enlighter-language="raw" class="EnlighterJSRAW">slice</code> type is Slice
+  sliceInType := reflect.ValueOf(slice)
+  if sliceInType.Kind() != reflect.Slice {
+    panic("transform: not slice")
+  }
+
+  //check the function signature
+  fn := reflect.ValueOf(function)
+  elemType := sliceInType.Type().Elem()
+  if !verifyFuncSignature(fn, elemType, nil) {
+    panic("trasform: function must be of type func(" + sliceInType.Type().Elem().String() + ") outputElemType")
+  }
+
+  sliceOutType := sliceInType
+  if !inPlace {
+    sliceOutType = reflect.MakeSlice(reflect.SliceOf(fn.Type().Out(0)), sliceInType.Len(), sliceInType.Len())
+  }
+  for i := 0; i &lt; sliceInType.Len(); i++ {
+    sliceOutType.Index(i).Set(fn.Call([]reflect.Value{sliceInType.Index(i)})[0])
+  }
+  return sliceOutType.Interface()
+
+}
+
+func verifyFuncSignature(fn reflect.Value, types ...reflect.Type) bool {
+
+  //Check it is a funciton
+  if fn.Kind() != reflect.Func {
+    return false
+  }
+  // NumIn() - returns a function type's input parameter count.
+  // NumOut() - returns a function type's output parameter count.
+  if (fn.Type().NumIn() != len(types)-1) || (fn.Type().NumOut() != 1) {
+    return false
+  }
+  // In() - returns the type of a function type's i'th input parameter.
+  for i := 0; i &lt; len(types)-1; i++ {
+    if fn.Type().In(i) != types[i] {
+      return false
+    }
+  }
+  // Out() - returns the type of a function type's i'th output parameter.
+  outType := types[len(types)-1]
+  if outType != nil &amp;&amp; fn.Type().Out(0) != outType {
+    return false
+  }
+  return true
+}
+</pre>
+<p>上面的代码一下子就复杂起来了，可见，复杂的代码都是在处理异常的地方。我不打算Walk through 所有的代码，别看代码多，但是还是可以读懂的，下面列几个代码中的要点：</p>
+<ul>
+<li>代码中没有使用Map函数，因为和数据结构和关键有含义冲突的问题，所以使用<code>Transform</code>，这个来源于 C++ STL库中的命名。</li>
+<li>有两个版本的函数，一个是返回一个全新的数组 &#8211; <code>Transform()</code>，一个是“就地完成” &#8211; <code>TransformInPlace()</code></li>
+<li>在主函数中，用 <code>Kind()</code> 方法检查了数据类型是不是 Slice，函数类型是不是Func</li>
+<li>检查函数的参数和返回类型是通过 <code>verifyFuncSignature()</code> 来完成的，其中：
+<ul>
+<li><code>NumIn()</code> &#8211; 用来检查函数的“入参”</li>
+<li> <code>NumOut()</code> 用来检查函数的“返回值”</li>
+</ul>
+</li>
+<li>如果需要新生成一个Slice，会使用 <code>reflect.MakeSlice()</code> 来完成。</li>
+</ul>
+<p>好了，有了上面的这段代码，我们的代码就很可以很开心的使用了：</p>
+<p>可以用于字符串数组</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">list := []string{"1", "2", "3", "4", "5", "6"}
+result := Transform(list, func(a string) string{
+    return a +a +a
+})
+//{"111","222","333","444","555","666"}
+</pre>
+<p>可以用于整形数组</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">list := []int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+TransformInPlace(list, func (a int) int {
+  return a*3
+})
+//{3, 6, 9, 12, 15, 18, 21, 24, 27}
+</pre>
+<p>可以用于结构体</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">var list = []Employee{
+    {"Hao", 44, 0, 8000},
+    {"Bob", 34, 10, 5000},
+    {"Alice", 23, 5, 9000},
+    {"Jack", 26, 0, 4000},
+    {"Tom", 48, 9, 7500},
+}
+
+result := TransformInPlace(list, func(e Employee) Employee {
+    e.Salary += 1000
+    e.Age += 1
+    return e
+})</pre>
+<h5>健壮版的 Generic Reduce</h5>
+<p>同样，泛型版的 Reduce 代码如下：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func Reduce(slice, pairFunc, zero interface{}) interface{} {
+  sliceInType := reflect.ValueOf(slice)
+  if sliceInType.Kind() != reflect.Slice {
+    panic("reduce: wrong type, not slice")
+  }
+
+  len := sliceInType.Len()
+  if len == 0 {
+    return zero
+  } else if len == 1 {
+    return sliceInType.Index(0)
+  }
+
+  elemType := sliceInType.Type().Elem()
+  fn := reflect.ValueOf(pairFunc)
+  if !verifyFuncSignature(fn, elemType, elemType, elemType) {
+    t := elemType.String()
+    panic("reduce: function must be of type func(" + t + ", " + t + ") " + t)
+  }
+
+  var ins [2]reflect.Value
+  ins[0] = sliceInType.Index(0)
+  ins[1] = sliceInType.Index(1)
+  out := fn.Call(ins[:])[0]
+
+  for i := 2; i &lt; len; i++ {
+    ins[0] = out
+    ins[1] = sliceInType.Index(i)
+    out = fn.Call(ins[:])[0]
+  }
+  return out.Interface()
+}</pre>
+<h5>健壮版的 Generic Filter</h5>
+<p>同样，泛型版的 Filter 代码如下（同样分是否“就地计算”的两个版本）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">func Filter(slice, function interface{}) interface{} {
+  result, _ := filter(slice, function, false)
+  return result
+}
+
+func FilterInPlace(slicePtr, function interface{}) {
+  in := reflect.ValueOf(slicePtr)
+  if in.Kind() != reflect.Ptr {
+    panic("FilterInPlace: wrong type, " +
+      "not a pointer to slice")
+  }
+  _, n := filter(in.Elem().Interface(), function, true)
+  in.Elem().SetLen(n)
+}
+
+var boolType = reflect.ValueOf(true).Type()
+
+func filter(slice, function interface{}, inPlace bool) (interface{}, int) {
+
+  sliceInType := reflect.ValueOf(slice)
+  if sliceInType.Kind() != reflect.Slice {
+    panic("filter: wrong type, not a slice")
+  }
+
+  fn := reflect.ValueOf(function)
+  elemType := sliceInType.Type().Elem()
+  if !verifyFuncSignature(fn, elemType, boolType) {
+    panic("filter: function must be of type func(" + elemType.String() + ") bool")
+  }
+
+  var which []int
+  for i := 0; i &lt; sliceInType.Len(); i++ {
+    if fn.Call([]reflect.Value{sliceInType.Index(i)})[0].Bool() {
+      which = append(which, i)
+    }
+  }
+
+  out := sliceInType
+
+  if !inPlace {
+    out = reflect.MakeSlice(sliceInType.Type(), len(which), len(which))
+  }
+  for i := range which {
+    out.Index(i).Set(sliceInType.Index(which[i]))
+  }
+
+  return out.Interface(), len(which)
+}</pre>
+<h4>后记</h4>
+<p>还有几个未尽事宜：</p>
+<p>1）使用反射来做这些东西，会有一个问题，<strong>那就是代码的性能会很差。所以，上面的代码不能用于你需要高性能的地方</strong>。怎么解决这个问题，我们会在本系列文章的下一篇文章中讨论。</p>
+<p>2）上面的代码大量的参考了 Rob Pike的版本，他的代码在 <a href="https://github.com/robpike/filter" target="_blank" rel="noopener">https://github.com/robpike/filter</a></p>
+<p>3）其实，在全世界范围内，有大量的程序员都在问Go语言官方什么时候在标准库中支持 Map/Reduce，Rob Pike说，这种东西难写吗？还要我们官方来帮你们写么？这种代码我多少年前就写过了，但是，我从来一次都没有用过，我还是喜欢用“For循环”，我觉得你最好也跟我一起用 “For循环”。</p>
+<p>我个人觉得，Map/Reduce在数据处理的时候还是很有用的，Rob Pike可能平时也不怎么写“业务逻辑”的代码，所以，对他来说可能也不太了解业务的变化有多么的频繁……</p>
+<p>当然，好还是不好，由你来判断，但多学一些编程模式是对自己的帮助也是很有帮助的。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.options-150x150.png" alt="Go 编程模式：Functional Options" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_title">Go 编程模式：Functional Options</a></li><li ><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat-150x150.png" alt="Go编程模式：修饰器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_title">Go编程模式：修饰器</a></li><li ><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/09/go-generics-150x150.png" alt="Go编程模式 ： 泛型编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_title">Go编程模式 ： 泛型编程</a></li><li ><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.k8s-150x150.png" alt="Go 编程模式：k8s Visitor 模式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_title">Go 编程模式：k8s Visitor 模式</a></li><li ><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.line_.-150x150.png" alt="Go编程模式：Pipeline" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_title">Go编程模式：Pipeline</a></li><li ><a href="https://coolshell.cn/articles/21214.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.pair_-150x150.png" alt="Go编程模式：委托和反转控制" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21214.html" class="wp_rp_title">Go编程模式：委托和反转控制</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/21164.html">Go编程模式：Map-Reduce</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/21164.html/feed</wfw:commentRss>
+			<slash:comments>19</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Go 编程模式：Functional Options</title>
+		<link>https://coolshell.cn/articles/21146.html</link>
+					<comments>https://coolshell.cn/articles/21146.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 22 Dec 2020 15:23:52 +0000</pubDate>
+				<category><![CDATA[Go 语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[functional]]></category>
+		<category><![CDATA[functional-programming]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[golang]]></category>
+		<category><![CDATA[Pattern]]></category>
+		<category><![CDATA[函数式编程]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=21146</guid>
+
+					<description><![CDATA[<p>在本篇文章中，我们来讨论一下Functional Options这个编程模式。这是一个函数式编程的应用案例，编程技巧也很好，是目前在Go语言中最流行的一种编程模...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/21146.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/21146.html">Go 编程模式：Functional Options</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-21241" src="https://coolshell.cn/wp-content/uploads/2020/12/go.options-300x186.png" alt="" width="300" height="186" srcset="https://coolshell.cn/wp-content/uploads/2020/12/go.options-300x186.png 300w, https://coolshell.cn/wp-content/uploads/2020/12/go.options-768x476.png 768w, https://coolshell.cn/wp-content/uploads/2020/12/go.options-436x270.png 436w, https://coolshell.cn/wp-content/uploads/2020/12/go.options.png 1015w" sizes="(max-width: 300px) 100vw, 300px" />在本篇文章中，我们来讨论一下Functional Options这个编程模式。这是一个函数式编程的应用案例，编程技巧也很好，是目前在Go语言中最流行的一种编程模式。但是，在我们正式讨论这个模式之前，我们需要先来看看要解决什么样的问题。</p>
+<section class="post-series"><h3 class="post-series-title">本文是全系列中第3 / 10篇：<a href="https://coolshell.cn/articles/series/go%e7%bc%96%e7%a8%8b%e6%a8%a1%e5%bc%8f">Go编程模式</a></h3><ul class="post-series-list"><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21128.html">Go编程模式：切片，接口，时间和性能</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21140.html">Go 编程模式：错误处理</a></span></li><li class="post-series-item-current post-series-item"><span class="post-series-item-title">Go 编程模式：Functional Options</span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21214.html">Go编程模式：委托和反转控制</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21164.html">Go编程模式：Map-Reduce</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21179.html">Go 编程模式：Go Generation</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/17929.html">Go编程模式：修饰器</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21228.html">Go编程模式：Pipeline</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21263.html">Go 编程模式：k8s Visitor 模式</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21615.html">Go编程模式 ： 泛型编程</a></span></li></ul><nav class="post-series-nav"><span class="post-series-nav-prev">&laquo; <a href="https://coolshell.cn/articles/21140.html" rel="prev" title="Go 编程模式：错误处理">上一篇文章</a></span><span class="post-series-nav-next"><a href="https://coolshell.cn/articles/21214.html" rel="next" title="Go编程模式：委托和反转控制">下一篇文章</a> &raquo;</span></nav></section>
+<h4>配置选项问题</h4>
+<p>在我们编程中，我们会经常性的需要对一个对象（或是业务实体）进行相关的配置。比如下面这个业务实体（注意，这仅只是一个示例）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">type Server struct {
+    Addr     string
+    Port     int
+    Protocol string
+    Timeout  time.Duration
+    MaxConns int
+    TLS      *tls.Config
+}</pre>
+<p>在这个 <code>Server</code> 对象中，我们可以看到：</p>
+<p><span id="more-21146"></span></p>
+<ul>
+<li>要有侦听的IP地址 <code>Addr</code> 和端口号 <code>Port</code> ，这两个配置选项是必填的（当然，IP地址和端口号都可以有默认值，当这里我们用于举例认为是没有默认值，而且不能为空，需要必填的）。</li>
+<li>然后，还有协议 <code>Protocol</code> 、 <code>Timeout</code> 和<code>MaxConns</code> 字段，这几个字段是不能为空的，但是有默认值的，比如：协议是<code>tcp</code>, 超时<code>30</code>秒 和 最大链接数<code>1024</code>个。</li>
+<li>还有一个 <code>TLS</code> 这个是安全链接，需要配置相关的证书和私钥。这个是可以为空的。</li>
+</ul>
+<p>所以，针对于上述这样的配置，我们需要有多种不同的创建不同配置 <code>Server</code> 的函数签名，如下所示（代码比较宽，需要左右滚动浏览）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func NewDefaultServer(addr string, port int) (*Server, error) {
+  return &amp;Server{addr, port, "tcp", 30 * time.Second, 100, nil}, nil
+}
+
+func NewTLSServer(addr string, port int, tls *tls.Config) (*Server, error) {
+  return &amp;Server{addr, port, "tcp", 30 * time.Second, 100, tls}, nil
+}
+
+func NewServerWithTimeout(addr string, port int, timeout time.Duration) (*Server, error) {
+  return &amp;Server{addr, port, "tcp", timeout, 100, nil}, nil
+}
+
+func NewTLSServerWithMaxConnAndTimeout(addr string, port int, maxconns int, timeout time.Duration, tls *tls.Config) (*Server, error) {
+  return &amp;Server{addr, port, "tcp", 30 * time.Second, maxconns, tls}, nil
+}</pre>
+<p>因为Go语言不支持重载函数，所以，你得用不同的函数名来应对不同的配置选项。</p>
+<h4>配置对象方案</h4>
+<p>要解决这个问题，最常见的方式是使用一个配置对象，如下所示：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">type Config struct {
+    Protocol string
+    Timeout  time.Duration
+    Maxconns int
+    TLS      *tls.Config
+}</pre>
+<p>我们把那些非必输的选项都移到一个结构体里，于是 <code>Server</code> 对象变成了：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">type Server struct {
+    Addr string
+    Port int
+    Conf *Config
+}</pre>
+<p>于是，我们只需要一个 <code>NewServer()</code> 的函数了，在使用前需要构造 <code>Config</code> 对象。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func NewServer(addr string, port int, conf *Config) (*Server, error) {
+    //...
+}
+
+//Using the default configuratrion
+srv1, _ := NewServer("localhost", 9000, nil) 
+
+conf := ServerConfig{Protocol:"tcp", Timeout: 60*time.Duration}
+srv2, _ := NewServer("locahost", 9000, &amp;conf)</pre>
+<p>这段代码算是不错了，大多数情况下，我们可能就止步于此了。但是，对于有洁癖的有追求的程序员来说，他们能看到其中有一点不好的是，<code>Config</code> 并不是必需的，所以，你需要判断是否是 <code>nil</code> 或是 Empty &#8211; <code> Config{}</code>这让我们的代码感觉还是有点不是很干净。</p>
+<h4>Builder模式</h4>
+<p>如果你是一个Java程序员，熟悉设计模式的一定会很自然地使用上Builder模式。比如如下的代码：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="java">User user = new User.Builder()
+  .name("Hao Chen")
+  .email("haoel@hotmail.com")
+  .nickname("左耳朵")
+  .build();</pre>
+<p>仿照上面这个模式，我们可以把上面代码改写成如下的代码（注：下面的代码没有考虑出错处理，其中关于出错处理的更多内容，请参看《<a title="GO 编程模式：错误处理" href="https://coolshell.cn/articles/21140.html" target="_blank" rel="noopener">Go 编程模式：出错处理</a>》）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">//使用一个builder类来做包装
+type ServerBuilder struct {
+  Server
+}
+
+func (sb *ServerBuilder) Create(addr string, port int) *ServerBuilder {
+  sb.Server.Addr = addr
+  sb.Server.Port = port
+  //其它代码设置其它成员的默认值
+  return sb
+}
+
+func (sb *ServerBuilder) WithProtocol(protocol string) *ServerBuilder {
+  sb.Server.Protocol = protocol 
+  return sb
+}
+
+func (sb *ServerBuilder) WithMaxConn( maxconn int) *ServerBuilder {
+  sb.Server.MaxConns = maxconn
+  return sb
+}
+
+func (sb *ServerBuilder) WithTimeOut( timeout time.Duration) *ServerBuilder {
+  sb.Server.Timeout = timeout
+  return sb
+}
+
+func (sb *ServerBuilder) WithTLS( tls *tls.Config) *ServerBuilder {
+  sb.Server.TLS = tls
+  return sb
+}
+
+func (sb *ServerBuilder) Build() (Server) {
+  return  sb.Server
+}
+</pre>
+<p>于是就可以以如下的方式来使用了</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">sb := ServerBuilder{}
+server, err := sb.Create("127.0.0.1", 8080).
+  WithProtocol("udp").
+  WithMaxConn(1024).
+  WithTimeOut(30*time.Second).
+  Build()</pre>
+<p>上面这样的方式也很清楚，不需要额外的Config类，使用链式的函数调用的方式来构造一个对象，只需要多加一个Builder类，这个Builder类似乎有点多余，我们似乎可以直接在<code>Server</code> 上进行这样的 Builder 构造，的确是这样的。但是在处理错误的时候可能就有点麻烦（需要为Server结构增加一个error 成员，破坏了Server结构体的“纯洁”），不如一个包装类更好一些。</p>
+<p>如果我们想省掉这个包装的结构体，那么就轮到我们的Functional Options上场了，函数式编程。</p>
+<h4>Functional Options</h4>
+<p>首先，我们先定义一个函数类型：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">type Option func(*Server)</pre>
+<p>然后，我们可以使用函数式的方式定义一组如下的函数：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func Protocol(p string) Option {
+    return func(s *Server) {
+        s.Protocol = p
+    }
+}
+func Timeout(timeout time.Duration) Option {
+    return func(s *Server) {
+        s.Timeout = timeout
+    }
+}
+func MaxConns(maxconns int) Option {
+    return func(s *Server) {
+        s.MaxConns = maxconns
+    }
+}
+func TLS(tls *tls.Config) Option {
+    return func(s *Server) {
+        s.TLS = tls
+    }
+}</pre>
+<p>上面这组代码传入一个参数，然后返回一个函数，返回的这个函数会设置自己的 <code>Server</code> 参数。例如：</p>
+<ul>
+<li>当我们调用其中的一个函数用 <code>MaxConns(30)</code> 时</li>
+<li>其返回值是一个 <code>func(s* Server) { s.MaxConns = 30 }</code> 的函数。</li>
+</ul>
+<p>这个叫高阶函数。在数学上，就好像这样的数学定义，计算长方形面积的公式为： <code>rect(width, height) = width * height;</code> 这个函数需要两个参数，我们包装一下，就可以变成计算正方形面积的公式：<code>square(width) = rect(width, width)</code> 也就是说，<code>squre(width)</code>返回了另外一个函数，这个函数就是<code>rect(w,h)</code> 只不过他的两个参数是一样的。即：<code>f(x)  = g(x, x)</code></p>
+<p>好了，现在我们再定一个 <code>NewServer()</code>的函数，其中，有一个可变参数 <code>options</code> 其可以传出多个上面上的函数，然后使用一个for-loop来设置我们的 <code>Server</code> 对象。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func NewServer(addr string, port int, options ...func(*Server)) (*Server, error) {
+
+  srv := Server{
+    Addr:     addr,
+    Port:     port,
+    Protocol: "tcp",
+    Timeout:  30 * time.Second,
+    MaxConns: 1000,
+    TLS:      nil,
+  }
+  for _, option := range options {
+    option(&amp;srv)
+  }
+  //...
+  return &amp;srv, nil
+}</pre>
+<p>于是，我们在创建 <code>Server</code> 对象的时候，我们就可以这样来了。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">s1, _ := NewServer("localhost", 1024)
+s2, _ := NewServer("localhost", 2048, Protocol("udp"))
+s3, _ := NewServer("0.0.0.0", 8080, Timeout(300*time.Second), MaxConns(1000))</pre>
+<p>怎么样，是不是高度的整洁和优雅？不但解决了使用 <code>Config</code> 对象方式 的需要有一个config参数，但在不需要的时候，是放 <code>nil</code> 还是放 <code>Config{}</code>的选择困难，也不需要引用一个Builder的控制对象，直接使用函数式编程的试，在代码阅读上也很优雅。</p>
+<p>所以，以后，大家在要玩类似的代码时，强烈推荐使用Functional Options这种方式，这种方式至少带来了如下的好处：</p>
+<ul>
+<li>直觉式的编程</li>
+<li>高度的可配置化</li>
+<li>很容易维护和扩展</li>
+<li>自文档</li>
+<li>对于新来的人很容易上手</li>
+<li>没有什么令人困惑的事（是nil 还是空）</li>
+</ul>
+<h4>参考文档</h4>
+<ul>
+<li><b>“Self referential functions and design” by Rob Pike<br />
+</b><a href="http://commandcenter.blogspot.com.au/2014/01/self-referential-functions-and-design.html">http://commandcenter.blogspot.com.au/2014/01/self-referential-functions-and-design.html</a></li>
+</ul>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-150x150.png" alt="Go编程模式：Map-Reduce" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_title">Go编程模式：Map-Reduce</a></li><li ><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat-150x150.png" alt="Go编程模式：修饰器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_title">Go编程模式：修饰器</a></li><li ><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/09/go-generics-150x150.png" alt="Go编程模式 ： 泛型编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_title">Go编程模式 ： 泛型编程</a></li><li ><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.k8s-150x150.png" alt="Go 编程模式：k8s Visitor 模式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_title">Go 编程模式：k8s Visitor 模式</a></li><li ><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.line_.-150x150.png" alt="Go编程模式：Pipeline" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_title">Go编程模式：Pipeline</a></li><li ><a href="https://coolshell.cn/articles/21214.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.pair_-150x150.png" alt="Go编程模式：委托和反转控制" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21214.html" class="wp_rp_title">Go编程模式：委托和反转控制</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/21146.html">Go 编程模式：Functional Options</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/21146.html/feed</wfw:commentRss>
+			<slash:comments>15</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Go编程模式：修饰器</title>
+		<link>https://coolshell.cn/articles/17929.html</link>
+					<comments>https://coolshell.cn/articles/17929.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 01 Jun 2017 08:48:15 +0000</pubDate>
+				<category><![CDATA[Go 语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[functional]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[golang]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[函数式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17929</guid>
+
+					<description><![CDATA[<p>之前写过一篇《Python修饰器的函数式编程》，这种模式很容易的可以把一些函数装配到另外一些函数上，可以让你的代码更为的简单，也可以让一些“小功能型”的代码复用...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17929.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17929.html">Go编程模式：修饰器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-17945" src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat.png" alt="" width="200" height="193" />之前写过一篇《<a href="https://coolshell.cn/articles/11265.html" target="_blank" rel="noopener noreferrer">Python修饰器的函数式编程</a>》，这种模式很容易的可以把一些函数装配到另外一些函数上，可以让你的代码更为的简单，也可以让一些“小功能型”的代码复用性更高，让代码中的函数可以像乐高玩具那样自由地拼装。所以，一直以来，我对修饰器decoration这种编程模式情有独钟，这里写一篇Go语言相关的文章。</p>
+<section class="post-series"><h3 class="post-series-title">本文是全系列中第7 / 10篇：<a href="https://coolshell.cn/articles/series/go%e7%bc%96%e7%a8%8b%e6%a8%a1%e5%bc%8f">Go编程模式</a></h3><ul class="post-series-list"><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21128.html">Go编程模式：切片，接口，时间和性能</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21140.html">Go 编程模式：错误处理</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21146.html">Go 编程模式：Functional Options</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21214.html">Go编程模式：委托和反转控制</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21164.html">Go编程模式：Map-Reduce</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21179.html">Go 编程模式：Go Generation</a></span></li><li class="post-series-item-current post-series-item"><span class="post-series-item-title">Go编程模式：修饰器</span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21228.html">Go编程模式：Pipeline</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21263.html">Go 编程模式：k8s Visitor 模式</a></span></li><li class="post-series-item"><span class="post-series-item-title"><a href="https://coolshell.cn/articles/21615.html">Go编程模式 ： 泛型编程</a></span></li></ul><nav class="post-series-nav"><span class="post-series-nav-prev">&laquo; <a href="https://coolshell.cn/articles/21179.html" rel="prev" title="Go 编程模式：Go Generation">上一篇文章</a></span><span class="post-series-nav-next"><a href="https://coolshell.cn/articles/21228.html" rel="next" title="Go编程模式：Pipeline">下一篇文章</a> &raquo;</span></nav></section>
+<p>看过<a href="https://coolshell.cn/articles/11265.html" target="_blank" rel="noopener noreferrer">Python修饰器</a>那篇文章的同学，一定知道这是一种函数式编程的玩法——用一个高阶函数来包装一下。多唠叨一句，关于函数式编程，可以参看我之前写过一篇文章《<a href="https://coolshell.cn/articles/10822.html" target="_blank" rel="noopener noreferrer">函数式编程</a>》，这篇文章主要是，想通过从过程式编程的思维方式过渡到函数式编程的思维方式，从而带动更多的人玩函数式编程，所以，如果你想了解一下函数式编程，那么可以移步先阅读一下。所以，Go语言的修饰器编程模式，其实也就是函数式编程的模式。</p>
+<p>不过，要提醒注意的是，Go 语言的“糖”不多，而且又是强类型的静态无虚拟机的语言，所以，无法做到像 Java 和 Python 那样的优雅的修饰器的代码。当然，也许是我才才疏学浅，如果你知道有更多的写法，请你一定告诉我。先谢过了。<br />
+<span id="more-17929"></span></p>
+<h4>简单示例</h4>
+<p>我们先来看一个示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">package main
+
+import "fmt"
+
+func decorator(f func(s string)) func(s string) {
+
+    return func(s string) {
+        fmt.Println("Started")
+        f(s)
+        fmt.Println("Done")
+    }
+}
+
+func Hello(s string) {
+    fmt.Println(s)
+}
+
+func main() {
+        decorator(Hello)("Hello, World!")
+}</pre>
+<p>我们可以看到，我们动用了一个高阶函数 <code>decorator()</code>，在调用的时候，先把 <code>Hello()</code> 函数传进去，然后其返回一个匿名函数，这个匿名函数中除了运行了自己的代码，也调用了被传入的 <code>Hello()</code> 函数。</p>
+<p>这个玩法和 Python 的异曲同工，只不过，有些遗憾的是，Go 并不支持像 Python 那样的 <code>@decorator</code> 语法糖。所以，在调用上有些难看。当然，如果你要想让代码容易读一些，你可以这样：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">hello := decorator(Hello)
+hello("Hello")</pre>
+<p>我们再来看一个和计算运行时间的例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang" data-enlighter-highlight="16-26">package main
+
+import (
+  "fmt"
+  "reflect"
+  "runtime"
+  "time"
+)
+
+type SumFunc func(int64, int64) int64
+
+func getFunctionName(i interface{}) string {
+  return runtime.FuncForPC(reflect.ValueOf(i).Pointer()).Name()
+}
+
+func timedSumFunc(f SumFunc) SumFunc {
+  return func(start, end int64) int64 {
+
+    defer func(t time.Time) {
+      fmt.Printf("--- Time Elapsed (%s): %v ---\n", 
+          getFunctionName(f), time.Since(t))
+    }(time.Now())
+
+    return f(start, end)
+  }
+}
+
+func Sum1(start, end int64) int64 {
+  var sum int64
+  sum = 0
+  if start &gt; end {
+    start, end = end, start
+  }
+  for i := start; i &lt;= end; i++ {
+    sum += i
+  }
+  return sum
+}
+
+func Sum2(start, end int64) int64 {
+  if start &gt; end {
+    start, end = end, start
+  }
+  return (end - start + 1) * (end + start) / 2
+}
+
+func main() {
+
+  sum1 := timedSumFunc(Sum1)
+  sum2 := timedSumFunc(Sum2)
+
+  fmt.Printf("%d, %d\n", sum1(-10000, 10000000), sum2(-10000, 10000000))
+}</pre>
+<p>关于上面的代码，有几个事说明一下：</p>
+<p>1）有两个 Sum 函数，<code>Sum1()</code> 函数就是简单的做个循环，<code>Sum2()</code> 函数动用了数据公式。（注意：start 和 end 有可能有负数的情况）</p>
+<p>2）代码中使用了 Go 语言的反射机器来获取函数名。</p>
+<p>3）修饰器函数是 <code>timedSumFunc()</code></p>
+<p>运行后输出：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">$ go run time.sum.go
+--- Time Elapsed (main.Sum1): 3.557469ms ---
+--- Time Elapsed (main.Sum2): 291ns ---
+49999954995000, 49999954995000
+</pre>
+<h4>HTTP 相关的一个示例</h4>
+<p>我们再来看一个处理 HTTP 请求的相关的例子。</p>
+<p>先看一个简单的 HTTP Server 的代码。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang" data-enlighter-highlight="10-16,24">package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "strings"
+)
+
+func WithServerHeader(h http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        log.Println("---&gt;WithServerHeader()")
+        w.Header().Set("Server", "HelloServer v0.0.1")
+        h(w, r)
+    }
+}
+
+func hello(w http.ResponseWriter, r *http.Request) {
+    log.Printf("Recieved Request %s from %s\n", r.URL.Path, r.RemoteAddr)
+    fmt.Fprintf(w, "Hello, World! "+r.URL.Path)
+}
+
+func main() {
+    http.HandleFunc("/v1/hello", WithServerHeader(hello))
+    err := http.ListenAndServe(":8080", nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
+}</pre>
+<p>上面代码中使用到了修饰模式，<code>WithServerHeader()</code> 函数就是一个 Decorator，其传入一个 <code>http.HandlerFunc</code>，然后返回一个改写的版本。上面的例子还是比较简单，用 <code>WithServerHeader()</code> 就可以加入一个 Response 的 Header。</p>
+<p>于是，这样的函数我们可以写出好些个。如下所示，有写 HTTP 响应头的，有写认证 Cookie 的，有检查认证Cookie的，有打日志的……</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang" data-enlighter-highlight="60-62">package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "strings"
+)
+
+func WithServerHeader(h http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        log.Println("---&gt;WithServerHeader()")
+        w.Header().Set("Server", "HelloServer v0.0.1")
+        h(w, r)
+    }
+}
+
+func WithAuthCookie(h http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        log.Println("---&gt;WithAuthCookie()")
+        cookie := &amp;http.Cookie{Name: "Auth", Value: "Pass", Path: "/"}
+        http.SetCookie(w, cookie)
+        h(w, r)
+    }
+}
+
+func WithBasicAuth(h http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        log.Println("---&gt;WithBasicAuth()")
+        cookie, err := r.Cookie("Auth")
+        if err != nil || cookie.Value != "Pass" {
+            w.WriteHeader(http.StatusForbidden)
+            return
+        }
+        h(w, r)
+    }
+}
+
+func WithDebugLog(h http.HandlerFunc) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        log.Println("---&gt;WithDebugLog")
+        r.ParseForm()
+        log.Println(r.Form)
+        log.Println("path", r.URL.Path)
+        log.Println("scheme", r.URL.Scheme)
+        log.Println(r.Form["url_long"])
+        for k, v := range r.Form {
+            log.Println("key:", k)
+            log.Println("val:", strings.Join(v, ""))
+        }
+        h(w, r)
+    }
+}
+func hello(w http.ResponseWriter, r *http.Request) {
+    log.Printf("Recieved Request %s from %s\n", r.URL.Path, r.RemoteAddr)
+    fmt.Fprintf(w, "Hello, World! "+r.URL.Path)
+}
+
+func main() {
+    http.HandleFunc("/v1/hello", WithServerHeader(WithAuthCookie(hello)))
+    http.HandleFunc("/v2/hello", WithServerHeader(WithBasicAuth(hello)))
+    http.HandleFunc("/v3/hello", WithServerHeader(WithBasicAuth(WithDebugLog(hello))))
+    err := http.ListenAndServe(":8080", nil)
+    if err != nil {
+        log.Fatal("ListenAndServe: ", err)
+    }
+}</pre>
+<h4>多个修饰器的 Pipeline</h4>
+<p>在使用上，需要对函数一层层的套起来，看上去好像不是很好看，如果需要 decorator 比较多的话，代码会比较难看了。嗯，我们可以重构一下。</p>
+<p>重构时，我们需要先写一个工具函数——用来遍历并调用各个 decorator：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">type HttpHandlerDecorator func(http.HandlerFunc) http.HandlerFunc
+
+func Handler(h http.HandlerFunc, decors ...HttpHandlerDecorator) http.HandlerFunc {
+    for i := range decors {
+        d := decors[len(decors)-1-i] // iterate in reverse
+        h = d(h)
+    }
+    return h
+}</pre>
+<p>然后，我们就可以像下面这样使用了。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">http.HandleFunc("/v4/hello", Handler(hello,
+                WithServerHeader, WithBasicAuth, WithDebugLog))</pre>
+<p>这样的代码是不是更易读了一些？pipeline 的功能也就出来了。</p>
+<h4>泛型的修饰器</h4>
+<p>不过，对于 Go 的修饰器模式，还有一个小问题 —— 好像无法做到泛型，就像上面那个计算时间的函数一样，其代码耦合了需要被修饰的函数的接口类型，无法做到非常通用，如果这个事解决不了，那么，这个修饰器模式还是有点不好用的。</p>
+<p>因为 Go 语言不像 Python 和 Java，Python是动态语言，而 Java 有语言虚拟机，所以他们可以干好些比较变态的事，然而 Go 语言是一个静态的语言，这意味着其类型需要在编译时就要搞定，否则无法编译。不过，Go 语言支持的最大的泛型是 <code>interface{}</code> 还有比较简单的 reflection 机制，在上面做做文章，应该还是可以搞定的。</p>
+<p>废话不说，下面是我用 reflection 机制写的一个比较通用的修饰器（为了便于阅读，我删除了出错判断代码）</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang" data-enlighter-highlight="7,10">func Decorator(decoPtr, fn interface{}) (err error) {
+    var decoratedFunc, targetFunc reflect.Value
+
+    decoratedFunc = reflect.ValueOf(decoPtr).Elem()
+    targetFunc = reflect.ValueOf(fn)
+
+    v := reflect.MakeFunc(targetFunc.Type(),
+            func(in []reflect.Value) (out []reflect.Value) {
+                fmt.Println("before")
+                out = targetFunc.Call(in)
+                fmt.Println("after")
+                return
+            })
+
+    decoratedFunc.Set(v)
+    return
+}</pre>
+<p>上面的代码动用了 <code>reflect.MakeFunc()</code> 函数制出了一个新的函数其中的 <code>targetFunc.Call(in)</code> 调用了被修饰的函数。关于 Go 语言的反射机制，推荐官方文章 —— 《<a href="https://blog.golang.org/laws-of-reflection" target="_blank" rel="noopener noreferrer">The Laws of Reflection</a>》，在这里我不多说了。</p>
+<p>上面这个 <code>Decorator()</code> 需要两个参数，</p>
+<ul>
+<li>第一个是出参 <code>decoPtr</code> ，就是完成修饰后的函数</li>
+<li>第二个是入参 <code>fn</code> ，就是需要修饰的函数</li>
+</ul>
+<p>这样写是不是有些二？的确是的。不过，这是我个人在 Go 语言里所能写出来的最好的的代码了。如果你知道更多优雅的，请你一定告诉我！</p>
+<p>好的，让我们来看一下使用效果。首先假设我们有两个需要修饰的函数：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">func foo(a, b, c int) int {
+    fmt.Printf("%d, %d, %d \n", a, b, c)
+    return a + b + c
+}
+
+func bar(a, b string) string {
+    fmt.Printf("%s, %s \n", a, b)
+    return a + b
+}</pre>
+<p>然后，我们可以这样做：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">type MyFoo func(int, int, int) int
+var myfoo MyFoo
+Decorator(&amp;myfoo, foo)
+myfoo(1, 2, 3)
+</pre>
+<p>你会发现，使用 <code>Decorator()</code> 时，还需要先声明一个函数签名，感觉好傻啊。一点都不泛型，不是吗？</p>
+<p>嗯。如果你不想声明函数签名，那么你也可以这样</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">mybar := bar
+Decorator(&amp;mybar, bar)
+mybar("hello,", "world!")</pre>
+<p>好吧，看上去不是那么的漂亮，但是 it works。看样子 Go 语言目前本身的特性无法做成像 Java 或 Python 那样，对此，我们只能多求 Go 语言多放糖了！</p>
+<p>Again， 如果你有更好的写法，请你一定要告诉我。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-150x150.png" alt="Go编程模式：Map-Reduce" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_title">Go编程模式：Map-Reduce</a></li><li ><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.options-150x150.png" alt="Go 编程模式：Functional Options" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_title">Go 编程模式：Functional Options</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/09/go-generics-150x150.png" alt="Go编程模式 ： 泛型编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21615.html" class="wp_rp_title">Go编程模式 ： 泛型编程</a></li><li ><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.k8s-150x150.png" alt="Go 编程模式：k8s Visitor 模式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21263.html" class="wp_rp_title">Go 编程模式：k8s Visitor 模式</a></li><li ><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.line_.-150x150.png" alt="Go编程模式：Pipeline" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21228.html" class="wp_rp_title">Go编程模式：Pipeline</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17929.html">Go编程模式：修饰器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17929.html/feed</wfw:commentRss>
+			<slash:comments>27</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何读懂并写出装逼的函数式代码</title>
+		<link>https://coolshell.cn/articles/17524.html</link>
+					<comments>https://coolshell.cn/articles/17524.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 23 Oct 2016 09:56:29 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Closure]]></category>
+		<category><![CDATA[functional]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[Y combinator]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17524</guid>
+
+					<description><![CDATA[<p>今天在微博上看到了 有人分享了下面的这段函数式代码，我把代码贴到下面，不过我对原来的代码略有改动，对于函数式的版本，咋一看，的确令人非常费解，仔细看一下，你可能...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17524.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17524.html">如何读懂并写出装逼的函数式代码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-300x204.jpg" alt="drawing-recursive" width="300" height="204" class="alignright size-medium wp-image-17535" srcset="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-300x204.jpg 300w, https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-768x522.jpg 768w, https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-1024x696.jpg 1024w, https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-397x270.jpg 397w, https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive.jpg 1100w" sizes="(max-width: 300px) 100vw, 300px" />今天在微博上看到了 有人<a href="http://weibo.com/1655747731/Ee4gU0qNn" target="_blank">分享了下面的这段函数式代码</a>，我把代码贴到下面，不过我对原来的代码略有改动，对于函数式的版本，咋一看，的确令人非常费解，仔细看一下，你可能就晕掉了，似乎完全就是天书，看上去非常装逼，哈哈。不过，我感觉解析那段函数式的代码可能会一个比较有趣过程，而且，我以前写过一篇《<a href="https://coolshell.cn/articles/10822.html" target="_blank">函数式编程</a>》的入门式的文章，正好可以用这个例子，再升华一下原来的那篇文章，顺便可以向大家更好的介绍很多基础知识，所以写下这篇文章。</p>
+<h4>先看代码</h4>
+<p>这个代码平淡无奇，就是从一个数组中找到一个数，O(n)的算法，找不到就返回 null。</p>
+<p>下面是正常的 old-school 的方式。不用多说。</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">//正常的版本
+function find (x, y) {
+  for ( let i = 0; i &lt; x.length; i++ ) {
+    if ( x[i] == y ) return i;
+  }
+  return null;
+}
+
+let arr = [0,1,2,3,4,5]
+console.log(find(arr, 2))
+console.log(find(arr, 8))</pre>
+<p>结果到了函数式成了下面这个样子（好像上面的那些代码在下面若影若现，不过又有点不太一样，为了消掉if语言，让其看上去更像一个表达式，动用了 ? 号表达式）：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">//函数式的版本
+const find = ( f =&gt; f(f) ) ( f =&gt;
+  (next =&gt; (x, y, i = 0) =&gt;
+    ( i &gt;= x.length) ?  null :
+      ( x[i] == y ) ? i :
+        next(x, y, i+1))((...args) =&gt;
+          (f(f))(...args)))
+
+let arr = [0,1,2,3,4,5]
+console.log(find(arr, 2))
+console.log(find(arr, 8))</pre>
+<p>为了讲清这个代码，需要先补充一些知识。</p>
+<p><span id="more-17524"></span></p>
+<h4>Javascript的箭头函数</h4>
+<p>首先先简单说明一下，ECMAScript2015 引入的箭头表达式。箭头函数其实都是匿名函数，其基本语法如下：</p>
+<blockquote>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">(param1, param2, …, paramN) =&gt; { statements } 
+(param1, param2, …, paramN) =&gt; expression
+     // 等于 :  =&gt; { return expression; } 
+
+// 只有一个参数时,括号才可以不加:
+(singleParam) =&gt; { statements }
+singleParam =&gt; { statements }
+
+//如果没有参数,就一定要加括号:
+() =&gt; { statements }</pre>
+</blockquote>
+<p>下面是一些示例：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">var simple = a =&gt; a &gt; 15 ? 15 : a; 
+simple(16); // 15
+simple(10); // 10
+
+let max = (a, b) =&gt; a &gt; b ? a : b;
+
+// Easy array filtering, mapping, ...
+
+var arr = [5, 6, 13, 0, 1, 18, 23];
+var sum = arr.reduce((a, b) =&gt; a + b);  // 66
+var even = arr.filter(v =&gt; v % 2 == 0); // [6, 0, 18]
+var double = arr.map(v =&gt; v * 2);       // [10, 12, 26, 0, 2, 36, 46]</pre>
+<p>看上去不复杂吧。不过，上面前两个 simple 和 max 的例子都把这箭头函数赋值给了一个变量，于是它就有了一个名字。有时候，某些函数在声明的时候就是调用的时候，尤其是函数式编程中，一个函数还对外返回函数的时候。比如下在这个例子：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function MakePowerFn(power) {
+  return function PowerFn(base) {
+    return Math.pow(base, power);
+  } 
+}
+
+power3 = MakePowerFn(3); //制造一个X的3次方的函数
+power2 = MakePowerFn(2); //制造一个X的2次方的函数
+
+console.log(power3(10)); //10的3次方 = 1000
+console.log(power2(10)); //10的2次方 = 100</pre>
+<p>其实，在 MakePowerFn 函数里的那个 PowerFn 根本不需要命名，完全可以写成：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function MakePowerFn(power) {
+  return function(base) {
+    return Math.pow(base, power);
+  } 
+}</pre>
+<p>如果用箭头函数，可以写成：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">MakePowerFn = power  =&gt; {
+  return base =&gt; {
+    return Math.pow(base, power);
+  } 
+}</pre>
+<p>我们还可以写得更简洁（如果用表达式的话，就不需要 { 和 }， 以及 return 语句 ）：</p>
+<p><code data-enlighter-language="js" class="EnlighterJSRAW">MakePowerFn = power =&gt; base =&gt; Math.pow(base, power)</code></p>
+<p>我还是加上括号，和换行可能会更清楚一些：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">MakePowerFn = (power) =&gt; (
+  (base) =&gt; (Math.pow(base, power))
+)</pre>
+<p>好了，有了上面的知识，我们就可以进入一个更高级的话题——匿名函数的递归。</p>
+<h4>匿名函数的递归</h4>
+<p>函数式编程立志于用函数表达式消除有状态的函数，以及for/while循环，所以，在函数式编程的世界里是不应该用for/while循环的，而要改用递归（递归的性能很差，所以，一般是用尾递归来做优化，也就是把函数的计算的状态当成参数一层一层的往下传递，这样语言的编译器或解释器就不需要用函数栈来帮你保存函数的内部变量的状态了）。</p>
+<p>好了，那么，匿名函数的递归该怎么做？</p>
+<p>一般来说，递归的代码就是函数自己调用自己，比如我们求阶乘的代码：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+function fact(n){
+  return n==0 ? 1 :  n * fact(n-1);
+};
+result = fact(5);
+</pre>
+<p>在匿名函数下，这个递归该怎么写呢？对于匿名函数来说，<b>我们可以把匿名函数当成一个参数传给另外一个函数，因为函数的参数有名字，所以就可以调用自己了</b>。 如下所示：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function combinator(func) {
+  func(func);
+}</pre>
+<p>这个是不是有点作弊的嫌疑？Anyway，我们再往下，把上面这个函数整成箭头函数式的匿名函数的样子。</p>
+<p><code data-enlighter-language="js" class="EnlighterJSRAW">（func) =&gt; (func(func)) </code></p>
+<p>现在你似乎就不像作弊了吧。把上面那个求阶乘的函数套进来是这个样子：</p>
+<p>首先，先重构一下fact，把fact中自己调用自己的名字去掉：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function fact(func, n) {
+  return n==0 ? 1 :  n * func(func, n-1);
+}
+
+fact(fact, 5); //输出120
+</pre>
+<p>然后，我们再把上面这个版本变成箭头函数的匿名函数版：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">
+var fact = (func, n) =&gt; ( n==0 ? 1 :  n * func(func, n-1) )
+fact(fact, 5)
+</pre>
+<p>这里，我们依然还要用一个fact来保存这个匿名函数，我们继续，我们要让匿名函数声明的时候，就自己调用自己。</p>
+<p>也就是说，我们要把 </p>
+<p><code data-enlighter-language="js" class="EnlighterJSRAW">(func, n) =&gt; ( n==0 ? 1 :  n * func(func, n-1) )</code> </p>
+<p>这个函数当成调用参数，传给下面这个函数：</p>
+<p><code data-enlighter-language="js" class="EnlighterJSRAW">(func, x) =&gt; func(func, x) </code></p>
+<p>最终我们得到下面的代码：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW"> 
+( (func, x) =&gt; func(func, x) ) (  //函数体
+  (func, n) =&gt; ( n==0 ? 1 :  n * func(func, n-1) ), //第一个调用参数
+  5 //第二调用参数
+); </pre>
+<p>好像有点绕，anyway, 你看懂了吗？没事，我们继续。</p>
+<h4>动用高阶函数的递归</h4>
+<p>但是上面这个递归的匿名函数在自己调用自己，所以，代码中有hard code的实参。我们想实参去掉，如何去掉呢？我们可以参考前面说过的那个 MakePowerFn 的例子，不过这回是递归版的高阶函数了。</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">HighOrderFact = function(func){
+  return function(n){
+    return n==0 ? 1 : n * func(func)(n-1);
+  };
+};</pre>
+<p>我们可以看，上面的代码简单说来就是，<b>需要一个函数做参数，然后返回这个函数的递归版本</b>。那么，我们怎么调用呢？</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">fact = HighOrderFact(HighOrderFact);
+fact(5); </pre>
+<p>连起来写就是：<br />
+<code data-enlighter-language="js" class="EnlighterJSRAW">HighOrderFact ( HighOrderFact ) ( 5 )</code></p>
+<p>但是，这样让用户来调用很不爽，所以，以我们一个函数把 <b> HighOrderFact ( HighOrderFact ) </b> 给代理一下：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">fact = function ( hifunc ) {
+  return hifunc ( hifunc );
+} (
+  //调用参数是一个函数
+  function (func) { 
+    return function(n){
+      return n==0 ? 1 : n * func(func)(n-1);
+    };
+  }
+);
+
+fact(5); //于是我们就可以直接使用了</pre>
+<p>用箭头函数重构一下，是不是简洁了一些？</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">fact = (highfunc =&gt; highfunc ( highfunc ) ) (
+  func =&gt; n =&gt;  n==0 ? 1 : n * func(func)(n-1)
+);</pre>
+<p>上面就是我们最终版的阶乘的函数式代码。</p>
+<h4>回顾之前的程序</h4>
+<p>我们再来看那个查找数组的正常程序：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">//正常的版本
+function find (x, y) {
+  for ( let i = 0; i &lt; x.length; i++ ) {
+    if ( x[i] == y ) return i;
+  }
+  return null;
+}</pre>
+<p>先把for干掉，搞成递归版本：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">function find (x, y, i=0) {
+  if ( i &gt;= x.length ) return null;
+  if ( x[i] == y ) return i;
+  return find(x, y, i+1);
+}</pre>
+<p>然后，写出带实参的匿名函数的版本（注：其中的if代码被重构成了 ？号表达式）：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">( (func, x, y, i) =&gt; func(func, x, y, i) ) (  //函数体
+  (func, x, y, i=0) =&gt; (
+      i &gt;= x.length ?  null :
+         x[i] == y  ?  i : func (func, x, y, i+1)
+  ), //第一个调用参数
+  arr, //第二调用参数
+  2 //第三调用参数
+)</pre>
+<p>最后，引入高阶函数，去除实参：</p>
+<pre data-enlighter-language="js" class="EnlighterJSRAW">const find = ( highfunc =&gt; highfunc( highfunc ) ) (
+   func =&gt; (x, y, i = 0) =&gt; (
+     i &gt;= x.length ?  null :
+           x[i] == y  ?  i : func (func) (x, y, i+1)
+   )
+);</pre>
+<p>注：函数式编程装逼时一定要用const字符，这表示我写的函数里的状态是 immutable 的，天生骄傲！</p>
+<p>再注：我写的这个比原来版的那个简单了很多，原来版本的那个又在函数中套了一套 next， 而且还动用了不定参数，当然，如果你想装逼装到天上的，理论上来说，你可以套N层，呵呵。</p>
+<p><b>现在，你可以体会到，如此逼装的是怎么来的了吧？</b>。</p>
+<h4>其它</h4>
+<p>你还别说这就是装逼，简单来说，我们可以使用数学的方式来完成对复杂问题的描述，那怕是递归。其实，这并不是新鲜的东西，这是Alonzo Church 和 Haskell Curry 上世纪30年代提出来的东西，这个就是 Y Combinator 的玩法，关于这个东西，你可以看看下面两篇文章：</p>
+<p>《<a href="http://mvanier.livejournal.com/2897.html" target="_blank">The Y Combinator (Slight Return)</a>》，</p>
+<p>《<a href="https://en.wikipedia.org/wiki/Fixed-point_combinator" target="_blank">Wikipedia: Fixed-point combinator</a>》</p>
+<p>（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-150x150.png" alt="Go编程模式：Map-Reduce" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_title">Go编程模式：Map-Reduce</a></li><li ><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.options-150x150.png" alt="Go 编程模式：Functional Options" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_title">Go 编程模式：Functional Options</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat-150x150.png" alt="Go编程模式：修饰器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_title">Go编程模式：修饰器</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17524.html">如何读懂并写出装逼的函数式代码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17524.html/feed</wfw:commentRss>
+			<slash:comments>66</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Python修饰器的函数式编程</title>
+		<link>https://coolshell.cn/articles/11265.html</link>
+					<comments>https://coolshell.cn/articles/11265.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 20 Mar 2014 01:50:34 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Decorator]]></category>
+		<category><![CDATA[functional]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[函数式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11265</guid>
+
+					<description><![CDATA[<p>Python的修饰器的英文名叫Decorator，当你看到这个英文名的时候，你可能会把其跟Design Pattern里的Decorator搞混了，其实这是完全...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11265.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11265.html">Python修饰器的函数式编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-11300" src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960.jpg" alt="" width="280" height="233" srcset="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960.jpg 350w, https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-300x249.jpg 300w, https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-325x270.jpg 325w" sizes="(max-width: 280px) 100vw, 280px" />Python的修饰器的英文名叫Decorator，当你看到这个英文名的时候，你可能会把其跟Design Pattern里的Decorator搞混了，其实这是完全不同的两个东西。虽然好像，他们要干的事都很相似——都是想要对一个已有的模块做一些“修饰工作”，所谓修饰工作就是想给现有的模块加上一些小装饰（一些小功能，这些小功能可能好多模块都会用到），但又不让这个小装饰（小功能）侵入到原有的模块中的代码里去。但是OO的Decorator简直就是一场恶梦，不信你就去看看wikipedia上的词条（<a href="http://en.wikipedia.org/wiki/Decorator_pattern" target="_blank" rel="noopener noreferrer">Decorator Pattern</a>）里的UML图和那些代码，这就是我在《 <a title="链接：从面向对象的设计模式看软件设计" href="https://coolshell.cn/articles/8961.html" rel="bookmark">从面向对象的设计模式看软件设计</a>》“餐后甜点”一节中说的，OO鼓励了——“厚重地胶合和复杂层次”，也是《 <a title="链接：如此理解面向对象编程" href="https://coolshell.cn/articles/8745.html" rel="bookmark">如此理解面向对象编程</a>》中所说的“OO的狂热者们非常害怕处理数据”，Decorator Pattern搞出来的代码简直就是OO的反面教程。</p>
+<p>Python 的 Decorator在使用上和Java/C#的Annotation很相似，就是在方法名前面加一个@XXX注解来为这个方法装饰一些东西。但是，Java/C#的Annotation也很让人望而却步，太TMD的复杂了，你要玩它，你需要了解一堆Annotation的类库文档，让人感觉就是在学另外一门语言。</p>
+<p>而Python使用了一种相对于Decorator Pattern和Annotation来说非常优雅的方法，这种方法不需要你去掌握什么复杂的OO模型或是Annotation的各种类库规定，完全就是语言层面的玩法：一种函数式编程的技巧。如果你看过本站的《<a href="https://coolshell.cn/articles/10822.html">函数式编程</a>》，你一定会为函数式编程的那种“描述你想干什么，而不是描述你要怎么去实现”的编程方式感到畅快。（如果你不了解函数式编程，那在读本文之前，还请你移步去看看《<a href="https://coolshell.cn/articles/10822.html">函数式编程</a>》） 好了，我们先来点感性认识，看一个Python修饰器的Hello World的代码。</p>
+<p><span id="more-11265"></span></p>
+<h4>Hello World</h4>
+<p>下面是代码（文件名：hello.py）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang" data-enlighter-highlight="1-6,8">def hello(fn):
+    def wrapper():
+        print "hello, %s" % fn.__name__
+        fn()
+        print "goodby, %s" % fn.__name__
+    return wrapper
+
+@hello
+def foo():
+    print "i am foo"
+
+foo()
+</pre>
+<p>当你运行代码，你会看到如下输出：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">[chenaho@chenhao-air]$ python hello.py
+hello, foo
+i am foo
+goodby, foo</pre>
+<p>你可以看到如下的东西：</p>
+<p style="padding-left: 30px;">1）函数foo前面有个@hello的“注解”，hello就是我们前面定义的函数hello</p>
+<p style="padding-left: 30px;">2）在hello函数中，其需要一个fn的参数（这就用来做回调的函数）</p>
+<p style="padding-left: 30px;">3）hello函数中返回了一个inner函数wrapper，这个wrapper函数回调了传进来的fn，并在回调前后加了两条语句。</p>
+<h4>Decorator 的本质</h4>
+<p>对于Python的这个@注解语法糖- Syntactic Sugar 来说，当你在用某个@decorator来修饰某个函数func时，如下所示:</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">@decorator
+def func():
+    pass
+</pre>
+<p>其解释器会解释成下面这样的语句：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">func = decorator(func)</pre>
+<p>尼玛，这不就是把一个函数当参数传到另一个函数中，然后再回调吗？是的，但是，我们需要注意，那里还有一个赋值语句，把decorator这个函数的返回值赋值回了原来的func。 根据《<a href="https://coolshell.cn/articles/10822.html" target="_blank" rel="noopener noreferrer">函数式编程</a>》中的<strong>first class functions</strong>中的定义的，你可以把函数当成变量来使用，所以，decorator必需得返回了一个函数出来给func，这就是所谓的<strong>higher order function </strong>高阶函数，不然，后面当func()调用的时候就会出错。 就我们上面那个hello.py里的例子来说，</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">@hello
+def foo():
+    print "i am foo"
+</pre>
+<p>被解释成了：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python"> foo = hello(foo)</pre>
+<p><strong>是的，这是一条语句，而且还被执行了。</strong>你如果不信的话，你可以写这样的程序来试试看：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def fuck(fn):
+    print "fuck %s!" % fn.__name__[::-1].upper()
+
+@fuck
+def wfg():
+    pass
+</pre>
+<p>没了，就上面这段代码，没有调用wfg()的语句，你会发现， fuck函数被调用了，而且还很NB地输出了我们每个人的心声！</p>
+<p>再回到我们hello.py的那个例子，我们可以看到，<strong>hello(foo)返回了wrapper()函数，所以，foo其实变成了wrapper的一个变量，而后面的foo()执行其实变成了wrapper()</strong>。</p>
+<p>知道这点本质，当你看到有多个decorator或是带参数的decorator，你也就不会害怕了。</p>
+<p>比如：多个decorator</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">@decorator_one
+@decorator_two
+def func():
+    pass</pre>
+<p>相当于：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">func = decorator_one(decorator_two(func))</pre>
+<p>比如：带参数的decorator：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">@decorator(arg1, arg2)
+def func():
+    pass</pre>
+<p>相当于：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">func = decorator(arg1,arg2)(func)</pre>
+<p>这意味着decorator(arg1, arg2)这个函数需要返回一个“真正的decorator”。</p>
+<h4>带参数及多个Decrorator</h4>
+<p>我们来看一个有点意义的例子（文件名：html.py）：</p>
+<p>在上面这个例子中，我们可以看到：makeHtmlTag有两个参数。所以，<strong>为了让 <span style="color: #000080;">hello = makeHtmlTag(arg1, arg2)(hello)</span> 成功，makeHtmlTag 必需返回一个decorator</strong>（这就是为什么我们在makeHtmlTag中加入了real_decorator()的原因）<strong>，这样一来，我们就可以进入到 decorator 的逻辑中去了</strong>—— decorator得返回一个wrapper，wrapper里回调hello。<strong>看似那个makeHtmlTag() 写得层层叠叠，但是，已经了解了本质的我们觉得写得很自然</strong>。 你看，Python的Decorator就是这么简单，没有什么复杂的东西，你也不需要了解过多的东西，使用起来就是那么自然、体贴、干爽、透气，独有的速效凹道和完美的吸收轨迹，让你再也不用为每个月的那几天感到焦虑和不安，再加上贴心的护翼设计，量多也不用当心。对不起，我调皮了。 什么，你觉得上面那个带参数的Decorator的函数嵌套太多了，你受不了。好吧，没事，我们看看下面的方法。</p>
+<h4>class式的 Decorator</h4>
+<p>首先，先得说一下，decorator的class方式，还是看个示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python" data-enlighter-highlight="3,7">class myDecorator(object):
+
+    def __init__(self, fn):
+        print "inside myDecorator.__init__()"
+        self.fn = fn
+
+    def __call__(self):
+        self.fn()
+        print "inside myDecorator.__call__()"
+
+@myDecorator
+def aFunction():
+    print "inside aFunction()"
+
+print "Finished decorating aFunction()"
+
+aFunction()
+
+# 输出：
+# inside myDecorator.__init__()
+# Finished decorating aFunction()
+# inside aFunction()
+# inside myDecorator.__call__()</pre>
+<p>上面这个示例展示了，用类的方式声明一个decorator。我们可以看到这个类中有两个成员：<br />
+1）一个是<strong>init</strong>()，这个方法是在我们给某个函数decorator时被调用，所以，需要有一个fn的参数，也就是被decorator的函数。<br />
+2）一个是<strong>call</strong>()，这个方法是在我们调用被decorator函数时被调用的。<br />
+上面输出可以看到整个程序的执行顺序。</p>
+<p>这看上去要比“函数式”的方式更易读一些。</p>
+<p>下面，我们来看看用类的方式来重写上面的html.py的代码（文件名：html.py）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">class makeHtmlTagClass(object):
+
+    def __init__(self, tag, css_class=""):
+        self._tag = tag
+        self._css_class = " class='{0}'".format(css_class) \
+                                       if css_class !="" else ""
+
+    def __call__(self, fn):
+        def wrapped(*args, **kwargs):
+            return "&lt;" + self._tag + self._css_class+"&gt;"  \
+                       + fn(*args, **kwargs) + "&lt;/" + self._tag + "&gt;"
+        return wrapped
+
+@makeHtmlTagClass(tag="b", css_class="bold_css")
+@makeHtmlTagClass(tag="i", css_class="italic_css")
+def hello(name):
+    return "Hello, {}".format(name)
+
+print hello("Hao Chen")
+</pre>
+<p>上面这段代码中，我们需要注意这几点：<br />
+1）如果decorator有参数的话，<strong>init</strong>() 成员就不能传入fn了，而fn是在<strong>call</strong>的时候传入的。<br />
+2）这段代码还展示了 wrapped(*args, **kwargs) 这种方式来传递被decorator函数的参数。（其中：args是一个参数列表，kwargs是参数dict，具体的细节，请参考Python的文档或是<a href="http://stackoverflow.com/questions/3394835/args-and-kwargs" target="_blank" rel="noopener noreferrer">StackOverflow的这个问题</a>，这里就不展开了）</p>
+<h4>用Decorator设置函数的调用参数</h4>
+<p>你有三种方法可以干这个事：</p>
+<p>第一种，通过 **kwargs，这种方法decorator会在kwargs中注入参数。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def decorate_A(function):
+    def wrap_function(*args, **kwargs):
+        kwargs['str'] = 'Hello!'
+        return function(*args, **kwargs)
+    return wrap_function
+
+@decorate_A
+def print_message_A(*args, **kwargs):
+    print(kwargs['str'])
+
+print_message_A()</pre>
+<p>第二种，约定好参数，直接修改参数</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def decorate_B(function):
+    def wrap_function(*args, **kwargs):
+        str = 'Hello!'
+        return function(str, *args, **kwargs)
+    return wrap_function
+
+@decorate_B
+def print_message_B(str, *args, **kwargs):
+    print(str)
+
+print_message_B()</pre>
+<p>第三种，通过 *args 注入</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def decorate_C(function):
+    def wrap_function(*args, **kwargs):
+        str = 'Hello!'
+        #args.insert(1, str)
+        args = args +(str,)
+        return function(*args, **kwargs)
+    return wrap_function
+
+class Printer:
+    @decorate_C
+    def print_message(self, str, *args, **kwargs):
+        print(str)
+
+p = Printer()
+p.print_message()</pre>
+<h4>Decorator的副作用</h4>
+<p>到这里，我相信你应该了解了整个Python的decorator的原理了。</p>
+<p>相信你也会发现，被decorator的函数其实已经是另外一个函数了，对于最前面那个hello.py的例子来说，如果你查询一下foo.<strong>name</strong>的话，你会发现其输出的是“wrapper”，而不是我们期望的“foo”，这会给我们的程序埋一些坑。所以，Python的functool包中提供了一个叫wrap的decorator来消除这样的副作用。下面是我们新版本的 hello.py。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python" data-enlighter-highlight="1,3">from functools import wraps
+def hello(fn):
+    @wraps(fn)
+    def wrapper():
+        print "hello, %s" % fn.__name__
+        fn()
+        print "goodby, %s" % fn.__name__
+    return wrapper
+
+@hello
+def foo():
+    '''foo help doc'''
+    print "i am foo"
+    pass
+
+foo()
+print foo.__name__ #输出 foo
+print foo.__doc__  #输出 foo help doc
+</pre>
+<p>当然，即使是你用了functools的wraps，也不能完全消除这样的副作用。</p>
+<p>来看下面这个示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from inspect import getmembers, getargspec
+from functools import wraps
+
+def wraps_decorator(f):
+    @wraps(f)
+    def wraps_wrapper(*args, **kwargs):
+        return f(*args, **kwargs)
+    return wraps_wrapper
+
+class SomeClass(object):
+    @wraps_decorator
+    def method(self, x, y):
+        pass
+
+obj = SomeClass()
+for name, func in getmembers(obj, predicate=inspect.ismethod):
+    print "Member Name: %s" % name
+    print "Func Name: %s" % func.func_name
+    print "Args: %s" % getargspec(func)[0]
+
+# 输出：
+# Member Name: method
+# Func Name: method
+# Args: []</pre>
+<p>你会发现，即使是你你用了functools的wraps，你在用getargspec时，参数也不见了。</p>
+<p>要修正这一问，我们还得用Python的反射来解决，下面是相关的代码：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def get_true_argspec(method):
+    argspec = inspect.getargspec(method)
+    args = argspec[0]
+    if args and args[0] == 'self':
+        return argspec
+    if hasattr(method, '__func__'):
+        method = method.__func__
+    if not hasattr(method, 'func_closure') or method.func_closure is None:
+        raise Exception("No closure for method.")
+
+    method = method.func_closure[0].cell_contents
+    return get_true_argspec(method)</pre>
+<p>当然，我相信大多数人的程序都不会去getargspec。所以，用functools的wraps应该够用了。</p>
+<h4>一些decorator的示例</h4>
+<p>好了，现在我们来看一下各种decorator的例子：</p>
+<h5>给函数调用做缓存</h5>
+<p>这个例实在是太经典了，整个网上都用这个例子做decorator的经典范例，因为太经典了，所以，我这篇文章也不能免俗。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from functools import wraps
+def memo(fn):
+    cache = {}
+    miss = object()
+
+    @wraps(fn)
+    def wrapper(*args):
+        result = cache.get(args, miss)
+        if result is miss:
+            result = fn(*args)
+            cache[args] = result
+        return result
+
+    return wrapper
+
+@memo
+def fib(n):
+    if n &lt; 2:
+        return n
+    return fib(n - 1) + fib(n - 2)
+</pre>
+<p>上面这个例子中，是一个斐波拉契数例的递归算法。我们知道，这个递归是相当没有效率的，因为会重复调用。比如：我们要计算fib(5)，于是其分解成fib(4) + fib(3)，而fib(4)分解成fib(3)+fib(2)，fib(3)又分解成fib(2)+fib(1)…… 你可看到，基本上来说，fib(3), fib(2), fib(1)在整个递归过程中被调用了两次。</p>
+<p>而我们用decorator，在调用函数前查询一下缓存，如果没有才调用了，有了就从缓存中返回值。一下子，这个递归从二叉树式的递归成了线性的递归。</p>
+<h5>Profiler的例子</h5>
+<p>这个例子没什么高深的，就是实用一些。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">import cProfile, pstats, StringIO
+
+def profiler(func):
+    def wrapper(*args, **kwargs):
+        datafn = func.__name__ + ".profile" # Name the data file
+        prof = cProfile.Profile()
+        retval = prof.runcall(func, *args, **kwargs)
+        #prof.dump_stats(datafn)
+        s = StringIO.StringIO()
+        sortby = 'cumulative'
+        ps = pstats.Stats(prof, stream=s).sort_stats(sortby)
+        ps.print_stats()
+        print s.getvalue()
+        return retval
+
+    return wrapper
+
+</pre>
+<h5>注册回调函数</h5>
+<p>下面这个示例展示了通过URL的路由来调用相关注册的函数示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">class MyApp():
+    def __init__(self):
+        self.func_map = {}
+
+    def register(self, name):
+        def func_wrapper(func):
+            self.func_map[name] = func
+            return func
+        return func_wrapper
+
+    def call_method(self, name=None):
+        func = self.func_map.get(name, None)
+        if func is None:
+            raise Exception("No function registered against - " + str(name))
+        return func()
+
+app = MyApp()
+
+@app.register('/')
+def main_page_func():
+    return "This is the main page."
+
+@app.register('/next_page')
+def next_page_func():
+    return "This is the next page."
+
+print app.call_method('/')
+print app.call_method('/next_page')
+</pre>
+<p>注意：<br />
+1）上面这个示例中，用类的实例来做decorator。<br />
+2）decorator类中没有<strong>call</strong>()，但是wrapper返回了原函数。所以，原函数没有发生任何变化。</p>
+<h5>给函数打日志</h5>
+<p>下面这个示例演示了一个logger的decorator，这个decorator输出了函数名，参数，返回值，和运行时间。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from functools import wraps
+def logger(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        ts = time.time()
+        result = fn(*args, **kwargs)
+        te = time.time()
+        print "function      = {0}".format(fn.__name__)
+        print "    arguments = {0} {1}".format(args, kwargs)
+        print "    return    = {0}".format(result)
+        print "    time      = %.6f sec" % (te-ts)
+        return result
+    return wrapper
+
+@logger
+def multipy(x, y):
+    return x * y
+
+@logger
+def sum_num(n):
+    s = 0
+    for i in xrange(n+1):
+        s += i
+    return s
+
+print multipy(2, 10)
+print sum_num(100)
+print sum_num(10000000)</pre>
+<p>上面那个打日志还是有点粗糙，让我们看一个更好一点的（带log level参数的）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">import inspect
+def get_line_number():
+    return inspect.currentframe().f_back.f_back.f_lineno
+
+def logger(loglevel):
+    def log_decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            ts = time.time()
+            result = fn(*args, **kwargs)
+            te = time.time()
+            print "function   = " + fn.__name__,
+            print "    arguments = {0} {1}".format(args, kwargs)
+            print "    return    = {0}".format(result)
+            print "    time      = %.6f sec" % (te-ts)
+            if (loglevel == 'debug'):
+                print "    called_from_line : " + str(get_line_number())
+            return result
+        return wrapper
+    return log_decorator</pre>
+<p>但是，上面这个带log level参数的有两具不好的地方，<br />
+1） loglevel不是debug的时候，还是要计算函数调用的时间。<br />
+2） 不同level的要写在一起，不易读。</p>
+<p>我们再接着改进：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">import inspect
+
+def advance_logger(loglevel):
+
+    def get_line_number():
+        return inspect.currentframe().f_back.f_back.f_lineno
+
+    def _basic_log(fn, result, *args, **kwargs):
+        print "function   = " + fn.__name__,
+        print "    arguments = {0} {1}".format(args, kwargs)
+        print "    return    = {0}".format(result)
+
+    def info_log_decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            result = fn(*args, **kwargs)
+            _basic_log(fn, result, args, kwargs)
+        return wrapper
+
+    def debug_log_decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            ts = time.time()
+            result = fn(*args, **kwargs)
+            te = time.time()
+            _basic_log(fn, result, args, kwargs)
+            print "    time      = %.6f sec" % (te-ts)
+            print "    called_from_line : " + str(get_line_number())
+        return wrapper
+
+    if loglevel is "debug":
+        return debug_log_decorator
+    else:
+        return info_log_decorator
+</pre>
+<p>你可以看到两点，<br />
+1）我们分了两个log level，一个是info的，一个是debug的，然后我们在外尾根据不同的参数返回不同的decorator。<br />
+2）我们把info和debug中的相同的代码抽到了一个叫_basic_log的函数里，DRY原则。</p>
+<h5>一个MySQL的Decorator</h5>
+<p>下面这个decorator是我在工作中用到的代码，我简化了一下，把DB连接池的代码去掉了，这样能简单点，方便阅读。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">import umysql
+from functools import wraps
+
+class Configuraion:
+    def __init__(self, env):
+        if env == "Prod":
+            self.host    = "coolshell.cn"
+            self.port    = 3306
+            self.db      = "coolshell"
+            self.user    = "coolshell"
+            self.passwd  = "fuckgfw"
+        elif env == "Test":
+            self.host   = 'localhost'
+            self.port   = 3300
+            self.user   = 'coolshell'
+            self.db     = 'coolshell'
+            self.passwd = 'fuckgfw'
+
+def mysql(sql):
+
+    _conf = Configuraion(env="Prod")
+
+    def on_sql_error(err):
+        print err
+        sys.exit(-1)
+
+    def handle_sql_result(rs):
+        if rs.rows &gt; 0:
+            fieldnames = [f[0] for f in rs.fields]
+            return [dict(zip(fieldnames, r)) for r in rs.rows]
+        else:
+            return []
+
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            mysqlconn = umysql.Connection()
+            mysqlconn.settimeout(5)
+            mysqlconn.connect(_conf.host, _conf.port, _conf.user, \
+                              _conf.passwd, _conf.db, True, 'utf8')
+            try:
+                rs = mysqlconn.query(sql, {})
+            except umysql.Error as e:
+                on_sql_error(e)
+
+            data = handle_sql_result(rs)
+            kwargs["data"] = data
+            result = fn(*args, **kwargs)
+            mysqlconn.close()
+            return result
+        return wrapper
+
+    return decorator
+
+@mysql(sql = "select * from coolshell" )
+def get_coolshell(data):
+    ... ...
+    ... ..
+</pre>
+<h5>线程异步</h5>
+<p>下面量个非常简单的异步执行的decorator，注意，异步处理并不简单，下面只是一个示例。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from threading import Thread
+from functools import wraps
+
+def async(func):
+    @wraps(func)
+    def async_func(*args, **kwargs):
+        func_hl = Thread(target = func, args = args, kwargs = kwargs)
+        func_hl.start()
+        return func_hl
+
+    return async_func
+
+if __name__ == '__main__':
+    from time import sleep
+
+    @async
+    def print_somedata():
+        print 'starting print_somedata'
+        sleep(2)
+        print 'print_somedata: 2 sec passed'
+        sleep(2)
+        print 'print_somedata: 2 sec passed'
+        sleep(2)
+        print 'finished print_somedata'
+
+    def main():
+        print_somedata()
+        print 'back in main'
+        print_somedata()
+        print 'back in main'
+
+    main()
+</pre>
+<h4>其它</h4>
+<p>关于更多的示例，你可以参看： <a href="https://wiki.python.org/moin/PythonDecoratorLibrary" target="_blank" rel="noopener noreferrer">Python Decorator Library</a></p>
+<p>关于Python Decroator的各种提案，可以参看：<a href="https://wiki.python.org/moin/PythonDecoratorProposals" target="_blank" rel="noopener noreferrer">Python Decorator Proposals</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat-150x150.png" alt="Go编程模式：修饰器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_title">Go编程模式：修饰器</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-150x150.png" alt="Go编程模式：Map-Reduce" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_title">Go编程模式：Map-Reduce</a></li><li ><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.options-150x150.png" alt="Go 编程模式：Functional Options" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21146.html" class="wp_rp_title">Go 编程模式：Functional Options</a></li><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11265.html">Python修饰器的函数式编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11265.html/feed</wfw:commentRss>
+			<slash:comments>84</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>函数式编程</title>
+		<link>https://coolshell.cn/articles/10822.html</link>
+					<comments>https://coolshell.cn/articles/10822.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 27 Dec 2013 00:11:03 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[functional]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[函数式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10822</guid>
+
+					<description><![CDATA[<p>当我们说起函数式编程来说，我们会看到如下函数式编程的长相： 函数式编程的三大特性： immutable data 不可变数据：像Clojure一样，默认上变量是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10822.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10822.html">函数式编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-10861" src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-204x300.png" alt="" width="204" height="300" />当我们说起函数式编程来说，我们会看到如下函数式编程的长相：</p>
+<ul>
+<li>函数式编程的三大特性：
+<ul>
+<li><strong>immutable data 不可变数据</strong>：像Clojure一样，默认上变量是不可变的，如果你要改变变量，你需要把变量copy出去修改。这样一来，可以让你的程序少很多Bug。因为，程序中的状态不好维护，在并发的时候更不好维护。（你可以试想一下如果你的程序有个复杂的状态，当以后别人改你代码的时候，是很容易出bug的，在并行中这样的问题就更多了）</li>
+<li><strong>first class functions</strong>：这个技术可以让你的函数就像变量一样来使用。也就是说，你的函数可以像变量一样被创建，修改，并当成变量一样传递，返回或是在函数中嵌套函数。这个有点像Javascript的Prototype（参看<a title="再谈javascript面向对象编程" href="https://coolshell.cn/articles/6668.html" target="_blank" rel="noopener noreferrer">Javascript的面向对象编程</a>）</li>
+<li><strong>尾递归优化</strong>：我们知道递归的害处，那就是如果递归很深的话，stack受不了，并会导致性能大幅度下降。所以，我们使用尾递归优化技术——每次递归时都会重用stack，这样一来能够提升性能，当然，这需要语言或编译器的支持。Python就不支持。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>函数式编程的几个技术
+<ul>
+<li><strong>map &amp; reduce</strong> ：这个技术不用多说了，函数式编程最常见的技术就是对一个集合做Map和Reduce操作。这比起过程式的语言来说，在代码上要更容易阅读。（传统过程式的语言需要使用for/while循环，然后在各种变量中把数据倒过来倒过去的）这个很像C++中的STL中的foreach，find_if，count_if之流的函数的玩法。</li>
+<li><strong>pipeline</strong>：这个技术的意思是，把函数实例成一个一个的action，然后，把一组action放到一个数组或是列表中，然后把数据传给这个action list，数据就像一个pipeline一样顺序地被各个函数所操作，最终得到我们想要的结果。</li>
+<li><strong>recursing 递归</strong> ：递归最大的好处就简化代码，他可以把一个复杂的问题用很简单的代码描述出来。注意：递归的精髓是描述问题，而这正是函数式编程的精髓。</li>
+<li><strong>currying</strong>：把一个函数的多个参数分解成多个函数， 然后把函数多层封装起来，每层函数都返回一个函数去接收下一个参数这样，可以简化函数的多个参数。在C++中，这个很像STL中的bind_1st或是bind2nd。</li>
+<li><strong>higher order function 高阶函数</strong>：所谓高阶函数就是函数当参数，把传入的函数做一个封装，然后返回这个封装函数。现象上就是函数传进传出，就像面向对象对象满天飞一样。</li>
+</ul>
+</li>
+</ul>
+<p><span id="more-10822"></span></p>
+<ul>
+<li>还有函数式的一些好处
+<ul>
+<li><strong>parallelization 并行：</strong>所谓并行的意思就是在并行环境下，各个线程之间不需要同步或互斥。</li>
+<li><strong>lazy evaluation 惰性求值</strong>：这个需要编译器的支持。表达式不在它被绑定到变量之后就立即求值，而是在该值被取用的时候求值，也就是说，语句如<i>x:=expression;</i> (把一个表达式的结果赋值给一个变量)明显的调用这个表达式被计算并把结果放置到 <i>x</i> 中，但是先不管实际在 <i>x</i> 中的是什么，直到通过后面的表达式中到 <i>x</i> 的引用而有了对它的值的需求的时候，而后面表达式自身的求值也可以被延迟，最终为了生成让外界看到的某个符号而计算这个快速增长的依赖树。</li>
+<li><strong>determinism 确定性</strong>：所谓确定性的意思就是像数学那样 f(x) = y ，这个函数无论在什么场景下，都会得到同样的结果，这个我们称之为函数的确定性。而不是像程序中的很多函数那样，同一个参数，却会在不同的场景下计算出不同的结果。所谓不同的场景的意思就是我们的函数会根据一些运行中的状态信息的不同而发生变化。</li>
+</ul>
+</li>
+</ul>
+<p>上面的那些东西太抽象了，还是让我们来循序渐近地看一些例子吧。</p>
+<p>我们先用一个最简单的例子来说明一下什么是函数式编程。</p>
+<p>先看一个非函数式的例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">int cnt;
+void increment(){
+    cnt++;
+}</pre>
+<p>&nbsp;</p>
+<p>那么，函数式的应该怎么写呢？</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">int increment(int cnt){
+    return cnt+1;
+}</pre>
+<p>你可能会觉得这个例子太普通了。是的，这个例子就是函数式编程的准则：<strong>不依赖于外部的数据，而且也不改变外部数据的值，而是返回一个新的值给你</strong>。</p>
+<p>我们再来看一个简单例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def inc(x):
+    def incx(y):
+        return x+y
+    return incx
+
+inc2 = inc(2)
+inc5 = inc(5)
+
+print inc2(5) # 输出 7
+print inc5(5) # 输出 10</pre>
+<p>我们可以看到上面那个例子inc()函数返回了另一个函数incx()，于是我们可以用inc()函数来构造各种版本的inc函数，比如：inc2()和inc5()。这个技术其实就是上面所说的Currying技术。从这个技术上，你可能体会到函数式编程的理念：<strong>把函数当成变量来用，关注于描述问题而不是怎么实现</strong>，这样可以让代码更易读。</p>
+<h4>Map &amp; Reduce</h4>
+<p>在函数式编程中，我们不应该用循环迭代的方式，我们应该用更为高级的方法，如下所示的Python代码</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">name_len = map(len, ["hao", "chen", "coolshell"])
+print name_len
+# 输出 [3, 4, 9]</pre>
+<p>你可以看到这样的代码很易读，因为，<strong>这样的代码是在描述要干什么，而不是怎么干</strong>。</p>
+<p>我们再来看一个Python代码的例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def toUpper(item):
+return item.upper()
+
+upper_name = map(toUpper, ["hao", "chen", "coolshell"])
+print upper_name
+# 输出 ['HAO', 'CHEN', 'COOLSHELL']</pre>
+<p>顺便说一下，上面的例子个是不是和我们的STL的transform有些像？</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="cpp">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string s="hello";
+    string out;
+    transform(s.begin(), s.end(), back_inserter(out), ::toupper);
+    cout &lt;&lt; out &lt;&lt; endl;
+    // 输出：HELLO
+}</pre>
+<p>在上面Python的那个例子中我们可以看到，我们写义了一个函数toUpper，这个函数没有改变传进来的值，只是把传进来的值做个简单的操作，然后返回。然后，我们把其用在map函数中，就可以很清楚地描述出我们想要干什么。而不会去理解一个在循环中的怎么实现的代码，最终在读了很多循环的逻辑后才发现原来是这个或那个意思。 下面，我们看看描述实现方法的过程式编程是怎么玩的（看上去是不是不如函数式的清晰？）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">upname =['HAO', 'CHEN', 'COOLSHELL']
+lowname =[]
+for i in range(len(upname)):
+lowname.append( upname[i].lower() )</pre>
+<p>对于map我们别忘了lambda表达式：你可以简单地理解为这是一个inline的匿名函数。下面的lambda表达式相当于：def func(x): return x*x</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">squares = map(lambda x: x * x, range(9))
+print squares
+# 输出 [0, 1, 4, 9, 16, 25, 36, 49, 64]</pre>
+<p>我们再来看看reduce怎么玩？（下面的lambda表达式中有两个参数，也就是说每次从列表中取两个值，计算结果后把这个值再放回去，下面的表达式相当于：<code>((((1+2)+3)+4)+5) ）</code></p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">print reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])
+# 输出 15</pre>
+<p>Python中的除了map和reduce外，还有一些别的如filter, find, all, any的函数做辅助（其它函数式的语言也有），可以让你的代码更简洁，更易读。 我们再来看一个比较复杂的例子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python"># 计算数组中正数的平均值",
+num =[2, -5, 9, 7, -2, 5, 3, 1, 0, -3, 8]
+positive_num_cnt = 0
+positive_num_sum = 0
+for i in range(len(num)):
+    if num[i] &gt; 0:
+        positive_num_cnt += 1
+        positive_num_sum += num[i]
+
+if positive_num_cnt &gt; 0:
+    average = positive_num_sum / positive_num_cnt
+
+print average
+# 输出 5</pre>
+<p>如果用函数式编程，这个例子可以写成这样：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">positive_num = filter(lambda x: x&gt;0, num)
+average = reduce(lambda x,y: x+y, positive_num) / len( positive_num )</pre>
+<p>C++11玩的法：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+vector num {2, -5, 9, 7, -2, 5, 3, 1, 0, -3, 8};
+vector p_num;
+copy_if(num.begin(), num.end(), back_inserter(p_num), [](int i){ return (i&gt;0);} );
+int average = accumulate(p_num.begin(), p_num.end(), 0) / p_num.size();
+cout &lt;&lt; "averge: " &lt;&lt; average &lt;&lt; endl;</pre>
+<p>我们可以看到，函数式编程有如下好处：</p>
+<p style="padding-left: 30px;">1）代码更简单了。<br />
+2）数据集，操作，返回值都放到了一起。<br />
+3）你在读代码的时候，没有了循环体，于是就可以少了些临时变量，以及变量倒来倒去逻辑。<br />
+4）你的代码变成了在描述你要干什么，而不是怎么去干。</p>
+<p>最后，我们来看一下Map/Reduce这样的函数是怎么来实现的（下面是Javascript代码）</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">//map函数
+var map = function (mappingFunction, list) {
+    var result = [];
+    forEach(list, function (item) {
+        result.push(mappingFunction(item));
+    });
+    return result;
+};</pre>
+<p>下面是reduce函数的javascript实现（谢谢 <a href="http://weibo.com/u/1772898707" target="_blank" rel="noopener noreferrer">@下雨在家</a> 修正的我原来的简单版本）</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="generic">//reduce函数
+function reduce(actionFunction, list, initial){
+    var accumulate;
+    var temp;
+    if(initial){
+        accumulate = initial;
+    }else{
+        accumulate = list.shfit();
+    }
+    temp = list.shift();
+    while(temp){
+        accumulate = actionFunction(accumulate,temp);
+        temp = list.shift();
+    }
+    return accumulate;
+};</pre>
+<h4>Declarative Programming vs Imperative Programming</h4>
+<p>前面提到过多次的函数式编程关注的是：describe what to do, rather than how to do it. 于是，我们把以前的过程式的编程范式叫做 <a href="http://en.wikipedia.org/wiki/Imperative_programming" target="_blank" rel="noopener noreferrer">Imperative Programming</a> &#8211; 指令式编程，而把函数式的这种范式叫做 <a href="http://en.wikipedia.org/wiki/Declarative_programming" target="_blank" rel="noopener noreferrer">Declarative Programming</a> &#8211; 声明式编程。</p>
+<p>下面我们看一下相关的示例（本示例来自<a href="http://maryrosecook.com/post/a-practical-introduction-to-functional-programming" target="_blank" rel="noopener noreferrer">这篇文章</a> ）。</p>
+<p>比如，我们有3辆车比赛，简单起见，我们分别给这3辆车有70%的概率可以往前走一步，一共有5次机会，我们打出每一次这3辆车的前行状态。</p>
+<p>对于Imperative Programming来说，代码如下（Python）：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from random import random
+
+time = 5
+car_positions = [1, 1, 1]
+
+while time:
+    # decrease time
+    time -= 1
+
+    print ''
+    for i in range(len(car_positions)):
+        # move car
+        if random() &gt; 0.3:
+            car_positions[i] += 1
+
+        # draw car
+        print '-' * car_positions[i]</pre>
+<p>我们可以把这个两重循环变成一些函数模块，这样有利于我们更容易地阅读代码：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from random import random
+def move_cars():
+    for i, _ in enumerate(car_positions):
+        if random() &gt; 0.3:
+            car_positions[i] += 1
+def draw_car(car_position):
+    print '-' * car_position
+def run_step_of_race():
+    global time
+    time -= 1
+    move_cars()
+def draw():
+    print ''
+    for car_position in car_positions:
+        draw_car(car_position)
+time = 5
+car_positions = [1, 1, 1]
+while time:
+    run_step_of_race()
+    draw()</pre>
+<p>上面的代码，我们可以从主循环开始，我们可以很清楚地看到程序的主干，因为我们把程序的逻辑分成了几个函数，这样一来，我们的代码逻辑也会变得几个小碎片，于是我们读代码时要考虑的上下文就少了很多，阅读代码也会更容易。不像第一个示例，如果没有注释和说明，你还是需要花些时间理解一下。<strong>而把代码逻辑封装成了函数后，我们就相当于给每个相对独立的程序逻辑取了个名字，于是代码成了自解释的</strong>。</p>
+<p>但是，你会发现，封装成函数后，这些函数都会依赖于共享的变量来同步其状态。于是，我们在读代码的过程时，每当我们进入到函数里，一量读到访问了一个外部的变量，我们马上要去查看这个变量的上下文，然后还要在大脑里推演这个变量的状态， 我们才知道程序的真正逻辑。也就是说，<strong>这些函数间必需知道其它函数是怎么修改它们之间的共享变量的，所以，这些函数是有状态的</strong>。</p>
+<p>我们知道，有状态并不是一件很好的事情，无论是对代码重用，还是对代码的并行来说，都是有副作用的。因此，我们要想个方法把这些状态搞掉，于是出现了我们的 Functional Programming 的编程范式。下面，我们来看看函数式的方式应该怎么写？</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">from random import random
+
+def move_cars(car_positions):
+    return map(lambda x: x + 1 if random() &gt; 0.3 else x,
+               car_positions)
+
+def output_car(car_position):
+    return '-' * car_position
+
+def run_step_of_race(state):
+    return {'time': state['time'] - 1,
+            'car_positions': move_cars(state['car_positions'])}
+
+def draw(state):
+    print ''
+    print '\n'.join(map(output_car, state['car_positions']))
+
+def race(state):
+    draw(state)
+    if state['time']:
+        race(run_step_of_race(state))
+
+race({'time': 5,
+      'car_positions': [1, 1, 1]})</pre>
+<p>上面的代码依然把程序的逻辑分成了函数，不过这些函数都是functional的。因为它们有三个症状：</p>
+<p style="padding-left: 30px;">1）它们之间没有共享的变量。<br />
+2）函数间通过参数和返回值来传递数据。<br />
+3）在函数里没有临时变量。</p>
+<p>我们还可以看到，for循环被递归取代了（见race函数）—— 递归是函数式编程中带用到的技术，正如前面所说的，递归的本质就是描述问题是什么。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10900" src="https://coolshell.cn/wp-content/uploads/2013/12/forrest-gump.jpg" alt="" width="490" height="382" srcset="https://coolshell.cn/wp-content/uploads/2013/12/forrest-gump.jpg 490w, https://coolshell.cn/wp-content/uploads/2013/12/forrest-gump-300x233.jpg 300w" sizes="(max-width: 490px) 100vw, 490px" /></p>
+<h4>Pipeline</h4>
+<p>pipeline 管道借鉴于Unix Shell的管道操作——把若干个命令串起来，前面命令的输出成为后面命令的输入，如此完成一个流式计算。（注：管道绝对是一个伟大的发明，他的设哲学就是KISS &#8211; 让每个功能就做一件事，并把这件事做到极致，软件或程序的拼装会变得更为简单和直观。这个设计理念影响非常深远，包括今天的Web Service，云计算，以及大数据的流式计算等等）</p>
+<p>比如，我们如下的shell命令：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="shell">ps auwwx | awk '{print $2}' | sort -n | xargs echo</pre>
+<p>如果我们抽象成函数式的语言，就像下面这样：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">xargs( echo, sort(n, awk('print $2', ps(auwwx))) )</pre>
+<p>也可以类似下面这个样子：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">pids = for_each(result, [ps_auwwx, awk_p2, sort_n, xargs_echo])</pre>
+<p>好了，让我们来看看函数式编程的Pipeline怎么玩？</p>
+<p>我们先来看一个如下的程序，这个程序的process()有三个步骤：</p>
+<p style="padding-left: 30px;">1）找出偶数。<br />
+2）乘以3<br />
+3）转成字符串返回</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def process(num):
+    # filter out non-evens
+    if num % 2 != 0:
+        return
+    num = num * 3
+    num = 'The Number: %s' % num
+    return num
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+for num in nums:
+    print process(num)
+
+# 输出：
+# None
+# The Number: 6
+# None
+# The Number: 12
+# None
+# The Number: 18
+# None
+# The Number: 24
+# None
+# The Number: 30</pre>
+<p>我们可以看到，输出的并不够完美，另外，代码阅读上如果没有注释，你也会比较晕。下面，我们来看看函数式的pipeline（第一种方式）应该怎么写？</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def even_filter(nums):
+    for num in nums:
+        if num % 2 == 0:
+            yield num
+def multiply_by_three(nums):
+    for num in nums:
+        yield num * 3
+def convert_to_string(nums):
+    for num in nums:
+        yield 'The Number: %s' % num
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pipeline = convert_to_string(multiply_by_three(even_filter(nums)))
+for num in pipeline:
+    print num
+# 输出：
+# The Number: 6
+# The Number: 12
+# The Number: 18
+# The Number: 24
+# The Number: 30</pre>
+<p>我们动用了Python的关键字 yield，这个关键字主要是返回一个Generator，yield 是一个类似 return 的关键字，只是这个函数返回的是个Generator-生成器。所谓生成器的意思是，yield返回的是一个可迭代的对象，并没有真正的执行函数。也就是说，只有其返回的迭代对象被真正迭代时，yield函数才会正真的运行，运行到yield语句时就会停住，然后等下一次的迭代。（这个是个比较诡异的关键字）这就是lazy evluation。</p>
+<p>好了，根据前面的原则——“<strong>使用Map &amp; Reduce，不要使用循环</strong>”，那我们用比较纯朴的Map &amp; Reduce吧。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def even_filter(nums):
+    return filter(lambda x: x%2==0, nums)
+
+def multiply_by_three(nums):
+    return map(lambda x: x*3, nums)
+
+def convert_to_string(nums):
+    return map(lambda x: 'The Number: %s' % x,  nums)
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+pipeline = convert_to_string(
+               multiply_by_three(
+                   even_filter(nums)
+               )
+            )
+for num in pipeline:
+    print num</pre>
+<p>但是他们的代码需要嵌套使用函数，这个有点不爽，如果我们能像下面这个样子就好了（第二种方式）。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">pipeline_func(nums, [even_filter,
+                     multiply_by_three,
+                     convert_to_string])</pre>
+<p>那么，pipeline_func 实现如下：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">def pipeline_func(data, fns):
+    return reduce(lambda a, x: x(a),
+                  fns,
+                  data)</pre>
+<p>好了，在读过这么多的程序后，你可以回头看一下这篇文章的开头对函数式编程的描述，可能你就更有感觉了。</p>
+<p>最后，<span style="color: #cc0000;"><strong>我希望这篇浅显易懂的文章能让你感受到函数式编程的思想，就像OO编程，泛型编程，过程式编程一样，我们不用太纠结是不是我们的程序就是OO，就是functional的，我们重要的品味其中的味道</strong></span>。</p>
+<h4>参考</h4>
+<ul>
+<li>Wikipedia: <a href="http://en.wikipedia.org/wiki/Functional_programming" target="_blank" rel="noopener noreferrer">Functional Programming</a></li>
+<li><a href="http://stackoverflow.com/questions/5226055/truly-understanding-the-difference-between-procedural-and-functional" target="_blank" rel="noopener noreferrer">truly understanding the difference between procedural and functional</a></li>
+<li><a style="line-height: 1.5em;" href="http://maryrosecook.com/post/a-practical-introduction-to-functional-programming" target="_blank" rel="bookmark noopener noreferrer">A practical introduction to functional programming</a></li>
+<li><a href="http://stackoverflow.com/q/23277/211232" target="_blank" rel="noopener noreferrer">What is the difference between procedural programming and functional programming?</a></li>
+<li><a href="http://stackoverflow.com/q/3249863/211232" target="_blank" rel="noopener noreferrer">Can someone give me examples of functional programming vs imperative/procedural programming?</a></li>
+<li><a href="http://stackoverflow.com/q/552336/211232" target="_blank" rel="noopener noreferrer">OOP vs Functional Programming vs Procedural</a></li>
+<li>Python &#8211; <a href="http://docs.python.org/2/howto/functional.html#" target="_blank" rel="noopener noreferrer">Functional Programming HOWTO</a></li>
+</ul>
+<p><strong>补充</strong>：评论中<a title="redraiment" href="http://weibo.com/redraiment">redraiment</a>的<a href="https://coolshell.cn/articles/10822.html#comment-1111518">这个评论</a>大家也可以读一读。</p>
+<p>感谢谢网友S142857 提供的shell风格的python pipeline：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">class Pipe(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __ror__(self, other):
+        def generator():
+            for obj in other:
+                if obj is not None:
+                    yield self.func(obj)
+        return generator()
+
+@Pipe
+def even_filter(num):
+    return num if num % 2 == 0 else None
+
+@Pipe
+def multiply_by_three(num):
+    return num*3
+
+@Pipe
+def convert_to_string(num):
+    return 'The Number: %s' % num
+
+@Pipe
+def echo(item):
+    print item
+    return item
+
+def force(sqs):
+    for item in sqs: pass
+
+nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+force(nums | even_filter | multiply_by_three | convert_to_string | echo)</pre>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/12/go.map_.reduce-150x150.png" alt="Go编程模式：Map-Reduce" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21164.html" class="wp_rp_title">Go编程模式：Map-Reduce</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/06/go-hardhat-150x150.png" alt="Go编程模式：修饰器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17929.html" class="wp_rp_title">Go编程模式：修饰器</a></li><li ><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-150x150.jpg" alt="如何读懂并写出装逼的函数式代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_title">如何读懂并写出装逼的函数式代码</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10822.html">函数式编程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10822.html/feed</wfw:commentRss>
+			<slash:comments>194</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

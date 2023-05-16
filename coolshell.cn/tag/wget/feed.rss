@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>wget | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/wget/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 30 Oct 2009 07:16:20 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>文件备份的几个简单命令</title>
+		<link>https://coolshell.cn/articles/1640.html</link>
+					<comments>https://coolshell.cn/articles/1640.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 30 Oct 2009 07:16:20 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[backup]]></category>
+		<category><![CDATA[ftp]]></category>
+		<category><![CDATA[tar]]></category>
+		<category><![CDATA[wget]]></category>
+		<category><![CDATA[zip]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1640</guid>
+
+					<description><![CDATA[<p>我们知道，备份文件是一件很重要的事情，我在《优秀程序员的十个习惯》一文向大家说明了备份文件应该是程序员最基本的一个习惯。本文主要是向大家介绍一些在备份文件和数据...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1640.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1640.html">文件备份的几个简单命令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我们知道，备份文件是一件很重要的事情，我在《<a rel="bookmark" href="https://coolshell.cn/articles/222.html">优秀程序员的十个习惯</a>》一文向大家说明了备份文件应该是程序员最基本的一个习惯。本文主要是向大家介绍一些在备份文件和数据时能用得到的一些示例，当然，这些示例主要是通过一些命令行或是脚本来实现的。这就是用命令行和脚本的优势，你可以实现比较灵活和自动的定制。</p>
+<p>本文中的脚本和示例都是主要是通过zip, tar, ftp, wget和shell脚本来完成。在Linux下，你可以什么也不用安装任何程序，但在Windows下，你需要安装zip 和wget这三个命令（在本文的最后有这三个命令的链接，你可以去下载）</p>
+<h4>几个小脚本</h4>
+<p><strong>1）首先，我们来看一下，如何给某目录打个zip包。</strong></p>
+<p><strong>Windows</strong>:</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW"> zip -r backup.zip &quot;c:\yourfolder&quot;</code></p>
+<p><strong>Linux</strong>: (打包自己的home目录)</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">tar -czvf ~/backup.tgz --exclude backup.tgz ~/</code></p>
+<p><span id="more-1640"></span><br />
+<strong>2）接下来，我们再来看一下，创建一个带有时间文件名的压缩包，并上传到远程主机的一个例子。</strong></p>
+<p> <strong>Windows</strong></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+  :: cmd 脚本
+  :: 压缩包文件格式`backup-mm-dd-yyyy.zip&#039;
+  :: 注意：%dir% 被引号括起是怕目录名中有空格
+
+  @echo off
+
+  set host=ftp.yourhost.com
+  set user=username
+  set pass=password
+  set file=backup-%date:~4,2%-%date:~7,2%-%date:~10%.zip
+  set dir=&quot;yourfolder&quot;
+
+  zip -r %file% %dir%
+
+  &gt;  script.ftp echo open %host%
+  &gt;&gt; script.ftp echo %user%
+  &gt;&gt; script.ftp echo %pass%
+  &gt;&gt; script.ftp echo bin
+  &gt;&gt; script.ftp echo put %file%
+  &gt;&gt; script.ftp echo bye
+
+  ftp.exe -d -s:script.ftp &gt; backup.log
+
+  del script.ftp
+</pre>
+<p><strong>Linux</strong></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+  #!/bin/bash
+
+  host=&quot;ftp.yoursite.com&quot;
+  user=&quot;username&quot;
+  pass=&quot;password&quot;
+  file=&quot;backup-$(date &#039;+%m-%d-%Y&#039;).tgz&quot;
+  dir=&quot;$HOME&quot;
+
+  tar -cvzf $file $dir
+
+  ftp -vin &lt;ftp.log
+  open $host
+  user $user $pass
+  bin
+  put $file
+  close
+  bye
+  EOF
+</pre>
+<p><strong>3）最后，我们来看一看，通过wget命令来下载备份好的压缩包。</strong></p>
+<p><strong>Windows</strong></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+  :: cmd 脚本
+  :: 注意： &#039;^&#039; 是一个命令的换行符
+
+  set host=&quot;ftp://ftp.your.host.com&quot;
+  set user=&quot;flintstone&quot;
+  set pass=&quot;yabbadabbadoo&quot;
+
+  wget %host% --ftp-user=%user% --ftp-password=%pass% ^ 
+      --mirror --output-file=backup.log --passive-ftp
+</pre>
+<p><strong>Linux</strong></p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+  #!/bin/sh
+  # 注意 &#039;\&#039; 是命令的换行符
+  
+  host=&quot;ftp://ftp.your.host.com&quot;
+  user=&quot;username&quot;
+  pass=&quot;password&quot;
+
+  wget $host --ftp-user=$user --ftp-password=$pass \
+  --mirror --output-file=backup.log --passive-ftp
+</pre>
+<h4>相关工具</h4>
+<ul>
+<li>Info-Zip: <a href="http://www.info-zip.org/">http://www.info-zip.org/</a></li>
+<li>GNU Tar: <a href="http://www.gnu.org/software/tar/">http://www.gnu.org/software/tar/</a></li>
+<li>GNU Wget: <a href="http://www.gnu.org/software/wget/">http://www.gnu.org/software/wget/</a></li>
+</ul>
+<h4>几点注意</h4>
+<p>上面的那几个命令比较简单，只是表明一些备份的脚本思路。在实际过程当中，基本上也是这样，下面是几点注意。</p>
+<p>1）给备份文件打包压缩这是第一步，你可以选用其它的压缩程序。如bzip。<br />
+2）文件名上有时间信息比较容易归档。有时候，文件包比较大，还需要对大文件进行分割（一般的压缩软件都支持文件分割）。<br />
+3）使用wget和ftp可能会有用户名密码泄露的问题，使用ssh拷贝文件会比较好。<br />
+4）源代码最好还是使用版本控制工具备份（比如Subversion或CVS）<br />
+5）备份脚本可以放在计划任务（linux是corn）中以实际自动化。<br />
+6）以上的方法一般说来比较适用于全部备份，而不是增量备份。</p>
+<p>（全文完）<a href="http://topcat.hypermart.net/backup.html" target="_blank"></a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="chmod -x chmod的N种解法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3136.html" class="wp_rp_title">chmod -x chmod的N种解法</a></li><li ><a href="https://coolshell.cn/articles/309.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="十个最好的PDF生成库" width="150" height="150" /></a><a href="https://coolshell.cn/articles/309.html" class="wp_rp_title">十个最好的PDF生成库</a></li><li ><a href="https://coolshell.cn/articles/2184.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/03/bt_js_demo-150x150.jpg" alt="BT工作原理演示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2184.html" class="wp_rp_title">BT工作原理演示</a></li><li ><a href="https://coolshell.cn/articles/16.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/cccpairprogramming-150x150.jpg" alt="结对编程的利与弊" width="150" height="150" /></a><a href="https://coolshell.cn/articles/16.html" class="wp_rp_title">结对编程的利与弊</a></li><li ><a href="https://coolshell.cn/articles/3463.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/01/Inner_Join-150x150.png" alt="图解SQL的Join" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3463.html" class="wp_rp_title">图解SQL的Join</a></li><li ><a href="https://coolshell.cn/articles/2853.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/08/android_dev_01-150x150.jpg" alt="实用Android开发工具和资源精选" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2853.html" class="wp_rp_title">实用Android开发工具和资源精选</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1640.html">文件备份的几个简单命令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1640.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

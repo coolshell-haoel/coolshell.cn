@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>TDD | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/tdd/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 30 Oct 2012 08:56:58 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>“单元测试要做多细？”</title>
+		<link>https://coolshell.cn/articles/8209.html</link>
+					<comments>https://coolshell.cn/articles/8209.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 03 Sep 2012 00:13:31 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[TDD]]></category>
+		<category><![CDATA[Unit Test]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8209</guid>
+
+					<description><![CDATA[<p>这篇文章主要来源是StackOverflow上的一个回答——“How deep are your unit tests?”。一个有13.8K的分的人（John ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8209.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8209.html">“单元测试要做多细？”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这篇文章主要来源是StackOverflow上的一个回答——“<a title="How deep are your unit tests?" href="http://stackoverflow.com/questions/153234/how-deep-are-your-unit-tests" target="_blank">How deep are your unit tests?</a>”。一个有13.8K的分的人（<a href="http://stackoverflow.com/users/1116/john-nolan">John Nolan</a>）问了个关于TDD的问题，这个问题并不新鲜，最亮的是这个问题的Best Answer，这个问题是——</p>
+<p style="padding-left: 30px;">“TDD需要花时间写测试，而我们一般多少会写一些代码，而第一个测试是测试我的构造函数有没有把这个类的变量都设置对了，这会不会太过分了？那么，我们写单元测试的这个单元的粒度到底是什么样的？并且，是不是我们的测试测试得多了点？”</p>
+<h4>答案</h4>
+<p>StackOverflow上，这个问题的答案是这样的——</p>
+<p style="padding-left: 30px;">“I get paid for code that works, not for tests, so my philosophy is to test as little as possible to reach a given level of confidence (I suspect this level of confidence is high compared to industry standards, but that could just be hubris). If I don&#8217;t typically make a kind of mistake (like setting the wrong variables in a constructor), I don&#8217;t test for it. I do tend to make sense of test errors, so I&#8217;m extra careful when I have logic with complicated conditionals. When coding on a team, I modify my strategy to carefully test code that we, collectively, tend to get wrong.”</p>
+<p style="padding-left: 30px;"><strong>老板为我的代码付报酬，而不是测试，所以，我对此的价值观是——测试越少越好，少到你对你的代码质量达到了某种自信</strong>（我觉得这种的自信标准应该要高于业内的标准，当然，这种自信也可能是种自大）。如果我的编码生涯中不会犯这种典型的错误（如：在构造函数中设了个错误的值），那我就不会测试它。<strong>我倾向于去对那些有意义的错误做测试，所以，我对一些比较复杂的条件逻辑会异常地小心</strong>。当在一个团队中，我会非常小心的测试那些会让团队容易出错的代码。</p>
+<p>这个回答对TDD似乎有一种否定，<strong>最亮的是这个问题是由<a href="http://en.wikipedia.org/wiki/Kent_Beck" target="_blank">Kent Beck</a>，Kent是XP和TDD的创造者，是敏捷开发实践方法的奠基人</strong>。以致于还有人调侃到——</p>
+<p><span id="more-8209"></span></p>
+<p><img decoding="async" loading="lazy" class="alignright size-full wp-image-8212" title="fight club" src="https://coolshell.cn/wp-content/uploads/2012/09/fight.jpg" alt="" width="342" height="195" srcset="https://coolshell.cn/wp-content/uploads/2012/09/fight.jpg 342w, https://coolshell.cn/wp-content/uploads/2012/09/fight-300x171.jpg 300w" sizes="(max-width: 342px) 100vw, 342px" /></p>
+<p style="padding-left: 30px;">The world does not think that Kent Beck would say this! There are legions of developers dutifully pursuing 100% coverage because they think it is what Kent Beck would do! I have told many that you said, in your XP book, that you don&#8217;t always adhere to Test First religiously. But I&#8217;m surprised too.</p>
+<p style="padding-left: 30px;">只是要地球人都不会觉得Kent Beck会这么说啊！我们有大堆程序员在忠实的追求着100%的代码测试覆盖率，因为这些程序员觉得Kent Beck也会这么干！我告诉过很多人，你在你的XP的书里说过，你并不总是支持“宗教信仰式的Test First”，但是今天Kent这么说，我还是很惊讶！</p>
+<p>后面还有一些人不同意Kent， 我一下子从这个事中想到了《<a href="http://movie.douban.com/subject/1292000/" target="_blank">fight club</a>》里的那个精神分裂者创建了一个连自己都反对的地下组织。呵呵。</p>
+<p>其实我是非常同意Kent的，怎么合适怎么搞，爱怎么测试就怎么测试，只要自己和团队有信心就可以了。没有必要就一定要写测试，一定要测试先行。</p>
+<h4>其它答案</h4>
+<p>八卦完了，我们还是来认认真真地看看这个问题中其它的其它答案，因为这个问题的也是国人爱问题的问题。</p>
+<p><strong>第二个答案：值得借鉴</strong></p>
+<ul>
+<li>开发过程中，单元测试应该来测试那些可能会出错的地方，或是那些边界情况。</li>
+<li>维护过程中，单元测试应该跟着我们的bug report来走，每一个bug都应该有个UT。于是程序员就会对自己的代码变更有两个自信，一是bug 被 fixed，二是相同的bug不会再次出现。</li>
+</ul>
+<p><strong>第三个答案：给敏捷咨师看的答案</strong></p>
+<p>这个答案在说，我们只注意到了TDD中的T，而忽略了第一个D，就是Driven…… bla bla bla&#8230; 又这扯这些空洞的东西了，国内的各种不学无术的敏捷咨询师最好这一口了。</p>
+<p><strong>第四个答案：致那些什么都要测试的人</strong></p>
+<p>如果我们需要测试一个像 <code>int square(int x)</code> 这样的开根函数，我们需要40亿个测试（每个数都要测试）。</p>
+<p>事实上这种情况可能还更糟糕，如果有这样一个方法 <code>void setX(int newX)</code> 不会更改其它的成员变量，如：obj.z, Obj.y，那么，你是不是还要去测试一下别的变量没有被改变？</p>
+<p>我们只可能测试那些有意义的，确实要测试的案例。</p>
+<h4>我的观点</h4>
+<p>我在《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并没有看上去的那么美</a>》一文中说过我的观点了，我就不再多说了。我还是把下面这些观点列出来，供大家思考和讨论：</p>
+<p style="padding-left: 30px;">1）<strong>我国的教育对我们最大的洗脑不是掩盖事实，而让我们习惯于标准答案，习惯于教条，从而不会思考！敏捷开发中的若干东西似乎都成了软件开发中对某种标准答案的教条，实在是悲哀！</strong></p>
+<p style="padding-left: 30px;">2）<strong>软件开发是一种脑力劳动，是一种知识密集型的工作，就像艺术作品一样，创作过程和成品是没有标准答案的。</strong></p>
+<p style="padding-left: 30px;">3）<strong>软件的质量不是测试出来的，而是设计和维护出来的。就像工匠们在一点一点地雕琢他们的作品一样。</strong></p>
+<p>UT的粒度是多少，这个不重要，重要的是你会不会自己思考你的软件应该怎么做，怎么测试。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="敏捷水管工" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_title">敏捷水管工</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li><li ><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/feedback_cycle-150x150.jpg" alt="[转]TDD到底美还是不美？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_title">[转]TDD到底美还是不美？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8209.html">“单元测试要做多细？”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8209.html/feed</wfw:commentRss>
+			<slash:comments>101</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Test-Driven Development？别逗了</title>
+		<link>https://coolshell.cn/articles/5531.html</link>
+					<comments>https://coolshell.cn/articles/5531.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 17 Oct 2011 00:38:15 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[TDD]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5531</guid>
+
+					<description><![CDATA[<p>这篇文章来源于Peter Sergeant在Write More Test 博客上的《Test-Driven Development? Give me a br...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5531.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5531.html">Test-Driven Development？别逗了</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这篇文章来源于Peter Sergeant在<a href="http://www.writemoretests.com/" target="_blank">Write More Test</a> 博客上的《<a href="http://www.writemoretests.com/2011/09/test-driven-development-give-me-break.html" target="_blank">Test-Driven Development? Give me a break&#8230;</a>》，在原文和<a href="http://www.reddit.com/r/programming/comments/kq001/testdriven_development_youve_gotta_be_kidding_me/">Reddit</a> 上有很大反响。这篇文章里的很多观点在《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并不是看上去的那么美</a>》和《<a title="再谈敏捷和ThoughtWorks中国咨询师" href="https://coolshell.cn/articles/3745.html" target="_blank">再谈敏捷和TW咨询师</a>》里都出现过（我个人觉得我的观点比其更全面一些）。就像我转的《<a title="为什么Scrum不行？" href="https://coolshell.cn/articles/5044.html" target="_blank">Scrum为什么不行</a>》 和《<a title="Bob大叔和Jim Coplien对TDD的论战" href="https://coolshell.cn/articles/4891.html" target="_blank">Bob大叔和Jim Coplien对TDD的论战</a>》一样，从这些贴子我们可以看到——<strong>这是一个全世界的问题，并不是只有在中国才有的问题</strong>。</p>
+<p><strong>很多敏粉都在说我在是喷敏捷，黑敏捷，向敏捷泼脏水，我只想对这些人说——</strong><span style="color: #cc0000;">你们这样的见解很肤浅也很敏感，你们根本就没有认识到——争论，反思和不同观点的意义，你也就无法了解你们所信仰的敏捷！你们只是在肤浅和盲目地信仰和教条敏捷中的许多名词、方法和标准答案罢了</span>。</p>
+<p style="text-align: center;">——————————————正文开始——————————————</p>
+<p>对于程序员来说有些事有非常危险的信号（red flag）。当我听到有人开始信仰Test-Driven Development 是 One True Programming Methodology（唯一正确的编程方法论），这就是危险信号（red flag），我开始假设你是一个劣等、没有经验的程序员，或是某些敏捷咨询师。</p>
+<p>测试只是一个工具来<strong>帮助你</strong>，而不是用来证明谁比谁更虔诚，或是我的屌比你的要大，等这种愚蠢的行为。测试是用来让<strong>程序员</strong>得到有帮助的、更快的反馈，从而找到正确的路径，如果你搞坏一些事，其还可以用来给后人一些警告。这根本就不是一个神秘的有魔力的方法其可以让你的代码变得更好……</p>
+<p>整个Test-Driven Development的概念是麻痹和信奉，从而让其成为你的人生观。相反的：Developer-Driven Testing，它给你和你的同事一些有用的工具来解决问题，来支持你自己，而不是那种以工具或方法为中心的让你假设其应该是那样的测试。</p>
+<p><span id="more-5531"></span></p>
+<p>是不是在有些时候我们需要在写代码前写测试？当然是，比如，“修改已有的功能”，这会一个适用的场景，还有那些短小的和已定义完善的事物，或是对已被测试过的代码做一些改善。</p>
+<p>但， 是不是你就应该需要<strong>总是</strong>要去先写测试？省省吧，别逗了。</p>
+<p>这是极度白痴的行为，尤其是在设计，调查和开发的初期。让你的测试来接管你的代码（而不是影响那个模块的代码）和接管你的设计 这是一个巨大的失败，就是因为你写的那些测试范围太大太不靠谱。（陈皓注：我在《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并不是看上去的那么美</a>》一文中说过测试案例的测试范围的问题，敏捷社区除了对我进行人身攻击外从未对此做过正面回答。）</p>
+<p>在写代码前写测试案例在一些场景下的确很不错。然后，Test Driven Development，被敏捷专家或是其它各种五花八门的江湖骗子像神给凡人宣扬一样，这就是欺骗大众。</p>
+<p>行动在想法之下，于是测试必需先行（所有我已看到的，所有我正在看到的都表明这是TDD的中心思想—— 你写了测试，然后你再写代码并通过测试），于是测试成为了最有用的活动并可以帮助程序员。这是错的。</p>
+<p>就算你在一开始要写一些测试案例，但只要你想让这些测试案例更有意义，那么，你要么得让这些测试案例的测试范围更小更底层更精确，要么你就得在整个软件快要写完的时候再去写测试，要不然你就得欺骗或是篡改测试案例。在为数不多的情形下，前者是正确的——测试围绕于bug，或是小的，定义地很好的功能碎片（陈皓注：我个人理解为单元测试是目前最有效的））</p>
+<p>把测试变成整个活动的中心因为其对程序员有用？真牛逼。老实说，控制程序员的工作流程只可能得出一条无比正确的答案——荒谬可笑。</p>
+<p>测试帮助程序员，是因为其可以帮程序员组织自动化测试，所以才帮了程序员，而不是cargo-cult（<a href="http://zh.wikipedia.org/zh/%E8%88%B9%E8%B2%A8%E5%B4%87%E6%8B%9C" target="_blank">货物崇拜</a>，参看《<a title="各种流行的编程风格" href="https://coolshell.cn/articles/2058.html" target="_blank">各种流行的编程方法</a>》中的cargo-cult编程）——信仰一种工作流程并让所有的人或事来适应于他。</p>
+<p>先写测试这种方法只会在“Developer Driven Testing”（程序员自己驱动的测试）下可行——关注于选取一个正确的方法让程序员更有生产力。生成一堆测试的规则并说这是唯一的真理是不正确的。</p>
+<p><strong>一些讨论和想法（在此贴发出数小时后）&#8230;</strong></p>
+<p>当我这篇博文发出几个小时后，其被转到了别的地方并引发了一些讨论。</p>
+<p>在 <a href="http://news.ycombinator.com/item?id=3033129" target="_blank">Hacker News</a> 上，有人说我提出了很多很不错的问题，并且那是真正的有理有据的观点。我在用用户名叫<em>peteretep </em>的回复了一些。</p>
+<p>在 <a href="http://www.reddit.com/r/programming/comments/kq001/testdriven_development_youve_gotta_be_kidding_me/">Reddit</a> 上的争论更多更强。那里有很多的人觉得需要写自动化测试。并且这篇博文被大家演变成拥护测试和可实践的建议，我觉得我是误传达了我的想法，我觉得软件测试是非常重要的，而不是根据哪个方法论进行的教条主义！</p>
+<p style="text-align: center;">——————————————正文结束——————————————</p>
+<p>我在Reddit上看到了下面的事，我也作些评论。</p>
+<ul>
+<li>大家在讨论很多很多的技术细节，比如如何测试私有方法，如何测试inner class，甚至还有代码。我太喜欢了，这才是真正的讨论，而不是像酷壳这边那些敏粉们说人而不说事的讨论，<strong>那些所谓的敏捷咨询师的话里连一点技术细节都没有</strong>。</li>
+</ul>
+<ul>
+<li>并且也有人说TDD可以让你去Design，但随后就有人说，正真的Design就是Design，而不是hack 测试来强行让你Design。后面有了附和到——有<strong>很多思想意识想用流程来代替思考，软件开发就是需要在某中上下文下去思考，而不是使用某种机制来让你思考</strong> 。</li>
+</ul>
+<ul>
+<li>我看了两极分化的大量的争论，这是我最喜欢看到事。世界就是因为有不同的观点而美好。<strong>有反对才有争论，有争论才有思考，这才是进步的源泉，而不是统一认识，形成标准</strong>。而对于那些党同伐异的，一听到有反对声就激动就要打压的敏粉来说，我只能认为他们的人生观世界观扭曲得就像朝鲜那样。</li>
+</ul>
+<div>（全文完）</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="敏捷水管工" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_title">敏捷水管工</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li><li ><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/feedback_cycle-150x150.jpg" alt="[转]TDD到底美还是不美？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_title">[转]TDD到底美还是不美？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5531.html">Test-Driven Development？别逗了</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5531.html/feed</wfw:commentRss>
+			<slash:comments>52</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>在新浪微博上关于敏捷的一些讨论</title>
+		<link>https://coolshell.cn/articles/5143.html</link>
+					<comments>https://coolshell.cn/articles/5143.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 12 Aug 2011 00:22:58 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[Scrum]]></category>
+		<category><![CDATA[TDD]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5143</guid>
+
+					<description><![CDATA[<p>自从我发布了“Scrum为什么不行”，并被CSDN推成首页头条后，我在我的新浪微博上就经常被敏粉们@去讨论他们的一些话题。他们似乎想要从我这里听到一些不同的声音...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5143.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5143.html">在新浪微博上关于敏捷的一些讨论</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>自从我发布了“<a title="为什么Scrum不行？" href="https://coolshell.cn/articles/5044.html">Scrum为什么不行</a>”，并被CSDN推成首页头条后，我在我的新浪微博上就经常被敏粉们@去讨论他们的一些话题。<strong>他们似乎想要从我这里听到一些不同的声音，我很喜欢他们的这种态度，在这里先赞他们一个</strong>。既然，让我来评论他们的东西，我就不客气了，板砖自然是少不了的。 我觉得我在微博上的观点比较散，所以在这里做一个汇总。我在所有批评敏捷的文章里都重复说过我的立场，这里还要再说一遍，因为那群人很敏感——“<strong>我承认敏捷中有一些东西我是认可的，但对敏捷社区的推广和思维方式我持否定态度</strong>”。</p>
+<h4>敏捷词汇表</h4>
+<p>我被<a href="http://weibo.com/adamwu73">@吴穹adam</a>邀请进入了一个<a href="http://q.weibo.com/852378?source=weibohome" target="_blank">敏捷词汇表的微群</a>，这个群就是想明确的定义一下敏捷的各种词汇，比如，他们想把TDD定义成就是UT。呵呵。我对这个群仅保持了30分钟的热度，我在里面发了一个“你们不想讨论技术吗？”的帖子，就再也不想关注了。因为我的观点如下：</p>
+<ul>
+<li>我不知道干这件事有什么意义。标准化还是洗脑？One World, One Agile?  &#8211;<strong> horse shit!</strong></li>
+<li>你能定义地好吗？定义好了大家都能干好了？ &#8211;<strong> 幼稚！</strong></li>
+<li>理解不同又有什么关系？价值观不同又能怎么样？为什么不能正视并接受世界的不同呢？ &#8211;  <strong>固执！</strong></li>
+</ul>
+<h4><strong>敏捷宣言</strong></h4>
+<p>我看到很多人又把《敏捷宣言》拿出来说事，就好象他们把敏捷宣言是软件开发的普世的价值观一样。我对此的评论是—— <span id="more-5143"></span></p>
+<blockquote><p><a href="http://weibo.com/haoel">@左耳朵耗子</a>：<span style="color: #0000ff;">微博里多了很多《敏捷宣言》的话题，这让我想到了《共产党宣言》， 这两个组织里的某些人很相似，都通过宣言来树立价值观，然后通过传教的方式四处宣讲来影响大众吸收党羽，并要求对其价值观的信仰，还以一种革命者的态度来实践…… 建议程序员还是多研究技术细节，关注技术发展趋势，分析产品和用户需求。</span></p></blockquote>
+<h4>博文评论</h4>
+<p><a href="http://weibo.com/adamwu73">@吴穹adam</a>发表了一篇《<a href="http://blog.csdn.net/adwu73/article/details/6677908" target="_blank">为什么纯粹的Scrum在中国很难落地（一）</a>》并欢迎我去拍砖。我拍了下面几块砖：</p>
+<ul>
+<li>看标题还以为要谈什么中国实际的问题，结果只是一些文章的读后感。没有实际价值。</li>
+<li>我对为什么在中国难落地的原因提了三条：</li>
+<ul>
+<li>你们总是想以Scrum为中心来改变实际情况和民众，而不是民众自发的。</li>
+<li>世界是不同的，多元的，这告诉我们不要死读书，读死书，更不能教条主义。</li>
+<li>世界是不完美的。有很多东西无法改变的，如人性，文化，政治…… 要学会接受并管理他们。</li>
+</ul>
+<li>我给<a href="http://weibo.com/adamwu73">@吴穹adam</a>的建议——<strong>只有当你开始关注实际情况的时候，你才能真正成为一个实践者</strong>。</li>
+</ul>
+<p>看到在<a href="http://weibo.com/1880082254/xiWv9AShm" target="_blank">评论中</a>——</p>
+<blockquote><p> “<a href="http://weibo.com/n/%E5%BC%A0%E6%9D%83%E5%85%88%E7%94%9F">@张权先生</a>：团队拒绝Coach，与敏捷实践缺乏统一认知有关，书籍、网上资料中，很多信息是不统一的，混乱的局面只能从信息源头抓起，规范术语、规范表述为好”。</p></blockquote>
+<p>我观点是：</p>
+<ul>
+<li>先得对大众洗脑，统一认识？和谐？</li>
+<li>一千个人有一千个哈姆雷特，认识不同又有何妨？</li>
+</ul>
+<p><a href="http://weibo.com/1949520867">@蔡晓东_</a>发了一篇《<a href="http://weibo.com/1949520867/xiZRDCOr1" target="_blank">低层级的敏捷毫无意义，组织级敏捷才是敏捷的核心问题</a>》的长微博，也让我去讨论。我这样回复——“<span style="color: #cc0000;"><strong>为什么你们一定要定义哪种软件开发是敏捷？哪种不是? 为什么一定要敏捷呢？做这个划分的目的是什么？是不是只有这样搞，某些组织某些人才有饭碗呢?</strong></span>”， 我希望敏捷社区的人能正面回答我这个问题。</p>
+<p>我的一个前同事回复到：</p>
+<blockquote><p><a href="http://weibo.com/n/ilinux">@ilinux</a>:&#8221;低层级的敏捷毫无意义，组织级敏捷才是敏捷的核心问题&#8221;, 这口号听起来就像是要, 从生产关系上和上层建筑着手，解放全世界无产阶级码农。</p></blockquote>
+<p>还有一个朋友回复到（多好的建议）：</p>
+<blockquote><p>@<a href="http://weibo.com/yuyijq">横刀天笑</a> 低层次不干好，就别谈组织的了吧。。。说实话，我喜欢持续改善，讨厌重大变革。喜欢基础实践，讨厌空喊口号。</p></blockquote>
+<h4>后续</h4>
+<p>下面这个微博看来是怒了，敏捷社区，你能告诉我这是为什么吗？</p>
+<blockquote><p><a href="http://weibo.com/silentriver">@陈加兴</a>：所谓“观其言，察其行”，别人的话摘录再多，终究是别人说的话，和你一毛钱关系都没有。言必称“敏捷”，把敏捷搞得跟唐诗三百首似的颠过来倒过去地背，却不知软件中“设计”为何物，我实在不知道这样“没有项目经验如何谈敏捷”？没有一点团队管理经验，却处处指导众生管理团队，真是神仙下凡啊。</p></blockquote>
+<blockquote><p><a href="http://weibo.com/n/%E9%99%88%E5%8A%A0%E5%85%B4">@陈加兴</a>:回复<a href="http://weibo.com/n/%E5%BE%90%E6%AF%85-Kaveri">@徐毅-Kaveri</a>:对事不对人，这种混子行径我唾弃，不点名，因为可以对号入座的人，多着呢。</p></blockquote>
+<p>我也认识很多混子，包括现在或曾在TW里的。</p>
+<p>最后，让我再echo一下前面的话—— <strong>这两个组织里的某些人很相似，都通过宣言来树立价值观，然后通过传教的方式四处宣讲来影响大众并吸收党羽，并要求对其价值观的信仰，还以一种革命者的态度来实践…… </strong>（有几个网友在我这个微博中讨论了很多，<a href="http://weibo.com/1401880315/xiFMptHMg" target="_blank">大家可以去看看</a>。） <span style="color: #cc0000;"><strong>看这些所谓的咨询师、实践者、倡导者有没有料，你就直接和他谈技术实现，谈业务需求，谈产品分析，你就知道他有多少水水了</strong></span>。</p>
+<p><em><strong>————更新2011年8月13日————</strong></em></p>
+<h4>糊弄客户？</h4>
+<p>在微博上看到InfoQ主编+TW咨询师<a href="http://weibo.com/n/%E5%BC%A0%E5%87%AF%E5%B3%B0">@张凯峰</a>同学的一条微博的回复（<a href="http://weibo.com/1416875735/xjiafswMq" target="_blank">原微博在这里</a>）</p>
+<figure id="attachment_5152" aria-describedby="caption-attachment-5152" style="width: 458px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5152" title="张凯峰的微博" src="https://coolshell.cn/wp-content/uploads/2011/08/张凯峰的微博.png" alt="" width="458" height="149" srcset="https://coolshell.cn/wp-content/uploads/2011/08/张凯峰的微博.png 458w, https://coolshell.cn/wp-content/uploads/2011/08/张凯峰的微博-300x98.png 300w" sizes="(max-width: 458px) 100vw, 458px" /><figcaption id="caption-attachment-5152" class="wp-caption-text">张凯峰的微博：如果客户连需求都说不出一二来，那就太好糊弄了。</figcaption></figure>
+<p>糊弄客户！所以，我可以类推他会说——“<strong>如果你不懂敏捷，那就太好糊弄了</strong>”。这就是TW的咨询师。呵呵。</p>
+<p>接下来，另一个自称“Agile导师”@<a href="http://weibo.com/1849127973">张义军SH</a>说，</p>
+<blockquote><p><a href="http://weibo.com/1849127973">张义军SH</a> 陈浩这次确实有点断章取义了，应该说张凯峰的说法还是很实在的 //<a href="http://weibo.com/n/%E5%B7%A6%E8%80%B3%E6%9C%B5%E8%80%97%E5%AD%90">@左耳朵耗子</a>：回复<a href="http://weibo.com/n/%E5%BC%A0%E5%87%AF%E5%B3%B0">@张凯峰</a>: 糊弄客户?! 看到了吧，InfoQ总编，TW咨询师，真面目暴露出来了吧。//<a href="http://weibo.com/n/%E5%BC%A0%E5%87%AF%E5%B3%B0">@张凯峰</a>:回复 <a href="http://weibo.com/n/weidagang">@weidagang</a>:如果客户连需求都说不出一二来，那就太好糊弄了。</p></blockquote>
+<p>这就很强大啊——我到是想听听这个导师认为的“糊弄”的说法怎么个实在法？于是他回复到：</p>
+<blockquote><p><a title="张义军SH" href="http://weibo.com/1849127973">张义军SH </a>：回复<a href="http://weibo.com/n/%E5%B7%A6%E8%80%B3%E6%9C%B5%E8%80%97%E5%AD%90">@左耳朵耗子</a>: 我是在看整个讨论过程。在客户没有想法没有太多思路时，他说客户容易糊弄我觉得确实如此，评级很实在。但他们后面在深入讨论这个问题，我认为您也应该看看，给一些建设性意见。</p></blockquote>
+<p>呵呵，用户提不出准确的需求这太正常不过了，但是这不代表用户傻，可以糊弄。另外，尤其是那些创新的项目，哪有什么需求，只有一个大概的方向，谁都不知道该做成什么样，我现在做的就是这样的项目。不做个原型，不前期试探一下用户和市场，谁也不知道。</p>
+<p>另外，我想告诉这些人，用户需求提不出来很正常，提偏了也很正常，关键在于我们的需求分析能力。福特汽车公司的创始人说过——“<strong>如果我问用户要什么，他们会告诉我他们要一匹更快的马！</strong>”，<strong>大多数平庸的人都会去饲养“一匹更快的马”，而不是分析需求后了解到用户的需求是——“更快的交通工具”。</strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5044.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/hat-150x150.jpeg" alt="为什么Scrum不行？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5044.html" class="wp_rp_title">为什么Scrum不行？</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="敏捷水管工" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_title">敏捷水管工</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5143.html">在新浪微博上关于敏捷的一些讨论</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5143.html/feed</wfw:commentRss>
+			<slash:comments>54</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Bob大叔和Jim Coplien对TDD的论战</title>
+		<link>https://coolshell.cn/articles/4891.html</link>
+					<comments>https://coolshell.cn/articles/4891.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 27 Jun 2011 00:41:23 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[BDD]]></category>
+		<category><![CDATA[CDD]]></category>
+		<category><![CDATA[TDD]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4891</guid>
+
+					<description><![CDATA[<p>今年春节时，我写了一篇《TDD并不是看上去的那么美》，在这篇文章中我列举了一些关于使用TDD的一些难点和对TDD的质疑，后来出现了一些争论（可参见那篇文章的评论...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4891.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4891.html">Bob大叔和Jim Coplien对TDD的论战</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今年春节时，我写了一篇《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并不是看上去的那么美</a>》，在这篇文章中我列举了一些关于使用TDD的一些难点和对TDD的质疑，后来出现了一些争论（可参见那篇文章的评论），以及Todd同学的《<a title="[转]TDD到底美还是不美？" href="https://coolshell.cn/articles/3766.html" target="_blank">TDD到底美不美</a>》，还有infoQ中文上的那个<a title="虚拟座谈会：TDD有多美？" href="http://www.infoq.com/cn/articles/virtual-panel-tdd" target="_blank">几乎没有营养离线讨论</a>。今天，有网友给我推来一个英文版infoQ的视频——“<a title="Coplien and Martin Debate TDD, CDD and Professionalism" href="http://www.infoq.com/interviews/coplien-martin-tdd" target="_blank">Coplien and Martin Debate TDD, CDD and Professionalism</a>”，这是2008年2月18日的视频，视频的主角两个人争论TDD好还是不好，一个是敏捷社区的教主级的人物——Robert Martin（大家称之为“Bob大叔”），另一个是C++，OO，多范式编程的大师<a href="http://en.wikipedia.org/wiki/Jim_Coplien" target="_blank">Jim Coplien</a>（大家都叫他Cope）。这两个人对TDD的见解有分歧。Coplien的很多观点和我之前的不谋而合，而他自己称他是坚决强烈地站在TDD的对立面上。下面是Jim的原话：</p>
+<blockquote><p>I have adopted a very strong position against what particularly the XP community is calling test driven development.</p></blockquote>
+<p>InfoQ的视频很多时候相当的不给力，就像有前列腺的患者撒尿一样，半天都挤不出一滴。不过，好在那里有这两个人对话的摘录。在这里，我给大家摘要一下：</p>
+<p style="text-align: center;">——————————————————正文分割线————————————————————</p>
+<p>Coplien首先让Uncle Bob定义了一下TDD，Uncle Bob说明了他的三个法则：（敏捷的同学一定不陌生）</p>
+<ol>
+<li>一个测试驱动的程序员，其不会在写出一个测试失败的Unit Test前，去写一句可用在生产线上的代码。（没有测试之前不要写任何功能代码）</li>
+<li>在编写用于生产线上代码之前，不写过多的测试失败的Unit Test。（只编写刚好能体现一个失败情况的测试代码）</li>
+<li>在现有代码通过Unit Test前，不写更多的用于生产线上的代码。（只编写恰好能通过测试的功能代码）</li>
+</ol>
+<p>Coplien说他有意见的不是这三个法则，而是因为这个三个法则是孤立说出来的。Coplien说他和一些咨询师或是Scrum Master参与过很多的项目，他们发现这些项目都有两个问题：</p>
+<ol>
+<li>他们使用TDD的时候，软件没有一个架构或是framework。当然，Kent Beck说——TDD可以驱使你去做架构。但是，<strong>TDD和Unit Test 是一回事吗？</strong>Unit Test是一个伟大的事，尤其是当你去写API和类库的时候。今天XP所说的TDD和UT很不一样。如果你使用TDD来驱动你的软件系统架构，那么，<strong>基本上来说，三个迭代以后，你开发的软件就会crash掉，而且无法再往前开发</strong>。 因为什么？因为连软件团队自己都受不了这三个迭代出来的架构，而且你还会发现，你根本没去去重构。</li>
+<li>第二个问题是，TDD这种方法破坏了GUI（图形界面），就算是Kent也说：“<strong>你永远不可以在一个漂亮的界面后面隐藏一个糟糕的架构</strong>”，Coplien强烈地相信软件的架构是通过界面来发出其光芒。他觉得如果没有一个好的软件架构，这个会影响用户的操作。</li>
+</ol>
+<p>Coplien接着说，如果我们使用Uncle Bob的三条法则，我们也许没有什么问题，<strong>但Coplien想告诉大家另一个非常重要的事，那就是软件架构。并说：“我根本不接受TDD是软件专业化实践的论点”</strong>。</p>
+<p><span id="more-4891"></span></p>
+<p>Bob大叔说，让我们回到99年，那时的敏捷社区觉得软件架构是无关的，不需要软件架构，只需要做一堆tests，做一堆stories，以及足够快的迭代，这样就可以让那些代码魔幻式地拼装起来，这就是horse shit。对于大多数的敏捷拥护者来说，这的确是愚蠢的。今天你再和Knet说这个事，他也会说那不过是一种说法。</p>
+<p>Coplien回应到，实际上，Knet在解释XP的时候，在他的书131页的位置说过，“是的，你得做些前期的架构，但也别把自己搞乱了”。</p>
+<p>Bob大叔把话题转回来，继续聊关于架构方面的事，他说软件的架构很重要，他也写很一些关于架构的书，他说他也是一个架构方面的怪才，但是他认为架构自己并不会形成软件的所有的外表。他觉得好的软件架构和设计能力应该出现在若干次迭代之后。他觉得你在架构软件的时候，你会创造一些东西，也会破坏一些东西，并且会在几次迭代中做一些试验性的工作，来尝试一下不同的架构。<strong>在2到3次迭代以后，你可以知道那一种架构是对的，这样，你可以在后面的迭代中进行调整 。因此，他认为架构是需要进化和发展的，而不会因为被可执行的代码所形成，也不会因为你所写的测试而形成</strong>。</p>
+<p>Coplien赞同架构进化的观点，而且他相信软件的架构的演变和进化不是因为你写的代码，也不是因为Use Case，也不是告诉你你的软件需求的范围和其中的关系，但是如果你做的方法是以增量式的，以用户驱动式的，而你却在和用户沟通时没有一些前期的业务知识，那么这一定是相当有风险的，并且你一定会把事搞砸的。</p>
+<p>Coplien接着说，他在Knet早期提到TDD的时候和Knet时，提到YAGNI（陈皓注：You Aren&#8217;t Gonna Need It，XP的一个法则，也就是只做最简单的事）时，Kent说到：“让我们来做一个银行帐户，一个储蓄帐户”，储蓄帐户其实就是对余额进行一些加加减减的事，就像一个计算器一样。Copilen继续解释到，但是如果你要做一个真正的银行系统，你的软件架构根本不可能从一个储蓄帐户的对象（计算器）重构出来。因为储蓄帐户根本就不是一个对象，其是一个流程，后面有一个数据库的查帐索引事务，还有存款保证多和利息，还有一些转帐功能。就算是这样，这也只是用户的功能，你还需要支持税务人员和精算会计师等这些人，<strong>这会让银行系统成为一个错综复杂的软件架构，这绝对不是你可以用迭代干出来的事。当然，Bob大叔是可以的，因为他有40年的银行系统的经验。但是Bob大叔你的这40年可真不敏捷啊</strong>。</p>
+<p>Coplien接着说， 因为Bob大叔可以在软件前期做很多很重要的决定，这让得后面的事变得相对比较简单。Coplien根本不相信只要你把代码往那一放，在上面披上一层皮，再设置好一些角色，设置好接口，在文档里写上整个业务结构，而你只有在有人花钱的时候你才会在其中填充进真正的代码，反之就违反了你的YAGNI原则。所以，你只是在你需要的时候做你要做的事，但你却还是要提前得到你的软件架构，否则你一定会把你自己逼进死角的。</p>
+<p>Bob大叔辩解到，我说的可能和你说的这个有点不同。我们应该不会像你所说的往接口中写一些抽象成员函数，而是创建一些有抽象接口的对象。当然，我不会把一下子为这个对象装载上一堆方法。那些是我需要使用测试驱动或是需求驱动来做的事，我还会随时随地在看是否哪里软件架构可以让我拆分接口。</p>
+<p>Coplien说，问题 是你得知道你要干什么？他说他非常同意Knet的书&#8221;XP Explained&#8221;里说的——“你不能去猜”，然后他举了一个例子，一个他曾经在一个电信项目中重新架构软件的例子，这是一个长途交换机的项目，项目组特别喜欢用面向对象，有一个人需要去做一个“Recovery Object”（应该是系统恢复对象），Coplien说这是很扯的一件事，因为系统恢复根本就不是一个对象，因为他对业务不熟，所以想这么做。而当你在细节上分析的时候，你会发现这根本就不是一个有成员方法的对象。我个人认为，Coplien想用这个例子来说Bob大叔的先定义对象的抽象接口并不是一个好的需求分析的方法。Coplien还说，这个事情今天被资本化成了SOA，真是在玩火啊。</p>
+<p>Bob大叔说，这个他很同意。你的确需要知道这个对象的意义是什么。而且他和Coplien都同意应该根据可运行的代码来决定未来，而不是基于投机心理搞一个巨大无比的架构。</p>
+<p>此时，Bob大叔把话题又带回原地，他问Coplien：“你需要多少的时间才能写出可运行的代码？是不是一个系统需要写200万行代码才能算？”，Coplien说，在他的经历中，200万行代码算是小项目了，他的项目都是几亿行代码的。而在让代码可以跑起来，他至少需要让所有的对象都联系起来。</p>
+<p>Bob追问到，“那么你是怎么测试这些对象的连接性的？”，Coplien说，我当然要测试，我会测试系统启动和停止，看看有没有内存问题，半小时就好了。Bob大叔似乎找到了突破点，于是说到：“Excellent！那么我们间的分歧是什么呢？也许你只是不同意TDD的概念和其专业化，当然，这是另外一个话题了”。</p>
+<p>然后，Coplien说了一段我非常非常认同的话——“我看到很多人正在做正确的事，来避免我们之前讨论的那些问题，当然那不是TDD的扩展，而是Dan North所说的BDD。可见，软件开发中很多人在开发软件中都是在用正确的很好的方法，而我对此有意见的是，有人把这个事说成TDD，然后人们就去买相关的书来了解TDD，并且看到“architecture only comes from tests”，我在过去6个月中听到过4次这样的说法，这就像你所说的，完全就是horse shit。而关于你所说的专业化的事，如果你没有见过一个专业化你怎么知道？”。（不是吗？大多数人都知道怎么开发软件，而不是TDD才是专业化的软件开发。）</p>
+<p>然后，Bob想多谈谈专业化的事，Bob说，在今天，一个不负责任的程序会提交一段他没有跑过单元测试的代码，所以，要确定你没有把一条没有测试过的代码提交到代码库里的最佳做法就是TDD。</p>
+<p>Coplien完全不同意这个说法。他觉得底层的东西是更重要的。他用了一个示例来攻击Bob大叔的这个观点，他先是说代码走查和结对编程都有好的有价值的地方，当然和这个话题不相关。然后他又说了Unit Test，想想我们的单元测试，可能我们的测试案例并不可能测试我们程序中参数的各种状态，这些状态有可能只是半打，有可能是一百个，有可能是2的32次方个，所以，我们可以命中一些状态，也会没有测试到一些状态，我们的测试真的只是试验性的，所以，如果你在测试中发现bug，你真的很幸运。</p>
+<p>随后，Coplien推崇了一个叫“<a href="http://en.wikipedia.org/wiki/Design_by_contract" target="_blank">Design By Contrac</a>t” &#8211; 契约式设计的方法（我在<a title="一些软件设计的原则" href="https://coolshell.cn/articles/4535.html" target="_blank">软件设计中那些方法</a>中提到过，），这个方法认为软件有前验条件，后验条件，还有不变的。这个方法是Eiffel项目使用的一个方法，使用这个方法你可以静态的去做一些检查，相当于你做了一个基础架构来干这些事。Coplien相信这个方法有TDD所有的优点——我需要努力思考我的代码，我需要思考软件的外部接口，而且，Coplien发现这么做会比做测试更有效。这会让你对那些参数的范围考虑地更为宽广，而不是只在测试案例写几个随机分散的值来测试。</p>
+<p>今天，Bertrand Meyer(Eiffel语言的创造者，他也不赞同TDD)把这个方法推进了一步，叫CDD &#8211; Contract Driven Development，这个是一种关注于对象间关系，其在程序运行前提条件和运行后的后验条中达成一种契约，可以通过对契约条件的动态或静态的检查，来对程序的功能进行验证。这样可以让你更有效地测试程序。这种方法需要对业务的重点部位非常好的了解。这是TDD很难做到的（这就是我在《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并不是看上去的那么美</a>》一文中说的TDD的测试范围是个很大的问题）。</p>
+<p>Bob大叔似乎在努力回忆CDD和Eiffel，然后他说，TDD不就是干这个的吗？TDD就是把契约变成单元测试，不但测试输入，也测试返回值，这不就是先验条件和后验条件，而且他说，Unit Test和代码结合得更紧，而契约没有和代码结合得紧密，这是他觉得很不舒服的地方。</p>
+<p>Coplien说Bob大叔创建了不应该创建的二元论。他说代码在哪里，UT就跟到哪里，代码有多臃肿，UT就有多臃肿，而UT也是代码，也会有BUG，所以，其实这真是事半功倍。还有一个最有名的示例是ADA编译器，其使用了TDD，反而增加了代码中的BUG，因为你的代码多，测试就多，代码就更多，整个代码就太过臃肿。如果你测试中使用了断言，这意味着你就耦合上了代码，你的测试案例和你的代码耦合地越多，你的代码就越难维护。这就是我在《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并不是看上去的那么美</a>》一文中说的TDD的代码臃肿和维护问题）</p>
+<p>Bob大叔为Coplien对代码臃肿的说法感到惊讶。Coplien说，这就是他的经历，他看到的。Bob大叔承认有很多混乱的测试和混乱的代码，他觉得像XUnit这样的工具被滥用了。Coplien打断道，这不是要和你争论的，我争论的是这就是我看到大家在实践的东西。</p>
+<p>Bob大叔反回到，你有没有看到CDD也被滥用的情况？Coplien说，他只觉得目前，软件业对CDD用的还不够。</p>
+<p>最后，时间不够了，Bob大叔问了一个不相干的问题，他说，我们这里有BDD,CDD, TDD, 关于DD，他不知道谁是最先第一个使用带DD这个词的，他说他好像记得一个RDD &#8211; Responsibility Driven Development。</p>
+<p>Coplien对这个问题可能很无语，他只能说——“DD，这是Unix的一个命令嘛，Disk Dump，但这可能算。谢谢你Bob，很高兴又一次见到你 ”</p>
+<p style="text-align: center;">——————————————————正文分割线————————————————————</p>
+<p>看完后，我的感觉如下：</p>
+<ul>
+<li>这是2008年就在讨论的事，而在2011年我发布了《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html" target="_blank">TDD并不是看上去的那么美</a>》后中国这边才开始讨论。（InfoQ和 Thoughtworks怎么不去找Coplien？）</li>
+<li>英语很重要，不懂英语，只看国内的东西，你就容易被洗脑，你就需要更多的时间和精力去思考那些早被人思考过的问题。</li>
+<li>开发和测试，都是需要充分地了解业务，充分的思考，充分权衡后才能做得好的事。并不是你用了哪个方法后就专业了，就NB了。</li>
+<li>相当BS——上不谈业务，下不谈技术，只谈方法论的人和公司，这是绝对的扭曲。</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="敏捷水管工" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_title">敏捷水管工</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li><li ><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/feedback_cycle-150x150.jpg" alt="[转]TDD到底美还是不美？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_title">[转]TDD到底美还是不美？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4891.html">Bob大叔和Jim Coplien对TDD的论战</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4891.html/feed</wfw:commentRss>
+			<slash:comments>54</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>敏捷水管工</title>
+		<link>https://coolshell.cn/articles/3778.html</link>
+					<comments>https://coolshell.cn/articles/3778.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 25 Feb 2011 00:39:44 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[pair-programming]]></category>
+		<category><![CDATA[TDD]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3778</guid>
+
+					<description><![CDATA[<p>本文来自Terazen Technology Inc的创始人+CTO的 David Ing的《Agile Plumbers》（这也墙？），我的其文中的这个帮事翻...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3778.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3778.html">敏捷水管工</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>本文来自Terazen Technology Inc的创始人+CTO的 <a href="http://ca.linkedin.com/in/davidjing" target="_blank">David Ing</a>的《<a href="http://david.ing.name/2010/12/24/agile-plumbers/" target="_blank">Agile Plumbers</a>》（这也墙？），我的其文中的这个帮事翻译过来（和前些天发的<a title="SOAP的S是Simple" href="https://coolshell.cn/articles/3585.html">SOAP的S是Simple</a>异曲同工）。</p>
+<p>也许你会觉得这个比喻不恰当。但我想告诉你的是，这个故事告诉我们，教条主义和以方法论为中心的危险。<a title="十条不错的编程观点" href="https://coolshell.cn/articles/2424.html" target="_blank">十条不错的编程观点</a>中第一条—— <strong>The only “best practice” you should be using all the time is “<span style="color: #ff0000;">Use Your Brain</span>”.</strong></p>
+<p>————————————————————</p>
+<p>(门铃响……)</p>
+<p><strong>事主：</strong>啊, Agile 水管工吗？ 请进，感谢谢你们这么快就来了——这的确很紧急，我这真是很乱。</p>
+<p><strong>水管工1</strong>: 先生，没问题，我们就是敏捷的。在我给你做Presentation前，我先给你介绍一下我的两个同事。</p>
+<p><strong>事主</strong>：Presentation？啊，我们有时间吗？这的水已经流得到处都是了……</p>
+<p><strong>水管工1</strong>：……先生，我们必需坚持这个。我们只是想保证你能成为动态搜寻解决方法的一份子。你是我们的 champion sponsor，也就是我们团队内的 consultant！你可以提供一个白板给我们使用吗？</p>
+<p><strong>事主</strong>：我没听懂，你们不觉得这变复杂了吗？我觉得我应该告诉你们这水是从房子哪儿流出来的，就是那……</p>
+<p><strong>水管工2</strong>：你这有让我脱衣服的地儿吗？</p>
+<p><strong>事主</strong>：什么？</p>
+<p><span id="more-3778"></span></p>
+<p><strong>水管工2</strong>：我要坐在你的浴盆里——我还需要肥皂和托鞋。因为我们运作的方法是“测试驱动”， Red, Green, Red。你可以看到我们是怎么驱动的……</p>
+<p><strong>事主</strong>：为什么你会需要这样做？水都从楼梯上流下来了，水管爆裂了，马桶堵了，你能现在就开始吗？</p>
+<p><strong>水管工3</strong>：非常不错的feedback——感谢你！你介意先填一下这些 3&#215;5 的卡片吗？我希望你能使用名词，让我们迭代一下刚才你说的“水灾……</p>
+<p><strong>水管工1</strong>：别那么着急，Domain Model 可以等的，让我们现在先生成一些想法——我们应该先把所有的业务需求都写出来，然后调查其动机。先生，是不是所有的功能都是 “关键业务’”？你能先给马桶评个等级吗？另外，如果你有100美金……</p>
+<p><strong>事主</strong>：你在开玩笑吗？你看，如果你们不能干这个，那么我就……</p>
+<p><strong>水管工2</strong>：我去拿个扳手。</p>
+<p><strong>事主</strong>：好！终于！等等，你就拿来一个扳手？可是你们有三个人哦。</p>
+<p><strong>水管工</strong>1：不这样的，先生！我还是在这里做个初始的Presentation，我一会就走了。但是，我还是会对项目的进度非常感兴趣的。我会打电话过来参加明天的 stand-up meeting。</p>
+<p><strong>水管工2</strong> ：另外，和你阐清一下，我们两个留下来的会分享同一把扳手，因为我们是结对水管工……</p>
+<p><strong>水管工3</strong>：……你能看到这会更有生产率，我们轮流使用这把扳手。并能保证很高的质量以及持续的工作激情！</p>
+<p><strong>事主</strong>：我没搞懂——你们以前应该就干过这个事了吗，不是吗？500美金的出场费还不能让你们有工作激情？</p>
+<p><strong>水管工1</strong>：你得想得长远一些，先生。你看，我们可以一起来经历整个过程。这是多么令人兴奋的事！我对此超级兴奋！</p>
+<p><strong>水管工</strong>2：哦，不。看看这个，这些是铜制的水管吗？有多少人在这住？</p>
+<p><strong>事主</strong>：什么？这个房子有5年了。就我和我太太在这里，但是你问这个是什么意思？</p>
+<p><strong>水管工3</strong>：嗯~~。我有些害怕，情况并没有那么简单！这些都是Legacy的水管，我们需要对它们做重构，而且，这些老的水管也无法适合我们新型的板手。重构看起来并不难……</p>
+<p><strong>水管工2</strong>：喔，我们可以使用新的在机场使用的防水层系统。另外，还有更多的工作需要花在一个大的O型环性能配置上， 但是这会让住在这里的数千人都到影响。我想，我们得做个迭代……</p>
+<p><strong>事主</strong>：什么？？！！</p>
+<p><strong>水管工1</strong>：先生，也许我们可以从你这做一些case study。我们可以为这里创新。让我们先安排一个游戏，这样我们可以进行一个头脑风暴。而最简单有可能做的事——先生，你有水桶吗？</p>
+<p><strong>事主</strong>：够了！你们给我滚出去！真是荒唐——很明显，你们根本不知道你们在做什么。给我滚出去！</p>
+<p><strong>水管工</strong>1：先生，我开始怀疑你根本没有一个Fackbook社交平台策略（Facebook Social Platform Strategy）用来做解决方案？</p>
+<p>————————————————</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li><li ><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/feedback_cycle-150x150.jpg" alt="[转]TDD到底美还是不美？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_title">[转]TDD到底美还是不美？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3778.html">敏捷水管工</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3778.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>再谈敏捷和ThoughtWorks中国咨询师</title>
+		<link>https://coolshell.cn/articles/3745.html</link>
+					<comments>https://coolshell.cn/articles/3745.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 24 Feb 2011 10:23:26 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[TDD]]></category>
+		<category><![CDATA[ThoughtWorks]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3745</guid>
+
+					<description><![CDATA[<p>前言说明 之所以用了“再”，是因为之前的两篇文章—— 我在《那些炒作过度的技术和概念》中批评了ThoughtWorks中国咨询师的咨询方法是以一种接近于教条、炒...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3745.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3745.html">再谈敏捷和ThoughtWorks中国咨询师</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<h4>前言说明</h4>
+<p>之所以用了“再”，是因为之前的两篇文章——</p>
+<ul>
+<li>我在《<a title="那些炒作过度的技术和概念" href="https://coolshell.cn/articles/3609.html">那些炒作过度的技术和概念</a>》中批评了ThoughtWorks中国咨询师的咨询方法是以一种接近于教条、炒作、洗脑和电视购物的方法（虽然我心底觉得有时候有时候更像传销），当然，批评是没有意义的，所以我也给了中国ThoughtWorks那些年轻的咨询师们一些我认为有建设性的建议。</li>
+</ul>
+<ul>
+<li>我在《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html">TDD并不是看上去的那么美</a>》一文中列举了一些在实际中使用TDD可能会出现的问题和难题，以此来告诉大家在使用TDD时需要注意的东西。就像是在《<a href="https://coolshell.cn/articles/16.html" target="_blank">结对编程的利与弊</a>》说的一样，只有真正知道一件事情的利弊，你才能用好它。</li>
+</ul>
+<p>当然，这两篇文章都不可避免得招来了ThoughtWorks咨询师和Agile信仰者们的很多回复，我也有开始沉不住气回复了很多，当然，有一半以上的不是学术上的讨论，而是对我个人的攻击。甚至，在这两篇文章发布后，酷壳（CoolShell.cn）受到<a href="https://coolshell.cn/articles/3686.html" target="_blank">持续性的黑客攻击</a>。</p>
+<p>本来已经过去的事，今天却又发现这两篇文章的访问量和评论又上来了，才发现原来是InfoQ的这篇文章——《<a href="http://www.infoq.com/cn/articles/virtual-panel-tdd" target="_blank">虚拟座谈会：TDD有多美？</a>》，加上很多我在评论中的观点，以及ThoughtWorks和InfoQ之前给我的来信中谈到的一些观点。我很不自然地想把我的一些观点总结并罗列在这里。主要分成四块—— 1）<strong>我对整个事情的基本观点</strong>，2）<strong>对于方法论的观点，3）对于TW中国咨询师的观点</strong>，4）<strong>还有和TW和InfoQ住来信件中的观点</strong><strong>。</strong></p>
+<p><strong>————————————————</strong></p>
+<h4>基本观点</h4>
+<p>首先，我想说明一下我的基本观点。</p>
+<p><span id="more-3745"></span></p>
+<p>一、<strong>真金不怕火炼</strong>。我就像大家一样，平时总是会或多或少的埋怨点什么。大街上有人随便做个事，你会和他较真吗？不会。这个事也一样，我就像大家茶余饭后批评房价和物价一样，你们没有必要那么较真，不值得这样小题大作（除非你们真的心虚了），如果你做得好的话，真金不怕火炼，我这点批评算得了什么。<strong>你们玩的是“敏捷”不是“敏感”</strong>。</p>
+<p>二、<strong>从正反面思考</strong>。我和大家一样，喜欢思考，喜欢从正面和反面一同思考问题，我有质疑的癖好，我希望大家都有这样的思考方式。注意，<strong>质疑的结果不是为了质疑而质疑，而是去寻找完整认识的一种方法</strong>。</p>
+<p>三、<strong>观点的自由</strong>。我不是一棍大打死一片的人，我不完全否定敏捷（我的那两篇文章都有一再说明过了），同时我也不会完全同意敏捷。我不会因为敏捷有不好的地方我一棍子打死，我同样不会因为敏捷的好处就大唱赞歌。任何事物都有好有坏，我寻求的是自由地发表我的观点。<strong>我反对观点的极端，但我追求观点的自由</strong>。</p>
+<p><strong>四、观点的不同。</strong>观点只有不同才会让人思路完整，观点只有不同才会迸发出火花，世界的进展正是因为有不同的观点。如果敏捷的咨询师和信仰者们不接受不同观点，不接受批评，那么你们将无法进步和发展，如果你们妄图让所有人都持认可敏捷的和谐观点，那么你们将会变得邪恶。<strong>没有批评，赞美也会变得没有意义</strong>。</p>
+<p><strong>————————————————</strong></p>
+<h4>对于敏捷方法论的观点</h4>
+<p>一、<strong>没有好的方法，只有适不适合的方法</strong>。正如没有好的设计，只有适不适合的设计一样。喜欢足球的朋友都知道，世界级的足球队中，巴西队玩的是个人艺术足球，德国队玩的是整体和纪律性足球，意大利玩的是防守型足球，但是他们都有夺世界杯冠军的实力，如果你硬要让巴西队去整意大利的风格，或是让德国整巴西的风格，那就悲剧了。<strong>敏捷是不会是适合所有人所有项目的，就像不是所有的人都有运动的天赋一样</strong>。</p>
+<p>二、<strong>软件开发的中心是人和项目，而不是方法</strong>。千万不要把方法放在中心，改变项目的性质和人的习惯去适应这个方法。正确的方法是，以人和项目为中心，了解项目中所有人的想法和做事的风格，以及项目的性质，从而决定采用什么样的方法。大家可以看看<a href="http://www.infoq.com/cn/articles/virtual-panel-tdd" target="_blank">InfoQ上那几个“专家”关于TDD的对话</a>，除了Google的测试经理外，其它人从到到尾谈的都是TDD方法，谈的都是如果要TDD，人应该怎么怎么样。<strong>这就是敏捷最大的问题——教条主义横行，以方法论为中心横行</strong>。我批判的就是这个！</p>
+<p>三、<strong>好的方法不是讲出来的，而是在实践中改善出来的</strong>。好的方法不用去讲出来的，而是从团队内部自发出来的。如果敏捷方法论很不错的话，那么应该会在现实中体现出来。<strong>真正好的方法是团队内部根据自身情况在不同的项目上使用的不同的方法</strong>。（注：请不要使用XUnit, Spring，ANT等程序框架举例，因为那些项目的用户是程序员）</p>
+<p>四，<strong>方法论不是一种理论</strong>。敏捷的鼓吹者说，TDD让你更关注设计，TDD更能了解需求。理论上，你可以把TDD拔到这样的高度，甚至更高的高度。可是具体实践上呢，你会发现在有压力的状态下你的程序员关注得更多的是测试过不过，在和用户沟通的时候，你会发现，根本没有一种好的方法论可以把需求完全搞清。如果TDD可以完全搞清需求，还要迭代干什么，直接waterfall了（其它关于TDD的观点请看我的文章《<a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html">TDD并不是看上去的那么美</a>》）理论和实际的差别的很大的。</p>
+<p><strong>————————————————</strong></p>
+<h4><strong>对于ThoughtWorks咨询师的批评观点</strong></h4>
+<p>对于 下面这些言论，我就不一一点名了，因为我觉得这和咨询师没有关系，这和TW中国公司的管理理念有关系。</p>
+<ul>
+<li>中国ThoughtWorks某些咨询师通常在加入公司很短的时间内（1-2年），基本上都以被冠以“高级咨询师”。1-2年能做几个项目？我以为能给人做咨询的人都是在技能上让人佩服的那种人。20出头还是埋头苦干，努力学习，积累经验的时候，经验都不够，就可以给人咨询。</li>
+</ul>
+<ul>
+<li>中国ThoughtWorks某些咨询师们，喜欢翻译国外的书，但从不自己写书，他们喜欢blog，他们的blog里都里大量的Agile的方法，而很少有对技术的见解，以及技术细节知识性的文章，在他们的blog中，你很难看见代码。</li>
+</ul>
+<ul>
+<li>中国ThoughtWorks的咨询师们，喜欢参加各种研讨会，以及各种论坛，媒体采访。看看<a href="http://www.infoq.com/cn/articles/sofware-outsourcing-eco-crisis-3" target="_blank">这篇文章</a>，空洞，空洞，还是空洞。</li>
+</ul>
+<ul>
+<li>中国ThoughtWorks某些咨询师们大多都比较敏感，都是坚定不移的敏捷信徒。你别说有不同观点了，你就问个有点疑问的问题，他们就敏感了，就要反驳或是教育你了。</li>
+</ul>
+<ul>
+<li>中国ThoughtWorks某些咨询师们大多都很能说，和他们在一起，你基本上说不上话，就算说得上，他们也不会听你的，而且在不停地说教。大多数时候，他们都有很多的神一般的理论，比如：“你这不是真正的敏捷，真正的敏捷不是这样的”，“TDD中的T，是什么测试都无所谓。它就是设计。”，“TDD更强调设计，而不是测试本身。所以，TDD并不适用于菜鸟程序员。”，“你是在用锤子拔钉子”，“敏捷不需要文档，代码不需要注释”，“能学会的人他不需要看这些文字，不能学会的人他看了也是白看”，“它不是对不对的问题，它是可笑的”，“要使用一种设计方法，你就必须（1）会做设计；（2）做设计。它难在有些项目不做设计，有些人不会做设计”……</li>
+</ul>
+<p>大家可以看看<a href="http://www.infoq.com/cn/articles/virtual-panel-tdd" target="_blank">InfoQ的这个针对本章文章的讨论</a>，注意熊节同学的观点，他是在谈TDD呢，还是在说我呢？可见他是带着目的来参加这个讨论会的。但是大家有多少人看明白了他在说什么？他除了敏感，除了那些“神一般的观点”，你真的实在不知道他在说什么，你是不是和我一样，对他的发言感到很空洞呢？（熊节同学可能以为InfoQ把我邀请去了，其实我没有去。大家可以去看看，<strong><span style="color: #ff0000;">那不是讨论，那是一群TDD的信徒们在自己炒作自己呢</span></strong>）</p>
+<p>我不厌其烦地再给咨询师们提那个建议——<strong>咨询师就像裁缝，不是只为设计时装的设计师，你们做的是量体裁衣的活儿。对于不同的身材，不同的体质，要用不同的财料和尺寸; 对于不同的性格，将会是不同的风格; 对于不同的场景，也将会是不同的服装，游泳和出席宴会是两种不同的服装。服装的好坏不是服装本身漂亮不漂亮，而是合不合身，搭配地好不好，适不适合相应的场景，着衣的人感觉到的是不是舒服</strong>。</p>
+<p>——————————————</p>
+<h4>关于ThoughtWorks和InfoQ给我的信</h4>
+<p>文章写得太长了，大家见笑了，也见谅！这是最后一段了。</p>
+<p>1） TW的王效珅在春节前和我有几次电子邮件的往。我觉得王效珅是个很出色的公关人员，她用硬朗来形容我，把我一下子形容老了几十岁。她希望和我做沟通，希望让我和TW的咨询师谈一谈，我没有答应，也没有拒绝。春节期间还给我打来了电话祝我春节快乐，真是太让我感动了。她尊称我老师，可是我并不买帐，因为我觉得我没有资格成为老师，我也建议她也不要随便叫人老师。下面，是我给她的回信中的观点。</p>
+<p>在谈到如何管理项目时，我这样回复她的</p>
+<blockquote><p>你可以理解成——你们就像是黄埔军校，西点军校出来的高材生，而我就则是一个天天在各种战场上摸爬滚打并被打得灰头土脸的土贼。我不相信流程和各种Best Practice，我只相信的是人。</p>
+<p>我最关心的是软件开发中的三件事，第一个是人，第二个还是人，第三个还是人。第一个人是实现项目的人，第二个是项目的所有人，第三个是项目外周边有关系的人。我不但关心他们的想法，他们的软/硬能力，我还更关心他们的风格，他们的性格，还有他们的成长经历。这样我才能在权衡项目中那些各种乱七八糟东西的时候，懂得怎么plan，怎么run，怎么communication，怎么manage 才会是真正有效的（效果+效率）。motivate和项目有关的每个人，这才是我心中的敏捷！（这其中是需要花大量的心血的，相当的影响寿命）</p></blockquote>
+<p>在谈到是否见面时，我是这样回复她的</p>
+<ul>
+<blockquote>
+<li>其一，在网上，不只是我的言论对TW有微辞，需要我们每一个人每一个公司树立一个好的心态就好了（网上骂我的也很多，我自以为我的心情还不错）。</li>
+<li>其二，如果做的好，那就经得住考验，经得住质疑，好的东西一定会有好的结果，有了结果，拿结果和事实说话，这是最好的方式。</li>
+<li>其三，你说的那位技术上的同事，据你说是对我很欣赏，也常看酷壳，那么以前应该交流过才对啊，不应该是我质疑了你们的时候。呵呵。</li>
+<li>其四，我绝对不是一棍子打死一片的人（我原文中也多次提过Agile中有一些提法是不错的），但是我也不是看到一个好的就大唱颂歌的人。</li>
+</blockquote>
+</ul>
+<p>2）关于InfoQ张凯峰主编的来信，原文如下：</p>
+<blockquote><p><span style="font-family: 微软雅黑; font-size: x-small;"><br />
+From: xxxxx@infoq.com<br />
+Date: Tue, 15 Feb 2011 20:24:27 +0800<br />
+Subject: 邀请参加TDD虚拟座谈会的讨论<br />
+To: haoel@hotmail.com<br />
+</span></p>
+<p>陈皓你好，</p>
+<p>我是InfoQ中文站的主编张凯峰。最近你的《TDD并不是看上去的那么美》一文引起的广泛的关注，我们想就此做一次虚拟的座谈会讨论，邀请你来参与一下关于TDD的讨论。邀请的专家还包括thoughtworks的咨询师，以及其他敏捷方面的专家。以给读者更加广泛的视角和分享。欢迎参加，谢谢。</p>
+<p>以下是问题，可以把每个问题的答案发回给我。截止时间是两天。任何问题，请与我沟通，谢谢。</p>
+<p>请介绍你自己，以及TDD的实践经验。<br />
+TDD跟Test是什么关系呢？TDD的T就是Unit Test吗？<br />
+你认为实施TDD需要怎样的前提条件？TDD难在哪儿？<br />
+TDD之于需求、设计、代码质量是怎样的关系和影响？<br />
+你认为实施TDD容易犯的错误是什么？TDD的不足在哪些方面？<br />
+一般开发者需要多久能掌握TDD呢？请向读者推荐一下TDD的学习资料吧。</p>
+<p>Thanks,</p>
+<p>&#8212;<br />
+张凯峰 | Kevin Zhang | InfoQ China Managing Editor<br />
+InfoQ China：http://www.infoq.com/cn</p></blockquote>
+<p>我的回复如下（我老婆 说我回复得太贫了，我接受！）</p>
+<blockquote><p><span style="font-family: 微软雅黑; font-size: x-small;">From: haoel@hotmail.com<br />
+To: xxxxx@infoq.com<br />
+Subject: RE: 邀请参加TDD虚拟座谈会的讨论<br />
+Date: Tue, 15 Feb 2011 21:45:51 +0800</span></p>
+<p>张凯峰主编，您好！</p>
+<p>谢谢你们关注我的文章，见笑了。</p>
+<p>你们真是很厉害，相当善于发掘热点新闻。果然是媒体的专业素质。;-)</p>
+<p>我的文章不应该有那么大的能量，一个根本没有推广的个人blog，随便发布一些自己的想法，不是自我炒作，自己的blog嘛，想啥说啥，就像大街上的阿猫阿狗一样随便发表点个人意见，不会有人在意的。哪能引得您们的关注。真是让我受宠若惊。</p>
+<p>另外，你问到的那些问题，绝大多数的答案都在我的那篇文章里了。如果你们想转载我的文章，转过去就是了，只要注明作者和出处就OK了。千万不要用于任何的商业目的和炒作，这样我会很不高兴的。</p>
+<p>所以，我还是谢绝这个讨论了。如果你真想找人讨论的话，执我这样观点的人并不在少数，Google一下，可以找到很多。尤其是国外的，有些作者和我一样，都是做了十几年的项目的，都是做大大小小也有20来个项目的，各种人，各种事，各种项目都经历过很多，找那些人岂不更好？</p>
+<p>P.S，您的邮件还真强势，在“谢谢”和“谢谢”中就直接让我回答这些问题，还只限两天时间。真是个大主编，让我学到了“谢谢”的另一种用法。谢谢！</p>
+<p>祝 工作顺利！<br />
+陈皓</p></blockquote>
+<p style="text-align: center;"><span style="font-size: 12pt;"><strong>我的观点就是我的观点，无论你同不同意，喜不喜欢，都是我的观点，</strong></span></p>
+<p style="text-align: center;"><strong><span style="font-size: 16px;">他就在那里，不卑不亢，不多不少</span></strong></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="敏捷水管工" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_title">敏捷水管工</a></li><li ><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/feedback_cycle-150x150.jpg" alt="[转]TDD到底美还是不美？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3766.html" class="wp_rp_title">[转]TDD到底美还是不美？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3745.html">再谈敏捷和ThoughtWorks中国咨询师</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3745.html/feed</wfw:commentRss>
+			<slash:comments>150</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>[转]TDD到底美还是不美？</title>
+		<link>https://coolshell.cn/articles/3766.html</link>
+					<comments>https://coolshell.cn/articles/3766.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 24 Feb 2011 07:41:24 +0000</pubDate>
+				<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[TDD]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3766</guid>
+
+					<description><![CDATA[<p>下面的文章转自Todd Wei 的《TDD到底美还是不美？》，对于这篇文章，我个人能过透过作者的观点感受到他的项目中使用TDD的难点，同样可以感受到作者内心的纠...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3766.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3766.html">[转]TDD到底美还是不美？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<div id="body_66167">
+<p><span id="quote_66167"> </span></p>
+<p><span style="font-size: 11pt;"><strong>下面的文章转自Todd Wei 的《<a href="http://www.cnblogs.com/weidagang2046/archive/2011/02/23/1963277.html" target="_blank">TDD到底美还是不美？</a>》，对于这篇文章，我个人能过透过作者的观点感受到他的项目中使用TDD的难点，同样可以感受到作者内心的纠结。不管怎么样，我能够感到作者Todd Wei在独立思考，独立思考总是好的，因为那是走向成熟的必要条件。(<span style="color: #800000;">另，大家可以移步过去看看相关的评论，挺有意思的</span>)</strong></span></p>
+<p>————————————————————————————————————</p>
+<p><span style="font-size: 10pt;">最近CoolShell上的一篇</span><a title="TDD并不是看上去的那么美" href="https://coolshell.cn/articles/3649.html"><span style="font-size: 10pt;">《TDD并不是看上去的那么美》</span></a><span style="font-size: 10pt;">引起了敏捷社区的高度关注和激励辩论。今天，InfoQ甚至专门举行了一个“虚拟座谈会”</span><a title="《TDD有多美》" href="http://www.infoq.com/cn/articles/virtual-panel-tdd"><span style="font-size: 10pt;">《TDD有多美？》</span></a><span style="font-size: 10pt;">，几位国内敏捷社区的名人专门就此问题展开了深入地讨论。不论结果如何，这个纯技术的探讨精神还是非常值得赞赏的。事件实际上可以简单地归纳为“一个有一定影响力的开发人员质疑TDD，一群敏捷社区名人对TDD进行解释和辩护”。现在，就让我坚定地站在CoolShell一边，为对TDD的质疑和批判添砖加瓦吧！</span></p>
+</div>
+<p><span style="font-size: 10pt;">TDD的核心理念是什么呢？第一是Specification by Example，即把测试用例作为表达需求的一种方式。传统的需求表达方式包括文档，Use Case等，而TDD强调通过测试用例来表达需求。另外，TDD的测试用例是黑盒的基于外部接口的，所以，它实际上又是对外部接口的设计。如何看待测试用例是TDD与传统测试的一个重要区别。“不把测试用例单纯地视为测试，而从需求和设计的角度来看测试用例”的理念本身是好的。另外，TDD的第二个理念是Test First，强调测试对于实现的驱动作用，先写测试用例，再实现和重构。在Specification by Example的理念下，Test First的实质是“先理解清楚需求，并做好外部接口设计，把它转化为测试用例，然后再来实现和重构”。 </span></p>
+<p><span style="font-size: 10pt;">我认为，Specification by Example是不错的，因为测试用例作具有精确性，容易自动化的优点，这是传统的文档和Use Case在表达需求时所欠缺的地方。但</span><strong>Test First理念本身则有很大的问题</strong>，尤其“在没有测试用例失败之前，不要写任何一行代码”的极端方式则更是极端的错误。<br />
+<span id="more-3766"></span></p>
+<p><span id="quote_66167" style="font-size: 10pt;">如果测试用例是需求和设计，那么为什么不能先写出测试用例（即理解清楚需求做好外部接口设计）再来实现呢？这不是我们最熟悉的先需求再设计再编码吗？答案是：</span><span id="quote_66167" style="font-size: 10pt;"><strong>不能执行的测试用例（Test First）和能执行的测试用例有着天壤之别</strong>。不能执行的测试用例和写在纸上的文档相比对实现的指导意义不见得能好到哪里去！除非是一些很简单的情况下，在实际的软件开发中，你很难在没有执行测试用例的情况下写出真正符合最终需求的测试用例来。比如：你做一个页面，页面的效果需求和设计通常会在真正可以运行之后不断调整。如果片面强调测试对实现的驱动作用，那么实际上隐含了“需求可以在实现之前固定下来”的假设，这是非常不敏捷的和不现实的！我认为要做到真正的敏捷必须承认<strong>“需求无法在用户真正能运行看到效果之前明确下来“</strong>。由此可见，Test First和瀑布式思想没有区别，都强调需求先于实现，而忽略了软件需求的产生是一个在实际运行中不断调整探索完善的过程。TDD无非是把需求分析的结果用测试用例表达，替代传统用文档表达需求，但从宏观上看，TDD和瀑布比是换汤不换药。除了简单情况，不存在脱离实现的需求，你能够在明确了需求之后就实现出一套linux系统吗？既然你根本无法实现一套linux系统，那么这样所谓的需求又有多大的意义呢？所以，能提出什么样的需求不能脱离你的实现能力。<strong>需求和实现之间不是简单的谁驱动谁，而是一种相互反馈的关系</strong>，这与需求用什么方式表达没有关系。到目前为主，我推崇的方式是快速实现，在实际运行中体验效果，不断优化探索和明确需求，当需求达到一个比较稳定的程度才编写测试用例将需求固化下来。</span></p>
+<div>
+<p><span id="quote_66167" style="font-size: 10pt;">上面的论述主要针对贴近用户的外部需求（如ATDD），下面我会进一步解释即使是在内部的单元测试级别TDD仍然有问题。我们还是首先从需求入手，思考一下单元的需求是哪里来的呢？答案是：需求来自于设计， 也就是说高层模块的内部设计产生了低层模块的需求。而这种内部设计具有很大的不稳定性，带有很多假设的成分，在没有进行集成测试的情况下，很难讲这种内部设计是否合理。实际项目开发通常会在集成运行之后不断调整内部的设计，即影响单元的需求。那么，如果是按测试驱动，首先按不成熟的内部设计把一个个单元需求编写成单元测试再来实现，实际上大大推迟了能进行集成测试的时间，  对于真正快速弄清需求稳定设计反而是不利的。假设最终还是所有单元都完成，然后开始运行集成或验收测试，这时候有两种可能：1.用户看到实际效果，决定调整需求；2.发现未集成前的很多假设不成立。不论是哪一种情况发生，以前所写的单元测试都面临着被废弃或必须修改的命运。实际上，多数与业务相关的单元测试用例比起集成或验收测试用例更加不稳定，因为它会受到所有其上层模块的需求和设计变动的影响。由于我们在不稳定的单元测试上浪费了大量的时间（按我的经验编写单元测试比编写实现更耗时），这就导致了迟迟无法进行集成看到实际效果，也没有办法敏捷地应对需求的调整。也就是说具有讽刺意味的，</span><span id="quote_66167" style="font-size: 10pt;"><strong>Test First理念居然是和敏捷理念矛盾的！</strong></span></p>
+<p>所以，我认为TDD的理念Specification by Example没错，但Test   First即“在实现之前把需求和外部接口设计转化成测试用例”的理念错了。真正符合实际开发情况的理念是“需求是在实际运行过程中根据效果不断探索调整得来的，不可能脱离实际运行写出真正符合最终需求的测试用例来”。所以，<strong>我们真正应该做的是尽快看到实际运行的效果</strong>，而测试作为固化的需求和设计是在看到效果之后。<strong>过度的TDD只会导致迟迟看不到实际运行效果，看到效果需要调整需求又会废掉或改掉一大堆的测试用例。</strong>实际上，越是外部的需求其变更带来的影响和代价越大，越是需要尽早明确。从宏观上看，<strong>TDD所谓的快速反馈实际上是加快内部反馈，延迟了外部反馈，这无异于本末倒置</strong>。而大量需要修改或作废的测试用例其实是一种很大的浪费，这和消除浪费的精益思想也是矛盾的！</p>
+<div>
+<p><span id="quote_66167"> </span></p>
+<div><img decoding="async" loading="lazy" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/feedback_cycle.jpg" border="0" alt="" width="564" height="436" /></div>
+</div>
+</div>
+<p><span id="quote_66167" style="font-size: 10pt;">上面这幅cost/length_of_feedback_cycle图是我们常见的用于说明敏捷方法比传统方法具有更短的反馈周期，更小代价的应对变化。从图中我们可以清晰的看到在验收测试中发现的需求错误导致的代价是最高的。如果验收测试往后推迟一点，发现错误的代价将按非线性地增长。上面我们已经论述了，任何方法都不可能消除验收测试后对需求的调整，因为这是需求产生的正常过程。我们唯一可以做的是尽可能地缩短验收测试的反馈周期，但是很不幸TDD大量的内部测试只会导致推迟验收测试的时间，从而大大增加代价。<br />
+</span></p>
+<div>
+<div><span style="font-size: 10pt;">下面这段话来自于InfoQ文章</span><a title="《Mock不是测试的银弹》" href="http://www.infoq.com/cn/articles/thoughtworks-practice-partvi"><span style="font-size: 10pt;">《Mock不是测试的银弹》</span></a><span style="font-size: 10pt;">：“在使用JMock框架后测试编写起来更容易，运行速度更快，也更稳定，然而出乎意料的是产品质量并没有如我们所预期的随着不断添加  的测试而变得愈加健壮，虽然产品代码的单元测试覆盖率超过了80%，然而在发布前进行全面测试时，常常发现严重的功能缺陷而不得不一轮轮的修复缺陷、回归  测试。为什么编写了大量的测试还会频繁出现这些问题呢？ ”这描述的情况和我在实践中遇到的情况类似，不过很可惜文章并没有找到问题真正的原因。真正的原因不是什么Mock不Mock，而是TDD的单元测试是基于开发人员的假设，这些假设的测试即使全部通过代码覆盖率100%，到了集成测试发现假设根本不成立又怎能保证高质量？</span></div>
+</div>
+<p><span id="quote_66167" style="font-size: 10pt;">当然，我不是全盘否定TDD。TDD在某些需求特别固定的场合是适用的，尤其是与具体业务关系不大的需求，比如：写一个通用的数据结构，实现一个通用算法。TDD的先关注需求和思考外部接口设计的理念也对促进开发人员的抽象思维有很大益处。另外，TDD通常也具有较高的代码覆盖率。本文的主要观点在于：实际项目中，不要期望可以在实现之前完全明确需求，需求是在实际运行看到效果之后才逐步明确的；我们的开发过程必须能够敏捷地适应需求的变化，而TDD的Test First理念恰好与之矛盾。所以，对于TDD不了解的朋友，我建议应该学习和实践TDD，从而获得其益处；同时我也提醒TDD存在理论上的缺陷，这是在实践中需要特别留意的。</span></p>
+<p><span style="font-size: 10pt;">(全文完)</span><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="敏捷水管工" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_title">敏捷水管工</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3766.html">[转]TDD到底美还是不美？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3766.html/feed</wfw:commentRss>
+			<slash:comments>34</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>TDD并不是看上去的那么美</title>
+		<link>https://coolshell.cn/articles/3649.html</link>
+					<comments>https://coolshell.cn/articles/3649.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 12 Feb 2011 00:48:16 +0000</pubDate>
+				<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[agile]]></category>
+		<category><![CDATA[TDD]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3649</guid>
+
+					<description><![CDATA[<p>春节前的一篇那些炒作过度的技术和概念中对敏捷和中国ThoughtWorks的微辞引发了很多争议，也惊动了中国ThoughtWorks公司给我发来了邮件想来找我当...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3649.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3649.html">TDD并不是看上去的那么美</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>春节前的一篇<a title="那些炒作过度的技术和概念" href="https://coolshell.cn/articles/3609.html">那些炒作过度的技术和概念</a>中对敏捷和中国ThoughtWorks的微辞引发了很多争议，也惊动了中国ThoughtWorks公司给我发来了邮件想来找我当面聊聊。对于Agile的Fans们，意料之中地也对我进行了很多质疑和批评。我也回复了许多评论。不过，我的那些回复都是关于中国ThoughtWorks咨询师以及其咨询的方法的。我对Agile方法论中的具体内容评价的不是很多，所以，我想不妨讨论一下Agile方法论中的具体的实践（以前本站也讨论过<a href="https://coolshell.cn/articles/16.html" target="_blank">结对编程的利与弊</a>）。</p>
+<p>那么，这次就说说TDD吧，这是ThoughtWorks中国和Agile的Fans们最喜欢的东西了。我在<a href="https://coolshell.cn/articles/3609.html" target="_blank">原来的那篇文章</a>中，我把TDD从过度炒作的技术剔除了出去，因为我还是觉得TDD有些道理的，不过，回顾我的经验，我也并不是很喜欢TDD。我这篇文章是想告诉大家，<strong>TDD并没有看上去的那么美，而且非常难以掌控，并且，这个方法是有悖论之处的</strong>。</p>
+<h4>TDD简介</h4>
+<p><a href="http://en.wikipedia.org/wiki/Test-driven_development" target="_blank">TDD</a>全称Test Driven Development，是一种软件开发的流程，其由敏捷的“<a href="http://en.wikipedia.org/wiki/Extreme_programming" target="_blank">极限编程</a>”引入。其开发过程是从功能需求的test case开始，先添加一个test case，然后运行所有的test case看看有没有问题，再实现test case所要测试的功能，然后再运行test case，查看是否有case失败，然后重构代码，再重复以上步骤。其理念主要是确保两件事：</p>
+<ul>
+<li>确保所有的需求都能被照顾到。</li>
+<li>在代码不断增加和重构的过程中，可以检查所有的功能是否正确。</li>
+</ul>
+<p>我不否认TDD的一些有用的地方，如果我们以Test Case 开始，那么，我们就可以立刻知道我们的代码运行的情况是什么样的，这样可以让我们更早地得到我们实现思路的反馈，于是我们更会有信心去重构，去重新设计，从而可以让我们的代码更为正确。</p>
+<p>不过，我想提醒的是，<strong>TDD和Unit Test是两码子事儿</strong>。有很多人可能混淆了自动化的Unit Test（如：XUnit系例）和TDD的软件开发过程。另外，可能还会有人向鼓吹“<strong>TDD让你进行自顶向下的设计方式</strong>”，对此，请参阅本站的《<a href="https://coolshell.cn/articles/1654.html" target="_blank">Richard Feynman, 挑战者号, 软件工程</a>》——NASA的挑战者号告诉你自顶向下设计的危险性。</p>
+<h4>TDD的困难之处</h4>
+<p>下面是几个我认为TDD不容易掌控的地方，甚至就有些不可能（如果有某某TDD的Fans或是ThoughtWorks的咨询师和你鼓吹TDD，你可以问问他们下面这些问题）</p>
+<ul>
+<li><strong>测试范围的确定</strong>。TDD开发流程，一般是先写Test Case。Test Case有很多种，有Functional的，有Unit的，有Integration的……，最难的是Test Case要写成什么样的程度呢。<br />
+<span id="more-3649"></span></p>
+<p style="padding-left: 30px;">
+<ul>
+<li style="text-align: left;">如果写的太过High Level，那么，当你的Test Case 失败的时候，你不知道哪里出问题了，你得要花很多精力去debug代码。而我们希望的是其能够告诉我是哪个模块出的问题。只有High Level的Test Case，岂不就是Waterfall中的Test环节?</li>
+<li style="text-align: left;">如果写的太过Low Level，那么，带来的问题是，你需要花两倍的时间来维护你的代码，一份给test case，一份给实现的功能代码。</li>
+<li style="text-align: left;">另外，如果写得太Low Level，根据Agile的迭代开发来说，你的需求是易变的，很多时候，我们的需求都是开发人员自己做的Assumption。所以，你把Test Case 写得越细，将来，一旦需求或Assumption发生变化，你的维护成本也是成级数增加的。</li>
+<li style="text-align: left;">当然，如果我把一个功能或模块实现好了，我当然知道Test 的Scope在哪里，我也知道我的Test Case需要写成什么样的程度。但是，<strong>TDD的悖论就在于，你在实现之前先把Test Case就写出来，所以，你怎么能保证你一开始的Test Case是适合于你后面的代码的</strong>？不要忘了，程序员也是在开发的过程中逐渐了解需求和系统的。如果边实现边调整Test Case，为什么不在实现完后再写Test Case呢？如果是这样的话，那就不是TDD了。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><strong>关注测试而不是设计</strong>。这可能是TDD的一个弊端，就像《<a title="十条不错的编程观点" href="https://coolshell.cn/articles/2424.html">十条不错的编程观点</a>》中所说的一样——“Unit Test won&#8217;t help you write the good code”，在实际的操作过程中，我看到很多程序员为了赶工或是应付工作，<strong>导致其写的代码是为了满足测试的，而忽略了代码质量和实际需求</strong>。有时候，当我们重构代码或是fix bug的时候，甚至导致程序员认为只要所有的Test Case都通过了，代码就是正确的。当然，TDD的粉丝们一定会有下面的辩解：
+<p style="padding-left: 30px;">
+<ul>
+<li>可以通过结对编程来保证代码质量。</li>
+<li>代码一开始就是需要满足功能正确，后面才是重构和调优，而TDD正好让你的重构和优化不会以牺牲功能为代价。</li>
+</ul>
+</li>
+</ul>
+<p style="padding-left: 30px;">说的没错，但仅在理论上。操作起来可能会并不会得到期望的结果。1）“结对编程”其并不能保证结对的两个人都不会以满足测试为目的，因为重构或是优化的过程中，一旦程序员看到N多的test cases 都failed了，人是会紧张的，你会不自然地去fix你的代码以让所有的test case都通过。2）另外，我不知道大家怎么编程，我一般的做法是从大局思考一下各种可行的实现方案，对于一些难点需要实际地去编程试试，最后权衡比较，挑选一个最好的方案去实现。而往往着急着去实现某一功能，通常在会导致的是返工，而后面的重构基本上因为前期考虑不足和成为了重写。所以，在实际操作过程中，你会发现，很多时候的重构通常意味着重写，因为那些&#8221;非功能性&#8221;的需求，你不得不re-design。而re-design往往意味着，你要重写很多Low-Level的Test Cases，搞得你只敢写High Level的Test Case。</p>
+<p style="padding-left: 30px;">
+<ul>
+<li><strong>TDD导致大量的Mock和Stub</strong>。相信我，Test Case并不一定是那么容易的。比如，和其它团队或是系统的接口的对接，或是对实现还不是很清楚的模块，等等。于是你需要在你的代码中做很多的Mock和Stub，甚至fake一些函数来做模拟，很明显，你需要作大量的 assumption。于是，你发现管理和维护这些Mock和Stub也成了一种负担，最要命的是，那不是真正的集成测试，你的Test Case中的Mock很可能是错的，你需要重写他们。</li>
+</ul>
+<p style="padding-left: 30px;">也许，你会说，就算是不用TDD，在正常的开发过程中，我们的确需要使用Mock和Stub。没错！的确是这样的，不过，记住，我们是在实现代码后来决定什么地方放一个Mock或Stub，而不是在代码实现前干这个事的。</p>
+<ul>
+<li><strong>Test Case并没有想像中的那么简单</strong>。和Waterfall一样，Waterfall的每一个环节都依赖于前面那个环节的正确性，如果我们没有正确的理解需求，那么对于TDD，Test Case和我们的Code都会的错的。所以，TDD中，Test Case是开发中最重要的环节，Test Case的质量的问题会直接导致软件开发的正确和效率。<strong>而TW的咨询师和Agile的Fans们似乎天生就认为，TDD比Waterfall更能准确地了解需求。如果真是这样，用TDD进行需求分析，后面直接Waterfall就OK了</strong>。</li>
+</ul>
+<p style="padding-left: 30px;">另外，某些Test Case并不一定那么好写，你可能80%的编程时间需要花在某个Test Case的设计和实现上（比如：测试并发），然后，需求一变，你又得重写Test Case。有时候，你会发现写Test Case其实和做实际设计没有差别，你同样要考虑你Test Case的正确性，扩展性，易读性，易维护性，甚至重用性。<strong>如果说我们开发的Test Case是用来保证我们代码实现的正确性，那么，谁又来保证我们的Test Case的正确性呢</strong>？编写Test Case也需要结对或是Code review吗？软件开发有点像长跑，如果把能量花在了前半程，后半程在发力就能难了。</p>
+<p>也许，TDD真是过度炒作的，不过，我还真是见过使用TDD开发的不错的项目，只不过那个项目比较简单了。更多的情况下，我看到的是教条式的生硬的TDD，所以，不奇怪地听到了程序员们的抱怨——“自从用了TDD，工作量更大了”。当然，这也不能怪他们，TDD本来就是很难把控的方法。这里送给软件开发管理者们一句话——“<strong>当你的软件开发出现问题的时候，就像bug-fix一样，首要的事是找到root cause，然后再case by case的解决，千万不要因为有问题就要马上换一种新的开发方法</strong>”。相信我，大多数的问题是人和管理者的问题，不是方法的问题。</p>
+<p>（<strong>全文完，转载请注明作者和出处，请勿用于商业用途</strong>）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/fight-150x150.jpg" alt="“单元测试要做多细？”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8209.html" class="wp_rp_title">“单元测试要做多细？”</a></li><li ><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="Test-Driven Development？别逗了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5531.html" class="wp_rp_title">Test-Driven Development？别逗了</a></li><li ><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="在新浪微博上关于敏捷的一些讨论" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5143.html" class="wp_rp_title">在新浪微博上关于敏捷的一些讨论</a></li><li ><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Bob大叔和Jim Coplien对TDD的论战" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4891.html" class="wp_rp_title">Bob大叔和Jim Coplien对TDD的论战</a></li><li ><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="敏捷水管工" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3778.html" class="wp_rp_title">敏捷水管工</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3649.html">TDD并不是看上去的那么美</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3649.html/feed</wfw:commentRss>
+			<slash:comments>102</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

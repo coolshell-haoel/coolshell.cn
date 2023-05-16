@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Alan Cox | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/alan-cox/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 08 Jul 2013 07:42:27 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Alan Cox：大教堂、市集与市议会</title>
+		<link>https://coolshell.cn/articles/9917.html</link>
+					<comments>https://coolshell.cn/articles/9917.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Mon, 08 Jul 2013 07:42:27 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Alan Cox]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9917</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 在网上搜到的Cox大叔于1998年在开源社区写的一篇文章，当时很轰动，明眼人一看就知道是针对ESR那篇《大教堂与市集》，从...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9917.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9917.html">Alan Cox：大教堂、市集与市议会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>在网上搜到的Cox大叔于1998年在开源社区写的一篇文章，当时很轰动，明眼人一看就知道是针对ESR那篇《大教堂与市集》，从中可见Alan在项目管理风格上乃至个人性格上都与ESR、Linus等人不同之处。顺便说一句，Alan现在出于“家庭原因”已经离开了Linux项目，他曾经评价Linus是<a href="http://apolyton.net/showthread.php/130212-Linus-Torvalds-is-a-terrible-engineer-Alan-Cox" target="_blank">a good developer but a terrible engineer</a>，甚至在Google+上直接说Linus就是一a*sh**e。不管如何，两位曾经十余年里并肩战斗惺惺相惜的大牛就此分道扬镳还是惹人唏嘘。</p>
+<p>言归正传，以下为slashdot收录的英文原文：<a href="http://news.slashdot.org/story/98/10/13/1423253/featurecathedrals-bazaars-and-the-town-council" target="_blank">Cathedrals, Bazaars and the Town Council</a>。</p>
+<p>以下是一些我对市集模式的想法，我认为这值得分享，这种模式会教你如何完全毁掉一个自由软件项目。我还举了一个我称之为“市议会”(Town Council)效应的实例（虽然那些市议员们可不这么认为，注：此处指Linux项目开发者）。</p>
+<p>关于软件开发人员，你必须去了解一些情况。首先要了解的是真正优秀的程序员相对来说并不普遍，不仅如此，在很多其它专业领域里“真正的程序员”和一些捣乱的家伙之间的区别要比“伟大”和“普通”之间的区别要大得多，研究表明生产效率上最好的同其余的比重是30:1。</p>
+<p>其次，你需要了解的是一大堆妄想型码农(wannabe programmer)总是善于发表意见。其中很多人患上了一种叫做“流行性热词”(buzzword)疾病，或者对他们“非黑即白”(one true path)的思考方式有着特殊的偏执，网上很多讨论都是廉价的。</p>
+<p><span id="more-9917"></span></p>
+<p>第三个关于软件项目的事情就是我们所谓的“闲杂人员”(the masses)。他们不是编程人员，而在其它方面有着大量贡献——文档编辑、用户支持，以及对那类经常争论你应该获得许可证才能上网的人的说服工作。</p>
+<p>我想以Linux 8086（注，Intel设计的16位处理器架构）为例来说明如何将整个工程全部搞砸。将Linux的一个子集移植到8086上大体是这世上最无聊的活动之一。整件事的发起就像个笑话并走向失控。</p>
+<p>只有极少数真正的程序员会将时间及其良好的精神状态（或许那是假的）花费在那些唯一价值在于“黑客精神”(Hack Value)的项目上，故而在任何时候那种项目也就两三个核心贡献人员而已。</p>
+<p>不幸的是大批人认为将Linux运行在8086上是干净的，为此义不容辞地想要“入伙”。这类人大多属于妄想型码农之流，以至于连闲杂人员在一个安全距离之外都会沾染上这个项目的“愚蠢”因子。</p>
+<p>问题的导火索在于一大批充满（大多善意的）危险的一知半解的人们的意识观念——不是代码，而是意识观念。他们似乎很懂得如何去编程，但很多人连“Hello World”这样的C程序都不会。他们花了几星期时间去争论并投票该使用什么编译器，甚至在项目开展一年后还在争论是否去写个充分完美的编译器。他们热衷于辩论如何生成大量二进制文件，却又对内核swapper（注，即idle task）设计一无所知。</p>
+<p>Linux 8086项目仍然进行着，真正的开发人员将邮件列表里许多其他成员加入到清除文件(kill files)中，以便他们之间可以顺畅地通过邮件列表沟通，只因半吊子打酱油的家伙实在太多了。这一切不再是市集模式，而是形成了一个核心小组，对圈子里许多人而言这是一种礼貌用语。在这种情形下人们不可避免地处于被动位置。</p>
+<p>像Linux这种基于用户/程序员的项目成长缓慢，虽然它是靠着一群贡献代码的人得以成长起来，但这些人的背景要么是从原始的Minix（注，一种微内核操作系统）黑客社区起家，要么通过艰难的方式不断从头学起。随着项目增长，人们本应该形成一个“Linux内核结构规划管理委员会”，而不是掉入将人们招来唤去，不将失败视为问题的怪圈，用Linus的话来说就是“给我看源码”。</p>
+<p>如果有人陷入困境，他可以发帖询问，在这之前包括现在很大程度上都基于人们正常地拥有时间并具备知识来回复他。在Linux 8086的案例中，开发人员很长一段时间身陷囹圄。假使主动活跃的程序员对只有潜在用处的妄想型码农的比例更高一点的话，我们就可以将一些杂音转化成生产力。项目也就获得更多有用的程序员，他们可以轮流向他人传授经验，任何学习活动都会让你变得更好，哪怕只有一些少量实习生。</p>
+<p>一些人会认为你无法将那些“次要程序员”(lesser programmer)训练成真正的程序员。就Linux项目的个人经验而言，很多人员只要获得一丁点儿的帮助和自信鼓励都将成为世界上最好的开发人员之一。只要帮助和鼓励足够多，很多人就能成功。</p>
+<p>Linux 8086总算大部分从“侵扰”中恢复过来，可至今仍是个不起眼的小项目。你可以从CVS目录树上下载这个由Alistair Riddich领导的项目，他做了很多优秀的工作。随着市议员的撤出，人们可以询问、参与并改善这个项目。</p>
+<p>我们从这个项目，还有其它相同命运的早期Linux 16位处理器项目（有的已死）中很清楚地学到以下几点教训。</p>
+<ul>
+<li>从项目一开始就发布源代码。哪怕不是很有用也无关紧要，将市议会排序分类的最好方式就是发布源代码并告知人们。Linux、KDE以及GNOME都遵循这种方式并获益良多。你可以花一辈子时间去争论怎样写代码才是正确的。只要代码公布，人们（不管水平怎样）都会把玩它。</li>
+</ul>
+<ul>
+<li>要欣赏那些给一点帮助就会对项目做出巨大贡献的人。如果他们最初的补丁有错误，不要盛气凌人，向其解释问题出在哪里并给出解决方案的建议，或者可以查询解决方法的地方。解答真正的问题，帮助别人，你所花费的一分一秒都会成十倍地回报在项目上，对社会也会带来无法估量的好处。[注]</li>
+</ul>
+<ul>
+<li>不要忘记那些非开发人员。我难过地发现许多人问起“前5名最重要的内核成员”时却极少涉及在所有人中最重要的一些——他们负责维护网站，更新日志和邮件列表，还有编辑文档，这些都是同等重要。<br />
+Linus那句“给我看源代码”对真正的项目来说是个狭隘的视角。当你听到人们说“我很想帮忙，可我不会编程”，那么他可以从事文档编写。当人们说“但英语不是我的第一语言”，这时你需要的是一位文档编辑或另一门语言翻译者。</li>
+</ul>
+<ul>
+<li>尝试将有用的人从杂音中分离出来，将有意愿帮忙的人从一大堆无聊评论中分离出来是很难的。在Linux 8086项目中我的确错误地放弃了这一目标，如何将那些只会空谈而又无所事事的人弄走是一门学问。</li>
+</ul>
+<p>下次碰到人们在项目上投票，或者问题讨论了一个月才实现这类情况，给予他们警告。这样才能使人正确地解决问题。在你看来如果一些稀奇古怪的事务不顾一切地运行着，要求他们给你发个补丁，只要能够生效的话。</p>
+<p>小心地说“我们应该怎样”之类的话，对“我该如何做”这样的人伸出援手。</p>
+<p>Alan</p>
+<p>[注]这段话举个例子说明一下。Linux IPv6源码作者以前在葡萄牙上网聊天，只会简单讨论和问一些基本问题。我们助其弄明白一些内核原理之后，他写了大约75%的IPv6协议栈代码，他最近受聘于美国思科公司。</p>
+<p>附录一：一篇针对本文的<a href="http://tech.groups.yahoo.com/group/java-os-project/message/2358?var=1&amp;p=1" target="_blank">吐槽贴</a></p>
+<p>附录二：2009年Cox回复Torvalds的<a href="https://lkml.org/lkml/2009/7/28/375" target="_blank">邮件</a>，事情起因是Cox的一个tty patch导致<a href="https://lkml.org/lkml/2009/7/11/125" target="_blank">kdesu(KDE project&#8217;s su utility)</a>程序无法工作，该问题争论长达两个星期，此后Alan离开了Linux项目投奔Intel。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/1278.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="Linus Torvalds 语录 Top 10" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1278.html" class="wp_rp_title">Linus Torvalds 语录 Top 10</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9917.html">Alan Cox：大教堂、市集与市议会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9917.html/feed</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Alan Cox：单向链表中prev指针的妙用</title>
+		<link>https://coolshell.cn/articles/9859.html</link>
+					<comments>https://coolshell.cn/articles/9859.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Sun, 30 Jun 2013 04:27:04 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[Alan Cox]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[network]]></category>
+		<category><![CDATA[TCP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9859</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 之前发过一篇二级指针操作单向链表的例子，显示了C语言指针的灵活性，这次再探讨一个指针操作链表的例子，而且是一种完全不同的用...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9859.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9859.html">Alan Cox：单向链表中prev指针的妙用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><figure id="attachment_9906" aria-describedby="caption-attachment-9906" style="width: 200px" class="wp-caption alignright"><img decoding="async" loading="lazy" class="size-medium wp-image-9906" title="Alan Cox" alt="Alan Cox" src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-200x300.jpg" width="200" height="300" srcset="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-200x300.jpg 200w, https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-180x270.jpg 180w, https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox.jpg 667w" sizes="(max-width: 200px) 100vw, 200px" /><figcaption id="caption-attachment-9906" class="wp-caption-text">Alan Cox</figcaption></figure></p>
+<p><span style="color: #cc0000;"><strong> （感谢网友 </strong></span><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><span style="color: #cc0000;"><strong> 投稿）</strong></span></p>
+<p>之前发过一篇<a href="https://coolshell.cn/articles/8990.html" target="_blank">二级指针操作单向链表</a>的例子，显示了C语言指针的灵活性，这次再探讨一个指针操作链表的例子，而且是一种完全不同的用法。</p>
+<p>这个例子是linux-1.2.13网络协议栈里的，关于链表遍历&#038;数据拷贝的一处实现。源文件是/net/inet/dev.c，你可以从<a href="https://www.kernel.org/pub/linux/kernel/v1.2/" target="_blank">kernel.org</a>官网上下载。</p>
+<p>从最早的0.96c版本开始，linux网络部分一直采取TCP/IP协议族实现，这是最为广泛应用的网络协议，整个架构就是经典的OSI七层模型的描述，其中dev.c是属于链路层实现。从功能上看，其位于网络设备驱动程序和网络层协议实现模块之间，作为二者之间的数据包传输通道，一种接口模块而存在——对驱动层的接口函数netif_rx, 以及对网络层的接口函数net_bh。前者提供给驱动模块的中断例程调用，用于链路数据帧的封装；后者作为驱动中断例程<strong>底半部(buttom half)</strong>，用于对数据帧的解析处理并向上层传送。</p>
+<p>为了便于理解，这里补充一下网络通信原理和linux驱动中断机制的背景知识。从最底层的物理层说起，当主机和路由器相互之间进行通信的时候，在物理介质上（同轴、光纤等）以电平信号进行传输。主机或路由器的<strong>硬件接口（网卡）</strong>负责收发这些信号，当信号发送到接口，再由内置的<strong>调制解调器(modem)</strong>将数字信号转换成二进制码，这样才能驻留在主机的硬件缓存中。这时接口（网卡）设备驱动程序将通过<strong>硬中断</strong>来获取硬件缓存中的数据，驱动程序是操作系统中负责直接同硬件设备打交道的模块，硬中断的触发是初始化时通过设置控制寄存器实现的，用于通知驱动程序硬件缓存中有新的数据到来。linux卡设备驱动就是在<strong>中断处理例程(ISR)</strong>中将硬件缓存数据拷贝到内核缓存中，打包成数据链路帧进行解析处理，再向上分发到各种协议层。由于ISR上下文是原子性的、中断屏蔽的，整个步骤又较为繁琐，因此全部放在ISR中处理会影响到其它中断响应实时性，于是linux有实现一种bottom half的<strong>软中断</strong>处理机制，将整个ISR一分为二，前半部上下文屏蔽所有中断，专门处理紧急的、实时性强的事务，如拷贝硬件缓存并打包封装，后半部上下文没有屏蔽中断（但代码不可重入），用于处理比较耗时且非紧急事务，包括数据帧的解析处理和分发。下面要讲的net_bh就属于后半部。</p>
+<p>我们主要关心的是将链路帧分发到协议层那一段逻辑，下面摘自net_bh函数中的一段代码：</p>
+<p><span id="more-9859"></span></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">526 void net_bh(void *tmp)
+527 {
+       ...
+577
+578    /*
+579    * We got a packet ID.  Now loop over the &quot;known protocols&quot;
+580    * table (which is actually a linked list, but this will
+581    * change soon if I get my way- FvK), and forward the packet
+582    * to anyone who wants it.
+583    *
+584    * [FvK didn&#039;t get his way but he is right this ought to be
+585    * hashed so we typically get a single hit. The speed cost
+586    * here is minimal but no doubt adds up at the 4,000+ pkts/second
+587    * rate we can hit flat out]
+588    */
+589   pt_prev = NULL;
+590   for (ptype = ptype_base; ptype != NULL; ptype = ptype-&gt;next)
+591   {
+592    if ((ptype-&gt;type == type || ptype-&gt;type == htons(ETH_P_ALL)) &amp;&amp; (!ptype-&gt;dev || ptype-&gt;dev==skb-&gt;dev))
+593    {
+594      /*
+595      * We already have a match queued. Deliver
+596      * to it and then remember the new match
+597      */
+598      if(pt_prev)
+599      {
+600        struct sk_buff *skb2;
+601        skb2=skb_clone(skb, GFP_ATOMIC);
+602        /*
+603        * Kick the protocol handler. This should be fast
+604        * and efficient code.
+605        */
+606        if(skb2)
+607          pt_prev-&gt;func(skb2, skb-&gt;dev, pt_prev);
+608      }
+609      /* Remember the current last to do */
+610      pt_prev=ptype;
+611    }
+612   } /* End of protocol list loop */
+613   /*
+614   * Is there a last item to send to ?
+615   */
+616   if(pt_prev)
+617     pt_prev-&gt;func(skb, skb-&gt;dev, pt_prev);
+618   /*
+619    *  Has an unknown packet has been received ?
+620    */
+621   else
+622     kfree_skb(skb, FREE_WRITE);
+623
+      ...
+640 }</pre>
+<p>在此稍稍解说一下数据结构，skb就是内核缓存中sock数据封装，协议栈里从链路层到传输层都会用到，只不过封装格式不同，主要是对<strong>协议首部(header)</strong>的由下而上层层剥离（反之由上而下是层层创建），在此你只需理解为一个链路数据帧即可。这段代码的逻辑是解析skb中的协议字段，从协议类型链表（由ptype_base维护）中查询对应的协议节点进行函数指针func回调，以便将数据帧分发到相应的协议层（如ARP、IP、8022、8023等）。</p>
+<p>第一眼看上去是不是有点奇怪？这段代码竟然用一个pt_prev指针去维护ptype链表中前一个节点，从而产生了额外的条件分支判断，咋一看是否多了很多“余”了？回顾一下那篇<a href="https://coolshell.cn/articles/8990.html" target="_blank">二级指针操作单向链表</a>的博文，简直完全是反其道而行之的。如果把pt_prev去掉，代码可以精简为：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">  for (ptype = ptype_base; ptype != NULL; ptype = ptype-&gt;next)
+  {
+    if ((ptype-&gt;type == type || ptype-&gt;type == htons(ETH_P_ALL)) &amp;&amp; (!ptype-&gt;dev || ptype-&gt;dev==skb-&gt;dev))
+    {
+        /*
+        * We already have a match queued. Deliver
+        * to it and then remember the new match
+        */
+        struct sk_buff *skb2;
+        skb2=skb_clone(skb, GFP_ATOMIC);
+        /*
+        * Kick the protocol handler. This should be fast
+        * and efficient code.
+        */
+        if(skb2)
+            pt_prev-&gt;func(skb2, skb-&gt;dev, pt_prev);
+    }
+} /* End of protocol list loop */
+
+kfree_skb(skb, FREE_WRITE);</pre>
+<p>咋看一下“干净”了很多，不是吗？但我们要记住一点，凡是网上发布的linux内核源代码，都是都是经过众多黑客高手们重重检视并验证过的，人家这么写肯定有十分充足的理由，所以不要太过于相信自己的直觉了，让我们再好好review一下代码吧！看看这段循环里做了什么事情？特别是第592~611行。</p>
+<p>由于从网络上拷贝过来skb是唯一的，而分发的协议对象可能是多个，所以在回调之前要做一次clone动作（注意这里是深度拷贝，相当于一次kmalloc）。分发之后还需要调用kfree_skb释放掉原始skb数据块，它的历史使命到此完成了，没有保留的必要（第622行）。<strong>注意，这两个动作都是存在内核开销的。</strong></p>
+<p>然而这里为啥要pt_prev维护一个后向节点呢？这是有深意的，它的作用就是将当前匹配协议项的回调操作延时了。举个例子，如果链表遍历中找到某个匹配项，当前循环仅仅用pt_prev去记录这个匹配项，除此之外不做任何事情，待到下一次匹配项找到时，才去做上一个匹配项pt_prev的回调操作，直到循环结束，才会去做最后的匹配项的回调（当然pt_prev==NULL表示没有一次匹配，直接释放掉），所以这是一种<strong>拖延战术</strong>。有什么好处呢？就是比原先节省了很多不必要的操作。那么哪些操作是不必要的呢？这里我们逆向思考一下，我们看到clone是在协议字段匹配并且pt_prev!=NULL的前提条件下执行的，而kfree是在pt_prev==NULL的前提条件下执行的。在此可以假设一下，如果ptype链表中存在N项协议与之匹配，那么这段代码只会执行N-1次clone，而没有pt_prev时将会执行N次clone和1次kfree，再如果ptype链表中有且仅有一项协议与之匹配，那么整个循环既不会执行到第601行的clone，也不会执行到第622行的kfree。</p>
+<p>也就是说，<strong>当整个链表至少有一项匹配的一般情况下，pt_prev存在比没有时减少了一次clone和一次kfree的开销；只有全部不匹配的最差情况下，两者都只做一次kfree动作，持平。这就是延迟策略产生的效益</strong>。</p>
+<p>熟悉TCP/IP协议族的开发人员应该知道<strong>MTU（最大传输单元）</strong>这个概念，遵循不同协议的MTU值是不同的。比如以太网帧MTU是1500个字节，802.3帧MTU是1492字节，PPP链路帧MTU是269字节，而超通道MTU理论上是65535字节。要知道在一个高速吞吐量通信网络环境下，在大块数据分片传输线路里，在内核级别代码中，减少一处系统开销意味着什么？</p>
+<p>其实我们完全可以抛开一切网络协议相关知识，这不过是一段极其普通的单向链表操作而已，逻辑并不复杂。但是看看人家顶级黑客是怎么思考和coding的，对比一下自己写过的代码，多少次数据处理是用一个简单的for循环匆匆敷衍了事而没有进一步思考其中的粗陋和不合理之处？面对真正的编程高手这种“心计”与“城府”，你是不是有种莫名不安感？你会怀疑你真的了解怎么去使用和操作C语言中基本的链表数据结构么？如果答案是肯定的，那就开始颤抖吧（哈，别误会，其实上面这段话不过是笔者的自我告解罢了）~~~</p>
+<p>最后，让我们感谢尊敬的<a href="http://en.wikipedia.org/wiki/Alan_Cox" target="_blank">Alan Cox</a>大大对Linux社区卓越精细、无与伦比的贡献！（Alan是图中中部戴红帽子的那位）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" alt="Linux Kernel Team" src="http://old.lwn.net/images/ks/group2.jpg" width="704" height="323" /></p>
+<p><strong>附注：</strong></p>
+<p>最新的Linux-2.6.x版本中协议栈实现部分变动很大，但/net/core/dev.c的netif_receive_skb函数里仍然保留了pt_prev这种用法，目的是一样的，都是为了减少一次系统开销的优化操作。</p>
+<p>关于Alan，他在斯旺西大学工作时，在学校服务器上安装了一个早期的linux版本，供学校使用。他修正了许多的问题，重写了网络系统中的许多部份。随后成为linux内核开发小组中的重要成员。<a href="http://en.wikipedia.org/wiki/Alan_Cox" target="_blank">Alan Cox</a>负责维持2.2版，在2.4版上拥有自己的分支（在版本号上会冠上ac，如 2.4.13-ac1）。他的分支版本非常稳定，修正许多错误，许多厂商都使用他的版本。在他去进修工商管理硕士之前，涉入许多linux内核开发的事务，在社群中有很高的地位，有时会被视为是Linus之下的第二号领导者。</p>
+<p>不过，今年1月28日的时候，Alan因为家庭原因宣布退出Linux项目了，下面是他Google+的声明：</p>
+<blockquote><p>“I’m leaving the Linux world and Intel for a bit for family reasons, I’m aware that ‘family reasons’ is usually management speak for ‘I think the boss is an asshole’ but I’d like to assure everyone that while I frequently think Linus is an asshole (and therefore very good as kernel dictator) I am departing quite genuinely for family reasons and not because I’ve fallen out with Linus or Intel or anyone else. Far from it I’ve had great fun working there.”</p></blockquote>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9859.html">Alan Cox：单向链表中prev指针的妙用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9859.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

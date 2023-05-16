@@ -1,0 +1,2502 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>PHP脚本 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/category/proglanguage/phpdev/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sun, 14 Aug 2011 06:49:22 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>PHP分页技术的代码和示例</title>
+		<link>https://coolshell.cn/articles/5160.html</link>
+					<comments>https://coolshell.cn/articles/5160.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 14 Aug 2011 06:49:22 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Pagination]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5160</guid>
+
+					<description><![CDATA[<p>本文来自：10 Helpful PHP Pagination Scripts For Web Developers 分页是目前在显示大量结果时所采用的最好的方式...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5160.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5160.html">PHP分页技术的代码和示例</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>本文来自：<a href="http://zoomzum.com/php-pagination-scripts/" target="_blank">10 Helpful PHP Pagination Scripts For Web Developers</a></p>
+<p>分页是目前在显示大量结果时所采用的最好的方式。有了下面这些代码的帮助，开发人员可以在多个页面中显示大量的数据。在互联网上，分​页是一般用于搜索结果或是浏览全部信息（比如：一个论坛主题）。几乎在每一个Web应用程序都需要划分返回的数据，并按页显示。下面的这个列表给出的代码可以让你的开发很有帮助。<strong>学习这些代码，对于初学者也很有帮助</strong>。</p>
+<h4>1)<a href="http://www.9lessons.info/2010/10/pagination-with-jquery-php-ajax-and.html"> 使用Ajax分页</a></h4>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="text-align: left;">下面这个示例使用了jQuery + PHP。 <a href="http://demos.9lessons.info/pagination/pagination.php">Demo link</a></p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2512" title="Pagination" src="http://zoomzum.com/wp-content/uploads/2011/08/Pagination-e1312791884744.jpg" alt="" width="500" height="340" /></p>
+<p style="text-align: left;"><span id="more-5160"></span></p>
+<h4>2) <a href="http://php.about.com/od/phpwithmysql/ss/php_pagination.htm">MySql 分页</a></h4>
+<p>&nbsp;</p>
+<p style="text-align: left;">数据库的分页处理。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2523" title="PHP-Pagination" src="http://zoomzum.com/wp-content/uploads/2011/08/PHP-Pagination1-e1312794857680.jpg" alt="" width="500" height="138" /></p>
+<h4>3)<a href="http://youhack.me/2010/05/14/an-alternative-to-pagination-facebook-and-twitter-style/"> Facebook/Twitter 风格的分页</a></h4>
+<p style="text-align: center;"><img decoding="async" loading="lazy" title="twitter-pagination" src="http://zoomzum.com/wp-content/uploads/2011/08/twitter-pagination-e1312792153888.png" alt="" width="500" height="350" /></p>
+<h4>4)<a href="http://www.phpeasystep.com/phptu/29.html"> Php &amp; MySql 分页</a></h4>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2514" title="PHP Pagination" src="http://zoomzum.com/wp-content/uploads/2011/08/PHP-Pagination-e1312792516937.jpg" alt="" width="550" height="108" /></p>
+<h4>5)<a href="http://www.bitrepository.com/css-stylish-pagination-links.html"> 分页风格</a></h4>
+<p>&nbsp;</p>
+<p style="text-align: left;">一个简单的教程教你如何用CSS定义不同风格的分页。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2515" title="CSS Pagination" src="http://zoomzum.com/wp-content/uploads/2011/08/CSS-Pagination-e1312792632740.jpg" alt="" width="550" height="242" /></p>
+<h4>6) <a href="http://phpsense.com/php/php-pagination-script.html" target="_blank">PHP 分页类</a></h4>
+<p>&nbsp;</p>
+<p style="text-align: left;">一个PHP的分页类</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2524" title="PHP Pagination Script" src="http://zoomzum.com/wp-content/uploads/2011/08/PHP-Pagination%C2%A0Script-e1312795287434.jpg" alt="" width="500" height="310" /></p>
+<h4>7)<a href="http://www.phpeasycode.com/pagination/"> Easy Pagination</a></h4>
+<p>这是一个PHP库，可以让你更容易的做分页。<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2516" title="php easy code" src="http://zoomzum.com/wp-content/uploads/2011/08/php-easy-code.jpg" alt="" width="515" height="384" /></p>
+<h4>8 ) <a href="http://www.phpfreaks.com/tutorial/basic-pagination">基本分页</a></h4>
+<p>&nbsp;</p>
+<p style="text-align: left;">一个很不错简单易懂的分页教程。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2518" title="Pagination Script and Tutorial" src="http://zoomzum.com/wp-content/uploads/2011/08/Pagination-Script-and-Tutorial-e1312793432650.jpg" alt="" width="550" height="178" /></p>
+<h4>9)<a href="http://www.developphp.com/view_lesson.php?v=289"> Php Page</a></h4>
+<h3></h3>
+<p style="text-align: left;">一个简单的PHP的教程</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2519" title="PHP Freaks" src="http://zoomzum.com/wp-content/uploads/2011/08/PHP-Freaks-e1312793481308.jpg" alt="" width="550" height="161" /></p>
+<h4 style="text-align: left;">10) <a href="http://www.sitepoint.com/perfect-php-pagination/" target="_blank">perfect-php-pagination</a></h4>
+<p>&nbsp;</p>
+<p style="text-align: left;">也是一个分页教程。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2525" title="Perfect PHP Pagination" src="http://zoomzum.com/wp-content/uploads/2011/08/Perfect-PHP-Pagination.jpg" alt="" width="436" height="221" /></p>
+<p style="text-align: left;">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="九个PHP很有用的功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_title">九个PHP很有用的功能</a></li><li ><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="最为奇怪的程序语言的特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_title">最为奇怪的程序语言的特性</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5160.html">PHP分页技术的代码和示例</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5160.html/feed</wfw:commentRss>
+			<slash:comments>18</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>九个PHP很有用的功能</title>
+		<link>https://coolshell.cn/articles/2394.html</link>
+					<comments>https://coolshell.cn/articles/2394.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 06 May 2010 00:37:49 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2394</guid>
+
+					<description><![CDATA[<p>下面是九个PHP中很有用的功能，不知道你用过了吗？ 1. 函数的任意数目的参数 你可能知道PHP允许你定义一个默认参数的函数。但你可能并不知道PHP还允许你定义...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2394.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2394.html">九个PHP很有用的功能</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是九个PHP中很有用的功能，不知道你用过了吗？</p>
+<h4><span>1. 函数的任意数目的参数</span></h4>
+<p>你可能知道PHP允许你定义一个默认参数的函数。但你可能并不知道PHP还允许你定义一个完全任意的参数的函数</p>
+<p>下面是一个示例向你展示了默认参数的函数：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 两个默认参数的函数
+function foo($arg1 = &#039;&#039;, $arg2 = &#039;&#039;) {
+
+	echo &quot;arg1: $arg1\n&quot;;
+	echo &quot;arg2: $arg2\n&quot;;
+
+}
+
+foo(&#039;hello&#039;,&#039;world&#039;);
+/* 输出:
+arg1: hello
+arg2: world
+*/
+
+foo();
+/* 输出:
+arg1:
+arg2:
+*/
+</pre>
+<p>现在我们来看一看一个不定参数的函数，其使用到了?<a href="http://us2.php.net/manual/en/function.func-get-args.php">func_get_args()</a>方法：<br />
+<span id="more-2394"></span></p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 是的，形参列表为空
+function foo() {
+
+	// 取得所有的传入参数的数组
+	$args = func_get_args();
+
+	foreach ($args as $k =&gt; $v) {
+		echo &quot;arg&quot;.($k+1).&quot;: $v\n&quot;;
+	}
+
+}
+
+foo();
+/* 什么也不会输出 */
+
+foo(&#039;hello&#039;);
+/* 输出
+arg1: hello
+*/
+
+foo(&#039;hello&#039;, &#039;world&#039;, &#039;again&#039;);
+/* 输出
+arg1: hello
+arg2: world
+arg3: again
+*/
+</pre>
+<h4><span>2. </span>使用 Glob() 查找文件</h4>
+<p>很多PHP的函数都有一个比较长的自解释的函数名，但是，当你看到?<a href="http://us.php.net/manual/en/function.glob.php">glob()</a> 的时候，你可能并不知道这个函数是用来干什么的，除非你对它已经很熟悉了。</p>
+<p>你可以认为这个函数就好?<a href="http://php.net/manual/en/function.scandir.php">scandir()</a> 一样，其可以用来查找文件。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 取得所有的后缀为PHP的文件
+$files = glob(&#039;*.php&#039;);
+
+print_r($files);
+/* 输出:
+Array
+(
+    [0] =&gt; phptest.php
+    [1] =&gt; pi.php
+    [2] =&gt; post_output.php
+    [3] =&gt; test.php
+)
+*/
+</pre>
+<p>你还可以查找多种后缀名</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 取PHP文件和TXT文件
+$files = glob(&#039;*.{php,txt}&#039;, GLOB_BRACE);
+
+print_r($files);
+/* 输出:
+Array
+(
+    [0] =&gt; phptest.php
+    [1] =&gt; pi.php
+    [2] =&gt; post_output.php
+    [3] =&gt; test.php
+    [4] =&gt; log.txt
+    [5] =&gt; test.txt
+)
+*/
+</pre>
+<p>你还可以加上路径：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+$files = glob(&#039;../images/a*.jpg&#039;);
+
+print_r($files);
+/* 输出:
+Array
+(
+    [0] =&gt; ../images/apple.jpg
+    [1] =&gt; ../images/art.jpg
+)
+*/
+</pre>
+<p>如果你想得到绝对路径，你可以调用?<a href="http://php.net/manual/en/function.realpath.php">realpath()</a> 函数：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+$files = glob(&#039;../images/a*.jpg&#039;);
+
+// applies the function to each array element
+$files = array_map(&#039;realpath&#039;,$files);
+
+print_r($files);
+/* output looks like:
+Array
+(
+    [0] =&gt; C:\wamp\www\images\apple.jpg
+    [1] =&gt; C:\wamp\www\images\art.jpg
+)
+*/
+</pre>
+<h4><span>3. </span>内存使用信息</h4>
+<p>观察你程序的内存使用能够让你更好的优化你的代码。</p>
+<p>PHP 是有垃圾回收机制的，而且有一套很复杂的内存管理机制。你可以知道你的脚本所使用的内存情况。要知道当前内存使用情况，你可以使用?<a href="http://us2.php.net/manual/en/function.memory-get-usage.php">memory_get_usage()</a> 函数，如果你想知道使用内存的峰值，你可以调用<a href="http://us2.php.net/manual/en/function.memory-get-peak-usage.php">memory_get_peak_usage()</a> 函数。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+echo &quot;Initial: &quot;.memory_get_usage().&quot; bytes \n&quot;;
+/* 输出
+Initial: 361400 bytes
+*/
+
+// 使用内存
+for ($i = 0; $i &lt; 100000; $i++) {
+	$array []= md5($i);
+}
+
+// 删除一半的内存
+for ($i = 0; $i &lt; 100000; $i++) {
+	unset($array[$i]);
+}
+
+echo &quot;Final: &quot;.memory_get_usage().&quot; bytes \n&quot;;
+/* prints
+Final: 885912 bytes
+*/
+
+echo &quot;Peak: &quot;.memory_get_peak_usage().&quot; bytes \n&quot;;
+/* 输出峰值
+Peak: 13687072 bytes
+*/
+</pre>
+<h4><span>4. </span>CPU使用信息</h4>
+<p>使用?<a href="http://us2.php.net/manual/en/function.getrusage.php">getrusage()</a> 函数可以让你知道CPU的使用情况。注意，这个功能在Windows下不可用。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+print_r(getrusage());
+/* 输出
+Array
+(
+    [ru_oublock] =&gt; 0
+    [ru_inblock] =&gt; 0
+    [ru_msgsnd] =&gt; 2
+    [ru_msgrcv] =&gt; 3
+    [ru_maxrss] =&gt; 12692
+    [ru_ixrss] =&gt; 764
+    [ru_idrss] =&gt; 3864
+    [ru_minflt] =&gt; 94
+    [ru_majflt] =&gt; 0
+    [ru_nsignals] =&gt; 1
+    [ru_nvcsw] =&gt; 67
+    [ru_nivcsw] =&gt; 4
+    [ru_nswap] =&gt; 0
+    [ru_utime.tv_usec] =&gt; 0
+    [ru_utime.tv_sec] =&gt; 0
+    [ru_stime.tv_usec] =&gt; 6269
+    [ru_stime.tv_sec] =&gt; 0
+)
+
+*/
+</pre>
+<p>这个结构看上出很晦涩，除非你对CPU很了解。下面一些解释：</p>
+<ul>
+<li>ru_oublock: 块输出操作</li>
+<li>ru_inblock: 块输入操作</li>
+<li>ru_msgsnd: 发送的message</li>
+<li>ru_msgrcv: 收到的message</li>
+<li>ru_maxrss: 最大驻留集大小</li>
+<li>ru_ixrss: 全部共享内存大小</li>
+<li>ru_idrss:全部非共享内存大小</li>
+<li>ru_minflt: 页回收</li>
+<li>ru_majflt: 页失效</li>
+<li>ru_nsignals: 收到的信号</li>
+<li>ru_nvcsw: 主动上下文切换</li>
+<li>ru_nivcsw: 被动上下文切换</li>
+<li>ru_nswap: 交换区</li>
+<li>ru_utime.tv_usec: 用户态时间 (microseconds)</li>
+<li>ru_utime.tv_sec: 用户态时间(seconds)</li>
+<li>ru_stime.tv_usec: 系统内核时间 (microseconds)</li>
+<li>ru_stime.tv_sec: 系统内核时间?(seconds)</li>
+</ul>
+<p>要看到你的脚本消耗了多少CPU，我们需要看看“用户态的时间”和“系统内核时间”的值。秒和微秒部分是分别提供的，您可以把微秒值除以100万，并把它添加到秒的值后，可以得到有小数部分的秒数。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// sleep for 3 seconds (non-busy)
+sleep(3);
+
+$data = getrusage();
+echo &quot;User time: &quot;.
+	($data[&#039;ru_utime.tv_sec&#039;] +
+	$data[&#039;ru_utime.tv_usec&#039;] / 1000000);
+echo &quot;System time: &quot;.
+	($data[&#039;ru_stime.tv_sec&#039;] +
+	$data[&#039;ru_stime.tv_usec&#039;] / 1000000);
+
+/* 输出
+User time: 0.011552
+System time: 0
+*/
+</pre>
+<p>sleep是不占用系统时间的，我们可以来看下面的一个例子：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// loop 10 million times (busy)
+for($i=0;$i&lt;10000000;$i++) {
+
+}
+
+$data = getrusage();
+echo &quot;User time: &quot;.
+	($data[&#039;ru_utime.tv_sec&#039;] +
+	$data[&#039;ru_utime.tv_usec&#039;] / 1000000);
+echo &quot;System time: &quot;.
+	($data[&#039;ru_stime.tv_sec&#039;] +
+	$data[&#039;ru_stime.tv_usec&#039;] / 1000000);
+
+/* 输出
+User time: 1.424592
+System time: 0.004204
+*/
+</pre>
+<p>这花了大约14秒的CPU时间，几乎所有的都是用户的时间，因为没有系统调用。</p>
+<p>系统时间是CPU花费在系统调用上的上执行内核指令的时间。下面是一个例子：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+$start = microtime(true);
+// keep calling microtime for about 3 seconds
+while(microtime(true) - $start &lt; 3) {
+
+}
+
+$data = getrusage();
+echo &quot;User time: &quot;.
+	($data[&#039;ru_utime.tv_sec&#039;] +
+	$data[&#039;ru_utime.tv_usec&#039;] / 1000000);
+echo &quot;System time: &quot;.
+	($data[&#039;ru_stime.tv_sec&#039;] +
+	$data[&#039;ru_stime.tv_usec&#039;] / 1000000);
+
+/* prints
+User time: 1.088171
+System time: 1.675315
+*/
+</pre>
+<p>我们可以看到上面这个例子更耗CPU。</p>
+<h4><span>5. </span>系统常量</h4>
+<p>PHP 提供非常有用的<a href="http://php.net/manual/en/language.constants.predefined.php">系统常量</a> 可以让你得到当前的行号 (__LINE__)，文件 (__FILE__)，目录 (__DIR__)，函数名 (__FUNCTION__)，类名(__CLASS__)，方法名(__METHOD__) 和名字空间 (__NAMESPACE__)，很像C语言。</p>
+<p>我们可以以为这些东西主要是用于调试，当也不一定，比如我们可以在include其它文件的时候使用?__FILE__ (当然，你也可以在 PHP 5.3以后使用 __DIR__ )，下面是一个例子。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// this is relative to the loaded script&#039;s path
+// it may cause problems when running scripts from different directories
+require_once(&#039;config/database.php&#039;);
+
+// this is always relative to this file&#039;s path
+// no matter where it was included from
+require_once(dirname(__FILE__) . &#039;/config/database.php&#039;);
+</pre>
+<p>下面是使用 __LINE__ 来输出一些debug的信息，这样有助于你调试程序：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// some code
+// ...
+my_debug(&quot;some debug message&quot;, __LINE__);
+/* 输出
+Line 4: some debug message
+*/
+
+// some more code
+// ...
+my_debug(&quot;another debug message&quot;, __LINE__);
+/* 输出
+Line 11: another debug message
+*/
+
+function my_debug($msg, $line) {
+	echo &quot;Line $line: $msg\n&quot;;
+}
+</pre>
+<h4><span>6.生成唯一的ID</span></h4>
+<p>有很多人使用 md5() 来生成一个唯一的ID，如下所示：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// generate unique string
+echo md5(time() . mt_rand(1,1000000));
+</pre>
+<p>其实，PHP中有一个叫?<a href="http://us2.php.net/manual/en/function.uniqid.php">uniqid()</a> 的函数是专门用来干这个的：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// generate unique string
+echo uniqid();
+/* 输出
+4bd67c947233e
+*/
+
+// generate another unique string
+echo uniqid();
+/* 输出
+4bd67c9472340
+*/
+</pre>
+<p>可能你会注意到生成出来的ID前几位是一样的，这是因为生成器依赖于系统的时间，这其实是一个非常不错的功能，因为你是很容易为你的这些ID排序的。这点MD5是做不到的。</p>
+<p>你还可以加上前缀避免重名：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 前缀
+echo uniqid(&#039;foo_&#039;);
+/* 输出
+foo_4bd67d6cd8b8f
+*/
+
+// 有更多的熵
+echo uniqid(&#039;&#039;,true);
+/* 输出
+4bd67d6cd8b926.12135106
+*/
+
+// 都有
+echo uniqid(&#039;bar_&#039;,true);
+/* 输出
+bar_4bd67da367b650.43684647
+*/
+</pre>
+<p>而且，生成出来的ID会比MD5生成的要短，这会让你节省很多空间。</p>
+<h4><span>7. </span>序列化</h4>
+<p>你是否会把一个比较复杂的数据结构存到数据库或是文件中？你并不需要自己去写自己的算法。PHP早已为你做好了，其提供了两个函数：?<a href="http://php.net/manual/en/function.serialize.php">serialize()</a> 和 <a href="http://www.php.net/manual/en/function.unserialize.php">unserialize()</a>:</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 一个复杂的数组
+$myvar = array(
+	&#039;hello&#039;,
+	42,
+	array(1,&#039;two&#039;),
+	&#039;apple&#039;
+);
+
+// 序列化
+$string = serialize($myvar);
+
+echo $string;
+/* 输出
+a:4:{i:0;s:5:&quot;hello&quot;;i:1;i:42;i:2;a:2:{i:0;i:1;i:1;s:3:&quot;two&quot;;}i:3;s:5:&quot;apple&quot;;}
+*/
+
+// 反序例化
+$newvar = unserialize($string);
+
+print_r($newvar);
+/* 输出
+Array
+(
+    [0] =&gt; hello
+    [1] =&gt; 42
+    [2] =&gt; Array
+        (
+            [0] =&gt; 1
+            [1] =&gt; two
+        )
+
+    [3] =&gt; apple
+)
+*/
+</pre>
+<p>这是PHP的原生函数，然而在今天JSON越来越流行，所以在PHP5.2以后，PHP开始支持JSON，你可以使用 json_encode() 和 json_decode() 函数</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// a complex array
+$myvar = array(
+	&#039;hello&#039;,
+	42,
+	array(1,&#039;two&#039;),
+	&#039;apple&#039;
+);
+
+// convert to a string
+$string = json_encode($myvar);
+
+echo $string;
+/* prints
+[&quot;hello&quot;,42,[1,&quot;two&quot;],&quot;apple&quot;]
+*/
+
+// you can reproduce the original variable
+$newvar = json_decode($string);
+
+print_r($newvar);
+/* prints
+Array
+(
+    [0] =&gt; hello
+    [1] =&gt; 42
+    [2] =&gt; Array
+        (
+            [0] =&gt; 1
+            [1] =&gt; two
+        )
+
+    [3] =&gt; apple
+)
+*/
+</pre>
+<p>这看起来更为紧凑一些了，而且还兼容于Javascript和其它语言。但是对于一些非常复杂的数据结构，可能会造成数据丢失。</p>
+<h4><span>8. </span>字符串压缩</h4>
+<p>当我们说到压缩，我们可能会想到文件压缩，其实，字符串也是可以压缩的。PHP提供了?<a href="http://php.net/manual/en/function.gzcompress.php">gzcompress()</a> 和 <a href="http://www.php.net/manual/en/function.gzuncompress.php">gzuncompress()</a> 函数：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+$string =
+&quot;Lorem ipsum dolor sit amet, consectetur
+adipiscing elit. Nunc ut elit id mi ultricies
+adipiscing. Nulla facilisi. Praesent pulvinar,
+sapien vel feugiat vestibulum, nulla dui pretium orci,
+non ultricies elit lacus quis ante. Lorem ipsum dolor
+sit amet, consectetur adipiscing elit. Aliquam
+pretium ullamcorper urna quis iaculis. Etiam ac massa
+sed turpis tempor luctus. Curabitur sed nibh eu elit
+mollis congue. Praesent ipsum diam, consectetur vitae
+ornare a, aliquam a nunc. In id magna pellentesque
+tellus posuere adipiscing. Sed non mi metus, at lacinia
+augue. Sed magna nisi, ornare in mollis in, mollis
+sed nunc. Etiam at justo in leo congue mollis.
+Nullam in neque eget metus hendrerit scelerisque
+eu non enim. Ut malesuada lacus eu nulla bibendum
+id euismod urna sodales. &quot;;
+
+$compressed = gzcompress($string);
+
+echo &quot;Original size: &quot;. strlen($string).&quot;\n&quot;;
+/* 输出原始大小
+Original size: 800
+*/
+
+echo &quot;Compressed size: &quot;. strlen($compressed).&quot;\n&quot;;
+/* 输出压缩后的大小
+Compressed size: 418
+*/
+
+// 解压缩
+$original = gzuncompress($compressed);
+</pre>
+<p>几乎有<span style="font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif; line-height: 19px; white-space: normal; font-size: 13px;">50% 压缩比率。同时，你还可以使用?<a href="http://www.php.net/manual/en/function.gzencode.php">gzencode()</a> 和 <a href="http://www.php.net/manual/en/function.gzdecode.php">gzdecode()</a> 函数来压缩，只不用其用了不同的压缩算法。</span></p>
+<h4><span>9. 注册停止</span>函数</h4>
+<p>有一个函数叫做?<a href="http://www.php.net/manual/en/function.register-shutdown-function.php">register_shutdown_function()</a>，可以让你在整个脚本停时前运行代码。让我们看下面的一个示例：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// capture the start time
+$start_time = microtime(true);
+
+// do some stuff
+// ...
+
+// display how long the script took
+echo &quot;execution took: &quot;.
+		(microtime(true) - $start_time).
+		&quot; seconds.&quot;;
+</pre>
+<p>上面这个示例只不过是用来计算某个函数运行的时间。然后，如果你在函数中间调用?<a href="http://php.net/manual/en/function.exit.php">exit()</a> 函数，那么你的最后的代码将不会被运行到。并且，如果该脚本在浏览器终止（用户按停止按钮），其也无法被运行。</p>
+<p>而当我们使用了register_shutdown_function()后，你的程序就算是在脚本被停止后也会被运行：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+$start_time = microtime(true);
+
+register_shutdown_function(&#039;my_shutdown&#039;);
+
+// do some stuff
+// ...
+
+function my_shutdown() {
+	global $start_time;
+
+	echo &quot;execution took: &quot;.
+			(microtime(true) - $start_time).
+			&quot; seconds.&quot;;
+}
+</pre>
+<p>文章：<a href="http://net.tutsplus.com/tutorials/php/9-useful-php-functions-and-features-you-need-to-know/" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="最为奇怪的程序语言的特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_title">最为奇怪的程序语言的特性</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2394.html">九个PHP很有用的功能</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2394.html/feed</wfw:commentRss>
+			<slash:comments>26</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>MySQL性能优化的最佳20+条经验</title>
+		<link>https://coolshell.cn/articles/1846.html</link>
+					<comments>https://coolshell.cn/articles/1846.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 27 Nov 2009 10:57:33 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[数据库]]></category>
+		<category><![CDATA[Database]]></category>
+		<category><![CDATA[MySQL]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1846</guid>
+
+					<description><![CDATA[<p>今天，数据库的操作越来越成为整个应用的性能瓶颈了，这点对于Web应用尤其明显。关于数据库的性能，这并不只是DBA才需要担心的事，而这更是我们程序员需要去关注的事...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1846.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1846.html">MySQL性能优化的最佳20+条经验</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今天，数据库的操作越来越成为整个应用的性能瓶颈了，这点对于Web应用尤其明显。关于数据库的性能，这并不只是DBA才需要担心的事，而这更是我们程序员需要去关注的事情。当我们去设计数据库表结构，对操作数据库时（尤其是查表时的SQL语句），我们都需要注意数据操作的性能。这里，我们不会讲过多的SQL语句的优化，而只是针对MySQL这一Web应用最多的数据库。希望下面的这些优化技巧对你有用。</p>
+<h4>1. 为查询缓存优化你的查询</h4>
+<p>大多数的MySQL服务器都开启了查询缓存。这是提高性最有效的方法之一，而且这是被MySQL的数据库引擎处理的。当有很多相同的查询被执行了多次的时候，这些查询结果会被放到一个缓存中，这样，后续的相同的查询就不用操作表而直接访问缓存结果了。</p>
+<p>这里最主要的问题是，对于程序员来说，这个事情是很容易被忽略的。因为，我们某些查询语句会让MySQL不使用缓存。请看下面的示例：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 查询缓存不开启
+$r = mysql_query(&quot;SELECT username FROM user WHERE signup_date &gt;= CURDATE()&quot;);
+
+// 开启查询缓存
+$today = date(&quot;Y-m-d&quot;);
+$r = mysql_query(&quot;SELECT username FROM user WHERE signup_date &gt;= &#039;$today&#039;&quot;);
+</pre>
+<p>上面两条SQL语句的差别就是 CURDATE() ，MySQL的查询缓存对这个函数不起作用。所以，像 NOW() 和 RAND() 或是其它的诸如此类的SQL函数都不会开启查询缓存，因为这些函数的返回是会不定的易变的。所以，你所需要的就是用一个变量来代替MySQL的函数，从而开启缓存。</p>
+<p><span id="more-1846"></span></p>
+<h4>2. EXPLAIN 你的 SELECT 查询</h4>
+<p>使用 <a href="http://dev.mysql.com/doc/refman/5.0/en/explain.html" target="_blank">EXPLAIN</a> 关键字可以让你知道MySQL是如何处理你的SQL语句的。这可以帮你分析你的查询语句或是表结构的性能瓶颈。</p>
+<p>EXPLAIN 的查询结果还会告诉你你的索引主键被如何利用的，你的数据表是如何被搜索和排序的……等等，等等。</p>
+<p>挑一个你的SELECT语句（推荐挑选那个最复杂的，有多表联接的），把关键字EXPLAIN加到前面。你可以使用phpmyadmin来做这个事。然后，你会看到一张表格。下面的这个示例中，我们忘记加上了group_id索引，并且有表联接：</p>
+<div class="tutorial_image"><img decoding="async" src="http://nettuts.s3.amazonaws.com/500_mysql/unoptimized_explain.jpg" border="0" alt="" /></div>
+<p>当我们为 group_id 字段加上索引后：</p>
+<div class="tutorial_image"><img decoding="async" src="http://nettuts.s3.amazonaws.com/500_mysql/optimized_explain.jpg" border="0" alt="" /></div>
+<p>我们可以看到，前一个结果显示搜索了 7883 行，而后一个只是搜索了两个表的 9 和 16 行。查看rows列可以让我们找到潜在的性能问题。</p>
+<h4>3. 当只要一行数据时使用 LIMIT 1</h4>
+<p>当你查询表的有些时候，你已经知道结果只会有一条结果，但因为你可能需要去fetch游标，或是你也许会去检查返回的记录数。</p>
+<p>在这种情况下，加上 LIMIT 1 可以增加性能。这样一样，MySQL数据库引擎会在找到一条数据后停止搜索，而不是继续往后查少下一条符合记录的数据。</p>
+<p>下面的示例，只是为了找一下是否有“中国”的用户，很明显，后面的会比前面的更有效率。（请注意，第一条中是Select *，第二条是Select 1）</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+
+// 没有效率的：
+$r = mysql_query(&quot;SELECT * FROM user WHERE country = &#039;China&#039;&quot;);
+if (mysql_num_rows($r) &gt; 0) {
+	// ...
+}
+
+// 有效率的：
+$r = mysql_query(&quot;SELECT 1 FROM user WHERE country = &#039;China&#039; LIMIT 1&quot;);
+if (mysql_num_rows($r) &gt; 0) {
+	// ...
+}
+</pre>
+<h4>4. 为搜索字段建索引</h4>
+<p>索引并不一定就是给主键或是唯一的字段。如果在你的表中，有某个字段你总要会经常用来做搜索，那么，请为其建立索引吧。</p>
+<div class="tutorial_image"><img decoding="async" src="http://nettuts.s3.amazonaws.com/500_mysql/search_index.jpg" border="0" alt="" /></div>
+<p>从上图你可以看到那个搜索字串 &#8220;last_name LIKE &#8216;a%'&#8221;，一个是建了索引，一个是没有索引，性能差了4倍左右。</p>
+<p>另外，你应该也需要知道什么样的搜索是不能使用正常的索引的。例如，当你需要在一篇大的文章中搜索一个词时，如： &#8220;WHERE post_content LIKE &#8216;%apple%'&#8221;，索引可能是没有意义的。你可能需要使用<a href="http://dev.mysql.com/doc/refman/5.1/en/fulltext-search.html" target="_blank">MySQL全文索引</a> 或是自己做一个索引（比如说：搜索关键词或是Tag什么的）</p>
+<h4>5. 在Join表的时候使用相当类型的例，并将其索引</h4>
+<p>如果你的应用程序有很多 JOIN 查询，你应该确认两个表中Join的字段是被建过索引的。这样，MySQL内部会启动为你优化Join的SQL语句的机制。</p>
+<p>而且，这些被用来Join的字段，应该是相同的类型的。例如：如果你要把 DECIMAL 字段和一个 INT 字段Join在一起，MySQL就无法使用它们的索引。对于那些STRING类型，还需要有相同的字符集才行。（两个表的字符集有可能不一样）</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 在state中查找company
+$r = mysql_query(&quot;SELECT company_name FROM users
+	LEFT JOIN companies ON (users.state = companies.state)
+	WHERE users.id = $user_id&quot;);
+
+// 两个 state 字段应该是被建过索引的，而且应该是相当的类型，相同的字符集。
+</pre>
+<h4>6. 千万不要 ORDER BY RAND()</h4>
+<p>想打乱返回的数据行？随机挑一个数据？真不知道谁发明了这种用法，但很多新手很喜欢这样用。但你确不了解这样做有多么可怕的性能问题。</p>
+<p>如果你真的想把返回的数据行打乱了，你有N种方法可以达到这个目的。这样使用只让你的数据库的性能呈指数级的下降。这里的问题是：MySQL会不得不去执行RAND()函数（很耗CPU时间），而且这是为了每一行记录去记行，然后再对其排序。就算是你用了Limit 1也无济于事（因为要排序）</p>
+<p>下面的示例是随机挑一条记录</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 千万不要这样做：
+$r = mysql_query(&quot;SELECT username FROM user ORDER BY RAND() LIMIT 1&quot;);
+
+// 这要会更好：
+$r = mysql_query(&quot;SELECT count(*) FROM user&quot;);
+$d = mysql_fetch_row($r);
+$rand = mt_rand(0,$d[0] - 1);
+
+$r = mysql_query(&quot;SELECT username FROM user LIMIT $rand, 1&quot;);
+</pre>
+<h4>7. 避免 SELECT *</h4>
+<p>从数据库里读出越多的数据，那么查询就会变得越慢。并且，如果你的数据库服务器和WEB服务器是两台独立的服务器的话，这还会增加网络传输的负载。</p>
+<p>所以，你应该养成一个需要什么就取什么的好的习惯。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 不推荐
+$r = mysql_query(&quot;SELECT * FROM user WHERE user_id = 1&quot;);
+$d = mysql_fetch_assoc($r);
+echo &quot;Welcome {$d[&#039;username&#039;]}&quot;;
+
+// 推荐
+$r = mysql_query(&quot;SELECT username FROM user WHERE user_id = 1&quot;);
+$d = mysql_fetch_assoc($r);
+echo &quot;Welcome {$d[&#039;username&#039;]}&quot;;
+</pre>
+<h4>8. 永远为每张表设置一个ID</h4>
+<p>我们应该为数据库里的每张表都设置一个ID做为其主键，而且最好的是一个INT型的（推荐使用UNSIGNED），并设置上自动增加的AUTO_INCREMENT标志。</p>
+<p>就算是你 users 表有一个主键叫 “email”的字段，你也别让它成为主键。使用 VARCHAR 类型来当主键会使用得性能下降。另外，在你的程序中，你应该使用表的ID来构造你的数据结构。</p>
+<p>而且，在MySQL数据引擎下，还有一些操作需要使用主键，在这些情况下，主键的性能和设置变得非常重要，比如，集群，分区……</p>
+<p>在这里，只有一个情况是例外，那就是“关联表”的“外键”，也就是说，这个表的主键，通过若干个别的表的主键构成。我们把这个情况叫做“外键”。比如：有一个“学生表”有学生的ID，有一个“课程表”有课程ID，那么，“成绩表”就是“关联表”了，其关联了学生表和课程表，在成绩表中，学生ID和课程ID叫“外键”其共同组成主键。</p>
+<h4>9. 使用 ENUM 而不是 VARCHAR</h4>
+<p><a href="http://dev.mysql.com/doc/refman/5.0/en/enum.html" target="_blank">ENUM</a> 类型是非常快和紧凑的。在实际上，其保存的是 TINYINT，但其外表上显示为字符串。这样一来，用这个字段来做一些选项列表变得相当的完美。</p>
+<p>如果你有一个字段，比如“性别”，“国家”，“民族”，“状态”或“部门”，你知道这些字段的取值是有限而且固定的，那么，你应该使用 ENUM 而不是 VARCHAR。</p>
+<p>MySQL也有一个“建议”（见第十条）告诉你怎么去重新组织你的表结构。当你有一个 VARCHAR 字段时，这个建议会告诉你把其改成 ENUM 类型。使用 PROCEDURE ANALYSE() 你可以得到相关的建议。</p>
+<h4>10. 从 PROCEDURE ANALYSE() 取得建议</h4>
+<p><a href="http://dev.mysql.com/doc/refman/5.0/en/procedure-analyse.html" target="_blank">PROCEDURE ANALYSE()</a> 会让 MySQL 帮你去分析你的字段和其实际的数据，并会给你一些有用的建议。只有表中有实际的数据，这些建议才会变得有用，因为要做一些大的决定是需要有数据作为基础的。</p>
+<p>例如，如果你创建了一个 INT 字段作为你的主键，然而并没有太多的数据，那么，PROCEDURE ANALYSE()会建议你把这个字段的类型改成 MEDIUMINT 。或是你使用了一个 VARCHAR 字段，因为数据不多，你可能会得到一个让你把它改成 ENUM 的建议。这些建议，都是可能因为数据不够多，所以决策做得就不够准。</p>
+<p>在phpmyadmin里，你可以在查看表时，点击 &#8220;Propose table structure&#8221; 来查看这些建议</p>
+<div class="tutorial_image"><img decoding="async" src="http://nettuts.s3.amazonaws.com/500_mysql/suggestions.jpg" border="0" alt="" /></div>
+<p>一定要注意，这些只是建议，只有当你的表里的数据越来越多时，这些建议才会变得准确。一定要记住，你才是最终做决定的人。</p>
+<h4>11. 尽可能的使用 NOT NULL</h4>
+<p>除非你有一个很特别的原因去使用 NULL 值，你应该总是让你的字段保持 NOT NULL。这看起来好像有点争议，请往下看。</p>
+<p>首先，问问你自己“Empty”和“NULL”有多大的区别（如果是INT，那就是0和NULL）？如果你觉得它们之间没有什么区别，那么你就不要使用NULL。（你知道吗？在 Oracle 里，NULL 和 Empty 的字符串是一样的！)</p>
+<p>不要以为 NULL 不需要空间，其需要额外的空间，并且，在你进行比较的时候，你的程序会更复杂。 当然，这里并不是说你就不能使用NULL了，现实情况是很复杂的，依然会有些情况下，你需要使用NULL值。</p>
+<p>下面摘自MySQL自己的文档：</p>
+<blockquote><p>&#8220;NULL columns require additional space in the row to record whether their values are NULL. For MyISAM tables, each NULL column takes one bit extra, rounded up to the nearest byte.&#8221;</p></blockquote>
+<h4>12. Prepared Statements</h4>
+<p>Prepared Statements很像存储过程，是一种运行在后台的SQL语句集合，我们可以从使用 prepared statements 获得很多好处，无论是性能问题还是安全问题。</p>
+<p>Prepared Statements 可以检查一些你绑定好的变量，这样可以保护你的程序不会受到“SQL注入式”攻击。当然，你也可以手动地检查你的这些变量，然而，手动的检查容易出问题，而且很经常会被程序员忘了。当我们使用一些framework或是ORM的时候，这样的问题会好一些。</p>
+<p>在性能方面，当一个相同的查询被使用多次的时候，这会为你带来可观的性能优势。你可以给这些Prepared Statements定义一些参数，而MySQL只会解析一次。</p>
+<p>虽然最新版本的MySQL在传输Prepared Statements是使用二进制形势，所以这会使得网络传输非常有效率。</p>
+<p>当然，也有一些情况下，我们需要避免使用Prepared Statements，因为其不支持查询缓存。但据说版本5.1后支持了。</p>
+<p>在PHP中要使用prepared statements，你可以查看其使用手册：<a href="http://php.net/manual/en/book.mysqli.php" target="_blank">mysqli 扩展</a> 或是使用数据库抽象层，如： <a href="http://us.php.net/manual/en/book.pdo.php" target="_blank">PDO</a>.</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+// 创建 prepared statement
+if ($stmt = $mysqli-&gt;prepare(&quot;SELECT username FROM user WHERE state=?&quot;)) {
+
+	// 绑定参数
+    $stmt-&gt;bind_param(&quot;s&quot;, $state);
+
+	// 执行
+    $stmt-&gt;execute();
+
+	// 绑定结果
+    $stmt-&gt;bind_result($username);
+
+	// 移动游标
+    $stmt-&gt;fetch();
+
+    printf(&quot;%s is from %s\n&quot;, $username, $state);
+
+    $stmt-&gt;close();
+}
+</pre>
+<h4>13. 无缓冲的查询</h4>
+<p>正常的情况下，当你在当你在你的脚本中执行一个SQL语句的时候，你的程序会停在那里直到没这个SQL语句返回，然后你的程序再往下继续执行。你可以使用无缓冲查询来改变这个行为。</p>
+<p>关于这个事情，在PHP的文档中有一个非常不错的说明： <a href="http://php.net/manual/en/function.mysql-unbuffered-query.php" target="_blank">mysql_unbuffered_query()</a> 函数：</p>
+<blockquote><p>&#8220;mysql_unbuffered_query() sends the SQL query query to MySQL without automatically fetching and buffering the result rows as mysql_query() does. This saves a considerable amount of memory with SQL queries that produce large result sets, and you can start working on the result set immediately after the first row has been retrieved as you don&#8217;t have to wait until the complete SQL query has been performed.&#8221;</p></blockquote>
+<p>上面那句话翻译过来是说，mysql_unbuffered_query() 发送一个SQL语句到MySQL而并不像mysql_query()一样去自动fethch和缓存结果。这会相当节约很多可观的内存，尤其是那些会产生大量结果的查询语句，并且，你不需要等到所有的结果都返回，只需要第一行数据返回的时候，你就可以开始马上开始工作于查询结果了。</p>
+<p>然而，这会有一些限制。因为你要么把所有行都读走，或是你要在进行下一次的查询前调用 <a href="http://us2.php.net/manual/en/function.mysql-free-result.php" target="_blank">mysql_free_result()</a> 清除结果。而且， <a href="http://us2.php.net/manual/en/function.mysql-num-rows.php" target="_blank">mysql_num_rows()</a> 或 <a href="http://us2.php.net/manual/en/function.mysql-data-seek.php" target="_blank">mysql_data_seek()</a> 将无法使用。所以，是否使用无缓冲的查询你需要仔细考虑。</p>
+<h4>14. 把IP地址存成 UNSIGNED INT</h4>
+<p>很多程序员都会创建一个 VARCHAR(15) 字段来存放字符串形式的IP而不是整形的IP。如果你用整形来存放，只需要4个字节，并且你可以有定长的字段。而且，这会为你带来查询上的优势，尤其是当你需要使用这样的WHERE条件：IP between ip1 and ip2。</p>
+<p>我们必需要使用UNSIGNED INT，因为 IP地址会使用整个32位的无符号整形。</p>
+<p>而你的查询，你可以使用 <a href="http://dev.mysql.com/doc/refman/5.0/en/miscellaneous-functions.html#function_inet-aton" target="_blank">INET_ATON()</a> 来把一个字符串IP转成一个整形，并使用 <a href="http://dev.mysql.com/doc/refman/5.0/en/miscellaneous-functions.html#function_inet-ntoa" target="_blank">INET_NTOA()</a> 把一个整形转成一个字符串IP。在PHP中，也有这样的函数 <a href="http://php.net/manual/en/function.ip2long.php" target="_blank">ip2long()</a> 和 <a href="http://us.php.net/manual/en/function.long2ip.php" target="_blank">long2ip()</a>。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+$r = &quot;UPDATE users SET ip = INET_ATON(&#039;{$_SERVER[&#039;REMOTE_ADDR&#039;]}&#039;) WHERE user_id = $user_id&quot;;
+</pre>
+<h4>15. 固定长度的表会更快</h4>
+<p>如果表中的所有字段都是“固定长度”的，整个表会被认为是 <a href="http://dev.mysql.com/doc/refman/5.1/en/static-format.html" target="_blank">&#8220;static&#8221; 或 &#8220;fixed-length&#8221;</a>。 例如，表中没有如下类型的字段： VARCHAR，TEXT，BLOB。只要你包括了其中一个这些字段，那么这个表就不是“固定长度静态表”了，这样，MySQL 引擎会用另一种方法来处理。</p>
+<p>固定长度的表会提高性能，因为MySQL搜寻得会更快一些，因为这些固定的长度是很容易计算下一个数据的偏移量的，所以读取的自然也会很快。而如果字段不是定长的，那么，每一次要找下一条的话，需要程序找到主键。</p>
+<p>并且，固定长度的表也更容易被缓存和重建。不过，唯一的副作用是，固定长度的字段会浪费一些空间，因为定长的字段无论你用不用，他都是要分配那么多的空间。</p>
+<p>使用“垂直分割”技术（见下一条），你可以分割你的表成为两个一个是定长的，一个则是不定长的。</p>
+<h4>16. 垂直分割</h4>
+<p>“垂直分割”是一种把数据库中的表按列变成几张表的方法，这样可以降低表的复杂度和字段的数目，从而达到优化的目的。（以前，在银行做过项目，见过一张表有100多个字段，很恐怖）</p>
+<p><strong>示例一</strong>：在Users表中有一个字段是家庭地址，这个字段是可选字段，相比起，而且你在数据库操作的时候除了个人信息外，你并不需要经常读取或是改写这个字段。那么，为什么不把他放到另外一张表中呢？ 这样会让你的表有更好的性能，大家想想是不是，大量的时候，我对于用户表来说，只有用户ID，用户名，口令，用户角色等会被经常使用。小一点的表总是会有好的性能。</p>
+<p><strong>示例二</strong>： 你有一个叫 &#8220;last_login&#8221; 的字段，它会在每次用户登录时被更新。但是，每次更新时会导致该表的查询缓存被清空。所以，你可以把这个字段放到另一个表中，这样就不会影响你对用户ID，用户名，用户角色的不停地读取了，因为查询缓存会帮你增加很多性能。</p>
+<p>另外，你需要注意的是，这些被分出去的字段所形成的表，你不会经常性地去Join他们，不然的话，这样的性能会比不分割时还要差，而且，会是极数级的下降。</p>
+<h4>17. 拆分大的 DELETE 或 INSERT 语句</h4>
+<p>如果你需要在一个在线的网站上去执行一个大的 DELETE 或 INSERT 查询，你需要非常小心，要避免你的操作让你的整个网站停止相应。因为这两个操作是会锁表的，表一锁住了，别的操作都进不来了。</p>
+<p>Apache 会有很多的子进程或线程。所以，其工作起来相当有效率，而我们的服务器也不希望有太多的子进程，线程和数据库链接，这是极大的占服务器资源的事情，尤其是内存。</p>
+<p>如果你把你的表锁上一段时间，比如30秒钟，那么对于一个有很高访问量的站点来说，这30秒所积累的访问进程/线程，数据库链接，打开的文件数，可能不仅仅会让你泊WEB服务Crash，还可能会让你的整台服务器马上掛了。</p>
+<p>所以，如果你有一个大的处理，你定你一定把其拆分，使用 LIMIT 条件是一个好的方法。下面是一个示例：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+while (1) {
+    //每次只做1000条
+	mysql_query(&quot;DELETE FROM logs WHERE log_date &lt;= &#039;2009-11-01&#039; LIMIT 1000&quot;);
+	if (mysql_affected_rows() == 0) {
+		// 没得可删了，退出！
+		break;
+	}
+	// 每次都要休息一会儿
+	usleep(50000);
+}
+</pre>
+<h4>18. 越小的列会越快</h4>
+<p>对于大多数的数据库引擎来说，硬盘操作可能是最重大的瓶颈。所以，把你的数据变得紧凑会对这种情况非常有帮助，因为这减少了对硬盘的访问。</p>
+<p>参看 MySQL 的文档 <a href="http://dev.mysql.com/doc/refman/5.0/en/storage-requirements.html" target="_blank">Storage Requirements</a> 查看所有的数据类型。</p>
+<p>如果一个表只会有几列罢了（比如说字典表，配置表），那么，我们就没有理由使用 INT 来做主键，使用 MEDIUMINT, SMALLINT 或是更小的 TINYINT 会更经济一些。如果你不需要记录时间，使用 DATE 要比 DATETIME 好得多。</p>
+<p>当然，你也需要留够足够的扩展空间，不然，你日后来干这个事，你会死的很难看，参看<a href="http://news.slashdot.org/article.pl?sid=06/11/09/1534204" target="_blank">Slashdot的例子</a>（2009年11月06日），一个简单的ALTER TABLE语句花了3个多小时，因为里面有一千六百万条数据。</p>
+<h4>19. 选择正确的存储引擎</h4>
+<p>在 MySQL 中有两个存储引擎 MyISAM 和 InnoDB，每个引擎都有利有弊。酷壳以前文章《<a href="https://coolshell.cn/articles/652.html" target="_blank">MySQL: InnoDB 还是 MyISAM?</a>》讨论和这个事情。</p>
+<p>MyISAM 适合于一些需要大量查询的应用，但其对于有大量写操作并不是很好。甚至你只是需要update一个字段，整个表都会被锁起来，而别的进程，就算是读进程都无法操作直到读操作完成。另外，MyISAM 对于 SELECT COUNT(*) 这类的计算是超快无比的。</p>
+<p>InnoDB 的趋势会是一个非常复杂的存储引擎，对于一些小的应用，它会比 MyISAM 还慢。他是它支持“行锁” ，于是在写操作比较多的时候，会更优秀。并且，他还支持更多的高级应用，比如：事务。</p>
+<p>下面是MySQL的手册</p>
+<ul>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/en/myisam-storage-engine.html">target=&#8221;_blank&#8221;MyISAM Storage Engine</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/en/innodb.html" target="_blank">InnoDB Storage Engine</a></li>
+</ul>
+<h4>20. 使用一个对象关系映射器（Object Relational Mapper）</h4>
+<p>使用 ORM (Object Relational Mapper)，你能够获得可靠的性能增涨。一个ORM可以做的所有事情，也能被手动的编写出来。但是，这需要一个高级专家。</p>
+<p>ORM 的最重要的是“Lazy Loading”，也就是说，只有在需要的去取值的时候才会去真正的去做。但你也需要小心这种机制的副作用，因为这很有可能会因为要去创建很多很多小的查询反而会降低性能。</p>
+<p>ORM 还可以把你的SQL语句打包成一个事务，这会比单独执行他们快得多得多。</p>
+<p>目前，个人最喜欢的PHP的ORM是：<a href="http://www.doctrine-project.org" target="_blank">Doctrine</a>。</p>
+<h4>21. 小心“永久链接”</h4>
+<p>“永久链接”的目的是用来减少重新创建MySQL链接的次数。当一个链接被创建了，它会永远处在连接的状态，就算是数据库操作已经结束了。而且，自从我们的Apache开始重用它的子进程后——也就是说，下一次的HTTP请求会重用Apache的子进程，并重用相同的 MySQL 链接。</p>
+<ul>
+<li><a href="http://php.net/manual/en/function.mysql-pconnect.php" target="_blank">PHP手册：mysql_pconnect() </a></li>
+</ul>
+<p>在理论上来说，这听起来非常的不错。但是从个人经验（也是大多数人的）上来说，这个功能制造出来的麻烦事更多。因为，你只有有限的链接数，内存问题，文件句柄数，等等。</p>
+<p>而且，Apache 运行在极端并行的环境中，会创建很多很多的了进程。这就是为什么这种“永久链接”的机制工作地不好的原因。在你决定要使用“永久链接”之前，你需要好好地考虑一下你的整个系统的架构。</p>
+<p>文章：<a href="http://net.tutsplus.com/tutorials/other/top-20-mysql-best-practices/" target="_blank">来源</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/1889.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/sql.where_.clause-150x150.jpg" alt="SQL的Where语句" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1889.html" class="wp_rp_title">SQL的Where语句</a></li><li ><a href="https://coolshell.cn/articles/652.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="MySQL: InnoDB 还是 MyISAM?" width="150" height="150" /></a><a href="https://coolshell.cn/articles/652.html" class="wp_rp_title">MySQL: InnoDB 还是 MyISAM?</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1846.html">MySQL性能优化的最佳20+条经验</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1846.html/feed</wfw:commentRss>
+			<slash:comments>169</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>编程真难啊</title>
+		<link>https://coolshell.cn/articles/1391.html</link>
+					<comments>https://coolshell.cn/articles/1391.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 03 Sep 2009 14:24:57 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Coding]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1391</guid>
+
+					<description><![CDATA[<p>上周，在Sun的Java论坛上出现了一个这样的帖子，这个贴子的链接如下： http://forums.sun.com/thread.jspa?threadID=...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1391.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1391.html">编程真难啊</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>上周，在Sun的Java论坛上出现了一个这样的帖子，这个贴子的链接如下：<br />
+<a href="http://forums.sun.com/thread.jspa?threadID=5404590&amp;start=0&amp;tstart=0" target="_blank">http://forums.sun.com/thread.jspa?threadID=5404590&amp;start=0&amp;tstart=0</a></p>
+<p>LZ的贴子翻译如下：</p>
+<blockquote><p>大家好，我是一个Java的新手，我有一个简单的问题：请问我怎么才能反转一个整数的符号啊。比如把-12转成+12。是的，毫无疑问这是个简单的问题，但我弄了一整天我也找不到什么好的方法。非常感谢如果你能告诉我Java有什么方法可以做到这个事，或者告诉我一个正确的方向——比如使用一些数学库或是二进制方法什么的。谢谢！</p></blockquote>
+<p>这个贴子的沙发给出了答案：</p>
+<p><span id="more-1391"></span></p>
+<p style="PADDING-LEFT: 30px">n = -n;</p>
+<p>LZ在四楼回复到：</p>
+<blockquote><p>我知道是个很简单的事，可我没有想到居然这么简单，我觉得你可能是对的。谢谢你。</p></blockquote>
+<p>过了一会，又回复到：</p>
+<blockquote><p>不开玩笑地说，我试了，真的没有问题耶！</p></blockquote>
+<p>看到这样的贴子，就能想到国内论坛上很多这样的“问弱智问题的贴子”，结果可能都会是比较惨！是的，国外的互联网文化和国内差不多，都是恶搞的人多于热心的人，呵呵。<strong>不过，国外的网民们有一点是好的，再恶搞也是就事搞事，不会有侮辱人的语言，这点真是值国内的人学习</strong>。</p>
+<p>这本是一个平淡无奇的贴子，不过回复中那些恶搞的“解决方案”太强大了，在这里例举一下吧。</p>
+<p>贴子的板凳给出了这样的答案（这是恶搞的开始）</p>
+<p> </p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+int x = numberToInvertSign;
+boolean pos = x &gt; 0;
+for(int i = 0; i &lt; 2*Math.abs(x); i++){
+    if(pos){
+        numberToInvertSign--;
+    }
+    else{
+        numberToInvertSign++;
+    }
+}
+</pre>
+<p>然后，有人说，n = -n 可以是可以，但不够晦涩，于是一个晦涩的解决方案出现了：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+int n = ....;
+ n = (0xffffffff ^ n) + 1;
+</pre>
+<p>然后，又出现了一些看似简单，其实是比较晦涩的方案</p>
+<p><code><code data-enlighter-language="java" class="EnlighterJSRAW">n = ~n + 1; </code></p>
+<p> </p>
+<p></code><code><code><code data-enlighter-language="java" class="EnlighterJSRAW">n = ~--n; </code></p>
+<p> </p>
+<p></code></code><code><code>继续，有才的人从来就不少：</code></code></p>
+<p><code><code></p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+n^= 0xffffffff;
+int m;
+for (m= 1; m != 0 &amp;&amp; ((n&amp;m) != 0); m&lt;&lt;= 1);
+n|= m;
+if (m == 0) n= m;
+else for (m &gt;&gt;= 1; m != 0; n^= m, m&gt;&gt;=1);
+</pre>
+<p> </p>
+<p></code></code><code><code>呵呵，开始越来越强大了，我以前也向大家介绍过《<a rel="bookmark" href="https://coolshell.cn/articles/933.html">如何加密/弄乱C源代码</a>》的文章，和这些恶搞的人可能有点相似吧。上面这个例子一出，大家都在讨论上面例子中的for循环语句，呵呵，很费解啊。</code></code></p>
+<p><code><code>然后，后面几个就开始乱来了：</code></code></p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public int invert(int i) {
+  return i - (i + i);
+}</pre>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">switch (i)
+{
+  case 1: return -1;
+  case 2: return -2;
+  case 3: return -3;
+  // ... etc, you get the proper pattern
+}</pre>
+<p>不过事情还没有结束，看看下面这个吧，OMG。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">int absoluteValue(int num)
+{
+ int max = 0;
+ for(int i = 0; true; ++i)
+ {
+  max = i &gt; max ? i : max;
+  if(i == num)
+  {
+   if(i &gt;= max)
+    return i;
+   return -i;
+  }
+ }
+}</pre>
+<p> 还有用字符串的解决方案：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public int invert(int n) {
+    String nStr = String.valueOf(n);
+ 
+    if (nStr.startsWith(&quot;-&quot;)) {
+        nStr = nStr.replace(&quot;-&quot;, &quot;&quot;);
+    } else {
+        nStr = &quot;-&quot; + nStr;
+    }
+ 
+    return Integer.parseInt(nStr);
+}</pre>
+<p>别忘了面象对象，有最新Java支持的模板库： </p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public interface Negatable&lt;T extends Number&gt; {
+  T value();
+  T negate();
+}
+ 
+ 
+ 
+public abstract class NegatableInteger implements Negatable&lt;Integer&gt; {
+  private final int value;
+ 
+  protected NegatableInteger(int value) {
+    this.value = value;
+  }
+ 
+  public static NegatableInteger createNegatableInteger(int value) {
+    if (value &gt; 0) {
+      return new NegatablePositiveInteger(value);
+    }
+    else if (value == Integer.MIN_VALUE) {
+      throw new IllegalArgumentException(&quot;cannot negate &quot; + value);
+    }
+    else if (value &lt; 0) {
+      return new NegatableNegativeInteger(value);
+    }
+    else {
+      return new NegatableZeroInteger(value);
+    }
+  }
+ 
+  public Integer value() {
+    return value;
+  }
+ 
+  public Integer negate() {
+    String negatedString = negateValueAsString ();
+    Integer negatedInteger = Integer.parseInt(negatedString);
+    return negatedInteger;
+  }
+ 
+  protected abstract String negateValueAsString ();
+}
+ 
+ 
+ 
+public class NegatablePositiveInteger extends NegatableInteger {
+  public NegatablePositiveInteger(int value) {
+    super(value);
+  }
+ 
+  protected String negateValueAsString () {
+    String valueAsString = String.valueOf (value());
+    return &quot;-&quot; + valueAsString;
+  }
+}
+ 
+ 
+ 
+public class NegatableNegativeInteger extends NegatableInteger {
+  public NegatableNegativeInteger (int value) {
+    super(value);
+  }
+ 
+  protected String negateValueAsString () {
+    String valueAsString = String.valueOf (value());
+    return valueAsString.substring(1);
+  }
+}
+ 
+ 
+ 
+public class NegatableZeroInteger extends NegatableInteger {
+  public NegatableZeroInteger (int value) {
+    super(value);
+  }
+ 
+  protected String negateValueAsString () {
+    return String.valueOf (value());
+  }
+}</pre>
+<p> </p>
+<p>这个贴子基本上就是两页，好像不算太严重，如果你这样想的话，你就大错特错了。这个贴子被人转到了reddit.com，于是一发不可收拾，在上面的回贴达到了490多条。链接如下：</p>
+<p><a href="http://www.reddit.com/r/programming/comments/9egb6/programming_is_hard/" target="_blank">http://www.reddit.com/r/programming/comments/9egb6/programming_is_hard/</a></p>
+<p>有人说，要用try catch；有人说要使用XML配置文件……，程序员们在追逐更为变态和疯狂的东西，并从中找到快乐，呵呵。</p>
+<p>看完后，正如reddit.com所说——“<strong>编程好难啊</strong>”！</p>
+<p>无独有偶，这并不是第一次，也不会是最后一次，让我们看看在PHP的官网上发生的类似的一幕——讨论PHP的abs取绝对值函数的函数说明文档中的回复：</p>
+<p><a href="http://us.php.net/manual/en/function.abs.php#58508" target="_blank">http://us.php.net/manual/en/function.abs.php#58508</a></p>
+<p>又是一个长贴，还带着很多性能分析，真的很好很强大！</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4758.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="如何写出无法维护的代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4758.html" class="wp_rp_title">如何写出无法维护的代码</a></li><li ><a href="https://coolshell.cn/articles/1992.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/language-fanboys-150x150.jpg" alt="程序员眼中的编程语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1992.html" class="wp_rp_title">程序员眼中的编程语言</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/5444.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="千万不要把 bool 设计成函数参数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5444.html" class="wp_rp_title">千万不要把 bool 设计成函数参数</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1391.html">编程真难啊</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1391.html/feed</wfw:commentRss>
+			<slash:comments>104</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>22个开源的PHP框架</title>
+		<link>https://coolshell.cn/articles/1086.html</link>
+					<comments>https://coolshell.cn/articles/1086.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 25 Jun 2009 03:57:39 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1086</guid>
+
+					<description><![CDATA[<p>PHP 是一个被广泛使用的来进行Web开发的脚本语言。虽然有很多其它可供选择的Web开发语言，像：ASP 和Ruby，但是PHP是目前为止世界上最为流行的。 那...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1086.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1086.html">22个开源的PHP框架</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>PHP 是一个被广泛使用的来进行Web开发的脚本语言。虽然有很多其它可供选择的Web开发语言，像：ASP 和Ruby，但是PHP是目前为止世界上最为流行的。</p>
+<p>那么，是什么让PHP如此流行？PHP 如此之流行是因为比起别的语言来，它更容易学习，网上有一大堆相当相当不错的PHP教程可以让你快速地马上就可以进行Web程序的开发。虽然PHP是是简单的，而且是容易上手的，但用它编程还是有点麻烦，尤其是一些反复在用的功能。不过，幸运的是，很多开发团队早就注意到了这点，现在在网上，PHP有许多的可以信任的PHP Framework 可以缩短我们的开发时间。这些框架被一个巨大的社区所支持，因些，如果你有什么问题的话，一定会有人乐意帮你去解决。</p>
+<p>废话少说，让我们来看看这22个PHP的框架。</p>
+<p><span id="more-1086"></span></p>
+<h2>迄今最有前途的框架</h2>
+<h3>1. <a title="Zend Framework" href="http://framework.zend.com/" target="_blank">Zend Framework</a></h3>
+<p><img decoding="async" loading="lazy" title="zend-framework" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/zend-framework.png" alt="zend-framework" width="500" height="115" /><br />
+Zend Framework 是一个面向对象的，由PHP5写成的框架。其基于一个简洁和友好的许可证协议，并基于了一个经过了相当严酷测试的代码库开发而来。这是一个松散的几乎没有耦合架构设计，你可以方便地把其和其它框架混合使用。</p>
+<h3>2. <a title="Symfony" href="http://www.symfony-project.org/" target="_blank">Symfony</a></h3>
+<p><img decoding="async" loading="lazy" title="symfony" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/symfony.png" alt="symfony" width="500" height="90" /><br />
+Symfony 是一个基于PHP 5 的框架，其提供了一个架构，组件和工具集，可以让你更快地创造你的应用。在其官网上提供了一些入门教程。</p>
+<p><span id="more-575"> </span></p>
+<h3>3. <a title="CodeIgniter" href="http://codeigniter.com/" target="_blank">CodeIgniter</a></h3>
+<p><img decoding="async" loading="lazy" title="codeigniter" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/codeigniter.png" alt="codeigniter" width="500" height="123" /><br />
+CodeIgniter 这个框架有一个wiki可以让你容易的查找相关的文档。其支持的是PHP4。</p>
+<h3>4. <a title="CakePHP" href="http://cakephp.org/" target="_blank">CakePHP</a></h3>
+<p><img decoding="async" loading="lazy" title="cakephp" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/cakephp.png" alt="cakephp" width="500" height="108" /><br />
+这个框架使用了一些流行的设计模式比如： MVC  和ORM  ， CakePHP 可以有效地减少开发成本和帮助开发人员少写代码。</p>
+<h3>5. <a title="Prado PHP Framework" href="http://www.xisc.com/" target="_blank">Prado</a></h3>
+<p><img decoding="async" loading="lazy" title="prado" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/prado.png" alt="prado" width="500" height="56" /></p>
+<p>Prado 需要PHP5 及以上版本才能运行，这是基于组件和事件驱动编程的一个程序框架。</p>
+<h3>6. <a title="Kohana" href="http://www.kohanaphp.com/" target="_blank">Kohana</a></h3>
+<p><img decoding="async" loading="lazy" title="kohana" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/kohana.png" alt="kohana" width="500" height="135" /><br />
+Kohana 是一个基于 PHP 5 的框架，其也是使用MVC—— Model View Controller 架构模式。其面对的是安全，轻量级，和易用性。由于Kohana 原来基于 CodeIgniter开发，因为其限制了PHP5 的OOP能力，所以这个框架更合适用在一些中小型的应用。</p>
+<h3>7. <a title="Solar Framework" href="http://solarphp.com/" target="_blank">Solar Framework</a></h3>
+<p><img decoding="async" loading="lazy" title="solar" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/solar.png" alt="solar" width="500" height="141" /><br />
+Solar 是一个 PHP 5 的框架，其可以用做企业级的应用，而且有内建的语言集和配置。</p>
+<h3>8. <a title="Fuse" href="http://www.phpfuse.net/" target="_blank">Fuse</a></h3>
+<p><img decoding="async" loading="lazy" title="fuse" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/fuse.png" alt="fuse" width="500" height="84" /><br />
+FUSE 也是一个MVC的PHP框架。其注是要受到了Ruby on Rails 和CakePHP的影响，其有定制和直接的设计。FUSE 是一个功能完整，相当稳定的使用面向对像开发的MVC框架。</p>
+<h3>9. <a title="Yii PHP Framework" href="http://www.yiiframework.com/" target="_blank">Yii PHP Framework</a></h3>
+<p><img decoding="async" loading="lazy" title="yii" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/yii.png" alt="yii" width="500" height="57" /><br />
+Yii 是一个高性能的组件式的PHP框架，对于那些大型的Web应用来说，这是最好的框架，全面的功能。但需要PHP5及以上版的支持。</p>
+<h3>10. <a title="Akelos PHP Framework" href="http://www.akelos.org/" target="_blank">Akelos PHP Framework</a></h3>
+<p><img decoding="async" loading="lazy" title="akelos" src="http://www.webdesignbooth.com/wp-content/uploads/2009/06/akelos.png" alt="akelos" width="500" height="108" /><br />
+Akelos PHP 框架也是基于 MVC (Model View Controller) 设计模式的框架。</p>
+<h2>其它可选的 PHP 框架</h2>
+<p>11. <a title="Recess" href="http://www.recessframework.org/" target="_blank">Recess</a><br />
+12. <a title="Agavi" href="http://www.agavi.org/" target="_blank">Agavi</a><br />
+13. <a title="Qcodo" href="http://www.qcodo.com/" target="_blank">Qcodo</a><br />
+14. <a title="Zoop" href="http://zoopframework.com/" target="_blank">Zoop</a><br />
+15. <a title="QPHP" href="http://qphp.net/" target="_blank">QPHP</a><br />
+16. <a title="Seagull" href="http://seagullproject.org/" target="_blank">Seagull PHP</a><br />
+17. <a title="PHPDevShell" href="http://www.phpdevshell.org/" target="_blank">PHPDevShell<br />
+</a>18. <a title="PHPOpenBiz" href="http://www.phpopenbiz.org/" target="_blank">PHPOpenBiz</a><br />
+19. <a title="WASP" href="http://wasp.sourceforge.net/content/" target="_blank">WASP</a><br />
+20. <a title="evoCore" href="http://evocore.net/" target="_blank">evoCore</a><br />
+21. <a title="Lion" href="http://www.lionframework.org/" target="_blank">Lion</a><br />
+22. <a title="Flow3" href="http://flow3.typo3.org/" target="_blank">Flow3</a></p>
+<p>文章：<a href="http://www.webdesignbooth.com/22-open-source-php-frameworks-to-shorten-your-development-time/" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="九个PHP很有用的功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_title">九个PHP很有用的功能</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1086.html">22个开源的PHP框架</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1086.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>使用PHP的cURL库</title>
+		<link>https://coolshell.cn/articles/664.html</link>
+					<comments>https://coolshell.cn/articles/664.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 25 Apr 2009 09:12:32 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[cURL]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=664</guid>
+
+					<description><![CDATA[<p>使用PHP的cURL库可以简单和有效地去抓网页。你只需要运行一个脚本，然后分析一下你所抓取的网页，然后就可以以程序的方式得到你想要的数据了。无论是你想从从一个链...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/664.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/664.html">使用PHP的cURL库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="https://coolshell.cn/wp-content/uploads/2009/04/phpinfo_curl.png"></a>使用PHP的cURL库可以简单和有效地去抓网页。你只需要运行一个脚本，然后分析一下你所抓取的网页，然后就可以以程序的方式得到你想要的数据了。无论是你想从从一个链接上取部分数据，或是取一个XML文件并把其导入数据库，那怕就是简单的获取网页内容，cURL 是一个功能强大的PHP库。本文主要讲述如果使用这个PHP库。</p>
+<p><strong> 启用 cURL 设置</strong><br />
+首先，我们得先要确定我们的PHP是否开启了这个库，你可以通过使用php_info()函数来得到这一信息。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">&lt;?php
+    phpinfo();
+?&gt;</pre>
+<p><span id="more-664"></span></p>
+<p> </p>
+<p>如果你可以在网页上看到下面的输出，那么表示cURL库已被开启。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/04/phpinfo_curl.png"><img decoding="async" loading="lazy" title="phpinfo_curl" src="https://coolshell.cn/wp-content/uploads/2009/04/phpinfo_curl.png" alt="phpinfo_curl" width="498" height="91" /></a></p>
+<p>如果你看到的话，那么你需要设置你的PHP并开启这个库。如果你是在Windows平台下，那么非常简单，你需要改一改你的php.ini文件的设置，找到php_curl.dll，并取消前面的分号注释就行了。如下所示：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+
+//取消下在的注释
+extension=php_curl.dll 
+</pre>
+<p>如果你是在Linux下面，那么，你需要重新编译你的PHP了，编辑时，你需要打开编译参数——在configure命令上加上“&#8211;with-curl” 参数。</p>
+<p><strong>一个小示例</strong><br />
+如果一切就绪，下面是一个小例程：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+&lt;?php
+// 初始化一个 cURL 对象
+$curl = curl_init(); 
+
+// 设置你需要抓取的URL
+curl_setopt($curl, CURLOPT_URL, &#039;https://coolshell.cn&#039;);
+
+// 设置header
+curl_setopt($curl, CURLOPT_HEADER, 1);
+
+// 设置cURL 参数，要求结果保存到字符串中还是输出到屏幕上。
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+// 运行cURL，请求网页
+$data = curl_exec($curl);
+
+// 关闭URL请求
+curl_close($curl);
+
+// 显示获得的数据
+var_dump($data);
+</pre>
+<p> </p>
+<p><strong>如何POST数据</strong></p>
+<p>上面是抓取网页的代码，下面则是向某个网页POST数据。假设我们有一个处理表单的网址<a href="http://www.example.com/sendSMS.php">http://www.example.com/sendSMS.php</a>，其可以接受两个表单域，一个是电话号码，一个是短信内容。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW" data-enlighter-highlight="9,10">
+&lt;?php
+    $phoneNumber = &#039;13912345678&#039;;
+    $message = &#039;This message was generated by curl and php&#039;;
+    $curlPost = &#039;pNUMBER=&#039;  . urlencode($phoneNumber) . &#039;&amp;MESSAGE=&#039; . urlencode($message) . &#039;&amp;SUBMIT=Send&#039;;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, &#039;http://www.example.com/sendSMS.php&#039;);
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+    $data = curl_exec();
+    curl_close($ch);
+?&gt;
+</pre>
+<p> 从上面的程序我们可以看到，使用CURLOPT_POST设置HTTP协议的POST方法，而不是GET方法，然后以CURLOPT_POSTFIELDS设置POST的数据。</p>
+<p><strong>关于代理服务器</strong></p>
+<pre>下面是一个如何使用代理服务器的示例。请注意其中高亮的代码，代码很简单，我就不用多说了。</pre>
+<pre data-enlighter-language="php" class="EnlighterJSRAW" data-enlighter-highlight="6,7,8">
+&lt;?php 
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, &#039;http://www.example.com&#039;);
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
+    curl_setopt($ch, CURLOPT_PROXY, &#039;fakeproxy.com:1080&#039;);
+    curl_setopt($ch, CURLOPT_PROXYUSERPWD, &#039;user:password&#039;);
+    $data = curl_exec();
+    curl_close($ch);
+?&gt;
+
+</pre>
+<p> <strong>关于SSL和Cookie</strong></p>
+<p>关于SSL也就是HTTPS协议，你只需要把CURLOPT_URL连接中的http://变成https://就可以了。当然，还有一个参数叫CURLOPT_SSL_VERIFYHOST可以设置为验证站点。</p>
+<p>关于Cookie，你需要了解下面三个参数：</p>
+<ul>
+<li>CURLOPT_COOKIE，在当面的会话中设置一个cookie</li>
+<li>CURLOPT_COOKIEJAR，当会话结束的时候保存一个Cookie</li>
+<li>CURLOPT_COOKIEFILE，Cookie的文件。</li>
+</ul>
+<p><strong>HTTP服务器认证</strong></p>
+<p>最后，我们来看一看HTTP服务器认证的情况。</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW" data-enlighter-highlight="5,6">
+&lt;?php 
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, &#039;http://www.example.com&#039;);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt(CURLOPT_USERPWD, &#039;[username]:[password]&#039;)
+
+    $data = curl_exec();
+    curl_close($ch);
+?&gt;
+</pre>
+<p>关于其它更多的内容，请大家参看相关的cURL手册吧。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="九个PHP很有用的功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_title">九个PHP很有用的功能</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/664.html">使用PHP的cURL库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/664.html/feed</wfw:commentRss>
+			<slash:comments>12</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>菜鸟学PHP之Smarty入门</title>
+		<link>https://coolshell.cn/articles/559.html</link>
+					<comments>https://coolshell.cn/articles/559.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 17 Apr 2009 07:55:09 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Smarty]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=559</guid>
+
+					<description><![CDATA[<p>　　刚开始接触模版引擎的 PHP 设计师，听到 Smarty 时，都会觉得很难。其实笔者也不例外，碰都不敢碰一下。但是后来在剖析 XOOPS 的程序架构时，开始...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/559.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/559.html">菜鸟学PHP之Smarty入门</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>　　刚开始接触模版引擎的 PHP 设计师，听到 Smarty 时，都会觉得很难。其实笔者也不例外，碰都不敢碰一下。但是后来在剖析 XOOPS 的程序架构时，开始发现 Smarty 其实并不难。只要将 Smarty 基础功练好，在一般应用上就已经相当足够了。当然基础能打好，后面的进阶应用也就不用怕了。<br />
+　　<br />
+　　这篇文章的主要用意并非要深入探讨 Smarty 的使用，这在<span class="t_tag">官方</span>使用说明中都已经写得很完整了。笔者仅在此写下一些自己使用上的心得，让想要了解 Smarty 却不得其门而入的<span class="t_tag">朋友</span>，可以从中得到一些启示。就因为这篇文章的内容不是非常深入，会使用 Smarty 的朋友们可能会觉得简单了点。<br />
+　　<br />
+<span id="more-559"></span>　<br />
+　　<strong>Smarty介绍<br />
+　　<br />
+　　什么是模版引擎</strong><br />
+　　<br />
+　　不知道从什么时候开始，有人开始对 HTML 内嵌入 Server Script 觉得不太满意。然而不论是微软的 ASP 或是开放<span class="t_tag">源码</span>的 PHP，都是属于内嵌 Server Script 的<span class="t_tag">网页</span>伺服端语言。因此也就有人想到，如果能把程序应用逻辑 (或称商业应用逻辑) 与网页呈现 (Layout) 逻辑分离的话，是不是会比较好呢？<br />
+　　<br />
+　　其实这个问题早就存在已久，从交互式网页开始风行时，不论是 ASP 或是 PHP 的使用者都是身兼程序开发者与视觉设计师两种身份。可是通常这些使用者不是程序强就是美工强，如果要两者同时兼顾，那可得死掉不少脑细胞&#8230;<br />
+　　<br />
+　　所以模版引擎就应运而生啦！模版引擎的目的，就是要达到上述提到的逻辑分离的<span class="t_tag">功能</span>。它能让程序开发者专注于资料的控制或是功能的达成；而视觉设计师则可专注于网页排版，让网页看起来更具有专业感！因此模版引擎很适合公司的网站开发团队使用，使每个人都能发挥其专长！<br />
+　　<br />
+　　就笔者接触过的模版引擎来说，依资料呈现方式大概分成：需搭配程序处理的模版引擎和完全由模版本身自行决定的模版引擎两种形式。<br />
+　　<br />
+　　在需搭配程序处理的模版引擎中，程序开发者必须要负责变量的呈现逻辑，也就是说他必须把变量的内容在输出到模版前先处理好，才能做 assign 的工作。换句话说，程序开发者还是得多写一些程序来决定变量呈现的风貌。而完全由模版本身自行决定的模版引擎，它允许变量直接 assign 到模版中，让视觉设计师在设计模版时再决定变量要如何呈现。因此它就可能会有另一套属于自己的模版程序语法 (如 Smarty) ，以方便控制变量的呈现。但这样一来，视觉设计师也得学习如何使用模版语言。<br />
+　　<br />
+　　模版引擎的运作原理，首先我们先看看以下的运行图：<br />
+　　 　<img decoding="async" loading="lazy" src="http://linux.chinaitlab.com/imgfiles/2005.11.30.14.32.31.13.1.gif" alt="" width="400" height="450" /><br />
+　　一般的模版引擎 (如 PHPLib) 都是在建立模版对象时取得要解析的模版，然后把变量套入后，透过 parse() 这个方法来解析模版，最后再将网页输出。<br />
+　　 　<img decoding="async" loading="lazy" src="http://linux.chinaitlab.com/imgfiles/2005.11.30.14.32.38.13.2.gif" alt="" width="400" height="600" /><br />
+　　对 Smarty 的使用者来说，程序里也不需要做任何 parse 的动作了，这些 Smarty 自动会帮我们做。而且已经<span class="t_tag">编译</span>过的网页，如果模版没有变动的话， Smarty 就自动跳过编译的动作，直接执行编译过的网页，以节省编译的时间。<br />
+　　<br />
+　　<strong>使用Smarty的一些概念</strong><br />
+　　<br />
+　　在一般模版引擎中，我们常看到区域的观念，所谓区块大概都会长成这样：<br />
+　　&lt;!&#8211; START : Block name &#8211;&gt;<br />
+　　区域内容<br />
+　　&lt;!&#8211; END : Block name &#8211;&gt;<br />
+　　<br />
+　　这些区块大部份都会在 PHP 程序中以 if 或 for, while 来控制它们的显示状态，虽然模版看起来简洁多了，但只要一换了显示方式不同的模版， PHP 程序势必要再改一次！<br />
+　　<br />
+　　在 Smarty 中，一切以变量为主，所有的呈现逻辑都让模版自行控制。因为 Smarty 会有自己的模版语言，所以不管是区块是否要显示还是要重复，都是用 Smarty 的模版语法 (if, foreach, section) 搭配变量内容作呈现。这样一来感觉上好象模版变得有点复杂，但好处是只要规划得当， PHP 程序一行都不必改。<br />
+　　<br />
+　　由上面的说明，我们可以知道使用Smarty 要掌握一个原则：将程序应用逻辑与网页呈现逻辑明确地分离。就是说 PHP 程序里不要有太多的 HTML 码。程序中只要决定好那些变量要塞到模版里，让模版自己决定该如何呈现这些变量 (甚至不出现也行) 。<br />
+　　<br />
+　　<strong>Smarty的基础<br />
+　　<br />
+　　安装Smarty</strong><br />
+　　<br />
+　　首先，我们先决定程序放置的位置。<br />
+　　<br />
+　　<a href="http://windows.chinaitlab.com/" target="_blank"><span style="color: #0000ff;">Windows</span></a>下可能会类似这样的位置：「 d:\appserv\web\demo\ 」。<br />
+　　<br />
+　　Linux下可能会类似这样的位置：「 /home/jaceju/public_html/ 」。<br />
+　　<br />
+　　到Smarty的官方网站<a href="http://download.chinaitlab.com/" target="_blank"><span style="color: #0000ff;"><span class="t_tag">下载</span></span></a>最新的Smarty套件：<a href="http://smarty.php.net/" target="_blank">http://smarty.php.net</a>。<br />
+　　<br />
+　　解开 Smarty 2.6.0 后，会看到很多档案，其中有个 libs 资料夹。在 libs 中应该会有 3 个 class.php 檔 + 1 个 debug.tpl + 1 个 plugin 资料夹 + 1 个 core 资料夹。然后直接将 libs 复制到您的程序主资料夹下，再更名为 class 就可以了。就这样？没错！这种安装法比较简单，适合一般没有自己主机的使用者。<br />
+　　<br />
+　　至于 Smarty 官方手册中为什么要介绍一些比较复杂的安装方式呢？基本上依照官方的方式安装，可以只在主机安装一次，然后提供给该主机下所有设计者开发不同程序时直接引用，而不会重复安装太多的 Smarty 复本。而笔者所提供的方式则是适合要把程序带过来移过去的程序开发者使用，这样不用烦恼主机有没有安装 Smarty 。<br />
+　　<br />
+　　<strong>程序的资料夹设定</strong><br />
+　　<br />
+　　以笔者在<a href="http://windows.chinaitlab.com/" target="_blank"><span style="color: #0000ff;">Windows</span></a>安装Appserv为例，程序的主资料夹是「d:\appserv\web\demo\」。安装好Smarty后，我们在主资料夹下再建立这样的资料夹：<br />
+　　 　<img decoding="async" loading="lazy" src="http://linux.chinaitlab.com/imgfiles/2005.11.30.14.32.46.13.3.gif" alt="" width="156" height="135" /><br />
+　　在 Linux 底下，请记得将 templates_c 的权限变更为 777 。Windows 下则将其只读取消。<br />
+　　<br />
+　　<strong>第一个用Smarty写的小程序</strong><br />
+　　<br />
+　　我们先设定 Smarty 的路径，请将以下这个档案命名为 main.php ，并放置到主资料夹下：<br />
+　　<br />
+　　main.php:</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　include &quot;class/Smarty.class.php&quot;;
+　　define(&#039;__SITE_ROOT&#039;, &#039;d:/appserv/web/demo&#039;); // 最后没有斜线
+　　$tpl = new Smarty();
+　　$tpl-&gt;template_dir = __SITE_ROOT . &quot;/templates/&quot;;
+　　$tpl-&gt;compile_dir = __SITE_ROOT . &quot;/templates_c/&quot;;
+　　$tpl-&gt;config_dir = __SITE_ROOT . &quot;/configs/&quot;;
+　　$tpl-&gt;cache_dir = __SITE_ROOT . &quot;/cache/&quot;;
+　　$tpl-&gt;left_delimiter = &#039;&lt;{&#039;;
+　　$tpl-&gt;right_delimiter = &#039;}&gt;&#039;;
+　　?&gt;
+　　</pre>
+<p>　　照上面方式设定的用意在于，程序如果要移植到其它地方，只要改 __SITE_ROOT 就可以啦。 (这里是参考 XOOPS 的 )<br />
+　　<br />
+　　Smarty 的模版路径设定好后，程序会依照这个路径来抓所有模版的相对位置 (范例中是 &#8216;d:/appserv/web/demo/templates/&#8217; ) 。然后我们用 display() 这个 Smarty 方法来显示我们的模版。<br />
+　　<br />
+　　接下来我们在 templates 资料夹下放置一个 test.htm：(扩展名叫什么都无所谓，但便于视觉设计师开发，笔者都还是以 .htm 为主。)<br />
+　　<br />
+　　templates/test.htm:</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+　　&lt;html&gt;
+　　&lt;head&gt;
+　　&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=big5&quot;&gt;
+　　&lt;title&gt;&lt;{$title}&gt;&lt;/title&gt;
+　　&lt;/head&gt;
+　　&lt;body&gt;
+　　&lt;{$content}&gt;
+　　&lt;/body&gt;
+　　&lt;/html&gt;
+　　</pre>
+<p>　　现在我们要将上面的模版显示出来，并将网页标题 ($title) 与内容 ($content) 更换，请将以下档案内容命名为 test.php ，并放置在主资料夹下：<br />
+　　<br />
+　　test.php:</p>
+<p>       </p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　require &quot;main.php&quot;;
+　　$tpl-&gt;assign(&quot;title&quot;, &quot;测试用的网页标题&quot;);
+　　$tpl-&gt;assign(&quot;content&quot;, &quot;测试用的网页内容&quot;);
+　　// 上面两行也可以用这行代替
+　　// $tpl-&gt;assign(array(&quot;title&quot; =&gt; &quot;测试用的网页标题&quot;, &quot;content&quot; =&gt; &quot;测试用的网页内容&quot;));
+　　$tpl-&gt;display(&#039;test.htm&#039;);
+　　?&gt;
+　　</pre>
+<p>　　请打开浏览器，输入 http://localhost/demo/test.php 试试看(依您的环境决定网址)，应该会看到以下的画面：<br />
+　　 　<img decoding="async" loading="lazy" src="http://linux.chinaitlab.com/imgfiles/2005.11.30.14.32.52.13.4.gif" alt="" width="287" height="217" /><br />
+　　再到 templates_c 底下，我们会看到一个奇怪的资料夹 (%%179) ，再点选下去也是一个奇怪的资料夹 (%%1798044067) ，而其中有一个档案：<br />
+　　<br />
+　　templates_c/%%179/%%1798044067/test.htm.php:</p>
+<p>        </p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+　　&lt;?php /* Smarty version 2.6.0, created on 2003-12-15 22:19:45 compiled from test.htm */ ?&gt;
+　　&lt;html&gt;
+　　&lt;head&gt;
+　　&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=big5&quot;&gt;
+　　&lt;title&gt;&lt;?php echo $this-&gt;_tpl_vars[&#039;title&#039;]; ?&gt;&lt;/title&gt;
+　　&lt;/head&gt;
+　　&lt;body&gt;
+　　&lt;?php echo $this-&gt;_tpl_vars[&#039;content&#039;]; ?&gt;
+　　&lt;/body&gt;
+　　&lt;/html&gt;
+　　</pre>
+<p>　　没错，这就是 Smarty 编译过的档案。它将我们在模版中的变量转换成了 PHP 的语法来执行，下次再读取同样的内容时， Smarty 就会直接抓取这个档案来执行了。<br />
+　　<br />
+　　最后我们整理一下整个 Smarty 程序撰写步骤：<br />
+　　<br />
+　　Step 1. 加载 Smarty 模版引擎。<br />
+　　<br />
+　　Step 2. 建立 Smarty 对象。<br />
+　　<br />
+　　Step 3. 设定 Smarty 对象的参数。<br />
+　　<br />
+　　Step 4. 在程序中处理变量后，再用 Smarty 的 assign 方法将变量置入模版里。<br />
+　　<br />
+　　Step 5. 利用 Smarty 的 display 方法将网页秀出。<br />
+　　<br />
+　　<strong>如何安排你的程序架构</strong><br />
+　　<br />
+　　上面我们看到除了 Smarty 所需要的资料夹外 (class 、 configs 、 templates 、 templates_c) ，还有两个资料夹： includes 、 modules 。其实这是笔者模仿 XOOPS 的架构所建立出来的，因为 XOOPS 是笔者所接触到的程序中，少数使用 Smarty 模版引擎的架站程序。所谓西瓜偎大边，笔者这样的程序架构虽没有 XOOPS 的百分之一强，但至少给人看时还有 XOOPS 撑腰。<br />
+　　<br />
+　　includes 这个资料夹主要是用来放置一些 function 、 sql 檔，这样在 main.php 就可以将它们引入了，如下：<br />
+　　<br />
+　　main.php:<br />
+　　</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　include &quot;class/Smarty.class.php&quot;;
+　　define(&#039;__SITE_ROOT&#039;, &#039;d:/appserv/web/demo&#039;); // 最后没有斜线
+　　// 以 main.php 的位置为基准
+　　require_once &quot;includes/functions.php&quot;;
+　　require_once &quot;includes/include.php&quot;;
+　　$tpl = new Smarty();
+　　$tpl-&gt;template_dir = __SITE_ROOT . &quot;/templates/&quot;;
+　　$tpl-&gt;compile_dir = __SITE_ROOT . &quot;/templates_c/&quot;;
+　　$tpl-&gt;config_dir = __SITE_ROOT . &quot;/configs/&quot;;
+　　$tpl-&gt;cache_dir = __SITE_ROOT . &quot;/cache/&quot;;
+　　$tpl-&gt;left_delimiter = &#039;&lt;{&#039;;
+　　$tpl-&gt;right_delimiter = &#039;}&gt;&#039;;
+　　?&gt;
+　　</pre>
+<p>　　modules 这个资料夹则是用来放置程序模块的，如此一来便不会把程序丢得到处都是，整体架构一目了然。<br />
+　　<br />
+　　上面我们也提到 main.php ，这是整个程序的主要核心，不论是常数定义、外部程序加载、共享变量建立等，都是在这里开始的。所以之后的模块都只要将这个档案包含进来就可以啦。因此在程序流程规划期间，就必须好好构思 main.php 中应该要放那些东西；当然利用 include 或 require 指令，把每个环节清楚分离是再好不过了。<br />
+　　 　<img decoding="async" loading="lazy" src="http://linux.chinaitlab.com/imgfiles/2005.11.30.14.32.59.13.5.gif" alt="" width="180" height="310" /><br />
+　　在上节提到的 Smarty 程序 5 步骤， main.php 就会帮我们先将前 3 个步骤做好，后面的模块程序只要做后面两个步骤就可以了。<br />
+　　<br />
+　　<strong>从变量开始</strong><br />
+　　<br />
+　　如何使用变量<br />
+　　<br />
+　　从上一章范例中，我们可以清楚地看到我们利用 &lt;{ 及 }&gt; 这两个标示符号将变量包起来。预设的标示符号为 { 及 } ，但为了中文冲码及 <a href="http://java.chinaitlab.com/" target="_blank"><span style="color: #0000ff;">Java</span></a>script 的关系，因此笔者还是模仿 XOOPS ，将标示符号换掉。变量的命名方式和 PHP 的变量命名方式是一模一样的，前面也有个 $ 字号 (这和一般的模版引擎不同)。标示符号就有点像是 PHP 中的 &lt;?php 及 ?&gt; (事实上它们的确会被替换成这个) ，所以以下的模版变量写法都是可行的：<br />
+　　<br />
+　　1. &lt;{$var}&gt;<br />
+　　<br />
+　　2. &lt;{ $var }&gt; &lt;!&#8211; 和变量之间有空格 &#8211;&gt;<br />
+　　<br />
+　　3. &lt;{$var<br />
+　　<br />
+　　}&gt; &lt;!&#8211; 启始的标示符号和结束的标示符号不在同一行 &#8211;&gt;<br />
+　　在 Smarty 里，变量预设是全域的，也就是说你只要指定一次就好了。指定两次以上的话，变量内容会以最后指定的为主。就算我们在主模版中加载了外部的子模版，子模版中同样的变量一样也会被替代，这样我们就不用再针对子模版再做一次解析的动作。<br />
+　　<br />
+　　而在 PHP 程序中，我们用 Smarty 的 assign 来将变量置放到模版中。 assign 的用法官方手册中已经写得很多了，用法就如同上一节的范例所示。不过在重复区块时，我们就必须将变量做一些手脚后，才能将变量 assign 到模版中，这在下一章再提。<br />
+　　<br />
+　　<strong>修饰你的变量</strong><br />
+　　<br />
+　　上面我们提到 Smarty 变量呈现的风貌是由模版自行决定的，所以 Smarty 提供了许多修饰变量的函式。使用的方法如下：<br />
+　　<br />
+　　&lt;{变量|修饰函式}&gt; &lt;!&#8211; 当修饰函式没有参数时 &#8211;&gt;<br />
+　　<br />
+　　&lt;{变量|修饰函式:&#8221;参数(非必要，视函式而定)&#8221;}&gt; &lt;!&#8211; 当修饰函式有参数时 &#8211;&gt;<br />
+　　范例如下：<br />
+　　<br />
+　　&lt;{$var|nl2br}&gt; &lt;!&#8211; 将变量中的换行字符换成 &lt;br /&gt; &#8211;&gt;<br />
+　　<br />
+　　&lt;{$var|string_format:&#8221;%02d&#8221;}&gt; &lt;!&#8211; 将变量格式化 &#8211;&gt;<br />
+　　好，那为什么要让模版自行决定变量呈现的风貌？先看看底下的 HTML ，这是某个购物车结帐的部份画面。<br />
+　　<br />
+　　&lt;input name=&#8221;total&#8221; type=&#8221;hidden&#8221; value=&#8221;21000&#8243; /&gt;<br />
+　　<br />
+　　总金额：21,000 元<br />
+　　一般模版引擎的模版可能会这样写：<br />
+　　<br />
+　　&lt;input name=&#8221;total&#8221; type=&#8221;hidden&#8221; value=&#8221;{total}&#8221; /&gt;<br />
+　　<br />
+　　总金额：{format_total} 元<br />
+　　它们的 PHP 程序中要这样写：<br />
+　　</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　$total = 21000;
+　　$tpl-&gt;assign(&quot;total&quot;, $total);
+　　$tpl-&gt;assign(&quot;format_total&quot;, number_format($total));
+　　?&gt;
+　　</pre>
+<p>　　而 Smarty 的模版就可以这样写： (number_format 修饰函式请到Smarty 官方网页<a href="http://download.chinaitlab.com/" target="_blank"><span style="color: #0000ff;">下载</span></a>)<br />
+　　<br />
+　　&lt;input name=&#8221;total&#8221; type=&#8221;hidden&#8221; value=&#8221;&lt;{$total}&gt;&#8221; /&gt;<br />
+　　<br />
+　　总金额：&lt;{$total|number_format:&#8221;&#8221;}&gt; 元<br />
+　　Smarty 的 PHP 程序中只要这样写：<br />
+　　</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　$total = 21000;
+　　$tpl-&gt;assign(&quot;total&quot;, $total);
+　　?&gt;
+　　</pre>
+<p>　　所以在 Smarty 中我们只要指定一次变量，剩下的交给模版自行决定即可。这样了解了吗？这就是让模版自行决定变量呈现风貌的好处！<br />
+　　<br />
+　　<strong>控制模版的内容<br />
+　　<br />
+　　重复的区块</strong><br />
+　　<br />
+　　在 Smarty 样板中，我们要重复一个区块有两种方式： foreach 及 section 。而在程序中我们则要 assign 一个数组，这个数组中可以包含数组数组。就像下面这个例子：<br />
+　　<br />
+　　首先我们来看 PHP 程序是如何写的：<br />
+　　<br />
+　　test2.php:<br />
+　　</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　require &quot;main.php&quot;;
+　　$array1 = array(1 =&gt; &quot;苹果&quot;, 2 =&gt; &quot;菠萝&quot;, 3 =&gt; &quot;香蕉&quot;, 4 =&gt; &quot;芭乐&quot;);
+　　$tpl-&gt;assign(&quot;array1&quot;, $array1);
+　　$array2 = array(
+　　array(&quot;index1&quot; =&gt; &quot;data1-1&quot;, &quot;index2&quot; =&gt; &quot;data1-2&quot;, &quot;index3&quot; =&gt; &quot;data1-3&quot;),
+　　array(&quot;index1&quot; =&gt; &quot;data2-1&quot;, &quot;index2&quot; =&gt; &quot;data2-2&quot;, &quot;index3&quot; =&gt; &quot;data2-3&quot;),
+　　array(&quot;index1&quot; =&gt; &quot;data3-1&quot;, &quot;index2&quot; =&gt; &quot;data3-2&quot;, &quot;index3&quot; =&gt; &quot;data3-3&quot;),
+　　array(&quot;index1&quot; =&gt; &quot;data4-1&quot;, &quot;index2&quot; =&gt; &quot;data4-2&quot;, &quot;index3&quot; =&gt; &quot;data4-3&quot;),
+　　array(&quot;index1&quot; =&gt; &quot;data5-1&quot;, &quot;index2&quot; =&gt; &quot;data5-2&quot;, &quot;index3&quot; =&gt; &quot;data5-3&quot;));
+　　$tpl-&gt;assign(&quot;array2&quot;, $array2);
+　　$tpl-&gt;display(&quot;test2.htm&quot;);
+　　?&gt;
+　　</pre>
+<p>　　而模版的写法如下：<br />
+　　<br />
+　　templates/test2.htm:<br />
+　　</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+　　&lt;html&gt;
+　　&lt;head&gt;
+　　&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=big5&quot;&gt;
+　　&lt;title&gt;测试重复区块&lt;/title&gt;
+　　&lt;/head&gt;
+　　&lt;body&gt;
+　　
+&lt;pre&gt;
+　　利用 foreach 来呈现 array1
+　　&lt;{foreach item=item1 from=$array1}&gt;
+　　&lt;{$item1}&gt;
+　　&lt;{/foreach}&gt;
+　　利用 section 来呈现 array1
+　　&lt;{section name=sec1 loop=$array1}&gt;
+　　&lt;{$array1[sec1]}&gt;
+　　&lt;{/section}&gt;
+　　利用 foreach 来呈现 array2
+　　&lt;{foreach item=index2 from=$array2}&gt;
+　　&lt;{foreach key=key2 item=item2 from=$index2}&gt;
+　　&lt;{$key2}&gt;: &lt;{$item2}&gt;
+　　&lt;{/foreach}&gt;
+　　&lt;{/foreach}&gt;
+　　利用 section 来呈现 array1
+　　&lt;{section name=sec2 loop=$array2}&gt;
+　　index1: &lt;{$array2[sec2].index1}&gt;
+　　index2: &lt;{$array2[sec2].index2}&gt;
+　　index3: &lt;{$array2[sec2].index3}&gt;
+　　&lt;{/section}&gt;
+　　&lt;/pre&gt;
+　　&lt;/body&gt;
+　　&lt;/html&gt;
+　　</pre>
+<p>　　执行上例后，我们发现不管是 foreach 或 section 两个执行结果是一样的。那么两者到底有何不同呢？<br />
+　　<br />
+　　第一个差别很明显，就是foreach 要以巢状处理的方式来呈现我们所 assign 的两层数组变量，而 section 则以「主数组[循环名称].子数组索引」即可将整个数组呈现出来。由此可知， Smarty 在模版中的 foreach 和 PHP 中的 foreach 是一样的；而 section 则是 Smarty 为了处理如上列的数组变量所发展出来的叙述。当然 section 的功能还不只如此，除了下一节所谈到的巢状资料呈现外，官方手册中也提供了好几个 section 的应用范例。<br />
+　　<br />
+　　不过要注意的是，丢给 section 的数组索引必须是从 0 开始的正整数，即 0, 1, 2, 3, &#8230;。如果您的数组索引不是从 0 开始的正整数，那么就得改用 foreach 来呈现您的资料。您可以参考官方讨论区中的此篇讨论，其中探讨了 section 和 foreach 的用法。<br />
+　　<br />
+　　<strong>巢状资料的呈现</strong><br />
+　　<br />
+　　模版引擎里最令人伤脑筋的大概就是巢状资料的呈现吧，许多著名的模版引擎都会特意强调这点，不过这对 Smarty 来说却是小儿科。<br />
+　　<br />
+　　最常见到的巢状资料，就算论譠程序中的讨论主题区吧。假设要呈现的结果如下：<br />
+　　<br />
+　　公告区<br />
+　　<br />
+　　站务公告<br />
+　　<br />
+　　文学专区<br />
+　　<br />
+　　好书介绍<br />
+　　<br />
+　　奇文共赏<br />
+　　<br />
+　　计算机专区<br />
+　　<br />
+　　硬件外围<br />
+　　<br />
+　　<span class="t_tag">软件</span>讨论<br />
+　　<br />
+　　程序中我们先以静态资料为例：<br />
+　　<br />
+　　test3.php:<br />
+　　</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　require &quot;main.php&quot;;
+　　$forum = array(
+　　array(&quot;category_id&quot; =&gt; 1, &quot;category_name&quot; =&gt; &quot;公告区&quot;,
+　　&quot;topic&quot; =&gt; array(
+　　array(&quot;topic_id&quot; =&gt; 1, &quot;topic_name&quot; =&gt; &quot;站务公告&quot;)
+　　)
+　　),
+　　array(&quot;category_id&quot; =&gt; 2, &quot;category_name&quot; =&gt; &quot;文学专区&quot;,
+　　&quot;topic&quot; =&gt; array(
+　　array(&quot;topic_id&quot; =&gt; 2, &quot;topic_name&quot; =&gt; &quot;好书介绍&quot;),
+　　array(&quot;topic_id&quot; =&gt; 3, &quot;topic_name&quot; =&gt; &quot;奇文共赏&quot;)
+　　)
+　　),
+　　array(&quot;category_id&quot; =&gt; 3, &quot;category_name&quot; =&gt; &quot;计算机专区&quot;,
+　　&quot;topic&quot; =&gt; array(
+　　array(&quot;topic_id&quot; =&gt; 4, &quot;topic_name&quot; =&gt; &quot;硬件外围&quot;),
+　　array(&quot;topic_id&quot; =&gt; 5, &quot;topic_name&quot; =&gt; &quot;软件讨论&quot;)
+　　)
+　　)
+　　);
+　　$tpl-&gt;assign(&quot;forum&quot;, $forum);
+　　$tpl-&gt;display(&quot;test3.htm&quot;);
+　　?&gt;
+　　</pre>
+<p>　　模版的写法如下：<br />
+　　<br />
+　　templates/test3.htm:<br />
+　　</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+　　&lt;html&gt;
+　　&lt;head&gt;
+　　&lt;title&gt;巢状循环测试&lt;/title&gt;
+　　&lt;/head&gt;
+　　&lt;body&gt;
+　　
+&lt;table width=&quot;200&quot; border=&quot;0&quot; align=&quot;center&quot; cellpadding=&quot;3&quot; cellspacing=&quot;0&quot;&gt;
+　　&lt;{section name=sec1 loop=$forum}&gt;
+　　
+&lt;tr&gt;
+　　
+&lt;td colspan=&quot;2&quot;&gt;&lt;{$forum[sec1].category_name}&gt;&lt;/td&gt;
+　　&lt;/tr&gt;
+　　&lt;{section name=sec2 loop=$forum[sec1].topic}&gt;
+　　
+&lt;tr&gt;
+　　
+&lt;td width=&quot;25&quot;&gt;&lt;/td&gt;
+　　
+&lt;td width=&quot;164&quot;&gt;&lt;{$forum[sec1].topic[sec2].topic_name}&gt;&lt;/td&gt;
+　　&lt;/tr&gt;
+　　&lt;{/section}&gt;
+　　&lt;{/section}&gt;
+　　&lt;/table&gt;
+　　&lt;/body&gt;
+　　&lt;/html&gt;
+　　</pre>
+<p>　　执行的结果就像笔者举的例子一样。<br />
+　　<br />
+　　因此呢，在程序中我们只要想<span class="t_tag">办法</span>把所要重复值一层一层的塞到数组中，再利用 &lt;{第一层数组[循环1].第二层数组[循环2].第三层数组[循环3]. &#8230; .数组索引}&gt; 这样的方式来显示每一个巢状循环中的值。至于用什么方法呢？下一节使用<span class="t_tag">数据库</span>时我们再提。<br />
+　　<br />
+　　<strong>转换<span class="t_tag">数据</span>库中的资料</strong><br />
+　　<br />
+　　上面提到如何显示巢状循环，而实际上应用时我们的资料可能是从数据库中抓取出来的，所以我们就得想办法把数据库的资料变成上述的多重数组的形式。这里笔者用一个 DB 类别来抓取数据库中的资料，您可以自行用您喜欢的方法。<br />
+　　<br />
+　　我们只修改 PHP 程序，模版还是上面那个 (这就是模版引擎的好处~)，其中 $db 这个对象假设已经在 main.php 中建立好了，而且抓出来的资料就是上面的例子。<br />
+　　<br />
+　　test3.php:<br />
+　　</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　require &quot;main.php&quot;;
+　　// 先建立第一层数组
+　　$category = array();
+　　$db-&gt;set&lt;span class=&quot;t_tag&quot;&gt;SQL&lt;/span&gt;($SQL1, &#039;CATEGORY&#039;);
+　　if (!$db-&gt;query(&#039;CATEGORY&#039;)) die($db-&gt;error());
+　　// 抓取第一层循环的资料
+　　while ($item_category = $db-&gt;fetchAssoc(&#039;CATEGORY&#039;))
+　　{
+　　// 建立第二层数组
+　　$topic = array();
+　　$db-&gt;setSQL(sprintf($SQL2, $item_category[&#039;category_id&#039;]), &#039;TOPIC&#039;);
+　　if (!$db-&gt;query(&#039;TOPIC&#039;)) die($db-&gt;error());
+　　// 抓取第二层循环的资料
+　　while ($item_topic = $db-&gt;fetchAssoc(&#039;TOPIC&#039;))
+　　{
+　　// 把抓取的数据推入第二层数组中
+　　array_push($topic, $item_topic);
+　　}
+　　// 把第二层数组指定为第一层数组所抓取的数据中的一个成员
+　　$item_category[&#039;topic&#039;] = $topic;
+　　// 把第一层数据推入第一层数组中
+　　array_push($category, $item_category);
+　　}
+　　$tpl-&gt;assign(&quot;forum&quot;, $category);
+　　$tpl-&gt;display(&quot;test3.htm&quot;);
+　　?&gt;
+　　</pre>
+<p>　　在数据库抓取一笔资料后，我们得到的是一个包含该笔数据的数组。透过 while 叙述及 array_push 函式，我们将数据库中的资料一笔一笔塞到数组里。如果您只用到单层循环，就把第二层循环 (红色的部份) 去掉即可。<br />
+　　<br />
+　　<strong>决定内容是否显示</strong><br />
+　　<br />
+　　要决定是否显示内容，我们可以使用 if 这个语法来做选择。例如如果使用者已经登入的话，我们的模版就可以这样写：<br />
+　　<br />
+　　&lt;{if $is_login == true}&gt;<br />
+　　显示使用者操作选单<br />
+　　&lt;{else}&gt;<br />
+　　显示输入<span class="t_tag">帐号</span>和<span class="t_tag">密码</span>的窗体<br />
+　　&lt;{/if}&gt;<br />
+　　<br />
+　　要注意的是，「==」号两边一定要各留至少一个空格符，否则 Smarty 会无法解析。<br />
+　　<br />
+　　if 语法一般的应用可以参照官方使用说明，所以笔者在这里就不详加介绍了。不过笔者发现了一个有趣的应用：常常会看到程序里要产生这样的一个表格： (数字代表的是资料集的顺序)<br />
+　　<br />
+　　1 2<br />
+　　<br />
+　　3 4<br />
+　　<br />
+　　5 6<br />
+　　<br />
+　　7 8<br />
+　　<br />
+　　这个笔者称之为「横向重复表格」。它的特色和传统的纵向重复不同，前几节我们看到的重复表格都是从上而下，一列只有一笔资料。而横向重复表格则可以横向地在一列中产生 n 笔资料后，再换下一列，直到整个循环结束。要达到这样的功能，最简单的方式只需要 section 和 if 搭配即可。<br />
+　　<br />
+　　我们来看看下面这个例子：<br />
+　　<br />
+　　test4.php:<br />
+　　</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　require &quot;main.php&quot;;
+　　$my_array = array(
+　　array(&quot;value&quot; =&gt; &quot;0&quot;),
+　　array(&quot;value&quot; =&gt; &quot;1&quot;),
+　　array(&quot;value&quot; =&gt; &quot;2&quot;),
+　　array(&quot;value&quot; =&gt; &quot;3&quot;),
+　　array(&quot;value&quot; =&gt; &quot;4&quot;),
+　　array(&quot;value&quot; =&gt; &quot;5&quot;),
+　　array(&quot;value&quot; =&gt; &quot;6&quot;),
+　　array(&quot;value&quot; =&gt; &quot;7&quot;),
+　　array(&quot;value&quot; =&gt; &quot;8&quot;),
+　　array(&quot;value&quot; =&gt; &quot;9&quot;));
+　　$tpl-&gt;assign(&quot;my_array&quot;, $my_array);
+　　$tpl-&gt;display(&#039;test4.htm&#039;);
+　　?&gt;
+　　</pre>
+<p>　　模版的写法如下：<br />
+　　<br />
+　　templates/test4.htm:<br />
+　　</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+　　&lt;html&gt;
+　　&lt;head&gt;
+　　&lt;title&gt;横向重复表格测试&lt;/title&gt;
+　　&lt;/head&gt;
+　　&lt;body&gt;
+　　
+&lt;table width=&quot;500&quot; border=&quot;1&quot; cellspacing=&quot;0&quot; cellpadding=&quot;3&quot;&gt;
+　　
+&lt;tr&gt;
+　　&lt;{section name=sec1 loop=$my_array}&gt;
+　　
+&lt;td&gt;&lt;{$my_array[sec1].value}&gt;&lt;/td&gt;
+　　&lt;{if $smarty.section.sec1.rownum is div by 2}&gt;
+　　&lt;/tr&gt;
+　　
+&lt;tr&gt;
+　　&lt;{/if}&gt;
+　　&lt;{/section}&gt;
+　　&lt;/tr&gt;
+　　&lt;/table&gt;
+　　&lt;/body&gt;
+　　&lt;/html&gt;
+　　</pre>
+<p>　　重点在于 $smarty.section.sec1.rownum 这个 Smarty 变量，在 section 循环中这个变量会取得从 1 开始的索引值，所以当 rownum 能被 2 除尽时，就输出 &lt;/tr&gt;&lt;tr&gt; 使表格换列 (注意！是 &lt;/tr&gt; 在前面&lt;tr&gt; 在后面) 。因此数字 2 就是我们在一列中想要呈现的资料笔数。各位可以由此去变化其它不同的呈现方式。<br />
+　　<br />
+　　<strong>加载外部内容</strong><br />
+　　<br />
+　　我们可以在模版内加载 PHP 程序<span class="t_tag">代码</span>或是另一个子模版，分别是使用 include_php 及 include 这两个 Smarty 模版语法； include_php 笔者较少用，使用方式可以查询官方手册，这里不再叙述。<br />
+　　<br />
+　　在使用 include 时，我们可以预先加载子模版，或是动态加载子模版。预先加载通常使用在有共同的<span class="t_tag">文件</span>标头及版权宣告；而动态加载则可以用在统一的框架页，而进一步达到如 Win<span class="t_tag">amp</span> 般可换 Skin 。当然这两种我们也可以混用，视状况而定。<br />
+　　<br />
+　　我们来看看下面这个例子：<br />
+　　<br />
+　　test5.php:<br />
+　　</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">
+　　&lt;?php
+　　require &quot;main.php&quot;;
+　　$tpl-&gt;assign(&quot;title&quot;, &quot;Include 测试&quot;);
+　　$tpl-&gt;assign(&quot;content&quot;, &quot;这是模版 2 中的变量&quot;);
+　　$tpl-&gt;assign(&quot;dyn_page&quot;, &quot;test5_3.htm&quot;);
+　　$tpl-&gt;display(&#039;test5_1.htm&#039;);
+　　?&gt;
+　　</pre>
+<p>　　模版 1 的写法如下：<br />
+　　<br />
+　　templates/test5_1.htm:<br />
+　　</p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+　　&lt;html&gt;
+　　&lt;head&gt;
+　　&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=big5&quot;&gt;
+　　&lt;title&gt;&lt;{$title}&gt;&lt;/title&gt;
+　　&lt;/head&gt;
+　　&lt;body&gt;
+　　&lt;{include file=&quot;test5_2.htm&quot;}&gt;
+　　&lt;{include file=$dyn_page}&gt;
+　　&lt;{include file=&quot;test5_4.htm&quot; custom_var=&quot;自订变量的内容&quot;}&gt;
+　　&lt;/body&gt;
+　　&lt;/html&gt;
+　　</pre>
+<p>　　模版 2 的写法如下：<br />
+　　<br />
+　　templates/test5_2.htm:<br />
+　　<br />
+　　&lt;{$content}&gt;<br />
+　　模版 3 的写法如下：<br />
+　　<br />
+　　templates/test5_3.htm:<br />
+　　<br />
+　　这是模版 3 的内容<br />
+　　模版 4 的写法如下：<br />
+　　<br />
+　　templates/test5_4.htm:<br />
+　　<br />
+　　&lt;{$custom_var}&gt;</p>
+<p>　　这里注意几个重点：1. 模版的位置都是以先前定义的 template_dir 为基准；2. 所有 include 进来的子模版中，其变量也会被解译。；3. include 中可以用「变量名称=变量内容」来指定引含进来的模版中所包含的变量，如同上面模版 4 的做法。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/455.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/akismet-150x150.jpg" alt="9个强大免费的PHP库" width="150" height="150" /></a><a href="https://coolshell.cn/articles/455.html" class="wp_rp_title">9个强大免费的PHP库</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/559.html">菜鸟学PHP之Smarty入门</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/559.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>9个强大免费的PHP库</title>
+		<link>https://coolshell.cn/articles/455.html</link>
+					<comments>https://coolshell.cn/articles/455.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 12 Apr 2009 04:29:53 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Akismet]]></category>
+		<category><![CDATA[Amazon S3]]></category>
+		<category><![CDATA[JSON]]></category>
+		<category><![CDATA[pChart]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[PHPMailer]]></category>
+		<category><![CDATA[ReCAPTCHA]]></category>
+		<category><![CDATA[SimplePie]]></category>
+		<category><![CDATA[Smarty]]></category>
+		<category><![CDATA[XML-RPC]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=455</guid>
+
+					<description><![CDATA[<p>1. ReCAPTCHA reCAPTCHA  允许你的网站集成一个Advanced CAPTCHA 系统，这个系统可以帮助你阻止一些垃圾信息。可视化的CAPT...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/455.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/455.html">9个强大免费的PHP库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<h3>1. ReCAPTCHA</h3>
+<p><a href="http://recaptcha.net/plugins/php/"><span style="color: #468175;">reCAPTCHA </span></a> 允许你的网站集成一个Advanced CAPTCHA 系统，这个系统可以帮助你阻止一些垃圾信息。可视化的CAPTCHA 同样也有一个有用的声音功能。另外，在reCAPTCHA 服务里，这个PHP库也包含了一个给 &#8220;Mailhide&#8221; 服务用的API，这个可以把你的邮件地址隐藏于一些抓邮件地址的程序。</p>
+<p>这个API是免费并且非常容易使用的，你需要做的就是申请一个API的KEY。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 327px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/recaptcha.png" alt="ReCAPTCHA" /></div>
+<p><a href="http://code.google.com/p/recaptcha/downloads/list?q=label:phplib-Latest"><span style="color: #468175;">下载 ReCAPTCHA</span></a> | <a href="http://recaptcha.net/api/getkey?app=php"><span style="color: #468175;">获取一个API Key</span></a> | <a href="http://recaptcha.net/plugins/php/"><span style="color: #468175;">相关文档</span></a></p>
+<p><span id="more-455"></span></p>
+<h3>2. Akismet</h3>
+<p><a href="http://akismet.com/"><span style="color: #468175;">Akismet</span></a> 是一个免费的服务项目，对于一些小型的网站它是完全免费的，对于一些大型的网址，他是部分免费的。这个库也是提供了处理一些和垃圾信息相关的功能。它主要通过比对自己数据库中已存在的被认定为垃圾的信息，而做出决定的。当然，数据库中的垃圾信息可能通过各个网站举报，大家供享的。这是一个每天都在更新，每天都在改进的库。许多许多的WordPress都装有这个库。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 455px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/akismet.jpg" alt="Akismet" /></div>
+<p><a href="http://net.tutsplus.com/tutorials/tools-and-tips/the-best-ways-to-fight-spam/"><span style="color: #468175;">实施Akismet</span></a></p>
+<h3>3. Services_JSON</h3>
+<p>JSON 是一个非常小巧敏捷的PHP库，它主要用于把一些数据格式转成易于人们阅读的格式。并不是所有的人都会喜欢PHP5 （因为自PHP5.20后其中已经集成了JSON），所以，这个小PHP库可以在低版本的PHP中让你得到 JSON 的功能。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 404px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/json.png" alt="JSON" /></div>
+<p><a href="http://pear.php.net/package/Services_JSON"><span style="color: #468175;">查看 Services_JSON</span></a></p>
+<h3>4. Smarty</h3>
+<p><a href="http://smarty.net/"><span style="color: #468175;">Smarty</span></a> 是一个网面模板引擎，它主要是把程序和界面分开。Smarty 提供了许多强大的功能，比如循环，变量，以及一个强大的缓存系统。这个库不是一个新库了，其已经发展了很多年了，虽然只有3个release版，但应该是比较成熟了。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 257px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/smarty.png" alt="Smarty" /></div>
+<p><a href="http://smarty.net/download.php"><span style="color: #468175;">下载 Smarty</span></a> | <a href="http://smarty.net/docs.php"><span style="color: #468175;">查看文档</span></a></p>
+<h3>5. pChart</h3>
+<p>这是一个强大的画统计图的PHP库，像一些饼图或是柱状图，<a href="http://pchart.sourceforge.net/index.php"><span style="color: #468175;">pChart</span></a> 还允许你通过SQL查询语句或是手动的输入数据来创建一个统计图。当然它需要GD库的支持以便创建图片。这个库一看就是有很多非常专业的美工设计过，因为它可以让你的统计图显示的相当漂亮。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 599px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/pchart.png" alt="pChart" /></div>
+<p><a href="http://pchart.sourceforge.net/download.php"><span style="color: #468175;">下载 pChart</span></a> | <a href="http://pchart.sourceforge.net/documentation.php"><span style="color: #468175;">相关文档</span></a> | <a href="http://pchart.sourceforge.net/demo.php"><span style="color: #468175;">查看演示</span></a></p>
+<h3>6. SimplePie</h3>
+<p><a href="http://simplepie.org/"><span style="color: #468175;">SimplePie</span></a>  允许你可以容易地 pull 一些信息，比如RSS feeds。它同样可以被集成于不同的平台和语言。并且可以通过很多不同的方法来处理远端的feed。</p>
+<p><img decoding="async" style="width: 449px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/simplepie.png" alt="SimplePie" /></p>
+<p><a href="http://simplepie.org/downloads/"><span style="color: #468175;">下载 SimplePie</span></a> | <a href="http://simplepie.org/wiki/"><span style="color: #468175;">相关文档</span></a> | <a href="http://net.tutsplus.com/videos/screencasts/extending-simplepie-to-parse-unique-rss-feeds/"><span style="color: #468175;">Extending SimplePie to Parse Unique RSS Feeds</span></a></p>
+<h3>7. XML-RPC PHP</h3>
+<p>我们的应用程序有时需要一些类似于 &#8220;ping&#8221; 的功能去探测一下其它站点，如BLOG的 trackbacks。一般来说，这都是通过一个叫做XML-RPC的协议来完成的。<a href="http://phpxmlrpc.sourceforge.net/"><span style="color: #468175;">XML-RPC PHP</span></a> 库可以让你的站点集成这些功能。</p>
+<p><img decoding="async" style="width: 231px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/xmlrpc.png" alt="XML-RPC" /></p>
+<p><a href="http://phpxmlrpc.sourceforge.net/#download"><span style="color: #468175;">下载 XML-RPC PHP</span></a> | <a href="http://phpxmlrpc.sourceforge.net/#interest"><span style="color: #468175;">相关文档</span></a></p>
+<h3>8. Amazon S3</h3>
+<p>Amazon 提供了一个“云服务”叫&#8221;S3&#8243;. 这个PHP库可以让你不需要第三方的插件就可以上传大的文件。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 563px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/s3.png" alt="Amazon S3" /></div>
+<p><a href="http://amazon-s3-php-class.googlecode.com/files/s3-php5-curl_0.3.9.tar.gz"><span style="color: #468175;">下载 Amazon S3 PHP 类</span></a></p>
+<h3>9. PHPMailer</h3>
+<p>很多应用都需要对外发送邮件，但是PHP的mail() 函数并不是特别好用。于是 PHPMailer 应运而生，这是一个功能强大的类，其允许你发送不同格式的邮件，并支持附件和自定义邮件头。</p>
+<div class="tutorial_image"><img decoding="async" style="width: 245px;" src="http://nettuts.s3.amazonaws.com/267_libraries/libs/mail.png" alt="Sending Mail" /></div>
+<p><a href="http://phpmailer.codeworxtech.com/index.php?pg=sf&amp;p=dl"><span style="color: #468175;">下载 PHPMailer</span></a> | <a href="http://phpmailer.codeworxtech.com/index.php?pg=tutorial"><span style="color: #468175;">相关文档</span></a></p>
+<p>文章：<a href="http://net.tutsplus.com/articles/web-roundups/9-extremely-useful-and-free-php-libraries/" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/559.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="菜鸟学PHP之Smarty入门" width="150" height="150" /></a><a href="https://coolshell.cn/articles/559.html" class="wp_rp_title">菜鸟学PHP之Smarty入门</a></li><li ><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-150x150.png" alt="AWS 的 S3 故障回顾和思考" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_title">AWS 的 S3 故障回顾和思考</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/455.html">9个强大免费的PHP库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/455.html/feed</wfw:commentRss>
+			<slash:comments>33</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>20 你应该知道的PHP库</title>
+		<link>https://coolshell.cn/articles/200.html</link>
+					<comments>https://coolshell.cn/articles/200.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 18 Mar 2009 13:01:08 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=200</guid>
+
+					<description><![CDATA[<p>下面是一些非常有用的PHP类库，相信一定可以为你的WEB开发提供更好和更为快速的方法。 图表库 下面的类库可以让你很简的创建复杂的图表和图片。当然，它们需要GD...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/200.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/200.html">20 你应该知道的PHP库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p class="entry">下面是一些非常有用的PHP类库，相信一定可以为你的WEB开发提供更好和更为快速的方法。</p>
+<h3 class="entry">图表库<a href="https://coolshell.cn/wp-content/uploads/2009/03/021151lephpant-e_png.jpg"><img decoding="async" loading="lazy" class="alignright size-full wp-image-201" title="021151lephpant-e_png" src="https://coolshell.cn/wp-content/uploads/2009/03/021151lephpant-e_png.jpg" alt="021151lephpant-e_png" width="200" height="128" /></a></h3>
+<p class="entry">下面的类库可以让你很简的创建复杂的图表和图片。当然，它们需要GD库的支持。</p>
+<div class="entry">
+<ol>
+<li><a title="pChart" href="http://pchart.sourceforge.net/" target="_blank">pChart</a> &#8211; 一个可以创建统计图的库。</li>
+<li><a title="Libchart" href="http://naku.dohcrew.com/libchart/pages/introduction/" target="_blank">Libchart</a> &#8211; 这也是一个简单的统计图库。</li>
+<li><a title="JpGraph" href="http://www.aditus.nu/jpgraph/" target="_blank">JpGraph</a> &#8211; 一个面向对象的图片创建类。</li>
+<li><a title="Open Flash Chart" href="http://teethgrinder.co.uk/open-flash-chart/" target="_blank">Open Flash Chart</a> &#8211; 这是一个基于Flash的统计图。</li>
+</ol>
+</div>
+<p> <span id="more-200"></span></p>
+<h3>RSS 解析</h3>
+<p>解释RSS并是一件很单调的事情，不过幸好你有下面的类库可以帮助你方便地读取RSS的Feed。</p>
+<ol>
+<li><a title="MagpieRSS" href="http://magpierss.sourceforge.net/" target="_blank">MagpieRSS</a> &#8211; 开源的PHP版RSS解析器，据说功能强大，未验证。</li>
+<li><a title="SimplePie" href="http://simplepie.org/" target="_blank">SimplePie</a> &#8211; 这是一个非常快速，而且易用的RSS和Atom 解析库。</li>
+</ol>
+<h3>缩略图生成</h3>
+<ol>
+<li><a title=" phpThumb" href="http://phpthumb.sourceforge.net/" target="_blank">phpThumb</a> &#8211; 功能很强大，如何强大还是自己去体会吧。</li>
+</ol>
+<h3>支付</h3>
+<p>你的网站需要处理支付方面的事情？需要一个和支付网关的程序？下面这个程序可以帮到你。</p>
+<ol>
+<li><a title="PHP Payment Library" href="http://www.phpfour.com/blog/2009/02/php-payment-gateway-library-for-paypal-authorizenet-and-2checkout/" target="_blank">PHP Payment Library</a> &#8211; 支持Paypal, Authorize.net 和2Checkout (2CO)</li>
+</ol>
+<h3>OpenID</h3>
+<ol>
+<li><a title="PHP-OpenID" href="http://www.openidenabled.com/php-openid/" target="_blank">PHP-OpenID</a> &#8211; 支持OpenID的一个PHP库。OpenID是帮助你使用相同的用户名和口令登录不同的网站的一种解决方案。如果你对OpenID不熟悉的话，你可以到这里看看：<a href="http://openid.net.cn/">http://openid.net.cn/</a></li>
+</ol>
+<h3>数据为抽象/对象关系映射ORM</h3>
+<ol>
+<li><a title="ADOdb" href="http://adodb.sourceforge.net/" target="_blank">ADOdb</a> &#8211; 数据库抽象</li>
+<li><a title="Doctrine" href="http://www.doctrine-project.org/" target="_blank">Doctrine</a> &#8211; 对象关系映射Object relational mapper (ORM) ，需要 PHP 5.2.3+ 版本，一个非常强大的database abstraction layer (DBAL).</li>
+<li><a title="Propel" href="http://propel.phpdb.org/trac/" target="_blank">Propel</a> &#8211; 对象关系映射框架- PHP5</li>
+<li><a title="Outlet" href="http://www.outlet-orm.org/site/" target="_blank">Outlet</a> &#8211; 也是关于对象关系映射的一个工具。</li>
+</ol>
+<p>注：对象关系映射（Object Relational Mapping，简称ORM）是一种为了解决面向对象与关系数据库存在的互不匹配的现象的技术。 简单的说，ORM是通过使用描述对象和数据库之间映射的元数据，将程序中的对象自动持久化到关系数据库中。本质上就是将数据从一种形式转换到另外一种形式。 这也同时暗示者额外的执行开销；然而，如果ORM作为一种中间件实现，则会有很多机会做优化，而这些在手写的持久层并不存在。 更重要的是用于控制转换的元数据需要提供和管理；但是同样，这些花费要比维护手写的方案要少；而且就算是遵守ODMG规范的对象数据库依然需要类级别的元数据。</p>
+<h3>PDF 生成器</h3>
+<ol>
+<li><a title="FPDF" href="http://www.fpdf.org/" target="_blank">FPDF</a> &#8211; 这量一个可以让你生成PDF的纯PHP类库。</li>
+</ol>
+<h3>Excel 相关</h3>
+<p>你的站点需要生成Excel？没有问题，下面这两个类库可以让你轻松做到这一点。</p>
+<div id="psum">
+<ol>
+<li><a title="php-excel" href="http://code.google.com/p/php-excel/" target="_blank">php-excel</a> &#8211; 这是一个非常简单的Excel文件生成类。</li>
+<li><a title="PHP Excel Reader" href="http://code.google.com/p/php-excel-reader/" target="_blank">PHP Excel Reader</a> &#8211; 可以解析并读取XLS文件中的数据。</li>
+</ol>
+</div>
+<h3 id="psum">E-Mail 相关</h3>
+<p>不喜欢PHP的mail函数？觉得不够强大？下面的PHP邮件相关的库绝对不会让你失望。</p>
+<div>
+<ol>
+<li><a title="Swift Mailer" href="http://swiftmailer.org/" target="_blank">Swift Mailer</a> &#8211; 免费的超多功能的PHP邮件库。</li>
+<li><a title="PHPMailer" href="http://phpmailer.codeworxtech.com/" target="_blank">PHPMailer </a>&#8211; 超强大的邮件发送类。</li>
+</ol>
+<h3>单元测试</h3>
+<p>如果你在使用测试驱动的方法开发你的程序，下面的类库和框架绝你能帮助你的开发。</p></div>
+<ol>
+<li><a title="SimpleTest" href="http://www.simpletest.org/" target="_blank">SimpleTest</a> &#8211; 一个PHP的单元测试和网页测试的框架。</li>
+<li><a title="PHPUnit" href="http://www.phpunit.de/" target="_blank">PHPUnit</a> &#8211; 来自xUnit 家族，提供一个框架可以让你方便地进行单元测试的案例开发。并可非常容易地分析其测试结果。</li>
+</ol>
+<p>文章：<a href="http://komunitasweb.com/2009/03/20-great-php-library-you-need-to-know/" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="九个PHP很有用的功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_title">九个PHP很有用的功能</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/200.html">20 你应该知道的PHP库</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/200.html/feed</wfw:commentRss>
+			<slash:comments>59</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>10个基于Ajax的PHP Webmail客户端</title>
+		<link>https://coolshell.cn/articles/154.html</link>
+					<comments>https://coolshell.cn/articles/154.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 13 Mar 2009 09:16:30 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[Webmail]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=154</guid>
+
+					<description><![CDATA[<p> 下面是十个非常不错的，使用Ajax技术的用PHP开发Webmail的客户端。大家在使用的时候请注意其license。 1. RoundCube RoundCu...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/154.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/154.html">10个基于Ajax的PHP Webmail客户端</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail1.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail2.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail3.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail4.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail5.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail6.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail7.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail8.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail9.jpg"></a><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail10.jpg"></a> 下面是十个非常不错的，使用Ajax技术的用PHP开发Webmail的客户端。大家在使用的时候请注意其license。</p>
+<h3 class="title">1. <a href="http://roundcube.net/">RoundCube</a></h3>
+<p>RoundCube Webmail 是一个基于浏览器的IMAP 客户端，其提供了丰富的功能，包含MIME，地址本，文件夹操作，邮件搜索和拼写检查。 RoundCube Webmail 由 PHP写成，需要 MySQL 或 Postgres 数据库的支持。其UI完全遵守于XHTML 和 CSS 2.</p>
+<p class="img"><a href="http://roundcube.net/"></a></p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail1.jpg"><img decoding="async" loading="lazy" class="aligncenter" title="webmail1" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail1.jpg" alt="webmail1" width="500" height="285" /></a></p>
+<p class="img"><span id="more-154"></span></p>
+<h3 class="title">2. <a href="http://www.zimbra.com/community/downloads.html">Zimbra</a></h3>
+<p>Zimbra 提供了一个开源的邮件和日历系统，也是基于Ajax技术，非常强大的客户端，他可以通过web service集成第三方的应用“mash-ups” ，于是你可以享有CRM，地图或其它更多的功能。</p>
+<p class="img"><a href="http://www.zimbra.com/community/downloads.html"></a></p>
+<h3 class="title" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail2.jpg"><img decoding="async" loading="lazy" title="webmail2" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail2.jpg" alt="webmail2" width="500" height="230" /></a></h3>
+<h3 class="title">3. <a href="http://www.xuheki.com/">Xuheki</a></h3>
+<p>Xuheki 是一个很快的 IMAP 使用AJAX技术开发的客户端。你能想到的功能它基本上都有了，它使用的是 GNU General Public License.</p>
+<p class="img"><a href="http://www.xuheki.com/"></a></p>
+<h3 class="title" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail3.jpg"><img decoding="async" loading="lazy" title="webmail3" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail3.jpg" alt="webmail3" width="500" height="230" /></a></h3>
+<h3 class="title">4. <a href="http://www.squirrelmail.org/">SquirrelMail</a></h3>
+<p>SquirrelMail 这是一个中规中矩的webmail，PHP语言写成，并没有使用AJAX技术，所以并不是很炫，不过它是使用了纯内建的PHP功能支持了IMAP和SMTP。所有的页面都是纯HTML 4.0 (没有任何JavaScript) ，这样的目的主要是为了最大化兼容于不同的浏览器。</p>
+<p class="img"><a href="http://www.squirrelmail.org/"></a></p>
+<h3 class="title" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail4.jpg"><img decoding="async" loading="lazy" title="webmail4" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail4.jpg" alt="webmail4" width="500" height="180" /></a></h3>
+<h3 class="title">5. <a href="http://atmail.com/index.php">Atmail</a></h3>
+<p>AtMail, 一个免费的轻量级的 Ajax Webmail 客户端，由PHP写成，支持WEB和WAP。</p>
+<p style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail5.jpg"><img decoding="async" loading="lazy" title="webmail5" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail5.jpg" alt="webmail5" width="500" height="247" /></a></p>
+<h3 class="title">6. <a href="http://www.afterlogic.com/products/webmail-lite">afterlogic</a></h3>
+<p>AfterLogic WebMail Lite PHP 是一个非常易用的 webmail 但其界面又非常Cool，其支持 AJAX 和皮肤。支持POP3 和 SMTP。支持收发邮件，多附件，多帐号，多域，邮件预览，站点管理。安装非常容易，需要PHP 4.1+，完全开源并完全免费。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail6.jpg"><img decoding="async" loading="lazy" title="webmail6" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail6.jpg" alt="webmail6" width="500" height="247" /></a></p>
+<p><a class="download"></a> </p>
+<h3 class="title">7. <a href="http://www.hastymail.org/">Hastymail</a></h3>
+<p>Hastymail 是一个有完整功能的 IMAP/SMTP 客户端，由 PHP 写成。兼容于 PDAs, 手机, 文本浏览器，以及所有的主流浏览器。 Hastymail 有强大的 <a href="http://www.hastymail.org/plugins/">插件 </a>系统，因为PHP程序员可以随意地改变或增加自己想要的插件。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail7.jpg"><img decoding="async" loading="lazy" title="webmail7" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail7.jpg" alt="webmail7" width="500" height="247" /></a></p>
+<h3 class="title">8. <a href="http://mailr.org/">Mailr</a></h3>
+<p>Mailr 是一个开源的 webmail 由 Ruby写成，它使用 Ruby On Rails 的web application 框架。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail8.jpg"><img decoding="async" loading="lazy" title="webmail8" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail8.jpg" alt="webmail8" width="500" height="247" /></a></p>
+<h3 class="title">9. <a href="http://www.claros.org/web/home.do">Claros inTouch</a></h3>
+<p>Claros inTouch 是一个Ajax 消息套装其包含了主要特性有webmail，地址本，记事本，日历(还在开发)，网络硬盘 (还在开发)，内建的即时聊天，以及RSS阅读器。这是第一个开源的webmail其包含了内建的垃圾邮件保护和即时聊天功能的项目。但主要使用了Java语言，利用 JSP/Servlets 及 J2EE技术和 MySQL 数据库。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail9.jpg"><img decoding="async" loading="lazy" title="webmail9" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail9.jpg" alt="webmail9" width="500" height="247" /></a></p>
+<h3 class="title">10. <a href="http://www.postaciwebmail.org/">Postaci</a></h3>
+<p>Postaci 是一个基于 PHP 的POP3/IMAP 邮件客户端，其支持 SMTP 认证。 其使用MySQL, mSQL, Microsoft SQL, Sybase 或PostgreSQL数据库。</p>
+<p class="img" style="TEXT-ALIGN: center"><a href="https://coolshell.cn/wp-content/uploads/2009/03/webmail10.jpg"><img decoding="async" loading="lazy" title="webmail10" src="https://coolshell.cn/wp-content/uploads/2009/03/webmail10.jpg" alt="webmail10" width="500" height="247" /></a></p>
+<p class="img">文章：<a href="http://www.noupe.com/ajax/10-ajax-webmail-clients.html" target="_blank">来源</a></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/javascript-150x150.jpg" alt="Javascript 装载和执行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9749.html" class="wp_rp_title">Javascript 装载和执行</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/5132.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="疯狂的 Web 应用开源项目" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5132.html" class="wp_rp_title">疯狂的 Web 应用开源项目</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Web版的VNC" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2593.html" class="wp_rp_title">Web版的VNC</a></li><li ><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/uizard2-150x150.jpg" alt="Ajax开发利器UIzard " width="150" height="150" /></a><a href="https://coolshell.cn/articles/1611.html" class="wp_rp_title">Ajax开发利器UIzard </a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/154.html">10个基于Ajax的PHP Webmail客户端</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/154.html/feed</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>PHP v5.3的新鲜玩意</title>
+		<link>https://coolshell.cn/articles/11.html</link>
+					<comments>https://coolshell.cn/articles/11.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 02 Mar 2009 05:40:50 +0000</pubDate>
+				<category><![CDATA[PHP脚本]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[PHP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=11</guid>
+
+					<description><![CDATA[<p>PHP v5.3马上就要release了，这里让我们看看他有一些什么样的新特性。 1）_callStatic() magic 方法 class Foo { pu...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/11.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/11.html">PHP v5.3的新鲜玩意</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>PHP v5.3马上就要release了，这里让我们看看他有一些什么样的新特性。</p>
+<p><strong>1）_callStatic() magic 方法</strong></p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">class Foo
+{
+    public static function __callStatic( $name, $args )
+    {
+        echo &quot;Called method $name statically&quot;;
+    } 
+
+    public function __call( $name, $args )
+    {
+        echo &quot;Called method $name&quot;;
+    }
+}</pre>
+<p><span id="more-11"></span></p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">Foo::dog();       // outputs &quot;Called method dog statically&quot;
+$foo = new Foo;
+$foo-&amp;gt;dog();      // outputs &quot;Called method dog&quot;</pre>
+<p><strong>2）<span class="atitle"><code>动态调用函数</code></span></strong></p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">class Dog
+{
+    public function bark()
+    {
+        echo &quot;Woof!&quot;;
+    }
+&lt;span style=&quot;color: #333399;&quot;&gt;} 
+
+$class = &quot;Dog&quot;
+$action = &quot;bark&quot;;
+$x = new $class(); // instantiates the class &quot;Dog&quot;
+$x-&amp;gt;$action();     // outputs &quot;Woof!&quot; &lt;/span&gt;</pre>
+<p><strong><span class="atitle">3) 标准</span></strong><strong><span class="atitle">PHP</span></strong><strong><span class="atitle">库（SPL）</span></strong></p>
+<p><span class="atitle">加了了少数几个容器类，</span><span class="atitle">比如，栈（</span>SplStack<span class="atitle">）和固定数组（SplFixedArray）</span></p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">$stack = new SplStack(); 
+
+// push a few new items on the stack
+$stack-&amp;gt;push(&quot;a&quot;);
+$stack-&amp;gt;push(&quot;b&quot;);
+$stack-&amp;gt;push(&quot;c&quot;); 
+
+// see how many items are on the stack
+echo count($stack); // returns 3 
+
+// iterate over the items in the stack
+foreach ( $stack as $item )
+    echo &quot;[$item],&quot;;
+// the above outputs: [c][/c]
+
+ [/c],[b],[a]  // pop an item off the stack echo $stack-&amp;gt;pop(); // returns &quot;c&quot;   // now see how many items are on the stack echo count($stack); // returns 2</pre>
+<p><strong><span class="atitle">4) </span><span class="atitle">Closures 功能</span></strong></p>
+<p><span class="atitle">关于</span>Closures<span class="atitle">，这是一个把函数定义成变量的玩意。让我们看几个例子：</span></p>
+<p><span class="atitle">示例一：</span></p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">$string = &quot;Hello World!&quot;;
+$closure = function() use ($string) { echo $string; };
+
+$closure();</pre>
+<p><strong>Output:</strong><br />
+Hello World!<br />
+示例二 使用引用的变量</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">$x = 1
+$closure = function() use (&amp;amp;$x) { ++$x; }
+
+echo $x . &quot;\\n&quot;;
+$closure();
+echo $x . &quot;\\n&quot;;
+$closure();
+echo $x . &quot;\\n&quot;;</pre>
+<p><strong>Output</strong>:<br />
+1<br />
+2<br />
+3<br />
+示例三，返回值</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">function getAppender($baseString)
+{
+      return function($appendString) use ($baseString)
+  { return $baseString .$appendString; };
+}</pre>
+<p>示例四，Reflection</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">class Counter
+{
+      private $x;
+
+      public function __construct()
+      {
+           $this-&amp;gt;x = 0;
+      }
+
+      public function increment()
+      {
+           $this-&amp;gt;x++;
+      }
+
+      public function currentValue()
+      {
+           echo $this-&amp;gt;x . &quot;\\n&quot;;
+      }
+}
+$class = new ReflectionClass(&quot;Counter&quot;);
+$method = $class-&amp;gt;getMethod(&quot;currentValue&quot;);
+$closure = $method-&amp;gt;getClosure()
+$closure();
+$class-&amp;gt;increment();
+$closure();</pre>
+<p><strong>Output</strong>:<br />
+0<br />
+1<br />
+示例五，Reflection API</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">$closure = function ($x, $y = 1) {};
+$m = new ReflectionMethod($closure);
+Reflection::export ($m);
+&lt;strong&gt;Output&lt;/strong&gt;:
+Method [  public method __invoke ] {
+  - Parameters [2] {
+    Parameter #0 [  $x ]
+    Parameter #1 [  $y ]
+  }
+}</pre>
+<p>示例六，Uses Case</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">$logdb = function ($string) { Logger::log(&quot;debug&quot;,&quot;database&quot;,$string);};
+$db = mysqli_connect(&quot;server&quot;,&quot;user&quot;,&quot;pass&quot;);
+$logdb(&quot;Connected to database&quot;);
+$db-&amp;gt;query(&quot;insert into parts (part, description) values
+ (&quot;Hammer&quot;,&quot;Pounds nails&quot;);
+$logdb(&quot;Insert Hammer into to parts table&quot;);
+$db-&amp;gt;query(&quot;insert into parts (part, description) values
+       (&quot;Drill&quot;,&quot;Puts holes in wood&quot;);
+$logdb(&quot;Insert Drill into to parts table&quot;);
+$db-&amp;gt;query(&quot;insert into parts (part, description) values
+ (&quot;Saw&quot;,&quot;Cuts wood&quot;);
+$logdb(&quot;Insert Saw into to parts table&quot;);</pre>
+<p>更为详细的文章，请参考这里，<a href="http://www.ibm.com/developerworks/opensource/library/os-php-5.3new2/index.html" target="_blank">链接</a>。</p>
+<p><strong><span class="atitle">5) </span><span class="atitle">使用namespace</span></strong></p>
+<p><span class="atitle">新版的PHP会开始支持C++式的namespace，请参看示例：</span></p>
+<p><span class="atitle">示例一</span></p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">/* Foo.php */
+&amp;lt;?php
+namespace Foo;
+function bar()
+{
+    echo &quot;calling bar....&quot;;
+}
+?&amp;gt; 
+
+/* File1.php */
+&amp;lt;?php
+include &quot;./Foo.php&quot;;
+Foo/bar(); // outputs &quot;calling bar....&quot;;
+?&amp;gt; 
+
+/* File2.php */
+&amp;lt;?php
+include &quot;./Foo.php&quot;;
+use Foo as ns;
+ns/bar(); // outputs &quot;calling bar....&quot;;
+?&amp;gt; 
+
+/* File3.php */
+&amp;lt;?php
+include &quot;./Foo.php&quot;;
+use Foo;
+bar(); // outputs &quot;calling bar....&quot;;
+?&amp;gt;
+&lt;!--p include &quot;./Foo.php&quot;; use Foo; bar(); // outputs &quot;calling bar....&quot;;--&gt;</pre>
+<p>示例二，多重namespace</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">&lt;!--p namespace Foo; class Test {}  namespace Bar; class Test {}  $a = new Foo\\Test; $b = new Bar\\Test;  var_dump($a, $b);--&gt; &amp;lt;?php
+namespace Foo;
+class Test {} 
+
+namespace Bar;
+class Test {} 
+
+$a = new Foo\\Test;
+$b = new Bar\\Test; 
+
+var_dump($a, $b); 
+
+Output:
+object(Foo\\Test)#1 (0) {
+}
+object(Bar\\Test)#2 (0) {
+}
+&lt;strong&gt;Output:&lt;/strong&gt;
+object(Foo\\Test)#1 (0) { }
+object(Bar\\Test)#2 (0) { }</pre>
+<p>示例三，不同文件中的namespace</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">/*定义*/
+/* global.php */
+&amp;lt;?php
+function hello()
+{
+    echo &quot;hello from the global scope!&quot;;
+}
+?&amp;gt; 
+
+/* Foo.php */
+&amp;lt;?php
+namespace Foo;
+function hello()
+{
+    echo &quot;hello from the Foo namespace!&quot;;
+}
+?&amp;gt; 
+
+/* Foo_Bar.php */
+&amp;lt;?php
+namespace Foo/Bar;
+function hello()
+{
+    echo &quot;hello from the Foo/Bar namespace!&quot;;
+}
+?&amp;gt;
+&lt;!--p namespace Foo/Bar; function hello() {     echo &quot;hello from the Foo/Bar namespace!&quot;; }--&gt;
+
+/*使用 */
+&lt;!--p include &quot;./global.php&quot;; include &quot;./Foo.php&quot;; include &quot;./Foo_Bar.php&quot;; use Foo;  hello();         // outputs &quot;hello from the Foo namespace!&quot; Bar\\hello();   // outputs &quot;hello from the Foo/Bar namespace!&quot; \\hello();       // outputs &quot;hello from the global scope!&quot;--&gt;&amp;lt;?php
+include &quot;./global.php&quot;;
+include &quot;./Foo.php&quot;;
+include &quot;./Foo_Bar.php&quot;;
+
+use Foo; 
+
+hello();         // outputs &quot;hello from the Foo namespace!&quot;
+Bar\\hello();   // outputs &quot;hello from the Foo/Bar namespace!&quot;
+\\hello();       // outputs &quot;hello from the global scope!&quot;
+?&amp;gt;</pre>
+<p>更为详细的文章，请参考这里，<a href="http://www.ibm.com/developerworks/opensource/library/os-php-5.3new3/index.html" target="_blank">链接</a>。</p>
+<p><strong>6)开始支持Achieve包</strong></p>
+<p>正像JAR一样，PHP也要开始支持自己的Achieve包了，叫作，Phar。PHP提供了一整套函数来帮助开发人员创建和使用Phar，正如下面的示例所示：</p>
+<p style="padding-left: 30px;"><strong>创建</strong>：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">$p = new Phar(&quot;/path/to/my.phar&quot;,
+ CURRENT_AS_FILEINFO | KEY_AS_FILENAME, &quot;my.phar&quot;);
+$p-&amp;gt;startBuffering();</pre>
+<p style="padding-left: 30px;"><strong>创建文件存根</strong>（stub）</p>
+<p><code data-enlighter-language="php" class="EnlighterJSRAW">$p-&amp;gt;setStub(&quot;&lt;!--p Phar::mapPhar();  include &quot;phar://myphar.phar/index.php&quot;; __HALT_COMPILER();--&gt;&quot;);</code></p>
+<p style="padding-left: 30px;"><strong>加入文件</strong>：</p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">$p[&quot;file.txt&quot;] = &quot;This is a text file&quot;;
+$p[&quot;index.php&quot;] = file_get_contents(&quot;index.php&quot;);
+$p[&quot;big.txt&quot;] = &quot;This is a big text file&quot;;
+$p[&quot;big.txt&quot;]-&amp;gt;setCompressedBZIP2();
+//加入某目录下所有的文件
+$p-&amp;gt;buildFromDirectory(&quot;/path/to/files&quot;,&quot;./\\.php$/&quot;);</pre>
+<p style="padding-left: 30px;"><strong>使用Phar</strong></p>
+<pre data-enlighter-language="php" class="EnlighterJSRAW">include &quot;myphar.phar&quot;;
+include &quot;phar://myphar.phar/file.php&quot;;</pre>
+<p>更为详细的文章，请参考这里，<a href="http://www.ibm.com/developerworks/opensource/library/os-php-5.3new4/index.html" target="_blank">链接</a>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="九个PHP很有用的功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2394.html" class="wp_rp_title">九个PHP很有用的功能</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/11.html">PHP v5.3的新鲜玩意</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/11.html/feed</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

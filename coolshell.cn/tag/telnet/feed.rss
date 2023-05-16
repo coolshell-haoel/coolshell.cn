@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>telnet | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/telnet/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 14 Apr 2010 05:34:32 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>telnet的一个Bug</title>
+		<link>https://coolshell.cn/articles/2352.html</link>
+					<comments>https://coolshell.cn/articles/2352.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 14 Apr 2010 01:10:20 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[telnet]]></category>
+		<category><![CDATA[Ubuntu]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2352</guid>
+
+					<description><![CDATA[<p>下面这个链接是Linux分发包Ubuntu的关于Telnet命令的Man Page， http://manpages.ubuntu.com/manpages/k...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2352.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2352.html">telnet的一个Bug</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面这个链接是Linux分发包Ubuntu的关于Telnet命令的Man Page，</p>
+<p style="text-align: center;"><a href="http://manpages.ubuntu.com/manpages/karmic/man1/telnet-ssl.1.html" target="_blank">http://manpages.ubuntu.com/manpages/karmic/man1/telnet-ssl.1.html</a></p>
+<p style="text-align: left;">打开这个Man Page，把页面拉到最后一行，你会看到下面这个BUG（“BUGS：源代码不易读！”）</p>
+<pre>     The source code is not comprehensible.</pre>
+<p>Telnet的源代码在这里：<a href="http://packages.ubuntu.com/source/dapper/netkit-telnet" target="_blank">http://packages.ubuntu.com/source/dapper/netkit-telnet</a>，下载下来一看，还真是不易读，简单地看了一下代码，发现至少有这样一些问题：</p>
+<ul>
+<li>空格和Tab键混用的缩进，导致很多代码在没有缩进。</li>
+<li>大量的#if #else以及大量的各种预编译宏。以及一些怪异的宏。如：</li>
+</ul>
+<p style="padding-left: 60px;">#ifndef B19200<br />
+#define B19200 B9600<br />
+#endif</p>
+<p style="padding-left: 60px;">#ifndef B38400<br />
+#define B38400 B19200<br />
+#endif</p>
+<ul>
+<li>什么叫在C中写C++，第一次见。（在terminal.cc中间居然出现了几个class）</li>
+<li>变量命名很不直观，大量的old, tmp, c1, c2, s1, s2, s3 等学校里用的变量名，只有作者自己知道是什么意思。函数命令的风格也不一致，编程风格也很不一致，基本没有编程规范。</li>
+</ul>
+<p>的确很不易读。不管怎么样，很欣赏在man page中把源码的易读性列为BUG的这种作法。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4826.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/GNUTotalSplit-150x150.png" alt="GNU/Linux下有多少是GNU的？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4826.html" class="wp_rp_title">GNU/Linux下有多少是GNU的？</a></li><li ><a href="https://coolshell.cn/articles/1644.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="装完Ubuntu 9.10后要干的事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1644.html" class="wp_rp_title">装完Ubuntu 9.10后要干的事</a></li><li ><a href="https://coolshell.cn/articles/1097.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Ksplice Uptrack — Ubuntu更新不用重启" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1097.html" class="wp_rp_title">Ksplice Uptrack — Ubuntu更新不用重启</a></li><li ><a href="https://coolshell.cn/articles/501.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="Ubuntu的并行启动" width="150" height="150" /></a><a href="https://coolshell.cn/articles/501.html" class="wp_rp_title">Ubuntu的并行启动</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/2785.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="JS1K 演示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2785.html" class="wp_rp_title">JS1K 演示</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2352.html">telnet的一个Bug</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2352.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Waterfall | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/waterfall/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 15 Sep 2010 08:38:17 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Waterfall 软件工程</title>
+		<link>https://coolshell.cn/articles/2941.html</link>
+					<comments>https://coolshell.cn/articles/2941.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 15 Sep 2010 00:42:42 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[Waterfall]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2941</guid>
+
+					<description><![CDATA[<p>《Royce, Winston (1970), &#8220;Managing the Development of Large Software System...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2941.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2941.html">Waterfall 软件工程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>《Royce, Winston (1970), <a rel="nofollow" href="http://www.cs.umd.edu/class/spring2003/cmsc838p/Process/waterfall.pdf" target="_blank">&#8220;Managing the Development of Large Software Systems&#8221;</a>, <em>Proceedings of IEEE WESCON</em> <strong>26</strong> (August): 1–9. 》，这篇文章向你说明了软件工程鼻祖“Waterfall”的工程模型，这是40年前的论文，其中的十张插图很有强大，抽出来，让我们来看看什么叫Waterfall软件工程。</p>
+<p>首先，让我先看一下小的程序是怎么做的，呵呵，很简单，两步。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/09/01.Small_.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2943" title="01.Small" src="https://coolshell.cn/wp-content/uploads/2010/09/01.Small_.jpg" alt="" width="477" height="199" srcset="https://coolshell.cn/wp-content/uploads/2010/09/01.Small_.jpg 477w, https://coolshell.cn/wp-content/uploads/2010/09/01.Small_-300x125.jpg 300w" sizes="(max-width: 477px) 100vw, 477px" /></a></p>
+<p>接下来，就是我们最经典的Waterfall软件工程模型了，用户需求，软件需求，需求分析，设计，编码，测试，运维。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/09/02.Large_.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2944" title="02.Large" src="https://coolshell.cn/wp-content/uploads/2010/09/02.Large_.jpg" alt="" width="628" height="411" srcset="https://coolshell.cn/wp-content/uploads/2010/09/02.Large_.jpg 628w, https://coolshell.cn/wp-content/uploads/2010/09/02.Large_-300x196.jpg 300w" sizes="(max-width: 628px) 100vw, 628px" /></a></p>
+<p><span id="more-2941"></span>为了保证每个步骤都能正确实施，于是，每个步骤之间需要有一定的交互，这是我们所希望的样子。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/09/02.Large_.jpg"><br />
+</a> <a href="https://coolshell.cn/wp-content/uploads/2010/09/03.Iteraction.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2945" title="03.Iteraction" src="https://coolshell.cn/wp-content/uploads/2010/09/03.Iteraction.jpg" alt="" width="635" height="418" srcset="https://coolshell.cn/wp-content/uploads/2010/09/03.Iteraction.jpg 635w, https://coolshell.cn/wp-content/uploads/2010/09/03.Iteraction-300x197.jpg 300w" sizes="(max-width: 635px) 100vw, 635px" /></a></p>
+<p>然后，不幸的是，我们总是在测试的时候发现了设计甚至需求的问题，因此，不得不让我们返工。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/09/04.Design.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2946" title="04.Design" src="https://coolshell.cn/wp-content/uploads/2010/09/04.Design.jpg" alt="" width="651" height="405" srcset="https://coolshell.cn/wp-content/uploads/2010/09/04.Design.jpg 651w, https://coolshell.cn/wp-content/uploads/2010/09/04.Design-300x186.jpg 300w" sizes="(max-width: 651px) 100vw, 651px" /></a></p>
+<p>为了解决上面的“返工”问题，我们可以使用下面的几步来解决。</p>
+<p>第一步，叫Preliminary Design，程序设计先行，确定在进入需求分析之前，我们的概要设计要完整。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/09/05.01.Preliminary.Design.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2947" title="05.01.Preliminary.Design" src="https://coolshell.cn/wp-content/uploads/2010/09/05.01.Preliminary.Design.jpg" alt="" width="555" height="404" srcset="https://coolshell.cn/wp-content/uploads/2010/09/05.01.Preliminary.Design.jpg 555w, https://coolshell.cn/wp-content/uploads/2010/09/05.01.Preliminary.Design-300x218.jpg 300w" sizes="(max-width: 555px) 100vw, 555px" /></a></p>
+<p>第二步，我们叫Document Design，书写设计文档，确认我们的设计是完整的。看到了吧，总共6个文档，1）软件需求，2）概要设计，3）接口设计，4）各种最终设计，5）测试设计/计划，6）测试结果。流程开始变得复杂了。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/09/05.02.Documentation.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2948" title="05.02.Documentation" src="https://coolshell.cn/wp-content/uploads/2010/09/05.02.Documentation.jpg" alt="" width="703" height="668" srcset="https://coolshell.cn/wp-content/uploads/2010/09/05.02.Documentation.jpg 703w, https://coolshell.cn/wp-content/uploads/2010/09/05.02.Documentation-300x285.jpg 300w" sizes="(max-width: 703px) 100vw, 703px" /></a></p>
+<p>第三步，我们叫“Do it Twice”，双保险，把文档了的东西试着预先走一遍，看看能否成为最终产品。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/09/05.03.Double.Work_.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2949" title="05.03.Double.Work" src="https://coolshell.cn/wp-content/uploads/2010/09/05.03.Double.Work_.jpg" alt="" width="638" height="475" srcset="https://coolshell.cn/wp-content/uploads/2010/09/05.03.Double.Work_.jpg 638w, https://coolshell.cn/wp-content/uploads/2010/09/05.03.Double.Work_-300x223.jpg 300w" sizes="(max-width: 638px) 100vw, 638px" /></a></p>
+<p>第四步，计划，控制和监控测试。哇，流程很乱了。</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2010/09/05.04.Test_.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2950" title="05.04.Test" src="https://coolshell.cn/wp-content/uploads/2010/09/05.04.Test_.jpg" alt="" width="638" height="361" srcset="https://coolshell.cn/wp-content/uploads/2010/09/05.04.Test_.jpg 797w, https://coolshell.cn/wp-content/uploads/2010/09/05.04.Test_-300x169.jpg 300w" sizes="(max-width: 638px) 100vw, 638px" /></a></p>
+<p>第五步，用户介入，全程review各个环节。</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2010/09/05.05.Involve.Customer.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2951" title="05.05.Involve.Customer" src="https://coolshell.cn/wp-content/uploads/2010/09/05.05.Involve.Customer.jpg" alt="" width="632" height="451" srcset="https://coolshell.cn/wp-content/uploads/2010/09/05.05.Involve.Customer.jpg 790w, https://coolshell.cn/wp-content/uploads/2010/09/05.05.Involve.Customer-300x214.jpg 300w" sizes="(max-width: 632px) 100vw, 632px" /></a> <a href="https://coolshell.cn/wp-content/uploads/2010/09/06.Summary.jpg"></a></p>
+<p>好了，问题解决了，让我们看看最终的“无比强大的”——Waterfall软件工程模型！</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2010/09/06.Summary.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2952" title="06.Summary" src="https://coolshell.cn/wp-content/uploads/2010/09/06.Summary.jpg" alt="" width="725" height="437" srcset="https://coolshell.cn/wp-content/uploads/2010/09/06.Summary.jpg 1007w, https://coolshell.cn/wp-content/uploads/2010/09/06.Summary-300x180.jpg 300w" sizes="(max-width: 725px) 100vw, 725px" /></a></p>
+<p>现在，当你在使用waterfall开发软件的时候，知道为什么痛苦了吧，40年前就已经如此了。</p>
+<p>下面是《<a href="http://confreaks.net/events/lsrc2010">Lone Star Ruby Conference 2010</a>》的一个演讲叫《<a href="http://confreaks.net/videos/282-lsrc2010-real-software-engineering" target="_blank">Real Software Engineer</a>》，没有字幕，但我个人感觉英文很容易听懂，英文好的同学不妨看看。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4458.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="BT雷人的程序语言（大全）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4458.html" class="wp_rp_title">BT雷人的程序语言（大全）</a></li><li ><a href="https://coolshell.cn/articles/247.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/weblanguagecomparison1-150x150.png" alt="基于JVM的语言正在开始流行" width="150" height="150" /></a><a href="https://coolshell.cn/articles/247.html" class="wp_rp_title">基于JVM的语言正在开始流行</a></li><li ><a href="https://coolshell.cn/articles/9410.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/figure1-150x150.gif" alt="Unix考古记：一个“遗失”的shell" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9410.html" class="wp_rp_title">Unix考古记：一个“遗失”的shell</a></li><li ><a href="https://coolshell.cn/articles/2801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="C技巧：结构体参数转成不定参数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2801.html" class="wp_rp_title">C技巧：结构体参数转成不定参数</a></li><li ><a href="https://coolshell.cn/articles/1178.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/07/Internet-150x150.jpg" alt="Internet 技术演变图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1178.html" class="wp_rp_title">Internet 技术演变图</a></li><li ><a href="https://coolshell.cn/articles/2086.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/02/ipad-150x150.jpg" alt="iPad进化图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2086.html" class="wp_rp_title">iPad进化图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2941.html">Waterfall 软件工程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2941.html/feed</wfw:commentRss>
+			<slash:comments>17</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

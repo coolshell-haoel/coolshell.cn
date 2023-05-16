@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Rework | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/rework/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sat, 26 Dec 2020 05:42:13 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>MegaEase的远程工作文化</title>
+		<link>https://coolshell.cn/articles/20765.html</link>
+					<comments>https://coolshell.cn/articles/20765.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 31 Jan 2020 07:23:18 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[MegaEase]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[remote]]></category>
+		<category><![CDATA[Rework]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=20765</guid>
+
+					<description><![CDATA[<p>MegaEase 是我创业的公司，主要是想把云计算（PaaS/SaaS层）的那些高可用高并发的分布式技术普及到那需要对技术自主可控的公司，这样就不需要去使用不能...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/20765.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/20765.html">MegaEase的远程工作文化</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-20773" src="https://coolshell.cn/wp-content/uploads/2020/01/remote-300x177.jpg" alt="" width="300" height="177" srcset="https://coolshell.cn/wp-content/uploads/2020/01/remote-300x177.jpg 300w, https://coolshell.cn/wp-content/uploads/2020/01/remote-768x454.jpg 768w, https://coolshell.cn/wp-content/uploads/2020/01/remote-457x270.jpg 457w, https://coolshell.cn/wp-content/uploads/2020/01/remote.jpg 806w" sizes="(max-width: 300px) 100vw, 300px" /><a href="https://megaease.com/" target="_blank" rel="noopener noreferrer">MegaEase</a> 是我创业的公司，主要是想把云计算（PaaS/SaaS层）的那些高可用高并发的分布式技术普及到那需要对技术自主可控的公司，这样就不需要去使用不能自主可控的闭源系统或是大公司的云平台。我于2016年开始成立MegaEase，从早期8个人，直到今天有20来个人，我们从一开始到今天都是在远程工作的公司文化。因为我很喜欢《<a href="https://coolshell.cn/articles/9156.html" target="_blank" rel="noopener noreferrer">Rework</a>》这本书，写这本书的公司叫37signal（现名basecamp），这家公司在发《Rework》这本书的时候，整个公司只有16个人，分布在全世界8个城市，这种Geek的公司的文化很吸引我，所以，在我决定创业的时候，我就止不住地想成立这样能够远程工作的公司，于是，远程工作的团队文化就这样成为了MegaEase的基因。<strong>下面我会分享一下，我们公司的远程工作文化和其中的一些问题，最后还有一个工作协议</strong>。</p>
+<p>我们在早期的时候，8个员工来自5个城市，现在的20来个员工来自8个城市2个国家。虽然我们现在使用“共享办公室”，但是本质上，我们的整个文化是远程工作的文化。在2017-2018年度，我们公司产品商业化以来，公司早期的8个工程师在远程工作的状态下成功支持了得到的老罗的跨年演讲活动，以及其它几个客户，一方面验证了用户愿意付费购买我们的产品和服务之后，另一方面也有一些不错的收入，客单价都在百万左右。还记得当时，有几个投资人并不相信我们连个办公室都没有，而且8个人分布在5个城市，觉得我们是个骗子公司（哈哈）。在过去的一年，我们通过我们的产品和服务帮助银行电信互联网等公司进行了他们的系统架构的改造和升级，让复杂和高门槛的分布式技术和架构可以被更多的企业所掌握所应用。这说明，远程工作是没有什么问题的。实际上远程团队远程工作真的不新鲜，Github上有个Repo维护着一个<a href="https://github.com/remoteintech/remote-jobs" target="_blank" rel="noopener noreferrer">支持远程工作的公司列表</a>，还有一个<a href="https://github.com/lukasz-madon/awesome-remote-job" target="_blank" rel="noopener noreferrer">跟远程工作相关的Awesome索引</a>。</p>
+<p>当然，自从我创业以来，我身边就一直有好些不同的声音质疑远程工作。听过他们的理由后，我能够理解他们的疑虑和困惑，因为管理的确是一个很复杂的事，因为要面对的是极为复杂的人，所以，有这些疑虑也是正常的。下面是我的一些经验和分享。先说宏观管理，再说微观实践。</p>
+<p><span id="more-20765"></span></p>
+<h4>宏观管理</h4>
+<p>我发现很多人比较质疑远程工作的原因，更多的是表现在对宏观的管理上有问题。所以，我还是想先说一下宏观管理，这其实并不分远程办公还是集中式办公，<strong>如果能够解决好些这管理上的根本问题，其实，远程不远程都无所谓了。只不过，这些问题在“远程办室”的场景更更突显罢了</strong>。</p>
+<h5><strong>一、努力找到好的人</strong></h5>
+<p><strong>团队管理的头等大事是找人，没有之一。</strong>很多人都会跟我说，你的这种远程团队需要很好的人。是的，没错，人很关键。远程团队需要的人的一般需要有这些特质：</p>
+<ul>
+<li><strong>能独挡一面的人</strong>。这样交给他的事能独立完成，没有路能自己找路，这样可以省很多管理成本。</li>
+<li><strong>沟通能力很强的人</strong>。一方面，他们把模糊的事能变清楚，另一方面，他能有效地说服他人。不然就会非常扯皮和消耗时间。</li>
+<li><strong>能自管理和自驱动</strong>。不能自管理和自驱的人，会增加大量的管理和教育成本。能自驱动的人，都是对负责的事情有认同的人。</li>
+</ul>
+<p>如果你仔细思考一下，<strong>你会发现，这样的人是任何一家公司所渴望的人，和远不远程无关</strong>。只不过，如果是远程团队的话，你会被逼着要招到这样的人。</p>
+<p>招到这样的人，你团队的执行力会非常的强悍。招不到这样的人，你只能为他们不能自管理和自驱而招“经理”，不能写出好的代码而招“测试”，不能很好的沟通而招个“项目经理”，不能独档一面，而要把好的人安排给他们当“教练”，而好的人则会被累死……</p>
+<p>这个时候，<strong>你就需要计算一下了，是花时间精力在教育不好的人，还是花时间精力找好的人？无论远不远程，聪明的管理者都会选择后者</strong>。这也就是为什么Amazon的Bezos会说，“我宁愿面50个人一个人都招不到，我也不愿意降低我的面试标准”。</p>
+<h5><strong>二、设定共同的目标和使命</strong></h5>
+<p>对于远程团队来说因为见不到面，所以，缺乏交流和沟通。所以，需要团队里所有人能在同一篇上，能够对要做的事有一个统一标准的认识。也就是共同的目标和使命的认知。知道要要什么，不要什么。知道取舍，知道trade-off。这些东西都是需要团队一起达成的共识。如果没有这样的“Same Picture”的目标和使命，就会出现很多不必要的误解和冲突。另外，因为团队和业务也在迅速发展中，所以，也需要不断地调整和沟通。这都需要领导者花费时间统一目标和使命。</p>
+<p>老实说，无论远程不远程，一个团队也是需要有共同的目标和使命的。没有共同的目标，就算是集中在一起办公，也一样没有效率的。</p>
+<h5><strong>三、倾向使用小团队</strong></h5>
+<p>因为沟通成本的问题，远程团队更为倾向使用小团队，但并不是说小团队会限制整个公司的规模。《人月神话》说过，只有小团队才能驾驭复杂的系统。Amazon 的 Two Pizza Team的文化（团队的大小只能到两张披萨就能喂饱的大小），就是把整个系统拆成“微服务”架构，这样可以导致整体效率的巨大提升。表现在，可以并行开发，专注于一个功能更利于解决复杂问题，简单可以更容易的运维，可以更容易的规模化……</p>
+<p>我工作的这20多年来经历过很多公司，尤其是创业的这几年来，看过的公司更多了（50+以上了），我发现，人数越多的团队，基本上来说，就更偏劳动密集型。劳动密集型的一个特征就是，<strong>大家整天在想，得整点什么事给这么多人，好让他们忙起来。而人数少的团队，因为人不够，所以每天都在想，什么样的事更重要，什么样的事可以自动化，怎么做更有效率……</strong>小团队和大团队的关注点就这么不一样了，所以做出来的事也就不一样了……</p>
+<p>当然，并不是说劳动密集型有什么问题，就像《<a href="https://coolshell.cn/articles/4951.html" target="_blank" rel="noopener noreferrer">软件团队的两种管理方式</a>》一文所说的一样，远程团队工作更倾向于“电影工作组”式的每个人都是leader的知识密集型的团队。</p>
+<h4>微观实践</h4>
+<p>在远程工作中，我们需要有很多的微观操作来让大家能够更好的进行远程工作。因为远程工作也有一些问题（但是方法总比问题多，不是吗？）</p>
+<ul>
+<li><strong>文档驱动</strong>。首先，远程的问题就是沟通不方便了，集中化的办公一群人可以在白板上进行讨论，然后远程工作这个事就变成很复杂了。所以，当要讨论什么事的时候，需要发起人先写一个文档，然后大家在这个文档上进行讨论（我们通常使用Github的issue，Pull Request或Google Doc）。另外，写文档的好处太多了，除了给后人有一个可以追溯的东西，更重要的是，写作是一种深度思考，当你把你脑子里想的东西写下来的时候，你就会发现你的思考更多了。所以，文档驱动我们团队能力非常重要的事。</li>
+</ul>
+<ul>
+<li><strong>自动化和简化</strong>。自动化和简化是我平时追得最多的东西了，从软件的Unit Test, Functional Test, Performance Test 一直到用Kubernetes进行自动化部署，我要求的就是从一提交完代码后就自动化的上线。我们玩的是Amazon的“单分支”代码管理的玩法，一旦代码merge上master，就会直接上线（当然需要通过灰度）。因为远程团队如果没有自动化的工具，那么，就会导致整体效率的下降。</li>
+</ul>
+<ul>
+<li><strong>Owner文化</strong>。这个太重要的了，但是，这并不是在说，如果一个事没有owner，就会像“三个和尚”那样，事情就进了没人管的地步。这是因为很多人在工作中都是比较 nice 的，比较 nice 的人通常来说都不好意思跳出来对别人发号施令。所以，Owner 文化就是要求每件事都要定义一个Owner，而这个Owner是有权对其它人发号施令的，其他人也有义务要配合他。当然，Owner 的权利越大，责任也会越大！</li>
+</ul>
+<ul>
+<li><strong>Review文化</strong>。Review文档是一种把知识或是想法传递出去的方式。我们在实践过程中，需要大家把好的想法写下来，这需要包括问题背景、目标、可选的方案（这些方案需要有引用和数据，不能是拍脑袋）、还需要有Pros/Cons的比较。然后再发起讨论。这样，事情在一开始就做好，那么就可以让大家的讨论更加地有效率。<strong>很多人以为开会讨论有个议题就行了，其实不够，有效率的开会讨论需要的是议案，而且还是高质量的议案！</strong></li>
+</ul>
+<ul>
+<li><strong>目标承诺</strong>。我们需要每个人承诺自己的工作目标，这个完全由每个个体来发起、完成。一般来说，每个人自己给自己制定的计划最好是在1-2周内。</li>
+</ul>
+<ul>
+<li><strong>自我管理</strong>。我们的实践是没有审批制度，无论是，休假、报销、出差，完全是自己自由安排，但需要告诉团队（除非在一些关键时期没法休长假，需要整个团队全力以赴），但千万不要撒谎和作弊，一旦发现，直接开除就好了。这个是基于好人更多的原则制定的（没有必要为了少数的坏人一刀切后让所有人痛苦）</li>
+</ul>
+<ul>
+<li><strong>闲聊和自行见面</strong>。见面和不能见面是一件非常不一样的事，在一起工作时，人和人是会有感情的，因为会有闲聊。远程的时候，则只有工作了。所以，我们鼓励团队人员间的私聊，闲聊，互相对方讲讲自己的经历和过往，同时，也鼓励员工自行出差到对方的城市见见跟你一起工作的人，公司报销差旅费。</li>
+</ul>
+<ul>
+<li><strong>知识分享会</strong>。我们每周都有知识分享会，一次只讲半个小时，不贪多，就讲一个小的知识点。然后，团队中的一些人还主动使用Google Form来收集分享的反馈信息。</li>
+</ul>
+<ul>
+<li><strong>就地奖励文化</strong>。我们默认上是没有年终奖，只有就地奖励文化。也就是说，你做的事挣钱了，利润中有70%公司拿走，剩下的30%团队的人就地分掉。这样会让团队里的每个人都会想怎么挣钱，除了可以把精力放到那些能够让用户付费的地方上，更重要的是让团队成员了解一下业务和用户为什么要付费，这个是非常关键的。当然，如果公司没有挣钱，但是员工工作的不错，我们还是会给年终奖的。不挣钱的主要责任是我的，而挣钱的主要功劳是团队的。</li>
+</ul>
+<ul>
+<li><strong>外包支持性的工作</strong>。一些支持性的工作尽可能地使用外包，比如：HR、行政、发工资财务、员工持股、测试人员、定制化开发……这样可以让你的团队更小，更高内聚。更利于远程。</li>
+</ul>
+<ul>
+<li><strong>异步编程</strong>。如果一个项目是从零开始的，对于一个团队来说可能会是无从下手的，这需要有个人（owner）把代码的框架和结构给组织好。然后其他的人进入把坑填了，这样的效率会高很多。另外，不见面的结对编程，完全可以使用异步的方式进行，这其实就是多人干同一个pull request的方式。有Github这样的协议工作，远程编码变得很方便。</li>
+</ul>
+<p>关于我们的远程工具，我们主要是使用：</p>
+<ul>
+<li><strong>开发环境</strong>
+<ul>
+<li><strong>AWS</strong>，我们主要使用AWS，因为我希望团队在使用AWS的时候能够被潜移默化。</li>
+</ul>
+</li>
+<li><strong>协作工具</strong>
+<ul>
+<li><strong>Github</strong>。我们所有跟软件开发的工作都会在Github上，我们重度使用 Github 的 pull request 和 issue，也会使用 Github Project 里的看板和 Wiki。</li>
+<li><strong>Google全家桶</strong>。我们重度使用 Google，Google Group、Google Driver、Google Docs 主要是一些各式各样的文档。</li>
+</ul>
+</li>
+<li><strong>通讯工具</strong>
+<ul>
+<li><strong>语音沟通</strong>。主要是使用Zoom，因为Zoom不但可以支持几十人在线，还可以云录制。如果小范围交流的话，一般使用微信语音。</li>
+<li><strong>工作沟通</strong>。主要是使用Slack，Slack作为一个信息集散地，可以分频道，可以分thread讨论，微信注是个渣。</li>
+<li><strong>吹水群</strong>。我司的吹水群主要是Telegram，因为比微信好太多了……</li>
+</ul>
+</li>
+</ul>
+<p>你会发现，我们的工具有好些都是在墙外的，是的，因为墙内的同类的工作实在是太难用了，没办法不用。而且，<strong>我倾向于让大家用上最先进的工具，这样我们团队中的每个人的品味才会被这些好的工具潜移默化</strong>。</p>
+<h4>远程工作协议</h4>
+<p>下面是我们的远程工作协议（无删减），这是每一个远程工作人员需要同意并做到的协议（其中有 Amazon Leadership Principles 的影子），目前在 v1.3 版，未来还会更新，我现在把它晒出来，也希望得到更好的建议！</p>
+<p>&nbsp;</p>
+<h1>MegaEase 远程工作团队协作协议 v1.3</h1>
+<h2><a id="user-content-principles" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#principles" aria-hidden="true"></a>Principles</h2>
+<h3><a id="user-content-0ownership--leadership" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#0ownership--leadership" aria-hidden="true"></a>0）Ownership &amp; Leadership</h3>
+<p>每个人都是Owner，都是Leader， 如果看到团队或是项目有问题的时候，不要等，也不忍，请马上说出来，并给出相应的方案， <strong>自己跳出来召集开会，及时调整。不要闷在那里，自己憋！</strong></p>
+<h3><a id="user-content-1initiative" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#1initiative" aria-hidden="true"></a>1）Initiative</h3>
+<p>每人个都必需是主动的，都需要自己发起要做的事，或是自己要认领要做的事，如果发现自己没有事情了， <strong>需要学会主动发现问题，主动找到可以improve的地方，创新来源于此</strong>。没有路要学会自己造路！</p>
+<h3><a id="user-content-2objectives-oriented" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#2objectives-oriented" aria-hidden="true"></a>2）Objectives Oriented</h3>
+<p>每个人都是产品经理，也都是项目经理，每个人都必需把自己的工作和我们大的目标连接在一起，知道什么是重点，重点的东西就是两件事：一）从用户的角度出发，二）从产品的角度出发。 <strong>这意味着我们要随时观察整个产品的样子，而不只是自己这一块东西</strong> 。</p>
+<h3><a id="user-content-3insists-on-high-standard" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#3insists-on-high-standard" aria-hidden="true"></a>3）Insists on High Standard</h3>
+<p>举法其上，得乎其中，举法其中，得乎其下，举法其下，法不得也。我们要坚持用高的标准要求自己，对于高标准的目标不妥协，但是在实施路径和策略上可以妥协。</p>
+<h2><a id="user-content-practices" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#practices" aria-hidden="true"></a>Practices</h2>
+<h3><a id="user-content-0online" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#0online" aria-hidden="true"></a>0）Online</h3>
+<p>工作的时候必需在线。如果不在线了，需要说一下不在线的时长, 目前我们工作的事宜在通讯工具采用Slack， 如果需要请假的情况，如果不是紧急情况，需要<strong>提前一天</strong> 在MegaEase的Slack <em>#random</em> 频道中提前说明。如果是紧急情况，也需要提前在<em>random</em>频道中告知大家。</p>
+<h3><a id="user-content-1-documentation-driven" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#1-documentation-driven" aria-hidden="true"></a>1) Documentation Driven</h3>
+<p>面对面交谈、电话语音、微信、Slack虽然是比较实时的反馈工具，但是只有文档是可以把重要信息给结构化的，而且写文档其实是比起前面的方式来说是更为深度的思考，因为会让你自己审视自己的想法。所以，对于一些重要 “<strong>功能</strong>”、“<strong>流程</strong>”、“<strong>业务逻辑</strong>” 、“<strong>设计</strong>”、“<strong>问题</strong>”，以及“<strong>想法</strong>”，最好都以文档化的方式进行。请使用Github的 wiki、project、issue这些工具或是使用Google Doc.</p>
+<h3><a id="user-content-2design-review" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#2design-review" aria-hidden="true"></a>2）Design Review</h3>
+<p>对于一些重要的问题或是工作（每个人都能够判断什么是关键问题和工作）， <strong>需要先把自己的想法share出来，而不是先实现</strong> 。</p>
+<p>一个好的 Design 文档需要包括如下项：</p>
+<ul>
+<li><strong>Background</strong>。交待这个事的背景、需求和要解决问题。</li>
+<li><strong>Objectives</strong>。说明这个事的目标和意义。</li>
+<li><strong>Alternative Solutions</strong>。 给出多个解决方案，并能够进行 Pros/Cons 对比。
+<ul>
+<li><strong>Reference</strong>。方案需要有权威引用支持。</li>
+<li><strong>Data</strong>。方案需要有相关数据数据支持。</li>
+</ul>
+</li>
+<li><strong>Conclusion</strong>。结论是什么。</li>
+</ul>
+<h3><a id="user-content-3-simplication--automation" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#3-simplication--automation" aria-hidden="true"></a>3) Simplification &amp; Automation</h3>
+<p>简化和自动化是软件工程所追求的两大目标，简化不是简陋，简化是对事物一种抽象和归纳能力，其能够提升软件的复用能力和扩展性，自动化是工程能力的重要体现，一方面，远程工作中自动化的能力可以让整个团队更高效地协作，另一方面，自动化是规模化的提条件。所以，我们要无时无刻地思考如何简化和自动化现有的事情。</p>
+<h3><a id="user-content-4review--refactory" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#4review--refactory" aria-hidden="true"></a>4）Review &amp; Re-factory</h3>
+<p>无论是代码还是工作都是需要反思和重构的。反思是进步的源泉，项目告一段落时，出现问题时，都应该召集团队做集体反思，把好的东西坚持下去，把不好的东西优化掉。这样才能进步和改进。但是任何的优化措施是可执行的。</p>
+<h3><a id="user-content-5milestone-commitment" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#5milestone-commitment" aria-hidden="true"></a>5）Milestone Commitment</h3>
+<p>对于一个项目，每个人都需要有自己的 milestone 计划， <strong>这个计划最好是在2周以内，1周内是最好的。而且要承诺到</strong> 。</p>
+<h3><a id="user-content-6evidence-driven" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#6evidence-driven" aria-hidden="true"></a>6）Evidence Driven</h3>
+<p>任何讨论和分析都要基于权威的证据、数据或是引用。在我们做设计的时候，或是有争论的时候，说服对方最好的方式就是拿出证据、数据或是权威引用。比如：我的XX设计参考了TCP协议中的XX设计，我的XX观点是基于XX开源软件的实现……如果争论不休就停止争论，然后各自收集和调查自己观点的佐证。</p>
+<h3><a id="user-content-7demo-day" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#7demo-day" aria-hidden="true"></a>7）Demo Day</h3>
+<p>把自己做的东西跟团队做一次实时的演示。这样有助于开发人员从产品角度思考自己的工作。除了演示产品功能，还可以演示算法，设计，甚至代码。</p>
+<h3><a id="user-content-8-effective-meeting" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#8-effective-meeting" aria-hidden="true"></a>8) Effective Meeting</h3>
+<p>会议主要处理三件事：提出议案、发现问题、共识结论。</p>
+<ul>
+<li>会议不仅仅要有议题，最好还有议案。</li>
+<li>会议期间不解决问题，只发现问题，和跟踪问题。</li>
+<li>会议必需要有共识和结论，如果不能达到共识和结论，那就当成问题处理，由问题的负责人跟进问题。</li>
+</ul>
+<p>关于周会或是临时性的团队会议（私下讨论不属于会议），会议组织者需要在事前收集会议议题，其中包括如下分类：</p>
+<ul>
+<li><strong>项目类</strong>：需要事先有项目进度计划表（任何分项最好控制在1-2人周内）</li>
+<li><strong>方案类</strong>：需要事先写好相关的方案和设计才能讨论（参看 Design Review 章节）</li>
+<li><strong>问题类</strong>：需要事先写好相关的问题和解决提案（参看 Design Review 章节）</li>
+<li><strong>决策类</strong>：需要事先写好整事的前因后果以及利弊分析</li>
+<li><strong>信息类</strong>：需要事先写好相关的事宜说明</li>
+</ul>
+<p>组织者需要在周五的时候发出会议议题收集，其中包括：</p>
+<ul>
+<li>自己知道的项目的进度跟进（需要相相关的项目负责人准备相关的项目计划）</li>
+<li>方案和问题类的需要各个项目负责人提出来，并有相关的设计文档可供Review</li>
+<li>信息类和决策类的事宜可以写在Google Doc上，也可以写在 Team 的 Issue 里</li>
+</ul>
+<p>其它负责人可以在会议上加入自己团队的东西，或是要求其他团队提供更多的信息。</p>
+<h3><a id="user-content-91-2-3-escalation" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#91-2-3-escalation" aria-hidden="true"></a>9）1-2-3 Escalation</h3>
+<p>遇到问题的时候，自己一个人处理1小时内没有思路，请找他人小范围讨论，如果与他人2小时内没有结果，请上升到团队范围，如果在团队范围3小时内没有思路，我们就需要借助外部力量了。</p>
+<h3><a id="user-content-a3ps-update" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#a3ps-update" aria-hidden="true"></a>A）3PS Update</h3>
+<p>每个人更新进度的时候，不要只是一个check-in，而是需要更 meaningful 的说一下工作内容，在工作告一段落的时候，希望简单的说一下工作总结。这里的practice是： <strong>3PS &#8211; Plan，Proirity，Problem，Summary， &#8211; 你的计划是什么？优先级是什么？遇到了什么问题？当前的工作摘要</strong> 。</p>
+<h3><a id="user-content-b-disagree-and-commitment" class="anchor" href="https://github.com/megaease/team/blob/master/internals/Working.Protocols.md#b-disagree-and-commitment" aria-hidden="true"></a>B) Disagree and Commitment</h3>
+<p>在我们开发的时候，团队的成员都会有自己风格，必然会对同一个问题产生较大的争议（Disagree），我们鼓励有争议，但是是在团队的决议作出之前。一旦团队形成决议，团队的成员就必须支持这个决议，并在这个方向上做出贡献。</p>
+<p>但是关于决议的形成过程肯定充斥着各种的争论，对于这些争论，我们可以按照下面的Guidline 来处理争议：</p>
+<ul>
+<li>Owner要负责对重大的讨论推进，尽快形成结论。</li>
+<li>在决议过程中，要有纪要，要更新到 Github 相关项目的 Issue 或 Pull Request 里，并且要让整个团队知道，信息平等很重要。</li>
+<li>不要妥协，坚持高的标准。第一标准是工业标准，第二标准是国外的大公司标准（如：google, fb, github, aws…），第三标准才是国内的标准。</li>
+<li>那怕再复杂，只要是标准，就可以说服用户。用户再无理，也不可能反对工业级的标准。</li>
+<li>Release出去的东西，只要被用户用上了，要改就难了，所以要谨慎而果敢。</li>
+</ul>
+<h4>小结</h4>
+<p>远程工作并不是目的，但是远程工作会逼迫管理者面对管理的本质问题。远程工作趋向于找到优秀自驱的人才，守护团队的共同目标，并打造精悍高能的团队，并要求我们在需要沟通和协作的地方使用更为科学和有效的手段，在各个环节中提升工作效率，降低组织内耗……你的团队管理模型是否最优，在远程工作下就会一览无余！远程工作只是一个手段，提升管理水平才是真正的目的！</p>
+<p>（全文完）</p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li><li ><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/03/rework-150x150.jpg" alt="《Rework》摘录及感想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_title">《Rework》摘录及感想</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/20765.html">MegaEase的远程工作文化</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/20765.html/feed</wfw:commentRss>
+			<slash:comments>87</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>加班与效率</title>
+		<link>https://coolshell.cn/articles/10217.html</link>
+					<comments>https://coolshell.cn/articles/10217.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 24 Jul 2013 00:28:10 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Project]]></category>
+		<category><![CDATA[Rework]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10217</guid>
+
+					<description><![CDATA[<p>微博上看到了这么一个贴子，就像以前在《腾讯，竞争力 和 用户体验》中批评过腾讯说自己的核心竞争力是员工加班一样，我顺着Winter的回复也批评了一下这个微博——...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10217.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10217.html">加班与效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright  wp-image-10220" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-300x201.jpg" width="240" height="161" />微博上看到了<a href="http://weibo.com/1401880315/A0LFVkB3L" target="_blank">这么一个贴子</a>，就像以前在《<a title="腾讯，竞争力 和 用户体验" href="https://coolshell.cn/articles/5901.html" target="_blank">腾讯，竞争力 和 用户体验</a>》中批评过腾讯说自己的核心竞争力是员工加班一样，我顺着Winter的回复也批评了一下这个微博——</p>
+<p style="padding-left: 30px;">“<span style="color: #808080;">靠加班超越对手？！劳动密集型么？我要是对手的话，我就来趁机挖人了，直接摁死你……//<a href="http://weibo.com/n/%E5%AF%92%E5%86%ACwinter"><span style="color: #808080;">@寒冬winter</span></a>: 当一个管理者的智慧无法衡量一支团队的产出的时候，他就会把“工时”当做最后的救命稻草，死死抱住——这是他唯一听得懂的东西了</span>。”</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10218" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/work_overtime.png" width="539" height="120" srcset="https://coolshell.cn/wp-content/uploads/2013/07/work_overtime.png 539w, https://coolshell.cn/wp-content/uploads/2013/07/work_overtime-300x66.png 300w" sizes="(max-width: 539px) 100vw, 539px" /></p>
+<p>然后，<a title="玄了个澄的" href="http://weibo.com/jiach">@玄了个澄的</a>在微博里at我说，他在微信里看了<a href="http://weibo.com/n/Fenng">@Fenng</a> 关于加班的言论，希望我评论一下。我看了一下大辉的文章，虽然写得有点散乱，但是我和他的一些观点还是很类似的，我主要在这里加强一下我的看法。</p>
+<h4>关于加班</h4>
+<p><strong>认为加班是公司的核心竞争力，或是超越对手的手段，是一种相当 Ridiculous 的想法。这说明管理者们已经想不到自己公司的核心价值了</strong>。</p>
+<p><span id="more-10217"></span></p>
+<p>是的，这些靠堆功能没有灵魂的产品的价值就只剩下比谁跑得快了。他们愚蠢和思维有限的大脑里已经区分不出来，“跑得快”和“跑得好”的差别了。产品的发展不是短跑，而是长跑，甚至更像是登山，登山比的不是快，而比的是策略，比的是意志，目的是登顶。并不是谁一开始爬得快谁就能最先登顶的，你往往被超越的时候都在后半程。对于一些危险的雪山来说，登顶的人通常都是要做好非常很充分的准备，并且在登山的过程中学会如何保留体力，学会如何步步为营的，从来不强行登顶。</p>
+<p>在<a title="《Rework》摘录及感想" href="https://coolshell.cn/articles/9156.html">《Rework》摘录及感想</a> 中提到过两点</p>
+<ul>
+<li><strong>条件受限是好事，因为条件受限可以让你小材大用，让你没有办法再用蛮力来完成工作，让你必需去思考使用知识密集型的解决方案来更聪明的解决问题</strong>。</li>
+</ul>
+<ul>
+<li><strong>工作狂往往不得要领。他们花大把大把的时间去解决问题，他们以为能靠蛮力来弥补思维上的惰性，其结果就是折腾出一堆粗糙无用的解决方案</strong>。</li>
+</ul>
+<p>就像人肉手动的织布机一样，当面对大量订单的时候，一个简单粗暴的方法就是拼命地加人和拼命地工作来换取更大的生产力。只有你在人手不够或是人力成本太高的情况下，你才会去想是不是可以优化一下工具，制造一个更有效率更有生产力的工具。</p>
+<p><strong>在中国，劳动力的成本不高，而管理者们的智力和能力有限，所以，在这个环境下，尤其在KPI和数字的重压下，管理者们是非常非常容易想到需要靠加人或是加班来提高产能的</strong>。所以，他们放弃了知识密集型的创新，而采用了劳动密集型的简单粗暴的方式，长期下来，导致了自己再也不会思考，导致了只会使用人肉解决问题。</p>
+<p>于是，当全自动化的织布机出现的时候，这种劳动密集型的公司分分钟就成为了历史。这样的例子太多太多了，看看历史就知道了。</p>
+<p>当然，有时候，我们需要冲刺还是要适当偶尔加班的，但这绝对不应该是常态和长期的，不然，这必然是一种饮鸩止渴的行为。</p>
+<p>另外，我还要多说几种情况：</p>
+<p style="padding-left: 30px;">1）如果你的员工就像在《<a title="软件公司的两种管理方式" href="https://coolshell.cn/articles/4951.html" target="_blank">软件公司的两种管理</a>》中所说的，像Widget Factories那样，净是些X型的人的话，那么，你也只有使用加班和加人这种方式，就像长城和金字塔的建设过程一样，就像富士康一样，你的团队本质是不会思考只能用鞭子去抽他们的方式去管理。于是，你也只能用“狼性”来呼唤你的员工像那些低智商的野兽一样的行事。</p>
+<p style="padding-left: 30px;">2）有时候，我们需要去“卡位”，需要很快地去实现一个东西占领市场，这需要加班。就像Win95和Intel的奔腾芯片的浮点数问题一样。但是千万不要忘了，你在卡完位后，得马上把你产品的质量搞上去，不然，你一样会死得很难看。（Windows是有两个团队的，一个团队是用来占领市场的，另一个团队是安心搞发展的）注意：“卡位”从某种程度上来说应该是一种有价值的事，但我们依然要思考是否在用蛮力行事。</p>
+<p style="padding-left: 30px;">3）另外，有的人工作就是生活，生活就是工作，所以，对他来说，这不是一种工作，而是一种事业。我认可这样的精神和热情，但是，我还是想让这样的人反思一下自己，有没有用一种更为聪明的方式来从事自己的事业？而不是用蛮力。</p>
+<p>无论上述的哪种情况，我们都可以看到，只要你进入了劳动密集型，靠人和靠加班来解决问题，并沉迷并深 陷其中不能自拔，那们，你终有一天会玩到尽头的。</p>
+<h4>关于效率</h4>
+<p><strong>很多人不知道什么叫效率，他们以为效率就是：单位时间单位人数下干更多的活。这是错的！效率不是比谁干的活多，而是比谁干得活有更大的价值</strong>。效率的物理公式是：<span style="color: #ff0000;"><strong>有用功/总功</strong></span>。<span style="color: #000000;">换句话说，效率就是：单位时间和人数产生的价值</span>。所以，提高效率，并不是加人，也不是干更多的活，而是，你这么多人干出来了多少有价值的东西。</p>
+<p>有了公式，我们也就知道怎么来提高效率了。</p>
+<p><strong>1）增加有用功</strong></p>
+<ul>
+<li>你得多问问你的需求方，为什么要加这个需求？干这个事到底有多大的价值？能让多少人受益？</li>
+<li>你得多问问你的需求方，能不能稍微简化一下需求，这样可以让我付出的努力更少一些？</li>
+<li>你得要多去思考一下，你是在干一个建筑队的活呢？还是在干一个装修队的活？</li>
+<li>你得要多去思考一下，业务上和用户的最大的痛点是什么？</li>
+</ul>
+<p>关于增加有用功，再说两点：</p>
+<ul>
+<li>像乔布斯那样，告诉你的产品经理或是业务方，你现在提的10需求，我只能做3个，会是哪3个？为什么是这3个？<strong>有用功的来源不是拼命做需求，而是砍需求。</strong></li>
+</ul>
+<ul>
+<li><strong>关于创造价值，我们要干的不是像百度的“竞价排名”那样，把钱从别人口袋里搬运到自己的口袋里，而是要像“英国工业革命”或是“硅谷”那样，把价值真正的创造出来</strong>。</li>
+</ul>
+<p><strong>2）降低总功</strong></p>
+<ul>
+<li><span style="line-height: 13px;">你得多问问自己，你有多少时间是在干一些支持性而不是产出性的工作？</span></li>
+<li>你得多问问自己，有没有残酷无情地减少重复劳动的劳动密集型的工作？</li>
+<li>你得多问问自己，自己的管理者和员工的能力和素质有没有在降低你的团队执行的成本？</li>
+</ul>
+<p><strong>3）形成合力</strong></p>
+<p>有一个很不错的产品经理对我说，他看了南京那两个小女孩被饿死的消息，感到很震惊。与之有关联的每一方都说自己尽力，但是最终结果人还是饿死了，你几乎不敢相信这是真的。</p>
+<p>但是，类比一下我们的项目，这种事似乎又发生在我们的公司当中，尤其是大公司中。每一个团队都说自己尽力了，结果项目就是没做好，底层团队说自己只干底层，已经尽力了，前端说自己只负责前端，也尽力了，后端说自己只管后端，不管前端和底层，运维说对于这样的设计和部署自己也尽力了，产品经理，运营都这样说，自己尽力了。你会发现，你几乎很难批评他们，因为他们的确如他们所说的那样，把他们自己的那块都做得很好了，而且的确做得很好了。但是，最终的结果却是：整个产品问题很多。</p>
+<p><strong>所以说，效率不是每个团队各自的效率，而是整个团队对整个产品负责的共同使命，这样才会现整体的效率。没有整体的效率，只有个体的效率，最终也等于没有效率</strong>。</p>
+<h4>T-Shirt Size Estimation</h4>
+<p>Amazon用一种T-Shirt Size 估计的方式来做项目。</p>
+<ul>
+<li>产品经理会对每一条需求评估上业务影响力的尺寸，如：XXXL 影响一千万人以上或是可以占到上亿美金的市场，XXL，影响百万用户或是占了千万金级别以上的市场，后面还有XL，L，M，S，这样下来。</li>
+</ul>
+<ul>
+<li>开发团队也一样，要评估投入的人员时间成本，XXXL表示要干1年，XXL干半年，XL干3个月，L干两个月，M干一个月，S干两周以下。等等。</li>
+</ul>
+<p>于是，</p>
+<ul>
+<li>当业务影响力是XL，时间人员成本是S，这是最高优先级。</li>
+<li>当业务影响力是M，时间人员成本是M，这是低优先级。</li>
+<li>当业务影响力是S，时间人员成本是XL，直接砍掉这个需求。因为是亏的。</li>
+<li>当业务影响力是XXL，时间人员成本是XXL，需要简化需求，把需求简化成XL，时间人员成本变成M以下。</li>
+</ul>
+<p>大家感受一下吧。</p>
+<p>好了，我就说这么多，欢迎大家讨论。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/03/rework-150x150.jpg" alt="《Rework》摘录及感想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9156.html" class="wp_rp_title">《Rework》摘录及感想</a></li><li ><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/19.jpg" alt="软件公司的两种管理方式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4951.html" class="wp_rp_title">软件公司的两种管理方式</a></li><li ><a href="https://coolshell.cn/articles/3218.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="开发时间估计" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3218.html" class="wp_rp_title">开发时间估计</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10217.html">加班与效率</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10217.html/feed</wfw:commentRss>
+			<slash:comments>194</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>《Rework》摘录及感想</title>
+		<link>https://coolshell.cn/articles/9156.html</link>
+					<comments>https://coolshell.cn/articles/9156.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 11 Mar 2013 00:25:34 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Rework]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9156</guid>
+
+					<description><![CDATA[<p>读了《Rework》这本书好多遍，每次读都有不同的感想。但从来没有把这些感想记录下来，今天把《Rework》书中的一些章节做一些摘录，并把我的一些感想总结出来。...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9156.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9156.html">《Rework》摘录及感想</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-9277" src="https://coolshell.cn/wp-content/uploads/2013/03/rework.jpg" alt="" width="235" height="360" srcset="https://coolshell.cn/wp-content/uploads/2013/03/rework.jpg 294w, https://coolshell.cn/wp-content/uploads/2013/03/rework-196x300.jpg 196w, https://coolshell.cn/wp-content/uploads/2013/03/rework-176x270.jpg 176w" sizes="(max-width: 235px) 100vw, 235px" />读了《Rework》这本书好多遍，每次读都有不同的感想。但从来没有把这些感想记录下来，今天把《Rework》书中的一些章节做一些摘录，并把我的一些感想总结出来。供大家参考。这是一本平生以来让我中毒很深的书，也是一本让我思考得很多的书。希望看到这篇文章的人都能好好地读读这本书。这本书并不难读，是一本你可以一口气不中断就可以读完的书。</p>
+<h4>现实世界</h4>
+<p>“这在现实世界里面行不通”，当你向人们介绍一个新创意时，人们总是这么回答你。这个“现实世界”听起来如此令人沮丧，……只有人耳熟能详，习以为常的事情才会胜利，即使是这些事情已经漏洞百出陈腐低效。</p>
+<p>揭开“现实世界”这个锅盖，你会发现居住在里的人都充斥着悲观主义和失望的情绪。更糟的是，他们想将别人拖进他们的坟墓。如果你是充满希望和野心的人，他们会试着说服你，你的想法是不可能的。他们会说你在浪费时间。</p>
+<p><strong>“现实世界”并不存在，那只是人的一个借口。只是某些人为了开脱 自己的无所作为，跟你一点关系也没有。</strong></p>
+<blockquote><p><strong>感想</strong>：我经常会向一同事和朋友提及一些我的想法，朋友同事们经常会回答我——这个事某某人，某某团队做过了，没成功。或是对我说，你做这个事的时候，要小心这个要小心那个。我觉得，这个时候是最考验我们的时候了，要有一个清醒的头脑去分析别人的话，别人真不代表自己。这个世界上大多数人都是比较保守的，大多数都对这个现实世界都有或多或少的恐惧感。当然，你可以选择做大众，但是如果你想让你的人生有些不同，有些精彩，我还是建议你不要和大多数人想得一样，<strong>如果你和大多数人的想法一样，你必然会和大多数人一样的平庸</strong>。当然，如果你和大多数人不一样，你要么就是天才，要么就是傻瓜。要证明你自己是不是傻瓜，我们可以看看我们过去有没有过一些小成功或小成绩。如果有，那么就应该大胆地坚持自己的想法。</p></blockquote>
+<h4>被高估的“从错误中学习”</h4>
+<p>你真的从错误和失败里面学到什么了吗？你也许学到了别再重蹈覆辙，但是这有什么意义吗？你仍然不知道接下来该做什么。</p>
+<p><span id="more-9156"></span></p>
+<p><strong>相反的应该从成功中汲取养分。成功給予真正靠得住的教材。</strong></p>
+<p>失败并不是成功的先决条件。自然规律是，<strong>逗留在过去的失败中是无法进化的，进化是建立在成功的基础上的</strong>。</p>
+<blockquote><p><strong>感想</strong>：我见过和很多人都在抱怨这不好那不好，但是他们其实并不知道什么是好的，因为——没有见过好的，你将永远不知道什么是好的。就好像你没有见过什么是汽车，你就只会整天在抱怨为什么骑自行车太累。回头想想我们的编程的这个过程也是一样，我们编程技能的提高基本上都是在看到别人的那些漂亮优雅的代码。所以，你一定要去看看那些优秀人干是怎么想的，怎么干的，去那些成功的公司开开眼界。另外，你应该多想想你过去做成功过什么事？那些才是你的长处，才是让你进化的前提。</p></blockquote>
+<h4>计划就是瞎猜</h4>
+<p>除非你是算命先生，长期的商业计划是种幻想。有太多的事实证明那是超出你的掌控的：市场环境、对手、顾客、经济等等。做计划让你觉得一切尽在掌握但实际上你没有。</p>
+<p><strong>当你把计划变成猜测时，就等于进入一个危险的境地。做计划就是在用过去推导未来，等于给你戴上了眼罩。</strong></p>
+<blockquote><p><strong>感想</strong>：你有职业规划吗？如果你有的话，那么你就一定就错了。职业规划是一件很扯淡的事情。我和一些高手都交流过，其实这些人在当初都并不有什么职业规划的，要说有的话，也就是想把技术搞透搞精。这些人在一开始从来没有想过要当个什么经理或是什么架构师之类的东西，这些人就是对技术有非常大的热情，把身边的那些看得见够得着的事情做到好好地，并且保持不持续强大的好奇心努力地学习自己不懂的东西。一个坚定不移的决定和意志力会比任何的计划和职业规划都重要。<strong>你问问自己，想不想当程序员，能不能一辈子都当一个程序员，能不能写程序写一辈子？</strong>（关于做一辈子程序员这个事，大家可以看看我的<a href="http://weibo.com/1401880315/zmebaF5tQ" target="_blank" rel="noopener">新浪微博</a> ——<em>没哪个行业能像计算机行业这么活跃、刺激和有趣了。不仅是新兴工业革命的主力，又渗入到所有的行业中，干一辈子值了。//<a href="http://weibo.com/n/_%E4%BD%A0%E4%BA%B2%E7%88%B1%E7%9A%84%E5%81%8F%E6%89%A7%E7%8B%82">@_你亲爱的偏执狂</a>: 程序员首先是工程师，Professional，就跟律师，医生一样，给大家解决问题；但是另一面呢，又是艺术家，创造新奇好玩的东西。这样的职业做一辈子有什么问题？</em>）</p></blockquote>
+<h4>拒绝壮大</h4>
+<p>规模越大你就得承受更大压力、需要更专业、拥有更强的能力。</p>
+<p><strong>有没有注意到，一个小公司希望自己变大时，大公司却想要变得灵活变通</strong>。记住，一旦你变大了就很难在不解雇人、不破坏士气、不改变你的整个商业路线的情况下收缩规模。</p>
+<p>扩张不必成为你的目标。我们也不是仅在讨论你已有员工数。 还有花费、租金、IT 基础结构、设备等。这些事情不会碰巧发生。 你来决定是否承受这些。如果你决定去承受，你也将遇到新的头痛问题。花费那么多，你强迫自己构建一个复杂的生意，有一大堆困难而高压的事情要解决。</p>
+<p><strong>小公司并不是一个起步，小公司本身就是一个伟大的目标。</strong></p>
+<blockquote><p><strong>感想</strong>：很多人都会以为拥有一支成百上千人的团队而成为一个成功的标志。就像很多朋友和猎头都会问我管多少人，当我说，我就管个十人不到的团队时，他们似乎都会觉得我很平庸。他们中的一些人基本上就不会再问我在干些什么了，因为他们可能觉得这么少的人都干什么大事呢？。当然，我说了他们也不一定听得懂。人多可能恰恰说明你可能在干一个劳动密集型的事情，这并没有什么可自豪的。真正自豪的不是在战争中用人海战术让大量的人去当炮灰，而是用一个小分队端掉敌军的军火库或指挥部。所以，<strong>关键不是你有多少人，关键是你做的事是不是有非凡的意义，而且你用了最小当量的资源。这就好像建立一个高性能的网站一样，用成百上千的服务器不算本事，谁用的少才是本事</strong>。</p></blockquote>
+<h4>工作狂</h4>
+<p>工作狂的行为不但没有必要，而且愚蠢至极。过多的工作并不代表你对项目更关注，也不代表你作了更多的贡献，这仅仅意味着你干了更多的活而已。<strong>工作狂制造的麻烦比解决的麻烦多</strong>。</p>
+<p>工作狂往往不得要领。他们花大把大把的时间去解决问题，<strong>他们以为能靠蛮力来弥补思维上的惰性，其结果就是折腾出一堆粗糙无用的解决方案</strong>。</p>
+<p><strong>如果你只是为了工作而工作，那么你就会丧失判断力。你的价值 观和决策方式都是扭曲</strong>。你没有能力去判断哪些工作值得做，哪些工作该放弃，最后搞得自己筋疲力尽，而一个筋疲力尽的人是无法作出明智的决定的。</p>
+<p><strong>工作狂不是英雄。他们不是在节约时间而是在浪费生命。真正的英雄早已想出了办法，搞定一切，然后回家了。</strong></p>
+<blockquote><p><strong>感想</strong>：这让我想到了那些为了冲业绩的业绩KPI的制订者们，很多时候，他们的价值观和决策真是的很扭曲的。他们生生地把一种技术密集型的工作变成了劳动密集型。<strong>他们其实就是在拼命地训练客户需要的那匹“更快的马”，而从来没有想过要去造个更快的交通工具。</strong></p>
+<p>另外，每当我在优秀员工的评比和员工的绩效考核中的跨团队比较中我们能听到很多很多的人说，XX员工工作任劳任愿，工作得很晚很晚，付出很大。老实说，我真的为这样的价值观感到悲哀。最后，我还想说说关于超时工作，我也经常学习和做自己的事情到深夜，我相信很多人也这样，但我们应该认真思考一下Rework中的这个观点，<strong>我们超时工作是在使用蛮力呢？还是在使用热情和兴趣呢？</strong></p></blockquote>
+<h4>挠自己的痒处</h4>
+<p>想要创造一款伟大的产品或者是某项卓越的服务，最直接、最简单的方法就是去做你自己想用的东西。设计你了解的产品——你就能很快发现它到到底好不好用。</p>
+<p><strong>最棒的是，“解决你实际遇到的问题”会让你爱上你做的事情</strong>。 你知道问题所在并且熟知解决它的价值。这是无法替代的。毕竟，你会充满希望的在接下来的日子里继续做。 甚至会占据你余生所有时间。所以，最好还是做自己真正关心的东西。</p>
+<blockquote><p><strong>感想</strong>：这就是吃自己的狗食，做自己感兴趣的事。软件项目中，我最恨的就是那种闭门造车造出来的自己都不用的东西（不是从已有业务生长出来的东西），以及那些自己不动手就在边上指指点点的各种咨询师或是喜欢动用行政命令的高层管理者。</p>
+<p>但是，在这里，我更想说说我所理解的另一层“挠自己痒处”——有天我和一前前同事聊天，她说她在那家公司十多年了，现在老了，虽然心不老还想折腾，但是对自己的能力没自信，求稳了。我听到很多朋友想对自己有个改变，比如有QA的同学想做开发，有生活在内地的朋友想来大城市的大公司里有更爽的经历，<strong>这些人明明想活得更有激情，但最终在现实面前认命妥协。我说既然有痒处，还比较痒，那就应该毫不犹豫革自己的命，轰轰烈烈地活一次</strong>。别等老了后悔当年没有勇气。“挠自己痒处”就是挑战自己，革自己的命，既然想了，就做吧，生命只有一次，值得我们轰轰烈烈地去为之付出。</p></blockquote>
+<h4>“没时间”不是借口</h4>
+<p>人们最常用的借口是：“时间不够。”他们宣称很想开一家公司，学一种乐器，写一本书，等等，但时间不够用。拜托，如果你善加利用，时间总是有的。</p>
+<p>把看电视或玩魔兽的时间腾出来完成你的创意；把10点上订改成11点上床，这不是怂恿你通宵达旦或是一天干足16个小时——我们要说的是，第周匀出一些业余时间来，就足够你去做些事情了。</p>
+<p>当你拥有某种强烈的渴望时，你就能挤出时间来——不管你身上是否背负着其他责任。<strong>事实上，真相是大多数的渴望并不是那么强烈。于是他们拿时间当借口来自我开脱。别给自己错口。</strong></p>
+<p>另外，永远会有正当其时的时候，你总会觉得自己会么太年轻，要么太老，要么太忙，太穷，或是别的什么原因。<strong>如果你总是为遇到一个完美时机而发愁，那么，完美的时机绝对不会到来</strong>。</p>
+<blockquote><p><strong>感想</strong>：我在“<a title="挑战无处不在 " href="https://coolshell.cn/articles/7048.html" target="_blank" rel="noopener">挑战无处不在</a>”中也表达过这样的观点，<strong>关于热情和态度，说白了就是不要给自己找借口</strong>。比如：“工作忙事多没时间学所以可以不懂”，“工作中没用到所以可以不懂”，“工作没有挑战，一直没有遇到合适的项目”等等。而且，如果你只能在万事俱备的情况下才能做事，那么，你还有什么价值呢？人的价值和竞争力就是在条件并不完美的时候还能搞定事情。</p></blockquote>
+<h4>画沙为界，立场明确</h4>
+<p>坚定的信念能为你赢得超级粉丝，他们会为你马首是瞻，会舍身保护你，他们充满激情的口碑传播将胜过这世间一切的广告。</p>
+<p>强大的主见，也是要付出代价的，在这个过程中，会有人诋毁你，说像傲慢，冷漠。没办法，这就是人生，有人喜欢你，就有人憎恨你。如果你的说法没有引起任何人的心烦意乱，只能说明你的推广力度可能还不够。（也可能代表你比较无趣）</p>
+<p><strong>对我们来说，我们的产品所不能处理的和我们的产品所能处理的一样令人感到骄傲</strong>。</p>
+<p>我们的产品不适合每一个人，没有关系，我们愿意为了那些更加深爱我们的客户而放弃另一部分客户。这就是我们的立场。</p>
+<blockquote><p><strong>感想</strong>：我从来不想做一个大众脸。酷壳上有很多比较有争议的文章，也有很多人说我很极端，偏执，有优越感，清高……，说什么的都有，无所谓。我有一个做新闻编辑的太太，主辑要求文章要客观和没有观点，不温不火，本来好好的一篇有观点的文章被编辑过后只剩下了一堆食之无味的文字。<strong>我喜欢有鲜明的观点，因为鲜明的观点和立场能不但能让文章鲜活起来，而且还能迎来更多的不同意见和更多的思考</strong>（而不只是“顶”“赞”之类无意义的回复）。我并不希望我的观点是正确的，我只希望能和更多的人加入我一同思考，而思考最佳的催化剂就是争论。我从这个行为中收益到了很多很多。</p></blockquote>
+<h4>找好退路无异于失败</h4>
+<p>你还常常听到：“你的退出战略是什么？（万一不成功，你怎么办）”甚至在你刚开始启动时就听到它。这些人不知道怎么开始就要想到怎么结束？急什么呢？如果在全情投入之前就想怎么撤出，这种逻辑不是一般的混乱。</p>
+<p>你正打算恋爱一场就计划着分手？你在第一次约会时就签订婚前协议？你会在婚礼早上先约见离婚律师？那也太荒谬了吧。</p>
+<p><strong>你需要的是承诺战略而不是退出战略。你要考虑的是你的项目怎样发展和成功，而不是怎样撤退</strong>。如果整个战略是基于撤退的，一开始你就不会有机会成功。</p>
+<blockquote><p><strong>感想</strong>：几年前，我有一个朋友被创新工场忽悠从美国退学回来创业，我非常质疑他退学创业这个事。他对我说，没事，反正就算失败我也不会失去什么。还有一个朋友一年前从美国回国创业，也对我说，就算没搞好也没什么。我都对他们说，如果你以为用试一试的态度就可以把一个事情搞成功，那么你让这世上那些Full Time全天候从事这个事情的并有一些积累的人情何以堪？如果你创业时都想好了失败，那就说你你对这个事没有必胜的信心，也说明连你自己都不相信这个事，你还干个什么劲啊？<strong>你与其把时间用在思考如果创业没成功你会怎么办上，你还如去思考一下如何做才有更大的胜算</strong>。</p></blockquote>
+<h4>条件受限是好事</h4>
+<p>“我没有足够的时间、钱、人手、经验”。不要现无谓的抱怨了。“少”不是什么坏事。“条件受限”貌似缺陷，实力优势。有限的资源能激发你在现有的条件下完成任务的能力。没有一点浪费空间，一切都需要你发挥最大的创造力。</p>
+<p>你见过囚犯用肥皂和汤勺制作武器吗？你们是“创新”的典范。只有在条件受到限制时，我们才会发挥出“小材大用”的能力。</p>
+<blockquote><p><strong>感想</strong>：我相信这世上很多事情都是被条件受限逼过去的。我回想到我以前经常在干的性能调优，想尽一切办法榨干系统资源这件事上，我就无法不赞同这句话。想想淘宝的TFS，就是一个因为条件受限到了不得不自己干的时候，被逼出来的东西。如果你没有足够多的人，你才会去想要怎么去优化工作和开发效率，于是才会逼着你去开发一些自动化的工具，而这些工具恰恰解放了生产力可以让你更快地干更多的事。<strong>只有条件受限，才会从劳动密集型中激发出知识密集型的东西</strong>。再回到以前我的那篇“<a title="我们需要专职的QA吗？" href="https://coolshell.cn/articles/6994.html" target="_blank" rel="noopener">是否需要专职的QA</a>”一文说的到东西，如果你有很多很多帮你做测试的QA，你就不会去测试，你的团队也就不会有自动化测试等工具。这就好像在中国这个劳动力又多又廉价的大国下，基本上不需要你在技术上的创新，你只需要去不断地迁就这些低端用户，迁就这些用户越多，你还能有什么重大创新吗？真正的创新是帮助用户成长，而不是迁就用户。</p></blockquote>
+<h4>与其做个半成品，不如做好半个产品</h4>
+<p>同时做N件事的结果就是：一大把绝妙的点子最后被转化成一个蹩脚的产品。</p>
+<p>有舍才有得，砍掉多余的野心，你就会发现慢慢做一件正事要胜过毛毛躁躁地做一堆傻事。</p>
+<p>很多东西都是越简短越好。拿起斧子动手砍吧，为了一个“伟 大”的起点，让我们把那些“挺不错”地枝节给砍掉吧。</p>
+<blockquote><p><strong>感想</strong>：这正如“<a title="为什么中国的网页设计那么烂？" href="https://coolshell.cn/articles/3605.html" target="_blank" rel="noopener">为什么中国的网页设计这么烂</a>”中说的：“中国的学生只是去记忆东西而不是真正的理解。他们从来不花时间去思考，而只是贪婪地去获取更多的信息”。与其记忆那么多的东西，还不如好好理解部分的东西。还有一种说法是：“Done is better than Perfect!”，这句话某些时候说得也挺对的，尤其是对于那些完美地长期不能Done的项目。但是Done一个Ugly的东西还不如不做。所以平衡Done和Perfect的方式正好就是这句话——“与其做个半成品，不好做好半个产品”，因为，<strong>一个半成品会让人绝望，而半个好产品会让人有所期望，这就是其中的不同</strong>。</p></blockquote>
+<h4>关注不变因素</h4>
+<p><strong>很多公司和人都关注即将到来的大事件。他们热衷于新鲜热辣的事物，追逐最新的潮流和技术</strong>。</p>
+<p>这是一条愚笨之路。一旦走上这条路，你就会关注时髦、放弃本质，把注意力放到不断变化的事物上，而不是持久不变的事物上。</p>
+<p>你的事业的核心应该建立在不变的基础之上。<strong>你应该投资于那些人们现在需要，并且十年后仍然需要的事物上</strong>。</p>
+<p>要记住，时尚会凋零。只有当你聚焦于长久的功能时，你才会发现自己把握住了永不落伍的东西。</p>
+<blockquote><p><strong>感想</strong>：一年多前，我在《<a href="https://coolshell.cn/articles/5815.html" target="_blank" rel="noopener">来信、创业和移动互联网</a>》中谈到过那个时尚的“移动互联网”，说了四个方向：阅读，分享交流，电商，推荐/提醒。大家可以看到现在地铁上已经不像以前很多人都在看报纸了，而是很多人都在看手机。而手机端的社交（分享和交流），电子商务，以及很多推荐、提醒都越来越火了。这些东西都是都是“常量”——十年前存在，未来十年也会存在，我们看到很多人太过着眼于手机上的应用，而不是那些不变的因素。今天还有两个巨火无比的流行词，一个是云计算，一个是大数据，那些一听到这两个词就会兴奋的人，我不知道他们有没有真正理解这两词？他们真正理解了云计算其实就是那个N多年前就提过的IT服务，关于大数据，我完全不知道为什么会火，你会因为听到中国人口有13亿你就会兴奋吗？老鼠的数量比较这个更多呢，呵呵。其实，数据无所谓大小之分，只有好数据和烂数据之分，还热数据和冷数据之分。十年前有两个更为流行的词：一个是计算网格，一个是数据网格，这两个词5年前就凋零了，今天的云计算和大数据，有多少人意识到了其中有什么相通的，或是其中的不变因素是什么？<strong>大数据和云计算其实都在描述两个东西，一个是超大规模的计算能力，另一个则是服务。还有一个词是“平台化”，这可能被大家忽略了，通过平台进行计算和数据服务，这才是那计算机存在以来基本不变的东西，无论你是移动互联网，还是互联网，不管是云计算，还是大数据，都需要一个平台提供服务</strong>。</p></blockquote>
+<h4>会议有毒</h4>
+<p>世人最可恨的打扰莫过于开会。原因是：</p>
+<ul>
+<li>会议中充斥着纸上谈兵和抽象的概念，大多是不切实际的。</li>
+<li>会议中能传达的信息量少之又少。</li>
+<li>人们在会议中容易跑题，堪比暴风雪里的芝加哥出租车还容易迷失方向。</li>
+<li>会议要求做充分的准备，但是大多数人没有时间准备这些。</li>
+<li>会议制定的议程常常是模糊的，根本就没有人真正清楚目标是什么。</li>
+<li>会议中难免会轮到那么一两个低能人士发言，于是大家的时间都浪费在他们的扯淡上了。</li>
+<li>会议具有自我繁殖功能。一次会议总能导致另外一次，以及再导出下一次，生生不息&#8230;&#8230;</li>
+</ul>
+<blockquote><p><strong>感想</strong>：这世上除了“他爹的TDD”开发模式，还有“他妈的TMD”开发，就是Team Meeting Driven，很多公司有太多太多的会要开了，开会基本上成了每天工作最主要的东西，对于一些管理者来说一星期中居然有80%时间都在开会。其实，这么多的会议并不意味着你在管理，只是意味着你对要管的东西完全不知道，需要通过开会来了解。很多会完全是没有议题的，大家坐在一起东拉西扯，非常非常地低效。我通常把这种会叫做“神仙会”，用个流行语来说，就是Cloud Meeting，大家神一要的各说各的，似乎，没有这种形式，不能证明参会者的存在，用会议来证明他们的存在，相当的可笑。对我来说，<strong>如果只是带一个或几个问题来开会，简直是就是扯谈，如果对于问题没有几个备选的解决方案和各方案的评估，完全没有必要开会</strong>。Amazon的会议是不会有PPT的，会议组织者会要要讨论的东西写好并打印出来，在会前给参会者把要讨论的东西打印出来，开会前10分钟左右，会场里没有任何声音，每个人都在读文档，全部人读完后，直接对议题发表自己的个人意见应该怎么干，然后很快形成共识，散会。</p></blockquote>
+<h4>人人都得干活</h4>
+<p>在一个小团队里，你需要的是干活的人，而不是监工。每个人都得做事，没有人可以袖手旁观 。</p>
+<p>这意味着你在招聘中要避免招到监工型的人物，这些人喜欢对别人谆谆教导。对于小团队来讲监工型的人就是累赘。</p>
+<p>监工们还喜欢把人拖去开会。实际上，会议是监工们最好的朋友，因为只有在开会时才显得出他们的重要。</p>
+<blockquote><p><strong>感想</strong>：<strong>为什么会有办公室政治，那就是因为这个公司里有一部分人不干活，不做事，</strong>于是，他们就有大量地时间开始胡思乱想，他们花大量的时间不是想怎么去做事，而是想自己怎么更容易的打垮别人得到上面的认可，从而得到晋升。在大公司中这样的情况会比Startup的公司多得多。所以，如果你不想滋生办公室政治，那么你需要干两个事，第一个是最好不要变成大公司，第一个是让每个人都在实干。我最近看到其大公司，虽然很多东西不规范，而且很多东西在野蛮生长，有些事情也有点土，但绝大多数人都在实干，所以，只要每个人都在实干，就算干的方式不好，干出来的东西有问题，也比那些滋生办公室政治的公司强上几百倍</p></blockquote>
+<h4>拒绝照搬 &amp; 将你的产品去商品化</h4>
+<p>有时候，照猫画虎也是一种学习过程，就好像艺术系的学生通过临摹美术馆的作品来学习绘画。当你还是一个学生时，这种模仿是一种很有效的学习工具。不幸的是，商业战场上的模仿却不招人待见。而这也意味着你打算通过当盲从者或抄袭者的方式来建立你的事业，这注定是一个失败模式。</p>
+<p>模仿的问题在于，简单的复制扼杀了深层的理解——而理解才能激发成长。你不但要知其然，还要知其所以然。而当你复制时，你会忽视这一点。你照搬的只是表面，而不是本质。</p>
+<p>一旦你扬名立万，模模仿者会蜂拥而至，这就是生活。但你可以用一种绝佳的方式来保护自己不被 他们吞没：让你自己成为你的产品或服务的一部分。</p>
+<blockquote><p><strong>感想</strong>：在《<a title="抄袭，腾讯 和 产品" href="https://coolshell.cn/articles/7617.html" target="_blank" rel="noopener">抄袭，腾讯 和 产品</a>》中我谈到过这个事情，虽然我对抄袭和山寨很反感，但是我不得不承认这是这个世界的一部分，好的东西总是会被人复制的，这也不一定是一个坏事，这会让你更清楚认识到什么是真正产品的价值，什么是核心竞争力，你但凡有一点急功近利的想法你都要想一想那堆抄袭者，其中还不乏有钱有人的专业抄袭的公司。而面对被抄袭这样的事情，最好的解决方法是着眼着远期而不是短期——<strong>如果你着眼短期，你无疑会面对众多的抄袭和模仿者让你万劫不复，但是，如果你着眼长期，做一个3-5年需要花费大量精力才会成熟的产品，那么，那些急功近利的抄袭者会知难而退的，因为长期并不符合抄袭者的价值观</strong>。</p></blockquote>
+<h4>做得比对手少</h4>
+<p>传统智慧告诉我们，要想打败竞争者就要胜人一筹。如果人家有 4 个功能，你就得 5 个（或者 15 个，25 个）。如果人家花了$20,000，你就得花 $30,000。如果人家有 50 个员工，你就得要 100 个。</p>
+<p>这样的冷战式的攀比思维会把人引上绝路。一旦被卷入“军备竞赛”，你就陷入了一场无止境的战争，这场战争会让你耗费大量的金钱、时间和动力。并且使你陷入长期的防御战中。处于防御状态的公司是没有预见力的；他们只能后知后觉，他们无法领跑，只能尾随。</p>
+<p>那么你应该怎么做呢？比你的竞对手做得少，以此来打败他们。<strong>让自己去解决简单的问题，把那些纠结的、麻烦的、艰难的、讨厌的难题留给竞对手去解决</strong>。不要总想着去胜人一筹、去超过别人，试试相反的做法。</p>
+<p>不要因为你的产品或服务不如别人的花哨就感到自惭形秽。把他们做得醒目高调，并引以为傲。就像对手那些强有力的销售他们多功能的产品一样销售你那简约的产品。</p>
+<blockquote><p><strong>感想</strong>：一个最典型的例子就是iPad，它干得比Laptop少，比上网本少，就是一个很简单的上网和简单游戏的设备，但是他有非常简单的用户体验，让两三岁的儿童和六七十岁的老人都能很快上手。你相信吗？我花了好多年都没教会我父母用电脑以及手机里除了电话功能外的其它功能，但我只花了10分钟就教会他们使用iPad上网了。这就是“做得比对手少”的强大。<strong>只有简约的东西，才会显得更精致，才会显得更专业</strong>。</p></blockquote>
+<h4>谁在乎他们在干什么</h4>
+<p>不管怎样，终究是不值得过于关注你的竞争者。为什么？因为<strong>关注别人太多会让自己受到困扰</strong>。他们现在在做什么？他们下一步呢？我们该怎样作出回应？</p>
+<p>每一个小小的动作都会被分析一下。那是一种可怕的心态。这会产生不可抗拒的压力和焦虑。这样的想法会滋长不好的东西。</p>
+<p>这是没有意义的事情。竞争者的风景时时在变。你的竞争对手明天一个样儿，今天一个样儿。完全在你控制之外。去担心你所不能控制的事情有意义吗？</p>
+<p>过于关注竞争者会混淆你的视野。当你一直吸收别人思想时， 你的机会则会减少。你变得反动而不是充满想象力。你只不过是将你竞对手的产品换了个包装。</p>
+<p>如果你打算做一个“the iPod killer”或“the next Pokemon”，你已经死了。你是在承认你的竞争者所设定的参数。你没有跳出 Apple 的套路。他们制定了这个游戏规则。你不可能打败制定规则的那个人。你必须重新制定一个规则，而不是稍微改建一点点。</p>
+<blockquote><p><strong>感想</strong>：这个社会浮躁之处就在于我们太多的观注了别人，人比人气死人。我们很多人都注意到了别人的风光，看到别人创业被注资，看到别人找到了好的工作，看到了别人不走正道而发达，看到了别人很轻松还挣得多，甚至看到别人的粉丝比自己多，等等，等等，这些东西让自己的心态变，变得非常地不淡定了。眼红也是魔鬼，因为眼红让人心理扭曲了的例子还少吗？<strong>不要在乎别人干了什么，你应该多看看自己的长处是什么，每个人都有每个人的路，你要做的是按照自己的节奏和自己擅长的方式行事，而不是小猫钓鱼</strong>。</p></blockquote>
+<h4>养成对客户说“不”的习惯</h4>
+<p>说“好的”很容易。我们很容易接受同意一个新功能、同意一个过于乐观的截止日期、笑纳一个平庸的设计。很快，一大堆你曾经说“yes”的事情就发生连锁反应，很多你不想要的东西越堆越高，甚至你都看不出原来想要的东西。</p>
+<p>别相信“顾客永远是对的”这类的话。如果你是一个大厨，你的很多客人说你做的菜太咸或者太烫，你可以改。但是如果有一些挑剔的老主顾要求在宽面条里面加些香蕉，你千万不要理会他们，没关系。若是为了少数顾客的要求而毁了产品不值得。</p>
+<p><strong>你的目标是确保你的产品与就是和你合拍的产品，你就是你自己产品最踏实的粉丝。你是最信赖它的那个人</strong>。那样的话，你会说：“我想你也会爱它的，因为我爱它。”</p>
+<blockquote><p><strong>感想</strong>：亨利福特说过：“如果我要问我的客户要什么，他们会告诉我他们要一匹更快的马”，所以，过份的迁就用户并不是一件好的事，相反会是一件很不好的事。互联网和电视节目一样都有一个万恶的KPI，电子节目那万恶的KPI是收视率，而互联网的万恶KPI是流量。于是<strong>很多公司为了流量开始不择手段，就像电视节目用庸俗化来提高收视率一样，我们的一些互联网产品也使用庸俗化的东西来提高流量。我们要做的是一个让人称道的有品质的产品，而不是一个只有访问量的产品</strong>。</p></blockquote>
+<h4>不要攀客户的高枝</h4>
+<p>也许你曾经见过这样的场景：一个顾客向一家公司投了很多钱。这家公司想要尽可能的取悦那个顾客。为了迎合这个客户的要求而改变自己的产品，渐渐地，你的产品就会脱离普遍客户的基础。</p>
+<p>而且，突然有一天，这个大客户绝尘而去，公司则会背负一个包袱——这个产品是围绕着一个已经离开了的人设计的。而其他人没法用。</p>
+<p>人在变，环境在变，你不可能满足所有人的所有要求。<strong>公司要对某一类型的客户全情投入，而不是对某个善变的客户唯唯诺诺</strong>。</p>
+<blockquote><p><strong>感想</strong>：你永远要找到自己的定位，你不可能满足所有的人。就像屌丝们喜欢的北京的动物园批发市场和高富帅们喜欢的北京燕莎商场一样，他们分别定位于不同的用户。你的产品从生下来的那一时刻就应该需要做好定位，是面对什么样的人群。而且，你也不可能实现所有人的需求的。有时候，失去一些客户并不是坏事，<strong>我们要做的是管理我们的客户，让客户认同我们，而不是被客户牵着走</strong>。</p></blockquote>
+<h4>一夜成名只是传说</h4>
+<p>你不会瞬间大红大紫，也不会一夜暴富，你所了解的那些道听途说的“一夜成名”的故事，深挖一点，你就能发现这些成功人士在到达引爆点之前，都已经在这个方向 上苦熬了很长时间。</p>
+<p>把一夜成名的迷梦换成一步一个脚印的成长行动吧。道路很艰难，但你必须充满耐心。你得用功去做，在遇到伯乐前，你得努力很长时间。</p>
+<blockquote><p><strong>感想</strong>：这和我在<a title="程序算法与人生选择" href="https://coolshell.cn/articles/8790.html">程序算法与人生选择</a>一文中所说的那个最短路径的算法的类比一样，与其展望要当什么架构师或是要成为牛人的憧憬，不如把身边看得见够得着的东西学扎实，干出色。一夜成名只是一个传说，你知道酷壳是因为我写十多年的博客，你知道我是因为我积累了十多年的编程，看看酷壳以前介绍过的<a href="https://coolshell.cn/articles/5651.html" target="_blank" rel="noopener">王平同学</a>吧。<strong>很多事情都不是偶然的，都是有前兆的，还是我<a href="https://coolshell.cn/articles/7048.html" target="_blank" rel="noopener">以前说过的那句话</a>，“如果一件事情以前没有发生过，未来也不会发生”，比如：如果你在学校里，在工作里，你的同学和同事并不经常来向你请教询问你的意见，那么你基本上很难成为一个Leader</strong>。</p></blockquote>
+<h4>员工不是13岁</h4>
+<p><strong>当你把员工当孩子看时，人们就会像孩子一样行事</strong>。</p>
+<p>当公司里事事都要上报审批时，你就创造出了一种无脑文化。你成功地制造出了老板和员工之间的对立关系。这种关系在咆哮着：“我不相信你！”</p>
+<p>当你处处限制员工，比如禁上他们在上班时访问外部网站或是开小差，你会得到什么好处？什么也得不到。人们需要开小差，这有助于打破整日的枯燥单调，花点时间上上Youtube或Facebook不会失去什么。</p>
+<p>如果你要监控你的员工，你得想想你要花多少时间和金钱来监管员工。你浪费了多少钱去安装监控软件？你浪费了多少人力资源去监视员工？你浪费了多少时间去写没有人会看的规章制度？<strong>看看这些成本，你很快就发现，对员工的不信任才是最大的开销</strong>。</p>
+<blockquote><p><strong>感想</strong>：我始终在跟我的团队成员说，最有效的管理就是自己管理自己，而不是还要专们的人来管你。不然的话，你一定会很难受的。如果你能管理好你的工作和任务，我们就不需要项目经理。如果你能管理得好你的做事的方法和流程，就不需要那些搞流程的。如果你能管理得好你的程序质量，我们就不需要QA来监管你…… 等等。<strong>其实，你们如果能管理得好自己，并能自我进化。你们甚至不需要一个经理。但是，你们可能会需要一个为你们跑腿打杂的人，其实，那个人就是经理</strong>。</p></blockquote>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/Work-Overtime-150x150.jpg" alt="加班与效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10217.html" class="wp_rp_title">加班与效率</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9156.html">《Rework》摘录及感想</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9156.html/feed</wfw:commentRss>
+			<slash:comments>152</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,872 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>HTTP | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/http/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Thu, 09 Feb 2023 03:41:05 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>“一把梭：REST API 全用 POST”</title>
+		<link>https://coolshell.cn/articles/22173.html</link>
+					<comments>https://coolshell.cn/articles/22173.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 13 Feb 2022 04:28:47 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Restful]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=22173</guid>
+
+					<description><![CDATA[<p>写这篇文章的原因主要还是因为V2EX上的这个贴子，这个贴子中说—— “对接同事的接口，他定义的所有接口都是 post 请求，理由是 https 用 post 更...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/22173.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/22173.html">“一把梭：REST API 全用 POST”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-22176" src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-300x169.png" alt="" width="325" height="183" srcset="https://coolshell.cn/wp-content/uploads/2022/02/http_method-300x169.png 300w, https://coolshell.cn/wp-content/uploads/2022/02/http_method-1024x576.png 1024w, https://coolshell.cn/wp-content/uploads/2022/02/http_method-768x432.png 768w, https://coolshell.cn/wp-content/uploads/2022/02/http_method-480x270.png 480w, https://coolshell.cn/wp-content/uploads/2022/02/http_method.png 1200w" sizes="(max-width: 325px) 100vw, 325px" /></p>
+<p>写这篇文章的原因主要还是因为V2EX上的这个<a href="https://www.v2ex.com/t/830030?p=1" target="_blank" rel="noopener">贴子</a>，这个贴子中说——</p>
+<blockquote><p>“对接同事的接口，他定义的所有接口都是 post 请求，理由是 https 用 post 更安全，之前习惯使用 restful api ，如果说 https 只有 post 请求是安全的话？那为啥还需要 get 、put 、delete ？我该如何反驳他。”</p></blockquote>
+<p>然后该贴中大量的回复大概有这么几种论调，1）POST挺好的，就应该这么干，沟通少，2）一把梭，早点干完早点回家，3）吵赢了又怎么样？工作而已，优雅不能当饭吃。虽然评论没有一边倒，但是也有大量的人支持。然后，我在Twitter上嘲讽了一下，用POST干一切就像看到了来你家装修工人说，“老子干活就是用钉子钉一切，什么螺丝、螺栓、卡扣、插销……通通不用，钉枪一把梭，方便，快捷，安全，干完早回家……不过，还是有一些网友觉得用POST挺好的，而且可以节约时间。所以，正好，我在《<a title="我做系统架构的一些原则" href="https://coolshell.cn/articles/21672.html" target="_blank" rel="noopener">我做系统架构的原则</a>》中的“<a href="https://coolshell.cn/articles/21672.html#%E5%8E%9F%E5%88%99%E4%BA%94%EF%BC%9A%E5%88%B6%E5%AE%9A%E5%B9%B6%E9%81%B5%E5%BE%AA%E6%9C%8D%E4%BB%8E%E6%A0%87%E5%87%86%E3%80%81%E8%A7%84%E8%8C%83%E5%92%8C%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5" target="_blank" rel="noopener">原则五</a>”中反对API返回码无论对错全是200的返回那，我专门写下这一篇文章，以正视听。</p>
+<p>这篇文章主要分成下面这几个部分：</p>
+<ol>
+<li>为什么要用不同的HTTP动词？</li>
+<li>Restful 进行复杂查询</li>
+<li>几个主要问题的回应
+<ul>
+<li>POST 更安全吗？</li>
+<li>全用 POST 可以节省时间沟通少吗？</li>
+<li>早点回家的正确姿势</li>
+<li>工作而已，优雅不能当饭吃</li>
+</ul>
+</li>
+</ol>
+<p><span id="more-22173"></span></p>
+<h4>为什么要用不同的HTTP动词</h4>
+<p>编程世界通常来说有两种逻辑：“<strong>业务逻辑</strong>” 和 “<strong>控制逻辑</strong>”。</p>
+<ul>
+<li><strong>业务逻辑</strong>。就是你实现业务需求的功能的代码，就是跟用户需求强相关的代码。比如，把用户提交的数据保存起来，查询用户的数据，完成一个订单交易，为用户退款……等等，这些是业务逻辑</li>
+<li><strong>控制逻辑</strong>。就是我们用于控制程序运行的非功能性的代码。比如，用于控制程序循环的变量和条件，使用多线程或分布式的技术，使用HTTP/TCP协议，使用什么样数据库，什么样的中间件……等等，这些跟用户需求完全没关系的东西。</li>
+</ul>
+<p>网络协议也是一样的，一般来说，<strong>几乎所有的主流网络协议都有两个部分，一个是协议头，一个是协议体。协议头中是协议自己要用的数据，协议体才是用户的数据。所以，协议头主要是用于协议的控制逻辑，而协议体则是业务逻辑。</strong></p>
+<p>HTTP的动词（或是Method）是在协议头中，所以，其主要用于控制逻辑。</p>
+<p dir="auto">下面是HTTP的动词规范，一般来说，REST API 需要开发人员严格遵循下面的标准规范（参看<a href="https://www.rfc-editor.org/rfc/rfc7231#section-4.2.2" target="_blank" rel="noopener">RFC7231 章节4.2.2 &#8211; Idempotent Methods</a>）</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>描述</th>
+<th>幂等</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>用于查询操作，对应于数据库的 <code>select</code> 操作</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>用于所有的信息更新，对应于数据库的 <code>update </code>操作</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎︎</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>用于更新操作，对应于数据库的 <code>delete</code> 操作</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎︎</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>用于新增操作，对应于数据库的 <code>insert</code> 操作</td>
+<td style="text-align: center;">✘</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>用于返回一个资源对象的“元数据”，或是用于探测API是否健康</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>用于局部信息的更新，对应于数据库的 <code>update</code> 操作</td>
+<td style="text-align: center;">✘</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>获取API的相关的信息。</td>
+<td style="text-align: center;"><img src="https://s.w.org/images/core/emoji/14.0.0/72x72/2714.png" alt="✔" class="wp-smiley" style="height: 1em; max-height: 1em;" />︎</td>
+</tr>
+</tbody>
+</table>
+<p>其中，<code>PUT</code> 和 <code>PACTH</code> 都是更新业务资源信息，如果资源对象不存在则可以新建一个，但他们两者的区别是，<code>PUT</code> 用于更新一个业务对象的所有完整信息，就像是我们通过表单提交所有的数据，而 <code>PACTH</code> 则对更为API化的数据更新操作，只需要更需要更新的字段（参看 <a href="http://tools.ietf.org/html/rfc5789" rel="nofollow">RFC 5789</a> ）。</p>
+<p>当然，现实世界中，可能并不一定严格地按照数据库操作的CRUD来理解API，比如，你有一个登录的API <code>/login</code> 你觉得这个API应该是 <code>GET</code> ，<code>POST</code>，<code>PUT</code> 还是 <code>PATCH</code> ?登录的时候用户需要输入用户名和密码，然后跟数据库里的对比（select操作）后反回一个登录的session token，然后这个token作为用户登录的状态令牌。如果按上面表格来说，应该是 select 操作进行 <code>GET</code> ，但是从语义上来说，登录并不是查询信息，应该是用户状态的更新或是新增操作（新增session），所以还是应该使用 <code>POST</code>，而 <code>/logout</code> 你可以使用 <code>DELETE</code> 。<strong>这里相说明一下，不要机械地通过数据库的CRUD来对应这些动词，很多时候，还是要分析一下业务语义。</strong></p>
+<p><strong>另外，我们注意到，在这个表格的最后一列中加入了“是否幂等”的，API的幂等对于控制逻辑来说是一件很重要的事。</strong>所谓幂等，就是该API执行多次和执行一次的结果是完全一样的，没有副作用。</p>
+<ul>
+<li><code>POST</code> 用于新增加数据，比如，新增一个交易订单，这肯定不能是幂等的</li>
+<li><code>DELETE</code> 用于删除数据，一个数据删除多次和删除一次的结果是一样的，所以，是幂等的</li>
+<li><code>PUT</code> 用于全部数更新，所以，是幂等的。</li>
+<li><code>PATCH</code>用于局部更新，比如，更新某个字段 cnt = cnt+1，明显不可能是幂等操作。</li>
+</ul>
+<p>幂等这个特性对于远程调用是一件非常关键的事，就是说，远程调用有很多时候会因为网络原因导致调用timeout，对于timeout的请求，我们是无法知道服务端是否已经是收到请求并执行了，此时，我们不能贸然重试请求，对于不是幂等的调用来说，这会是灾难性的。比如像转帐这样的业务逻辑，转一次和转多次结果是不一样的，如果重新的话有可能就会多转了一次。所以，这个时候，如果你的API遵从了HTTP动词的规范，那么你写起程序来就可以明白在哪些动词下可以重试，而在哪些动词下不能重试。如果你把所有的API都用POST来表达的话，就完全失控了。</p>
+<p>除了幂等这样的控制逻辑之外，你可能还会有如下的这些控制逻辑的需求：</p>
+<ul>
+<li><strong>缓存</strong>。通过CDN或是网关对API进行缓存，很显然，我们要在查询<code>GET</code> 操作上建议缓存。</li>
+<li><strong>流控</strong>。你可以通过HTTP的动词进行更粒度的流控，比如：限制API的请用频率，在读操作上和写操作上应该是不一样的。</li>
+<li><strong>路由</strong>。比如：写请求路由到写服务上，读请求路由到读服务上。</li>
+<li><strong>权限</strong>。可以获得更细粒度的权限控制和审计。</li>
+<li><strong>监控</strong>。因为不同的方法的API的性能都不一样，所以，可以区分做性能分析。</li>
+<li><strong>压测</strong>。当你需要压力测试API时，如果没有动词的区分的话，我相信你的压力测试很难搞吧。</li>
+<li>……等等</li>
+</ul>
+<p>也许，你会说，我的业务太简单了，没有必要搞这么复杂。OK，没有问题，但<strong>是我觉得你最差的情况下，也是需要做到“读写分离”的，就是说，至少要有两个动词，<code>GET</code> 表示是读操作，<code>POST</code>表示是写操作。</strong></p>
+<h4>Restful 复杂查询</h4>
+<p>一般来说，对于查询类的API，主要就是要完成四种操作：排序，过滤，搜索，分页。下面是一些相关的规范。参考于两个我觉得写的最好的Restful API的规范文档，<a href="https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md" target="_blank" rel="noopener">Microsoft REST API Guidelines</a>，<a href="https://github.com/paypal/api-standards/blob/master/api-style-guide.md" target="_blank" rel="noopener">Paypal API Design Guidelines</a>。</p>
+<ul dir="auto">
+<li>
+<p dir="auto"><strong>排序</strong>。对于结果集的排序，使用 <code>sort</code> 关键字，以及 <code>{field_name}|{asc|desc},{field_name}|{asc|desc}</code> 的相关语法。比如，某API需要返回公司的列表，并按照某些字段排序，如：<code>GET /admin/companies?sort=rank|asc</code> 或是 <code>GET /admin/companies?sort=rank|asc,zip_code|desc</code></p>
+</li>
+<li>
+<p dir="auto"><strong>过滤</strong>。对于结果集的过滤，使用 <code>filter</code> 关键字，以及 <code>{field_name} op{value}</code> 的语法。比如： <code>GET /companies?category=banking&amp;location=china</code> 。但是，有些时候，我们需要更为灵活的表达式，我们就需要在URL上构造我们的表达式。这里需要定义六个比较操作：<code>=</code>，<code>&lt;</code>，<code>&gt;</code>，<code>&lt;=</code>，<code>&gt;=</code>，以及三个逻辑操作：<code>and</code>，<code>or</code>，<code>not</code>。（表达式中的一些特殊字符需要做一定的转义，比如：<code>&gt;=</code> 转成 <code>ge</code>）于是，我们就会有如下的查询表达式：<code>GET /products?$filter=name eq 'Milk' and price lt 2.55</code> 查找所有的价柗小于2.55的牛奶。</p>
+</li>
+<li>
+<p dir="auto"><strong>搜索</strong>。对于相关的搜索，使用 <code>search</code> 关键字，以及关键词。如：<code>GET /books/search?description=algorithm</code> 或是直接就是全文搜索 <code>GET /books/search?key=algorithm</code> 。</p>
+</li>
+<li>
+<p dir="auto"><strong>分页</strong>。对于结果集进行分页处理，分页必需是一个默认行为，这样不会产生大量的返回数据。</p>
+<ul dir="auto">
+<li>使用<code>page</code>和<code>per_page</code>代表页码和每页数据量，比如：<code>GET /books?page=3&amp;per_page=20</code>。</li>
+<li><strong>可选</strong>。上面提到的<code>page</code>方式为使用相对位置来获取数据，可能会存在两个问题：性能（大数据量）与数据偏差（高频更新）。此时可以使用绝对位置来获取数据：事先记录下当前已获取数据里最后一条数据的<code>ID</code>、<code>时间</code>等信息，以此获取 “<strong>该ID之前的数据</strong>” 或 “<strong>该时刻之前的数据</strong>”。示例：<code>GET /news?max_id=23454345&amp;per_page=20</code> 或 <code>GET /news?published_before=2011-01-01T00:00:00Z&amp;per_page=20</code>。
+<p dir="auto">
+</li>
+</ul>
+</li>
+</ul>
+<p dir="auto"><strong>注意：这里需要注意一下，在理论上来说<code>GET</code>是可以带 body 的，但是很多程序的类库或是中间件并不支持 GET 带 body，导致你只能用 POST 来传递参数。这里的原则是：</strong></p>
+<ol dir="auto">
+<li>
+<p dir="auto"><strong>对于简单的查询，很多参数都设计在 restful API 的路径上了，而 filter/sort/pagination 也不会带来很多的复杂，所以应该使用 <code>GET</code> </strong></p>
+</li>
+<li><strong>对于复杂的查询来说，可能会有很复杂的查询参数，比如：ElasticSearch 上的 <code>index/_search</code>里的 DSL，你也应该尽可能的使用 <code>GET</code>，而不是<code>POST</code> 除非客观条件上不支持<code>GET</code>。ElasticSearch 的<a href="https://www.elastic.co/guide/en/elasticsearch/guide/current/_empty_search.html" target="_blank" rel="noopener">官方文档</a>里也是这么说的。</strong></li>
+</ol>
+<blockquote><p>The authors of Elasticsearch prefer using GET for a search request because they feel that it describes the action—​retrieving information—​better than the POST verb. （我们推荐使用 GET而不是 POST，因为语义更清楚）However, because GET with a request body is not universally supported, the search API also accepts POST requests （除非你的类库或是服务器不支持 GET带参数 ，你再用POST，我们两个都支持）</p>
+<p><strong>陈皓注：但是在 ElasticSearch 7.11 后，GET 也不支持 body 了。这是 ElasticSearch 的设计和实现不对应了。</strong></p></blockquote>
+<div id="message-accessories-1073072655571370085" class="container-2sjPya">
+<div class="messageAttachment-CZp8Iv messageAttachmentNoJustify-lIzP9c">
+<div class="imageContent-3Av-9c embedWrapper-1MtIDg attachmentContentItem-UKeiCx">
+<div class="imageContainer-10XenG">
+<div class="imageWrapper-oMkQl4 imageZoom-3yLCXY clickable-LksVCf">另外，对于一些更为复杂的操作，建议通过分别调用多个API的方式来完成，虽然这样会增加网络请求的次数，但是这样的可以让后端程序和数据耦合度更小，更容易成为微服务的架构。</div>
+</div>
+</div>
+</div>
+</div>
+<p>最后，如果你想在Rest中使用像GraphQL那样的查询语言，你可以考虑一下类似 <a href="https://www.odata.org/" target="_blank" rel="noopener">OData</a> 的解决方案。OData 是 Open Data Protocol 的缩写，最初由 Microsoft 于 2007 年开发。它是一种开放协议，使您能够以简单和标准的方式创建和使用可查询和可互操作的 RESTful API。</p>
+<h4>几个主要问题的回应</h4>
+<p>下面是对几个问题的直接回应，如果大家需要我回应更多的问题，可以在后面留言，我会把问题和我的回应添加到下面。</p>
+<h5>1）为什么API 要Restful，并符合规范？</h5>
+<p><strong>Restful API算是一个HTTP的规范和标准了，你要说是最佳实践也好，总之，它是一个全世界对HTTP API的一个共识。在这个共识上，你可以无成本地享受很多的技术红利，比如：CDN，API网关，服务治理，监控……等等。这些都是可以让你大幅度降低研发成本，避免踩坑的原因。</strong></p>
+<h5>2）为什么“过早优化”不适用于API设计？</h5>
+<p>因为API是一种契约，一旦被使用上，就很难再变更了，就算你发行新的版本的API，你还要驱动各种调用方升级他们的调用方式。所以，接口设计就像数据库模式设计一下，一旦设计好了，未来再变更就比较难了。所以，还是要好好设计。正如前面我给的几个文档——<a href="https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md" target="_blank" rel="noopener">Microsoft REST API Guidelines</a>，<a href="https://github.com/paypal/api-standards/blob/master/api-style-guide.md" target="_blank" rel="noopener">Paypal API Design Guidelines</a> 或是 <a href="https://cloud.google.com/apis/design" target="_blank" rel="noopener">Google API Design Guide</a> 都是让你好好设计API的不错的 Guidelines.</p>
+<h5>3）POST 更安全吗？</h5>
+<p>不会。</p>
+<p>很多同学以为 <code>GET</code> 的请求数据在URL中，而 <code>POST</code> 的则不是，所以以为 <code>POST</code> 更安全。不是这样的，整个请求的HTTP URL PATH会全部封装在HTTP的协议头中。只要是HTTPS，就是安全的。当然，有些网关如nginx会把URL打到日志中，或是会放在浏览器的历史记录中，所以有人会说 <code>GET</code> 请求不安全，但是，<code>POST</code> 也没有好到哪里去，在 <a href="https://en.wikipedia.org/wiki/Cross-site_request_forgery" target="_blank" rel="noopener">CSRF</a> 这个最常见的安全问题上，则完全就是针对 <code>POST</code> 的。  安全是一件很复杂的事，无论你用哪方法或动词都会不能代表你会更安全。</p>
+<p>另外，</p>
+<ul>
+<li>如果你要 防止你的 <code>GET</code> 上有敏感信息，应该加个密，这个跟 <code>POST</code>是一样的。</li>
+<li>如果你要防止 <code>GET</code> 会被中间人修改，你应该做一个URL签名。（通常来说， 我们都在 <code>GET</code> 上做签名，<code>POST</code> 就忘做了）</li>
+<li>如果你要防止有人发一些恶意链接来 hack 你的用户（传说中的 <code>GET</code> 不如 <code>POST</code> 安全的一个问题），你应该用 HMAC 之类的认证技术做好认证（参看 <a title="HTTP API 认证授权术" href="https://coolshell.cn/articles/19395.html" target="_blank" rel="noopener">HTTP API 认证授权术</a>）。</li>
+</ul>
+<p>总之，你要明白，<code>GET</code> 和 <code>POST</code> 的安全问题都一样的，不要有谁比谁更安全，然后你就可以掉以轻心的这样的想法，安全都是要很严肃对待的。</p>
+<h5>4）全用 POST 可以节省时间减少沟通吗？</h5>
+<p>不但不会，反而更糟糕。</p>
+<p>说这种话的人，我感觉是不会思考问题。</p>
+<ul>
+<li>其一，为API赋于不同的动词，这个几乎不需要时间。把CRUD写在不同的函数下也是一种很好的编程风格。另外现在几乎所有的开发框架都支持很快速的CRUD的开发，比如Spring Boot，写数据库的CRUD基本上就不需要写SQL语言相关的查询代码，非常之方便。</li>
+<li>其二，使用规范的方式，可以节约新加入团队人员的学习成本，而且可以大大减少跨团队的沟能成本。规范和标准其实就是在节约团队时间提升整体效率的，这个我们整个人类进行协作的基础。所以，这个世界上有很多的标准，你只要照着这个标准来，你的所生产的零件就可以适配到其它厂商的产品上。而不需要相互沟通。</li>
+<li>其三，全用POST接口一把梭，不规范不标准，使用你的这个山寨API的人就得来不断的问你，反而增加了沟通。另外，也许你开发业务功能很快了，但是你在做控制逻辑的时候，你就要返工了，从长期上来讲，你的欠下了技术债，这个债反而导致了更大的成本。</li>
+</ul>
+<h5>5）早点回家的正确姿势</h5>
+<p>不要以为你回家早就没事了，如果你的代码有这样那样的问题，别人看懂，或是出误用了你的代码出了问题，那么，你早回家有什么意义呢？你一样要被打扰，甚至被叫到公司来处理问题。所以，你应该做的是为了“长期的早回家”，而不是“短期的早回家”，要像长期的早回家，通常来说是这样的：</p>
+<ul>
+<li><strong>把代码组织设计好，有更好的扩展性</strong>。这样在面对新需求的时候，你就可以做到少改代码，甚至不改代码。这样你才可能早回家。不然，每次需求一来，你得重新写，你怎么可能早回家？</li>
+<li><strong>你的代码质量是不错的，有不错的文档和注释</strong>。所以，别人不会老有问题来找你，或是你下班后，叫你来处理问题。甚至任何人都可以很容易地接手你的代码，这样你才可能真正不被打扰</li>
+</ul>
+<h5>6）工作而已，优雅不能当饭吃</h5>
+<p>回应两点：</p>
+<p>其一，遵循个规范而已，把“正常”叫“优雅”，可见标准有多低。这么低的标准也只能“为了吃饭而生存了”。</p>
+<p>其二，<strong>作为一个“职业程序员”，要学会热爱和尊重自己的职业，热爱自己职业最重要的就是不要让外行人看扁这个职业，自己都不尊重这个职业，你让别人怎么尊重？尊重自己的职业，不仅仅只是能够获得让人羡慕的报酬，而更是要让自己的这个职业的更有含金量</strong>。</p>
+<p><strong>希望大家都能尊重自己从事的这个职业，成为真正的职业化的程序员，而不是一个码农！</strong></p>
+<figure id="attachment_22177" aria-describedby="caption-attachment-22177" style="width: 834px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="wp-image-22177 size-full" src="https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75.jpeg" alt="" width="834" height="319" srcset="https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75.jpeg 834w, https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75-300x115.jpeg 300w, https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75-768x294.jpeg 768w, https://coolshell.cn/wp-content/uploads/2022/02/quote-your-job-gives-you-authority-your-behavior-gives-you-respect-irwin-federman-73-55-75-604x231.jpeg 604w" sizes="(max-width: 834px) 100vw, 834px" /><figcaption id="caption-attachment-22177" class="wp-caption-text">你的工作给你权力，而只有你的行为才会给你尊重</figcaption></figure>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li><li ><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/12/open-your-creative-mind-150x150.jpg" alt="别让自己“墙”了自己" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20276.html" class="wp_rp_title">别让自己“墙”了自己</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/22173.html">“一把梭：REST API 全用 POST”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/22173.html/feed</wfw:commentRss>
+			<slash:comments>119</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>HTTP的前世今生</title>
+		<link>https://coolshell.cn/articles/19840.html</link>
+					<comments>https://coolshell.cn/articles/19840.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 01 Oct 2019 11:21:10 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<category><![CDATA[QUIC]]></category>
+		<category><![CDATA[TCP]]></category>
+		<category><![CDATA[TLS]]></category>
+		<category><![CDATA[UDP]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=19840</guid>
+
+					<description><![CDATA[<p>HTTP (Hypertext transfer protocol) 翻译成中文是超文本传输协议，是互联网上重要的一个协议，由欧洲核子研究委员会CERN的英国工...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/19840.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/19840.html">HTTP的前世今生</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200.jpg" alt="" width="300" height="200" />HTTP (Hypertext transfer protocol) 翻译成中文是超文本传输协议，是互联网上重要的一个协议，由欧洲核子研究委员会CERN的英国工程师 <a title="" href="https://en.wikipedia.org/wiki/Tim_Berners-Lee">Tim Berners-Lee</a> v发明的，同时，他也是WWW的发明人，最初的主要是用于传递通过HTML封装过的数据。在1991年发布了HTTP 0.9版，在1996年发布1.0版，1997年是1.1版，1.1版也是到今天为止传输最广泛的版本（初始<a class="external text" href="https://tools.ietf.org/html/rfc2068" rel="nofollow">RFC 2068</a> 在1997年发布， 然后在1999年被 <a class="external text" href="https://tools.ietf.org/html/rfc2616" rel="nofollow">RFC 2616</a> 取代，再在2014年被 <a class="external text" href="https://tools.ietf.org/html/rfc7230" rel="nofollow">RFC 7230</a> /<a class="external text" href="https://tools.ietf.org/html/rfc7231" rel="nofollow">7231</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7232" rel="nofollow">7232</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7233" rel="nofollow">7233</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7234" rel="nofollow">7234</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7235" rel="nofollow">7235</a>取代），2015年发布了2.0版，其极大的优化了HTTP/1.1的性能和安全性，而2018年发布的3.0版，继续优化HTTP/2，激进地使用UDP取代TCP协议，目前，HTTP/3 在2019年9月26日 被 Chrome，Firefox，和Cloudflare支持，所以我想写下这篇文章，简单地说一下HTTP的前世今生，让大家学到一些知识，并希望可以在推动一下HTTP标准协议的发展。</p>
+<h4>HTTP 0.9 / 1.0</h4>
+<p>0.9和1.0这两个版本，就是最传统的 request &#8211; response的模式了，HTTP 0.9版本的协议简单到极点，请求时，不支持请求头，只支持 <code>GET</code> 方法，没了。HTTP 1.0 扩展了0.9版，其中主要增加了几个变化：</p>
+<p><span id="more-19840"></span></p>
+<ul>
+<li>在请求中加入了HTTP版本号，如：<code>GET /coolshell/index.html HTTP/1.0</code></li>
+<li>HTTP 开始有 header了，不管是request还是response 都有header了。</li>
+<li>增加了HTTP Status Code 标识相关的状态码。</li>
+<li>还有 <code>Content-Type</code> 可以传输其它的文件了。</li>
+</ul>
+<p>我们可以看到，HTTP 1.0 开始让这个协议变得很文明了，一种工程文明。因为：</p>
+<ul>
+<li>一个协议有没有版本管理，是一个工程化的象征。</li>
+<li>header是协议可以说是把元数据和业务数据解耦，也可以说是控制逻辑和业务逻辑的分离。</li>
+<li>Status Code 的出现可以让请求双方以及第三方的监控或管理程序有了统一的认识。最关键是还是控制错误和业务错误的分离。</li>
+</ul>
+<p>（注：国内很多公司HTTP无论对错只返回200，这种把HTTP Status Code 全部抹掉完全是一种工程界的倒退）</p>
+<p>但是，HTTP1.0性能上有一个很大的问题，那就是每请求一个资源都要新建一个TCP链接，而且是串行请求，所以，就算网络变快了，打开网页的速度也还是很慢。所以，HTTP 1.0 应该是一个必需要淘汰的协议了。</p>
+<h4> HTTP/1.1</h4>
+<p>HTTP/1.1 主要解决了HTTP 1.0的网络性能的问题，以及增加了一些新的东西：</p>
+<ul>
+<li>可以设置 <code>keepalive</code> 来让HTTP重用TCP链接，重用TCP链接可以省了每次请求都要在广域网上进行的TCP的三次握手的巨大开销。这是所谓的“<strong>HTTP 长链接</strong>” 或是 “<strong>请求响应式的HTTP 持久链接</strong>”。英文叫 HTTP Persistent connection.</li>
+<li>然后支持pipeline网络传输，只要第一个请求发出去了，不必等其回来，就可以发第二个请求出去，可以减少整体的响应时间。（注：非幂等的POST 方法或是有依赖的请求是不能被pipeline化的）</li>
+<li>支持 Chunked Responses ，也就是说，在Response的时候，不必说明 <code>Content-Length</code> 这样，客户端就不能断连接，直到收到服务端的EOF标识。这种技术又叫 “<strong>服务端Push模型</strong>”，或是 “<strong>服务端Push式的HTTP 持久链接</strong>”</li>
+<li>还增加了 cache control 机制。</li>
+<li>协议头注增加了 Language, Encoding, Type 等等头，让客户端可以跟服务器端进行更多的协商。</li>
+<li>还正式加入了一个很重要的头—— <code><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Host" target="_blank" rel="noopener noreferrer">HOST</a></code>这样的话，服务器就知道你要请求哪个网站了。因为可以有多个域名解析到同一个IP上，要区分用户是请求的哪个域名，就需要在HTTP的协议中加入域名的信息，而不是被DNS转换过的IP信息。</li>
+<li>正式加入了 <code>OPTIONS</code> 方法，其主要用于 <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener noreferrer">CORS &#8211; Cross Origin Resource Sharing</a> 应用。</li>
+</ul>
+<p>HTTP/1.1应该分成两个时代，一个是2014年前，一个是2014年后，因为2014年HTTP/1.1有了一组RFC（<a class="external text" href="https://tools.ietf.org/html/rfc7230" rel="nofollow">7230</a> /<a class="external text" href="https://tools.ietf.org/html/rfc7231" rel="nofollow">7231</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7232" rel="nofollow">7232</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7233" rel="nofollow">7233</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7234" rel="nofollow">7234</a>/<a class="external text" href="https://tools.ietf.org/html/rfc7235" rel="nofollow">7235</a>），这组RFC又叫“HTTP/2 预览版”。其中影响HTTP发展的是两个大的需求：</p>
+<ul>
+<li>一个需要是加大了HTTP的安全性，这样就可以让HTTP应用得广泛，比如，使用TLS协议。</li>
+<li>另一个是让HTTP可以支持更多的应用，在HTTP/1.1 下，HTTP已经支持四种网络协议：
+<ul>
+<li>传统的短链接。</li>
+<li>可重用TCP的的长链接模型。</li>
+<li>服务端push的模型。</li>
+<li>WebSocket模型。</li>
+</ul>
+</li>
+</ul>
+<p>自从2005年以来，整个世界的应用API越来多，这些都造就了整个世界在推动HTTP的前进，我们可以看到，<strong>自2014的HTTP/1.1 以来，这个世界基本的应用协议的标准基本上都是向HTTP看齐了，也许2014年前，还有一些专用的RPC协议，但是2014年以后，HTTP协议的增强，让我们实在找不出什么理由不向标准靠拢，还要重新发明轮子了。</strong></p>
+<h4>HTTP/2</h4>
+<p>虽然 HTTP/1.1 已经开始变成应用层通讯协议的一等公民了，但是还是有性能问题，虽然HTTP/1.1 可以重用TCP链接，但是请求还是一个一个串行发的，需要保证其顺序。然而，大量的网页请求中都是些资源类的东西，这些东西占了整个HTTP请求中最多的传输数据量。所以，理论上来说，如果能够并行这些请求，那就会增加更大的网络吞吐和性能。</p>
+<p>另外，HTTP/1.1传输数据时，是以文本的方式，借助耗CPU的zip压缩的方式减少网络带宽，但是耗了前端和后端的CPU。这也是为什么很多RPC协议诟病HTTP的一个原因，就是数据传输的成本比较大。</p>
+<p>其实，在2010年时，Google 就在搞一个实验型的协议，这个协议叫<a href="https://en.wikipedia.org/wiki/SPDY">SPDY</a>，这个协议成为了HTTP/2的基础（也可以说成HTTP/2就是SPDY的复刻）。HTTP/2基本上解决了之前的这些性能问题，其和HTTP/1.1最主要的不同是：</p>
+<ul>
+<li>HTTP/2是一个二进制协议，增加了数据传输的效率。</li>
+<li>HTTP/2是可以在一个TCP链接中并发请求多个HTTP请求，移除了HTTP/1.1中的串行请求。</li>
+<li>HTTP/2会压缩头，如果你同时发出多个请求，他们的头是一样的或是相似的，那么，协议会帮你消除重复的部分。这就是所谓的HPACK算法（参看<a class="external mw-magiclink-rfc" href="https://tools.ietf.org/html/rfc7541" target="_blank" rel="nofollow noopener noreferrer">RFC 7541</a> 附录A）</li>
+<li>HTTP/2允许服务端在客户端放cache，又叫服务端push，也就是说，你没有请求的东西，我服务端可以先送给你放在你的本地缓存中。比如，你请求X，我服务端知道X依赖于Y，虽然你没有的请求Y，但我把把Y跟着X的请求一起返回客户端。</li>
+</ul>
+<p>对于这些性能上的改善，在Medium上有篇文章你可看一下相关的细节说明和测试“<a href="https://medium.com/@factoryhr/http-2-the-difference-between-http-1-1-benefits-and-how-to-use-it-38094fa0e95b" target="_blank" rel="noopener noreferrer">HTTP/2: the difference between HTTP/1.1, benefits and how to use it</a>”</p>
+<p>当然，还需要注意到的是HTTP/2的协议复杂度比之前所有的HTTP协议的复杂度都上升了许多许多，其内部还有很多看不见的东西，比如其需要维护一个“优先级树”来用于来做一些资源和请求的调度和控制。如此复杂的协议，自然会产生一些不同的声音，或是降低协议的可维护和可扩展性。所以也有一些争议。尽管如此，HTTP/2还是很快地被世界所采用。</p>
+<p>HTTP/2 是2015年推出的，其发布后，Google 宣布移除对SPDY的支持，拥抱标准的 HTTP/2。过了一年后，就有8.7%的网站开启了HTTP/2，根据 <a href="https://w3techs.com/technologies/details/ce-http2/all/all" target="_blank" rel="noopener noreferrer">这份报告</a> ，截止至本文发布时（2019年10月1日 ）， 在全世界范围内已经有41%的网站开启了HTTP/2。</p>
+<p>HTTP/2的官方组织在 Github 上维护了一份<a href="https://github.com/http2/http2-spec/wiki/Implementations" target="_blank" rel="noopener noreferrer">各种语言对HTTP/2的实现列表</a>，大家可以去看看。</p>
+<p>我们可以看到，HTTP/2 在性能上对HTTP有质的提高，所以，HTTP/2 被采用的也很快，所以，<strong>如果你在你的公司内负责架构的话，HTTP/2是你一个非常重要的需要推动的一个事，除了因为性能上的问题，推动标准落地也是架构师的主要职责，因为，你企业内部的架构越标准，你可以使用到开源软件，或是开发方式就会越有效率，跟随着工业界的标准的发展，你的企业会非常自然的享受到标准所带来的红利。</strong></p>
+<h4>HTTP/3</h4>
+<p>然而，这个世界没有完美的解决方案，HTTP/2也不例外，其主要的问题是：若干个HTTP的请求在复用一个TCP的连接，底层的TCP协议是不知道上层有多少个HTTP的请求的，所以，一旦发生丢包，造成的问题就是所有的HTTP请求都必需等待这个丢了的包被重传回来，哪怕丢的那个包不是我这个HTTP请求的。因为TCP底层是没有这个知识了。</p>
+<p>这个问题又叫<a href="https://en.wikipedia.org/wiki/Head-of-line_blocking" target="_blank" rel="noopener noreferrer">Head-of-Line Blocking</a>问题，这也是一个比较经典的流量调度的问题。这个问题最早主要的发生的交换机上。下图来自Wikipedia。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" src="https://coolshell.cn/wp-content/uploads/2019/10/HOL_blocking.png" alt="" width="423" height="220" /></p>
+<p>图中，左边的是输入队列，其中的1，2，3，4表示四个队列，四个队列中的1，2，3，4要去的右边的output的端口号。此时，第一个队列和第三个队列都要写右边的第四个端口，然后，一个时刻只能处理一个包，所以，一个队列只能在那等另一个队列写完后。然后，其此时的3号或1号端口是空闲的，而队列中的要去1和3号端号的数据，被第四号端口给block住了。这就是所谓的HOL blocking问题。</p>
+<p>HTTP/1.1中的pipeline中如果有一个请求block了，那么队列后请求也统统被block住了；HTTP/2 多请求复用一个TCP连接，一旦发生丢包，就会block住所有的HTTP请求。这样的问题很讨厌。好像基本无解了。</p>
+<p>是的TCP是无解了，但是UDP是有解的 ！<strong>于是HTTP/3破天荒地把HTTP底层的TCP协议改成了UDP！</strong></p>
+<p>然后又是Google 家的协议进入了标准 &#8211; QUIC （Quick UDP Internet Connections）。接下来是QUIC协议的几个重要的特性，为了讲清楚这些特性，我需要带着问题来讲（注：下面的网络知识，如果你看不懂的话，你需要学习一下《<a href="https://book.douban.com/subject/1088054/" target="_blank" rel="noopener noreferrer">TCP/IP详解</a>》一书（在我写blog的这15年里，这本书推荐了无数次了），或是看一下本站的《<a href="https://coolshell.cn/articles/11564.html">TCP的那些事</a>》。）：</p>
+<ul>
+<li>首先是上面的Head-of-Line blocking问题，在UDP的世界中，这个就没了。这个应该比较好理解，因为UDP不管顺序，不管丢包（当然，QUIC的一个任务是要像TCP的一个稳定，所以QUIC有自己的丢包重传的机制）</li>
+<li>TCP是一个无私的协议，也就是说，如果网络上出现拥塞，大家都会丢包，于是大家都会进入拥塞控制的算法中，这个算法会让所有人都“冷静”下来，然后进入一个“慢启动”的过程，包括在TCP连接建立时，这个慢启动也在，所以导致TCP性能迸发地比较慢。QUIC基于UDP，使用更为激进的方式。同时，QUIC有一套自己的丢包重传和拥塞控制的协，一开始QUIC是重新实现一TCP 的 CUBIC算法，但是随着BBR算法的成熟（BBR也在借鉴CUBIC算法的数学模型），QUIC也可以使用BBR算法。这里，多说几句，<strong>从模型来说，以前的TCP的拥塞控制算法玩的是数学模型，而新型的TCP拥塞控制算法是以BBR为代表的测量模型</strong>，理论上来说，后者会更好，但QUIC的团队在一开始觉得BBR不如CUBIC的算法好，所以没有用。现在的BBR 2.x借鉴了CUBIC数学模型让拥塞控制更公平。这里有文章大家可以一读“<a href="https://medium.com/google-cloud/tcp-bbr-magic-dust-for-network-performance-57a5f1ccf437" target="_blank" rel="noopener noreferrer">TCP BBR : Magic dust for network performance.</a>”</li>
+<li>接下来，现在要建立一个HTTPS的连接，先是TCP的三次握手，然后是TLS的三次握手，要整出六次网络交互，一个链接才建好，虽说HTTP/1.1和HTTP/2的连接复用解决这个问题，但是基于UDP后，UDP也得要实现这个事。于是QUIC直接把TCP的和TLS的合并成了三次握手（对此，在HTTP/2的时候，是否默认开启TLS业内是有争议的，反对派说，TLS在一些情况下是不需要的，比如企业内网的时候，而支持派则说，TLS的那些开销，什么也不算了）。</li>
+</ul>
+<table>
+<tbody>
+<tr>
+<td><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2019/10/http-request-over-tcp-tls@2x-292x300.png" alt="" width="292" height="300" /></td>
+<td><img decoding="async" loading="lazy" class="" src="https://coolshell.cn/wp-content/uploads/2019/10/http-request-over-quic@2x-300x215.png" alt="" width="312" height="227" /></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>所以，QUIC是一个在UDP之上的伪TCP +TLS +HTTP/2的多路复用的协议。</p>
+<p>但是对于UDP还是有一些挑战的，这个挑战主要来自互联网上的各种网络设备，这些设备根本不知道是什么QUIC，他们看QUIC就只能看到的就是UDP，所以，在一些情况下，UDP就是有问题的，</p>
+<ul>
+<li>比如在NAT的环境下，如果是TCP的话，NAT路由或是代理服务器，可以通过记录TCP的四元组（源地址、源端口，目标地址，目标端口）来做连接映射的，然而，在UDP的情况下不行了。于是，QUIC引入了个叫connection id的不透明的ID来标识一个链接，用这种业务ID很爽的一个事是，如果你从你的3G/4G的网络切到WiFi网络（或是反过来），你的链接不会断，因为我们用的是connection id，而不是四元组。</li>
+</ul>
+<ul>
+<li>然而就算引用了connection id，也还是会有问题 ，比如一些不够“聪明”的等价路由交换机，这些交换机会通过四元组来做hash把你的请求的IP转到后端的实际的服务器上，然而，他们不懂connection id，只懂四元组，这么导致属于同一个connection id但是四元组不同的网络包就转到了不同的服务器上，这就是导致数据不能传到同一台服务器上，数据不完整，链接只能断了。所以，你需要更聪明的算法（可以参看 Facebook 的 <a href="https://github.com/facebookincubator/katran" target="_blank" rel="noopener noreferrer">Katran</a> 开源项目 ）</li>
+</ul>
+<p>好了，就算搞定上面的东西，还有一些业务层的事没解，这个事就是 HTTP/2的头压缩算法 HPACK，HPACK需要维护一个动态的字典表来分析请求的头中哪些是重复的，HPACK的这个数据结构需要在encoder和decoder端同步这个东西。在TCP上，这种同步是透明的，然而在UDP上这个事不好干了。所以，这个事也必需要重新设计了，基于QUIC的QPACK就出来了，利用两个附加的QUIC steam，一个用来发送这个字典表的更新给对方，另一个用来ack对方发过来的update。</p>
+<p>目前看下来，HTTP/3目前看上去没有太多的协议业务逻辑上的东西，更多是HTTP/2 + QUIC协议。但，HTTP/3 因为动到了底层协议，所以，在普及方面上可能会比 HTTP/2要慢的多的多。但是，可以看到QUIC协议的强大，细思及恐，QUIC这个协议真对TCP是个威胁，如果QUIC成熟了，TCP是不是会有可能成为历史呢？</p>
+<p>未来十年，让我们看看UDP是否能够逆袭TCP……</p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/07/wall_clock-300x167-1-150x150.jpeg" alt="从一次经历谈 TIME_WAIT 的那些事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22263.html" class="wp_rp_title">从一次经历谈 TIME_WAIT 的那些事</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/01/iStock-1175502114-150x150.png" alt="网络数字身份认证术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_title">网络数字身份认证术</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/05/xin_2001040422167711230318-150x150.jpg" alt="TCP 的那些事儿（下）" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11609.html" class="wp_rp_title">TCP 的那些事儿（下）</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/19840.html">HTTP的前世今生</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/19840.html/feed</wfw:commentRss>
+			<slash:comments>77</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何免费的让网站启用HTTPS</title>
+		<link>https://coolshell.cn/articles/18094.html</link>
+					<comments>https://coolshell.cn/articles/18094.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 26 Aug 2017 06:06:17 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<category><![CDATA[HTTPS]]></category>
+		<category><![CDATA[SSL]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=18094</guid>
+
+					<description><![CDATA[<p>今天，我把CoolShell变成https的安全访问了。我承认这件事有点晚了，因为之前的HTTP的问题也有网友告诉我，被国内的电信运营商在访问我的网站时加入了一...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/18094.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/18094.html">如何免费的让网站启用HTTPS</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="aligncenter size-full" src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner.png" alt="" width="700" height="220" />今天，我把CoolShell变成https的安全访问了。我承认这件事有点晚了，因为之前的HTTP的问题也有网友告诉我，被国内的电信运营商在访问我的网站时加入了一些弹窗广告。另外，HTTP的网站在搜索引擎中的rank会更低。所以，这事早就应该干了。现在用HTTP访问CoolShell会被得到一个 301 的HTTPS的跳转。下面我分享一下启用HTTPS的过程。</p>
+<p>我用的是 <a href="https://letsencrypt.org" target="_blank" rel="noopener noreferrer">Let&#8217;s Encrypt</a>这个免费的解决方案。Let&#8217;s Encrypt 是一个于2015年推出的数字证书认证机构，将通过旨在消除当前手动创建和安装证书的复杂过程的自动化流程，为安全网站提供免费的SSL/TLS证书。这是由<a href="https://letsencrypt.org/isrg/" target="_blank" rel="noopener noreferrer">互联网安全研究小组</a>（ISRG &#8211; Internet Security Research Group，一个公益组织）提供的服务。主要赞助商包括<a title="电子前哨基金会" href="https://www.eff.org" target="_blank" rel="noopener noreferrer">电子前哨基金会</a>，<a class="mw-redirect" title="Mozilla基金会" href="https://www.mozilla.org/foundation/" target="_blank" rel="noopener noreferrer">Mozilla基金会</a>，<a title="Akamai" href="https://www.akamai.com/" target="_blank" rel="noopener noreferrer">Akamai</a>以及Cisco等公司（<a href="https://letsencrypt.org/sponsors/" target="_blank" rel="noopener noreferrer">赞助商列表</a>）。<sup id="cite_ref-3" class="reference"></sup></p>
+<p>2015年6月，Let&#8217;s Encrypt得到了一个存储在硬件安全模块中的离线的RSA根证书。这个由IdenTrust证书签发机构交叉签名的根证书被用于签署两个证书。其中一个就是用于签发请求的证书，另一个则是保存在本地的证书，这个证书用于在上一个证书出问题时作备份证书之用。因为IdenTrust的CA根证书目前已被预置于主流浏览器中，所以Let&#8217;s Encrypt签发的证书可以从项目开始就被识别并接受，甚至当用户的浏览器中没有信任ISRG的根证书时也可以。</p>
+<p><span id="more-18094"></span></p>
+<p>以上介绍文字来自 Wikipedia 的 <a href="https://zh.wikipedia.org/wiki/Let%27s_Encrypt" target="_blank" rel="noopener noreferrer">Let&#8217;s Encrypt 词条</a>。</p>
+<p>为你的网站来安装一个证书十分简单，只需要使用电子子前哨基金会EFF的 <a href="https://certbot.eff.org" target="_blank" rel="noopener noreferrer">Certbot</a>，就可以完成。</p>
+<p style="padding-left: 30px;">1）首先，打开 <a href="https://certbot.eff.org" target="_blank" rel="noopener noreferrer">https://certbot.eff.org</a> 网页。</p>
+<p style="padding-left: 30px;">2）在那个机器上图标下面，你需要选择一下你用的 Web 接入软件 和你的 操作系统。比如，我选的，<code>nginx</code> 和 <code>Ubuntu 14.04</code></p>
+<p style="padding-left: 30px;">3）然后就会跳转到一个安装教程网页。你就照着做一遍就好了。</p>
+<p>以Coolshell.cn为例 &#8211; Nginx + Ubuntu</p>
+<p>首先先安装相应的环境：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ sudo apt-get update
+$ sudo apt-get install software-properties-common
+$ sudo add-apt-repository ppa:certbot/certbot
+$ sudo apt-get update
+$ sudo apt-get install python-certbot-nginx
+</pre>
+<p>然后，运行如下命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ sudo certbot --nginx
+</pre>
+<p><code>certbot</code> 会自动检查到你的 <code>nginx.conf</code> 下的配置，把你所有的虚拟站点都列出来，然后让你选择需要开启 https 的站点。你就简单的输入列表编号（用空格分开），然后，certbot 就帮你下载证书并更新 <code>nginx.conf</code> 了。</p>
+<p>你打开你的 <code>nginx.conf</code> 文件 ，你可以发现你的文件中的 <code>server</code> 配置中可能被做了如下的修改：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/coolshell.cn/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/coolshell.cn/privkey.pem; # managed by Certbot
+include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot</pre>
+<p>和</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW"> # Redirect non-https traffic to https
+if ($scheme != &quot;https&quot;) {
+  return 301 https://$host$request_uri;
+} # managed by Certbot</pre>
+<p>&nbsp;</p>
+<p>这里建议配置 http2，这要求 Nginx 版本要大于 1.9.5。HTTP2 具有更快的 HTTPS 传输性能，非常值得开启（<a href="http://blog.httpwatch.com/2015/01/16/a-simple-performance-comparison-of-https-spdy-and-http2/" target="_blank" rel="noopener noreferrer">关于性能你可以看一下这篇文章</a>）。需要开启HTTP/2其实很简单，只需要在 <code>nginx.conf</code> 的 <code>listen 443 ssl;</code> 后面加上 <code>http2</code> 就好了。如下所示：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">listen 443 ssl http2; # managed by Certbot 
+ssl_certificate /etc/letsencrypt/live/coolshell.cn/fullchain.pem; # managed by Certbot 
+ssl_certificate_key /etc/letsencrypt/live/coolshell.cn/privkey.pem; # managed by Certbot 
+include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot</pre>
+<p>然后，就 <code>nginx -s reload</code> 就好了。</p>
+<p>但是，<strong>Let&#8217;s Encrypt 的证书90天就过期了</strong>，所以，你还要设置上自动化的更新脚本，最容易的莫过于使用 <code>crontab</code> 了。使用 <code>crontab -e</code> 命令加入如下的定时作业（每个月都强制更新一下）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">0 0 1 * * /usr/bin/certbot renew --force-renewal
+5 0 1 * * /usr/sbin/service nginx restart</pre>
+<p>当然，你也可以每天凌晨1点检查一下：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">0 1 * * * certbot renew </code></p>
+<p>注：crontab 中有六个字段，其含义如下：</p>
+<ul>
+<li>第1个字段：分钟 (0-59)</li>
+<li>第2个字段：小时 (0-23)</li>
+<li>第3个字段：日期 (1-31)</li>
+<li>第4个字段：月份 (1-12 [12 代表 December])</li>
+<li>第5个字段：一周当中的某天 (0-7 [7 或 0 代表星期天])</li>
+<li>/path/to/command &#8211; 计划执行的脚本或命令的名称</li>
+</ul>
+<p><strong>这么方便的同时，我不禁要问，如果是一些恶意的钓鱼网站也让自己的站点变成https的，这个对于一般用来说就有点难以防范了。哎……</strong></p>
+<p>当然，在nginx或apache上启用HTTPS后，还没有结束。因为你可能还需要修改一下你的网站，不然你的网站在浏览时会出现各种问题。</p>
+<p><strong>启用HTTPS后，你的网页中的所有的使用 <code>http://</code> 的方式的地方都要改成 <code>https://</code> 不然你的图片，js， css等非https的连接都会导致浏览器抱怨不安全而被block掉</strong>。所以，你还需要修改你的网页中那些 hard code <code>http://</code> 的地方。</p>
+<p>对于我这个使用wordpress的博客系统来说，有这么几个部分需要做修改。</p>
+<p style="padding-left: 30px;">1）首先是 wordpress的 常规设置中的 “<strong>WordPress 地址</strong>” 和 “<strong>站点地址</strong>” 需要变更为 https 的方式。</p>
+<p style="padding-left: 30px;">2）然后是文章内的图片等资源的链接需要变更为 https 的方式。对此，你可以使用一个叫 “<a href="https://wordpress.org/plugins/search-regex/" target="_blank" rel="noopener noreferrer">Search Regex</a>” 插件来批量更新你历史文章里的图片或别的资源的链接。比如：把 <code>http://coolshell.cn</code> 替换成了 <code>https://coolshell.cn</code></p>
+<p style="padding-left: 30px;">3）如果你像我一样启用了文章缓存（我用的是<a href="https://wordpress.org/plugins/wp-super-cache/" target="_blank" rel="noopener noreferrer">WP-SuperCache</a>插件），你还要去设置一下 “<strong>CDN</strong>” 页面中的 “Site URL” 和 “off-site URL” 确保生成出来的静态网页内是用https做资源链接的。</p>
+<p>基本上就是这些事。希望大家都来把自己的网站更新成 https 的。</p>
+<p>嗯，12306，你什么时候按照这个教程做一下你的证书？</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200-1-150x150.png" alt="HTTP API 认证授权术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_title">HTTP API 认证授权术</a></li><li ><a href="https://coolshell.cn/articles/11021.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/Github-Security-150x150.png" alt="从“黑掉Github”学Web安全开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11021.html" class="wp_rp_title">从“黑掉Github”学Web安全开发</a></li><li ><a href="https://coolshell.cn/articles/8767.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/webtoolbox-150x150.jpg" alt="Web工程师的工具箱" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8767.html" class="wp_rp_title">Web工程师的工具箱</a></li><li ><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li><li ><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="Web开发中需要了解的东西" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_title">Web开发中需要了解的东西</a></li><li ><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="如何设计“找回用户帐号”功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_title">如何设计“找回用户帐号”功能</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/18094.html">如何免费的让网站启用HTTPS</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/18094.html/feed</wfw:commentRss>
+			<slash:comments>91</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Web工程师的工具箱</title>
+		<link>https://coolshell.cn/articles/8767.html</link>
+					<comments>https://coolshell.cn/articles/8767.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 18 Dec 2012 16:04:43 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[AutoTools]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<category><![CDATA[http load]]></category>
+		<category><![CDATA[test]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8767</guid>
+
+					<description><![CDATA[<p>本文出自Ivan Zuzak 的《The Web engineer&#8217;s online toolbox》，作者给了一个各种可以用来进行开发、测试、调试...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8767.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8767.html">Web工程师的工具箱</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright  wp-image-8771" alt="Web Toolbox" src="https://coolshell.cn/wp-content/uploads/2012/12/webtoolbox.jpg" width="318" height="196" srcset="https://coolshell.cn/wp-content/uploads/2012/12/webtoolbox.jpg 397w, https://coolshell.cn/wp-content/uploads/2012/12/webtoolbox-300x185.jpg 300w" sizes="(max-width: 318px) 100vw, 318px" />本文出自<a href="http://ivanzuzak.info/" target="_blank">Ivan Zuzak</a> 的《<a href="http://ivanzuzak.info/2012/11/18/the-web-engineers-online-toolbox.html" target="_blank">The Web engineer&#8217;s online toolbox</a>》，作者给了一个各种可以用来进行开发、测试、调试以及文档编排的在线工具集。（注：我发现CSDN上已经有了这篇文章《<a href="http://www.csdn.net/article/2012-11-19/2811992" target="_blank">Web工程师必备的18款工具</a>》，但可惜的是这篇文章并不全（原文后来被更新到了33个工具），而且其中并没有包括原文评论中出现的所有工具，所以，我一并补全了更出来，一共40多个工具）</p>
+<h4><strong>Web工程师在线工具箱</strong></h4>
+<ul>
+<li><a href="http://requestb.in/" target="_blank"><strong>RequestBin</strong></a><strong>：</strong>允许你创建一个URL，利用这款工具进行收集请求，然后通过个性化方式进行检查。</li>
+</ul>
+<ul>
+<li><a href="http://hurl.it/" target="_blank"><strong>Hurl</strong></a><strong>：</strong>发出HTTP请求，输入URL，设置标题，查看响应，最后分享给其他人。类似的工具有：<a href="http://resttesttest.com/" target="_blank">REST test test</a>, <a href="https://apigee.com/console/others" target="_blank">Apigee console</a>.。</li>
+</ul>
+<ul>
+<li><a href="http://httpbin.org/" target="_blank"><strong>Httpbin</strong></a><strong>：</strong>HTTP请求&amp;响应服务，涵盖所有的HTTP方案（例如不同的HTTP verbs、状态代码和重定向）。类似工具：<a href="http://ivanzuzak.info/urlecho/">UrlEcho</a>。</li>
+</ul>
+<ul>
+<li><a href="http://redbot.org/" target="_blank"><strong>REDbot</strong></a><strong>：</strong>这是一个机器人工具，帮助用户检查HTTP资源，可查看它的操作情况，指出常见的问题并提出改进。类似工具：<a href="http://zamez.org/httplint">HTTP lint</a>。</li>
+</ul>
+<ul>
+<li><a href="http://webgun.io/" target="_blank"><strong>WebGun</strong></a><strong>：</strong>用于创建webhooks模板的API。类似工具：<a href="https://github.com/izuzak/urlreq">UrlReq</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="https://www.webscript.io/">Webscript</a> </strong> 自选一个url，填一段Lua代码，就能对访问做各种respond，还可以主动运行任务，cron job等等&#8230;</li>
+</ul>
+<p><span id="more-8767"></span></p>
+<ul>
+<li><strong><a href="http://www.clickhooks.com/">ClickHooks</a> </strong>这是一个短网址服务， 当用户访问了你的这个短网址跳转链接，服务器会通过HTTP POST的方式回调你的一个URL。这也是一种WebHooks方式。（陈皓注：所谓WebHooks，你可以理解为一种trigger，或是一种handler，比如当你你提交了代码，会调用某个URL链接以POST的方式告诉那个网站你提交了代码（如：发一个twitter 之类的，或是通知某个bug tracker系统））</li>
+</ul>
+<ul>
+<li><strong><a href="http://mailhooks2.appspot.com/">MailHooks</a> </strong>让你可以通过HTTP POST方法收电子邮件（又叫WebHooks），你可以为你的一个邮件地址创建N多的hooks，当一个邮件收到了，可以把这个邮件以POST的方式发到你的某个URL上去。</li>
+</ul>
+<ul>
+<li><strong><a href="http://a.quil.la/">Quilla</a> </strong>提供一个人们可以找到你的短网站服务，在那里，当人们提交到你的短网址上的请求会给你发邮件。好像是一种HTTP到SMTP的代理服务。</li>
+</ul>
+<ul>
+<li><a href="http://apify.heroku.com/resources" target="_blank"><strong>Apify</strong></a><strong>：</strong>公开锁定在HTML文档没有任何API数据集。APIfy从结构标记中提取数据，并将其转换为JSON APIs。</li>
+</ul>
+<ul>
+<li><a href="http://validator.w3.org/unicorn/" target="_blank"><strong>Unicorn</strong></a><strong>：</strong>W3C统一的验证程序，可在各种流行的HTML和CSS验证器中执行各种检查。类似工具：<a href="http://lint.brihten.com/html/">HTML lint</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://jsonlint.com/">JSONLint</a> </strong>JSON 格式验证程序</li>
+</ul>
+<ul>
+<li><a href="http://validator.w3.org/feed/" target="_blank"><strong>Feed validator</strong></a><strong>：</strong>支持W3C验证，为RSS和ATOM提供阅读源。</li>
+</ul>
+<ul>
+<li><a href="http://validator.w3.org/checklink" target="_blank"><strong>Link checker</strong></a><strong>：</strong>从网站中提取链接（递归）并确保没有链接被定义为两次（重复定义），所有的链接被引用并警告HTTP重新定向。</li>
+</ul>
+<ul>
+<li><a href="http://www.host-tracker.com/" target="_blank"><strong>Host tracker</strong></a><strong>：</strong>通过分布式ping/跟踪检查、定期监测、邮件/SMS /IM通知和统计进行网站检测性服务。类似工具有：<a href="http://www.downforeveryoneorjustme.com/">Down for everyone or just me</a>, <a href="http://tools.pingdom.com/ping/">Pimgdom ping service</a></li>
+</ul>
+<ul>
+<li><strong><a href="http://www.viewdns.info/">ViewDNS</a> </strong>一组 DNS 和网络工具，如：反向IP解析，DNS记录查询或traceroute之类的。</li>
+</ul>
+<ul>
+<li><strong><a href="http://www.necrohost.com/">Necrohost</a>  </strong>一个URL列表来模拟不同网络链接的问题，如：响应慢，无法解析DNS，或是404什么的。</li>
+</ul>
+<ul>
+<li><strong><a href="https://code.google.com/p/mirrorrr/">Mirrorrr</a>  </strong>一个可以用来镜像某网页的应用（经常被国人用来搞Web 代理来翻墙）。</li>
+</ul>
+<ul>
+<li><strong><a href="http://certlogik.com/ssl-checker/">SSL Checker</a>  </strong>测试SSL认证</li>
+</ul>
+<ul>
+<li><strong><a href="http://certlogik.com/decoder/">CSR/Cert decoder</a>  </strong>对你的CSR和SSL认证decode检查。</li>
+</ul>
+<ul>
+<li><strong><a href="http://loadzen.com/">Loadzen</a>  </strong>Web压力测试工具（注：以前酷壳介绍过《<a href="https://coolshell.cn/articles/2589.html" target="_blank">十个Web压力测试工具</a>》）</li>
+</ul>
+<ul>
+<li><a href="http://tools.pingdom.com/fpt/" target="_blank"><strong>Pingdom Full page test</strong></a><strong>：</strong>允许用户测试网页记载时间、分析、监控，发现瓶颈并导出HAR格式的结果。类似工具：<a href="http://www.webpagetest.org/">Web page test</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="https://developers.google.com/speed/pagespeed/insights">Google PageSpeed Insights</a> </strong>Analyzes the content of a web page, then generates suggestions to make that page faster.</li>
+</ul>
+<ul>
+<li><a href="http://www.softwareishard.com/har/viewer/" target="_blank"><strong>HAR viewer</strong></a><strong>：</strong>通过 HTTP 追踪工具创建可视化的HTTP Archive (HAR)日志文件。</li>
+</ul>
+<ul>
+<li><a href="http://www.corsproxy.com/" target="_blank"><strong>CORS proxy</strong></a><strong>：</strong>通常会由于相同的域而被阻止，而这款工具在网站上允许JavaScript代码访问其他域上的资源，</li>
+</ul>
+<ul>
+<li><a href="https://browserling.com/" target="_blank"><strong>Browserling</strong></a><strong>：</strong>支持使用所有主要浏览器以及各种版本进行交互式跨浏览器测试。</li>
+</ul>
+<ul>
+<li><a href="http://www.websocket.org/echo.html" target="_blank"><strong>WebSocket Echo Test</strong></a><strong>:</strong> 从浏览器定向到WebSocket echo服务器进行WebSocket连接测试。</li>
+</ul>
+<ul>
+<li><a href="http://developer.yahoo.com/yql/" target="_blank"><strong>YQL</strong></a><strong>：</strong>极富表现力类似于SQL的语言，允许您查询、筛选和联接数据跨Web服务。</li>
+</ul>
+<ul>
+<li><strong><a href="http://webshell.io/">Webshell</a> </strong>使用命令行脚本的方式来调用一些Web API。</li>
+</ul>
+<ul>
+<li><a href="http://pipes.yahoo.com/pipes/" target="_blank"><strong>Yahoo Pipes</strong></a><strong>：</strong>一个图形化的用户界面，用于创建数据混搭，生成聚合Web源，Web页面和其他服务。</li>
+</ul>
+<ul>
+<li><a href="http://apiary.io/" target="_blank"><strong>Apiary</strong></a><strong>：</strong>语言和工具用于生成REST API文档及进行交互式督查。类似工具：<a href="http://swagger.wordnik.com/">Swagger</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://jsfiddle.net/">JSFiddle</a>  </strong>一个在线的代码编辑可以让你编译一些HTML, CSS 和 JavaScript的东西，并演示之。相似工具: <a href="http://jsbin.com/">JSBin</a></li>
+</ul>
+<ul>
+<li><a href="https://developers.google.com/feed/v1/jsondevguide">Google Feed API</a> 你可以使用这个API来查询有RSS Feed的网站 (<a href="http://ajax.googleapis.com/ajax/services/feed/lookup?v=1.0&amp;q=http://ivanzuzak.info/">example</a>)，或是搜索有RSS Feed(<a href="https://ajax.googleapis.com/ajax/services/feed/find?v=1.0&amp;q=ivan%20zuzak">example</a>) ，或是把JSON变成一个JSON返回 (<a href="https://ajax.googleapis.com/ajax/services/feed/load?v=1.0&amp;q=http://ivanzuzak.info/atom.xml">example</a>)</li>
+</ul>
+<h4>未在列表的工具</h4>
+<ul>
+<li><a href="http://www.fiddler2.com/fiddler2/">Fiddler</a> &#8212; 可能是最强大最好用的Web调试工具之一，它能记录所有客户端和服务器的http和https请求，允许你监视，设置断点，甚至修改输入输出数据. 使用Fiddler无论对开发还是测试来说，都有很大的帮助。.</li>
+</ul>
+<ul>
+<li><a href="http://grids.heroku.com/">960 grid system generator</a> 和 <a href="http://meyerweb.com/eric/tools/css/reset/">CSS reset</a> &#8212; 两个关注于Web站点设计的工具。</li>
+</ul>
+<ul>
+<li><a href="http://www.nuvolabase.com/site/index.html">NuvolaBase</a> &#8212; 一个可以共享个人私有数据的解决方案。正如作者所说，这不是一个开发工具。</li>
+</ul>
+<ul>
+<li><a href="https://openexchangerates.org/">Open exchange rates</a> &#8212; 一个和汇率货币相关的JSON式的API。这样的API你可以到 <a href="http://www.programmableweb.com/">Programmable Web</a> 上查找。</li>
+</ul>
+<ul>
+<li><a href="https://workflowy.com/">Workflowy</a>, <a href="http://www.lastcalc.com/">LastCalc</a>, <a href="http://codepad.org/">Codepad</a>, <a href="http://www.mailinator.com/">Mailinator</a> and <a href="http://10minutemail.com/">10MinuteMail</a>, <a href="https://onetimesecret.com/">One time secret</a> and <a href="http://copypastecharacter.com/">CopyPasteCharacter</a> &#8212; 这些App似乎和Web开发没什么关系。</li>
+</ul>
+<ul>
+<li><a href="https://browsershots.org/">Browsershots</a> &#8212; 一个用来测试网页在不同平台下的工具。（参看）</li>
+</ul>
+<ul>
+<li><a href="http://scriptular.com/">Scriptular</a> and <a href="http://rubular.com/">Rubular</a> &#8212; 正则表达式工具，这样的工具太多了，如： <a href="http://refiddle.com/">ReFiddle</a>, <a href="http://regexpal.com/">Regex pal</a> and <a href="http://www.txt2re.com/">Txt2Re</a>。</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/2589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/get_more_web_traffic-150x150.jpg" alt="十个免费的Web压力测试工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2589.html" class="wp_rp_title">十个免费的Web压力测试工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17381.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/PerfTest-150x150.png" alt="性能测试应该怎么做？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17381.html" class="wp_rp_title">性能测试应该怎么做？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8767.html">Web工程师的工具箱</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8767.html/feed</wfw:commentRss>
+			<slash:comments>41</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>HTTP幂等性概念和应用</title>
+		<link>https://coolshell.cn/articles/4787.html</link>
+					<comments>https://coolshell.cn/articles/4787.html#comments</comments>
+		
+		<dc:creator><![CDATA[Todd]]></dc:creator>
+		<pubDate>Tue, 07 Jun 2011 00:49:01 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[Windows]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4787</guid>
+
+					<description><![CDATA[<p>[ 感谢 Todd 同学投递本文 ] 基于HTTP协议的Web API是时下最为流行的一种分布式服务提供方式。无论是在大型互联网应用还是企业级架构中，我们都见到...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4787.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4787.html">HTTP幂等性概念和应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>[ 感谢 <a href="http://www.cnblogs.com/weidagang2046/" target="_blank">Todd 同学</a>投递本文 ]</strong></p>
+<p>基于HTTP协议的Web API是时下最为流行的一种分布式服务提供方式。无论是在大型互联网应用还是企业级架构中，我们都见到了越来越多的SOA或RESTful的Web API。为什么Web API如此流行呢？我认为很大程度上应归功于简单有效的HTTP协议。HTTP协议是一种分布式的面向资源的网络应用层协议，无论是服务器端提供Web服务，还是客户端消费Web服务都非常简单。再加上浏览器、Javascript、AJAX、JSON以及HTML5等技术和工具的发展，互联网应用架构设计表现出了从传统的PHP、JSP、ASP.NET等服务器端动态网页向Web API + RIA（富互联网应用）过渡的趋势。Web API专注于提供业务服务，RIA专注于用户界面和交互设计，从此两个领域的分工更加明晰。在这种趋势下，Web API设计将成为服务器端程序员的必修课。然而，正如简单的Java语言并不意味着高质量的Java程序，简单的HTTP协议也不意味着高质量的Web API。要想设计出高质量的Web API，还需要深入理解分布式系统及HTTP协议的特性。</p>
+<p><strong> </strong></p>
+<p><strong> </strong></p>
+<p><strong>幂等性定义</strong></p>
+<p>本文所要探讨的正是HTTP协议涉及到的一种重要性质：幂等性(Idempotence)。在HTTP/1.1规范中幂等性的定义是：</p>
+<blockquote><p><em><span style="color: #800040;">Methods can also have the property of &#8220;idempotence&#8221; in that (aside from error or expiration issues) the side-effects of N &gt; 0 identical requests is the same as for a single request.</span></em></p></blockquote>
+<p>从定义上看，HTTP方法的幂等性是指一次和多次请求某一个资源应该具有同样的副作用。幂等性属于语义范畴，正如编译器只能帮助检查语法错误一样，HTTP规范也没有办法通过消息格式等语法手段来定义它，这可能是它不太受到重视的原因之一。但实际上，幂等性是分布式系统设计中十分重要的概念，而HTTP的分布式本质也决定了它在HTTP中具有重要地位。</p>
+<p><span id="more-4787"></span></p>
+<p><strong> </strong></p>
+<p><strong>分布式事务 vs 幂等设计</strong></p>
+<p>为什么需要幂等性呢？我们先从一个例子说起，假设有一个从账户取钱的远程API（可以是HTTP的，也可以不是），我们暂时用类函数的方式记为</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">bool withdraw(account_id, amount); </code></p>
+<p>withdraw的语义是从account_id对应的账户中扣除amount数额的钱；如果扣除成功则返回true，账户余额减少amount；如果扣除失败则返回false，账户余额不变。值得注意的是：和本地环境相比，我们不能轻易假设分布式环境的可靠性。一种典型的情况是withdraw请求已经被服务器端正确处理，但服务器端的返回结果由于网络等原因被掉丢了，导致客户端无法得知处理结果。如果是在网页上，一些不恰当的设计可能会使用户认为上一次操作失败了，然后刷新页面，这就导致了withdraw被调用两次，账户也被多扣了一次钱。如图1所示：</p>
+<p style="text-align: center;"><a href="http://images.cnblogs.com/cnblogs_com/weidagang2046/201106/201106042051027575.png"><img decoding="async" loading="lazy" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/201106/201106042051039636.png" border="0" alt="image" width="458" height="394" /></a></p>
+<p style="text-align: center;"><a href="http://images.cnblogs.com/cnblogs_com/weidagang2046/201106/201106042051027575.png"></a>图1</p>
+<p>这个问题的解决方案一是采用分布式事务，通过引入支持分布式事务的中间件来保证withdraw功能的事务性。分布式事务的优点是对于调用者很简单，复杂性都交给了中间件来管理。缺点则是一方面架构太重量级，容易被绑在特定的中间件上，不利于异构系统的集成；另一方面分布式事务虽然能保证事务的ACID性质，而但却无法提供性能和可用性的保证。</p>
+<p>另一种更轻量级的解决方案是幂等设计。上面的withdraw显然不满足幂等性，但我们可以一些技巧将它变成幂等的，比如：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int create_ticket();
+
+bool idempotent_withdraw(ticket_id, account_id, amount);</pre>
+<p>create_ticket的语义是获取一个服务器端生成的唯一的处理号ticket_id，它将用于标识后续的操作。idempotent_withdraw和withdraw的区别在于关联了一个ticket_id，一个ticket_id表示的操作至多只会被处理一次，每次调用都将返回第一次调用时的处理结果。这样，idempotent_withdraw就符合幂等性了，客户端就可以放心地多次调用。</p>
+<p>基于幂等性的解决方案中一个完整的取钱流程被分解成了两个步骤：1.调用create_ticket()获取ticket_id；2.调用idempotent_withdraw(ticket_id, account_id, amount)。虽然create_ticket不是幂等的，但在这种设计下，它对系统状态的影响可以忽略，加上idempotent_withdraw是幂等的，所以任何一步由于网络等原因失败或超时，客户端都可以重试，直到获得结果。如图2所示：</p>
+<p><a href="http://images.cnblogs.com/cnblogs_com/weidagang2046/201106/201106042051059820.png"><img decoding="async" loading="lazy" class="aligncenter" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/201106/201106042051069339.png" border="0" alt="image" width="610" height="578" /></a></p>
+<p style="text-align: center;">图2</p>
+<p><strong> </strong></p>
+<p>和分布式事务相比，幂等设计的优势在于它的轻量级，容易适应异构环境，以及性能和可用性方面。在某些性能要求比较高的应用，幂等设计往往是唯一的选择。</p>
+<p><strong> </strong></p>
+<p><strong>HTTP的幂等性</strong></p>
+<p>HTTP协议本身是一种面向资源的应用层协议，但对HTTP协议的使用实际上存在着两种不同的方式：一种是RESTful的，它把HTTP当成应用层协议，比较忠实地遵守了HTTP协议的各种规定；另一种是SOA的，它并没有完全把HTTP当成应用层协议，而是把HTTP协议作为了传输层协议，然后在HTTP之上建立了自己的应用层协议。本文所讨论的HTTP幂等性主要针对RESTful风格的，不过正如上一节所看到的那样，幂等性并不属于特点的协议，它是分布式系统的一种特性；所以，不论是SOA还是RESTful的Web API设计都应该考虑幂等性。下面将介绍HTTP GET、DELETE、PUT、POST四种主要方法的语义和幂等性。</p>
+<p>HTTP GET方法用于获取资源，不应有副作用，所以是幂等的。比如：GET http://www.bank.com/account/123456，不会改变资源的状态，不论调用一次还是N次都没有副作用。请注意，这里强调的是一次和N次具有相同的副作用，而不是每次GET的结果相同。GET http://www.news.com/latest-news这个HTTP请求可能会每次得到不同的结果，但它本身并没有产生任何副作用，因而是满足幂等性的。</p>
+<p>HTTP DELETE方法用于删除资源，有副作用，但它应该满足幂等性。比如：DELETE http://www.forum.com/article/4231，调用一次和N次对系统产生的副作用是相同的，即删掉id为4231的帖子；因此，调用者可以多次调用或刷新页面而不必担心引入错误。</p>
+<p>比较容易混淆的是HTTP POST和PUT。POST和PUT的区别容易被简单地误认为“POST表示创建资源，PUT表示更新资源”；而实际上，二者均可用于创建资源，更为本质的差别是在幂等性方面。在HTTP规范中对POST和PUT是这样定义的：</p>
+<blockquote><p><span style="color: #800040;"><em>The POST method is used to request that the origin server accept the entity enclosed in the request as a new subordinate of the resource identified by the Request-URI in the Request-Line. &#8230;&#8230; </em><em>If a resource has been created on the origin server, the response SHOULD be 201 (Created) and contain an entity which describes the status of the request and refers to the new resource, and a Location header.</em></span></p>
+<p><em><span style="color: #800040;">The PUT method requests that the enclosed entity be stored under the supplied Request-URI. If the Request-URI refers to an already existing resource, the enclosed entity SHOULD be considered as a modified version of the one residing on the origin server. If the Request-URI does not point to an existing resource, and that URI is capable of being defined as a new resource by the requesting user agent, the origin server can create the resource with that URI.</span></em></p></blockquote>
+<p>POST所对应的URI并非创建的资源本身，而是资源的接收者。比如：POST http://www.forum.com/articles的语义是在http://www.forum.com/articles下创建一篇帖子，HTTP响应中应包含帖子的创建状态以及帖子的URI。两次相同的POST请求会在服务器端创建两份资源，它们具有不同的URI；所以，POST方法不具备幂等性。</p>
+<p>而PUT所对应的URI是要创建或更新的资源本身。比如：PUT http://www.forum/articles/4231的语义是创建或更新ID为4231的帖子。对同一URI进行多次PUT的副作用和一次PUT是相同的；因此，PUT方法具有幂等性。</p>
+<p>在介绍了几种操作的语义和幂等性之后，我们来看看如何通过Web API的形式实现前面所提到的取款功能。很简单，用POST /tickets来实现create_ticket；用PUT /accounts/account_id/ticket_id&amp;amount=xxx来实现idempotent_withdraw。值得注意的是严格来讲amount参数不应该作为URI的一部分，真正的URI应该是/accounts/account_id/ticket_id，而amount应该放在请求的body中。这种模式可以应用于很多场合，比如：论坛网站中防止意外的重复发帖。</p>
+<p><strong> </strong></p>
+<p><strong>总结</strong></p>
+<p>上面简单介绍了幂等性的概念，用幂等设计取代分布式事务的方法，以及HTTP主要方法的语义和幂等性特征。其实，如果要追根溯源，幂等性是数学中的一个概念，表达的是N次变换与1次变换的结果相同，有兴趣的读者可以从<a href="http://en.wikipedia.org/wiki/Idempotence">Wikipedia</a>上进一步了解。</p>
+<p><strong> </strong></p>
+<p><strong>参考</strong></p>
+<p><a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">RFC 2616, Hypertext Transfer Protocol &#8212; HTTP/1.1, Method Definitions</a></p>
+<p><a href="http://devhawk.net/2007/11/09/the-importance-of-idempotence/">The Importance of Idempotence</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/8767.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/webtoolbox-150x150.jpg" alt="Web工程师的工具箱" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8767.html" class="wp_rp_title">Web工程师的工具箱</a></li><li ><a href="https://coolshell.cn/articles/2367.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/URL-BAR-150x150.png" alt="谷歌Chrome取消&#8221;http://&#8221;" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2367.html" class="wp_rp_title">谷歌Chrome取消&#8221;http://&#8221;</a></li><li ><a href="https://coolshell.cn/articles/1480.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/27.jpg" alt="非常简单的Python HTTP服务" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1480.html" class="wp_rp_title">非常简单的Python HTTP服务</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4787.html">HTTP幂等性概念和应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4787.html/feed</wfw:commentRss>
+			<slash:comments>37</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>谷歌Chrome取消&#8221;http://&#8221;</title>
+		<link>https://coolshell.cn/articles/2367.html</link>
+					<comments>https://coolshell.cn/articles/2367.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 22 Apr 2010 03:12:24 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Chrome]]></category>
+		<category><![CDATA[Google]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2367</guid>
+
+					<description><![CDATA[<p>谷歌下一个版本的Chrome浏览器软件将缺少一个在近20年来一直是浏览器的一个特点的功能：在地址栏中的“http://”。目前开发人员版本的Chrome浏览器已...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2367.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2367.html">谷歌Chrome取消”http://”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>谷歌下一个版本的Chrome浏览器软件将缺少一个在近20年来一直是浏览器的一个特点的功能：在地址栏中的“http://”。目前开发人员版本的Chrome浏览器已经做了这种改变。这个变化虽然看起来很小，但是，已经在Chrome网站引起了程序员们很大的争议。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/04/URL-BAR.png"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-2373" title="Google Chrome 取消 http://" src="https://coolshell.cn/wp-content/uploads/2010/04/URL-BAR.png" alt="" width="343" height="183" srcset="https://coolshell.cn/wp-content/uploads/2010/04/URL-BAR.png 343w, https://coolshell.cn/wp-content/uploads/2010/04/URL-BAR-300x160.png 300w" sizes="(max-width: 343px) 100vw, 343px" /></a></p>
+<p>在Google Chrome的开发站点上，又有了一个很热的BUG——<a href="http://code.google.com/p/chromium/issues/detail?id=41467" target="_blank">Issue  41467</a>（上一次的一热议的BUG是的《<a rel="bookmark" href="https://coolshell.cn/articles/1781.html" target="_blank">Go语言更名Issue 9</a>》），这个BUG目前已被关闭。不过在其它地方还在热议中，如：<a href="http://www.reddit.com/r/programming/comments/bt0oh/issue_41467_url_bar_no_longer_shows_http/" target="_blank">Reddit.com</a>。基本上来说，90%以上的程序员反对的，他们希望Google的Chrome可以给一个设置关闭或打开这一功能。</p>
+<p>一些程序员觉得这是违反了RFC，并且觉得这是在向End User传播一种很不好的东西，那就是网址可以不用http://，这样一来会给程序员增加很多麻烦，比如：他们的程序无法使用http://这一关键字来检查用户的输出，等等。</p>
+<p>iPhone浏览器的也是这样的， 不过当你把光标放到地址栏中，其会显示http://，广大程序员希望Chrome也实现这一方案。然而，<a href="http://code.google.com/p/chromium/issues/detail?id=41467" target="_blank">Issue  41467</a>目前的状态是“WontFix”，呵呵。</p>
+<p>有人说，如果你在地址栏中直接输入网址，没有协议前缀，默认就是http://，Google用的就是这个特性，然后，你可以试试在地址栏中输入“<a rel="nofollow" href="ftp://ftp.gnu.org/gnu">ftp.gnu.org/gnu</a>”，你会发现，自动加入的不是http://而是ftp://，呵呵。</p>
+<p>有人说，既然你要省，不如也把www.和后面的.com加上/也省了，因为这些都是默认的嘛。直接打google就OK了。Chrome开发团队说，没有www.和.com/只能算是一个主机名，不能算是DNS域名。呵呵。</p>
+<p>还有人说，搞这种隐藏的最恶心的就是Windows，隐藏文件后缀名，隐藏系统文件，太扯了，于是，像sexy_girls.jpg.exe，huge-tits.jpg.src这样玩意儿让某些电脑知识薄弱意志不坚定的人深受其害。</p>
+<p>如果有空，请留下你的观点。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-150x150.jpg" alt="我看ChatGPT: 为啥谷歌掉了千亿美金" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_title">我看ChatGPT: 为啥谷歌掉了千亿美金</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2367.html">谷歌Chrome取消”http://”</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2367.html/feed</wfw:commentRss>
+			<slash:comments>35</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>非常简单的Python HTTP服务</title>
+		<link>https://coolshell.cn/articles/1480.html</link>
+					<comments>https://coolshell.cn/articles/1480.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 27 Sep 2009 03:34:10 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[HTTP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1480</guid>
+
+					<description><![CDATA[<p>如果你急需一个简单的Web Server，但你又不想去下载并安装那些复杂的HTTP服务程序，比如：Apache，ISS等。那么， Python 可能帮助你。使用...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1480.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1480.html">非常简单的Python HTTP服务</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>如果你急需一个简单的Web Server，但你又不想去下载并安装那些复杂的HTTP服务程序，比如：Apache，ISS等。那么， <a href="http://www.python.org/">Python</a> 可能帮助你。使用Python可以完成一个简单的内建 HTTP 服务器。于是，你可以把你的目录和文件都以HTTP的方式展示出来。佻只需要干一件事情，那就是安装一个Python。</p>
+<p>实际上来说，这是一个可以用来共享文件的非常有用的方式。实现一个微型的HTTP服务程序来说是很简单的事情，在Python下，只需要一个命令行。下面是这个命令行：（假设我们需要共享我们的目录 <tt><span>/home/haoel</span></tt> 而IP地址是192.168.1.1）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ cd /home/haoel
+$ python -m SimpleHTTPServer
+</pre>
+<p><span id="more-1480"></span></p>
+<p>这就行了，而我们的HTTP服务在8000号端口上侦听。你会得到下面的信息：</p>
+<pre>Serving HTTP on 0.0.0.0 port 8000 ...</pre>
+<p>你可以打开你的浏览器（IE或Firefox），然后输入下面的URL：</p>
+<pre>http://192.168.1.1:8000</pre>
+<p>如果你的目录下有一个叫 index.html 的文件名的文件，那么这个文件就会成为一个默认页，如果没有这个文件，那么，目录列表就会显示出来。</p>
+<p>如果你想改变端口号，你可以使用如下的命令：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$ python -m SimpleHTTPServer 8080
+</pre>
+<p>如果你只想让这个HTTP服务器服务于本地环境，那么，你需要定制一下你的Python的程序，下面是一个示例：</p>
+<p>[py]<br />
+import sys<br />
+import BaseHTTPServer<br />
+from SimpleHTTPServer import SimpleHTTPRequestHandler<br />
+HandlerClass = SimpleHTTPRequestHandler<br />
+ServerClass  = BaseHTTPServer.HTTPServer<br />
+Protocol     = &quot;HTTP/1.0&quot;</p>
+<p>if sys.argv[1:]:<br />
+    port = int(sys.argv[1])<br />
+else:<br />
+    port = 8000<br />
+server_address = (&#8216;127.0.0.1&#8217;, port)</p>
+<p>HandlerClass.protocol_version = Protocol<br />
+httpd = ServerClass(server_address, HandlerClass)</p>
+<p>sa = httpd.socket.getsockname()<br />
+print &quot;Serving HTTP on&quot;, sa[0], &quot;port&quot;, sa[1], &quot;&#8230;&quot;<br />
+httpd.serve_forever()<br />
+[/py]</p>
+<p>注意：所有的这些东西都可以在 Windows 或 <a href="http://www.cygwin.com/">Cygwin</a> 下工作。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/snake-hat-new-year-schedule-800x960-150x150.jpg" alt="Python修饰器的函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11265.html" class="wp_rp_title">Python修饰器的函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1480.html">非常简单的Python HTTP服务</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1480.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

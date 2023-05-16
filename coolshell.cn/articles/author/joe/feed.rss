@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>joe | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/articles/author/joe/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 01 Jan 2010 01:55:07 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>google的免费dns服务器</title>
+		<link>https://coolshell.cn/articles/2015.html</link>
+					<comments>https://coolshell.cn/articles/2015.html#comments</comments>
+		
+		<dc:creator><![CDATA[joe]]></dc:creator>
+		<pubDate>Mon, 28 Dec 2009 11:03:34 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[dns]]></category>
+		<category><![CDATA[Google]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2015</guid>
+
+					<description><![CDATA[<p>google推出了自己的免费dns服务器，以供公众使用。服务器地址是： dns1: 8.8.8.8 dns2: 8.8.4.4 我在我的机器上测试了一下： $ ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2015.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2015.html">google的免费dns服务器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>google推出了自己的免费dns服务器，以供公众使用。服务器地址是：</p>
+<p>dns1: 8.8.8.8</p>
+<p>dns2: 8.8.4.4</p>
+<p>我在我的机器上测试了一下：</p>
+<p><span id="more-2015"></span></p>
+<div>$ host -a g.cn 8.8.8.8</div>
+<div>Trying &#8220;g.cn&#8221;</div>
+<div>Using domain server:</div>
+<div>Name: 8.8.8.8</div>
+<div>Address: 8.8.8.8#53</div>
+<div>Aliases:</div>
+<div>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 33253</div>
+<div>;; flags: qr rd ra; QUERY: 1, ANSWER: 11, AUTHORITY: 0, ADDITIONAL: 0</div>
+<div>;; QUESTION SECTION:</div>
+<div>;g.cn.				IN	ANY</div>
+<div>;; ANSWER SECTION:</div>
+<div>g.cn.			300	IN	A	72.14.203.160</div>
+<div>g.cn.			259200	IN	NS	ns3.google.com.</div>
+<div>g.cn.			10800	IN	MX	10 google.com.s9b2.psmtp.com.</div>
+<div>g.cn.			259200	IN	NS	ns1.google.cn.</div>
+<div>g.cn.			259200	IN	NS	ns2.google.com.</div>
+<div>g.cn.			86400	IN	SOA	ns1.google.com. dns-admin.google.com. 1402219 21600 3600 1209600 300</div>
+<div>g.cn.			10800	IN	MX	10 google.com.s9b1.psmtp.com.</div>
+<div>g.cn.			10800	IN	MX	10 google.com.s9a2.psmtp.com.</div>
+<div>g.cn.			10800	IN	MX	10 google.com.s9a1.psmtp.com.</div>
+<div>g.cn.			259200	IN	NS	ns1.google.com.</div>
+<div>g.cn.			259200	IN	NS	ns4.google.com.</div>
+<p>Received 325 bytes from <strong><span style="color: #ff0000">8.8.8.8#53 in 217 ms</span></strong></p>
+<div></div>
+<div>
+<div>$ host -a g.cn 8.8.4.4</div>
+<div>Trying &#8220;g.cn&#8221;</div>
+<div>Using domain server:</div>
+<div>Name: 8.8.4.4</div>
+<div>Address: 8.8.4.4#53</div>
+<div>Aliases:</div>
+<div></div>
+<div>;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 40871</div>
+<div>;; flags: qr rd ra; QUERY: 1, ANSWER: 11, AUTHORITY: 0, ADDITIONAL: 0</div>
+<div></div>
+<div>;; QUESTION SECTION:</div>
+<div>;g.cn.<span> </span>IN<span> </span>ANY</div>
+<div></div>
+<div>;; ANSWER SECTION:</div>
+<div>g.cn.<span> </span>227<span> </span>IN<span> </span>A<span> </span>72.14.203.160</div>
+<div>g.cn.<span> </span>259127<span> </span>IN<span> </span>NS<span> </span>ns3.google.com.</div>
+<div>g.cn.<span> </span>10727<span> </span>IN<span> </span>MX<span> </span>10 google.com.s9b2.psmtp.com.</div>
+<div>g.cn.<span> </span>259127<span> </span>IN<span> </span>NS<span> </span>ns1.google.cn.</div>
+<div>g.cn.<span> </span>259127<span> </span>IN<span> </span>NS<span> </span>ns2.google.com.</div>
+<div>g.cn.<span> </span>86327<span> </span>IN<span> </span>SOA<span> </span>ns1.google.com. dns-admin.google.com. 1402219 21600 3600 1209600 300</div>
+<div>g.cn.<span> </span>10727<span> </span>IN<span> </span>MX<span> </span>10 google.com.s9b1.psmtp.com.</div>
+<div>g.cn.<span> </span>10727<span> </span>IN<span> </span>MX<span> </span>10 google.com.s9a2.psmtp.com.</div>
+<div>g.cn.<span> </span>10727<span> </span>IN<span> </span>MX<span> </span>10 google.com.s9a1.psmtp.com.</div>
+<div>g.cn.<span> </span>259127<span> </span>IN<span> </span>NS<span> </span>ns1.google.com.</div>
+<div>g.cn.<span> </span>259127<span> </span>IN<span> </span>NS<span> </span>ns4.google.com.</div>
+<div></div>
+<div>Received 325 bytes from <span style="color: #ff0000"><strong>8.8.4.4#53 in 196 ms</strong></span></div>
+<div><span style="color: #ff0000"><strong><br />
+</strong></span></div>
+</div>
+<div></div>
+<div>好记又免费，爽哉！！ :)</div>
+<div></div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/chatgpt-150x150.jpg" alt="我看ChatGPT: 为啥谷歌掉了千亿美金" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22398.html" class="wp_rp_title">我看ChatGPT: 为啥谷歌掉了千亿美金</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/Google-Person-Finder-150x150.png" alt="PFIF网上寻人协议" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9508.html" class="wp_rp_title">PFIF网上寻人协议</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/5701.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="SteveY对Amazon和Google平台的吐槽" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5701.html" class="wp_rp_title">SteveY对Amazon和Google平台的吐槽</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2015.html">google的免费dns服务器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2015.html/feed</wfw:commentRss>
+			<slash:comments>11</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>推荐几个镜像站点</title>
+		<link>https://coolshell.cn/articles/2011.html</link>
+					<comments>https://coolshell.cn/articles/2011.html#comments</comments>
+		
+		<dc:creator><![CDATA[joe]]></dc:creator>
+		<pubDate>Sun, 27 Dec 2009 13:06:26 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[free software]]></category>
+		<category><![CDATA[自由软件]]></category>
+		<category><![CDATA[镜像]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2011</guid>
+
+					<description><![CDATA[<p>搜狐的：http://mirrors.sohu.com 网易的：http://mirrors.163.com 上海交通大学FTP：http://202.38.9...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2011.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2011.html">推荐几个镜像站点</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>搜狐的：<a title="http://mirrors.sohu.com" href="http://mirrors.sohu.com" target="_blank">http://mirrors.sohu.com</a></p>
+<p>网易的：<a title="http://mirrors.163.com" href="http://mirrors.163.com" target="_blank">http://mirrors.163.com</a></p>
+<p>上海交通大学FTP：<a title="http://202.38.97.230/" href="http://202.38.97.230/" target="_blank">http://202.38.97.230</a></p>
+<p>如果你是教育网的用户，上海交通大学FTP访问速度非常的快。</p>
+<p>:)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9229.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/03/1-150x150.png" alt="实例分析Java Class的文件结构" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9229.html" class="wp_rp_title">实例分析Java Class的文件结构</a></li><li ><a href="https://coolshell.cn/articles/1644.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="装完Ubuntu 9.10后要干的事" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1644.html" class="wp_rp_title">装完Ubuntu 9.10后要干的事</a></li><li ><a href="https://coolshell.cn/articles/7.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/1-150x150.png" alt="你应该知道的20个Ajax技术(01-10)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7.html" class="wp_rp_title">你应该知道的20个Ajax技术(01-10)</a></li><li ><a href="https://coolshell.cn/articles/1032.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="Unix 40年：Unix年鉴" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1032.html" class="wp_rp_title">Unix 40年：Unix年鉴</a></li><li ><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/googlequestion-150x150.jpg" alt="140个Google的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3345.html" class="wp_rp_title">140个Google的面试题</a></li><li ><a href="https://coolshell.cn/articles/5651.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/10/wpingsuper-150x150.jpg" alt="Stay Hungry, Stay Foolish ！！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5651.html" class="wp_rp_title">Stay Hungry, Stay Foolish ！！</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2011.html">推荐几个镜像站点</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2011.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>C 语言整型谜题</title>
+		<link>https://coolshell.cn/articles/1857.html</link>
+					<comments>https://coolshell.cn/articles/1857.html#comments</comments>
+		
+		<dc:creator><![CDATA[joe]]></dc:creator>
+		<pubDate>Sat, 28 Nov 2009 16:45:17 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[整型]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1857</guid>
+
+					<description><![CDATA[<p>如题，此篇文章是描述C语言中的整数谜题。 假定机器字长是32位的，用2的补码表示整数。对以下C表达式，请问它们在所有情况下都正确吗？如果不是，请给出反例。 初始...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1857.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1857.html">C 语言整型谜题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>如题，此篇文章是描述C语言中的整数谜题。</p>
+<p>假定机器字长是32位的，用2的补码表示整数。对以下C表达式，请问它们在所有情况下都正确吗？如果不是，请给出反例。</p>
+<p>初始化：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">int x = foo();
+int y = bar();
+unsigned ux = x;
+unsigned uy = y;</pre>
+<p>1. 若x &lt; 0, 则x * 2 &lt; 0</p>
+<p>2. ux &gt;= 0</p>
+<p>3. 若x &amp; 7 == 7， 则(x &lt;&lt; 30) &lt; 0</p>
+<p>4. ux &gt; -1</p>
+<p>5. 若x &gt; y, 则-x &lt; -y</p>
+<p>6. x * x &gt;= 0</p>
+<p>7. 若x &gt; 0 &amp;&amp; y &gt; 0, 则x + y &gt; 0</p>
+<p>8. 若x &gt;= 0, 则-x &lt;= 0</p>
+<p>9. 若x &lt;= 0, 则-x &gt;= 0</p>
+<p>答案如下：</p>
+<p><span id="more-1857"></span></p>
+<p>1. 错。当x = INT_MIN</p>
+<p>2. 正确。</p>
+<p>3. 正确。</p>
+<p>4. 错。-1被转换成UINT_MAX</p>
+<p>5. 错。当x = -1, y = INT_MIN</p>
+<p>6. 错。当x = 65535</p>
+<p>7. 错。INT_MAX 和 INT_MAX</p>
+<p>8. 正确。</p>
+<p>9. 错。INT_MIN<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/11466.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/04/c99-150x150.jpg" alt="C语言的整型溢出问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11466.html" class="wp_rp_title">C语言的整型溢出问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1857.html">C 语言整型谜题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1857.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Firefox插件WebMail Notifier</title>
+		<link>https://coolshell.cn/articles/1714.html</link>
+					<comments>https://coolshell.cn/articles/1714.html#comments</comments>
+		
+		<dc:creator><![CDATA[joe]]></dc:creator>
+		<pubDate>Wed, 11 Nov 2009 03:36:20 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Firefox]]></category>
+		<category><![CDATA[WebMail Notifier]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1714</guid>
+
+					<description><![CDATA[<p>当你的邮箱有新邮件时，WebMail Notifier此插件会自动提醒你。 支持：gmail, yahoo, hotmail, daum, naver, emp...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1714.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1714.html">Firefox插件WebMail Notifier</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>当你的邮箱有新邮件时，WebMail Notifier此插件会自动提醒你。</p>
+<p>支持：gmail, yahoo, hotmail, daum, naver, empas, nate等。</p>
+<div id="addon-summary-wrapper">
+<table border="0" summary="附加组件信息">
+<tbody>
+<tr>
+<td rowspan="8"> <img decoding="async" src="https://addons.mozilla.org/en-US/firefox/images/t/15233/1184587092" alt="" /></td>
+</tr>
+<tr>
+<th>版本</th>
+<td>1.5.3</td>
+</tr>
+<tr>
+<th>兼容版本</th>
+<td>Firefox: 1.5 – 3.7a1pre</td>
+</tr>
+<tr>
+<th>已更新</th>
+<td><span title="2009 年 10 月  8 日 08:16">2009 年 10 月 8 日 </span></td>
+</tr>
+<tr>
+<th>开发者</th>
+<td><a href="https://addons.mozilla.org/zh-CN/firefox/user/104093" target=_blank>Byungwook Kang</a></td>
+</tr>
+<tr>
+<th>主页</th>
+<td><strong><a href="http://webmailnotifier.mozdev.org/" target=_blank>http://webmailnotifier.mozdev.org/</a> </strong></td>
+</tr>
+<tr>
+<th>评分</th>
+<td><span title="评分 4 超过了 5 星">评分 4 超过了 5 星 </span><a href="https://addons.mozilla.org/zh-CN/firefox/addon/4490#reviews" target=_blank><strong>728</strong> 条意见 </a></td>
+</tr>
+<tr>
+<th>下载次数</th>
+<td><strong>3,239,874 </strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>查看：<a href="https://addons.mozilla.org/zh-CN/firefox/addon/4490" target="_blank">https://addons.mozilla.org/zh-CN/firefox/addon/4490</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/Mozilla-150x150.jpg" alt="Mozilla的一个BUG" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2936.html" class="wp_rp_title">Mozilla的一个BUG</a></li><li ><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="浏览器正则表达式检查插件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2667.html" class="wp_rp_title">浏览器正则表达式检查插件</a></li><li ><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/01/browser_history-150x150.jpg" alt="一个浏览器市场占有量的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2069.html" class="wp_rp_title">一个浏览器市场占有量的图</a></li><li ><a href="https://coolshell.cn/articles/11170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/42-150x150.jpg" alt="如何用最有创造力的方式输出42" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11170.html" class="wp_rp_title">如何用最有创造力的方式输出42</a></li><li ><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="再谈敏捷和ThoughtWorks中国咨询师" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3745.html" class="wp_rp_title">再谈敏捷和ThoughtWorks中国咨询师</a></li><li ><a href="https://coolshell.cn/articles/8052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/220px-KnnClassification.svg_-150x150.png" alt="K Nearest Neighbor 算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8052.html" class="wp_rp_title">K Nearest Neighbor 算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1714.html">Firefox插件WebMail Notifier</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1714.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>VIM有趣的命令</title>
+		<link>https://coolshell.cn/articles/1651.html</link>
+					<comments>https://coolshell.cn/articles/1651.html#comments</comments>
+		
+		<dc:creator><![CDATA[joe]]></dc:creator>
+		<pubDate>Wed, 04 Nov 2009 11:05:22 +0000</pubDate>
+				<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1651</guid>
+
+					<description><![CDATA[<p>前几天逛豆瓣，发现了VIM一个有趣的小技巧。 在VIM中输入:h!试试看会发现什么。 再输入:h 42呢？又会有什么发现？ （转载本站文章请注明作者和出处 酷 ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1651.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1651.html">VIM有趣的命令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>前几天逛豆瓣，发现了VIM一个有趣的小技巧。</p>
+<p>在VIM中输入:h!试试看会发现什么。</p>
+<p>再输入:h 42呢？又会有什么发现？<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-150x150.png" alt="给程序员的VIM速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_title">给程序员的VIM速查卡</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1651.html">VIM有趣的命令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1651.html/feed</wfw:commentRss>
+			<slash:comments>19</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>fork | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/fork/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 28 Dec 2020 08:22:50 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>vfork 挂掉的一个问题</title>
+		<link>https://coolshell.cn/articles/12103.html</link>
+					<comments>https://coolshell.cn/articles/12103.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 20 Nov 2014 16:48:27 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[fork]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[vfork]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12103</guid>
+
+					<description><![CDATA[<p>在知乎上，有个人问了这样的一个问题——为什么vfork的子进程里用return，整个程序会挂掉，而且exit()不会？并给出了如下的代码，下面的代码一运行就挂掉...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12103.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12103.html">vfork 挂掉的一个问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-12105" src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-298x300.gif" alt="tux-fork" width="199" height="200" srcset="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-298x300.gif 298w, https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif 150w, https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-200x200.gif 200w, https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-268x270.gif 268w" sizes="(max-width: 199px) 100vw, 199px" />在知乎上，有个人问了这样的<a href="http://www.zhihu.com/question/26591968" target="_blank">一个问题</a>——为什么vfork的子进程里用return，整个程序会挂掉，而且exit()不会？并给出了如下的代码，下面的代码一运行就挂掉了，但如果把子进程的return改成exit(0)就没事。</p>
+<p>我受邀后本来不想回答这个问题的，因为这个问题明显就是RTFM的事，后来，发现这个问题放在那里好长时间，而挂在下面的几个答案又跑偏得比较严重，我觉得可能有些朋友看到那样的答案会被误导，所以就上去回答了一下这个问题。</p>
+<p>下面我把问题和我的回答发布在这里，也供更多的人查看。</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+int main(void) {
+    int var;
+    var = 88;
+    if ((pid = vfork()) &lt; 0) {
+        printf(&quot;vfork error&quot;);
+        exit(-1);
+    } else if (pid == 0) { /* 子进程 */
+        var++;
+        return 0;
+    }
+    printf(&quot;pid=%d, glob=%d, var=%d\n&quot;, getpid(), glob, var);
+    return 0;
+}
+</pre>
+<p><span id="more-12103"></span></p>
+<h4><b>基础知识</b></h4>
+<p>首先说一下fork和vfork的差别：</p>
+<ul>
+<li>fork 是 创建一个子进程，并把父进程的内存数据copy到子进程中。</li>
+<li>vfork是 创建一个子进程，并和父进程的内存数据share一起用。</li>
+</ul>
+<p>这两个的差别是，一个是copy，一个是share。（关于fork，可以参看酷壳之前的《<a title="一个fork的面试题" href="https://coolshell.cn/articles/7965.html" target="_blank">一道fork的面试题</a>》）</p>
+<p>你 man vfork 一下，你可以看到，vfork是这样的工作的，</p>
+<p style="padding-left: 30px;">1）保证子进程先执行。<br />
+2）当子进程调用exit()或exec()后，父进程往下执行。</p>
+<p>那么，为什么要干出一个vfork这个玩意？ 原因在man page也讲得很清楚了：</p>
+<blockquote><p><strong>Historic Description</strong></p>
+<p>Under Linux, fork(2) is implemented using copy-on-write pages, so the only penalty incurred by fork(2) is the time and memory required to duplicate the parent’s page tables, and to create a unique task structure for the child. <b>However, in the bad old days a fork(2) would require making </b><b>a complete copy of the caller’s data space, often needlessly, since usually immediately afterwards an exec(3) is done. Thus, for greater efficiency, BSD introduced the vfork() system call, which did not fully copy the address space of the parent process, but borrowed the parent’s mem</b><b>ory and thread of control until a call to execve(2) or an exit occurred.</b> The parent process was suspended while the child was using its resources. The use of vfork() was tricky: for example, not modifying data in the parent process depended on knowing which variables are held in a register.</p></blockquote>
+<p>意思是这样的—— <b>起初只有fork，但是很多程序在fork一个子进程后就exec一个外部程序，于是fork需要copy父进程的数据这个动作就变得毫无意了，而且这样干还很重</b>（注：后来，fork做了优化，详见本文后面）<b>，所以，BSD搞出了个父子进程共享的 vfork，这样成本比较低。因此，vfork本就是为了exec而生。</b></p>
+<h4><b>为什么return会挂掉，exit()不会？</b></h4>
+<p>从上面我们知道，<b>结束子进程的调用是exit()而不是return，如果你在vfork中return了，那么，这就意味main()函数return了，注意因为函数栈父子进程共享，所以整个程序的栈就跪了。</b></p>
+<p>如果你在子进程中return，那么基本是下面的过程：</p>
+<p style="padding-left: 30px;"><b>1）子进程的main() 函数 return了，于是程序的函数栈发生了变化。</b></p>
+<p style="padding-left: 30px;"><b>2）而main()函数return后，通常会调用 exit()或相似的函数</b>（如：_exit()，exitgroup()）</p>
+<p style="padding-left: 30px;"><b>3）这时，父进程收到子进程exit()，开始从vfork返回，但是尼玛，老子的栈都被你子进程给return干废掉了，你让我怎么执行？</b>（注：栈会返回一个诡异一个栈地址，对于某些内核版本的实现，直接报“栈错误”就给跪了，然而，对于某些内核版本的实现，于是有可能会再次调用main()，于是进入了一个无限循环的结果，直到vfork 调用返回 error）</p>
+<p>好了，现在再回到 return 和 exit，return会释放局部变量，并弹栈，回到上级函数执行。exit直接退掉。如果你用c++ 你就知道，return会调用局部对象的析构函数，exit不会。（注：exit不是系统调用，是glibc对系统调用 _exit()或_exitgroup()的封装）</p>
+<p>可见，<b>子进程调用exit() 没有修改函数栈，所以，父进程得以顺利执行</b>。</p>
+<p><strong>但是！注意！如果你调用 exit() 函数，还是会有问题的，正确的方法应该是调用 _exit() 函数，因为 exit() 函数 会 flush 并 close 所有的 标准 I/O ，这样会导致父进程受到影响。（这个情况在fork下也会受到影响，会导致一些被buffer的数据被flush两次，这里可以参看《<a href="https://coolshell.cn/articles/7965.html" target="_blank">一个fork的面试题</a>》）</strong></p>
+<h4>关于fork的优化</h4>
+<p>很明显，fork太重，而vfork又太危险，所以，就有人开始优化fork这个系统调用。优化的技术用到了著名的<b>写时拷贝（COW）</b>。</p>
+<p>也就是说，<strong>对于fork后并不是马上拷贝内存，而是只有你在需要改变的时候，才会从父进程中拷贝到子进程中，这样fork后立马执行exec的成本就非常小了</strong>。所以，Linux的Man Page中并不鼓励使用vfork() ——</p>
+<blockquote><p>“ It is rather unfortunate that Linux revived this specter from the past. The BSD man page states: &#8220;This system call will be eliminated when proper system sharing mechanisms are implemented. Users should not depend on the memory sharing semantics of vfork() as it will, in that case, be made synonymous to fork(2).&#8221;”</p></blockquote>
+<p>于是，从BSD4.4开始，他们让vfork和fork变成一样的了</p>
+<p>但在后来，NetBSD 1.3 又把传统的vfork给捡了回来，说是vfork的性能在 Pentium Pro 200MHz 的机器（这机器好古董啊）上有可以提高几秒钟的性能。详情见——“<a class=" wrap external" href="http://www.netbsd.org/docs/kernel/vfork.html" target="_blank" rel="nofollow noreferrer">NetBSD Documentation: Why implement traditional vfork()<i class="icon-external"></i></a>”</p>
+<p>今天的Linux下，fork和vfork还是各是各的，不过，还是建议你不要用vfork，除非你非常关注性能。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/sed-superman-150x150.png" alt="sed 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_title">sed 简明教程</a></li><li ><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/awk-150x150.jpg" alt="AWK 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9070.html" class="wp_rp_title">AWK 简明教程</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12103.html">vfork 挂掉的一个问题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12103.html/feed</wfw:commentRss>
+			<slash:comments>46</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个fork的面试题</title>
+		<link>https://coolshell.cn/articles/7965.html</link>
+					<comments>https://coolshell.cn/articles/7965.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 01 Aug 2012 00:20:46 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[趣味问题]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[fork]]></category>
+		<category><![CDATA[Puzzle]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7965</guid>
+
+					<description><![CDATA[<p>前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7965.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7965.html">一个fork的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>前两天有人问了个关于Unix的fork()系统调用的面试题，这个题正好是我大约十年前找工作时某公司问我的一个题，我觉得比较有趣，写篇文章与大家分享一下。这个题是这样的：</p>
+<p><strong>题目：请问下面的程序一共输出多少个“-”？</strong></p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+
+int main(void)
+{
+   int i;
+   for(i=0; i&lt;2; i++){
+      fork();
+      printf(&quot;-&quot;);
+   }
+
+   wait(NULL);
+   wait(NULL);
+
+   return 0;
+}
+</pre>
+<p>如果你对fork()的机制比较熟悉的话，这个题并不难，输出应该是6个“-”，但是，实际上这个程序会很tricky地输出8个“-”。</p>
+<p>要讲清这个题，我们首先需要知道fork()系统调用的特性，</p>
+<p><span id="more-7965"></span></p>
+<ul>
+<li>fork()系统调用是Unix下以自身进程创建子进程的系统调用，一次调用，两次返回，如果返回是0，则是子进程，如果返回值&gt;0，则是父进程（返回值是子进程的pid），这是众为周知的。</li>
+</ul>
+<ul>
+<li>还有一个很重要的东西是，在fork()的调用处，整个父进程空间会原模原样地复制到子进程中，包括指令，变量值，程序调用栈，环境变量，缓冲区，等等。</li>
+</ul>
+<p>所以，上面的那个程序为什么会输入8个“-”，这是因为printf(&#8220;-&#8220;);语句有buffer，所以，对于上述程序，printf(&#8220;-&#8220;);把“-”放到了缓存中，并没有真正的输出（参看《<a title="C语言的谜题" href="https://coolshell.cn/articles/945.html" target="_blank">C语言的迷题</a>》中的第一题），<strong>在fork的时候，缓存被复制到了子进程空间</strong>，所以，就多了两个，就成了8个，而不是6个。</p>
+<p>另外，多说一下，我们知道，Unix下的设备有“<a href="http://en.wikipedia.org/wiki/Device_file#Block_devices" target="_blank">块设备</a>”和“<a href="http://en.wikipedia.org/wiki/Device_file#Character_devices" target="_blank">字符设备</a>”的概念，所谓块设备，就是以一块一块的数据存取的设备，字符设备是一次存取一个字符的设备。磁盘、内存都是块设备，字符设备如键盘和串口。<strong>块设备一般都有缓存，而字符设备一般都没有缓存</strong>。</p>
+<p>对于上面的问题，我们如果修改一下上面的printf的那条语句为：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">printf(&quot;-\n&quot;);</code></p>
+<p>或是</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW"> printf(&quot;-&quot;);
+fflush(stdout);</pre>
+<p>就没有问题了（就是6个“-”了），因为程序遇到“\n”，或是EOF，或是缓中区满，或是文件描述符关闭，或是主动flush，或是程序退出，就会把数据刷出缓冲区。需要注意的是，标准输出是行缓冲，所以遇到“\n”的时候会刷出缓冲区，但对于磁盘这个块设备来说，“\n”并不会引起缓冲区刷出的动作，那是全缓冲，你可以使用setvbuf来设置缓冲区大小，或是用fflush刷缓存。</p>
+<p>我估计有些朋友可能对于fork()还不是很了解，那么我们把上面的程序改成下面这样：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">
+#include &lt;stdio.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;unistd.h&gt;
+int main(void)
+{
+   int i;
+   for(i=0; i&lt;2; i++){
+      fork();
+      //注意：下面的printf有“\n”
+      printf(&quot;ppid=%d, pid=%d, i=%d \n&quot;, getppid(), getpid(), i);
+   }
+   sleep(10); //让进程停留十秒，这样我们可以用pstree查看一下进程树
+   return 0;
+}
+</pre>
+<p>于是，上面这段程序会输出下面的结果，（注：编译出的可执行的程序名为fork）</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">ppid=8858, pid=8518, i=0
+ppid=8858, pid=8518, i=1
+ppid=8518, pid=8519, i=0
+ppid=8518, pid=8519, i=1
+ppid=8518, pid=8520, i=1
+ppid=8519, pid=8521, i=1
+
+$ pstree -p | grep fork
+|-bash(8858)-+-fork(8518)-+-fork(8519)---fork(8521)
+|            |            `-fork(8520)</pre>
+<p>面对这样的图你可能还是看不懂，没事，我好事做到底，画个图给你看看：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7968" title="fork 程序调用图" src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg.jpg" alt="" width="620" height="407" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg.jpg 620w, https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-300x197.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-411x270.jpg 411w" sizes="(max-width: 620px) 100vw, 620px" /></p>
+<p>注意：上图中的我用了几个色彩，相同颜色的是同一个进程。于是，我们的pstree的图示就可以成为下面这个样子：（下图中的颜色与上图对应）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7969" title="fork进程树" src="https://coolshell.cn/wp-content/uploads/2012/07/fork02.jpg" alt="" width="437" height="97" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork02.jpg 437w, https://coolshell.cn/wp-content/uploads/2012/07/fork02-300x66.jpg 300w" sizes="(max-width: 437px) 100vw, 437px" /></p>
+<p>这样，对于printf(&#8220;-&#8220;);这个语句，我们就可以很清楚的知道，哪个子进程复制了父进程标准输出缓中区里的的内容，而导致了多次输出了。（如下图所示，就是我阴影并双边框了那两个子进程）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7970" title="fork程序执行图" src="https://coolshell.cn/wp-content/uploads/2012/07/fork03.jpg" alt="" width="626" height="415" srcset="https://coolshell.cn/wp-content/uploads/2012/07/fork03.jpg 626w, https://coolshell.cn/wp-content/uploads/2012/07/fork03-300x198.jpg 300w" sizes="(max-width: 626px) 100vw, 626px" /></p>
+<p>现在你明白了吧。（另，对于图中的我本人拙劣的配色，请见谅!）</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/21.jpg" alt="“火柴棍式”程序员面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3961.html" class="wp_rp_title">“火柴棍式”程序员面试题</a></li><li ><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="打印质数的各种算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3738.html" class="wp_rp_title">打印质数的各种算法</a></li><li ><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="输出从1到1000的数" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3445.html" class="wp_rp_title">输出从1到1000的数</a></li><li ><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="到处都是Unix的胎记" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_title">到处都是Unix的胎记</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7965.html">一个fork的面试题</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7965.html/feed</wfw:commentRss>
+			<slash:comments>223</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>到处都是Unix的胎记</title>
+		<link>https://coolshell.cn/articles/1532.html</link>
+					<comments>https://coolshell.cn/articles/1532.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 11 Oct 2009 10:01:06 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[fork]]></category>
+		<category><![CDATA[Haskell]]></category>
+		<category><![CDATA[Perl]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[socket]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1532</guid>
+
+					<description><![CDATA[<p>一说起Unix编程，不必多说，最著名的系统调用就是fork，pipe，exec，kill或是socket了（fork(2), execve(2), pipe(2...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1532.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1532.html">到处都是Unix的胎记</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>一说起Unix编程，不必多说，最著名的系统调用就是fork，pipe，exec，kill或是socket了（<a href="http://www.kernel.org/doc/man-pages/online/pages/man2/fork.2.html"><code>fork(2)</code></a>, <a href="http://www.kernel.org/doc/man-pages/online/pages/man2/execve.2.html"><code>execve(2)</code></a>, <a href="http://www.kernel.org/doc/man-pages/online/pages/man2/pipe.2.html"><code>pipe(2)</code></a>, <a href="http://www.kernel.org/doc/man-pages/online/pages/man2/socketpair.2.html"><code>socketpair(2)</code></a>, <a href="http://www.kernel.org/doc/man-pages/online/pages/man2/select.2.html"><code>select(2)</code></a>, <a href="http://www.kernel.org/doc/man-pages/online/pages/man2/kill.2.html"><code>kill(2)</code></a>, <a href="http://www.kernel.org/doc/man-pages/online/pages/man2/sigaction.2.html"><code>sigaction(2)</code></a>）这些系统调用都像是Unix编程的胎记或签名一样，表明着它来自于Unix。</p>
+<p>下面这篇文章，将向大家展示Unix下最经典的socket的编程例子——使用fork + socket来创建一个TCP/IP的服务程序。这个编程模式很简单，首先是创建Socket，然后把其绑定在某个IP和Port上上侦听连接，接下来的一般做法是使用一个fork创建一个client服务进程再加上一个死循环用于处理和client的交互。这个模式是Unix下最经典的Socket编程例子。</p>
+<p>下面，让我们看看用C，Ruby，Python，Perl，PHP和Haskell来实现这一例子，你会发现这些例子中的Unix的胎记。如果你想知道这些例子中的技术细节，那么，向你推荐两本经典书——《Unix高级环境编程》和《Unix网络编程》。</p>
+<p><span id="more-1532"></span></p>
+<h4>C语言</h4>
+<p>我们先来看一下经典的C是怎么实现的。</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="c">/**
+ * A simple preforking echo server in C.
+ *
+ * Building:
+ *
+ * $ gcc -Wall -o echo echo.c
+ *
+ * Usage:
+ *
+ * $ ./echo
+ *
+ *   ~ then in another terminal ... ~
+ *
+ * $ echo 'Hello, world!' | nc localhost 4242
+ *
+ */
+
+#include &lt;unistd.h&gt; /* fork, close */
+#include &lt;stdlib.h&gt; /* exit */
+#include &lt;string.h&gt; /* strlen */
+#include &lt;stdio.h&gt; /* perror, fdopen, fgets */
+#include &lt;sys/socket.h&gt;
+#include &lt;sys/wait.h&gt; /* waitpid */
+#include &lt;netdb.h&gt; /* getaddrinfo */
+
+#define die(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
+
+#define PORT "4242"
+#define NUM_CHILDREN 3
+
+#define MAXLEN 1024
+
+int readline(int fd, char *buf, int maxlen); // forward declaration
+
+int
+main(int argc, char** argv)
+{
+    int i, n, sockfd, clientfd;
+    int yes = 1; // used in setsockopt(2)
+    struct addrinfo *ai;
+    struct sockaddr_in *client;
+    socklen_t client_t;
+    pid_t cpid; // child pid
+    char line[MAXLEN];
+    char cpid_s[32];
+    char welcome[32];
+
+    /* Create a socket and get its file descriptor -- socket(2) */
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1) {
+    die("Couldn't create a socket");
+    }
+
+    /* Prevents those dreaded "Address already in use" errors */
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, (const void *)&amp;yes, sizeof(int)) == -1) {
+    die("Couldn't setsockopt");
+    }
+
+    /* Fill the address info struct (host + port) -- getaddrinfo(3) */
+    if (getaddrinfo(NULL, PORT, NULL, &amp;ai) != 0) {
+    die("Couldn't get address");
+    }
+
+    /* Assign address to this socket's fd */
+    if (bind(sockfd, ai-&gt;ai_addr, ai-&gt;ai_addrlen) != 0) {
+    die("Couldn't bind socket to address");
+    }
+
+    /* Free the memory used by our address info struct */
+    freeaddrinfo(ai);
+
+    /* Mark this socket as able to accept incoming connections */
+    if (listen(sockfd, 10) == -1) {
+    die("Couldn't make socket listen");
+    }
+
+    /* Fork you some child processes. */
+    for (i = 0; i &lt; NUM_CHILDREN; i++) {
+    cpid = fork();
+    if (cpid == -1) {
+        die("Couldn't fork");
+    }
+
+    if (cpid == 0) { // We're in the child ...
+        for (;;) { // Run forever ...
+        /* Necessary initialization for accept(2) */
+        client_t = sizeof client;
+
+        /* Blocks! */
+        clientfd = accept(sockfd, (struct sockaddr *)&amp;client, &amp;client_t);
+        if (clientfd == -1) {
+            die("Couldn't accept a connection");
+        }
+
+        /* Send a welcome message/prompt */
+        bzero(cpid_s, 32);
+        bzero(welcome, 32);
+        sprintf(cpid_s, "%d", getpid());
+        sprintf(welcome, "Child %s echo&gt; ", cpid_s);
+        send(clientfd, welcome, strlen(welcome), 0);
+
+        /* Read a line from the client socket ... */
+        n = readline(clientfd, line, MAXLEN);
+        if (n == -1) {
+            die("Couldn't read line from connection");
+        }
+
+        /* ... and echo it back */
+        send(clientfd, line, n, 0);
+
+        /* Clean up the client socket */
+        close(clientfd);
+        }
+    }
+    }
+
+    /* Sit back and wait for all child processes to exit */
+    while (waitpid(-1, NULL, 0) &gt; 0);
+
+    /* Close up our socket */
+    close(sockfd);
+
+    return 0;
+}
+
+/**
+ * Simple utility function that reads a line from a file descriptor fd,
+ * up to maxlen bytes -- ripped from Unix Network Programming, Stevens.
+ */
+int
+readline(int fd, char *buf, int maxlen)
+{
+    int n, rc;
+    char c;
+
+    for (n = 1; n &lt; maxlen; n++) {
+    if ((rc = read(fd, &amp;c, 1)) == 1) {
+        *buf++ = c;
+        if (c == '\n')
+        break;
+    } else if (rc == 0) {
+        if (n == 1)
+        return 0; // EOF, no data read
+        else
+        break; // EOF, read some data
+    } else
+        return -1; // error
+    }
+
+    *buf = '\0'; // null-terminate
+    return n;
+}
+</pre>
+<h4>Ruby</h4>
+<p>下面是Ruby，你可以看到其中的fork</p>
+<pre class="EnlighterJSRAW" data-enlighter-language="ruby">
+# simple preforking echo server in Ruby
+require 'socket'
+
+# Create a socket, bind it to localhost:4242, and start listening.
+# Runs once in the parent; all forked children inherit the socket's
+# file descriptor.
+acceptor = Socket.new(Socket::AF_INET, Socket::SOCK_STREAM, 0)
+address = Socket.pack_sockaddr_in(4242, 'localhost')
+acceptor.bind(address)
+acceptor.listen(10)
+
+# Close the socket when we exit the parent or any child process. This
+# only closes the file descriptor in the calling process, it does not
+# take the socket out of the listening state (until the last fd is
+# closed).
+#
+# The trap is guaranteed to happen, and guaranteed to happen only
+# once, right before the process exits for any reason (unless
+# it's terminated with a SIGKILL).
+trap('EXIT') { acceptor.close }
+
+# Fork you some child processes. In the parent, the call to fork
+# returns immediately with the pid of the child process; fork never
+# returns in the child because we exit at the end of the block.
+3.times do
+  fork do
+    # now we're in the child process; trap (Ctrl-C) interrupts and
+    # exit immediately instead of dumping stack to stderr.
+    trap('INT') { exit }
+
+    puts "child #$$ accepting on shared socket (localhost:4242)"
+    loop {
+      # This is where the magic happens. accept(2) blocks until a
+      # new connection is ready to be dequeued.
+      socket, addr = acceptor.accept
+      socket.write "child #$$ echo&gt; "
+      socket.flush
+      message = socket.gets
+      socket.write message
+      socket.close
+      puts "child #$$ echo'd: '#{message.strip}'"
+    }
+    exit
+  end
+end
+
+# Trap (Ctrl-C) interrupts, write a note, and exit immediately
+# in parent. This trap is not inherited by the forks because it
+# runs after forking has commenced.
+trap('INT') { puts "\nbailing" ; exit }
+
+# Sit back and wait for all child processes to exit.
+Process.waitall
+
+</pre>
+<h4>Python</h4>
+<pre class="EnlighterJSRAW" data-enlighter-language="python">"""
+Simple preforking echo server in Python.
+"""
+
+import os
+import sys
+import socket
+
+# Create a socket, bind it to localhost:4242, and start
+# listening. Runs once in the parent; all forked children
+# inherit the socket's file descriptor.
+acceptor = socket.socket()
+acceptor.bind(('localhost', 4242))
+acceptor.listen(10)
+
+# Ryan's Ruby code here traps EXIT and closes the socket. This
+# isn't required in Python; the socket will be closed when the
+# socket object gets garbage collected.
+
+# Fork you some child processes. In the parent, the call to
+# fork returns immediately with the pid of the child process;
+# fork never returns in the child because we exit at the end
+# of the block.
+for i in range(3):
+    pid = os.fork()
+
+    # os.fork() returns 0 in the child process and the child's
+    # process id in the parent. So if pid == 0 then we're in
+    # the child process.
+    if pid == 0:
+        # now we're in the child process; trap (Ctrl-C)
+        # interrupts by catching KeyboardInterrupt) and exit
+        # immediately instead of dumping stack to stderr.
+        childpid = os.getpid()
+        print "Child %s listening on localhost:4242" % childpid
+        try:
+            while 1:
+                # This is where the magic happens. accept(2)
+                # blocks until a new connection is ready to be
+                # dequeued.
+                conn, addr = acceptor.accept()
+
+                # For easier use, turn the socket connection
+                # into a file-like object.
+                flo = conn.makefile()
+                flo.write('Child %s echo&gt; ' % childpid)
+                flo.flush()
+                message = flo.readline()
+                flo.write(message)
+                flo.close()
+                conn.close()
+                print "Child %s echo'd: %r" % \
+                          (childpid, message.strip())
+        except KeyboardInterrupt:
+            sys.exit()
+
+# Sit back and wait for all child processes to exit.
+#
+# Trap interrupts, write a note, and exit immediately in
+# parent. This trap is not inherited by the forks because it
+# runs after forking has commenced.
+try:
+    os.waitpid(-1, 0)
+except KeyboardInterrupt:
+    print "\nbailing"
+    sys.exit()
+</pre>
+<h4>Perl</h4>
+<pre class="EnlighterJSRAW" data-enlighter-language="perl">#!/usr/bin/perl
+use 5.010;
+use strict;
+
+# simple preforking echo server in Perl
+use Proc::Fork;
+use IO::Socket::INET;
+
+sub strip { s/\A\s+//, s/\s+\z// for my @r = @_; @r }
+
+# Create a socket, bind it to localhost:4242, and start listening.
+# Runs once in the parent; all forked children inherit the socket's
+# file descriptor.
+my $acceptor = IO::Socket::INET-&gt;new(
+    LocalPort =&gt; 4242,
+    Reuse     =&gt; 1,
+    Listen    =&gt; 10,
+) or die "Couln't start server: $!\n";
+
+# Close the socket when we exit the parent or any child process. This
+# only closes the file descriptor in the calling process, it does not
+# take the socket out of the listening state (until the last fd is
+# closed).
+END { $acceptor-&gt;close }
+
+# Fork you some child processes. The code after the run_fork block runs
+# in all process, but because the child block ends in an exit call, only
+# the parent executes the rest of the program. If a parent block were
+# specified here, it would be invoked in the parent only, and passed the
+# PID of the child process.
+for ( 1 .. 3 ) {
+    run_fork { child {
+        while (1) {
+            my $socket = $acceptor-&gt;accept;
+            $socket-&gt;printflush( "child $$ echo&gt; " );
+            my $message = $socket-&gt;getline;
+            $socket-&gt;print( $message );
+            $socket-&gt;close;
+            say "child $$ echo'd: '${\strip $message}'";
+        }
+        exit;
+    } }
+}
+
+# Trap (Ctrl-C) interrupts, write a note, and exit immediately
+# in parent. This trap is not inherited by the forks because it
+# runs after forking has commenced.
+$SIG{ 'INT' } = sub { print "bailing\n"; exit };
+
+# Sit back and wait for all child processes to exit.
+1 while 0 &lt; waitpid -1, 0;
+</pre>
+<h4>PHP</h4>
+<pre class="EnlighterJSRAW" data-enlighter-language="perl">
+&lt;?
+/*
+Simple preforking echo server in PHP.
+Russell Beattie (russellbeattie.com)
+*/
+
+/* Allow the script to hang around waiting for connections. */
+set_time_limit(0);
+
+# Create a socket, bind it to localhost:4242, and start
+# listening. Runs once in the parent; all forked children
+# inherit the socket's file descriptor.
+$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+socket_bind($socket,'localhost', 4242);
+socket_listen($socket, 10);
+
+pcntl_signal(SIGTERM, 'shutdown');
+pcntl_signal(SIGINT, 'shutdown');
+
+function shutdown($signal){
+    global $socket;
+    socket_close($socket);
+    exit();
+}
+# Fork you some child processes. In the parent, the call to
+# fork returns immediately with the pid of the child process;
+# fork never returns in the child because we exit at the end
+# of the block.
+for($x = 1; $x &lt;= 3; $x++){
+   
+    $pid = pcntl_fork();
+   
+    # pcntl_fork() returns 0 in the child process and the child's
+    # process id in the parent. So if $pid == 0 then we're in
+    # the child process.
+    if($pid == 0){
+
+        $childpid = posix_getpid();
+       
+        echo "Child $childpid listening on localhost:4242 \n";
+
+        while(true){
+            # This is where the magic happens. accept(2)
+            # blocks until a new connection is ready to be
+            # dequeued.
+            $conn = socket_accept($socket);
+
+            $message = socket_read($conn,1000,PHP_NORMAL_READ);
+           
+            socket_write($conn, "Child $childpid echo&gt; $message");
+       
+            socket_close($conn);
+       
+            echo "Child $childpid echo'd: $message \n";
+       
+        }
+
+    }
+}
+#
+# Trap interrupts, write a note, and exit immediately in
+# parent. This trap is not inherited by the forks because it
+# runs after forking has commenced.
+try{
+
+    pcntl_waitpid(-1, $status);
+
+} catch (Exception $e) {
+
+    echo "bailing \n";
+    exit();
+
+}</pre>
+<h4>Haskell</h4>
+<pre class="EnlighterJSRAW" data-enlighter-language="haskell">import Network
+import Prelude hiding ((-))
+import Control.Monad
+import System.IO
+import Control.Applicative
+import System.Posix
+import System.Exit
+import System.Posix.Signals
+
+main :: IO ()
+main = with =&lt;&lt; (listenOn - PortNumber 4242) where
+
+  with socket = do
+    replicateM 3 - forkProcess work
+    wait
+
+    where
+    work = do
+      installHandler sigINT (Catch trap_int) Nothing
+      pid &lt;- show &lt;$&gt; getProcessID
+      puts - "child " ++ pid ++ " accepting on shared socket (localhost:4242)"
+     
+      forever - do
+        (h, _, _) &lt;- accept socket
+
+        let write   = hPutStr h
+            flush   = hFlush h
+            getline = hGetLine h
+            close   = hClose h
+
+        write - "child " ++ pid ++ " echo&gt; "
+        flush
+        message &lt;- getline
+        write - message ++ "\n"
+        puts - "child " ++ pid ++ " echo'd: '" ++ message ++ "'"
+        close
+
+    wait = forever - do
+      ( const () &lt;$&gt; getAnyProcessStatus True True  ) <code data-enlighter-language="raw" class="EnlighterJSRAW">catch</code> const trap_exit
+
+    trap_int = exitImmediately ExitSuccess
+
+    trap_exit = do
+      puts "\nbailing"
+      sClose socket
+      exitSuccess
+
+    puts = putStrLn
+
+  (-) = ($)
+  infixr 0 -
+
+</pre>
+<p>如果你知道更多的，请你告诉我们。（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/oscar-meyer-wienermobile-150x150.jpg" alt="编程语言汽车" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1839.html" class="wp_rp_title">编程语言汽车</a></li><li ><a href="https://coolshell.cn/articles/2529.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/6.jpg" alt="StackOverflow的404错误页" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2529.html" class="wp_rp_title">StackOverflow的404错误页</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="最为奇怪的程序语言的特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2053.html" class="wp_rp_title">最为奇怪的程序语言的特性</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1532.html">到处都是Unix的胎记</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1532.html/feed</wfw:commentRss>
+			<slash:comments>19</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Fork 系统炸弹</title>
+		<link>https://coolshell.cn/articles/23.html</link>
+					<comments>https://coolshell.cn/articles/23.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 02 Mar 2009 05:59:49 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[fork]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=23</guid>
+
+					<description><![CDATA[<p>这个炸弹很简单，就是一个命令行，如下所示： :(){ :&#124;:&#38; };: 在此，我严重警告你，请不要在你的Unix/Linux或Cygwin的Shell下...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/23.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/23.html">Fork 系统炸弹</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这个炸弹很简单，就是一个命令行，如下所示：</p>
+<pre>:(){ :|:&amp; };:</pre>
+<p>在此，我严重警告你，请不要在你的Unix/Linux或Cygwin的Shell下执行这个命令。否则，这个命令会不停地fork子进程，直到你的整个系统无法响应。</p>
+<p>再次警告你，请不要执行这个命令，除非你想重启你的系统。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/fork01jpg-150x150.jpg" alt="一个fork的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7965.html" class="wp_rp_title">一个fork的面试题</a></li><li ><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="到处都是Unix的胎记" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1532.html" class="wp_rp_title">到处都是Unix的胎记</a></li><li ><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="对九个超级程序员的采访" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_title">对九个超级程序员的采访</a></li><li ><a href="https://coolshell.cn/articles/10249.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/image6-150x150.png" alt="7个示例科普CPU Cache" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10249.html" class="wp_rp_title">7个示例科普CPU Cache</a></li><li ><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/05/etcd-150x150.png" alt="ETCD的内存问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_title">ETCD的内存问题</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/23.html">Fork 系统炸弹</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/23.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

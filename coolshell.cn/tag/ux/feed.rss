@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>UX | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/ux/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 21 Dec 2011 15:16:18 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>如何设计“找回用户帐号”功能</title>
+		<link>https://coolshell.cn/articles/5987.html</link>
+					<comments>https://coolshell.cn/articles/5987.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 28 Nov 2011 00:34:30 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[QQ]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[安全]]></category>
+		<category><![CDATA[帐号]]></category>
+		<category><![CDATA[腾讯]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5987</guid>
+
+					<description><![CDATA[<p>因为《腾讯帐号申诉的用户体验》一文中好多人觉得腾讯申诉是世界级先进的，并让我拿出一个找回用户的帐号的功能来。本来不想写的，因为大家看看其它系统的就行的，但是，很...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5987.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5987.html">如何设计“找回用户帐号”功能</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>因为《<a title="腾讯帐号申诉的用户体验" href="https://coolshell.cn/articles/5966.html" target="_blank">腾讯帐号申诉的用户体验</a>》一文中好多人觉得腾讯申诉是世界级先进的，并让我拿出一个找回用户的帐号的功能来。本来不想写的，因为大家看看其它系统的就行的，但是，很明显有些人就是很懒，也不会思考，而且不会观察，所以，我就只好写下这篇科普性常识性的文章。</p>
+<p>在行文之前，我得先感谢腾讯公司的至少30名员工在《<a title="腾讯帐号申诉的用户体验" href="https://coolshell.cn/articles/5966.html" target="_blank">腾讯帐号申诉的用户体验</a>》一文后的回帖（我STFG（Search The Fucking Google）看到了你们使用的那个固定IP在各个大学论坛上的腾讯的招聘广告），我感谢你们主要有两点：</p>
+<ol>
+<li>你们有半数以上的人留下的是gmail而不是QQMail/Foxmail的电子邮件，这点让我感到很欣慰。</li>
+<li>你们在加班到晚上11点的时候都能在本站回复，的确如你们的Andy Pan所说，你们的核心竞争力很强，包括水军方面。</li>
+</ol>
+<p>好了，让我正式谈谈这个设计。找回用户帐号通常就用三个事就可以了：<strong>邮箱</strong>，<strong>安全问答</strong>，<strong>手机</strong>。</p>
+<h4><strong>邮箱</strong>，<strong>安全问答</strong>，<strong>手机</strong></h4>
+<p>大多数的系统都会使用邮箱和安全问答，这足够了，很多系统直接用邮箱做帐号名（Apple ID，Facebook，新浪微博 &#8230;.），这样一来，就算你的系统口令被盗，帐号的是改不掉的，于是你可以用邮箱找回（注：这些系统都会验证你的邮箱是否正确）。但是，如果用邮箱做帐号，会导致你的邮箱暴露了，这样为成为垃圾邮件的受害者，而且如果你还比较2的把邮箱的口令和帐号的口令设置成一样的，那么就相当坑爹了（你可以看看本站的这篇文章——<a title="如何管理并设计你的口令" href="https://coolshell.cn/articles/2428.html" target="_blank">如何设计你的口令</a>）。所以，但凡是用邮箱用为帐号的系统都不会让人看到你的注册邮箱，比如，大家就不知道我新浪微博帐号注册的邮箱，就算是知道也应该是受信的人知道（新浪微博帐号的邮箱地址的默认可见度是“你关注的人”）。</p>
+<p><span id="more-5987"></span></p>
+<p>这里要说一下，Google Mail使用的是电子邮件，安全问答 和 手机。你可以使用其中一种找回口令。gmail最漂亮的用户体验是其会提示你，你绑写的邮箱（哪家公司的邮箱和帐号名的第一个字母）和手机（3个尾号）。MSN和gmail相似，也会提示你绑定的邮箱，也可以使用手机，还可以使用你设置好的受信PC，以及通过客户支持（通过客户支持——收集你注册时用的名字，生日，国家地区，安全问题，使用过的口令，最近发送过的邮箱标题，联系人等，或是你绑定过的信用卡信息，但是不会有身份证）。</p>
+<p>使用手机的一般是安全性比较高的网站，比如：淘宝、Gmail等。这样，使用手机找回口令也不错。因为你注册的安全问答你可能会忘了，你的绑定的邮箱也可能忘了口令，而很多木马可以盗取你的这些电脑上的安全问答或邮箱口令，但是这些木马程序盗不走你的手机（注：在移动互联网时代很可能会盗取你的手机上的信息，但是也盗不走你的手机号——无法像邮箱那样改个口令就盗走了）。你会说，手机还不是会丢失，但是你要明白，你丢失的手机，你是可以停机的，可以通过你的手机密码卡或是身份证恢复你的手机号的。另外，<strong>使用手机的好处还在于，我的系统不需要收信你的真实信息（如：姓名，身份证，住址等），这些真实信息的验证交给移动运营商验证就好了</strong>。<strong>在程序设计的里，我们把这种事叫“解耦”</strong>。Amazon就一种通过电子邮件，然后通过你使用过的信用卡后四位，以及帐单的邮寄的邮政编码，如果你的邮箱变了，没问题，打电话给客服吧，客服会问你的钱行卡号和帐单地址，电子商务的好处就是可以有信用卡或银行卡来恢复号。，因为这<strong>——把用户的真实信息“解耦”到了银行，并“耦合”和银行方面的安全策略</strong>。很明显，银行和移动公司的安全级别更高，而且用户也更信任他们。最好不要自己收集用户的真实信息，要是丢失了，你就麻烦了（在国外你就要被起诉了）</p>
+<p>在这里，你可能会有疑问，如果我的帐号口令丢失了，那么盗取者会进入我的系统改我的邮箱，改我的手机，改我的信用卡等，那不也一样吗？我想说，对于邮箱和手机，其和密码的级别一样，你改密码的时候，你都要输入旧密码，所以，你改邮箱和手机的时候也要使用旧的邮箱和手机。关于你绑定的银行卡或信用卡号，就算是自己也看不见的（只能看见四个尾号），这就就可以防盗了。当然，盗电子商务帐号的人一般会用你一帐号买东西，但是其会遇到另一个麻烦，那就是要面对银行方面的审计工作——1）对于银行卡通过银行的网银，银行的安全系统会帮你审计。2）对于信用卡则要受到信用卡验证和签名的验证，还能让商家会帮你检查信用卡签名是否正确。</p>
+<p>一些人说，QQ的帐号申诉过程的“美妙”在于其他尽可能多的收集你的信息，这样一来，反而是安全的，因为密码容易被盗，而你的那么多的信息则不容易被盗。这样认识只对了一半。<span style="color: #cc0000;"><strong>真正的安全系统是协同整个社会的安全系统做出来的一道安全长城，而不是什么都要自己搞</strong></span>（当然，我们都知道腾讯的DNA就是什么都要自己搞，连FBI和CIA的事也已经在搞了），什么自己都搞反而不安全了。</p>
+<h4>其它讨论Q&amp;A</h4>
+<p><strong>问题一：通过申诉找回帐号靠不靠谱？</strong></p>
+<p>明显不靠谱，而且还很愚蠢。这反而成了恶意者的温床。他人可以通过申诉让正常人的帐号失效，这是一件多么愚蠢的事啊！（我的QQ帐号前两天不就被这样攻击了吗？）</p>
+<p><strong>问题二：通过联系人恢复帐号靠不靠谱？</strong></p>
+<p>不全然靠谱，因为你的QQ总是会有陌生人加你，你的邮箱联系人也会有一些你不受信的人。那些人可能就是攻击者的小号。所以，如果你要通过联系人的话，就不要像QQ或MSN那样坑爹的做法，让用户自己来选。而是要像Facebook那样的做法——系统随机挑些人来让你认。</p>
+<p><strong>问题三：在注册时设置受信的联系人靠不靠谱？</strong></p>
+<p>看似靠谱，但是个人觉得还是还一点问题。因为受信者通过电子信息无法分辨是本人还是盗号者，还要受信者实际联系一下对方。这就好像我们在手机号存电话号码的时候，写上了爸爸，妈妈这样的字眼，这样当恶意者拿了你的手机后，就可以向你的家人敲诈了，因为其直接就可以叫出对方那头的人和被攻击者的关系。</p>
+<p><strong>问题四：恢复帐号的时候收集用户的真实信息靠不靠谱？</strong></p>
+<p>这要看是什么情况了。如果用户在注册时提供了这些真实信息，就靠谱，如果没有就相当不靠谱。试想：你去银行开户存钱的时候，银行没有让你出示身份证，只让你设了个口令。然后我就可以用我的身份证去重置你的口令。你觉得这个事是不是相当的坑爹？！</p>
+<p><strong>问题五：小白不懂邮件，不懂安全问题，不懂绑定手机啊？</strong></p>
+<p>那就用耐心地客服教导这些小白（可参看银行等机构的做法——强制用户输入8位以上的口令，强制使用U盾才能进行大额转帐），提高他们的能力和对安全的认识，当有一天这套东西形成社会标准的时候，安全才会真的到来。安全的问题本来就是双方的事，只有大家都有安全意识，才能做得好。而不是迁就用户。还是Henry Ford的那名话——“如果我问用户要什么，用户会说他要一匹更快的马”，所以这世上也就不会有汽车了。QQ不应该为降低用户安全意识起推动性作用。</p>
+<p><strong>问题六：我的经历是什么样的？</strong></p>
+<p>我基本不上QQ，我上QQ都是被朋友和同学逼的。因为上周四我想写点关于腾读用户体验的东西，所以我才上QQ想看看，结果发现上不去了，说是帐号被投诉了，让我申诉，我猜想估计和我最早发布的关于腾讯的文章有关系。我1999年来注册的这个QQ号根本没有提交过什么身份证或是地址系统之类的东西，我曾经绑定过手机，大概在5年前绑定过。</p>
+<p>于是在走申诉流程的过程中，腾讯说的绑定的手机没有被验证过，我还记得曾经我使用我的hotmail邮箱代替过我的QQ号，不过这些在被投诉的面前都不能用了。而我感到腾讯无法知道我提交的这些信息是否真实，又因为我以前曾经帮朋友注册过QQ号(我这些朋友就是腾讯员工说的小白用户)，所以，我就用一些看上去比较真实的但实际是假的信息，并用帮人注册的这些QQ号成功申诉回来了。</p>
+<p>有的网友说我不分不清找回密码和申诉的差别，我在这里想说，你分明绑定了手机，但是当你发了短信后却被告诉你的手机没有被验证过。这个就很扯了。</p>
+<p>于是，我才意识到QQ的这个申诉过程相当的不安全。关于一些细节问题，还请我们的我们腾讯的员工@larry同学给大家更多的细节。</p>
+<p><strong>问题七：QQ还有什么样的坑爹的Use Case?</strong></p>
+<p>有两个朋友在回复中说到了两个有意思的比较坑爹的Use Case。</p>
+<p>@gqjjqg  说，他有个朋友被恶意申诉，有段时间和这个恶意申诉者来来回回地申诉这个QQ号，搞了一个多月都没有搞定。最后只得和那个恶意申诉者达成和解才解决了这个事。</p>
+<p>@Jack Yang说，他有个朋友在网上买了一个QQ号，没过几天就被申诉回去了（毕竟那是别人用过的），然后人家再接着卖，怎么申诉都申诉不回来。欲哭无泪。</p>
+<p>可见，在QQ的申诉流程下，什么密保，什么手机绑定，都成了浮云。</p>
+<p>&nbsp;</p>
+<p>（如果你还有什么样的问题，我可以在继续更新并回答你的问题）</p>
+<p>——————————</p>
+<p>希望你现在明白，关于腾讯的帐号申诉过程，看上去相那么回事，实际上漏洞百出。当然，我不能说腾讯是愚蠢的，因为人家搞得那么大的企业，我只能说人家是在下一盘很大的棋……<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5966.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="腾讯帐号申诉的用户体验" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5966.html" class="wp_rp_title">腾讯帐号申诉的用户体验</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/11021.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/02/Github-Security-150x150.png" alt="从“黑掉Github”学Web安全开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11021.html" class="wp_rp_title">从“黑掉Github”学Web安全开发</a></li><li ><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li><li ><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-150x150.png" alt="抄袭，腾讯 和 产品 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_title">抄袭，腾讯 和 产品 </a></li><li ><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="Web开发中需要了解的东西" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_title">Web开发中需要了解的东西</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5987.html">如何设计“找回用户帐号”功能</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5987.html/feed</wfw:commentRss>
+			<slash:comments>271</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>腾讯帐号申诉的用户体验</title>
+		<link>https://coolshell.cn/articles/5966.html</link>
+					<comments>https://coolshell.cn/articles/5966.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 25 Nov 2011 00:27:09 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[QQ]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[安全]]></category>
+		<category><![CDATA[腾讯]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5966</guid>
+
+					<description><![CDATA[<p>前面写过一篇“腾讯，竞争力 和 用户体验”批评了腾讯，于是在我的微博上和博客上收到了一些反对意见，基本上是说腾讯产品的用户体验做得很好，很方便，等等，还列举了N...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5966.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5966.html">腾讯帐号申诉的用户体验</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>前面写过一篇“<a href="https://coolshell.cn/articles/5901.html" rel="bookmark" target="_blank">腾讯，竞争力 和 用户体验</a>”批评了腾讯，于是在<a href="http://weibo.com/haoel" target="_blank">我的微博</a>上和<a href="https://coolshell.cn" target="_blank">博客</a>上收到了一些反对意见，基本上是说腾讯产品的用户体验做得很好，很方便，等等，还列举了N多的例子，以及说过什么用户数量为王的言论，让我感到我应该写一篇博客。当然，如果我们只看某个技术层面的东西的话，我同意，QQ的一些产品还是很易用的。但是我们还是要看得更深一些。Effective C++的作者Scott Meyers 在《More Effective C++》中说过——“美丽的是肤浅的表现”。   我借用一下这句话，认为QQ是好的产品的观点是肤浅的认识。</p>
+<p>网上有大量的文章说<a href="http://handsome4215.blog.sohu.com/154141629.html" target="_blank">QQ扫描硬盘</a>啊，说<a href="http://hi.baidu.com/kernone/blog/item/db7218d9c1756f3933fa1cb5.html" target="_blank">QQ收集用户信息</a>啊，你可能忘了这些。前段时间的3Q大战的那个“艰难的决定”，你好像也忘了。还有狗日的腾讯，你也忘了。包括<a href="http://www.cnr.cn/newscenter/kjxw/201111/t20111103_508725677.shtml" target="_blank">QQ可以预防犯罪的新闻</a>，你可能也忘（这本就是一个容易忘事的民族）。你已经被QQ的用户体验迷住你的双眼，觉得QQ无敌于天下，就像<a href="http://weibo.com/1577826897/xyZ6vpv2y" target="_blank">这个微博</a> 以及微博里的回复一样在赞叹QQ注重细节一样，那些人在看到QQ的Mac版上向Steve Jobs感谢的字样激动不已。我感到你被一块红布蒙住了双眼也蒙住了天，我问你看见了什么，你说你看见了幸福 ，这个感觉真让你舒服……（对不起，一不小心我就在唱歌了，So So Sorry）</p>
+<p>回到正题，你会说，我们在谈技术，不谈这些非技术的。好吧，我们来看看技术上的东西。我和大家说一下这两天我的真实经历。</p>
+<p>两天前，我的QQ号被“恶意投诉”，封了号。腾讯让我走申诉流程，于是我看到了下面这些步骤：</p>
+<ol>
+<li>填入我的真实姓名，身份证号，地址等我的真实信息。 （盗号者也可以填）</li>
+<li>填入我的手机号，并要用这个手机号向腾讯发个短信以收取验证码。（盗号者的手机）</li>
+<li>填入我以前曾经使用过的QQ密码 （盗号者盗到的密码）</li>
+<li>填入我是什么时候，在哪里注册的QQ （盗号者可以填忘记了）</li>
+<li>填入最近3年来，我在哪里使用过QQ （盗号者也可以填忘 记了）</li>
+<li>邀请QQ好友来帮助申诉，越多越好，需要填号好友的QQ号和真实姓名。 （盗号者也可以用自己的小号，这些小号可以加你为好友）</li>
+</ol>
+<p><strong>这已经是非同寻常的流程了…… 从这个申请过程中你看到了什么？</strong>你是否看到了这些东西：</p>
+<p><span id="more-5966"></span></p>
+<ul>
+<li>收集你的用户信息，从姓名，地址，身份证到手机号，包括你好友的真实姓名。</li>
+<li>收集并验证我过去使用过的密码，以及我在哪里使用QQ的。</li>
+<li>这个过程无法确保安全性。没有一点技术含量。</li>
+</ul>
+<p>这些意味着什么？你会说，因为我不知道QQ盗号有多严重，所以他们才有这样的措施。那么我不禁要反问一下了——</p>
+<ul>
+<li><strong>这个世上还有什么产品是可以让别人通过申诉来让你的帐号失效的？</strong></li>
+<li><strong>又有哪个产品是通过收集真实的用户信息和朋友的信息来找回密码的？</strong></li>
+<li><strong>这个世上还有什么产品是在注册的时候不要真实信息，而在找回密码的时候要真实信息？</strong></li>
+</ul>
+<p>要收信就应该在注册的时候收集，你见过哪家银行在开户的时候不要你身份证，而你取钱，挂失的时候需要身份证的？只要腾讯愿意，弹个窗，于是就可以一点一点地让所有的人都走申诉流程以收集真实信息。我看这个过程并不是想看上去的那么简单啊。这就是用户体验？你可能还依然坚持你对这一做法的理解，那么，我真心希望你看看别的系统和软件是怎么做的。（老实说，一个手机号，另一个邮箱就可以搞定了）</p>
+<p>我的朋友在微博上回复到——</p>
+<blockquote><p>//<a href="http://weibo.com/zhendi419" target="_blank">@真谛419</a>：。。。qq是一个伟大的企业，一步步微创新走到了创新横扫CIA，FBI的浪潮之巅 //<a href="http://weibo.com/n/chengxi_">@chengxi_</a>: CIA弱到爆，QQ knows it all. 这个获取所有实名社交网络的创新不亚于 <a href="http://t.cn/h5kPIK" target="_blank">reCaptcha </a>，用QQ的和裸奔的区别在于“裸奔”是自愿的。</p></blockquote>
+<p>你也许会说，这是腾讯因为不可抗力不得已这样做的，我们都应该理解腾讯。我想了一想，我觉得你说得有道理，你无非就是想让我说——腾讯不SB，SB的是用户。好吧，我承认你有一定的道理。</p>
+<p>既然这样，那么我就不得不加粗朋友的这句话了——<strong>用QQ的和裸奔的区别在于“裸奔”是自愿的！！</strong> 而且，我仿佛、似乎、好像，隐约还听到有人在欢快地呻吟着：“在QQ上裸奔的用户体验太~~好~~啦~~，让我高潮不断啊~~~啊~~~啊~~~啊~~~~~~~~”。行了行了，你可以裸奔，但是没有必要那么爽吧。</p>
+<p>（对不起，我本不应该骂人的，更不应该还骂的那么低俗，重要的是，这本来应该在新浪微博上骂的，因为那里的骂人用户体验最好的地方……）</p>
+<p>结尾了，你会会说我是一个喷子，呵呵。我想说，<strong>腾讯是一个天使和魔鬼的混合体，东西还是要一分为二的看</strong>，用么还是可以适当用用的，但是我们的头脑还是要清楚一些明白那是怎么一回事。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/12.jpg" alt="如何设计“找回用户帐号”功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5987.html" class="wp_rp_title">如何设计“找回用户帐号”功能</a></li><li ><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/i-hate-copycat-150x150.png" alt="抄袭，腾讯 和 产品 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/7617.html" class="wp_rp_title">抄袭，腾讯 和 产品 </a></li><li ><a href="https://coolshell.cn/articles/5901.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="腾讯，竞争力 和 用户体验" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5901.html" class="wp_rp_title">腾讯，竞争力 和 用户体验</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/01/iStock-1175502114-150x150.png" alt="网络数字身份认证术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21708.html" class="wp_rp_title">网络数字身份认证术</a></li><li ><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/05/Authorization-360x200-1-150x150.png" alt="HTTP API 认证授权术" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19395.html" class="wp_rp_title">HTTP API 认证授权术</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5966.html">腾讯帐号申诉的用户体验</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5966.html/feed</wfw:commentRss>
+			<slash:comments>166</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的文章和资源</title>
+		<link>https://coolshell.cn/articles/4220.html</link>
+					<comments>https://coolshell.cn/articles/4220.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 06 Apr 2011 00:47:40 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[64bits]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4220</guid>
+
+					<description><![CDATA[<p>又到了向大家介绍一些最近我在网上发现的有价值的东西的时候了。（下面的链接中很多都被墙） 以前向大家介绍过《一些重要的算法》和《算法和数据结构词典》，不过，你知道...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4220.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4220.html">一些有意思的文章和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>又到了向大家介绍一些最近我在网上发现的有价值的东西的时候了。（下面的链接中很多都被墙）</p>
+<ul>
+<li>以前向大家介绍过《<a title="一些重要的算法" href="https://coolshell.cn/articles/2583.html" target="_blank">一些重要的算法</a>》和《<a title="算法和数据结构词典" href="https://coolshell.cn/articles/1499.html" target="_blank">算法和数据结构词典</a>》，不过，你知道有些什么样比较奇怪的数据结构吗？wikipedia上的这个词条可以让你看看<a href="http://en.wikipedia.org/wiki/List_of_data_structures" target="_blank">各种不同的数据结构</a>。比如：<a rel="nofollow" href="http://en.wikipedia.org/wiki/Skip_list">Skip lists</a>， <a rel="nofollow" href="http://en.wikipedia.org/wiki/Bloom_filter">Bloom filters</a>，或是什么<a rel="nofollow" href="http://en.wikipedia.org/wiki/Dancing_Links">Dancing links</a>。你也许会像一个以“<a title="如何学好C++语言" href="https://coolshell.cn/articles/4119.html" target="_blank">如何学好C++</a>”中的朋友们所说的，不削于这种所谓的“奇技淫巧”，甚至觉得这太根本不实用。其实，这些东西还是有用的，至少对你开阔思路，活动编程思维能力很有意义。</li>
+</ul>
+<ul>
+<li>本站的关于<a href="https://coolshell.cn/tag/%e6%8e%92%e5%ba%8f" target="_blank">排序的文章</a>有很多，对于排序算法来说，其受到要排序的个数和数据的杂乱程度的影响，我们知道比较稳定的排序算法是快速排序和归并排序，归并排序对于大量的数据排序效果是非常好的，尤其是我们可以进行并行的排序。这里有一个并行归并排序的算法的源代码，你可以参考一下 &#8211; “<a href="http://dzmitryhuba.blogspot.com/2010/10/parallel-merge-sort.html" target="_blank">Parallel Merge Sort</a>”。</li>
+</ul>
+<ul>
+<li>说到“奇技淫巧”和算法，这里有一个文章向你展示了C语言中使用位操作可能完成的各种算法，很有意思。请参看 &#8211; “<a href="http://aggregate.ee.engr.uky.edu/MAGIC/" target="_blank">The Aggregate Magic Algorithms</a>”</li>
+</ul>
+<ul>
+<li>这里有篇文章教你如何取得一个<a href="http://www.productivity501.com/harvard-masters-degree/6463/" target="_blank">在线的哈佛大学的硕士学位</a>，文章中说了一些相关的事宜，包括一些收费情况，并且展示了一张文凭。这里有一个网页说明了<a href="http://blog.markwshead.com/911/harvard-online-masters-degree-in-software-engineering/" target="_blank">哈佛软件工程学位</a>（Software Engineering）的所需要学习的科目，比如：Java和分布式计算，分布式/企业级计算，设计模式和Java，通讯协议，高级数据网络，Web开发，计算理论，Perl实践，Unix系统编程……我不知道我们的国家各个大学的硕士在学什么，因为我没有读过硕士，但好像现在的计算机研究生只是导师用来挣钱的免费资源，而且，实在不知道研究生在校研究什么。不管怎么样，从这看来，我们的大学好像并没有教给学生计算机的技术。比如在“<a title="如何学好C语言" href="https://coolshell.cn/articles/4102.html" target="_blank">如何学好C语言</a>”和“<a title="如何学好C++语言" href="https://coolshell.cn/articles/4119.html" target="_blank">如何学好C++语言</a>”中我提到的那些书，那些才是大学里应该学的。我国的教育还真不是一般的落后，不过你不妨试试哈佛的在线学位。</li>
+</ul>
+<p><span id="more-4220"></span></p>
+<ul>
+<li>关于网上的电子书，以前本站介绍过一 个<a title="免费电子书列表" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>，这里再推荐一个网站，上面有很多很多很不错的计算机科学方面的电子书，当然，都是英文的。<a href="http://www.sciencebooksonline.info/computer-science.html" target="_blank">http://www.sciencebooksonline.info/computer-science.html</a>。我知道你对英文发憷，但是，朋友，你一定要学好英文啊，这不仅仅只是为了学好计算机啊。</li>
+</ul>
+<ul>
+<li>还记得本站的“<a title="64位平台C/C++开发注意事项" href="https://coolshell.cn/articles/3512.html" target="_blank">64位平台开发的注意事项</a>”吗？Intel Software Network上有这样一篇文章其收集了一些在64位平台上经常出现的错的，图文并茂的，相当的不错，强力推荐给大家 &#8211; “<a href="http://software.intel.com/en-us/articles/collection-of-examples-of-64-bit-errors-in-real-programs/" target="_blank">A Collection of Examples of 64-bit Errors in Real Programs</a>”</li>
+</ul>
+<ul>
+<li>你爱好汇编语言吗？如果你是汇编的痴迷者，那么mac.com上的<a href="http://homepage.mac.com/randyhyde/webster.cs.ucr.edu/index.html">这个列表</a>对你很有意义了。里面的相关文章非常不错哦。而这里有一个<a href="http://www.duntemann.com/assembly.html" target="_blank">Step by Step的x86汇编编程教程</a>。</li>
+</ul>
+<ul>
+<li>还记得那篇“UI和UX的差别”吗？呵呵。这里有一个网站，给了你30+条UX用户体验的建议，我觉得非常不错，转给大家<a href="http://uxmyths.com/">http://uxmyths.com/</a></li>
+</ul>
+<ul>
+<li>想在Visual Studio 2010下编写Python吗？那么，向你介绍这个微软官方的插件<a href="http://pytools.codeplex.com/" target="_blank">Python  Tools for Visual Studio</a>。你还可以在VS中调试你的Python代码。挺不错的。</li>
+</ul>
+<ul>
+<li>在VS里开发Python，那么就可以使用Eclipse编写Android程序，这里有一篇教程教你 &#8211; <a href="http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-android-with-eclipse-reloaded/" target="_blank">Get Started Developing For Android With Eclipse, Reloaded</a></li>
+</ul>
+<ul>
+<li>说到了Android，必然要提一提iOS。想学iOS编程吗？这里有一篇教程很不错，如果你是一个什么也不懂的初学者，你不妨看看这篇文章“<a href="http://designthencode.com/scratch/" target="_blank">Build iOS App from Scrach</a>”</li>
+</ul>
+<ul>
+<li>查JDK是不是有点不好查？这里有一个网站可以方便地查找JDK和Android的API &#8211; <a href="http://www.kiwidoc.com/" target="_blank">http://www.kiwidoc.com</a>，我觉得很不错哦。</li>
+</ul>
+<ul>
+<li>不知道你是不是一个怀旧的人，你是否还记得以前用C语言开发Web的时光呢？我记得我97-98年的时候学过用C开发web应用，觉得挺难学的，我还没有完全搞懂，就出现了ASP，PHP……。这两天看到一篇 <a href="http://www.tutorialspoint.com/cplusplus/cpp_web_programming.htm" target="_blank">C++ Web Programming</a>，讲得真是很系统啊，从处理HTTP Header，到处理表单和上传文件。看完后，感觉有点坐着时光机器回到大学时的感觉。呵呵。</li>
+</ul>
+<ul>
+<li>说到Web编程，现在的Web编程和以前很不一样了。你觉得未来的Web编程的技术会是什么样的？NoSQL? 服务器端的Javascript? 各种像Amazon的EC2或S3的云计算平台？更新更强大的开发框架？HTML 5/CSS 3？这里有一篇文章你可以去看看 &#8211; “<a href="http://net.tutsplus.com/articles/general/7-exciting-web-development-trends-for-2011/">7 Exciting Web Development Trends for 2011</a>”.</li>
+</ul>
+<ul>
+<li>无论Web编程到了什么时候，安全问题永远都是你需要注意的。这里有一篇文章“<a href="http://code.google.com/intl/zh-CN/edu/submissions/daswani/index.html" target="_blank">What Every Web Programmer Needs To Know About Security</a>” &#8211;  每一个Web程序员都应该知道的安全问题。</li>
+</ul>
+<ul>
+<li>再推荐两个关于WebGL的游戏演示，一个是3D的比较好玩的有点<a href="http://cycleblob.com/" target="_blank">像贪吃蛇一样的游戏</a>，另一个是<a href="http://nicolas-bonnel.github.com/WARPG/index.html" target="_blank">RPG式的游戏</a>，第三人称视角，看上去很不错。</li>
+</ul>
+<ul>
+<li>这里有20款图标，<a href="http://www.tutorialcadet.com/20-user-interface-icon-sets-for-developers/" target="_blank">http://www.tutorialcadet.com/20-user-interface-icon-sets-for-developers/</a>，也许会对你的UI开发有帮助。wikipedia上也有一些<a href="http://commons.wikimedia.org/wiki/Comparison_of_icon_sets" target="_blank">免费的图标</a>。</li>
+</ul>
+<ul>
+<li>在以前的“<a title="一些有意思的贴子和工具" href="https://coolshell.cn/articles/3480.html" target="_blank">一些资源介绍</a>”的文章中介绍过<a href="http://mikeos.berlios.de/write-your-own-os.html" target="_blank">一篇教程</a>教你用x86的汇编做一个操作系统， 这里又有一篇文章向你展示了一个最最简单的操作系统内核，这个操作系统叫做<a href="http://www.retroprogramming.com/2011/03/itsy-os-simple-preemptive-switcher.html" target="_blank">Itsy-OS Kernel</a>，你可以看看。</li>
+</ul>
+<ul>
+<li>你还记得Google在四月一日愚人节那天搞的那个<a href="http://mail.google.com/mail/help/motion.html" target="_blank">Google Gmail Motion</a>吗？用你的body Language写邮件？呵呵，不过，某人使用微软的Kinect做到了，视频在这里：<a href="http://www.youtube.com/watch?v=Lfso7_i9Ko8" target="_blank">http://www.youtube.com/watch?v=Lfso7_i9Ko8</a>。项目主页在这里：<a href="http://projects.ict.usc.edu/mxr/faast/">http://projects.ict.usc.edu/mxr/faast/</a>。</li>
+<li>不知道你看过电影《创战纪》了吗？我个人觉得电影很一般。不过你想知道里面的一些特效是用什么样的技术怎么做的吗？呵呵，其中的一个程序员写了一篇博文 &#8211; “<a href="http://jtnimoy.net/workviewer.php?q=178" target="_blank">Tron Legacy</a>”，我看到了Unix, C++等。这篇文章很不错。</li>
+</ul>
+<p>好的，就这么多，也欢迎你分享你所看到的和听到的东西。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4220.html">一些有意思的文章和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4220.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>另类UX让你输入强口令</title>
+		<link>https://coolshell.cn/articles/3877.html</link>
+					<comments>https://coolshell.cn/articles/3877.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 03 Mar 2011 01:26:41 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3877</guid>
+
+					<description><![CDATA[<p>昨天和大家说了一下关于口令破解的一些东西，那篇文章告诉我们需要设置一个比较强的不易破解的口令。 今天在网上看到一个强大的jQuery插件，叫NakedPassw...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3877.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3877.html">另类UX让你输入强口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p><script src="http://www.nakedpassword.com/javascripts/jquery.js" type="text/javascript"></script> <script src="http://www.nakedpassword.com/javascripts/naked_password.0.2.2.min.js" type="text/javascript"></script></p>
+<p><script type="text/javascript">  	$(document).ready(function() { 	     $("input:password").nakedPassword({path: "http://www.nakedpassword.com/np_images/"}); 		});</script></p>
+<p>昨天和大家说了一下<a title="破解你的口令" href="https://coolshell.cn/articles/3801.html" target="_blank">关于口令破解</a>的一些东西，那篇文章告诉我们需要设置一个比较强的不易破解的口令。</p>
+<p>今天在网上看到一个强大的jQuery插件，叫<a title="NakedPassword.com" href="http://www.nakedpassword.com/" target="_blank">NakedPassword</a>，其通过“<strong>强大的用户体验</strong>”让你输入一个比较强且不易被破解的口令。虽然有点另类，但是我个人相当欣赏这个UX，因为UX实在是太到位了——<strong>只有你输入的口令比较强，图片中的女人才会脱光衣服</strong>。</p>
+<p>下面是演示：</p>
+<p style="text-align: center;">请输入你的口令（输入时出现效果）</p>
+<p style="text-align: center;">
+<input id="test" style="font-size: 25px;" type="password" /></p>
+<p>这个例子和<a title="用户界面和用户体验的差别" href="https://coolshell.cn/articles/3142.html" target="_blank">以前的那个例子</a>一样，告诉你UX设计是重要性。</p>
+<p>（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3877.html">另类UX让你输入强口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3877.html/feed</wfw:commentRss>
+			<slash:comments>52</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>用户界面和用户体验的差别</title>
+		<link>https://coolshell.cn/articles/3142.html</link>
+					<comments>https://coolshell.cn/articles/3142.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 14 Oct 2010 00:45:02 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[UX]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3142</guid>
+
+					<description><![CDATA[<p>用户界面设计 用户体验设计 （转载本站文章请注明作者和出处 酷 壳 &#8211; CoolShell ，请勿用于任何商业用途） 相关文章一些有意思的文章和资源...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3142.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3142.html">用户界面和用户体验的差别</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>用户界面设计</strong></p>
+<figure id="attachment_3144" aria-describedby="caption-attachment-3144" style="width: 300px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-3144" title="用户界面设计" src="https://coolshell.cn/wp-content/uploads/2010/10/UI.gif" alt="" width="300" height="312" /><figcaption id="caption-attachment-3144" class="wp-caption-text">用户界面设计</figcaption></figure>
+<p><strong>用户体验设计</strong></p>
+<p><span id="more-3142"></span></p>
+<p><figure id="attachment_3143" aria-describedby="caption-attachment-3143" style="width: 308px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2010/10/UX.jpg"><img decoding="async" loading="lazy" class="size-full wp-image-3143" title="用户体验设计" src="https://coolshell.cn/wp-content/uploads/2010/10/UX.jpg" alt="" width="308" height="524" srcset="https://coolshell.cn/wp-content/uploads/2010/10/UX.jpg 308w, https://coolshell.cn/wp-content/uploads/2010/10/UX-176x300.jpg 176w" sizes="(max-width: 308px) 100vw, 308px" /></a><figcaption id="caption-attachment-3143" class="wp-caption-text">用户体验设计在便池上放一个假苍蝇会导致男人撒尿的时候会不由自主地瞄准它，有证据表明，这样的用户体验可以减少80%的小便溅出便池。</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/363.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/18-150x150.jpg" alt="35个强大的UI设计教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/363.html" class="wp_rp_title">35个强大的UI设计教程</a></li><li ><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/12/bachelor-mechanical-eng-icon@72x-150x150.png" alt="我做系统架构的一些原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_title">我做系统架构的一些原则</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/03/Amazon-Web-Services-Down-150x150.png" alt="AWS 的 S3 故障回顾和思考" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17737.html" class="wp_rp_title">AWS 的 S3 故障回顾和思考</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3142.html">用户界面和用户体验的差别</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3142.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

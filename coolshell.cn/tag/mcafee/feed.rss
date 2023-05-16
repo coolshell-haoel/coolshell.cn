@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>McAfee | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/mcafee/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Thu, 22 Apr 2010 16:23:32 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>McAfee误杀svchost.exe</title>
+		<link>https://coolshell.cn/articles/2376.html</link>
+					<comments>https://coolshell.cn/articles/2376.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 23 Apr 2010 00:45:21 +0000</pubDate>
+				<category><![CDATA[Windows]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[McAfee]]></category>
+		<category><![CDATA[svchost]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2376</guid>
+
+					<description><![CDATA[<p>这两天，杀毒软件又出事了。还记得2007年5月，那次是Norton把简体中文Windows下的netapi32.dll 和 lsasrv.dll。最近的一次是，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2376.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2376.html">McAfee误杀svchost.exe</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这两天，杀毒软件又出事了。还记得2007年5月，那次是Norton把简体中文Windows下的netapi32.dll 和 lsasrv.dll。最近的一次是，2008年11月，AVG把user32.dll给干掉了。</p>
+<p>这次是McAfee的5958版病毒库，导致McAfee误杀了Windows XP SP3下的svchost.exe，这最终导致了Windows不断地重复启动，据说有数十万PC成了小白鼠。简单地到Twitter和各国外技术社区看看，真是受灾严重啊。</p>
+<p>下面是出错信息：</p>
+<pre>The file C:WINDOWS\system32\svchost.exe contains the W32/Wecorl.a Virus.
+Undetermined clean error, OAS denied access and continued.
+Detected using Scan engine version 5400.1158 DAT version 5958.0000.</pre>
+<p>其实，可能大家都误解了，McAfee把svchost.exe识别为一个恶意程序，我觉得这是一种“实事求是”的态度啊，svchost.exe难道不是Windows下的万恶之源吗？多少年来，svchost.exe成为了多少病毒，木马和流氓程序的温床，这么多年过去了，Windows用户们默默地承受着svchost.exe所带来的痛苦，经过这么长的时间，只有McAfee不惧M$的淫威第一个站出来把svchost.exe揪出来办了，这是一种什么样的精神啊……<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt=".NET代码转换器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_title">.NET代码转换器</a></li><li ><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="语言的数据亲和力" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4905.html" class="wp_rp_title">语言的数据亲和力</a></li><li ><a href="https://coolshell.cn/articles/3605.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="为什么中国的网页设计那么烂？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3605.html" class="wp_rp_title">为什么中国的网页设计那么烂？</a></li><li ><a href="https://coolshell.cn/articles/8115.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/VEC-vs-vector-150x150.jpg" alt="GCC 用 C++ 来编译" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8115.html" class="wp_rp_title">GCC 用 C++ 来编译</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/8422.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="TF-IDF模型的概率解释" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8422.html" class="wp_rp_title">TF-IDF模型的概率解释</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2376.html">McAfee误杀svchost.exe</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2376.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

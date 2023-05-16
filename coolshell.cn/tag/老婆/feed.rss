@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>老婆 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/%e8%80%81%e5%a9%86/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 26 Jan 2011 01:46:48 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>食客还是大厨</title>
+		<link>https://coolshell.cn/articles/3589.html</link>
+					<comments>https://coolshell.cn/articles/3589.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 25 Jan 2011 00:46:45 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[iPhone]]></category>
+		<category><![CDATA[老婆]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3589</guid>
+
+					<description><![CDATA[<p>（请勿将本文用于商业用途，转载时注明作者和出处） 昨天我在文章《Android将允许纯C/C++开发应用》中发表了一些“很不中听”的观点，在我早晨上班刚打开电脑...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3589.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3589.html">食客还是大厨</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong><strong>（请勿将本文用于商业用途，转载时注明作者和出处）</strong></strong></p>
+<p>昨天我在文章《<a title="Android将允许纯C/C++开发应用" href="https://coolshell.cn/articles/3549.html" target="_blank">Android将允许纯C/C++开发应用</a>》中发表了一些“很不中听”的观点，在我早晨上班刚打开电脑的时候，Gtalk上同学就发来了一条信息“<span style="color: #800080;">android  为啥不用C/C++的原因是，android是开放式系统，为了能够跨平台。如果整回C/C++，那么windows  mobile就是前车之鉴。</span>”，于是和同学展了争论，同学的意思是Java是正确的，在硬件上的表现也将是很出色的，而且准入门槛低，最重要的是跨平台，跨平台是恶梦，而硬件上性能的问题在未来不是问题。iPhone是单一平台，所以不需要考虑跨平台。</p>
+<p>而在我的博文后面上也有许多的讨论，<a href="http://sd.csdn.net/a/20110124/290717.html" target="_blank">在CSDN上</a>也有一些，大家可以去看看。<strong>很多朋友都谈了谈为什么Java要比C++要好的理由，很多很多，大家可以去看看，我觉得挺好的</strong>。不过后来，我更新了一下我的文章，留下了几个让大家思考的问题，我希望大家都看看。</p>
+<p>在这里，我想和大家说说技术之上的东西。</p>
+<p>——————————————正文分割线——————————————</p>
+<p>在绝大多数的评论中，我看到了大家都是站在技术开发者的角度在讨论。我想这和Google的Android犯的是同一个毛病，那就是其注重了“程序员”，而不是“用户”。就像是，Unix是为程序员开发，Java 也是为程序员的跨平台难问题开发，而Windows是为用户开发，iPhone也是为用户开发。也许，我们认为，改进了程序员的开发体验后，能迸发出程序员强大的生产力，进而增加满足用户需求的能力。不过，我想说的是，<strong>这件事的初衷是好的，但事实上程序员是永远不懂用户的</strong>。</p>
+<p><span id="more-3589"></span></p>
+<p>就像大家在讨论Android和Java的关系时，仅在谈跨平台，其实，跨平台关我最终用户屁事，开不开放并我最终用户P事。甚至，手机里装的是Linux还是Android还是Win Phone7还是Symbian，我做为一个用户我统统不关心，什么Java，还是C++，管我球事。作为一个程序员，如果你想不通这个观点的话，那你就去想想，你上饭馆点菜时，你会关心你点的菜是用什么样的锅碗瓢盆来盛，用什么样的燃料来做，什么样的刀来切，长在什么样的地，浇了什么样的肥……如果你还想不通的话，请看下面的例子：</p>
+<p>有一天，Google告诉所有的大厨，从我们发布Android开始，你们做菜就简单了，这是一个跨平台的烧菜系统，以后，作为厨师的你，做菜再也不用关心是用炒锅，蒸锅，煮锅，砂锅，电饭锅，平底锅，也不用关心做的是西餐还是中餐，我们推出的“虚拟锅”将屏蔽这些硬件和技术细节，以后，你面对的只有一口锅。当然，对于这个虚拟锅，你需要使用一种新型的叫Java锅勺。Java锅勺是强大的，容易的。（然而，过了几年后，他们却推出了传统锅勺）对此，一堆大厨，吵啊吵啊的，大家都在争论锅的好坏。</p>
+<p>来饭馆吃饭的食客说，关我屁事，都麻利儿地赶快给我上菜！给我好吃的！（<span style="color: #808080;">到这里，我希望你看懂了，如果你没有看懂的话，就此打住，后面的对你就太深了</span>）</p>
+<p>当然，用户并不单单只是着迷于好吃的，还有好的服务和体验！程序员们管这个叫用户体验。不过，如果餐馆都关注大厨们做菜的体验了，很有可能会怠慢了用户体验。餐馆负责人吆喝着，我们的餐馆是跨平台的，是开放的，就是说，任何都可以在我们这里做吃的买给你。食客们说，什么？什么人都可以在你的餐馆里做菜？你搞错没有啊？！餐馆负责人说，这样我们可以吸引到更好的更优秀的大厨，能做出更优秀的菜，有的菜品还是其它餐馆提供的。食客们说，那可以试试。然后，当食客上桌的时候，他们发现不同的菜居然有不同的服务，而且点菜的流程也不一样，不过大家都号称自己有最好的用户体验和服务。此时，食客们反而犹豫了。而各位大厨在厨房津津乐道着自己的做菜体验，而没有挣到一分钱。餐馆负责人还继续向食们说：我们有四个订餐电话，不同的订餐电话可以订到不同的菜，以后这样的订餐电话会更多。</p>
+<p>这个时候，一家叫iPhone的餐馆出现了，用户体验非常好，服务也很到位，食客们从入座点菜和进餐的过程都非常的流畅和风格统一，都相当的简单。食客们说，你们的这些菜品是怎么来的？iPhone餐厅负责人说，我们厨房对大厨们其实也是开放的，不过，厨房里的硬件和烹饪器具都是固定而不能修改的，而且，他们要想在这里做菜的话，每年得交给我们99美元的审核费用，我们严格他们的做菜工序，并保证用户的体验一致，我们的收入会和这些厨师分成，特别是那些有秘方的厨师将会分得更多。我们就像麦当劳一样，加盟我们的人有很多，不过我们所有店面的风格和用户点餐的过程完全一致，方便而服务优质。当然，我们的收费是高一点，但在我们这里不会出现任何的混乱。对于食客来说，虽然有人抱怨iPhone餐馆的只有一个服务生（单进程），但是，食客对该餐馆的服务表示很放心，体验也没得说，流畅完美简单一致。</p>
+<p><em><span style="color: #800000;"><strong>&#8212;&#8211;更新：2011/01/26&#8212;&#8211;</strong></span></em></p>
+<p>跨不跨平台，开不开放，一点都不关用户的事，那是程序员的事。但用户的体验很关用户的事。<strong>用户的体验包括两方面，一方面是技术所带来的功能体验，另一方面是服务体验</strong>。Android和iPhone的差别是，Android只关注开发人员的体验和功能的体验，并没有服务的体验，而iPhone把功能和服务的体验都打包了。Android选择走什么样的路无所谓，要打赢这场战争，Android一定要学会从技术向服务的过渡，否则，就开发而言，也就是吸引一下程序员和产商罢了，其对用户没有任何吸引力。</p>
+<p>但凡是走这条的，都很有问题（用户和服务跟不上，全部玩完，Linux的前期基本如此）</p>
+<ul>
+<li><strong>产品 -&gt; 开发人员 -&gt; 产商 -&gt; 用户 -&gt; 服务</strong>（???）</li>
+</ul>
+<p>而有些公司选择了这条路 （产品和服务先行，抢占用户市场相当快，比如Windows，IBM）</p>
+<ul>
+<li><strong>产品 + 服务 -&gt; 用户 -&gt; 开发人员 + 运营代理</strong></li>
+</ul>
+<p>我不认为Apple的经验无法复制，而是这样的模式很多很多，<strong>这个世界上有很多IT公司做到最后才发现，只有把产品和服务一同打包，才是用户想要的</strong>。</p>
+<p>——————————————————</p>
+<p>这就是<a href="https://coolshell.cn/articles/3363.html" target="_blank">Apple的简单之道</a>，上述内容素材取材于我和我老婆的对话（我老婆是文科，对编程不懂，她正是我了解最终用户的对象，也是我<a href="https://coolshell.cn/articles/3236.html" target="_blank">锻炼沟通</a>的对象）。下面是相关原始对话：</p>
+<p><strong>我</strong>：问个问题，如果有两家餐馆，你会先那家？</p>
+<ul>
+<li>第一家餐馆是开放的，怎么个开放呢？厨师可能是任何想做菜的人，有做的好的，也有做不好的。餐馆的厨房里的配置也是各式各样的，厨师甚至可以自带设备，反正，什么样的厨房用具都支持。另外，该餐馆有四个订餐电话，不过，不同的订餐电话都不一定都订到菜单上所有的菜，因为这个餐馆不但把厨房给开放出去了，订餐的方式也开放出去了。进餐体验方面，不同的分店有不同的样子。</li>
+</ul>
+<ul>
+<li>第二家餐馆是封闭的，不过他也对外面的厨师开放，并和厨师一同分成。厨师里的用具是餐馆定制好的，厨师要做菜，必需先交100美金的审核费，餐馆派专人审核厨师做的每一道菜，包括工序。每个餐厅的环境非常友好，也很简单，而且能让人感到非常不错的进餐体验，所有的分店都是一样。订餐电话只有一个，可以完成一键订餐。当然，第二家店要贵点。</li>
+</ul>
+<p><strong>老婆</strong>：你说的第一家就是那种像“大食代”的各种小吃拼起来的地儿吧？第二家就是像麦当劳， 必胜客，或是一些正规地像“海底捞”、“江南春”这样的店吧。第一家的店么就是顺便吃吃，要真正吃东西，还是要去第二种店。老公，难得你今天请我吃饭，我看就吃你说的第二种吧。（我晕，又把自己给绕进去了）</p>
+<p>——————————————正文分割线——————————————</p>
+<p>P.S. 有的朋友说我是C/C++出生，就是看不起Java。这样说我太小看我了，我的文章风格从来都是以一种调侃的方式，因为我觉得这样的文章会比那些枯燥的技术文章更有意思。我调侃C++和程序员的文章不比调侃Java要少，我对C++的观点从来都是C++是一门很不成熟的半成品语言！Java则要比它成熟的多得多，不过Java的跨平台和性能上的确是有很多东西可以调侃。</p>
+<p><strong>（请勿将本文用于商业用途，转载时注明作者和出处）</strong><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/5089.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="10个必需的iOS开发工具和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5089.html" class="wp_rp_title">10个必需的iOS开发工具和资源</a></li><li ><a href="https://coolshell.cn/articles/4334.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-150x150.jpg" alt="Eclipse开发Android应用程序入门:重装上阵" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4334.html" class="wp_rp_title">Eclipse开发Android应用程序入门:重装上阵</a></li><li ><a href="https://coolshell.cn/articles/4270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/04/install-150x150.gif" alt="Eclipse开发Android应用程序入门" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4270.html" class="wp_rp_title">Eclipse开发Android应用程序入门</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3589.html">食客还是大厨</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3589.html/feed</wfw:commentRss>
+			<slash:comments>68</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>给老婆普及计算机知识</title>
+		<link>https://coolshell.cn/articles/3236.html</link>
+					<comments>https://coolshell.cn/articles/3236.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 27 Oct 2010 00:48:37 +0000</pubDate>
+				<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[老婆]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3236</guid>
+
+					<description><![CDATA[<p>我们知道计算机的计算数据需要从磁盘调度到内存，然后再调度到L2 Cache，再到L1 Cache，最后进CPU寄存器进行计算。 给老婆在电脑城买本本的时候向电脑...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3236.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3236.html">给老婆普及计算机知识</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我们知道计算机的计算数据需要从磁盘调度到内存，然后再调度到L2 Cache，再到L1 Cache，最后进CPU寄存器进行计算。</p>
+<p>给老婆在电脑城买本本的时候向电脑推销人员问到这些参数，老婆听不懂，让我给她解释，解释完后，老婆说，“原来电脑内部这么麻烦，怪不得电脑总是那么慢，直接操作内存不就快啦”。我是那个汗啊。</p>
+<p>我只得向她解释，这样做是为了更快速的处理，她不解，于是我打了下面这个比喻——这就像我们喂宝宝吃奶一样，</p>
+<ul>
+<li>CPU就像是已经在宝宝嘴里的奶一样，直接可以咽下去了。需要1秒钟</li>
+</ul>
+<ul>
+<li>L1缓存就像是已冲好的放在奶瓶里的奶一样，只要把孩子抱起来才能喂到嘴里。需要5秒钟。</li>
+</ul>
+<ul>
+<li>L2缓存就像是家里的奶粉一样，还需要先热水冲奶，然后把孩子抱起来喂进去。需要2分钟。</li>
+</ul>
+<ul>
+<li>内存RAM就像是各个超市里的奶粉一样，这些超市在城市的各个角落，有的远，有的近，你先要寻址，然后还要去商店上门才能得到。需要1-2小时。</li>
+</ul>
+<ul>
+<li>硬盘DISK就像是仓库，可能在很远的郊区甚至工厂仓库。需要大卡车走高速公路才能运到城市里。需要2-10天。</li>
+</ul>
+<p>所以，在这样的情况下——</p>
+<p><span id="more-3236"></span></p>
+<ul>
+<li>我们不可能在家里不存放奶粉。试想如果得到孩子饿了，再去超市买，这不更慢吗？</li>
+</ul>
+<ul>
+<li>我们不可以把所有的奶粉都冲好放在奶瓶里，因为奶瓶不够。也不可能把超市里的奶粉都放到家里，因为房价太贵，这么大的房子不可能买得起。</li>
+</ul>
+<ul>
+<li>我们不可能把所有的仓库里的东西都放在超市里，因为这样干成本太大。而如果超市的货架上正好卖完了，就需要从库房甚至厂商工厂里调，这在计算里叫换页，相当的慢。</li>
+</ul>
+<p>我讲完后，老婆看似有些明白了，然后对我说，“明白了，我就说最近衣服有点跟不上，原来是L1（衣柜）里的衣服跟不上了，老公什么时候去买衣服啊……”。我晕！</p>
+<p>（以上故事，完全是我的亲身经历）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="食客还是大厨" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_title">食客还是大厨</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/17972.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/performance_review-150x150.jpg" alt="我看绩效考核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17972.html" class="wp_rp_title">我看绩效考核</a></li><li ><a href="https://coolshell.cn/articles/1679.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/vimwindows-150x150.png" alt="Vim的分屏功能" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1679.html" class="wp_rp_title">Vim的分屏功能</a></li><li ><a href="https://coolshell.cn/articles/1547.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/22.jpg" alt="使用Flex Bison 和LLVM编写自己的编译器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1547.html" class="wp_rp_title">使用Flex Bison 和LLVM编写自己的编译器</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3236.html">给老婆普及计算机知识</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3236.html/feed</wfw:commentRss>
+			<slash:comments>53</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

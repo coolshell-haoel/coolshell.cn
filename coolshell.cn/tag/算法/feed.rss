@@ -1,0 +1,1389 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>算法 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/%e7%ae%97%e6%b3%95/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Thu, 23 Oct 2014 04:47:44 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Leetcode 编程训练</title>
+		<link>https://coolshell.cn/articles/12052.html</link>
+					<comments>https://coolshell.cn/articles/12052.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 23 Oct 2014 02:51:54 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Leetcode]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[算法]]></category>
+		<category><![CDATA[面试]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=12052</guid>
+
+					<description><![CDATA[<p>Leetcode这个网站上的题都是一些经典的公司用来面试应聘者的面试题，很多人通过刷这些题来应聘一些喜欢面试算法的公司，比如：Google、微软、Faceboo...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/12052.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/12052.html">Leetcode 编程训练</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-12054 size-full" src="https://coolshell.cn/wp-content/uploads/2014/10/LeetCodeLogo-1.png" alt="LeetCodeLogo (1)" width="121" height="100" />Leetcode这个网站上的题都是一些经典的公司用来面试应聘者的面试题，很多人通过刷这些题来应聘一些喜欢面试算法的公司，比如：Google、微软、Facebook、Amazon之类的这些公司，基本上是应试教育的功利主义。</p>
+<p>我做这些题目的不是为了要去应聘这些公司，而是为了锻炼一下自己的算法和编程能力。因为我开始工作的时候基本没有这样的训练算法和编程的网站，除了大学里的“算法和数据结构”里的好些最基础最基础的知识，基本上没有什么训练。所以，当我看到有人在做这些题的时候，我也蠢蠢欲动地想去刷一下。</p>
+<p>于是，我花了3-4个月的业余时间，我把<a href="https://oj.leetcode.com/problems/" target="_blank">Leetcode的154道题</a>全部做完了。（这也是最近我没有太多的时间来写博客的原因，你可以看到我之前<a title="谜题的答案和活动的心得体会" href="https://coolshell.cn/articles/11847.html" target="_blank">做的那个活动</a>中有几个算法题来自于Leetcode）有人说我时间太多了，这里声明一下，我基本上都是利用了晚上10点以后的时间来做这些题的。</p>
+<p>LeetCode的题大致分成两类：</p>
+<p style="padding-left: 30px;"><strong>1）基础算法的知识</strong>。这些题里面有大量的算法题，解这些题都是有套路的，不是用递归（深度优先DFS，广度优先BFS），就是要用动态规划（Dynamic Programming），或是拆半查找（Binary Search），或是回溯（Back tracing），或是分治法（Divide and Conquer），还有大量的对树，数组、链表、字符串和hash表的操作。<strong>通过做这些题能让你对这些最基础的算法的思路有非常扎实的了解和训练</strong>。对我而言，Dynamic Programming 是我的短板，尤其是一些比较复杂的问题，在推导递推公式上总是有思维的缺陷（数学是我的硬伤），通过做了这些题后，我能感到我在DP的思路上有了很大的收获。</p>
+<p style="padding-left: 30px;"><strong>2）编程题</strong>。比如：atoi，strstr，add two num，括号匹配，字符串乘法，通配符匹配，文件路径简化，Text Justification，反转单词等等，这些题的Edge Case, Corner Case有很多。这些题需要你想清楚了再干，只要你稍有疏忽，就会有几个case让你痛不欲生，而且一不小心就会让你的代码会写得又臭又长，无法阅读。<strong>通过做这些题，可以非常好的训练你对各种情况的考虑，以及你对程序代码组织的掌控（其实就是其中的状态变量）。</strong>还记得我在《<a title="函数式编程" href="https://coolshell.cn/articles/10822.html" target="_blank">函数式编程</a>》中说的，程序中的状态是你程序变得复杂难维护的直接原因。</p>
+<p>我觉得每个程序员都应该花时间和精力做这些题，因为你会从这些题中得到很大的收益。做完这些题后你一定会明白下面几个道理：</p>
+<p><span id="more-12052"></span></p>
+<p style="padding-left: 30px;"><strong>1）想清楚了再干</strong>。这个观点我以前就在《<a title="多些时间能少写些代码" href="https://coolshell.cn/articles/5686.html" target="_blank">多些时间可以少些代码</a>》说过。如果你拿到题就上去直接写代码的话，你一定会被各种case打回来了。然后呢，你一着急，你就会进入那种我在《<a title="开发团队的效率" href="https://coolshell.cn/articles/11656.html" target="_blank">开发团队的效率</a>》中说的那种毫无效率case by case的开发模式，而你也进入了“平庸模式”。于是你就会出现下图那样的情况。</p>
+<figure id="attachment_12053" aria-describedby="caption-attachment-12053" style="width: 440px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-12053" src="https://coolshell.cn/wp-content/uploads/2014/10/bug_fixing.gif" alt="Case-by-Case Developement" width="440" height="231" /><figcaption id="caption-attachment-12053" class="wp-caption-text">Case-by-Case Development</figcaption></figure>
+<p style="padding-left: 30px;"><strong>2) 编程是脑力劳动，急不得</strong>。这个事情在这做这些题的时候你就会发现，要么是脑子转不过来了，要么就是明明就差一点了，但程序怎么都调不对。如果你越着急的话，你就会发现你会离目标越远，而花的时间也会更多。另外，你会发现这些题基本上都是50行代码内就可以搞定的，但是为了这50行以内的代码，你要花好多时间和精力。coding  50行代码在我们的日常工作中分分钟就完成，而Leetcode里的50行代码却没那么简单，也许，用这个你就可以区别什么是码农，什么是程序员了。</p>
+<p style="padding-left: 30px;"><strong>3）加班要不得。</strong>因为我总是在晚上10点以后做题，所以，基本上都是在加班状态中工作。这种状态过上两三天，你就会发现，整个大脑已经不转了，而且不但不转，还会犯很多低级错误，很多事情都想不清楚，一个晚上都在和程序的状态控制做搏斗，代码写得越来越乱，越来越没条理。于是这种时候，我都会休息几天，不做题了，然后再做题的时候，就觉得非常地清楚。可见加班 是编程最致命的敌人！</p>
+<p>我把我的C++代码放到了Github上，大家也帮我review一下，看看有没有可以改善的。</p>
+<p style="text-align: center;"><strong><a href="https://github.com/haoel/leetcode" target="_blank">https://github.com/haoel/leetcode</a></strong></p>
+<p>好了，不多说了，<strong>我希望大家有时间都去练练LeetCode，无论是找工作还是对你的编程能力会有非常大的提高</strong>。</p>
+<p>&nbsp;</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/250px-Sheldon_Cooper-150x150.jpg" alt="为什么我反对纯算法面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8138.html" class="wp_rp_title">为什么我反对纯算法面试题</a></li><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/9543.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/04/weibo-150x150.jpg" alt="“C++的数组不支持多态”？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9543.html" class="wp_rp_title">“C++的数组不支持多态”？</a></li><li ><a href="https://coolshell.cn/articles/8790.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/choice-150x150.jpg" alt="程序算法与人生选择" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8790.html" class="wp_rp_title">程序算法与人生选择</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/12052.html">Leetcode 编程训练</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/12052.html/feed</wfw:commentRss>
+			<slash:comments>96</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的算法代码</title>
+		<link>https://coolshell.cn/articles/6010.html</link>
+					<comments>https://coolshell.cn/articles/6010.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 29 Nov 2011 03:11:07 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6010</guid>
+
+					<description><![CDATA[<p>Keith Schwarz是一个斯坦福大学计算机科学系的讲师。他对编程充满了热情。他的主页上他自己正在实现各种各样的有意思的算法和数据结构，http://www...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6010.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6010.html">一些有意思的算法代码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Keith Schwarz是一个斯坦福大学计算机科学系的讲师。他对编程充满了热情。他的主页上他自己正在实现各种各样的有意思的算法和数据结构，<a href="http://www.keithschwarz.com/interesting/">http://www.keithschwarz.com/interesting/</a>， 目前这个网页上有88个（见下面的列表），但这位大哥要干135个，你可以看看他的<a href="http://www.keithschwarz.com/interesting/" target="_blank">To-Do List</a>。</p>
+<p>从这个列表上，我们可以看到，他从去年7月份就在自己实现这些东西了，我把他实现的这些算法转过来，</p>
+<ul>
+<li>一方面我们可以学习一下这些算法和代码，因为很多东西对我来说都比较新，我以前<a href="https://coolshell.cn/articles/2583.html" target="_blank">列举过一些经典的算法</a>，<a title="链接：算法和数据结构词典" href="https://coolshell.cn/articles/1499.html" rel="bookmark">算法和数据结构词典</a>，还有<a title="链接：可视化的数据结构和算法" href="https://coolshell.cn/articles/4671.html" rel="bookmark">可视化的数据结构和算法</a>， 不过感觉都没有这个全。</li>
+</ul>
+<ul>
+<li>另一方面我希望这个事可以影响到一些正在学习编程的人。看看别人是怎么学习编程的，希望对你有借鉴作用。</li>
+</ul>
+<table width="100%" border="0" cellspacing="0" cellpadding="6">
+<thead>
+<tr>
+<th>Name</th>
+<th>Link</th>
+<th>Date Added</th>
+<th>Language</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Binomial Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=binomial-heap">(link)</a></td>
+<td>7‑24‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Binomial_heap">binomial heap</a> data structure for use as a priority queue.</td>
+</tr>
+<tr>
+<td>Bounded Priority Queue</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=bounded-pqueue">(link)</a></td>
+<td>7‑24‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Priority_queue">priority queue</a> with a fixed upper limit to its size..</td>
+</tr>
+<tr>
+<td>Matrix</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=matrix">(link)</a></td>
+<td>7‑24‑2010</td>
+<td>C++</td>
+<td>A collection of classes for manipulating <a href="http://en.wikipedia.org/wiki/Matrix_%28mathematics%29">matrices</a>.</td>
+</tr>
+<tr>
+<td>VList</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=vlist">(link)</a></td>
+<td>8‑16‑2010</td>
+<td>Java</td>
+<td>An implementation of the <tt>List</tt> abstraction backed by a <a href="http://en.wikipedia.org/wiki/VList">VList</a>.</td>
+</tr>
+<tr>
+<td>Function Wrapper</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=function">(link)</a></td>
+<td>8‑16‑2010</td>
+<td>C++</td>
+<td>A C++ wrapper class around unary functions.</td>
+</tr>
+<tr>
+<td>String</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=string">(link)</a></td>
+<td>8‑17‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/String_(computer_science)">string</a> abstraction that uses the small string optimization.</td>
+</tr>
+</tbody>
+</table>
+<p><span id="more-6010"></span></p>
+<table>
+<tbody>
+<tr>
+<td>nstream</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=nstream">(link)</a></td>
+<td>8‑31‑2010</td>
+<td>C++</td>
+<td>An stream class that sends and receives data over a network.</td>
+</tr>
+<tr>
+<td>Snake</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=snake">(link)</a></td>
+<td>8‑31‑2010</td>
+<td>C++</td>
+<td>An implementation of the game <a href="http://en.wikipedia.org/wiki/Snake_(video_game)"><em>Snake</em></a> with a rudimentary AI.</td>
+</tr>
+<tr>
+<td>Mergesort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=mergesort">(link)</a></td>
+<td>9‑14‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Mergesort">mergesort</a> algorithm.</td>
+</tr>
+<tr>
+<td>Next Permutation</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=next-permutation">(link)</a></td>
+<td>10‑6‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://www.cplusplus.com/reference/algorithm/next_permutation/"><tt>next_permutation</tt></a> STL algorithm.</td>
+</tr>
+<tr>
+<td>Interval Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=interval-heap">(link)</a></td>
+<td>10‑17‑2010</td>
+<td>Java</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Double-ended_priority_queue">double-ended priority queue</a> using an <a href="http://www.mhhe.com/engcs/compsci/sahni/enrich/c9/interval.pdf">interval heap</a>.</td>
+</tr>
+<tr>
+<td>Linear-Time Selection</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=median-of-medians">(link)</a></td>
+<td>10‑18‑2010</td>
+<td>C++</td>
+<td>A deterministic, linear-time <a href="http://en.wikipedia.org/wiki/Selection_algorithm">selection algorithm</a> using the <a href="http://en.wikipedia.org/wiki/Selection_algorithm#Linear_general_selection_algorithm_-_Median_of_Medians_algorithm">median-of-medians</a> algorithm.</td>
+</tr>
+<tr>
+<td>Heapsort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=heapsort">(link)</a></td>
+<td>10‑18‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Heapsort">heapsort</a> algorithm.</td>
+</tr>
+<tr>
+<td>Union-Find</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=union-find">(link)</a></td>
+<td>10‑19‑2010</td>
+<td>Java</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Disjoint-set_data_structure">disjoint-set data structure</a> using a disjoint set forest.</td>
+</tr>
+<tr>
+<td>Radix Sort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=radix-sort">(link)</a></td>
+<td>10‑19‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Radix_sort">radix sort</a> algorithm.</td>
+</tr>
+<tr>
+<td>Rational</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=rational">(link)</a></td>
+<td>10‑23‑2010</td>
+<td>C++</td>
+<td>A data structure representing a <a href="http://en.wikipedia.org/wiki/Rational_number">rational number</a>.</td>
+</tr>
+<tr>
+<td>DPLL</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=dpll">(link)</a></td>
+<td>10‑23‑2010</td>
+<td>Haskell</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/DPLL_algorithm">DPLL algorithm</a> for solving <a href="http://en.wikipedia.org/wiki/Boolean_satisfiability_problem">CNF-SAT</a>.</td>
+</tr>
+<tr>
+<td>Smoothsort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=smoothsort">(link)</a></td>
+<td>10‑27‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://www.keithschwarz.com/smoothsort/">smoothsort algorithm</a>, an adaptive heapsort variant.</td>
+</tr>
+<tr>
+<td>Extendible Array</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=extendible-array">(link)</a></td>
+<td>10‑28‑2010</td>
+<td>Java</td>
+<td>A <a href="http://en.wikipedia.org/wiki/Dynamic_array">dynamic array</a> class with O(1) worst-case runtime lookup and append.</td>
+</tr>
+<tr>
+<td>In-Place Merge</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=inplace-merge">(link)</a></td>
+<td>10‑29‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Merge_algorithm">merge algorithm</a> that runs <a href="http://en.wikipedia.org/wiki/In-place_algorithm">in-place</a>.</td>
+</tr>
+<tr>
+<td>Random Shuffle</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=random-shuffle">(link)</a></td>
+<td>10‑29‑2010</td>
+<td>C++</td>
+<td>An algorithm for generating a <a href="http://en.wikipedia.org/wiki/Random_permutation">random permutation</a> of a set of elements.</td>
+</tr>
+<tr>
+<td>Random Sample</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=random-sample">(link)</a></td>
+<td>10‑29‑2010</td>
+<td>C++</td>
+<td>An O(n) time, O(1) space algorithm for randomly choosing k elements out of a stream with uniform probability.</td>
+</tr>
+<tr>
+<td>Natural Mergesort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=natural-mergesort">(link)</a></td>
+<td>10‑30‑2010</td>
+<td>C++</td>
+<td>An implementation of <a href="http://www.algorithmist.com/index.php/Merge_sort#Natural_mergesort">natural mergesort</a>, an <a href="http://en.wikipedia.org/wiki/Adaptive_sort">adaptive</a> variant of <a href="http://en.wikipedia.org/wiki/Merge_sort">mergesort</a>.</td>
+</tr>
+<tr>
+<td>Interpolation Search</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=interpolation-search">(link)</a></td>
+<td>10‑31‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Interpolation_search">interpolation search</a> algorithm.</td>
+</tr>
+<tr>
+<td>Introsort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=introsort">(link)</a></td>
+<td>10‑31‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Introsort">introsort</a> algorithm, a fast hybrid of <a href="http://en.wikipedia.org/wiki/Quicksort">quicksort</a>, <a href="http://en.wikipedia.org/wiki/Heapsort">heapsort</a>, and<a href="http://en.wikipedia.org/wiki/Insertion_sort">insertion sort</a>.</td>
+</tr>
+<tr>
+<td>Hashed Array Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=hashed-array-tree">(link)</a></td>
+<td>11‑3‑2010</td>
+<td>Java</td>
+<td>An implementation of a dynamic array backed by a <a href="http://en.wikipedia.org/wiki/Hashed_array_tree">hashed array tree</a>.</td>
+</tr>
+<tr>
+<td>Recurrence Solver</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=recurrence">(link)</a></td>
+<td>11‑13‑2010</td>
+<td>C++</td>
+<td>A fast algorithm for generating terms of a sequence defined by a <a href="http://en.wikipedia.org/wiki/Recurrence_relation#Linear_homogeneous_recurrence_relations_with_constant_coefficients">linear recurrence relation</a>.</td>
+</tr>
+<tr>
+<td>Fibonacci Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=fibonacci-heap">(link)</a></td>
+<td>11‑15‑2010</td>
+<td>Java</td>
+<td>An implementation of a priority queue backed by a <a href="http://en.wikipedia.org/wiki/Fibonacci_heap">Fibonacci heap</a>.</td>
+</tr>
+<tr>
+<td>Dijkstra&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=dijkstra">(link)</a></td>
+<td>11‑16‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Dijkstra's_algorithm">Dijkstra&#8217;s algorithm</a> for single-source shortest paths.</td>
+</tr>
+<tr>
+<td>Prim&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=prim">(link)</a></td>
+<td>11‑17‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Prim's_algorithm">Prim&#8217;s algorithm</a> for computing <a href="http://en.wikipedia.org/wiki/Minimum_spanning_tree">minimum spanning trees</a>.</td>
+</tr>
+<tr>
+<td>Kruskal&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=kruskal">(link)</a></td>
+<td>11‑17‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Kruskal's_algorithm">Kruskal&#8217;s algorithm</a> for computing <a href="http://en.wikipedia.org/wiki/Minimum_spanning_tree">minimum spanning trees</a>.</td>
+</tr>
+<tr>
+<td>Majority Element</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=majority-element">(link)</a></td>
+<td>11‑17‑2010</td>
+<td>C++</td>
+<td>A fast, linear-time algorithm for finding the <a href="http://www.cs.utexas.edu/~moore/best-ideas/mjrty/">majority element</a> of a data set.</td>
+</tr>
+<tr>
+<td>Haar Transform</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=haar">(link)</a></td>
+<td>11‑17‑2010</td>
+<td>C++</td>
+<td>A set of functions to decompose a sequence of values into a sum of <a href="http://en.wikipedia.org/wiki/Haar_wavelet">Haar wavelets</a>.</td>
+</tr>
+<tr>
+<td>Argmax</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=argmax">(link)</a></td>
+<td>11‑19‑2010</td>
+<td>C++</td>
+<td>A pair of functions to compute the <a href="http://en.wikipedia.org/wiki/Arg_max">arg min or max</a> of a function on some range.</td>
+</tr>
+<tr>
+<td>Derivative</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=derivative">(link)</a></td>
+<td>11‑19‑2010</td>
+<td>C++</td>
+<td>A <a href="http://en.wikipedia.org/wiki/Function_object">function object</a> that approximates the <a href="http://en.wikipedia.org/wiki/Derivative">derivative</a> of a function.</td>
+</tr>
+<tr>
+<td>Levenshtein Distance</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=levenshtein">(link)</a></td>
+<td>11‑19‑2010</td>
+<td>C++</td>
+<td>An algorithm for computing the <a href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance</a> between two sequences.</td>
+</tr>
+<tr>
+<td>Skiplist</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=skiplist">(link)</a></td>
+<td>11‑20‑2010</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Skip_list">skip list</a>, a randomized data structure for maintaining a sorted collection.</td>
+</tr>
+<tr>
+<td>van Emde Boas Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=van-emde-boas-tree">(link)</a></td>
+<td>11‑26‑2010</td>
+<td>C++</td>
+<td>An implementation of a sorted associative array backed by a <a href="http://en.wikipedia.org/wiki/Van_Emde_Boas_tree">van Emde Boas tree</a>.</td>
+</tr>
+<tr>
+<td>Cuckoo HashMap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=cuckoo-hashmap">(link)</a></td>
+<td>11‑27‑2010</td>
+<td>Java</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Hash_table">hash table</a> using <a href="http://en.wikipedia.org/wiki/Cuckoo_hashing">cuckoo hashing</a>.</td>
+</tr>
+<tr>
+<td>Needleman-Wunsch Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=needleman-wunsch">(link)</a></td>
+<td>11‑28‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Needleman%E2%80%93Wunsch_algorithm">Needleman-Wunsch</a> algorithm for optimal string alignment.</td>
+</tr>
+<tr>
+<td>Treap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=treap">(link)</a></td>
+<td>11‑28‑2010</td>
+<td>C++</td>
+<td>An implementation of a sorted associative array backed by a <a href="http://en.wikipedia.org/wiki/Treap">treap</a>.</td>
+</tr>
+<tr>
+<td>Floyd-Warshall Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=floyd-warshall">(link)</a></td>
+<td>12‑10‑2010</td>
+<td>Java</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Floyd-Warshall_algorithm">Floyd-Warshall algorithm</a> for all-pairs shortest paths in a graph.</td>
+</tr>
+<tr>
+<td>Power Iteration</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=power-iteration">(link)</a></td>
+<td>12‑10‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Power_iteration">power iteration</a> algorithm for finding dominant eigenvectors.</td>
+</tr>
+<tr>
+<td>Edmonds&#8217;s Matching Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=edmonds-matching">(link)</a></td>
+<td>12‑15‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Edmonds's_matching_algorithm">Edmonds&#8217;s matching algorithm</a> for finding <a href="http://en.wikipedia.org/wiki/Matching_(graph_theory)#Maximum_matchings">maximum matchings</a> in undirected graphs.</td>
+</tr>
+<tr>
+<td>Kosaraju&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=kosaraju">(link)</a></td>
+<td>12‑15‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Kosaraju's_algorithm">Kosaraju&#8217;s algorithm</a> algorithm for finding <a href="http://en.wikipedia.org/wiki/Strongly_connected_component">strongly connected components</a> of a directed graph.</td>
+</tr>
+<tr>
+<td>2-SAT</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=2sat">(link)</a></td>
+<td>12‑15‑2010</td>
+<td>Java</td>
+<td>A linear-time algorithm for solving <a href="http://en.wikipedia.org/wiki/2-satisfiability">2-SAT</a>.</td>
+</tr>
+<tr>
+<td>Bellman-Ford Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=bellman-ford">(link)</a></td>
+<td>12‑17‑2010</td>
+<td>Java</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm">Bellman-Ford</a> algorithm for single-source shortest paths.</td>
+</tr>
+<tr>
+<td>Topological Sort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=topological-sort">(link)</a></td>
+<td>12‑17‑2010</td>
+<td>Java</td>
+<td>An algorithm for computing a <a href="http://en.wikipedia.org/wiki/Topological_sorting">topological sort</a> of a directed acyclic graph.</td>
+</tr>
+<tr>
+<td>Graham Scan</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=graham-scan">(link)</a></td>
+<td>12‑19‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Graham_scan">Graham scan</a> for finding convex hulls in 2D space.</td>
+</tr>
+<tr>
+<td>Bipartite Testing</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=bipartite-verify">(link)</a></td>
+<td>12‑19‑2010</td>
+<td>Java</td>
+<td>A linear-time algorithm for checking whether a directed graph is <a href="http://en.wikipedia.org/wiki/Bipartite_graph">bipartite</a>.</td>
+</tr>
+<tr>
+<td>Johnson&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=johnson">(link)</a></td>
+<td>12‑19‑2010</td>
+<td>Java</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Johnson's_algorithm">Johnson&#8217;s algorithm</a> for all-pairs shortest paths.</td>
+</tr>
+<tr>
+<td>Strassen Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=strassen">(link)</a></td>
+<td>12‑20‑2010</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Strassen_algorithm">Strassen algorithm</a> for fast matrix multiplication.</td>
+</tr>
+<tr>
+<td>Cartesian Tree Sort</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=cartesian-tree-sort">(link)</a></td>
+<td>12‑21‑2010</td>
+<td>C++</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Cartesian_tree#Application_in_sorting">Cartesian tree sort</a>, an adaptive, out-of-place heapsort variant.</td>
+</tr>
+<tr>
+<td>Ford-Fulkerson Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ford-fulkerson">(link)</a></td>
+<td>12‑21‑2010</td>
+<td>Java</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm">Ford-Fulkerson</a> maximum-flow algorithm.</td>
+</tr>
+<tr>
+<td>Scaling Ford-Fulkerson</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ford-fulkerson-scaling">(link)</a></td>
+<td>12‑22‑2010</td>
+<td>Java</td>
+<td>An modification of the <a href="http://en.wikipedia.org/wiki/Ford%E2%80%93Fulkerson_algorithm">Ford-Fulkerson</a> maximum-flow algorithm that uses scaling to achieve polynomial time..</td>
+</tr>
+<tr>
+<td>Splay Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=splay-tree">(link)</a></td>
+<td>12‑27‑2010</td>
+<td>C++</td>
+<td>An implementation of a sorted associative array backed by a <a href="http://en.wikipedia.org/wiki/Splay_tree">splay tree</a>.</td>
+</tr>
+<tr>
+<td>Ternary Search Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ternary-search-tree">(link)</a></td>
+<td>12‑28‑2010</td>
+<td>C++</td>
+<td>An implementation of a sorted set of strings backed by a <a href="http://en.wikipedia.org/wiki/Ternary_search_tree">ternary search tree</a>.</td>
+</tr>
+<tr>
+<td>Ring Buffer</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ring-buffer">(link)</a></td>
+<td>12‑30‑2010</td>
+<td>Java</td>
+<td>An implementation of a FIFO queue using a <a href="http://en.wikipedia.org/wiki/Circular_buffer">ring buffer</a>.</td>
+</tr>
+<tr>
+<td>AVL Tree</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=avl-tree">(link)</a></td>
+<td>12‑30‑2010</td>
+<td>C++</td>
+<td>A sorted associative container backed by an <a href="http://en.wikipedia.org/wiki/AVL_tree">AVL tree</a>.</td>
+</tr>
+<tr>
+<td>Rabin-Karp Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=rabin-karp">(link)</a></td>
+<td>1‑1‑2011</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_string_search_algorithm">Rabin-Karp algorithm</a> for string matching.</td>
+</tr>
+<tr>
+<td>RPN Evaluator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=rpn-evaluate">(link)</a></td>
+<td>1‑18‑2011</td>
+<td>C++ / strain</td>
+<td>A library to tokenize and evaluate simple arithmetic expressions in <a href="http://en.wikipedia.org/wiki/Reverse_Polish_notation">reverse Polish notation</a>.</td>
+</tr>
+<tr>
+<td>Shunting-Yard Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=shunting-yard">(link)</a></td>
+<td>1‑18‑2011</td>
+<td>C++ / strain</td>
+<td>An implementation of Dijkstra&#8217;s <a href="http://en.wikipedia.org/wiki/Shunting-yard_algorithm">shunting-yard algorithm</a> for converting infix expressions to reverse-Polish notation.</td>
+</tr>
+<tr>
+<td>Skew Binomial Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=skew-binomial-heap">(link)</a></td>
+<td>1‑20‑2011</td>
+<td>C++</td>
+<td>An implementation of a priority queue backed by a <a href="http://en.wikipedia.org/wiki/Skew_binomial_heap">skew binomial heap</a>.</td>
+</tr>
+<tr>
+<td>2/3 Heap</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=two-three-heap">(link)</a></td>
+<td>3‑1‑2011</td>
+<td>C++</td>
+<td>An implementation of a priority queue whose branching factor alternates at different levels to maximize performance.</td>
+</tr>
+<tr>
+<td>Zeckendorf Logarithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=zeckendorf-logarithm">(link)</a></td>
+<td>3‑10‑2011</td>
+<td>C++</td>
+<td>An algorithm based on <a href="http://en.wikipedia.org/wiki/Zeckendorf's_theorem">Zeckendorf representations</a> that efficiently computes logarithms.</td>
+</tr>
+<tr>
+<td>Factoradic Permutations</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=factoradic-permutation">(link)</a></td>
+<td>3‑17‑2011</td>
+<td>C++</td>
+<td>A set of algorithms for generating <a href="http://en.wikipedia.org/wiki/Permutation">permutations</a> using the <a href="http://en.wikipedia.org/wiki/Factorial_number_system">factoradic number system</a>.</td>
+</tr>
+<tr>
+<td>Binary Cyclic Subsets</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=binary-subset">(link)</a></td>
+<td>3‑20‑2011</td>
+<td>C++</td>
+<td>A set of algorithms for generating <a href="http://en.wikipedia.org/wiki/Subset">subsets</a> in <a href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographical order</a> using <a href="http://www.keithschwarz.com/binary-subsets">binary numbers and cyclic shifts</a>.</td>
+</tr>
+<tr>
+<td>Fibonacci Iterator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=fibonacci-iterator">(link)</a></td>
+<td>3‑22‑2011</td>
+<td>C++</td>
+<td>An STL-style iterator for iterating over the <a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci numbers</a>.</td>
+</tr>
+<tr>
+<td>Fibonacci Search</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=fibonacci-search">(link)</a></td>
+<td>3‑22‑2011</td>
+<td>C++</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Fibonacci_search_technique">Fibonacci search</a> algorithm.</td>
+</tr>
+<tr>
+<td>Euclid&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=euclid">(link)</a></td>
+<td>4‑18‑2011</td>
+<td>Haskell</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Euclidean_algorithm">Euclid&#8217;s algorithm</a> and applications to <a href="http://en.wikipedia.org/wiki/Continued_fraction">continued fractions</a> and <a href="http://en.wikipedia.org/wiki/Extended_Euclidean_algorithm">the extended Euclidean algorithm</a>.</td>
+</tr>
+<tr>
+<td>Find Duplicate</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=find-duplicate">(link)</a></td>
+<td>4‑18‑2011</td>
+<td>Python</td>
+<td>An algorithm to find a repeated element in an array using <a href="http://en.wikipedia.org/wiki/Cycle_detection#Tortoise_and_hare">Floyd&#8217;s cycle-finding algorithm</a>.</td>
+</tr>
+<tr>
+<td>Permutation Generator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=permutation-generator">(link)</a></td>
+<td>4‑19‑2011</td>
+<td>Python</td>
+<td>A <a href="http://en.wikipedia.org/wiki/Generator_(computer_programming)">generator</a> for producing all <a href="http://en.wikipedia.org/wiki/Permutation">permutations</a> of a list of elements.</td>
+</tr>
+<tr>
+<td>Matrix Find</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=matrix-find">(link)</a></td>
+<td>4‑19‑2011</td>
+<td>Python</td>
+<td>A solution to the classic interview question of searching a sorted matrix for a particular value.</td>
+</tr>
+<tr>
+<td>Binary GCD</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=binary-gcd">(link)</a></td>
+<td>4‑23‑2011</td>
+<td>Scheme</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Binary_GCD_algorithm">binary GCD algorithm</a> for computing greatest common divisors of nonnegative integers.</td>
+</tr>
+<tr>
+<td>Knuth-Morris-Pratt Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=knuth-morris-pratt">(link)</a></td>
+<td>5‑3‑2011</td>
+<td>Python</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm">Knuth-Morris-Pratt algorithm</a> for fast string matching.</td>
+</tr>
+<tr>
+<td>Kadane&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=kadane">(link)</a></td>
+<td>5‑7‑2011</td>
+<td>C++</td>
+<td>An implementation of Kadane&#8217;s algorithm for solving the <a href="http://en.wikipedia.org/wiki/Maximum_subarray_problem">maximum-weight subarray problem</a>.</td>
+</tr>
+<tr>
+<td>Karatsuba&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=karatsuba">(link)</a></td>
+<td>8‑15‑2011</td>
+<td>Python</td>
+<td>An implementation of <a href="http://en.wikipedia.org/wiki/Karatsuba_algorithm">Karatsuba&#8217;s algorithm</a> for fast integer multiplication.</td>
+</tr>
+<tr>
+<td>Min-Stack</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=min-stack">(link)</a></td>
+<td>8‑15‑2011</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Stack_(data_structure)">LIFO stack</a> that supports O(1) push, pop, and find-minimum.</td>
+</tr>
+<tr>
+<td>Random Bag</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=random-bag">(link)</a></td>
+<td>8‑15‑2011</td>
+<td>Python</td>
+<td>A data structure that supports insertion and removal of a uniformly-random element.</td>
+</tr>
+<tr>
+<td>Min-Queue</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=min-queue">(link)</a></td>
+<td>8‑15‑2011</td>
+<td>C++</td>
+<td>An implementation of a <a href="http://en.wikipedia.org/wiki/Queue_(data_structure)">FIFO queue</a> that supports O(1) push, pop, and find-minimum.</td>
+</tr>
+<tr>
+<td>Lights-Out Solver</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=lights-out">(link)</a></td>
+<td>8‑29‑2011</td>
+<td>C++</td>
+<td>A solver for the game <a href="http://en.wikipedia.org/wiki/Lights_Out_(game)">Lights Out</a> using <a href="http://en.wikipedia.org/wiki/Gaussian_elimination">Gaussian elimination</a> over <a href="http://en.wikipedia.org/wiki/GF(2)">GF(2)</a>.</td>
+</tr>
+<tr>
+<td>Maximum Single-Sell Profit</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=single-sell-profit">(link)</a></td>
+<td>11‑9‑2011</td>
+<td>Python</td>
+<td>Four algorithms for the <a href="http://stackoverflow.com/q/7086464/501557">maximum single-sell profit problem</a>, each showing off a different algorithmic technique.</td>
+</tr>
+<tr>
+<td>Generalized Kadane&#8217;s Algorithm</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=generalized-kadane">(link)</a></td>
+<td>11‑10‑2011</td>
+<td>C++</td>
+<td>A generalization of <a href="http://en.wikipedia.org/wiki/Maximum_subarray_problem">Kadane&#8217;s algorithm</a> for solving the maximum subarray problem subject to a <a href="http://stackoverflow.com/q/7861387/501557">length restriction</a>.</td>
+</tr>
+<tr>
+<td>Longest Range</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=longest-range">(link)</a></td>
+<td>11‑19‑2011</td>
+<td>Java</td>
+<td>An algorithm for solving the <a href="http://stackoverflow.com/q/5415305/501557">longest contiguous range</a> problem.</td>
+</tr>
+<tr>
+<td>Egyptian Fractions</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=egyptian-fraction">(link)</a></td>
+<td>11‑20‑2011</td>
+<td>Python</td>
+<td>An implementation of the <a href="http://en.wikipedia.org/wiki/Greedy_algorithm_for_Egyptian_fractions">greedy algorithm</a> for finding <a href="http://en.wikipedia.org/wiki/Egyptian_fraction">Egyptian fractions</a>.</td>
+</tr>
+<tr>
+<td>LL(1) Parser Generator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=ll1">(link)</a></td>
+<td>11‑21‑2011</td>
+<td>Java</td>
+<td>An <a href="http://en.wikipedia.org/wiki/LL_parser">LL(1) parser generator</a>.</td>
+</tr>
+<tr>
+<td>LR(0) Parser Generator</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=lr0">(link)</a></td>
+<td>11‑23‑2011</td>
+<td>Java</td>
+<td>An <a href="http://en.wikipedia.org/wiki/LR_parser">LR(0) parser generator</a>.</td>
+</tr>
+<tr>
+<td>Word Ladders</td>
+<td><a href="http://www.keithschwarz.com/interesting/code/?dir=word-ladder">(link)</a></td>
+<td>11‑27‑2011</td>
+<td>JavaScript</td>
+<td>A program for finding <a href="http://en.wikipedia.org/wiki/Word_ladder">word ladders</a> between two words.</td>
+</tr>
+</tbody>
+</table>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li><li ><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="可视化的数据结构和算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_title">可视化的数据结构和算法</a></li><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6010.html">一些有意思的算法代码</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6010.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>可视化的数据结构和算法</title>
+		<link>https://coolshell.cn/articles/4671.html</link>
+					<comments>https://coolshell.cn/articles/4671.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 04 May 2011 06:26:46 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4671</guid>
+
+					<description><![CDATA[<p>还记得之前发布过的那个关于可视化排序的文章吗？在网上又看到了一个旧金山大学David Galles做的各种可视化的数据结构和基本算法的主页，网址在这里，大家可以...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4671.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4671.html">可视化的数据结构和算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>还记得之前发布过的那个<a title="可视化的排序过程" href="https://coolshell.cn/articles/3933.html" target="_blank">关于可视化排序</a>的文章吗？在网上又看到了一个旧金山大学<a href="http://www.cs.usfca.edu/galles">David Galles</a>做的各种可视化的数据结构和基本算法的主页，<a href="http://www.cs.usfca.edu/~galles/visualization/Algorithms.html" target="_blank">网址在这里</a>，大家可以看看。我把这个页面的目录列在下面并翻译了一下，大家可以直接点击了。</p>
+<p>不知道国内的教育有没有相关的教学课件，至少在我大学的时候是没有的。</p>
+<h4>基础</h4>
+<ul>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/StackArray.html">Stack栈: 数组实现</a></li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/StackLL.html">Stack栈: 链表实现</a></li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/QueueArray.html">Queues队列: 数组实现</a></li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/QueueLL.html">Queues队列: 链表实现</a></li>
+<li>Lists列表: 数组实现 ( <a href="http://www.cs.usfca.edu/~galles/visualization/java/visualization.html">java</a> 版演示)</li>
+<li>Lists列表: 链表实现 ( <a href="http://www.cs.usfca.edu/~galles/visualization/java/visualization.html">java</a> 版演示)</li>
+</ul>
+<h4>索引</h4>
+<ul>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/BST.html">Binary Search Trees</a> 二叉检索树</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/AVLTree.html">AVL Trees (平衡二叉检索树)</a></li>
+<li>Red-Black Trees 红黑树 ( <a href="http://www.cs.usfca.edu/~galles/visualization/flash.html">flash</a> 版本演示)</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/OpenHash.html">Open Hash Tables 开放哈希表(Closed Addressing 链地址法)</a></li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/ClosedHash.html">Closed Hash Tables  闭合哈希表 (Open Addressing 开放定址法)</a></li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/ClosedHashBucket.html">Closed Hash Tables, using buckets</a> 使用桶</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/BTree.html">B Trees</a> B树</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/BPlusTree.html">B+ Trees</a> B+树</li>
+</ul>
+<p><span id="more-4671"></span></p>
+<p><a></a></p>
+<p><a></p>
+<li style="display: inline !important;">
+<h4>排序</h4>
+</li>
+<p></a></p>
+<ul>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/ComparisonSort.html">Comparison Sorting</a> 比较式排序
+<ul>
+<li>Bubble Sort 冒泡排序</li>
+<li>Selection Sort 选择排序</li>
+<li>Insertion Sort 插入排序</li>
+<li>Shell Sort 希尔排序</li>
+<li>Merge Sort 归并排序</li>
+<li>Quck Sort 快速排序</li>
+</ul>
+</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/BucketSort.html">Bucket Sort</a> 桶排序</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/CountingSort.html">Counting Sort</a> 计数排序</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/RadixSort.html">Radix Sort</a> 基数排序</li>
+</ul>
+<h4>堆数据结构</h4>
+<ul>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/Heap.html">Heaps</a> 堆</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/BinomialQueue.html">Binomial Queues</a> 二项队列</li>
+</ul>
+<h4>图 算法</h4>
+<ul>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/BFS.html">Breadth-First Search</a> 广度优先搜索</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/DFS.html">Depth-First Search</a> 深度优先搜索</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/ConnectedComponent.html">Connected Components</a> 连通性</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/Dijkstra.html">Dijkstra&#8217;s Shortest Path</a> Dijkstra最短路径</li>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/Prim.html">Prim&#8217;s Minimum Cost Spanning Tree</a> 最小生成树</li>
+<li>Topological Sort  拓扑排序 ( <a href="http://www.cs.usfca.edu/~galles/visualization/flash.html">flash</a> 版本演示  <a href="http://www.cs.usfca.edu/~galles/visualization/java/visualization.html">java</a> 版本演示)</li>
+<li>Floyd-Warshall 算法(解决任意两点间的最短路径的一种算法) (<a href="http://www.cs.usfca.edu/~galles/visualization/flash.html">flash</a> 版本演示 <a href="http://www.cs.usfca.edu/~galles/visualization/java/visualization.html">java</a> 版本演示)</li>
+<li>基于<em>Kruskal</em>算法的最小生成树的构建 ( <a href="http://www.cs.usfca.edu/~galles/visualization/flash.html">flash</a> 版本演示 <a href="http://www.cs.usfca.edu/~galles/visualization/java/visualization.html">java</a> 版本演示)</li>
+</ul>
+<h4>动态编程</h4>
+<ul>
+<li>计算 Fibonacci 数 ( <a href="http://www.cs.usfca.edu/~galles/visualization/java/visualization.html">java</a> 版本演示)</li>
+</ul>
+<h4>其它&#8230;</h4>
+<ul>
+<li><a href="http://www.cs.usfca.edu/~galles/visualization/DisjointSets.html">Disjoint Sets</a> （MIT算法公开课中有一课讨论的是这个，见<a href="http://v.163.com/movie/2010/12/V/E/M6UTT5U0I_M6V2UDUVE.html" target="_blank">网易公开课</a>）</li>
+<li>Huffman Coding 哈夫曼编码 ( <a href="http://www.cs.usfca.edu/~galles/visualization/java/visualization.html">java</a> 版本演示)</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li><li ><a href="https://coolshell.cn/articles/2583.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些重要的算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2583.html" class="wp_rp_title">一些重要的算法</a></li><li ><a href="https://coolshell.cn/articles/536.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/bubble-150x150.png" alt="一个显示排序过程的Python脚本" width="150" height="150" /></a><a href="https://coolshell.cn/articles/536.html" class="wp_rp_title">一个显示排序过程的Python脚本</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4671.html">可视化的数据结构和算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4671.html/feed</wfw:commentRss>
+			<slash:comments>50</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些有意思的文章和资源</title>
+		<link>https://coolshell.cn/articles/4220.html</link>
+					<comments>https://coolshell.cn/articles/4220.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 06 Apr 2011 00:47:40 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[64bits]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4220</guid>
+
+					<description><![CDATA[<p>又到了向大家介绍一些最近我在网上发现的有价值的东西的时候了。（下面的链接中很多都被墙） 以前向大家介绍过《一些重要的算法》和《算法和数据结构词典》，不过，你知道...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4220.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4220.html">一些有意思的文章和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>又到了向大家介绍一些最近我在网上发现的有价值的东西的时候了。（下面的链接中很多都被墙）</p>
+<ul>
+<li>以前向大家介绍过《<a title="一些重要的算法" href="https://coolshell.cn/articles/2583.html" target="_blank">一些重要的算法</a>》和《<a title="算法和数据结构词典" href="https://coolshell.cn/articles/1499.html" target="_blank">算法和数据结构词典</a>》，不过，你知道有些什么样比较奇怪的数据结构吗？wikipedia上的这个词条可以让你看看<a href="http://en.wikipedia.org/wiki/List_of_data_structures" target="_blank">各种不同的数据结构</a>。比如：<a rel="nofollow" href="http://en.wikipedia.org/wiki/Skip_list">Skip lists</a>， <a rel="nofollow" href="http://en.wikipedia.org/wiki/Bloom_filter">Bloom filters</a>，或是什么<a rel="nofollow" href="http://en.wikipedia.org/wiki/Dancing_Links">Dancing links</a>。你也许会像一个以“<a title="如何学好C++语言" href="https://coolshell.cn/articles/4119.html" target="_blank">如何学好C++</a>”中的朋友们所说的，不削于这种所谓的“奇技淫巧”，甚至觉得这太根本不实用。其实，这些东西还是有用的，至少对你开阔思路，活动编程思维能力很有意义。</li>
+</ul>
+<ul>
+<li>本站的关于<a href="https://coolshell.cn/tag/%e6%8e%92%e5%ba%8f" target="_blank">排序的文章</a>有很多，对于排序算法来说，其受到要排序的个数和数据的杂乱程度的影响，我们知道比较稳定的排序算法是快速排序和归并排序，归并排序对于大量的数据排序效果是非常好的，尤其是我们可以进行并行的排序。这里有一个并行归并排序的算法的源代码，你可以参考一下 &#8211; “<a href="http://dzmitryhuba.blogspot.com/2010/10/parallel-merge-sort.html" target="_blank">Parallel Merge Sort</a>”。</li>
+</ul>
+<ul>
+<li>说到“奇技淫巧”和算法，这里有一个文章向你展示了C语言中使用位操作可能完成的各种算法，很有意思。请参看 &#8211; “<a href="http://aggregate.ee.engr.uky.edu/MAGIC/" target="_blank">The Aggregate Magic Algorithms</a>”</li>
+</ul>
+<ul>
+<li>这里有篇文章教你如何取得一个<a href="http://www.productivity501.com/harvard-masters-degree/6463/" target="_blank">在线的哈佛大学的硕士学位</a>，文章中说了一些相关的事宜，包括一些收费情况，并且展示了一张文凭。这里有一个网页说明了<a href="http://blog.markwshead.com/911/harvard-online-masters-degree-in-software-engineering/" target="_blank">哈佛软件工程学位</a>（Software Engineering）的所需要学习的科目，比如：Java和分布式计算，分布式/企业级计算，设计模式和Java，通讯协议，高级数据网络，Web开发，计算理论，Perl实践，Unix系统编程……我不知道我们的国家各个大学的硕士在学什么，因为我没有读过硕士，但好像现在的计算机研究生只是导师用来挣钱的免费资源，而且，实在不知道研究生在校研究什么。不管怎么样，从这看来，我们的大学好像并没有教给学生计算机的技术。比如在“<a title="如何学好C语言" href="https://coolshell.cn/articles/4102.html" target="_blank">如何学好C语言</a>”和“<a title="如何学好C++语言" href="https://coolshell.cn/articles/4119.html" target="_blank">如何学好C++语言</a>”中我提到的那些书，那些才是大学里应该学的。我国的教育还真不是一般的落后，不过你不妨试试哈佛的在线学位。</li>
+</ul>
+<p><span id="more-4220"></span></p>
+<ul>
+<li>关于网上的电子书，以前本站介绍过一 个<a title="免费电子书列表" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>，这里再推荐一个网站，上面有很多很多很不错的计算机科学方面的电子书，当然，都是英文的。<a href="http://www.sciencebooksonline.info/computer-science.html" target="_blank">http://www.sciencebooksonline.info/computer-science.html</a>。我知道你对英文发憷，但是，朋友，你一定要学好英文啊，这不仅仅只是为了学好计算机啊。</li>
+</ul>
+<ul>
+<li>还记得本站的“<a title="64位平台C/C++开发注意事项" href="https://coolshell.cn/articles/3512.html" target="_blank">64位平台开发的注意事项</a>”吗？Intel Software Network上有这样一篇文章其收集了一些在64位平台上经常出现的错的，图文并茂的，相当的不错，强力推荐给大家 &#8211; “<a href="http://software.intel.com/en-us/articles/collection-of-examples-of-64-bit-errors-in-real-programs/" target="_blank">A Collection of Examples of 64-bit Errors in Real Programs</a>”</li>
+</ul>
+<ul>
+<li>你爱好汇编语言吗？如果你是汇编的痴迷者，那么mac.com上的<a href="http://homepage.mac.com/randyhyde/webster.cs.ucr.edu/index.html">这个列表</a>对你很有意义了。里面的相关文章非常不错哦。而这里有一个<a href="http://www.duntemann.com/assembly.html" target="_blank">Step by Step的x86汇编编程教程</a>。</li>
+</ul>
+<ul>
+<li>还记得那篇“UI和UX的差别”吗？呵呵。这里有一个网站，给了你30+条UX用户体验的建议，我觉得非常不错，转给大家<a href="http://uxmyths.com/">http://uxmyths.com/</a></li>
+</ul>
+<ul>
+<li>想在Visual Studio 2010下编写Python吗？那么，向你介绍这个微软官方的插件<a href="http://pytools.codeplex.com/" target="_blank">Python  Tools for Visual Studio</a>。你还可以在VS中调试你的Python代码。挺不错的。</li>
+</ul>
+<ul>
+<li>在VS里开发Python，那么就可以使用Eclipse编写Android程序，这里有一篇教程教你 &#8211; <a href="http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-android-with-eclipse-reloaded/" target="_blank">Get Started Developing For Android With Eclipse, Reloaded</a></li>
+</ul>
+<ul>
+<li>说到了Android，必然要提一提iOS。想学iOS编程吗？这里有一篇教程很不错，如果你是一个什么也不懂的初学者，你不妨看看这篇文章“<a href="http://designthencode.com/scratch/" target="_blank">Build iOS App from Scrach</a>”</li>
+</ul>
+<ul>
+<li>查JDK是不是有点不好查？这里有一个网站可以方便地查找JDK和Android的API &#8211; <a href="http://www.kiwidoc.com/" target="_blank">http://www.kiwidoc.com</a>，我觉得很不错哦。</li>
+</ul>
+<ul>
+<li>不知道你是不是一个怀旧的人，你是否还记得以前用C语言开发Web的时光呢？我记得我97-98年的时候学过用C开发web应用，觉得挺难学的，我还没有完全搞懂，就出现了ASP，PHP……。这两天看到一篇 <a href="http://www.tutorialspoint.com/cplusplus/cpp_web_programming.htm" target="_blank">C++ Web Programming</a>，讲得真是很系统啊，从处理HTTP Header，到处理表单和上传文件。看完后，感觉有点坐着时光机器回到大学时的感觉。呵呵。</li>
+</ul>
+<ul>
+<li>说到Web编程，现在的Web编程和以前很不一样了。你觉得未来的Web编程的技术会是什么样的？NoSQL? 服务器端的Javascript? 各种像Amazon的EC2或S3的云计算平台？更新更强大的开发框架？HTML 5/CSS 3？这里有一篇文章你可以去看看 &#8211; “<a href="http://net.tutsplus.com/articles/general/7-exciting-web-development-trends-for-2011/">7 Exciting Web Development Trends for 2011</a>”.</li>
+</ul>
+<ul>
+<li>无论Web编程到了什么时候，安全问题永远都是你需要注意的。这里有一篇文章“<a href="http://code.google.com/intl/zh-CN/edu/submissions/daswani/index.html" target="_blank">What Every Web Programmer Needs To Know About Security</a>” &#8211;  每一个Web程序员都应该知道的安全问题。</li>
+</ul>
+<ul>
+<li>再推荐两个关于WebGL的游戏演示，一个是3D的比较好玩的有点<a href="http://cycleblob.com/" target="_blank">像贪吃蛇一样的游戏</a>，另一个是<a href="http://nicolas-bonnel.github.com/WARPG/index.html" target="_blank">RPG式的游戏</a>，第三人称视角，看上去很不错。</li>
+</ul>
+<ul>
+<li>这里有20款图标，<a href="http://www.tutorialcadet.com/20-user-interface-icon-sets-for-developers/" target="_blank">http://www.tutorialcadet.com/20-user-interface-icon-sets-for-developers/</a>，也许会对你的UI开发有帮助。wikipedia上也有一些<a href="http://commons.wikimedia.org/wiki/Comparison_of_icon_sets" target="_blank">免费的图标</a>。</li>
+</ul>
+<ul>
+<li>在以前的“<a title="一些有意思的贴子和工具" href="https://coolshell.cn/articles/3480.html" target="_blank">一些资源介绍</a>”的文章中介绍过<a href="http://mikeos.berlios.de/write-your-own-os.html" target="_blank">一篇教程</a>教你用x86的汇编做一个操作系统， 这里又有一篇文章向你展示了一个最最简单的操作系统内核，这个操作系统叫做<a href="http://www.retroprogramming.com/2011/03/itsy-os-simple-preemptive-switcher.html" target="_blank">Itsy-OS Kernel</a>，你可以看看。</li>
+</ul>
+<ul>
+<li>你还记得Google在四月一日愚人节那天搞的那个<a href="http://mail.google.com/mail/help/motion.html" target="_blank">Google Gmail Motion</a>吗？用你的body Language写邮件？呵呵，不过，某人使用微软的Kinect做到了，视频在这里：<a href="http://www.youtube.com/watch?v=Lfso7_i9Ko8" target="_blank">http://www.youtube.com/watch?v=Lfso7_i9Ko8</a>。项目主页在这里：<a href="http://projects.ict.usc.edu/mxr/faast/">http://projects.ict.usc.edu/mxr/faast/</a>。</li>
+<li>不知道你看过电影《创战纪》了吗？我个人觉得电影很一般。不过你想知道里面的一些特效是用什么样的技术怎么做的吗？呵呵，其中的一个程序员写了一篇博文 &#8211; “<a href="http://jtnimoy.net/workviewer.php?q=178" target="_blank">Tron Legacy</a>”，我看到了Unix, C++等。这篇文章很不错。</li>
+</ul>
+<p>好的，就这么多，也欢迎你分享你所看到的和听到的东西。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/8.jpg" alt="二叉树迭代器算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9886.html" class="wp_rp_title">二叉树迭代器算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4220.html">一些有意思的文章和资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4220.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>可视化的排序过程</title>
+		<link>https://coolshell.cn/articles/3933.html</link>
+					<comments>https://coolshell.cn/articles/3933.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 18 Mar 2011 00:42:56 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[排序]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3933</guid>
+
+					<description><![CDATA[<p>下面是一个日本程序员制做的一个可视化的排序过程，包括了各种经典的排序算法，你可以调整速度和需要排序的个数。酷壳以前也介绍过几篇相关的文章 一个排序算法比较的网站...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3933.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3933.html">可视化的排序过程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是一个日本程序员制做的一个<a href="http://jsdo.it/norahiko/oxIy/fullscreen" target=_blank>可视化的排序过程</a>，包括了各种经典的排序算法，你可以调整速度和需要排序的个数。酷壳以前也介绍过几篇相关的文章 <a title="一个排序算法比较的网站" rel="bookmark" href="https://coolshell.cn/articles/399.html" target="_blank">一个排序算法比较的网站</a>，<a title="一个显示排序过程的Python脚本" rel="bookmark" href="https://coolshell.cn/articles/536.html" target="_blank">一个显示排序过程的Python脚本</a> 关于各种排序算法的运行复杂度比较，请参看<a href="http://en.wikipedia.org/wiki/Sorting_algorithm#Comparison_of_algorithms" target="_blank">Wikipedia的排序算法比较</a>。</p>
+<p align=center><iframe loading="lazy" src="http://jsrun.it/norahiko/oxIy" width="630" height="320" frameborder="0"><br />
+</iframe></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2583.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些重要的算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2583.html" class="wp_rp_title">一些重要的算法</a></li><li ><a href="https://coolshell.cn/articles/536.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/bubble-150x150.png" alt="一个显示排序过程的Python脚本" width="150" height="150" /></a><a href="https://coolshell.cn/articles/536.html" class="wp_rp_title">一个显示排序过程的Python脚本</a></li><li ><a href="https://coolshell.cn/articles/399.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/sort-150x150.jpg" alt="一个排序算法比较的网站" width="150" height="150" /></a><a href="https://coolshell.cn/articles/399.html" class="wp_rp_title">一个排序算法比较的网站</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="可视化的数据结构和算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_title">可视化的数据结构和算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3933.html">可视化的排序过程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3933.html/feed</wfw:commentRss>
+			<slash:comments>54</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>计算机编程简史图</title>
+		<link>https://coolshell.cn/articles/2724.html</link>
+					<comments>https://coolshell.cn/articles/2724.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 25 Jul 2010 23:54:16 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[programming language]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2724</guid>
+
+					<description><![CDATA[<p>这个图片太经典了，本来想翻译的，后来觉得这么经典的图片可能早已被人翻译了，简单的Google一下，果然有人翻译了。那我就把英文版和中文版都转过来吧。我们可以看到...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2724.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2724.html">计算机编程简史图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这个图片太经典了，本来想翻译的，后来觉得这么经典的图片可能早已被人翻译了，简单的Google一下，果然有人翻译了。那我就把英文版和中文版都转过来吧。我们可以看到，其中很大一部分人都和Unix有着不解之缘（参见《<a rel="bookmark" href="https://coolshell.cn/articles/2322.html" target="_blank">Unix传奇上篇</a>，<a href="https://coolshell.cn/articles/2324.html" target="_blank">Unix传奇下篇</a>》）</p>
+<ul>
+<li><a href="http://www.smashingmagazine.com/2010/06/06/designing-the-world-of-programming-infographic/" target="_blank">英文原版</a></li>
+<li><a href="http://www.mazingtech.com/cn/list.aspx/News/1/%E5%9B%BE%E8%AF%B4%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BC%96%E7%A8%8B%E7%AE%80%E5%8F%B2" target="_blank">中文翻译版</a></li>
+</ul>
+<p>什么也不说了，直接上图（图片比较大，单击图片看大图）</p>
+<hr />
+<figure id="attachment_2726" aria-describedby="caption-attachment-2726" style="width: 409px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04.eng_.jpg"><img decoding="async" loading="lazy" class="size-large wp-image-2726" title="计算机编程简史图（英文版） " src="https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04.eng_-409x1024.jpg" alt="" width="409" height="1024" /></a><figcaption id="caption-attachment-2726" class="wp-caption-text">计算机编程简史图（英文版） </figcaption></figure>
+<hr />
+<p><span id="more-2724"></span></p>
+<p><figure id="attachment_2725" aria-describedby="caption-attachment-2725" style="width: 409px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04_cn.jpg"><img decoding="async" loading="lazy" class="size-large wp-image-2725" title="计算机编程简史图（中文版） " src="https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04_cn-409x1024.jpg" alt="" width="409" height="1024" srcset="https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04_cn-409x1024.jpg 409w, https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04_cn-120x300.jpg 120w, https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04_cn.jpg 1200w" sizes="(max-width: 409px) 100vw, 409px" /></a><figcaption id="caption-attachment-2725" class="wp-caption-text">计算机编程简史图（中文版） </figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19996.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/11/ken.dennis-300x186-1-150x150.jpeg" alt="Unix 50 年：Ken Thompson 的密码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19996.html" class="wp_rp_title">Unix 50 年：Ken Thompson 的密码</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2724.html">计算机编程简史图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2724.html/feed</wfw:commentRss>
+			<slash:comments>32</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些重要的算法</title>
+		<link>https://coolshell.cn/articles/2583.html</link>
+					<comments>https://coolshell.cn/articles/2583.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 12 Jul 2010 00:27:38 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[排序]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2583</guid>
+
+					<description><![CDATA[<p>下面是一些比较重要的算法，原文罗列了32个，但我觉得有很多是数论里的，和计算机的不相干，所以没有选取。下面的这些，有的我们经常在用，有的基本不用。有的很常见，有...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2583.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2583.html">一些重要的算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<div>
+<p>下面是一些比较重要的算法，<a href="http://www.risc.jku.at/people/ckoutsch/stuff/e_algorithms.html" target="_blank">原文</a>罗列了32个，但我觉得有很多是数论里的，和计算机的不相干，所以没有选取。下面的这些，有的我们经常在用，有的基本不用。有的很常见，有的很偏。不过了解一下也是好事。也欢迎你留下你觉得有意义的算法。（注：本篇文章并非翻译，其中的算法描述大部份摘自Wikipedia，因为维基百科描述的很专业了）<big></big></p>
+<ol>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/A*%E6%90%9C%E5%AF%BB%E7%AE%97%E6%B3%95" target="_blank"><strong>A*搜寻算法</strong><br />
+</a></big>俗称A星算法。这是一种在图形平面上，有多个节点的路径，求出最低通过成本的算法。常用于游戏中的NPC的移动计算，或线上游戏的BOT的移动计算上。该算法像<a title="Dijkstra算法" href="http://zh.wikipedia.org/zh-cn/Dijkstra%E7%AE%97%E6%B3%95" target="_blank">Dijkstra算法</a>一样，可以找到一条最短路径；也像<a title="BFS" href="http://zh.wikipedia.org/zh-cn/BFS" target="_blank">BFS</a>一样，进行启发式的搜索。</li>
+<li><big><a href="http://en.wikipedia.org/wiki/Beam_search" target="_blank"><strong>Beam Search</strong></a></big><br />
+束搜索(beam search) 方法是解决优化问题的一种启发式方法,它是在分枝定界方法基础上发展起来的,它使用启发式方法估计k 个最好的路径,仅从这k 个路径出发向下搜索,即每一层只有满意的结点会被保留,其它的结点则被永久抛弃,从而比分枝定界法能大大节省运行时间。束搜索于20 世纪70 年代中期首先被应用于人工智能领域,1976 年Lowerre 在其称为HARPY的语音识别系统中第一次使用了束搜索方法,他的目标是并行地搜索几个潜在的最优决策路径以减少回溯,并快速地获得一个解。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E6%8A%98%E5%8D%8A%E6%90%9C%E7%B4%A2%E7%AE%97%E6%B3%95" target="_blank"><strong>二分取中查找算法</strong></a></big><br />
+一种在有序数组中查找某一特定元素的搜索算法。搜素过程从数组的中间元素开始，如果中间元素正好是要查找的元素，则搜素过程结束；如果某一特定元素大于或者小于中间元素，则在数组大于或小于中间元素的那一半中查找，而且跟开始一样从中间元素开始比较。这种搜索算法每一次比较都使搜索范围缩小一半。<br />
+<span id="more-2583"></span></li>
+<li><big><a href="http://en.wikipedia.org/wiki/Branch_and_bound" target="_blank"><strong>Branch and bound</strong></a></big><br />
+分支定界 (branch and bound) 算法是一种在问题的解空间树上搜索问题的解的方法。但与回溯算法不同，分支定界算法采用广度优先或最小耗费优先的方法搜索解空间树，并且，在分支定界算法中，每一个活结点只有一次机会成为扩展结点。</li>
+<li><big><a href="http://en.wikipedia.org/wiki/Data_compression" target="_blank"><strong>数据压缩</strong></a><br />
+</big>数据压缩是通过减少计算机中所存储数据或者通信传播中数据的冗余度，达到增大数据密度，最终使数据的存储空间减少的技术。数据压缩在文件存储和分布式系统领域有着十分广泛的应用。数据压缩也代表着尺寸媒介容量的增大和网络带宽的扩展。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/Diffie-Hellman%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2" target="_blank"><strong>Diffie–Hellman密钥协商</strong></a><br />
+</big>Diffie–Hellman key exchange，简称“D–H”， 是一种安全协议。它可以让双方在完全没有对方任何预先信息的条件下通过不安全信道建立起一个密钥。这个密钥可以在后续的通讯中作为对称密钥来加密通讯内容。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E8%BF%AA%E7%A7%91%E6%96%AF%E5%BD%BB%E7%AE%97%E6%B3%95" target="_blank"><strong>Dijkstra&#8217;s 算法</strong></a><br />
+</big>迪科斯彻算法（Dijkstra）是由荷兰计算机科学家<a title="艾兹格·迪科斯彻" href="http://zh.wikipedia.org/zh-cn/%E8%89%BE%E8%8C%B2%E6%A0%BC%C2%B7%E8%BF%AA%E7%A7%91%E6%96%AF%E5%BE%B9">艾兹格·迪科斯彻</a>（Edsger Wybe Dijkstra）发明的。算法解决的是有向图中单个源点到其他顶点的最短路径问题。举例来说，如果图中的顶点表示城市，而边上的权重表示著城市间开车行经的距离，迪科斯彻算法可以用来找到两个城市之间的最短路径。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92" target="_blank"><strong>动态规划</strong></a><br />
+</big>动态规划是一种在数学和计算机科学中使用的，用于求解包含重叠子问题的<a title="最优化" href="http://zh.wikipedia.org/zh-cn/%E6%9C%80%E4%BC%98%E5%8C%96">最优化</a>问题的方法。其基本思想是，将原问题分解为相似的子问题，在求解的过程中通过子问题的解求出原问题的解。动态规划的思想是多种算法的基础，被广泛应用于计算机科学和工程领域。比较著名的应用实例有：求解<a title="最短路径" href="http://zh.wikipedia.org/zh-cn/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84">最短路径</a>问题，<a title="背包问题" href="http://zh.wikipedia.org/zh-cn/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98">背包问题</a>，<a title="项目管理" href="http://zh.wikipedia.org/zh-cn/%E9%A1%B9%E7%9B%AE%E7%AE%A1%E7%90%86">项目管理</a>，<a title="网络流" href="http://zh.wikipedia.org/zh-cn/%E7%BD%91%E7%BB%9C%E6%B5%81">网络流</a>优化等。这里也有<a href="http://www.cnblogs.com/drizzlecrj/archive/2007/10/26/939159.html" target="_blank">一篇文章</a>说得比较详细。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E8%BC%BE%E8%BD%89%E7%9B%B8%E9%99%A4%E6%B3%95" target="_blank"><strong>欧几里得算法</strong></a><br />
+</big>在数学中，辗转相除法，又称欧几里得算法，是求<a title="最大公约数" href="http://zh.wikipedia.org/zh-cn/%E6%9C%80%E5%A4%A7%E5%85%AC%E7%BA%A6%E6%95%B0">最大公约数</a>的算法。辗转相除法首次出现于<a title="欧几里得" href="http://zh.wikipedia.org/zh-cn/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97">欧几里得</a>的《<a title="几何原本" href="http://zh.wikipedia.org/zh-cn/%E5%87%A0%E4%BD%95%E5%8E%9F%E6%9C%AC">几何原本</a>》（第VII卷，命题i和ii）中，而在中国则可以追溯至东汉出现的《<a title="九章算术" href="http://zh.wikipedia.org/zh-cn/%E4%B9%9D%E7%AB%A0%E7%AE%97%E6%9C%AF">九章算术</a>》。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E6%9C%80%E5%A4%A7%E6%9C%9F%E6%9C%9B%E7%AE%97%E6%B3%95" target="_blank"><strong>最大期望（EM）算法</strong></a><br />
+</big>在统计计算中，最大期望（EM）算法是在<a title="概率" href="http://zh.wikipedia.org/zh-cn/%E6%A6%82%E7%8E%87">概率</a>（<a title="en:probability" href="http://en.wikipedia.org/wiki/probability">probabilistic</a>）模型中寻找参数最大似然估计的算法，其中概率模型依赖于无法观测的隐藏变量（<a title="en:latent variable" href="http://en.wikipedia.org/wiki/latent_variable">Latent Variable</a>）。最大期望经常用在<a title="机器学习" href="http://zh.wikipedia.org/zh-cn/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0">机器学习</a>和<a title="计算机视觉" href="http://zh.wikipedia.org/zh-cn/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89">计算机视觉</a>的<a title="数据聚类" href="http://zh.wikipedia.org/zh-cn/%E6%95%B0%E6%8D%AE%E8%81%9A%E7%B1%BB">数据聚类</a>（<a title="en:data clustering" href="http://en.wikipedia.org/wiki/data_clustering">Data Clustering</a>）领域。最大期望算法经过两个步骤交替进行计算，第一步是计算期望（E），利用对隐藏变量的现有估计值，计算其最大似然估计值；第二步是最大化（M），最大化在 E 步上求得的最大似然值来计算参数的值。M 步上找到的参数估计值被用于下一个 E 步计算中，这个过程不断交替进行。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E5%BF%AB%E9%80%9F%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2" target="_blank"><strong>快速傅里叶变换</strong></a><strong> (FFT)</strong><br />
+</big>快速傅里叶变换（Fast Fourier Transform，FFT），是<a title="离散傅里叶变换" href="http://zh.wikipedia.org/zh-cn/%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2">离散傅里叶变换</a>的快速算法，也可用于计算离散傅里叶变换的逆变换。快速傅里叶变换有广泛的应用，如<a title="数字信号处理" href="http://zh.wikipedia.org/zh-cn/%E6%95%B0%E5%AD%97%E4%BF%A1%E5%8F%B7%E5%A4%84%E7%90%86">数字信号处理</a>、计算<a title="大整数乘法（尚未撰写）" href="http://zh.wikipedia.org/w/index.php?title=%E5%A4%A7%E6%95%B4%E6%95%B0%E4%B9%98%E6%B3%95&amp;action=edit&amp;redlink=1">大整数乘法</a>、求解<a title="偏微分方程" href="http://zh.wikipedia.org/zh-cn/%E5%81%8F%E5%BE%AE%E5%88%86%E6%96%B9%E7%A8%8B">偏微分方程</a>等等。本条目只描述各种快速算法，对于离散傅里叶变换的性质和应用，请参见<a title="离散傅里叶变换" href="http://zh.wikipedia.org/zh-cn/%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2">离散傅里叶变换</a>。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E6%95%A3%E5%88%97%E5%87%BD%E6%95%B8" target="_blank"><strong>哈希函数</strong></a><br />
+</big>Hash Function是一种从任何一种数据中创建小的数字“指纹”的方法。该函数将数据打乱混合，重新创建一个叫做散列值的指纹。散列值通常用来代表一个短的随机字母和数字组成的字符串。好的散列函数在输入域中很少出现散列冲突。在散列表和数据处理中，不抑制冲突来区别数据，会使得数据库记录更难找到。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E5%A0%86%E7%A9%8D%E6%8E%92%E5%BA%8F" target="_blank"><strong>堆排序</strong></a><br />
+</big><strong>Heapsort </strong>是指利用<a title="堆 (数据结构)" href="http://zh.wikipedia.org/zh-cn/%E5%A0%86_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)">堆积树</a>（<a title="堆 (数据结构)" href="http://zh.wikipedia.org/zh-cn/%E5%A0%86_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)">堆</a>）这种数据结构所设计的一种排序算法。堆积树是一个近似<a title="完全二叉树" href="http://zh.wikipedia.org/zh-cn/%E5%AE%8C%E5%85%A8%E4%BA%8C%E5%8F%89%E6%A0%91">完全二叉树</a>的结构，并同时满足<em>堆积属性</em>：即子结点的键值或索引总是小于（或者大于）它的父结点。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F" target="_blank"><strong>归并排序</strong></a><br />
+</big><strong>Merge sort</strong>是建立在归并操作上的一种有效的<a title="排序" href="http://zh.wikipedia.org/zh-cn/%E6%8E%92%E5%BA%8F">排序</a><a title="算法" href="http://zh.wikipedia.org/zh-cn/%E7%AE%97%E6%B3%95">算法</a>。该算法是采用<a title="分治法" href="http://zh.wikipedia.org/zh-cn/%E5%88%86%E6%B2%BB%E6%B3%95">分治法</a>（Divide and Conquer）的一个非常典型的应用。</li>
+<li><big><a href="http://en.wikipedia.org/wiki/RANSAC" target="_blank"><strong>RANSAC 算法</strong></a><br />
+</big>RANSAC 是&#8221;RANdom SAmple Consensus&#8221;的缩写。该算法是用于从一组观测数据中估计数学模型参数的迭代方法，由Fischler and Bolles在1981 提出，它是一种非确定性算法，因为它只能以一定的概率得到合理的结果，随着迭代次数的增加，这种概率是增加的。 该算法的基本假设是观测数据集中存在&#8221;inliers&#8221;（那些对模型参数估计起到支持作用的点）和&#8221;outliers&#8221;（不符合模型的点），并且这组观测数据受到噪声影响。RANSAC 假设给定一组&#8221;inliers&#8221;数据就能够得到最优的符合这组点的模型。</li>
+<li><big><a href="http://zh.wikipedia.org/zh-tw/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank"><strong>RSA加密演算法</strong></a></big><br />
+这是一个公钥加密算法，也是世界上第一个适合用来做签名的算法。今天的RSA已经专利失效，其被广泛地用于电子商务加密，大家都相信，只要密钥足够长，这个算法就会是安全的</li>
+<li><big><a href="http://zh.wikipedia.org/zh-cn/%E5%B9%B6%E6%9F%A5%E9%9B%86" target="_blank"><strong>并查集Union-find</strong></a><br />
+</big>并查集是一种树型的数据结构，用于处理一些不相交集合（Disjoint Sets）的合并及查询问题。常常在使用中以森林来表示。</li>
+<li><big><a href="http://blog.52nlp.org/hmm-learn-best-practices-six-viterbi-algorithm-1" target="_blank"><strong>Viterbi algorithm</strong></a><br />
+</big>寻找最可能的隐藏状态序列(Finding most probable sequence of hidden states)</li>
+</ol>
+<p><strong>附录</strong></p>
+<ul>
+<li>关于这个世界上的算法，你可以看看Wikipedia的这个网页：<a href="http://en.wikipedia.org/wiki/List_of_algorithms">http://en.wikipedia.org/wiki/List_of_algorithms</a></li>
+<li>关于排序算法，你可以看看本站的这几篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/536.html" target="_blank">一个显示排序过程的Python脚本</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/399.html" target="_blank">一个排序算法比较的网站</a>》</li>
+</ul>
+<p>。</p>
+</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li><li ><a href="https://coolshell.cn/articles/536.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/bubble-150x150.png" alt="一个显示排序过程的Python脚本" width="150" height="150" /></a><a href="https://coolshell.cn/articles/536.html" class="wp_rp_title">一个显示排序过程的Python脚本</a></li><li ><a href="https://coolshell.cn/articles/399.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/sort-150x150.jpg" alt="一个排序算法比较的网站" width="150" height="150" /></a><a href="https://coolshell.cn/articles/399.html" class="wp_rp_title">一个排序算法比较的网站</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="可视化的数据结构和算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_title">可视化的数据结构和算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2583.html">一些重要的算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2583.html/feed</wfw:commentRss>
+			<slash:comments>36</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>算法和数据结构词典</title>
+		<link>https://coolshell.cn/articles/1499.html</link>
+					<comments>https://coolshell.cn/articles/1499.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 28 Sep 2009 03:33:35 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[数据结构]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1499</guid>
+
+					<description><![CDATA[<p>我们知道，在编程的世界里，主要就是两个事，用一定的算法去处理一定的数据。算法可以理解为业务逻辑流程，而数据自然一定是按某种结构来存放，这就是数据结构。我们知道，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1499.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1499.html">算法和数据结构词典</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我们知道，在编程的世界里，主要就是两个事，用一定的算法去处理一定的数据。算法可以理解为业务逻辑流程，而数据自然一定是按某种结构来存放，这就是数据结构。我们知道，数据结构的修改一定会导致算法的修改，我们也知道，数据结构直接关系到了整个程序的繁简性，高效性。而算法则是关系到数据处理的时间、空间性能，以及日后的扩展和维护。这两个东西是计算机科班出生的人或是需要学习编程的人必需要注意的两件头等大事。</p>
+<p>下面这个网站，由 <a href="http://www.itl.nist.gov/div897/">Software and Systems Division</a>, <a href="http://www.itl.nist.gov/">Information Technology Laboratory</a> 创建。</p>
+<p style="text-align: center;"><a href="http://www.itl.nist.gov/div897/sqg/dads/terms.html" target="_blank"><strong></strong></a><strong><a href="http://xlinux.nist.gov/dads/" target="_blank">http://xlinux.nist.gov/dads/</a></strong><strong> </strong></p>
+<p style="text-align: center;"><img decoding="async" title="更多..." src="https://coolshell.cn/wp-includes/js/tinymce/plugins/wordpress/img/trans.gif" alt="" /></p>
+<p style="text-align: left;"><span id="more-1499"></span></p>
+<p>这是一个关于算法，算法技术，数据结构，系统架构等相关问题的一个词典。其中，算法包括了一些常见的算法，比如： <a href="http://xlinux.nist.gov/dads/HTML/ackermann.html" target="_blank">Ackermann&#8217;s function</a> ，一些算法问题包括了 <a href="http://xlinux.nist.gov/dads/HTML/travelingSalesman.html" target="_blank">traveling salesman</a>（销售员出差问题） and <a href="http://xlinux.nist.gov/dads/HTML/byzantine.html" target="_blank">Byzantine generals</a>（拜占庭将军问题），还有一些关于这些问题，算法的 <a href="http://xlinux.nist.gov/dads/termsImpl.html" target="_blank">实现链表</a> 以及更多的信息。而索引页包括 <a href="http://xlinux.nist.gov/dads/termsArea.html" target="_blank">领域索引</a> 和 <a href="http://xlinux.nist.gov/dads/termsType.html" target="_blank">类型索引</a>.</p>
+<p>希望这个网站对有你用。当然，这个网站是英文的。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="可视化的数据结构和算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_title">可视化的数据结构和算法</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li><li ><a href="https://coolshell.cn/articles/2724.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/07/aboutprogramming04.eng_-150x150.jpg" alt="计算机编程简史图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2724.html" class="wp_rp_title">计算机编程简史图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1499.html">算法和数据结构词典</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1499.html/feed</wfw:commentRss>
+			<slash:comments>11</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个显示排序过程的Python脚本</title>
+		<link>https://coolshell.cn/articles/536.html</link>
+					<comments>https://coolshell.cn/articles/536.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 15 Apr 2009 06:01:45 +0000</pubDate>
+				<category><![CDATA[Python]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[排序]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=536</guid>
+
+					<description><![CDATA[<p>之前向大家介绍过《一个排序算法比较的网站》，那个网站用动画演示了各种排序算法，并分析了各种排序算法。这里，要向大家推荐一个Python脚本，其可以把排序的过程给...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/536.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/536.html">一个显示排序过程的Python脚本</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>之前向大家介绍过《<a class="title" rel="bookmark" href="https://coolshell.cn/articles/399.html">一个排序算法比较的网站</a>》，那个网站用动画演示了各种排序算法，并分析了各种排序算法。这里，要向大家推荐一个Python脚本，其可以把排序的过程给显示出来。</p>
+<p>下图是“<strong>冒泡排序</strong>”的一个示例，其中：</p>
+<ol>
+<li>折线表示了各个元素的位置变化。</li>
+<li>折线的深浅表示了元素的大小。越深则越大。</li>
+</ol>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/04/bubble.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-537" title="bubble" src="https://coolshell.cn/wp-content/uploads/2009/04/bubble.png" alt="bubble" width="700" height="225" srcset="https://coolshell.cn/wp-content/uploads/2009/04/bubble.png 700w, https://coolshell.cn/wp-content/uploads/2009/04/bubble-300x96.png 300w, https://coolshell.cn/wp-content/uploads/2009/04/bubble-604x194.png 604w" sizes="(max-width: 700px) 100vw, 700px" /></a></p>
+<p><span id="more-536"></span></p>
+<p>同样，还有其它一些排序算法的图片：</p>
+<p><strong>堆排序（Heap Sort）</strong></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/04/heap.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-539" title="heap" src="https://coolshell.cn/wp-content/uploads/2009/04/heap.png" alt="heap" width="700" height="225" srcset="https://coolshell.cn/wp-content/uploads/2009/04/heap.png 700w, https://coolshell.cn/wp-content/uploads/2009/04/heap-300x96.png 300w" sizes="(max-width: 700px) 100vw, 700px" /></a></p>
+<p><strong>选择排序（Selection）</strong></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/04/selection.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-542" title="selection" src="https://coolshell.cn/wp-content/uploads/2009/04/selection.png" alt="selection" width="700" height="225" srcset="https://coolshell.cn/wp-content/uploads/2009/04/selection.png 700w, https://coolshell.cn/wp-content/uploads/2009/04/selection-300x96.png 300w" sizes="(max-width: 700px) 100vw, 700px" /></a></p>
+<p><strong>快速排序（Quick）</strong></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/04/quick.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-541" title="quick" src="https://coolshell.cn/wp-content/uploads/2009/04/quick.png" alt="quick" width="700" height="225" srcset="https://coolshell.cn/wp-content/uploads/2009/04/quick.png 700w, https://coolshell.cn/wp-content/uploads/2009/04/quick-300x96.png 300w" sizes="(max-width: 700px) 100vw, 700px" /></a></p>
+<p><strong>Shell排序</strong></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/04/shell.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-538" title="shell" src="https://coolshell.cn/wp-content/uploads/2009/04/shell.png" alt="shell" width="700" height="225" srcset="https://coolshell.cn/wp-content/uploads/2009/04/shell.png 700w, https://coolshell.cn/wp-content/uploads/2009/04/shell-300x96.png 300w" sizes="(max-width: 700px) 100vw, 700px" /></a></p>
+<p><strong>插入排序（Insertion）</strong></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/04/listinsertion.png"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-540" title="listinsertion" src="https://coolshell.cn/wp-content/uploads/2009/04/listinsertion.png" alt="listinsertion" width="700" height="225" srcset="https://coolshell.cn/wp-content/uploads/2009/04/listinsertion.png 700w, https://coolshell.cn/wp-content/uploads/2009/04/listinsertion-300x96.png 300w" sizes="(max-width: 700px) 100vw, 700px" /></a></p>
+<p>你可以使用如下的Python代码来制作这些图片：（需要 <a href="http://cairographics.org/">Cairo</a>图片库支持）</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2009/04/visualise.py"><strong>Python排序脚本</strong></a></p>
+<p>这个脚本<code>参数如下：</code></p>
+<ul>
+<li><code>-a 表示使用什么样的算法，取值为"quick", "heap", "selection", "insertion", "bubble", "shell"。</code></li>
+<li><code>-n 表示要排序的数据个数。</code></li>
+<li><code>-f 表示输入文件。</code></li>
+<li><code>-p 表示文件前缀。</code></li>
+<li><code>-d 表示输出顺序。</code></li>
+<li><code>-x 图片宽度。</code></li>
+<li><code>-y 图片高度。</code></li>
+<li><code>-l 所有线的宽度。</code></li>
+<li><code>-b 边界宽度。</code></li>
+</ul>
+<p><code>使用示例如下：</code></p>
+<p><code></p>
+<p style="padding-left: 30px;"><code>./visualise.py -l 6 -x 700 -y 300 -n 15 </code></p>
+<p></code></p>
+<p>文章：<a href="http://www.hatfulofhollow.com/posts/code/visualisingsorting/index.html" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li><li ><a href="https://coolshell.cn/articles/2583.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些重要的算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2583.html" class="wp_rp_title">一些重要的算法</a></li><li ><a href="https://coolshell.cn/articles/399.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/sort-150x150.jpg" alt="一个排序算法比较的网站" width="150" height="150" /></a><a href="https://coolshell.cn/articles/399.html" class="wp_rp_title">一个排序算法比较的网站</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="可视化的数据结构和算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_title">可视化的数据结构和算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/536.html">一个显示排序过程的Python脚本</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/536.html/feed</wfw:commentRss>
+			<slash:comments>28</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个排序算法比较的网站</title>
+		<link>https://coolshell.cn/articles/399.html</link>
+					<comments>https://coolshell.cn/articles/399.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 10 Apr 2009 01:58:28 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[排序]]></category>
+		<category><![CDATA[算法]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=399</guid>
+
+					<description><![CDATA[<p>下面这个网站是一个非常丰富的排序算法的网站。 Sorting Algorithm Animations http://www.sorting-algorithm...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/399.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/399.html">一个排序算法比较的网站</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="https://coolshell.cn/wp-content/uploads/2009/04/sort.jpg"></a>下面这个网站是一个非常丰富的排序算法的网站。</p>
+<h4 style="text-align: center;">Sorting Algorithm Animations<br />
+<a href="http://www.sorting-algorithms.com/">http://www.sorting-algorithms.com/</a></h4>
+<p>这是一个非常不错的排序算法的网站，当你打开这个网站的时候，请不要因为看到很多个图片的大红叉而鄙视它。你先点击网页上方的Problem Size，选择一个尺寸，20，30，40还是50，都行，于是你就可以看到下面整个大表中有图片显示出来了。如下所示：</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2009/04/sort.jpg"><img decoding="async" loading="lazy" class="size-medium wp-image-400 aligncenter" title="sort" src="https://coolshell.cn/wp-content/uploads/2009/04/sort-300x160.jpg" alt="sort" width="300" height="160" /></a><a href="https://coolshell.cn/wp-content/uploads/2009/04/sort.jpg"></a></p>
+<p><span id="more-399"></span></p>
+<p>其中，</p>
+<ul>
+<li><strong>列。</strong>是代表每一个排序算法，有“插入”“选择”“冒泡”“Shell”，“合并Merge”，“堆排序”，“快速排序”，“快速3排序”。单击每个一算法的链接，你可以看到这个算法的详细解释，其中包括，算法的伪代码，算法的复杂度，相关的讨论，重点，以及该算法的相关参考文档。</li>
+<li><strong>行。</strong>是不同的数据样本，第一个是“随机样本”，第二个是“几乎排好序的样本”，第三个是“最差的样本（反序）”，第四个是“有一些相同项的样本”。这些样本在不同的算法上都会有不同的表现。</li>
+<li><strong>单元格</strong>。每个单元格都是一个图片。简单的用鼠标单击一下每个图片，可以动画地演示算法整个过程。其中两个小红箭头表示了正在需要“交换顺序的数据”。</li>
+</ul>
+<p>这个网站，还是做得很8错的。希望大家喜欢。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="可视化的排序过程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3933.html" class="wp_rp_title">可视化的排序过程</a></li><li ><a href="https://coolshell.cn/articles/2583.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些重要的算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2583.html" class="wp_rp_title">一些重要的算法</a></li><li ><a href="https://coolshell.cn/articles/536.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/04/bubble-150x150.png" alt="一个显示排序过程的Python脚本" width="150" height="150" /></a><a href="https://coolshell.cn/articles/536.html" class="wp_rp_title">一个显示排序过程的Python脚本</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="一些有意思的算法代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6010.html" class="wp_rp_title">一些有意思的算法代码</a></li><li ><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="可视化的数据结构和算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4671.html" class="wp_rp_title">可视化的数据结构和算法</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/399.html">一个排序算法比较的网站</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/399.html/feed</wfw:commentRss>
+			<slash:comments>33</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

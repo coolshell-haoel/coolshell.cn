@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>lock-free | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/lock-free/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 31 Mar 2015 12:49:40 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Linus：为何对象引用计数必须是原子的</title>
+		<link>https://coolshell.cn/articles/16910.html</link>
+					<comments>https://coolshell.cn/articles/16910.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Wed, 31 Dec 2014 01:59:33 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Atomic]]></category>
+		<category><![CDATA[Concurrency]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[lock-free]]></category>
+		<category><![CDATA[Parallelism]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=16910</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） Linus大神又在rant了！这次的吐槽对象是时下很火热的并行技术(parellism)，并直截了当地表示并行计算是浪费所...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/16910.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/16910.html">Linus：为何对象引用计数必须是原子的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>Linus大神又在rant了！这次的吐槽对象是时下很火热的<strong>并行技术(parellism)</strong>，并直截了当地表示<a title="并行计算基本上就是浪费大家的时间" href="http://www.vaikan.com/linus-parallel-computing-is-a-huge-waste-of-everybodys-time/" target="_blank">并行计算是浪费所有人时间</a>(<a href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146227">&#8220;The whole &#8220;let&#8217;s parallelize&#8221; thing is a huge waste of everybody&#8217;s time.&#8221;</a>)。大致意思是说<strong>乱序性能快、提高缓存容量、降功耗</strong>。当然笔者不打算正面讨论并行的是是非非（过于宏伟的主题），因为Linus在另一则<a title="reference counting" href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146183" target="_blank">帖子</a>中举了对象<strong>引用计数(reference counting)</strong>的例子来说明并行的复杂性。</p>
+<p>在Linus回复之前有人指出<strong>对象需要锁机制的情况下，引用计数的原子性问题：</strong></p>
+<blockquote><p>Since it is being accessed in a multi-threaded way, via multiple access paths, generally it needs its own mutex &#8212; otherwise, reference counting would not be required to be atomic and a lock of a higher-level object would suffice.</p>
+<p>由于（对象）通过多线程方式及多种获取渠道，一般而言它需要自身维护一个互斥锁——否则引用计数就不要求是原子的，一个更高层次的对象锁足矣。</p></blockquote>
+<p>而Linus不那么认为：</p>
+<blockquote><p>The problem with reference counts is that you often need to take them *before* you take the lock that protects the object data.</p>
+<p>引用计数的问题在于你经常需要在对象数据<strong>上锁保护之前</strong>完成它。</p></blockquote>
+<p>The thing is, you have two different cases:</p>
+<p>问题有两种情况：</p>
+<p style="padding-left: 30px;"><strong>&#8211; object *reference* 对象引用</strong></p>
+<p style="padding-left: 30px;"><strong>&#8211; object data 对象数据</strong></p>
+<p>and they have completely different locking.</p>
+<p><strong>它们锁机制是完全不一样的。</strong></p>
+<p><span id="more-16910"></span></p>
+<p>Object data locking is generally per-object. Well, unless you don&#8217;t have huge scalability issues, in which case you may have some external bigger lock (extreme case: one single global lock).</p>
+<p>对象数据保护一般是一个对象拥有一个锁，假设你没有海量扩展性问题，不然你需要一些外部大一点的锁（极端的例子，一个对象一个全局锁）。</p>
+<p>But object *referencing* is mostly about finding the object (and removing/freeing it). Is it on a hash chain? Is it in a tree? Linked list? When the reference count goes down to zero, it&#8217;s not the object data that you need to protect (the object is not used by anything else, so there&#8217;s nothing to protect!), it&#8217;s the ways to find the object you need to protect.</p>
+<p>但对象引用主要关于对象的寻找（移除或释放），它是否在哈希链，一棵树或者链表上。<strong>当对象引用计数降为零，你要保护的不是对象数据，因为对象没有在其它地方使用，你要保护的是对象的寻找操作。</strong></p>
+<p>And the lock for the lookup operation cannot be in the object, because &#8211; by definition &#8211; you don&#8217;t know what the object is! You&#8217;re trying to look it up, after all.</p>
+<p>而且查询操作的锁不可能在对象内部，因为根据定义，你还不知道这是什么对象，你在尝试寻找它。</p>
+<p>So generally you have a lock that protects the lookup operation some way, and the reference count needs to be atomic with respect to that lock.</p>
+<p>因此一般你要对查询操作上锁，而且引用计数相对<strong>那个锁</strong>来说是原子的（译者注：查询锁不是引用计数所在的对象所有，不能保护对象引用计数，后面会解释为何引用计数变更时其所在对象不能上锁）。</p>
+<p>And yes, that lock may well be sufficient, and now you&#8217;re back to non-atomic reference counts. But you usually don&#8217;t have just one way to look things up: you might have pointers from other objects (and that pointer is protected by the object locking of the other object), but there may be multiple such objects that point to this (which is why you have a reference count in the first place!)</p>
+<p>当然这个锁是充分有效的，现在假设引用计数是非原子的，但你常常不仅仅使用一种方式来查询：你可能拥有其它对象的指针（这个指针又被其它对象的对象锁给保护起来），但同时还会有多个对象指向它（这就是为何你第一时间需要引用计数的理由）。</p>
+<p>See what happens? There is no longer one single lock for lookup. Imagine walking a graph of objects, where objects have pointers to each other. Each pointer implies a reference to an object, but as you walk the graph, you have to release the lock from the source object, so you have to take a new reference to the object you are now entering.</p>
+<p>看看会发生什么？查询不止存在一个锁保护。你可以想象走过一张对象流程图，其中对象存在指向其它对象的指针，每个指针暗含了一次对象引用，但当你走过这个流程图，你必须释放源对象的锁，而你进入新对象时又必须增加一次引用。</p>
+<p>And in order to avoid deadlocks, you can not in the general case take the lock of the new object first &#8211; you have to release the lock on the source object, because otherwise (in a complex graph), how do you avoid simple ABBA deadlock?</p>
+<p>而且为了避免死锁，你一般不能立即对新对象上锁——你必须释放源对象的锁，否则在一个复杂流程图里，你如何避免<strong>ABBA死锁</strong>（译者注：假设两个线程，一个是A-&gt;B，另一个B-&gt;;A，当线程一给A上锁，线程二给B上锁，此时两者谁也无法释放对方的锁）？</p>
+<p>So atomic reference counts fix that. They work because when you move from object A to object B, you can do this:</p>
+<p>原子引用计数修正了这一点，当你从对象A到对象B，你会这样做：</p>
+<p>(a) you have a reference count to A, and you can lock A</p>
+<p style="padding-left: 30px;">对象A增加一次引用计数，并上锁。</p>
+<p>(b) once object A is locked, the pointer from A to B is stable, and you know you have a reference to B (because of that pointer from A to B)</p>
+<p style="padding-left: 30px;">对象A一旦上锁，A指向B的指针就是稳定的，于是你知道你引用了对象B。</p>
+<p>(c) but you cannot take the object lock for B (ABBA deadlock) while holding the lock on A</p>
+<p style="padding-left: 30px;">但你不能在对象A上锁期间给B上锁（ABBA死锁）。</p>
+<p>(d) increment the atomic reference count on B</p>
+<p style="padding-left: 30px;">对象B增加一次原子引用计数。</p>
+<p>(e) now you can drop the lock on A (you&#8217;re &#8220;exiting&#8221; A)</p>
+<p style="padding-left: 30px;">现在你可以扔掉对象A的锁（退出对象A）。</p>
+<p>(f) your reference count means that B cannot go away from under you despite unlocking A, so now you can lock B.</p>
+<p style="padding-left: 30px;">对象B的原子引用计数意味着即使给A解锁期间，B也不会失联，现在你可以给B上锁。</p>
+<p>See? Atomic reference counts make this kind of situation possible. Yes, you want to avoid the overhead if at all possible (for example, maybe you have a strict ordering of objects, so you know you can walk from A to B, and never walk from B to A, so there is no ABBA deadlock, and you can just lock B while still holding the lock on A).</p>
+<p>看见了吗？原子引用计数使这种情况成为可能。是的，你想尽一切办法避免这种代价，比如，你也许把对象写成严格顺序的，这样你可以从A到B，绝不会从B到A，如此就不存在ABBA死锁了，你也就可以在A上锁期间给B上锁了。</p>
+<p>But if you don&#8217;t have some kind of forced ordering, and if you have multiple ways to reach an object (and again &#8211; why have reference counts in the first place if that isn&#8217;t true!) then atomic reference counts really are the simple and sane answer.</p>
+<p>但如果你无法做到这种强迫序列，如果你有多种方式接触一个对象（再一次强调，这是第一时间使用引用计数的理由），这样，原子引用计数就是简单又理智的答案。</p>
+<p>If you think atomic refcounts are unnecessary, that&#8217;s a big flag that you don&#8217;t actually understand the complexities of locking.</p>
+<p><strong>如果你认为原子引用计数是不必要的，这就大大说明你实际上不了解锁机制的复杂性。</strong></p>
+<p>Trust me, concurrency is hard. There&#8217;s a reason all the examples of &#8220;look how easy it is to parallelize things&#8221; tend to use simple arrays and don&#8217;t ever have allocations or freeing of the objects.</p>
+<p>相信我，<strong>并发设计是困难的。</strong>所有关于“并行化如此容易”的理由都倾向于使用简单数组操作做例子，甚至不包含对象的分配和释放。</p>
+<p>People who think that the future is highly parallel are invariably completely unaware of just how hard concurrency really is. They&#8217;ve seen Linpack, they&#8217;ve seen all those wonderful examples of sorting an array in parallel, they&#8217;ve seen all these things that have absolutely no actual real complexity &#8211; and often very limited real usefulness.</p>
+<p>那些认为未来是高度并行化的人一成不变地完全没有意识到并发设计是多么困难。他们只见过<a title="Linpack" href="http://en.wikipedia.org/wiki/LINPACK" target="_blank">Linpack</a>，他们只见过并行技术中关于数组排序的一切精妙例子，他们只见过一切绝不算真正复杂的事物——对真正的用处经常是非常有限的。</p>
+<p>（译者注：当然，我无意借大神之口把技术宗教化。实际上Linus又在另一篇<a title="评价" href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146198" target="_blank">帖子</a>中综合了对并行的评价。）</p>
+<p>Oh, I agree. My example was the simple case. The really complex cases are much worse.</p>
+<p>哦，我同意。我的例子还算简单，真正复杂的用例更糟糕。</p>
+<p>I seriously don&#8217;t believe that the future is parallel. People who think you can solve it with compilers or programming languages (or better programmers) are so far out to lunch that it&#8217;s not even funny.</p>
+<p>我严重不相信未来是并行的。有人认为你可以通过编译器，编程语言或者更好的程序员来解决问题，他们目前都是神志不清，没意识到这一点都不有趣。</p>
+<p>Parallelism works well in simplified cases with fairly clear interfaces and models. You find parallelism in servers with independent queries, in HPC, in kernels, in databases. And even there, people work really hard to make it work at all, and tend to expressly limit their models to be more amenable to it (eg databases do some things much better than others, so DB admins make sure that they lay out their data in order to cater to the limitations).</p>
+<p>并行计算可以在简化的用例以及具备清晰的接口和模型上正常工作。你发现并行在服务器上独立查询里，在高性能计算(High-performance computing)里，在内核里，在数据库里。即使如此，人们还得花很大力气才能使它工作，并且还要明确限制他们的模型来尽更多义务（例如数据库要想做得更好，数据库管理员得确保数据得到合理安排来迎合局限性）。</p>
+<p>Of course, other programming models can work. Neural networks are inherently very parallel indeed. And you don&#8217;t need smarter programmers to program them either..</p>
+<p>当然，其它编程模型倒能派上用场，神经网络(neural networking)天生就是非常并行化的，你不需要更聪明的程序员为之写代码。</p>
+<h4>参考资料</h4>
+<ul>
+<li><a title="Real World Technologies" href="http://www.realworldtech.com/" target="_blank">Real World Technologies</a>：Linus常去“灌水”的一个论坛，讨论未来机器架构（看名字就知道Linus技术偏好，及其之前对虚拟化技术(virtualization)的<a title="virtualization is evil" href="http://www.networkworld.com/article/2220440/opensource-subnet/torvalds-says---virtualization-is-evil-.html" target="_blank">吐槽</a>）</li>
+<li><a title="多线程程序中操作的原子性" href="http://www.parallellabs.com/2010/04/15/atomic-operation-in-multithreaded-application/" target="_blank">多线程程序中操作的原子性</a>：解释为什么i++不是原子操作</li>
+<li><a title="Concurrency Is Not Parallelism" href="http://www.vaikan.com/docs/Concurrency-is-not-Parallelism" target="_blank"> Concurrency Is Not Parallelism</a>：Go语言之父Rob Pike幻灯片解释“并发”与“并行”概念上的区别</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="对九个超级程序员的采访" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_title">对九个超级程序员的采访</a></li><li ><a href="https://coolshell.cn/articles/6790.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/o_conditional_update_1-150x150.png" alt="多版本并发控制(MVCC)在分布式系统中的应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6790.html" class="wp_rp_title">多版本并发控制(MVCC)在分布式系统中的应用</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/1619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/Linus_windows_7-150x150.jpg" alt="Windows 7 的新粉丝 Linus Torvalds" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1619.html" class="wp_rp_title">Windows 7 的新粉丝 Linus Torvalds</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/16910.html">Linus：为何对象引用计数必须是原子的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/16910.html/feed</wfw:commentRss>
+			<slash:comments>37</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>多版本并发控制(MVCC)在分布式系统中的应用</title>
+		<link>https://coolshell.cn/articles/6790.html</link>
+					<comments>https://coolshell.cn/articles/6790.html#comments</comments>
+		
+		<dc:creator><![CDATA[Todd]]></dc:creator>
+		<pubDate>Tue, 13 Mar 2012 00:36:53 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[cas]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[lock-free]]></category>
+		<category><![CDATA[mvcc]]></category>
+		<category><![CDATA[Performance]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6790</guid>
+
+					<description><![CDATA[<p>【感谢 Todd投递本文 – 微博帐号：weidagang 】 问题 最近项目中遇到了一个分布式系统的并发控制问题。该问题可以抽象为：某分布式系统由一个数据中心...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6790.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6790.html">多版本并发控制(MVCC)在分布式系统中的应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>【<span style="color: #cc0000;">感谢 Todd投递本文 – 微博帐号：</span><a title="weidagang" href="http://weibo.com/weidagang" target="_blank">weidagang</a> 】</p>
+<h4>问题</h4>
+<p>最近项目中遇到了一个分布式系统的并发控制问题。该问题可以抽象为：某分布式系统由一个数据中心D和若干业务处理中心L1，L2 &#8230; Ln组成；D本质上是一个key-value存储，它对外提供基于HTTP协议的CRUD操作接口。L的业务逻辑可以抽象为下面3个步骤：</p>
+<ol>
+<li>read: 根据keySet {k1, &#8230; kn}从D获取keyValueSet {k1:v1, &#8230; kn:vn}</li>
+<li>do: 根据keyValueSet进行业务处理，得到需要更新的数据集keyValueSet&#8217; {k1&#8242;:v1&#8242;, &#8230; km&#8217;:vm&#8217;} (<strong>注</strong>：读取的keySet和更新的keySet&#8217;可能不同)</li>
+<li>update: 把keyValueSet&#8217;更新到D （<strong>注</strong>：D保证在一次调用更新多个key的原子性）</li>
+</ol>
+<p>在没有事务支持的情况下，多个L进行并发处理可能会导致数据一致性问题。比如，考虑L1和L2的如下执行顺序：</p>
+<ol>
+<li>L1从D读取key:123对应的值100</li>
+<li>L2从D读取key:123对应的100</li>
+<li>L1将key:123更新为100 + 1</li>
+<li>L2将key:123更新为100 + 2</li>
+</ol>
+<p>如果L1和L2串行执行，key:123对应的值将为103，但上面并发执行中L1的执行效果完全被L2所覆盖，实际key:123所对应的值变成了102。</p>
+<p><span id="more-6790"></span></p>
+<h4>解决方案1：基于锁的事务</h4>
+<p>为了让L的处理具有可串行化特性(Serializability)，一种最直接的解决方案就是考虑为D加上基于锁的简单事务。让L在进行业务处理前先锁定D，完成以后释放锁。另外，为了防止持有锁的L由于某种原因长时间未提交事务，D还需要具有超时机制，当L尝试提交一个已超时的事务时会得到一个错误响应。</p>
+<p><img decoding="async" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/362318/o_conditional_update_1.PNG" alt="" /><img decoding="async" loading="lazy" class="size-full wp-image-16991 aligncenter" src="https://coolshell.cn/wp-content/uploads/2012/03/0915536496-0.png" alt="0915536496-0" width="769" height="749" srcset="https://coolshell.cn/wp-content/uploads/2012/03/0915536496-0.png 769w, https://coolshell.cn/wp-content/uploads/2012/03/0915536496-0-300x292.png 300w" sizes="(max-width: 769px) 100vw, 769px" /></p>
+<p>本方案的优点是实现简单，缺点是锁定了整个数据集，粒度太大；时间上包含了L的整个处理时间，跨度太长。虽然我们可以考虑把锁定粒度降低到数据项级别，按key进行锁定，但这又会带来其他的问题。由于更新的keySet&#8217;可能是事先不确定的，所以可能无法在开始事务时锁定所有的key；如果分阶段来锁定需要的key，又可能出现死锁(Deadlock)问题。另外，按key锁定在有锁争用的情况下并不能解决锁定时间太长的问题。所以，按key锁定仍然存在重要的不足之处。</p>
+<h4>解决方案2：多版本并发控制</h4>
+<p>为了实现可串行化，同时避免锁机制存在的各种问题，我们可以采用基于多版本并发控制（Multiversion concurrency control，MVCC）思想的无锁事务机制。人们一般把基于锁的并发控制机制称成为悲观机制，而把MVCC机制称为乐观机制。这是因为锁机制是一种预防性的，读会阻塞写，写也会阻塞读，当锁定粒度较大，时间较长时并发性能就不会太好；而MVCC是一种后验性的，读不阻塞写，写也不阻塞读，等到提交的时候才检验是否有冲突，由于没有锁，所以读写不会相互阻塞，从而大大提升了并发性能。我们可以借用源代码版本控制来理解MVCC，每个人都可以自由地阅读和修改本地的代码，相互之间不会阻塞，只在提交的时候版本控制器会检查冲突，并提示merge。目前，Oracle、PostgreSQL和MySQL都已支持基于MVCC的并发机制，但具体实现各有不同。</p>
+<p>MVCC的一种简单实现是基于CAS（Compare-and-swap）思想的有条件更新（Conditional Update）。普通的update参数只包含了一个keyValueSet&#8217;，Conditional Update在此基础上加上了一组更新条件conditionSet { &#8230; data[keyx]=valuex, &#8230; }，即只有在D满足更新条件的情况下才将数据更新为keyValueSet&#8217;；否则，返回错误信息。这样，L就形成了如下图所示的Try/Conditional Update/(Try again)的处理模式：</p>
+<p><img decoding="async" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/362318/o_mvcc_2.png" alt="" /><img decoding="async" loading="lazy" class="aligncenter  wp-image-16989" src="https://coolshell.cn/wp-content/uploads/2012/03/0915535U3-1.png" alt="0915535U3-1" width="746" height="483" srcset="https://coolshell.cn/wp-content/uploads/2012/03/0915535U3-1.png 826w, https://coolshell.cn/wp-content/uploads/2012/03/0915535U3-1-300x194.png 300w" sizes="(max-width: 746px) 100vw, 746px" /></p>
+<p>虽然对单个L来讲不能保证每次都成功更新，但从整个系统来看，总是有任务能够顺利进行。这种方案利用Conditional Update避免了大粒度和长时间的锁定，当各个业务之间资源争用不大的情况下，并发性能很好。不过，由于Conditional Update需要更多的参数，如果condition中value的长度很长，那么每次网络传送的数据量就会比较大，从而导致性能下降。特别是当需要更新的keyValueSet&#8217;很小，而condition很大时，就显得非常不经济。</p>
+<p>为了避免condition太大所带来的性能问题，可以为每条数据项增加一个int型的版本号字段，由D维护该版本号，每次数据有更新就增加版本号；L在进行Conditional Update时，通过版本号取代具体的值。</p>
+<p><img decoding="async" src="http://images.cnblogs.com/cnblogs_com/weidagang2046/362318/o_mvcc_3.png" alt="" /><img decoding="async" loading="lazy" class="aligncenter  wp-image-16990" src="https://coolshell.cn/wp-content/uploads/2012/03/0915533324-2.png" alt="0915533324-2" width="706" height="265" srcset="https://coolshell.cn/wp-content/uploads/2012/03/0915533324-2.png 912w, https://coolshell.cn/wp-content/uploads/2012/03/0915533324-2-300x113.png 300w" sizes="(max-width: 706px) 100vw, 706px" /></p>
+<p>另一个问题是上面的解决方案假设了D是可以支持Conditional Update的；那么，如果D是一个不支持Conditional Update的第三方的key-value存储怎么办呢？这时，我们可以在L和D之间增加一个P作为代理，所有的CRUD操作都必须经过P，让P来进行条件检查，而实际的数据操作放在D。这种方式实现了条件检查和数据操作的分离，但同时降低了性能，需要在P中增加cache，提升性能。由于P是D的唯一客户端；所以，P的cache管理是非常简单的，不必像多客户端情形担心缓存的失效。不过，实际上，据我所知redis和Amazon SimpleDB都已经有了Conditional Update的支持。</p>
+<h4>悲观锁和MVCC对比</h4>
+<p>上面介绍了悲观锁和MVCC的基本原理，但是对于它们分别适用于什么场合，不同的场合下两种机制优劣具体表现在什么地方还不是很清楚。这里我就对一些典型的应用场景进行简单的分析。需要注意的是下面的分析不针对分布式，悲观锁和MVCC两种机制在分布式系统、单数据库系统、甚至到内存变量各个层次都存在。</p>
+<p>### 场景1：对读的响应速度要求高</p>
+<p>有一类系统更新特别频繁，并且对读的响应速度要求很高，如股票交易系统。在悲观锁机制下，写会阻塞读，那么当有写操作时，读操作的响应速度就会受到影响；而MVCC不存在读写锁，读操作是不受任何阻塞的，所以读的响应速度会更快更稳定。</p>
+<p>### 场景2：读远多于写</p>
+<p>对于许多系统来讲，读操作的比例往往远大于写操作，特别是某些海量并发读的系统。在悲观锁机制下，当有写操作占用锁，就会有大量的读操作被阻塞，影响并发性能；而MVCC可以保持比较高且稳定的读并发能力。</p>
+<p>### 场景3：写操作冲突频繁</p>
+<p>如果系统中写操作的比例很高，且冲突频繁，这时就需要仔细评估。假设两个有冲突的业务L1和L2，它们在单独执行是分别耗时t1，t2。在悲观锁机制下，它们的总时间大约等于串行执行的时间：</p>
+<p>T = t1 + t2</p>
+<p>而在MVCC下，假设L1在L2之前更新，L2需要retry一次，它们的总时间大约等于L2执行两次的时间（这里假设L2的两次执行耗时相等，更好的情况是，如果第1次能缓存下部分有效结果，第二次执行L2耗时是可能减小的）：</p>
+<p>T&#8217; = 2 * t2</p>
+<p>这时关键是要评估retry的代价，如果retry的代价很低，比如，对某个计数器递增，又或者第二次执行可以比第一次快很多，这时采用MVCC机制就比较适合。反之，如果retry的代价很大，比如，报表统计运算需要算几小时甚至一天那就应该采用锁机制避免retry。</p>
+<p>从上面的分析，我们可以简单的得出这样的结论：对读的响应速度和并发性要求比较高的场景适合MVCC；而retry代价越大的场景越适合悲观锁机制。</p>
+<h4>总结</h4>
+<p>本文介绍了一种基于多版本并发控制（MVCC）思想的Conditional Update解决分布式系统并发控制问题的方法。和基于悲观锁的方法相比，该方法避免了大粒度和长时间的锁定，能更好地适应对读的响应速度和并发性要求高的场景。</p>
+<h4>参考</h4>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Serializability">Wikipedia &#8211; Serializability</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Compare-and-swap">Wikipedia &#8211; Compare-and-swap</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Multiversion_concurrency_control">Wikipedia &#8211; Multiversion concurrency control</a></li>
+<li><a href="http://blogs.msdn.com/b/oldnewthing/archive/2011/04/12/10152296.aspx">Lock-free algorithms: The try/commit/(try again) pattern</a></li>
+<li><a href="http://aws.amazon.com/simpledb/faqs/#Does_Amazon_SimpleDB_support_transactions">Amazon SimpleDB FAQs &#8211; Does Amazon SimpleDB support transactions?</a></li>
+<li><a href="http://redis.io/topics/transactions">redis &#8211; Transactions</a></li>
+<li><a href="http://simpledbm.googlecode.com/files/mvcc-survey-1.0.pdf">A Quick Survey of MultiVersion Concurrency Algorithms</a></li>
+<li><a href="http://www.cnblogs.com/jobs/archive/2007/11/13/957446.html">非阻塞算法思想在关系数据库应用程序开发中的使用</a></li>
+</ul>
+<h4>友情推荐</h4>
+<p>本文的图是用我自己开发的<a href="http://textdiagram.sinaapp.com">TextDiagram</a>工具画的，欢迎试用！如果您喜欢，请推荐给朋友，谢谢！<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li ><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/01/trade-off-150x150.jpg" alt="分布式系统的事务处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_title">分布式系统的事务处理</a></li><li ><a href="https://coolshell.cn/articles/6470.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/01/12306-150x150.png" alt="由12306.cn谈谈网站性能技术 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6470.html" class="wp_rp_title">由12306.cn谈谈网站性能技术 </a></li><li ><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/05/etcd-150x150.png" alt="ETCD的内存问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22242.html" class="wp_rp_title">ETCD的内存问题</a></li><li ><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/12/bachelor-mechanical-eng-icon@72x-150x150.png" alt="我做系统架构的一些原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_title">我做系统架构的一些原则</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6790.html">多版本并发控制(MVCC)在分布式系统中的应用</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6790.html/feed</wfw:commentRss>
+			<slash:comments>98</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

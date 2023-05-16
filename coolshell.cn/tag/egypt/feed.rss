@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Egypt | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/egypt/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 09 Feb 2011 14:30:29 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Error handling in Egypt</title>
+		<link>https://coolshell.cn/articles/3630.html</link>
+					<comments>https://coolshell.cn/articles/3630.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 09 Feb 2011 00:45:03 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Egypt]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[错误处理]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3630</guid>
+
+					<description><![CDATA[<p>以前发布过《C语言的错误处理》一文，不过今天想说的是Egypt的“错误处理”。埃及的事闹得挺大的，国外和中文twitter上更是炸了锅。不要以为程序员就只会写程...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3630.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3630.html">Error handling in Egypt</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前发布过《<a href="https://coolshell.cn/articles/551.html" target="_blank">C语言的错误处理</a>》一文，不过今天想说的是Egypt的“错误处理”。埃及的事闹得挺大的，国外和中文twitter上更是炸了锅。不要以为程序员就只会写程序——看看程序员举出来的标语吧。呵呵。</p>
+<figure id="attachment_3631" aria-describedby="caption-attachment-3631" style="width: 600px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2011/02/Error-handling-in-Egypt.jpg"><img decoding="async" loading="lazy" class="size-full wp-image-3631" title="Error handling in Egypt" src="https://coolshell.cn/wp-content/uploads/2011/02/Error-handling-in-Egypt.jpg" alt="" width="600" height="454" srcset="https://coolshell.cn/wp-content/uploads/2011/02/Error-handling-in-Egypt.jpg 600w, https://coolshell.cn/wp-content/uploads/2011/02/Error-handling-in-Egypt-300x227.jpg 300w, https://coolshell.cn/wp-content/uploads/2011/02/Error-handling-in-Egypt-357x270.jpg 357w" sizes="(max-width: 600px) 100vw, 600px" /></a><figcaption id="caption-attachment-3631" class="wp-caption-text">Error handling in Egypt</figcaption></figure>
+<p>当然，作为程序员来说，这段代码显然还需要重构：<br />
+<span id="more-3630"></span></p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">try{
+    elections(free,fare);
+} catch(DemocracyNotFoundException){
+    System.err.println(&quot;Time for Mubarak to leave&quot;);
+}</pre>
+<p>也有的程序员说，System.err.println不是处理错误的最好方法，正确的方法应该是：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">try {
+    elections(free,fair);
+} catch (DemocracyNotFoundException e) {
+    throw new MubarakDepartureParty(e);
+}</pre>
+<p>最后，我们希望Egypt不要出现：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">...
+finally {
+    Security.shootProtesters();
+}</pre>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3630.html">Error handling in Egypt</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3630.html/feed</wfw:commentRss>
+			<slash:comments>8</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

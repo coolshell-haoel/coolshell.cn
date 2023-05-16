@@ -1,0 +1,1530 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>password | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/password/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 26 Dec 2011 14:17:18 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>CSDN明文口令泄露的启示</title>
+		<link>https://coolshell.cn/articles/6193.html</link>
+					<comments>https://coolshell.cn/articles/6193.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 22 Dec 2011 04:08:27 +0000</pubDate>
+				<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[CSDN]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6193</guid>
+
+					<description><![CDATA[<p>2011年12月21日晚，某计算机专业的大学生寝室，某同学大叫到：“兄弟们，最新的日本XX女星的AV片已经下好，大家快过来看啊，相当精彩啊~~~”，然而，这个寝...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6193.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6193.html">CSDN明文口令泄露的启示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>2011年12月21日晚，某计算机专业的大学生寝室，某同学大叫到：“兄弟们，最新的日本XX女星的AV片已经下好，大家快过来看啊，相当精彩啊~~~”，然而，这个寝室里的其它同学似乎没有听到这哥们的呼喊，于是，这哥们又叫了三次，没有人理他，因为大家都在眉飞色舞地谈论着CSDN的明文密码和用户帐号泄露的事情，并在网上查找着下载CSDN那600万的用户数据……上面这个故事是我编的，只是想描述一下昨晚的情形。</p>
+<p>其实，CSDN明文密码并不是什么稀奇的事情，我是2000年注册CSDN的吧，当时找回口令的机制就是把口令直接传回来了，这一定是明文了。去年去CSDN参加移动互联网沙龙的时候，范凯和蒋涛说过明文密码的事，不过他们说的是很早以前的事了，而且一笔带过了。1年后的今天，事情又暴了，可见，“出来混的，迟早是要还的”这句话是几近真理的。</p>
+<p>我在以前的BLOG里就提到过CSDN的明文密码（在“<a title="你会做Web上的用户登录功能吗？" href="https://coolshell.cn/articles/5353.html">如何设计用户登录功能</a>”一文）和 帐号泄露（“<a title="如何管理并设计你的口令" href="https://coolshell.cn/articles/2428.html">如何设计自己的口令</a>”） 的事（<strong>由此可见，酷壳里的很多文章里的事都应验了</strong>，因为我知道“出来混的，迟早是要还的”）</p>
+<p>（<strong>可悲吧？还是程序员的网站呢，明文口令和用户信息泄露有悖于一个程序员网站的称号</strong>）</p>
+<h4>泄露的密码分析</h4>
+<p>我昨晚下载了<a href="http://www.csdn.net.sql">www.csdn.net.sql</a>文件，并分析了一下这个文件，经过各种awk, grep, sort, uniq, sed后，下面是我看到的东西：</p>
+<ul>
+<li>有近45万的用户使用 123456789 和 12345678 做口令。</li>
+<li>有近40万的用户使用自己的生日做口令。</li>
+<li>有近15万的用户使用自己的手机号做口令。</li>
+<li>有近25万的用户使用自己的QQ号做口令。</li>
+<li>设置成弱口令的用户占了590万，也就是那种就算你用MD5或是SHA散列的也能很快就被暴力破解出来的口令。</li>
+<li>只有8000多个用户的口令里在8个长度以上，并有大写字母，小写字母，数字，并不在字典表里。</li>
+</ul>
+<p>（很好，这回泄露的还不单单只是明文用户密码和用户邮件，还有用户的手机号，生日和QQ号。挺好的）</p>
+<p>下面，我们来看一下top 100的口令是什么？（第一列是采用这个密码个数，第二列是密码，我擦 dearbook是什么啊）简单地看了一下，top 一万的口令都很SB。比如什么woshishui, 123abc, aaa123456，01010101，haohaoxuexi，msconfig 相当的2B，还有<a href="mailto:P@ssw0rd">P@ssw0rd</a>，q1w2e3r4t5，看似文艺，实际很2的口令&#8230;. （<strong>可悲吧？还是程序员的网站呢，自己设的口令有悖于一个程序员的称号</strong>）</p>
+<p><span id="more-6193"></span></p>
+<p style="padding-left: 30px;">235033 123456789<br />
+212751 12345678<br />
+76346 11111111<br />
+45902 dearbook<br />
+34953 00000000<br />
+19986 123123123<br />
+17791 1234567890<br />
+15033 88888888<br />
+6995 111111111<br />
+5966 147258369<br />
+5553 987654321<br />
+5459 aaaaaaaa<br />
+5145 1111111111<br />
+5025 66666666<br />
+4435 a123456789<br />
+4096 11223344<br />
+3667 1qaz2wsx<br />
+3649 xiazhili<br />
+3610 789456123<br />
+3497 password<br />
+3281 87654321<br />
+3277 qqqqqqqq<br />
+3175 000000000<br />
+3143 qwertyuiop<br />
+3094 qq123456<br />
+3077 iloveyou<br />
+3061 31415926<br />
+2985 12344321<br />
+2886 0000000000<br />
+2826 asdfghjkl<br />
+2797 1q2w3e4r<br />
+2580 123456abc<br />
+2578 0123456789<br />
+2573 123654789<br />
+2540 12121212<br />
+2515 qazwsxedc<br />
+2396 abcd1234<br />
+2380 12341234<br />
+2348 110110110<br />
+2298 asdasdasd<br />
+2243 22222222<br />
+2166 123321123<br />
+2160 abc123456<br />
+2145 123456<br />
+2138 a12345678<br />
+2113 123456123<br />
+2106 a1234567<br />
+2100 1234qwer<br />
+1989 qwertyui<br />
+1986 123456789a<br />
+1971 aa123456<br />
+1918 asdfasdf<br />
+1891 99999999<br />
+1859 999999999<br />
+1859 123456aa<br />
+1854 123456123456<br />
+1699 520520520<br />
+1656 963852741<br />
+1652 741852963<br />
+1652 55555555<br />
+1589 33333333<br />
+1480 qwer1234<br />
+1384 asd123456<br />
+1339 77777777<br />
+1316 qweasdzxc<br />
+1285 code8925<br />
+1273 11112222<br />
+1268 ms0083jxj<br />
+1245 zzzzzzzz<br />
+1214 111222333<br />
+1206 qweqweqwe<br />
+1200 3.1415926<br />
+1183 123456qq<br />
+1148 147852369<br />
+1136 521521521<br />
+1121 asdf1234<br />
+1111 123698745<br />
+1109 1123581321<br />
+1058 asdfghjk<br />
+1054 q1w2e3r4<br />
+1038 12345678a<br />
+1003 woaini1314<br />
+991 1234abcd<br />
+988 123qweasd<br />
+975 1qazxsw2<br />
+967 woaiwojia<br />
+920 321321321<br />
+910 05962514787<br />
+894 123456987<br />
+892 kingcom5<br />
+882 zxcvbnm123<br />
+882 5845201314<br />
+853 0987654321<br />
+847 wwwwwwww<br />
+835 11111111111111111111<br />
+805 12345600<br />
+783 11235813<br />
+777 1q2w3e4r5t<br />
+772 10101010<br />
+770 123456asd</p>
+<h4>老生长谈安全问题</h4>
+<p>从酷壳出现开始我就在老生长谈用户安全的东西了，今天借着这个事，大家再去重温一下酷壳的文章吧：</p>
+<ul>
+<li><a title="Twitter的禁用口令" href="https://coolshell.cn/articles/2451.html">Twitter禁用的口令</a>。看看去吧，一个好的网站应该如何引导用户设置强口令。Apple ID也是这样，需要你输入的口令有大小写，数字，非数字和字母，等等。<strong>今天CSDN的这个列表应该成为各大网站“口令禁用列表”。</strong></li>
+</ul>
+<ul>
+<li>有朋友说，明文口令是巨2的一件事，是的。我可以告诉你，这个明文口令有可能存在于所有国内的网站上，比如：QQ，新浪，人人，开心，天涯……。<strong>对于安全问题，你要做最坏的假设，鲁迅先生说过：“不惮以最坏的恶意来推测中国人”，所以，对于中国的网站你要做如下最坏假设：1）其以明文存我的口令，2）其内部不良员工会把我的信息泄露出去</strong>。不信你可以看看下面的某QQ群里的截图：（<a href="http://weibo.com/1494759712/xDa7tah7E?type=repost" target="_blank">看看多玩网明文口令的消息吧</a>，<a href="http://weibo.com/1642471052/xDaC1dEhP?type=repost" target="_blank">再看看这个消息吧</a> QQ邮箱和QQ号的）<img decoding="async" loading="lazy" class="aligncenter" title="国内网站的数据库" src="http://ww4.sinaimg.cn/large/63071edagw1doah4id8l4j.jpg" alt="" width="333" height="756" /></li>
+</ul>
+<ul>
+<li>你可能会说用MD5和SHA散列口令就好了，这个只比明文好一点点，因为有rainbow table，国外的号称达到99%覆盖，国内的达到93%覆盖。你加salt也没有用。就算我只能拿得到你的被散列的密码，没有rainbow和salt，我一样可以使用暴力破解，甚至就是尝试一下字典里的密码就可以了。这会非常快的，你可以看看本站的这篇文章“<a title="破解你的口令" href="https://coolshell.cn/articles/3801.html" target="_blank">破解你的口令</a>”，<strong>现在暴力破解MD5和SHA的口令很快的，因为MD5和SHA性能太好了。</strong>所以，你需要看看“<a title="如何防范密码被破解" href="https://coolshell.cn/articles/2078.html" target="_blank">如何防范密码被破解</a>”，其会告诉你加密口令要用一个性能差的算法——bcrypt。（也可以参看<a title="Web开发中需要了解的东西" href="https://coolshell.cn/articles/6043.html">Web开发中需要了解的东西</a>中的<a href="http://codahale.com/how-to-safely-store-a-password/" target="_blank">如何安全保存口令一文</a>）</li>
+</ul>
+<ul>
+<li>所以，你有必要地读一读我的这篇“<a title="如何管理并设计你的口令" href="https://coolshell.cn/articles/2428.html">如何管理和设计自己的口令</a>”，不要在同一网站上使用相同的口令，把口令的级别分好的组。自己管理好自己的口令。</li>
+</ul>
+<ul>
+<li> 对于Web用户的安全问题，程序员们一定要看一下 这两篇文章，你要是不看的话，你没有资格开发Web项目。</li>
+<ul>
+<li><a title="你会做Web上的用户登录功能吗？" href="https://coolshell.cn/articles/5353.html">如何设计用户登录功能</a></li>
+<li><a title="Web开发中需要了解的东西" href="https://coolshell.cn/articles/6043.html">Web开发中需要了解的东西</a></li>
+</ul>
+</ul>
+<ul>
+<li>当你看过 <a title="你会做Web上的用户登录功能吗？" href="https://coolshell.cn/articles/5353.html">如何设计用户登录功能</a> 一文后，你一定会头晕的，所以，我想告诉你，<strong>这种事情最好不要自己干，使用OpenID 和 OAuth吧，人家把这事干到了极致了</strong>。而且这样会带来两个好处：</li>
+<ul>
+<li><strong>用户不需要自己维护和管理一套新的帐号</strong>。</li>
+<li><strong>用户的资料放在国外，从政治上来说是安全的</strong>。（八卦一下：Google总部要求中国谷歌所有开发团队不得在本地保存用户的信息）</li>
+</ul>
+</ul>
+<ul>
+<li>再说一点，再说说如何让自己内部的用户数据不会被不良员工外泄。<strong>所有的开发团队都不允许直接操作用户的数据库，只允许通过安全的接口来验证用户，用户信息的数据库中需要对操作者有审计功能，永远不允许不受信的人或操作进行全库扫描</strong>。当然，我相信，国内的开发团队绝对达不到这一步（包括某些银行）。</li>
+</ul>
+<ul>
+<li>再说一下，<strong><span style="color: #000000;">真正的安全系统是协同整个社会的安全系统做出来的一道安全长城，而不是什么都要自己搞</span>。</strong>比如：通过很多方法“耦合”和银行和电信其是别的第三方的安全策略，比如，让用户绑定邮箱，绑定手机，绑定信用卡等。</li>
+</ul>
+<p>最后说一下，CSDN在这次事件的表现看上去还是很不错的，道歉也很诚恳，<strong>但是，我还是希望CSDN反思一下为什么数据库会泄露了？内部有不良员工？还是系统不安全被黑？不要只是诚恳道歉，还要找自己的原因。其它的网站可能就很恶劣了。包括新浪，人人，开心等，最恶心的就是腾讯，你说他的安全有问题，他还找一堆人来骂你。</strong></p>
+<p style="text-align: center;"><span style="color: #cc0000; font-size: 16pt; font-family: 'Microsoft YaHei';"><strong>祝大家新年快乐！</strong></span></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6193.html">CSDN明文口令泄露的启示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6193.html/feed</wfw:commentRss>
+			<slash:comments>145</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>你会做Web上的用户登录功能吗？</title>
+		<link>https://coolshell.cn/articles/5353.html</link>
+					<comments>https://coolshell.cn/articles/5353.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 25 Aug 2011 00:48:48 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5353</guid>
+
+					<description><![CDATA[<p>Web上的用户登录功能应该是最基本的功能了，可是在我看过一些站点的用户登录功能后，我觉得很有必要写一篇文章教大家怎么来做用户登录功能。下面的文章告诉大家这个功能...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5353.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5353.html">你会做Web上的用户登录功能吗？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>Web上的用户登录功能应该是最基本的功能了，可是在我看过一些站点的用户登录功能后，我觉得很有必要写一篇文章教大家怎么来做用户登录功能。下面的文章告诉大家这个功能可能并没有你所想像的那么简单，这是一个关系到用户安全的功能，希望大家能从下面的文章中能知道什么样的方法才是一个好的用户登录功能。<span style="color: #cc0000;"><strong>以下内容，转载时请保持原文一致，并请注明作者和出处</strong></span>。</p>
+<h4>用户名和口令</h4>
+<p>首先，我们先来说说用户名和口令的事。这并不是本站第一次谈论这个事了。<a title="如何管理并设计你的口令" href="https://coolshell.cn/articles/2428.html" target="_blank">如何管理自己的口令</a>让你知道怎么管理自己的口令，<a title="破解你的口令" href="https://coolshell.cn/articles/3801.html" target="_blank">破解你的口令</a>让你知道在现代这样速度的计算速度下，用穷举法破解你的口令可能会是一件很轻松的事。在这里我想告诉从开发者的角度上来做设计这个用户名和口令的事。下面一几件规则：</p>
+<ul style="font-weight: bold;">
+<li><span class="Apple-style-span" style="font-weight: normal;"><strong>限制用户输入一些非常容易被破解的口令</strong>。如什么qwert，123456, password之类，就像<a title="Twitter的禁用口令" href="https://coolshell.cn/articles/2451.html" target="_blank">twitter限制用户的口令</a>一样做一个口令的黑名单。另外，你可以限制用户口令的长度，是否有大小写，是否有数字，你可以用你的程序做一下校验。当然，这可能会让用户感到很不爽，所以，现在很多网站都提供了UX让用户知道他的口令强度是什么样的（比如<a title="另类UX让你输入强口令" href="https://coolshell.cn/articles/3877.html" target="_blank">这个有趣的UX</a>），这样可以让用户有一个选择，目的就是告诉用户——要想安全，先把口令设得好一点。</span></li>
+</ul>
+<ul style="font-weight: bold;">
+<li><span class="Apple-style-span" style="font-weight: normal;"><strong>千万不要明文保存用户的口令</strong>。正如<a title="如何管理并设计你的口令" href="https://coolshell.cn/articles/2428.html" target="_blank">如何管理自己的口令</a>所说的一样，很多时候，用户都会用相同的ID相同的口令来登录很多网站。所以，如果你的网站明文保存的话，那么，如果你的数据被你的不良员工流传出去那对用户是灾难性的。所以，用户的口令一定要加密保存，最好是用不可逆的加密，如MD5或是SHA1之类的有hash算法的不可逆的加密算法。CSDN曾明文保存过用户的口令。（另，对于国内公司的品行以及有关部门的管理方式，我不敢保证国内网站以加密的方式保存你的口令。我觉得，做为一个有良知的人，我们应该加密保存用户的口令）</span></li>
+</ul>
+<div><span id="more-5353"></span></div>
+<ul style="font-weight: bold;">
+<li><span class="Apple-style-span" style="font-weight: normal;"><strong>是否让浏览器保存口令</strong>。我们有N多的方法可以不让浏览器保存用户名和口令。但是这可能对用户来说很不爽。因为在真实世界里谁也记得不住那么多的口令。很多用户可能会使用一些密码管理工具来保存密码，浏览器只是其中一种。是否让浏览器保存这个需要你做决定，重点是看一下你的系统的安全级别是否要求比较高，如果是的话，则不要让浏览器保存密码，并在网站明显的位置告诉用户——保存口令最安全的地方只有你的大脑。</span></li>
+</ul>
+<ul style="font-weight: bold;">
+<li><span class="Apple-style-span" style="font-weight: normal;"><strong>口令在网上的传输</strong>。因为HTTP是明文协议，所以，用户名和口令在网上也是明文发送的，这个很不安全。你可以看看<a title="用Wireshark从http数据包中得到用户的登录信息" href="http://www.blogjava.net/heyang/archive/2011/04/05/340330.html" target="_blank">这篇文章</a>你就明白了。要做到加密传输就必需使用HTTPS协议。但是，在中国还是有很多网站的Web登录方式还在使用ActiveX控件，这可能成为IE6还大量存在的原因。我通常理解为这些ActiveX控件是为了反键盘记录程序的。 不过，我依然觉ActiveX控件不应该存在，因为在国外的众多安全很重要的站点上都看不到ActiveX的控件的身影。</span></li>
+</ul>
+<h4>用户登录状态</h4>
+<p>首先，我想告诉大家的是，因为HTTP是无状态的协议，也就是说，这个协议是无法记录用户访问状态的，其每次请求都是独立的无关联的，一笔是一笔。而我们的网站都是设计成多个页面的，所在页面跳转过程中我们需要知道用户的状态，尤其是用户登录的状态，这样我们在页面跳转后我们才知道是否可以让用户有权限来操作一些功能或是查看一些数据。</p>
+<p><strong>所以，我们每个页面都需要对用户的身份进行认证</strong>。当然，我们不可能让用户在每个页面上输入用户名和口令，这会让用户觉得我们的网站相当的SB。为了实现这一功能，用得最多的技术就是浏览器的cookie，我们会把用户登录的信息存放在客户端的cookie里，这样，我们每个页面都从这个cookie里获得用户是否登录的信息，从而达到记录状态，验证用户的目的。但是，你真的会用cookie吗？下面是使用cookie的一些原则。</p>
+<ul>
+<li><strong>千万不要在cookie中存放用户的密码</strong>。加密的密码都不行。因为这个密码可以被人获取并尝试离线穷举。所以，你一定不能把用户的密码保存在cookie中。我看到太多的站点这么干了。</li>
+</ul>
+<ul>
+<li><strong>正确设计“记住密码”</strong>。这个功能简直就是一个安全隐患，我觉得并不是所有的程序员都知道怎么设计这个事。一般的设计 是——一时用户勾选了这个功能，系统会生成一个cookie，cookie包括用户名和一个固定的散列值，这个固定的散列值一直使用。这样，你就可以在所有的设备和客户上都可以登录，而且可以有多个用户同时登录。这个并不是很安全。下面是一些更为安全的方法供你参考：<br />
+<span style="color: #000080;">（——<em><strong>更新 2011/08/26，原文中有些小错误，并且说的不清楚，重新调整了一下——</strong></em>）</span></li>
+</ul>
+<p style="padding-left: 60px;">1）在cookie中，保存三个东西——<strong>用户名</strong>，<strong>登录序列</strong>，<strong>登录token</strong>。</p>
+<p style="padding-left: 90px;"><strong>用户名</strong>：明文存放。<br />
+<strong>登录序列</strong>：一个被MD5散列过的随机数，<span style="color: #cc0000;">仅当强制用户输入口令时更新（如：用户修改了口令）</span>。<br />
+<strong>登录token</strong>：一个被MD5散列过的随机数，<span style="color: #cc0000;">仅一个登录session内有效，新的登录session会更新它</span>。</p>
+<p style="padding-left: 60px;">2）上述三个东西会存在服务器上，服务器的验证用户需要验证客户端cookie里的这三个事。</p>
+<p style="padding-left: 60px;">3）这样的设计会有什么样的效果，会有下面的效果，</p>
+<p style="padding-left: 90px;">a）<strong>登录token</strong>是单实例登录。意思就是一个用户只能有一个登录实例。</p>
+<p style="padding-left: 90px;">b）<strong>登录序列</strong>是用来做盗用行为检测的。如果用户的cookie被盗后，盗用者使用这个cookie访问网站时，我们的系统是以为是合法用户，然后更新“<strong>登录token</strong>”，而真正的用户回来访问时，系统发现只有“<strong>用户名</strong>”和“<strong>登录序列</strong>”相同，但是“<strong>登录token</strong>” 不对，这样的话，系统就知道，这个用户可能出现了被盗用的情况，于是，系统可以清除并更改<strong>登录序列 </strong>和<strong> <strong>登录token</strong></strong>，这样就可以令所有的cookie失效，并要求用户输入口令。并给警告用户系统安全。</p>
+<p style="padding-left: 60px;">4）当然，<strong>上述这样的设计还是会有一些问题，比如：同一用户的不同设备登录，甚至在同一个设备上使用不同的浏览器保登录</strong>。一个设备会让另一个设备的<strong>登录token</strong>和<strong>登录序列</strong>失效，从而让其它设备和浏览器需要重新登录，并会造成cookie被盗用的假象。所以，你在服务器服还需要考虑- <strong>IP 地址</strong>，</p>
+<p style="padding-left: 90px;">a) 如果以口令方式登录，我们无需更新服务器的“<strong>登录序列</strong>”和 “<strong>登录token</strong>”（但需要更新cookie）。因为我们认为口令只有真正的用户知道。</p>
+<p style="padding-left: 90px;">b) 如果 <strong>IP相同</strong> ，那么，我们无需更新服务器的“<strong>登录序列</strong>”和 “<strong>登录token</strong>”（但需要更新cookie）。因为我们认为是同一用户有同一IP（当然，同一个局域网里也有同一IP，但我们认为这个局域网是用户可以控制的。网吧内并不推荐使用这一功能）。</p>
+<p style="padding-left: 90px;">c) 如果 （<strong>IP不同 </strong>&amp;&amp;<strong> 没有用口令登录</strong>），那么，“<strong>登录token</strong>” 就会在多个IP间发生变化（登录token在两个或多个ip间被来来回回的变换），当在一定时间内达到一定次数后，系统才会真正觉得被盗用的可能性很高，此时系统在后台清除“<strong>登录序列</strong>”和“<strong>登录token</strong>&#8220;，让Cookie失效，强制用户输入口令（或是要求用户更改口令），以保证多台设备上的cookie一致。</p>
+<ul>
+<li><strong>不要让cookie有权限访问所有的操作</strong>。否则就是XSS攻击，这个功能请参看<a title="新浪微博的XSS攻击" href="https://coolshell.cn/articles/4914.html" target="_blank">新浪微博的XSS攻击</a>。下面的这些功能一定要用户输入口令：</li>
+</ul>
+<div style="padding-left: 60px;">1）修改口令。</div>
+<div style="padding-left: 60px;">2）修改电子邮件。（电子邮件通常用来找回用户密码，最好通发邮件或是发手机短信的方式修改，或者干脆就不让改一一用电子邮件做帐号名）</div>
+<div style="padding-left: 60px;">3）用户的隐私信息。</div>
+<div style="padding-left: 60px;">4）用户消费功能。</div>
+<div>
+<ul>
+<li><strong>权衡Cookie的过期时间。</strong>如果是永不过期，会有很不错的用户体验，但是这也会让用户很快就忘了登录密码。如果设置上过期期限，比如2周，一个月，那么可能会好一点，但是2周和一个月后，用户依然会忘了密码。尤其是用户在一些公共电脑上，如果保存了永久cookie的话，等于泄露了帐号。所以，对于cookie的过期时间我们还需要权衡。</li>
+</ul>
+</div>
+<h4>找回口令的功能</h4>
+<p>找回口令的功能一定要提供。但是很多朋友并不知道怎么来设计这个功能。我们有很多找回口令的设计，下面我逐个点评一下。</p>
+<ul>
+<li><strong>千万不要使用安全问答</strong>。事实证明，这个环节很烦人，而且用户并不能很好的设置安全问答。什么，我的生日啊，我母亲的生日，等等。因为今天的互联网和以前不一样了，因为SNS，今天的互联比以前更真实了，我可以上facebook，开心，人人网，LinkedIn查到你的很多的真实的信息。通过这些信息我可以使用安全问答来重设你的口令。 这里需要说一下 Facebook，Facebook的安全问答很强大，还要你通过照片认人，呵呵。</li>
+</ul>
+<ul>
+<li><strong>不要重置用户的密码</strong>。因为这有可能让用户的密码遭到恶意攻击。当然，你要发个邮件给用户让其确认，用户点击邮件中的一个链接，你再重置。我并不推荐这样的方法，因为用户一般都会用笔记下来这个很难记的口令，然后登录系统，因为登录系统时使用了“记住密码”的功能，所以导致用户不会去修改密码，从而要么导到被写下来的密码被人盗取，要么又忘记了密码。</li>
+</ul>
+<ul>
+<li><strong>好一点的做法——通过邮件自行重置</strong>。当用户申请找回口令功能的时候，系统生成一个MD5唯一的随机字串（可通过UID+IP+timestamp+随机数），放在数据库中，然后设置上时限（比如1小时内），给用户发一个邮件，这个连接中包含那个MD5的字串的链接，用户通过点击那个链接来自己重新设置新的口令。</li>
+</ul>
+<ul>
+<li><strong>更好一点的做法——多重认证</strong>。比如：通过手机+邮件的方式让用户输入验证码。手机+邮件可能还不把握，因为手机要能会丢了，而我的手机可以访问我的邮箱。所以，使用U盾，SecureID（一个会变化的6位数token），或是通过人工的方式核实用户身份。当然，这主要看你的系统的安全级别了。</li>
+</ul>
+<h4>口令探测防守</h4>
+<ul>
+<li><strong>使用验证码</strong>。验证码是后台随机产生的一个短暂的验证码，这个验证码一般是一个计算机很难识别的图片。这样就可以防止以程序的方式来尝试用户的口令。事实证明，这是最简单也最有效的方式。当然，总是让用户输入那些肉眼都看不清的验证码的用户体验不好，所以，可以折中一下。比如Google，当他发现一个IP地址发出大量的搜索后，其会要求你输入验证码。当他发现同一个IP注册了3个以上的gmail邮箱后，他需要给你发短信方式或是电话方式的验证码。</li>
+</ul>
+<ul>
+<li><strong>用户口令失败次数</strong>。调置口令失败的上限，如果失败过多，则把帐号锁了，需要用户以找回口令的方式来重新激活帐号。但是，这个功能可能会被恶意人使用。最好的方法是，增加其尝试的时间成本（以前的这篇文章说过一个<a title="如何防范密码被破解" href="https://coolshell.cn/articles/2078.html" target="_blank">增加时间成本的解密算法</a>）。如，两次口令尝试的间隔是5秒钟。三次以上错误，帐号被临时锁上30秒，5次以上帐号被锁1分钟，10次以上错误帐号被锁4小时……但是这会导致恶意用户用脚本来攻击，所以最好再加上验证码，验证码出错次数过多不禁止登录而是禁lP。</li>
+</ul>
+<ul>
+<li><strong>系统全局防守</strong>。上述的防守只针对某一个别用户。恶意者们深知这一点，所以，他们一般会动用“僵尸网络”轮着尝试一堆用户的口令，所以上述的那种方法可能还不够好。我们需要在系统全局域上监控所有的口令失败的次数。当然，这个需要我们平时没有受到攻击时的数据做为支持。比如你的系统，平均每天有5000次的口令错误的事件，那么你可以认为，当口令错误大幅超过这个数后，而且时间相对集中，就说明有黑客攻击。这个时候你怎么办？一般最常见使用的方法是让所有的用户输错口令后再次尝试的时间成本增加。</li>
+</ul>
+<div>最后，再说一下，关于用户登录，使用第三方的 OAuth 和 OpenID 也不失为一个很不错的选择。</div>
+<h4>参考文章</h4>
+<ul>
+<li><a href="http://www.owasp.org/index.php/Guide_to_Authentication" rel="nofollow">OWASP Guide To Authentication</a></li>
+<li><a href="http://www.cs.umass.edu/~kevinfu/papers/webauth_tr.pdf" rel="nofollow">Dos and Don’ts of Client Authentication on the Web </a>（PDF）</li>
+<li><a href="http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/" rel="nofollow">Charles Miller&#8217;s Persistent Login Cookie Best Practice</a></li>
+<li><a href="http://en.wikipedia.org/wiki/HTTP_cookie#Drawbacks_of_cookies" rel="nofollow">Wikipedia: HTTP cookie</a></li>
+<li><a href="http://cups.cs.cmu.edu/soups/2008/proceedings/p13Rabkin.pdf" rel="nofollow">Personal knowledge questions for fallback authentication: Security questions in the era of Facebook </a></li>
+</ul>
+<div>（<strong>以上内容，转载时请保持原文一致，并请注明作者和出处</strong>）</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5353.html">你会做Web上的用户登录功能吗？</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5353.html/feed</wfw:commentRss>
+			<slash:comments>119</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>另类UX让你输入强口令</title>
+		<link>https://coolshell.cn/articles/3877.html</link>
+					<comments>https://coolshell.cn/articles/3877.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 03 Mar 2011 01:26:41 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3877</guid>
+
+					<description><![CDATA[<p>昨天和大家说了一下关于口令破解的一些东西，那篇文章告诉我们需要设置一个比较强的不易破解的口令。 今天在网上看到一个强大的jQuery插件，叫NakedPassw...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3877.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3877.html">另类UX让你输入强口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p><script src="http://www.nakedpassword.com/javascripts/jquery.js" type="text/javascript"></script> <script src="http://www.nakedpassword.com/javascripts/naked_password.0.2.2.min.js" type="text/javascript"></script></p>
+<p><script type="text/javascript">  	$(document).ready(function() { 	     $("input:password").nakedPassword({path: "http://www.nakedpassword.com/np_images/"}); 		});</script></p>
+<p>昨天和大家说了一下<a title="破解你的口令" href="https://coolshell.cn/articles/3801.html" target="_blank">关于口令破解</a>的一些东西，那篇文章告诉我们需要设置一个比较强的不易破解的口令。</p>
+<p>今天在网上看到一个强大的jQuery插件，叫<a title="NakedPassword.com" href="http://www.nakedpassword.com/" target="_blank">NakedPassword</a>，其通过“<strong>强大的用户体验</strong>”让你输入一个比较强且不易被破解的口令。虽然有点另类，但是我个人相当欣赏这个UX，因为UX实在是太到位了——<strong>只有你输入的口令比较强，图片中的女人才会脱光衣服</strong>。</p>
+<p>下面是演示：</p>
+<p style="text-align: center;">请输入你的口令（输入时出现效果）</p>
+<p style="text-align: center;">
+<input id="test" style="font-size: 25px;" type="password" /></p>
+<p>这个例子和<a title="用户界面和用户体验的差别" href="https://coolshell.cn/articles/3142.html" target="_blank">以前的那个例子</a>一样，告诉你UX设计是重要性。</p>
+<p>（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3877.html">另类UX让你输入强口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3877.html/feed</wfw:commentRss>
+			<slash:comments>52</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>破解你的口令</title>
+		<link>https://coolshell.cn/articles/3801.html</link>
+					<comments>https://coolshell.cn/articles/3801.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 02 Mar 2011 00:35:48 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[bcrypt]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3801</guid>
+
+					<description><![CDATA[<p>在网上看到一张口令破解的表格，如下所示（第一列是口令长度，第二列是全小写的口令，第三列是有大写字母的口令，第四列是又加上了数字和其它字符的口令） 如果你想知道自...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3801.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3801.html">破解你的口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在网上看到一张口令破解的表格，如下所示（第一列是口令长度，第二列是全小写的口令，第三列是有大写字母的口令，第四列是又加上了数字和其它字符的口令）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3802" title="破解你的口令所需要的时间" src="https://coolshell.cn/wp-content/uploads/2011/02/passwords.png" alt="" width="500" height="163" srcset="https://coolshell.cn/wp-content/uploads/2011/02/passwords.png 500w, https://coolshell.cn/wp-content/uploads/2011/02/passwords-300x98.png 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p>如果你想知道自己的口令花多少时间可以被破确，你可以访问下面这个网站：（<strong><em>更新2011/3/2晚10点15</em></strong>）</p>
+<p style="text-align: center;"><strong><a href="http://howsecureismypassword.net/" target="_blank">http://howsecureismypassword.net/</a></strong></p>
+<p>这里先说一个这里说的口令破解。一般来说用户的口令都是以MD5编码加密放在数据库里的，MD5是不可逆的，所以，当你拿到你一串被MD5后的字串，你可以使用暴力破解——穷举所有的可能口令的MD5字串，然后和数据库里的对比，比对了你就知道口令了。当然，你一定要清楚，在某些审查很严重的地方，互联网内容提供商不一定会把你的口令以MD5加密，甚至就是明文（Plain Text）保存，所以你还需要小心，关于如何设计你的口令，<a title="如何设计你的口令" href="https://coolshell.cn/articles/2428.html" target="_blank">请参看这篇文章</a>。</p>
+<p>从上面这表格我们可以看到，你的口令最好是在8个长度以上，而且一定要有在小写和数字，最好再加上其它字符，这样你的口令被破解的时候最需要463年，这样就比较安全了。当然，如果你的口令使用了一些常用的单词，那就另说了，现在破解口令一般都不会使用暴力破解，都是用一个尝用口令字典表来尝试——比如<a title="Twitter的禁用口令" href="https://coolshell.cn/articles/2451.html" target="_blank">这篇文章所说的字典表</a>。</p>
+<p>但我提醒一下，这张表里中的时间忽略了一个问题，那就是并行，<strong>可以使用多台电脑多个进程并行破解口令</strong>，这样一来，上表中的时间就可大打折扣了。你只需要愿意花2000美刀，你就能够找到一个地方，1秒种计算7亿个口令，因为MD5，SHA这类的算法性能太好了。所以，你可能需要使用新的算法来加密你的口令，这种算法最好加上时间，也就是在算法的计算时间加长。呵呵，慢也有慢的好处。可能你需要考虑一下bcrypt算法，你<a title="如何防范密码被破解" href="https://coolshell.cn/articles/2078.html" target="_blank">可以查看本站的这篇文章</a>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3801.html">破解你的口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3801.html/feed</wfw:commentRss>
+			<slash:comments>44</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何“加密”你的email地址</title>
+		<link>https://coolshell.cn/articles/3595.html</link>
+					<comments>https://coolshell.cn/articles/3595.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 27 Jan 2011 05:03:06 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[email]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3595</guid>
+
+					<description><![CDATA[<p>现在在网上要小心，无论是保护好你的用户名和帐号，还是我们的电子邮件地址。在网上有很多爬虫程序专爬我们的电子邮件地址，一量被爬中了，那么你的邮箱里就是一堆又一堆的...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3595.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3595.html">如何“加密”你的email地址</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>现在在网上要小心，无论是<a href="https://coolshell.cn/articles/2428.html" target="_blank">保护好你的用户名和帐号</a>，还是我们的电子邮件地址。在网上有很多爬虫程序专爬我们的电子邮件地址，一量被爬中了，那么你的邮箱里就是一堆又一堆的垃圾邮件，就好像我的haoel(at)hotmail.com一样，在7、8年前，每天几千封的垃圾邮件。现在hotmail的垃圾邮件过滤得好一些了，不过也有每天40封左右的垃圾邮件。但是我们在自己的网页上又需要发布自己的email地址。所以我们需要搞乱我们的邮件地址，就像那种非常规的<a href="https://coolshell.cn/articles/933.html" target="_blank">搞乱代码一样</a>。不过，我们还需要能认人读的出来。</p>
+<p>一般来说，在网上现在很普遍的做法是——</p>
+<ul>
+<li>1）用图片，可以用PHP动态生成那个验证码式的。</li>
+<li>2）把@变成at，把点变成dot，如 haoel(at)hotmail(dot)com之类的。</li>
+<li>3）把a变成@，写成haoel@hotm@mail.com</li>
+</ul>
+<p>不过这些还是能被爬到，用图片的方法不利于用户拷贝粘贴。下面介绍几种方法：</p>
+<h4>第一种：使用CSS样式</h4>
+<p><strong>反转字序</strong></p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+span.codedirection { unicode-bidi:bidi-override; direction: rtl; }
+&lt;p&gt;&lt;span&gt;moc.liamtoh@leoah&lt;/span&gt;&lt;/p&gt;</pre>
+<p><span id="more-3595"></span></p>
+<p><strong>加入些不显示的字符串</strong></p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">p span.hide { display:none; }
+&lt;p&gt;foo@bar&lt;span class=&quot;hide&quot;&gt;null&lt;/span&gt;.baz&lt;/p&gt;</pre>
+<h4>第二种：使用Javascript</h4>
+<p>最为简单的方法是：</p>
+<p>[javascript]document.write(&quot;haoel&quot; + &quot;@&quot; + &quot;hotmail&quot; + &quot;.&quot; + &quot;com&quot;);[/javascript]</p>
+<p>或是：</p>
+<p>[javascript]&lt;script type=&quot;text/javascript&quot;&gt;<br />
+&lt;!&#8211;<br />
+	var string1 = &quot;@&quot;;<br />
+	var string2 = &quot;haoel&quot;;<br />
+	var string3 = &quot;hotmail.com&quot;;<br />
+	var string4 = string2 + string1 + string3;<br />
+	document.write(&quot;&lt;a href=&quot; + &quot;mail&quot; + &quot;to:&quot; + string2 + string1 + string3 + &quot;&gt;&quot; + string4 + &quot;&lt;/a&gt;&quot;);<br />
+//&#8211;&gt;<br />
+&lt;/script&gt;[/javascript]</p>
+<p>不过更为强大的是使用ROT13加密，这里有一个<a href="http://rot13.de/" target="_blank">ROT13的在线工具</a>，或是使用PHP的ROT13的函数<a href="http://ch2.php.net/str_rot13" target="_blank">str_rot13</a>。</p>
+<p>[javascript]&lt;script type=”text/javascript”&gt;<br />
+document.write(“&lt;n uers=\&quot;znvygb:unbry@ubgznvy.pbz\&quot;&gt;”.replace(/[a-zA-Z]/g,<br />
+function(c){return String.fromCharCode((c&lt;=”Z”?90:122)&gt;=(c=c.charCodeAt(0)+13)?c:c-26);}));<br />
+&lt;/script&gt;陈皓的电子邮件&lt;/a&gt;[/javascript]</p>
+<p>这些方法还是很有效果的。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3595.html">如何“加密”你的email地址</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3595.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Twitter的禁用口令</title>
+		<link>https://coolshell.cn/articles/2451.html</link>
+					<comments>https://coolshell.cn/articles/2451.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 20 May 2010 00:58:44 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2451</guid>
+
+					<description><![CDATA[<p>打开Twitter的注册页面，https://twitter.com/signup，查看一下源码，你会看到一个很长的禁用口令列表（见本文最下面），其中的某些口令...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2451.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2451.html">Twitter的禁用口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>打开Twitter的注册页面，<a href="https://twitter.com/signup" target="_blank">https://twitter.com/signup</a>，查看一下源码，你会看到一个很长的禁用口令列表（见本文最下面），其中的某些口令的确很雷人。你可以参看本站的《<a title="如何管理并设计你的口令" href="https://coolshell.cn/articles/2428.html">如何管理并设计你的口令</a>》来设计和管理你的口令。其中的某些口令需要向你解释一下：</p>
+<ul>
+<li><strong>ncc1701</strong> 这是星际迷航中的战舰号。</li>
+<li><strong>thx1138</strong> 这是乔治卢卡斯的第一个电影，1971年，其学生时代的作品。</li>
+<li><strong>qazwsx</strong> 这是键盘的布局顺序键。</li>
+<li><strong>666666</strong> 这是6个6</li>
+<li><strong>7777777</strong> 这是7个7</li>
+<li><strong>ou812</strong> 这是1988范 海伦Van Halen 专辑</li>
+<li><strong>8675309</strong> 这是 1982 Tommy Tutone song歌中提到的数字。这首歌导致人们开始播打电话867- 5309 寻找 “Jenny”</li>
+</ul>
+<p>经过统计，9个人里就有1个人会使用下面这个列表中的一个口令，而50个人就会有1个人使用top 20里的一个口令。你可能会问，top20是怎么来的？而twitter这个列表又是哪里来的？请看下面的表格。这是top 500最烂的口令列表。其来源是<a href="http://www.whatsmypass.com/the-top-500-worst-passwords-of-all-time" target="_blank">这里</a>。</p>
+<p><span id="more-2451"></span></p>
+<table>
+<tbody>
+<tr>
+<td>NO</td>
+<td>Top 1-100</td>
+<td>Top 101–200</td>
+<td>Top 201–300</td>
+<td>Top 301–400</td>
+<td>Top 401–500</td>
+</tr>
+<tr>
+<td>1</td>
+<td>123456</td>
+<td>porsche</td>
+<td>firebird</td>
+<td>prince</td>
+<td>rosebud</td>
+</tr>
+<tr>
+<td>2</td>
+<td>password</td>
+<td>guitar</td>
+<td>butter</td>
+<td>beach</td>
+<td>jaguar</td>
+</tr>
+<tr>
+<td>3</td>
+<td>12345678</td>
+<td>chelsea</td>
+<td>united</td>
+<td>amateur</td>
+<td>great</td>
+</tr>
+<tr>
+<td>4</td>
+<td>1234</td>
+<td>black</td>
+<td>turtle</td>
+<td>7777777</td>
+<td>cool</td>
+</tr>
+<tr>
+<td>5</td>
+<td>pussy</td>
+<td>diamond</td>
+<td>steelers</td>
+<td>muffin</td>
+<td>cooper</td>
+</tr>
+<tr>
+<td>6</td>
+<td>12345</td>
+<td>nascar</td>
+<td>tiffany</td>
+<td>redsox</td>
+<td>1313</td>
+</tr>
+<tr>
+<td>7</td>
+<td>dragon</td>
+<td>jackson</td>
+<td>zxcvbn</td>
+<td>star</td>
+<td>scorpio</td>
+</tr>
+<tr>
+<td>8</td>
+<td>qwerty</td>
+<td>cameron</td>
+<td>tomcat</td>
+<td>testing</td>
+<td>mountain</td>
+</tr>
+<tr>
+<td>9</td>
+<td>696969</td>
+<td>654321</td>
+<td>golf</td>
+<td>shannon</td>
+<td>madison</td>
+</tr>
+<tr>
+<td>10</td>
+<td>mustang</td>
+<td>computer</td>
+<td>bond007</td>
+<td>murphy</td>
+<td>987654</td>
+</tr>
+<tr>
+<td>11</td>
+<td>letmein</td>
+<td>amanda</td>
+<td>bear</td>
+<td>frank</td>
+<td>brazil</td>
+</tr>
+<tr>
+<td>12</td>
+<td>baseball</td>
+<td>wizard</td>
+<td>tiger</td>
+<td>hannah</td>
+<td>lauren</td>
+</tr>
+<tr>
+<td>13</td>
+<td>master</td>
+<td>xxxxxxxx</td>
+<td>doctor</td>
+<td>dave</td>
+<td>japan</td>
+</tr>
+<tr>
+<td>14</td>
+<td>michael</td>
+<td>money</td>
+<td>gateway</td>
+<td>eagle1</td>
+<td>naked</td>
+</tr>
+<tr>
+<td>15</td>
+<td>football</td>
+<td>phoenix</td>
+<td>gators</td>
+<td>11111</td>
+<td>squirt</td>
+</tr>
+<tr>
+<td>16</td>
+<td>shadow</td>
+<td>mickey</td>
+<td>angel</td>
+<td>mother</td>
+<td>stars</td>
+</tr>
+<tr>
+<td>17</td>
+<td>monkey</td>
+<td>bailey</td>
+<td>junior</td>
+<td>nathan</td>
+<td>apple</td>
+</tr>
+<tr>
+<td>18</td>
+<td>abc123</td>
+<td>knight</td>
+<td>thx1138</td>
+<td>raiders</td>
+<td>alexis</td>
+</tr>
+<tr>
+<td>19</td>
+<td>pass</td>
+<td>iceman</td>
+<td>porno</td>
+<td>steve</td>
+<td>aaaa</td>
+</tr>
+<tr>
+<td>20</td>
+<td>fuckme</td>
+<td>tigers</td>
+<td>badboy</td>
+<td>forever</td>
+<td>bonnie</td>
+</tr>
+<tr>
+<td>21</td>
+<td>6969</td>
+<td>purple</td>
+<td>debbie</td>
+<td>angela</td>
+<td>peaches</td>
+</tr>
+<tr>
+<td>22</td>
+<td>jordan</td>
+<td>andrea</td>
+<td>spider</td>
+<td>viper</td>
+<td>jasmine</td>
+</tr>
+<tr>
+<td>23</td>
+<td>harley</td>
+<td>horny</td>
+<td>melissa</td>
+<td>ou812</td>
+<td>kevin</td>
+</tr>
+<tr>
+<td>24</td>
+<td>ranger</td>
+<td>dakota</td>
+<td>booger</td>
+<td>jake</td>
+<td>matt</td>
+</tr>
+<tr>
+<td>25</td>
+<td>iwantu</td>
+<td>aaaaaa</td>
+<td>1212</td>
+<td>lovers</td>
+<td>qwertyui</td>
+</tr>
+<tr>
+<td>26</td>
+<td>jennifer</td>
+<td>player</td>
+<td>flyers</td>
+<td>suckit</td>
+<td>danielle</td>
+</tr>
+<tr>
+<td>27</td>
+<td>hunter</td>
+<td>sunshine</td>
+<td>fish</td>
+<td>gregory</td>
+<td>beaver</td>
+</tr>
+<tr>
+<td>28</td>
+<td>fuck</td>
+<td>morgan</td>
+<td>porn</td>
+<td>buddy</td>
+<td>4321</td>
+</tr>
+<tr>
+<td>29</td>
+<td>2000</td>
+<td>starwars</td>
+<td>matrix</td>
+<td>whatever</td>
+<td>4128</td>
+</tr>
+<tr>
+<td>30</td>
+<td>test</td>
+<td>boomer</td>
+<td>teens</td>
+<td>young</td>
+<td>runner</td>
+</tr>
+<tr>
+<td>31</td>
+<td>batman</td>
+<td>cowboys</td>
+<td>scooby</td>
+<td>nicholas</td>
+<td>swimming</td>
+</tr>
+<tr>
+<td>32</td>
+<td>trustno1</td>
+<td>edward</td>
+<td>jason</td>
+<td>lucky</td>
+<td>dolphin</td>
+</tr>
+<tr>
+<td>33</td>
+<td>thomas</td>
+<td>charles</td>
+<td>walter</td>
+<td>helpme</td>
+<td>gordon</td>
+</tr>
+<tr>
+<td>34</td>
+<td>tigger</td>
+<td>girls</td>
+<td>cumshot</td>
+<td>jackie</td>
+<td>casper</td>
+</tr>
+<tr>
+<td>35</td>
+<td>robert</td>
+<td>booboo</td>
+<td>boston</td>
+<td>monica</td>
+<td>stupid</td>
+</tr>
+<tr>
+<td>36</td>
+<td>access</td>
+<td>coffee</td>
+<td>braves</td>
+<td>midnight</td>
+<td>shit</td>
+</tr>
+<tr>
+<td>37</td>
+<td>love</td>
+<td>xxxxxx</td>
+<td>yankee</td>
+<td>college</td>
+<td>saturn</td>
+</tr>
+<tr>
+<td>38</td>
+<td>buster</td>
+<td>bulldog</td>
+<td>lover</td>
+<td>baby</td>
+<td>gemini</td>
+</tr>
+<tr>
+<td>39</td>
+<td>1234567</td>
+<td>ncc1701</td>
+<td>barney</td>
+<td>cunt</td>
+<td>apples</td>
+</tr>
+<tr>
+<td>40</td>
+<td>soccer</td>
+<td>rabbit</td>
+<td>victor</td>
+<td>brian</td>
+<td>august</td>
+</tr>
+<tr>
+<td>41</td>
+<td>hockey</td>
+<td>peanut</td>
+<td>tucker</td>
+<td>mark</td>
+<td>3333</td>
+</tr>
+<tr>
+<td>42</td>
+<td>killer</td>
+<td>john</td>
+<td>princess</td>
+<td>startrek</td>
+<td>canada</td>
+</tr>
+<tr>
+<td>43</td>
+<td>george</td>
+<td>johnny</td>
+<td>mercedes</td>
+<td>sierra</td>
+<td>blazer</td>
+</tr>
+<tr>
+<td>44</td>
+<td>sexy</td>
+<td>gandalf</td>
+<td>5150</td>
+<td>leather</td>
+<td>cumming</td>
+</tr>
+<tr>
+<td>45</td>
+<td>andrew</td>
+<td>spanky</td>
+<td>doggie</td>
+<td>232323</td>
+<td>hunting</td>
+</tr>
+<tr>
+<td>46</td>
+<td>charlie</td>
+<td>winter</td>
+<td>zzzzzz</td>
+<td>4444</td>
+<td>kitty</td>
+</tr>
+<tr>
+<td>47</td>
+<td>superman</td>
+<td>brandy</td>
+<td>gunner</td>
+<td>beavis</td>
+<td>rainbow</td>
+</tr>
+<tr>
+<td>48</td>
+<td>asshole</td>
+<td>compaq</td>
+<td>horney</td>
+<td>bigcock</td>
+<td>112233</td>
+</tr>
+<tr>
+<td>49</td>
+<td>fuckyou</td>
+<td>carlos</td>
+<td>bubba</td>
+<td>happy</td>
+<td>arthur</td>
+</tr>
+<tr>
+<td>50</td>
+<td>dallas</td>
+<td>tennis</td>
+<td>2112</td>
+<td>sophie</td>
+<td>cream</td>
+</tr>
+<tr>
+<td>51</td>
+<td>jessica</td>
+<td>james</td>
+<td>fred</td>
+<td>ladies</td>
+<td>calvin</td>
+</tr>
+<tr>
+<td>52</td>
+<td>panties</td>
+<td>mike</td>
+<td>johnson</td>
+<td>naughty</td>
+<td>shaved</td>
+</tr>
+<tr>
+<td>53</td>
+<td>pepper</td>
+<td>brandon</td>
+<td>xxxxx</td>
+<td>giants</td>
+<td>surfer</td>
+</tr>
+<tr>
+<td>54</td>
+<td>1111</td>
+<td>fender</td>
+<td>tits</td>
+<td>booty</td>
+<td>samson</td>
+</tr>
+<tr>
+<td>55</td>
+<td>austin</td>
+<td>anthony</td>
+<td>member</td>
+<td>blonde</td>
+<td>kelly</td>
+</tr>
+<tr>
+<td>56</td>
+<td>william</td>
+<td>blowme</td>
+<td>boobs</td>
+<td>fucked</td>
+<td>paul</td>
+</tr>
+<tr>
+<td>57</td>
+<td>daniel</td>
+<td>ferrari</td>
+<td>donald</td>
+<td>golden</td>
+<td>mine</td>
+</tr>
+<tr>
+<td>58</td>
+<td>golfer</td>
+<td>cookie</td>
+<td>bigdaddy</td>
+<td>0</td>
+<td>king</td>
+</tr>
+<tr>
+<td>59</td>
+<td>summer</td>
+<td>chicken</td>
+<td>bronco</td>
+<td>fire</td>
+<td>racing</td>
+</tr>
+<tr>
+<td>60</td>
+<td>heather</td>
+<td>maverick</td>
+<td>penis</td>
+<td>sandra</td>
+<td>5555</td>
+</tr>
+<tr>
+<td>61</td>
+<td>hammer</td>
+<td>chicago</td>
+<td>voyager</td>
+<td>pookie</td>
+<td>eagle</td>
+</tr>
+<tr>
+<td>62</td>
+<td>yankees</td>
+<td>joseph</td>
+<td>rangers</td>
+<td>packers</td>
+<td>hentai</td>
+</tr>
+<tr>
+<td>63</td>
+<td>joshua</td>
+<td>diablo</td>
+<td>birdie</td>
+<td>einstein</td>
+<td>newyork</td>
+</tr>
+<tr>
+<td>64</td>
+<td>maggie</td>
+<td>sexsex</td>
+<td>trouble</td>
+<td>dolphins</td>
+<td>little</td>
+</tr>
+<tr>
+<td>65</td>
+<td>biteme</td>
+<td>hardcore</td>
+<td>white</td>
+<td>0</td>
+<td>redwings</td>
+</tr>
+<tr>
+<td>66</td>
+<td>enter</td>
+<td>666666</td>
+<td>topgun</td>
+<td>chevy</td>
+<td>smith</td>
+</tr>
+<tr>
+<td>67</td>
+<td>ashley</td>
+<td>willie</td>
+<td>bigtits</td>
+<td>winston</td>
+<td>sticky</td>
+</tr>
+<tr>
+<td>68</td>
+<td>thunder</td>
+<td>welcome</td>
+<td>bitches</td>
+<td>warrior</td>
+<td>cocacola</td>
+</tr>
+<tr>
+<td>69</td>
+<td>cowboy</td>
+<td>chris</td>
+<td>green</td>
+<td>sammy</td>
+<td>animal</td>
+</tr>
+<tr>
+<td>70</td>
+<td>silver</td>
+<td>panther</td>
+<td>super</td>
+<td>slut</td>
+<td>broncos</td>
+</tr>
+<tr>
+<td>71</td>
+<td>richard</td>
+<td>yamaha</td>
+<td>qazwsx</td>
+<td>8675309</td>
+<td>private</td>
+</tr>
+<tr>
+<td>72</td>
+<td>fucker</td>
+<td>justin</td>
+<td>magic</td>
+<td>zxcvbnm</td>
+<td>skippy</td>
+</tr>
+<tr>
+<td>73</td>
+<td>orange</td>
+<td>banana</td>
+<td>lakers</td>
+<td>nipples</td>
+<td>marvin</td>
+</tr>
+<tr>
+<td>74</td>
+<td>merlin</td>
+<td>driver</td>
+<td>rachel</td>
+<td>power</td>
+<td>blondes</td>
+</tr>
+<tr>
+<td>75</td>
+<td>michelle</td>
+<td>marine</td>
+<td>slayer</td>
+<td>victoria</td>
+<td>enjoy</td>
+</tr>
+<tr>
+<td>76</td>
+<td>corvette</td>
+<td>angels</td>
+<td>scott</td>
+<td>asdfgh</td>
+<td>girl</td>
+</tr>
+<tr>
+<td>77</td>
+<td>bigdog</td>
+<td>fishing</td>
+<td>2222</td>
+<td>vagina</td>
+<td>apollo</td>
+</tr>
+<tr>
+<td>78</td>
+<td>cheese</td>
+<td>david</td>
+<td>asdf</td>
+<td>toyota</td>
+<td>parker</td>
+</tr>
+<tr>
+<td>79</td>
+<td>matthew</td>
+<td>maddog</td>
+<td>video</td>
+<td>travis</td>
+<td>qwert</td>
+</tr>
+<tr>
+<td>80</td>
+<td>121212</td>
+<td>hooters</td>
+<td>london</td>
+<td>hotdog</td>
+<td>time</td>
+</tr>
+<tr>
+<td>81</td>
+<td>patrick</td>
+<td>wilson</td>
+<td>7777</td>
+<td>paris</td>
+<td>sydney</td>
+</tr>
+<tr>
+<td>82</td>
+<td>martin</td>
+<td>butthead</td>
+<td>marlboro</td>
+<td>rock</td>
+<td>women</td>
+</tr>
+<tr>
+<td>83</td>
+<td>freedom</td>
+<td>dennis</td>
+<td>srinivas</td>
+<td>xxxx</td>
+<td>voodoo</td>
+</tr>
+<tr>
+<td>84</td>
+<td>ginger</td>
+<td>fucking</td>
+<td>internet</td>
+<td>extreme</td>
+<td>magnum</td>
+</tr>
+<tr>
+<td>85</td>
+<td>blowjob</td>
+<td>captain</td>
+<td>action</td>
+<td>redskins</td>
+<td>juice</td>
+</tr>
+<tr>
+<td>86</td>
+<td>nicole</td>
+<td>bigdick</td>
+<td>carter</td>
+<td>erotic</td>
+<td>abgrtyu</td>
+</tr>
+<tr>
+<td>87</td>
+<td>sparky</td>
+<td>chester</td>
+<td>jasper</td>
+<td>dirty</td>
+<td>777777</td>
+</tr>
+<tr>
+<td>88</td>
+<td>yellow</td>
+<td>smokey</td>
+<td>monster</td>
+<td>ford</td>
+<td>dreams</td>
+</tr>
+<tr>
+<td>89</td>
+<td>camaro</td>
+<td>xavier</td>
+<td>teresa</td>
+<td>freddy</td>
+<td>maxwell</td>
+</tr>
+<tr>
+<td>90</td>
+<td>secret</td>
+<td>steven</td>
+<td>jeremy</td>
+<td>arsenal</td>
+<td>music</td>
+</tr>
+<tr>
+<td>91</td>
+<td>dick</td>
+<td>viking</td>
+<td>11111111</td>
+<td>access14</td>
+<td>rush2112</td>
+</tr>
+<tr>
+<td>92</td>
+<td>falcon</td>
+<td>snoopy</td>
+<td>bill</td>
+<td>wolf</td>
+<td>russia</td>
+</tr>
+<tr>
+<td>93</td>
+<td>taylor</td>
+<td>blue</td>
+<td>crystal</td>
+<td>nipple</td>
+<td>scorpion</td>
+</tr>
+<tr>
+<td>94</td>
+<td>111111</td>
+<td>eagles</td>
+<td>peter</td>
+<td>iloveyou</td>
+<td>rebecca</td>
+</tr>
+<tr>
+<td>95</td>
+<td>131313</td>
+<td>winner</td>
+<td>pussies</td>
+<td>alex</td>
+<td>tester</td>
+</tr>
+<tr>
+<td>96</td>
+<td>123123</td>
+<td>samantha</td>
+<td>cock</td>
+<td>florida</td>
+<td>mistress</td>
+</tr>
+<tr>
+<td>97</td>
+<td>bitch</td>
+<td>house</td>
+<td>beer</td>
+<td>eric</td>
+<td>phantom</td>
+</tr>
+<tr>
+<td>98</td>
+<td>hello</td>
+<td>miller</td>
+<td>rocket</td>
+<td>legend</td>
+<td>billy</td>
+</tr>
+<tr>
+<td>99</td>
+<td>scooter</td>
+<td>flower</td>
+<td>theman</td>
+<td>movie</td>
+<td>6666</td>
+</tr>
+<tr>
+<td>100</td>
+<td>please</td>
+<td>jack</td>
+<td>oliver</td>
+<td>success</td>
+<td>albert</td>
+</tr>
+</tbody>
+</table>
+<p>打开twitter注册页看到的禁用口令</p>
+<p>//&lt;![CDATA[ twttr.BANNED_PASSWORDS = [&#8220;000000&#8221;, &#8220;111111&#8221;, &#8220;11111111&#8221;, &#8220;112233&#8221;, &#8220;121212&#8221;, &#8220;123123&#8221;, &#8220;123456&#8221;, &#8220;1234567&#8221;, &#8220;12345678&#8221;, &#8220;123456789&#8221;, &#8220;131313&#8221;, &#8220;232323&#8221;, &#8220;654321&#8221;, &#8220;666666&#8221;, &#8220;696969&#8221;, &#8220;777777&#8221;, &#8220;7777777&#8221;, &#8220;8675309&#8221;, &#8220;987654&#8221;, &#8220;aaaaaa&#8221;, &#8220;abc123&#8221;, &#8220;abc123&#8221;, &#8220;abcdef&#8221;, &#8220;abgrtyu&#8221;, &#8220;access&#8221;, &#8220;access14&#8221;, &#8220;action&#8221;, &#8220;albert&#8221;, &#8220;alberto&#8221;, &#8220;alexis&#8221;, &#8220;alejandra&#8221;, &#8220;alejandro&#8221;, &#8220;amanda&#8221;, &#8220;amateur&#8221;, &#8220;america&#8221;, &#8220;andrea&#8221;, &#8220;andrew&#8221;, &#8220;angela&#8221;, &#8220;angels&#8221;, &#8220;animal&#8221;, &#8220;anthony&#8221;, &#8220;apollo&#8221;, &#8220;apples&#8221;, &#8220;arsenal&#8221;, &#8220;arthur&#8221;, &#8220;asdfgh&#8221;, &#8220;asdfgh&#8221;, &#8220;ashley&#8221;, &#8220;asshole&#8221;, &#8220;august&#8221;, &#8220;austin&#8221;, &#8220;badboy&#8221;, &#8220;bailey&#8221;, &#8220;banana&#8221;, &#8220;barney&#8221;, &#8220;baseball&#8221;, &#8220;batman&#8221;, &#8220;beatriz&#8221;, &#8220;beaver&#8221;, &#8220;beavis&#8221;, &#8220;bigcock&#8221;, &#8220;bigdaddy&#8221;, &#8220;bigdick&#8221;, &#8220;bigdog&#8221;, &#8220;bigtits&#8221;, &#8220;birdie&#8221;, &#8220;bitches&#8221;, &#8220;biteme&#8221;, &#8220;blazer&#8221;, &#8220;blonde&#8221;, &#8220;blondes&#8221;, &#8220;blowjob&#8221;, &#8220;blowme&#8221;, &#8220;bond007&#8221;, &#8220;bonita&#8221;, &#8220;bonnie&#8221;, &#8220;booboo&#8221;, &#8220;booger&#8221;, &#8220;boomer&#8221;, &#8220;boston&#8221;, &#8220;brandon&#8221;, &#8220;brandy&#8221;, &#8220;braves&#8221;, &#8220;brazil&#8221;, &#8220;bronco&#8221;, &#8220;broncos&#8221;, &#8220;bulldog&#8221;, &#8220;buster&#8221;, &#8220;butter&#8221;, &#8220;butthead&#8221;, &#8220;calvin&#8221;, &#8220;camaro&#8221;, &#8220;cameron&#8221;, &#8220;canada&#8221;, &#8220;captain&#8221;, &#8220;carlos&#8221;, &#8220;carter&#8221;, &#8220;casper&#8221;, &#8220;charles&#8221;, &#8220;charlie&#8221;, &#8220;cheese&#8221;, &#8220;chelsea&#8221;, &#8220;chester&#8221;, &#8220;chicago&#8221;, &#8220;chicken&#8221;, &#8220;cocacola&#8221;, &#8220;coffee&#8221;, &#8220;college&#8221;, &#8220;compaq&#8221;, &#8220;computer&#8221;, &#8220;cookie&#8221;, &#8220;cooper&#8221;, &#8220;corvette&#8221;, &#8220;cowboy&#8221;, &#8220;cowboys&#8221;, &#8220;crystal&#8221;, &#8220;cumming&#8221;, &#8220;cumshot&#8221;, &#8220;dakota&#8221;, &#8220;dallas&#8221;, &#8220;daniel&#8221;, &#8220;danielle&#8221;, &#8220;debbie&#8221;, &#8220;dennis&#8221;, &#8220;diablo&#8221;, &#8220;diamond&#8221;, &#8220;doctor&#8221;, &#8220;doggie&#8221;, &#8220;dolphin&#8221;, &#8220;dolphins&#8221;, &#8220;donald&#8221;, &#8220;dragon&#8221;, &#8220;dreams&#8221;, &#8220;driver&#8221;, &#8220;eagle1&#8221;, &#8220;eagles&#8221;, &#8220;edward&#8221;, &#8220;einstein&#8221;, &#8220;erotic&#8221;, &#8220;estrella&#8221;, &#8220;extreme&#8221;, &#8220;falcon&#8221;, &#8220;fender&#8221;, &#8220;ferrari&#8221;, &#8220;firebird&#8221;, &#8220;fishing&#8221;, &#8220;florida&#8221;, &#8220;flower&#8221;, &#8220;flyers&#8221;, &#8220;football&#8221;, &#8220;forever&#8221;, &#8220;freddy&#8221;, &#8220;freedom&#8221;, &#8220;fucked&#8221;, &#8220;fucker&#8221;, &#8220;fucking&#8221;, &#8220;fuckme&#8221;, &#8220;fuckyou&#8221;, &#8220;gandalf&#8221;, &#8220;gateway&#8221;, &#8220;gators&#8221;, &#8220;gemini&#8221;, &#8220;george&#8221;, &#8220;giants&#8221;, &#8220;ginger&#8221;, &#8220;golden&#8221;, &#8220;golfer&#8221;, &#8220;gordon&#8221;, &#8220;gregory&#8221;, &#8220;guitar&#8221;, &#8220;gunner&#8221;, &#8220;hammer&#8221;, &#8220;hannah&#8221;, &#8220;hardcore&#8221;, &#8220;harley&#8221;, &#8220;heather&#8221;, &#8220;helpme&#8221;, &#8220;hentai&#8221;, &#8220;hockey&#8221;, &#8220;hooters&#8221;, &#8220;horney&#8221;, &#8220;hotdog&#8221;, &#8220;hunter&#8221;, &#8220;hunting&#8221;, &#8220;iceman&#8221;, &#8220;iloveyou&#8221;, &#8220;internet&#8221;, &#8220;iwantu&#8221;, &#8220;jackie&#8221;, &#8220;jackson&#8221;, &#8220;jaguar&#8221;, &#8220;jasmine&#8221;, &#8220;jasper&#8221;, &#8220;jennifer&#8221;, &#8220;jeremy&#8221;, &#8220;jessica&#8221;, &#8220;johnny&#8221;, &#8220;johnson&#8221;, &#8220;jordan&#8221;, &#8220;joseph&#8221;, &#8220;joshua&#8221;, &#8220;junior&#8221;, &#8220;justin&#8221;, &#8220;killer&#8221;, &#8220;knight&#8221;, &#8220;ladies&#8221;, &#8220;lakers&#8221;, &#8220;lauren&#8221;, &#8220;leather&#8221;, &#8220;legend&#8221;, &#8220;letmein&#8221;, &#8220;letmein&#8221;, &#8220;little&#8221;, &#8220;london&#8221;, &#8220;lovers&#8221;, &#8220;maddog&#8221;, &#8220;madison&#8221;, &#8220;maggie&#8221;, &#8220;magnum&#8221;, &#8220;marine&#8221;, &#8220;mariposa&#8221;, &#8220;marlboro&#8221;, &#8220;martin&#8221;, &#8220;marvin&#8221;, &#8220;master&#8221;, &#8220;matrix&#8221;, &#8220;matthew&#8221;, &#8220;maverick&#8221;, &#8220;maxwell&#8221;, &#8220;melissa&#8221;, &#8220;member&#8221;, &#8220;mercedes&#8221;, &#8220;merlin&#8221;, &#8220;michael&#8221;, &#8220;michelle&#8221;, &#8220;mickey&#8221;, &#8220;midnight&#8221;, &#8220;miller&#8221;, &#8220;mistress&#8221;, &#8220;monica&#8221;, &#8220;monkey&#8221;, &#8220;monkey&#8221;, &#8220;monster&#8221;, &#8220;morgan&#8221;, &#8220;mother&#8221;, &#8220;mountain&#8221;, &#8220;muffin&#8221;, &#8220;murphy&#8221;, &#8220;mustang&#8221;, &#8220;naked&#8221;, &#8220;nascar&#8221;, &#8220;nathan&#8221;, &#8220;naughty&#8221;, &#8220;ncc1701&#8221;, &#8220;newyork&#8221;, &#8220;nicholas&#8221;, &#8220;nicole&#8221;, &#8220;nipple&#8221;, &#8220;nipples&#8221;, &#8220;oliver&#8221;, &#8220;orange&#8221;, &#8220;packers&#8221;, &#8220;panther&#8221;, &#8220;panties&#8221;, &#8220;parker&#8221;, &#8220;password&#8221;, &#8220;password&#8221;, &#8220;password1&#8221;, &#8220;password12&#8221;, &#8220;password123&#8221;, &#8220;patrick&#8221;, &#8220;peaches&#8221;, &#8220;peanut&#8221;, &#8220;pepper&#8221;, &#8220;phantom&#8221;, &#8220;phoenix&#8221;, &#8220;player&#8221;, &#8220;please&#8221;, &#8220;pookie&#8221;, &#8220;porsche&#8221;, &#8220;prince&#8221;, &#8220;princess&#8221;, &#8220;private&#8221;, &#8220;purple&#8221;, &#8220;pussies&#8221;, &#8220;qazwsx&#8221;, &#8220;qwerty&#8221;, &#8220;qwertyui&#8221;, &#8220;rabbit&#8221;, &#8220;rachel&#8221;, &#8220;racing&#8221;, &#8220;raiders&#8221;, &#8220;rainbow&#8221;, &#8220;ranger&#8221;, &#8220;rangers&#8221;, &#8220;rebecca&#8221;, &#8220;redskins&#8221;, &#8220;redsox&#8221;, &#8220;redwings&#8221;, &#8220;richard&#8221;, &#8220;robert&#8221;, &#8220;roberto&#8221;, &#8220;rocket&#8221;, &#8220;rosebud&#8221;, &#8220;runner&#8221;, &#8220;rush2112&#8221;, &#8220;russia&#8221;, &#8220;samantha&#8221;, &#8220;sammy&#8221;, &#8220;samson&#8221;, &#8220;sandra&#8221;, &#8220;saturn&#8221;, &#8220;scooby&#8221;, &#8220;scooter&#8221;, &#8220;scorpio&#8221;, &#8220;scorpion&#8221;, &#8220;sebastian&#8221;, &#8220;secret&#8221;, &#8220;sexsex&#8221;, &#8220;shadow&#8221;, &#8220;shannon&#8221;, &#8220;shaved&#8221;, &#8220;sierra&#8221;, &#8220;silver&#8221;, &#8220;skippy&#8221;, &#8220;slayer&#8221;, &#8220;smokey&#8221;, &#8220;snoopy&#8221;, &#8220;soccer&#8221;, &#8220;sophie&#8221;, &#8220;spanky&#8221;, &#8220;sparky&#8221;, &#8220;spider&#8221;, &#8220;squirt&#8221;, &#8220;srinivas&#8221;, &#8220;startrek&#8221;, &#8220;starwars&#8221;, &#8220;steelers&#8221;, &#8220;steven&#8221;, &#8220;sticky&#8221;, &#8220;stupid&#8221;, &#8220;success&#8221;, &#8220;suckit&#8221;, &#8220;summer&#8221;, &#8220;sunshine&#8221;, &#8220;superman&#8221;, &#8220;surfer&#8221;, &#8220;swimming&#8221;, &#8220;sydney&#8221;, &#8220;tequiero&#8221;, &#8220;taylor&#8221;, &#8220;tennis&#8221;, &#8220;teresa&#8221;, &#8220;tester&#8221;, &#8220;testing&#8221;, &#8220;theman&#8221;, &#8220;thomas&#8221;, &#8220;thunder&#8221;, &#8220;thx1138&#8221;, &#8220;tiffany&#8221;, &#8220;tigers&#8221;, &#8220;tigger&#8221;, &#8220;tomcat&#8221;, &#8220;topgun&#8221;, &#8220;toyota&#8221;, &#8220;travis&#8221;, &#8220;trouble&#8221;, &#8220;trustno1&#8221;, &#8220;tucker&#8221;, &#8220;turtle&#8221;, &#8220;twitter&#8221;, &#8220;united&#8221;, &#8220;vagina&#8221;, &#8220;victor&#8221;, &#8220;victoria&#8221;, &#8220;viking&#8221;, &#8220;voodoo&#8221;, &#8220;voyager&#8221;, &#8220;walter&#8221;, &#8220;warrior&#8221;, &#8220;welcome&#8221;, &#8220;whatever&#8221;, &#8220;william&#8221;, &#8220;willie&#8221;, &#8220;wilson&#8221;, &#8220;winner&#8221;, &#8220;winston&#8221;, &#8220;winter&#8221;, &#8220;wizard&#8221;, &#8220;xavier&#8221;, &#8220;xxxxxx&#8221;, &#8220;xxxxxxxx&#8221;, &#8220;yamaha&#8221;, &#8220;yankee&#8221;, &#8220;yankees&#8221;, &#8220;yellow&#8221;, &#8220;zxcvbn&#8221;, &#8220;zxcvbnm&#8221;, &#8220;zzzzzz&#8221;];<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2451.html">Twitter的禁用口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2451.html/feed</wfw:commentRss>
+			<slash:comments>35</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何管理并设计你的口令</title>
+		<link>https://coolshell.cn/articles/2428.html</link>
+					<comments>https://coolshell.cn/articles/2428.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 18 May 2010 00:42:41 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2428</guid>
+
+					<description><![CDATA[<p>在互联网上，需要我们输入用户名口令的地方实在是太多了，多得都让人记不过来了，N个电子邮件帐号，QQ， MSN，校内，开心，facebook，Blog，各种论坛，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2428.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2428.html">如何管理并设计你的口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在互联网上，需要我们输入用户名口令的地方实在是太多了，多得都让人记不过来了，N个电子邮件帐号，QQ， MSN，校内，开心，facebook，Blog，各种论坛，网银，淘宝，电子相册……，太多了，想想看，你要用多少用户名口令，相信很多人可能会这样做，用几乎一样的口令和用户名来申请所有的这些帐号，我估计这是大多数人的做法。当然，这样一来，你就需要保管好你的用户名和口令了，因为只要被破解了，就相当于你所有的帐号被破解了，这是多数恐怖的一件事情啊。你可能觉得别人破解你的口令很难，但我告诉你也许会非常容易，因为，如果你只使用一样的用户名和口令的话，也许某天，你注册了一个不知名的小网站，可能会意味着你所有的用户名和口令都被人获取了，要小心啊。</p>
+<p>对我来说，我通常会有几组组帐号和密码，</p>
+<ul>
+<li>一个帐号/密码是用于一些大的可以依赖的站点，如：MSN，gmail，linkedin，facebook，hotmail等，因为我相信这些站点应该可以足够信任不会出卖用户信息，也有足够的能力不会让用户信息和口令外泄。</li>
+<li>一个帐号/密码用于一些国内的一些大的网站，如：QQ，开心，CSDN，Sina，网易，Blog，同学录等，因为这些站点必竟还受到国家的监管，以及其内部不良员工可能会倒卖我的信息，指不定什么时候我的用户信息就会外泄。</li>
+<li>一个帐号/密码用于我的一些经济活动，如网银，淘宝，支付宝什么的。</li>
+<li>最后一个帐号/密码用于登录那些必需要注册的破站点，一个最简单的用户名口令。</li>
+</ul>
+<p>真烦啊。在这样的一个社会里，忘记密码绝对是一件最普通不过的事情了。就算是我这样的分组归类，同样需要超强的记忆力。不知道你会不会把你的密码写在某处呢？是啊，我也是想写啊，但那岂不是相当的危险，不丢则已，一丢就全丢了。</p>
+<p>今天，在国外的某论坛里看到了这样的一个设计方法，好像很不错，分享给大家。</p>
+<p><span id="more-2428"></span></p>
+<p>1）首先，先找一句你喜欢的话（你一辈子都记得的话），当然，只有你记得的，无论中英文，然后取各个单词或字的英文、拼音、五笔头一个字母。比如：<strong>I</strong> <strong>L</strong>ike <strong>L</strong>ong <strong>C</strong>omplicated <strong>P</strong>asswords, <strong>T</strong>hey <strong>C</strong>onfuse <strong>P</strong>eople，取头一个字母则成为了：<strong>illcptcp</strong>。中文的——“信春哥得永生”的五笔的第一个字母是：<strong>wdstyt</strong>。这个东西只有你自己知道，就算是别人看到明码，也很难马上记下来，是吧。</p>
+<p>2）加上一些数字吧，比如你的生日，学号，电话，纪念日等。比如世界末日：2012年的12月21日(我们只取12月21日)。把这些数字加在断句的地方，于是得到这样的口令：<strong>illcp12tcp21 </strong>或是 <strong>wds12tyt21</strong>。</p>
+<p>3）我们把第二步得到的口令叫基本口令。然后你可以在其前后(或是中间)加上站点的简称（用大写）。如：</p>
+<ul>
+<li>gmail：<strong>GM</strong><strong>illcp12tcp21</strong></li>
+<li>CSDN：<strong>CS</strong><strong>wds12tyt21DN</strong></li>
+<li>MSN<strong><span style="font-weight: normal;">：</span><strong>illcp12tcp21MSN</strong></strong></li>
+<li><strong><span style="font-weight: normal;">QQ：</span><strong>Q<strong>wds12tyt21Q</strong></strong></strong></li>
+</ul>
+<p>4）改良。你可以在上述的第2）步，在输入数字时按着Shift键，于是，你可以得到更BT的口令：<strong>illcp!@tcp@! </strong>，或是在第3)步聚的前缀和后缀间加上特殊字符，如：&amp;, ＃，^等等。</p>
+<p>相信这样的规则会让你的口令即不重复，又好记，而且又足够复杂。不然，你真的要去下载一个软件来记你的口令了。</p>
+<p>大家不妨也说说你的口令的设计或管理方法。</p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2428.html">如何管理并设计你的口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2428.html/feed</wfw:commentRss>
+			<slash:comments>141</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何防范密码被破解</title>
+		<link>https://coolshell.cn/articles/2078.html</link>
+					<comments>https://coolshell.cn/articles/2078.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 01 Feb 2010 09:18:36 +0000</pubDate>
+				<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[bcrypt]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2078</guid>
+
+					<description><![CDATA[<p>你会用什么样的算法来为你的用户保存密码？如果你还在用明码的话，那么一旦你的网站被hack了，那么你所有的用户口令都会被泄露了，这意味着，你的系统或是网站就此完蛋...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2078.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2078.html">如何防范密码被破解</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>你会用什么样的算法来为你的用户保存密码？如果你还在用明码的话，那么一旦你的网站被hack了，那么你所有的用户口令都会被泄露了，这意味着，你的系统或是网站就此完蛋了。所以，我们需要通过一些不可逆的算法来保存用户的密码。比如：MD5, SHA1, SHA256, SHA512, SHA-3,等Hash算法。这些算法都是不可逆的。系统在验证用户的口令时，需要把Hash加密过后的口令与后面存放口令的数据库中的口令做比较，如果一致才算验证通过。</p>
+<p>但你觉得这些算法好吗？我说的是：MD5, SHA1, SHA256, SHA512, SHA-3。如果你使用的是MD5算法来加密你的口令，如果你的口令长度只有小写字母再加上数字，假设口令的长度是6位，那么在目前一台比较新一点的PC机上，穷举所有的口令只需要40秒钟。而据我们了解，几乎有90%以上的用户只用小写字母和数字来组织其口令。对于6位长度的密码只需要最多40秒就可以破解了，这可能会吓到你。</p>
+<p>如果你愿意花2000美金和一周的时间来构建一个<a href="http://www.nvidia.com/object/cuda_home.html" target="_blank">CUDA</a>，那么，你可以在你组建的这个集群中使用进行密码穷举运算，其速度是，<a href="http://www.win.tue.nl/cccc/sha-1-challenge.html" target="_blank">1秒钟可以计算7亿个口令</a>。对于目前实际当中使用的比较复杂的口令，其破解率也可以高达每秒一个。当然，这里说的算法是MD5，SHA之类的算法。</p>
+<p>那么，对于这样的一种情况来说，我们怎么办？我们还是有办法的。</p>
+<p><span id="more-2078"></span></p>
+<p>我们知道MD5，SHA的算法速度太快了。所以，我们需要一个“慢一点”的加密算法。呵呵。bcrypt是这样的一个算法，因为它很慢，对于计算机来说，其慢得有点BT了，但却慢得刚刚好！对于验证用户口令来说是不慢的，对于穷举用户口令来说，其会让那些计算机变得如同蜗牛一样。</p>
+<p>因为bcrypt采用了一系列各种不同的Blowfish加密算法，并引入了一个work factor，这个工作因子可以让你决定这个算法的代价有多大。因为这些，这个算法不会因为计算机CPU处理速度变快了，而导致算法的时间会缩短了。因为，你可以增加work factor来把其性能降下来。呵呵。</p>
+<p>那么，bcrypt到底有多慢？如果和MD5一起来比较的话，如果使用值为12的work factor的话，如果加密“cool”的话，bcrypt需要0.3秒，而MD5只需要一微秒（百万分之一秒）。也就是说，前面我们说的那个只需要40秒就可以穷举完所有的可能的MD5编码的口令的算法，在使用bcrypt下，需要12年。</p>
+<p>这就是bcrypt给你带来的选择，<strong>你可以一个安全的口令和一个快速的加密算法，或是一个不怎么安全的口令和一个性能不好的加密算法</strong>。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2078.html">如何防范密码被破解</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2078.html/feed</wfw:commentRss>
+			<slash:comments>95</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

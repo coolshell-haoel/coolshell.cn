@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Data Mining | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/data-mining/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 31 Jul 2013 10:56:55 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>数据的游戏：冰与火</title>
+		<link>https://coolshell.cn/articles/10192.html</link>
+					<comments>https://coolshell.cn/articles/10192.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 31 Jul 2013 00:11:17 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Big Data]]></category>
+		<category><![CDATA[Data Mining]]></category>
+		<category><![CDATA[Machine Learning]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10192</guid>
+
+					<description><![CDATA[<p>我对数据挖掘和机器学习是新手，从去年7月份在Amazon才开始接触，而且还是因为工作需要被动接触的，以前都没有接触过，做的是需求预测机器学习相关的。后来，到了淘...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10192.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10192.html">数据的游戏：冰与火</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-10305" alt="" src="https://coolshell.cn/wp-content/uploads/2013/07/game-of-thrones-300x206.jpg" width="300" height="206" />我对数据挖掘和机器学习是新手，从去年7月份在Amazon才开始接触，而且还是因为工作需要被动接触的，以前都没有接触过，做的是需求预测机器学习相关的。后来，到了淘宝后，自己凭兴趣主动地做了几个月的和用户地址相关数据挖掘上的工作，有一些浅薄的心得。下面这篇文章主要是我做为一个新人仅从事数据方面技术不到10个月的一些心得，也许对你有用，也许很傻，不管怎么样，欢迎指教和讨论。</p>
+<p>另外，注明一下，这篇文章的标题模仿了一个美剧《<a href="http://movie.douban.com/subject/3016187/" target="_blank">权力的游戏：冰与火之歌</a>》。在数据的世界里，我们看到了很多很牛，很强大也很有趣的案例。但是，<strong>数据就像一个王座一样，像征着一种权力和征服，但登上去的路途一样令人胆颤</strong>。</p>
+<h4>数据挖掘中的三种角色</h4>
+<p>在Amazon里从事机器学习的工作时，我注意到了Amazon玩数据的三种角色。</p>
+<ul>
+<li><strong>Data Analyzer：数据分析员</strong>。这类人的人主要是分析数据的，从数据中找到一些规则，并且为了数据模型的找不同场景的Training Data。另外，这些人也是把一些脏数据洗干净的的人。</li>
+</ul>
+<ul>
+<li><strong>Research Scientist：研究科学家</strong>。这种角色主要是根据不同的需求来建立数据模型的。他们把自己戏称为不近人间烟火的奇异性物种，就像《生活大爆炸》里的 那个Sheldon一样。这些人基本上玩的是数据上的科学</li>
+</ul>
+<ul>
+<li><strong>Software Developer ：软件开发工程师</strong>。主要是把 Scientist 建立的数据模型给实现出来，交给Data Analyzer去玩。这些人通常更懂的各种机器学习的算法。</li>
+</ul>
+<p>我相信其它公司的做数据挖掘或是机器学习的也就这三种工作，或者说这三种人，对于我来说，</p>
+<p><span id="more-10192"></span></p>
+<ul>
+<li><strong>最有技术含量的是 Scientist</strong>，因为数据建模和抽取最有意义的向量，以及选取不同的方法都是这类人来决定的。这类人，我觉得在国内是找不到的。</li>
+</ul>
+<ul>
+<li><strong>最苦逼，也最累，但也最重要的是Data Analyzer</strong>，他们的活也是这三个角色中最最最重要的（注意：我用了三个最）。因为，无论你的模型你的算法再怎么牛，在一堆烂数据上也只能干出一堆垃圾的活来。正所谓：Garbage In, Garbage Out ！但是这个活是最脏最累的活，也是让人最容易退缩的活。</li>
+</ul>
+<ul>
+<li><strong>最没技术含量的是Software Developer</strong>。现在国内很多玩数据的都以为算法最重要，并且，很多技术人员都在研究机器学习的算法。错了，最重要的是上面两个人，一个是苦逼地洗数据的Data Analyzer，另一个是真正懂得数据建模的Scientist！而像什么<a title="K-Means 算法" href="https://coolshell.cn/articles/7779.html" target="_blank">K-Means</a>，<a title="K Nearest Neighbor 算法" href="https://coolshell.cn/articles/8052.html" target="_blank">K Nearest Neighbor</a>，或是别的什么贝叶斯、回归、决策树、随机森林等这些玩法，都很成熟了，而且又不是人工智能，说白了，这些算法在机器学习和数据挖掘中，似乎就像Quick Sort之类的算法在软件设计中基本没什么技术含量。当然，我不是说算法不重要，我只想说这些算法在整个数据处理中是最不重要的。</li>
+</ul>
+<h4>数据的质量</h4>
+<p><strong>目前所流行的Buzz Word——大数据是相当误导人的。在我眼中，<span style="color: #ff0000;">数据不分大小，只分好坏</span>。</strong></p>
+<p>在处理数据的过程中，我第一个感受最大的就是数据质量。下面我分几个案例来说明：</p>
+<h5>案例一：数据的标准</h5>
+<p>在Amazon里，所有的商品都有一个唯一的ID，叫ASIN——Amazon Single Identify Number，这个ID是用来标识商品的唯一性的（来自于条形码）。也就是说，无论是你把商品描述成什么样，只要ASIN一样，这就是完完全全一模一样的商品。</p>
+<p>这样，就不像淘宝一样，当你搜索一个iPhone，你会出现一堆各种各样的iPhone，有的叫“超值iPhone”，有的叫“苹果iPhone”，有的叫“智能手机iPhone”，有的叫“iPhone 白色/黑色”……，这些同一个商品不同的描述是商家为了吸引用户。但是带来的问题有两点：</p>
+<p style="padding-left: 30px;">1）<strong>用户体验不好</strong>。以商品为中心的业务模型，对于消费者来说，体验明显好于以商家为中心的业务模型。</p>
+<p style="padding-left: 30px;">2）<strong>只要你不能正确读懂（识别）数据，你后面的什么算法，什么模型统统没用</strong>。</p>
+<p>所以，只要你玩数据，你就会发现，<strong>如果数据的标准没有建立起来，干什么都没用。数据标准是数据质量的第一道关卡</strong>，没这个玩意，你就什么也别玩了。所谓数据的标准，为数据做唯一标识只是其中最最基础的一步，数据的标准还单单只是这个，<strong>更重要的是把数据的标准抽象成数学向量，没有数学向量，后面也无法挖掘</strong>。</p>
+<p>所以，你会看到，<strong>洗数据的大量的工作就是在把杂乱无章的数据归并聚合，这就是在建立数据标准。这里面绝对少不了人肉的工作</strong>。无非就是：</p>
+<ul>
+<li><span style="line-height: 13px;">聪明的人在数据产生之前就定义好标准，并在数据产生之时就在干数据清洗的工作。</span></li>
+</ul>
+<ul>
+<li>一般的人是在数据产生并大量堆积之后，才来干这个事。</li>
+</ul>
+<p>另外，说一下Amazon的ASIN，这个事从十多年前就开始了，我在Amazon的内网里看到的资料并没有说为什么搞了个这样一个ID，我倒觉得这并不是因为Amazon因为玩数据发现必需建议个商品ID，也许因为Amazon的业务模型就是设计成以“商品为中心”的。今天，这个ASIN依然有很多很多的问题，ASIN一样不能完全保证商品就是一样的，ASIN不一样也不代表商品不一样，不过90%以上的商品是保证的。Amazon有专门的团队Category Team，里面有很多业务人员天天都在拼命地在对ASIN的数据进行更正。</p>
+<h5>案例二：数据的准确</h5>
+<p>用户地址是我从事过数据分析的另一个事情。我还记得当时看到那数以亿计的用户地址的数据的那种兴奋。但是随后我就兴奋不起来了。因为地址是用户自己填写的，这里面有很多的坑，都不是很容易做的。</p>
+<p>第一个是假/错地址，因为有的商家作弊或是用户做测试。所以地址是错的，</p>
+<ul>
+<li>比如，直接就输入“该地址不存在”，“13243234asdfasdi”之类的。这类的地址是可以被我的程序识别出来的。</li>
+</ul>
+<ul>
+<li>还有很难被我的程序所识别出来的。比如：“宇宙路地球小区”之类的。但这类地址可以被人识别出来。</li>
+</ul>
+<ul>
+<li>还有连人都识别不出来的，比如：“北京市东四环中路23号南航大厦5楼540室”，这个地址根本不存在。</li>
+</ul>
+<p>第二个是真地址，但是因为用户写的不标准，所以很难处理，比如：</p>
+<ul>
+<li><span style="line-height: 13px;">缩写：“建国门外大街” 和 “建外大街”，“中国工商银行”和“工行”……</span></li>
+</ul>
+<ul>
+<li>错别字：“潮阳门”，“通慧河”……</li>
+</ul>
+<ul>
+<li>颠倒：“东四环中路朝阳公园” 和 “朝阳公园 （靠东四环）” ……</li>
+</ul>
+<ul>
+<li>别名：有的人写的是开发商的小区名“东恒国际”，有的则是写行政的地名“八里庄东里”……</li>
+</ul>
+<p>这样的例子多得不能再多了。可见数据如果不准确，会增加你处理的难度。有个比喻非常好，<strong>玩数据的就像是在挖金矿一样，如果含金量高，那么，挖掘的难度就小，也就容易出效果，如果含金量低，那么挖掘的难度就大，效果就差</strong>。</p>
+<p>上面，我给了两个案例，旨在说明——</p>
+<p style="padding-left: 30px;"><strong>1）数据没有大小之分，只有含金量大的数据和垃圾量大的数据之分</strong>。</p>
+<p style="padding-left: 30px;"><strong>2）数据清洗是一件多么重要的工作，这也是一件人肉工作量很大的工作。</strong></p>
+<p><strong></strong>所以，这个工作最好是在数据产生的时候就一点一滴的完成。</p>
+<p>有一个观点：<strong>如果数据准确度在60%的时候，你干出来的事，一定会被用户骂！如果数据准确度在80%左右，那么用户会说，还不错！只有数据准确度到了90%的时候，用户才会觉得真牛B。但是从数据准确度从80%到90%要付出的成本要比60% 到 80%的付出大得多得多</strong>。大多数据的数据挖掘团队都会止步于70%这个地方。因为，再往后，这就是一件相当累的活。</p>
+<h4>数据的业务场景</h4>
+<p>我不知道有多少数据挖掘团队真正意识到了业务场景和数据挖掘的重要关系？<strong>我们需要知道，根本不可能做出能够满足所有业务的数据挖掘和分析模型</strong>。</p>
+<p>推荐音乐视频，和电子商务中的推荐商品的场景完全不一样。电商中，只要你买了一个东西没有退货，那么，有很大的概率我可以相信你是喜欢这个东西的，然后，对于音乐和视频，你完全不能通过用户听了这首歌或是看了这个视频就武断地觉得用户是喜欢这首歌和这个视频的，所以，我们可以看到，推荐算法在不同的业务场景下的实现难度也完全不一样。</p>
+<p>说到推荐算法，你是不是和我一样，有时候会对推荐有一种感觉——<strong>推荐就是一种按不同维度的排序的算法</strong>。我个人以为，就提一下推荐这个东西在某些业务场景下是比较Tricky的，比如，推荐有两种（不是按用户关系和按物品关系这两种），</p>
+<ul>
+<li>一种是共性化推荐，结果就是推荐了流行的东西，这也许是好 的，但这也许会是用户已知的东西，比如，到了北京，我想找个饭馆，你总是给我推荐烤鸭，我想去个地方，你总是给我推荐天安门故宫天坛（因为大多数人来北京就是吃烤鸭，就是去天安门的），这些我不都知道了嘛，还要你来推荐？另外，共性化的东西通常是可以被水军刷的。</li>
+</ul>
+<ul>
+<li>另一种是一种是个性化推荐，这个需要分析用户的个体喜好，好的就是总是给我我喜欢的，不好的就是也许我的口味会随我的年龄和环境所改变，而且，总是推荐符合用户口味的，不能帮用户发掘新鲜点。比如，我喜欢吃辣的，你总是给我推荐川菜和湘菜，时间长了我也会觉得烦的。</li>
+</ul>
+<p><strong>推荐有时并不是民主投票，而是专业用户或资深玩家的建议；推荐有时并不是推荐流行的，而是推荐新鲜而我不知道的</strong>。你可以看到，不同的业务场景，不同的产品形态下的玩法可能完全不一样，</p>
+<p>另外，就算是对于同一个电子商务来说，书、手机 和服装的业务形态完全不一样。我之前在Amazon做Demand Forecasting（用户需求预测）——通过历史数据来预测用户未来的需求。</p>
+<ul>
+<li>对于书、手机、家电这些东西，在Amazon里叫Hard Line的产品，你可以认为是“标品”（但也不一定），预测是比较准的，甚至可以预测到相关的产品属性的需求。</li>
+</ul>
+<ul>
+<li>但是地于服装这样的叫Soft Line的产品，Amazon干了十多年都没有办法预测得很好，因为这类东西受到的干扰因素太多了，比如：用户的对颜色款式的喜好，穿上去合不合身，爱人朋友喜不喜欢…… 这类的东西太容易变了，买得人多了反而会卖不好，所以根本没法预测好，更别Stock/Vender Manager 提出来的“预测某品牌的某种颜色的衣服或鞋子”。</li>
+</ul>
+<p>对于需求的预测，我发现，长期在这个行业中打拼的人的预测是最准的，什么机器学习都是浮云。机器学习只有在你要面对的是成千上万种不同商品和品类的时候才会有意义。</p>
+<p><strong>数据挖掘不是人工智能，而且差得还太远。不要觉得数据挖掘什么事都能干，找到一个合适的业务场景和产品形态，比什么都重要</strong>。</p>
+<h4>数据的分析结果</h4>
+<p>我看到很多的玩大数据的，基本上干的是数据统计的事，从多个不同的维度来统计数据的表现。最简单最常见的统计就是像网站统计这样的事。比如：PV是多少，UV是多少，来路是哪里，浏览器、操作系统、地理、搜索引擎的分布，等等，等等。</p>
+<p>唠叨一句，千万不要以为，你一天有十几个T的日志就是数据了，也不要以为你会用Hadoop/MapReduce分析一下日志，这就是数据挖掘了，说得难听一点，你在做的只不过是一个统计的工作。那几个T的Raw Data，基本上来说没什么意义，只能叫日志，连数据都算不上，只有你统计出来的这些数据才是有点意义的，才能叫数据。</p>
+<p>当一个用户在面对着自己网店的数据的时候，比如：每千人有5个人下单，有65%的访客是男的，18-24岁的人群有30%，等等。甚至你给出了，你打败了40%同类型商家的这样的数据。作为一个商户，面对这些数据时，大多数人的表现是完全不知道自己能干什么？是把网站改得更男性一点，还是让年轻人更喜欢一点？完全不知道所措。</p>
+<p>只要你去看一看，你会发现，好些好些的数据分析出来的结果，看上去似乎不错，但是其实完全不知道下一步该干什么？</p>
+<p>所以，我觉得，<strong>数据分析的结果并不仅仅只是把数据呈现出来，而更应该关注的是通过这些数据后面可以干什么？如果看了数据分析的结果后并不知道可以干什么，那么这个数据分析是失败的。</strong></p>
+<h4>总结</h4>
+<p>综上所述，下面是我觉得数据挖掘或机器学习最重要的东西：</p>
+<p style="padding-left: 30px;">1）<strong>数据的质量</strong>。分为数据的标准和数据的准确。数据中的杂音要尽量地排除掉。为了数据的质量，大量人肉的工作少不了。</p>
+<p style="padding-left: 30px;">2）<strong>数据的业务场景</strong>。我们不可能做所有场景下的来，所以，业务场景和产品形态很重要，我个人感觉业务场景越窄越好。</p>
+<p style="padding-left: 30px;">3）<strong>数据的分析结果</strong>，要让人能看得懂，知道接下来要干什么，而不是为了数据而数据。</p>
+<p>搞数据挖掘的人很多，但成功的案例却不多（相比起大量的尝试来说），就目前而言，<strong>我似乎觉得目前的数据挖掘的技术是一种过渡技术，还在摸索阶段。另外，好些数据挖掘的团队搞得业务不业务，技术不技术的，为其中的技术人员感到惋惜</strong>……</p>
+<p>不好意思，我只给出了问题，没有建议，这也说明数据分析中有很多的机会……</p>
+<p><span style="color: #770000; font-size: 12pt;">最后，还要提的一个是“<span style="color: #cc0000;"><strong>数据中的个人隐私问题</strong></span>”，这似乎就像那些有悖伦理的黑魔法一样，你要成功就得把自己变得黑暗。是的，<strong>数据就像一个王座一样，像征着一种权力和征服，但登上去的路途一样令人胆颤</strong>。</span></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/8052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/220px-KnnClassification.svg_-150x150.png" alt="K Nearest Neighbor 算法" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8052.html" class="wp_rp_title">K Nearest Neighbor 算法</a></li><li ><a href="http://coolshell.cn/articles/7779.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/K-Means-150x150.gif" alt="K-Means 算法" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7779.html" class="wp_rp_title">K-Means 算法</a></li><li ><a href="http://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="http://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="http://coolshell.cn/articles/7048.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/11_154056_1-300x225-1-150x150.jpg" alt="挑战无处不在" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7048.html" class="wp_rp_title">挑战无处不在</a></li><li ><a href="http://coolshell.cn/articles/4758.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/27.jpg" alt="如何写出无法维护的代码" width="150" height="150" /></a><a href="http://coolshell.cn/articles/4758.html" class="wp_rp_title">如何写出无法维护的代码</a></li><li ><a href="http://coolshell.cn/articles/3589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/9.jpg" alt="食客还是大厨" width="150" height="150" /></a><a href="http://coolshell.cn/articles/3589.html" class="wp_rp_title">食客还是大厨</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10192.html">数据的游戏：冰与火</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10192.html/feed</wfw:commentRss>
+			<slash:comments>127</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>K Nearest Neighbor 算法</title>
+		<link>https://coolshell.cn/articles/8052.html</link>
+					<comments>https://coolshell.cn/articles/8052.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 17 Aug 2012 00:15:30 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Data Mining]]></category>
+		<category><![CDATA[KNN]]></category>
+		<category><![CDATA[Max Heap]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8052</guid>
+
+					<description><![CDATA[<p>K Nearest Neighbor算法又叫KNN算法，这个算法是机器学习里面一个比较经典的算法， 总体来说KNN算法是相对比较容易理解的算法。其中的K表示最接...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8052.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8052.html">K Nearest Neighbor 算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>K Nearest Neighbor算法又叫KNN算法，这个算法是机器学习里面一个比较经典的算法， 总体来说KNN算法是相对比较容易理解的算法。其中的K表示最接近自己的K个数据样本。KNN算法和<a title="K-Means 算法" href="https://coolshell.cn/articles/7779.html" target="_blank">K-Means算法</a>不同的是，K-Means算法用来聚类，用来判断哪些东西是一个比较相近的类型，而KNN算法是用来做归类的，也就是说，有一个样本空间里的样本分成很几个类型，然后，给定一个待分类的数据，通过计算接近自己最近的K个样本来判断这个待分类数据属于哪个分类。<strong>你可以简单的理解为由那离自己最近的K个点来投票决定待分类数据归为哪一类</strong>。</p>
+<p style="text-align: left;">Wikipedia上的<a href="http://en.wikipedia.org/wiki/K-nearest_neighbor_algorithm" target="_blank">KNN词条</a>中有一个比较经典的图如下：</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="size-full wp-image-8053 aligncenter" title="KNN Classification" src="https://coolshell.cn/wp-content/uploads/2012/08/220px-KnnClassification.svg_.png" alt="" width="220" height="199" /></p>
+<p style="text-align: left;">从上图中我们可以看到，图中的有两个类型的样本数据，一类是蓝色的正方形，另一类是红色的三角形。而那个绿色的圆形是我们待分类的数据。</p>
+<ul>
+<li>如果K=3，那么离绿色点最近的有2个红色三角形和1个蓝色的正方形，这3个点投票，于是绿色的这个待分类点属于红色的三角形。</li>
+</ul>
+<ul>
+<li>如果K=5，那么离绿色点最近的有2个红色三角形和3个蓝色的正方形，这5个点投票，于是绿色的这个待分类点属于蓝色的正方形。</li>
+</ul>
+<p>我们可以看到，机器学习的本质——<strong>是基于一种数据统计的方法</strong>！那么，这个算法有什么用呢？我们来看几个示例。</p>
+<p><span id="more-8052"></span></p>
+<h4>产品质量判断</h4>
+<p>假设我们需要判断纸巾的品质好坏，纸巾的品质好坏可以抽像出两个向量，一个是“酸腐蚀的时间”，一个是“能承受的压强”。如果我们的样本空间如下：（所谓样本空间，又叫Training Data，也就是用于机器学习的数据）</p>
+<table style="margin: auto;" border="1" cellspacing="3" cellpadding="3">
+<tbody>
+<tr>
+<td valign="top" width="33%">
+<p align="center"><strong>向量X1</strong></p>
+<p align="center"><strong>耐酸时间（秒）</strong></p>
+</td>
+<td valign="top" width="33%">
+<p align="center"><strong>向量X2</strong></p>
+<p align="center"><strong>圧强(公斤/平方米)</strong></p>
+</td>
+<td valign="top" width="33%">
+<p align="center"><strong>品质Y</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<p align="center">7</p>
+</td>
+<td valign="top" width="33%">
+<p align="center">7</p>
+</td>
+<td valign="top" width="33%">
+<p align="center">坏</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<p align="center">7</p>
+</td>
+<td valign="top" width="33%">
+<p align="center">4</p>
+</td>
+<td valign="top" width="33%">
+<p align="center">坏</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<p align="center">3</p>
+</td>
+<td valign="top" width="33%">
+<p align="center">4</p>
+</td>
+<td valign="top" width="33%">
+<p align="center">好</p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="33%">
+<p align="center">1</p>
+</td>
+<td valign="top" width="33%">
+<p align="center">4</p>
+</td>
+<td valign="top" width="33%">
+<p align="center">好</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>那么，如果 X1 = 3 和 X2 = 7， 这个毛巾的品质是什么呢？这里就可以用到KNN算法来判断了。</p>
+<p>假设K=3，K应该是一个奇数，这样可以保证不会有平票，下面是我们计算（3，7）到所有点的距离。（关于那些距离公式，可以参看<a title="K-Means 算法" href="https://coolshell.cn/articles/7779.html" target="_blank">K-Means算法中的距离公式</a>）</p>
+<table style="margin: auto;" border="1" cellspacing="3" cellpadding="3">
+<tbody>
+<tr>
+<td valign="top" width="25%">
+<p align="center"><strong>向量X1</strong></p>
+<p align="center"><strong>耐酸时间（秒）</strong></p>
+</td>
+<td valign="top" width="25%">
+<p align="center"><strong>向量X2</strong></p>
+<p align="center"><strong>圧强(公斤/平方米)</strong></p>
+</td>
+<td valign="top" width="25%">
+<p align="center"><strong>计算到 (3, 7)的距离</strong></p>
+</td>
+<td valign="top" width="25%">
+<p align="center"><strong>向量Y</strong></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="25%">
+<p align="center">7</p>
+</td>
+<td valign="top" width="25%">
+<p align="center">7</p>
+</td>
+<td valign="top" width="25%">
+<p align="center"><strong><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_Numerical-example_clip_image004.gif" alt="" width="144" height="24" /></strong></p>
+</td>
+<td style="text-align: center;" valign="top" width="25%"> 坏</td>
+</tr>
+<tr>
+<td valign="top" width="25%">
+<p align="center">7</p>
+</td>
+<td valign="top" width="25%">
+<p align="center">4</p>
+</td>
+<td valign="top" width="25%">
+<p align="center"><strong><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_Numerical-example_clip_image006.gif" alt="" width="145" height="24" /></strong></p>
+</td>
+<td style="text-align: center;" valign="top" width="25%"> N/A</td>
+</tr>
+<tr>
+<td valign="top" width="25%">
+<p align="center">3</p>
+</td>
+<td valign="top" width="25%">
+<p align="center">4</p>
+</td>
+<td valign="top" width="25%">
+<p align="center"><strong><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_Numerical-example_clip_image008.gif" alt="" width="136" height="24" /></strong></p>
+</td>
+<td style="text-align: center;" valign="top" width="25%"> 好</td>
+</tr>
+<tr>
+<td valign="top" width="25%">
+<p align="center">1</p>
+</td>
+<td valign="top" width="25%">
+<p align="center">4</p>
+</td>
+<td valign="top" width="25%">
+<p align="center"><strong><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_Numerical-example_clip_image010.gif" alt="" width="140" height="24" /></strong></p>
+</td>
+<td style="text-align: center;" valign="top" width="25%"> 好</td>
+</tr>
+</tbody>
+</table>
+<p>所以，最后的投票，好的有2票，坏的有1票，最终需要测试的（3，7）是合格品。（当然，你还可以使用权重——可以把距离值做为权重，越近的权重越大，这样可能会更准确一些）</p>
+<p><strong>注：<a href="http://people.revoledu.com/kardi/tutorial/KNN/KNN_Numerical-example.html" target="_blank">示例来自这里</a>，<a href="https://coolshell.cn/wp-content/uploads/2012/08/K-NearestNeighbors.xls">K-NearestNeighbors Excel表格下载</a></strong></p>
+<h4>预测</h4>
+<p>假设我们有下面一组数据，假设X是流逝的秒数，Y值是随时间变换的一个数值（你可以想像是股票值）</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="KNN_TimeSeries_clip_image004" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image004.jpg" alt="" width="191" height="187" /></p>
+<p>那么，当时间是6.5秒的时候，Y值会是多少呢？我们可以用KNN算法来预测之。</p>
+<p>这里，让我们假设K=2，于是我们可以计算所有X点到6.5的距离，如：X=5.1，距离是 | 6.5 – 5.1 | = 1.4， X = 1.2 那么距离是 | 6.5 – 1.2 | = 5.3 。于是我们得到下面的表：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="KNN_TimeSeries_clip_image006" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image006.jpg" alt="" width="312" height="120" /></p>
+<p>注意，上图中因为K=2，所以得到X=4 和 X =5.1的点最近，得到的Y的值分别为27和8，在这种情况下，我们可以简单的使用平均值来计算：<img decoding="async" loading="lazy" title="KNN_TimeSeries_clip_image008" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image008.gif" alt="" width="87" height="41" /></p>
+<p>于是，最终预测的数值为：17.5</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8072" title="KNN_TimeSeries_clip_image010" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image010.jpg" alt="" width="402" height="305" srcset="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image010.jpg 402w, https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image010-300x227.jpg 300w" sizes="(max-width: 402px) 100vw, 402px" /></p>
+<p><strong>注：<a href="http://people.revoledu.com/kardi/tutorial/KNN/KNN_TimeSeries.htm" target="_blank">示例来自这里</a>，<a href="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries.xls">KNN_TimeSeries Excel表格下载</a></strong></p>
+<h4>插值，平滑曲线</h4>
+<p>KNN算法还可以用来做平滑曲线用，这个用法比较另类。假如我们的样本数据如下（和上面的一样）：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="KNN_TimeSeries_clip_image012" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image012.jpg" alt="" width="335" height="35" /></p>
+<p>要平滑这些点，我们需要在其中插入一些值，比如我们用步长为0.1开始插值，从0到6开始，计算到所有X点的距离（绝对值），下图给出了从0到0.5 的数据：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8074" title="KNN_TimeSeries_clip_image014" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image014.jpg" alt="" width="334" height="152" srcset="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image014.jpg 334w, https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image014-300x136.jpg 300w" sizes="(max-width: 334px) 100vw, 334px" /></p>
+<p>下图给出了从2.5到3.5插入的11个值，然后计算他们到各个X的距离，假值K=4，那么我们就用最近4个X的Y值，然后求平均值，得到下面的表：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="KNN_TimeSeries_clip_image016" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image016.jpg" alt="" width="576" height="206" /></p>
+<p>于是可以从0.0, 0.1, 0.2, 0.3 &#8230;. 1.1, 1.2, 1.3&#8230;..3.1, 3.2&#8230;..5.8, 5.9, 6.0 一个大表，跟据K的取值不同，得到下面的图：</p>
+<table style="border: 0px; margin: auto;">
+<tbody>
+<tr>
+<td><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8080" title="KNN_TimeSeries_clip_image026" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image026.jpg" alt="" width="262" height="246" /></td>
+<td><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8079" title="KNN_TimeSeries_clip_image024" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image024.jpg" alt="" width="270" height="249" /></td>
+</tr>
+<tr>
+<td><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8078" title="KNN_TimeSeries_clip_image022" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image022.jpg" alt="" width="262" height="244" /></td>
+<td><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8077" title="KNN_TimeSeries_clip_image020" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image020.jpg" alt="" width="251" height="234" /></td>
+</tr>
+<tr>
+<td><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8076" title="KNN_TimeSeries_clip_image018" src="https://coolshell.cn/wp-content/uploads/2012/08/KNN_TimeSeries_clip_image018.jpg" alt="" width="246" height="228" /></td>
+</tr>
+</tbody>
+</table>
+<p><strong>注：<a href="http://people.revoledu.com/kardi/tutorial/KNN/KNN_TimeSeries.htm" target="_blank">示例来自这里</a>，<a href="https://coolshell.cn/wp-content/uploads/2012/08/KNN_Smoothing.xls">KNN_Smoothing Excel表格下载</a></strong></p>
+<h4>后记</h4>
+<p>最后，我想再多说两个事，</p>
+<p>1） 一个是机器学习，算法基本上都比较简单，最难的是数学建模，把那些业务中的特性抽象成向量的过程，另一个是选取适合模型的数据样本。这两个事都不是简单的事。算法反而是比较简单的事。</p>
+<p>2）对于KNN算法中找到离自己最近的K个点，是一个很经典的算法面试题，需要使用到的数据结构是“<a href="http://en.wikipedia.org/wiki/Binary_heap" target="_blank">最大堆——Max Heap</a>”，一种二叉树。你可以看看相关的算法。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7779.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/K-Means-150x150.gif" alt="K-Means 算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7779.html" class="wp_rp_title">K-Means 算法</a></li><li ><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-150x150.jpg" alt="Cuckoo Filter：设计与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_title">Cuckoo Filter：设计与实现</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/538efefbgw1eiz9cvx78fj20rm0fmdi8-150x150.jpg" alt="【活动】解迷题送礼物" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_title">【活动】解迷题送礼物</a></li><li ><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/QR-Code-Overview-150x150.jpeg" alt="二维码的生成细节和原理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_title">二维码的生成细节和原理</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8052.html">K Nearest Neighbor 算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8052.html/feed</wfw:commentRss>
+			<slash:comments>51</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>K-Means 算法</title>
+		<link>https://coolshell.cn/articles/7779.html</link>
+					<comments>https://coolshell.cn/articles/7779.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 29 Jun 2012 00:24:02 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[Data Mining]]></category>
+		<category><![CDATA[K-Means]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7779</guid>
+
+					<description><![CDATA[<p>最近在学习一些数据挖掘的算法，看到了这个算法，也许这个算法对你来说很简单，但对我来说，我是一个初学者，我在网上翻看了很多资料，发现中文社区没有把这个问题讲得很全...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7779.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7779.html">K-Means 算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>最近在学习一些数据挖掘的算法，看到了这个算法，也许这个算法对你来说很简单，但对我来说，我是一个初学者，我在网上翻看了很多资料，发现中文社区没有把这个问题讲得很全面很清楚的文章，所以，把我的学习笔记记录下来，分享给大家。</p>
+<p>在数据挖掘中， <strong><em>k</em>-Means 算法</strong>是一种 <a title="Cluster analysis" href="http://en.wikipedia.org/wiki/Cluster_analysis">cluster analysis</a> 的算法，其主要是来计算数据聚集的算法，主要通过不断地取离种子点最近均值的算法。</p>
+<h4>问题</h4>
+<p>K-Means算法主要解决的问题如下图所示。我们可以看到，在图的左边有一些点，我们用肉眼可以看出来有四个点群，但是我们怎么通过计算机程序找出这几个点群来呢？于是就出现了我们的K-Means算法（<a title="K-means Clustering 算法" href="http://en.wikipedia.org/wiki/K-means_clustering" target="_blank">Wikipedia链接</a>）</p>
+<figure id="attachment_7780" aria-describedby="caption-attachment-7780" style="width: 600px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-7780" title="K-Means 要解决的问题" src="https://coolshell.cn/wp-content/uploads/2012/06/K-Means.gif" alt="" width="600" height="300" /><figcaption id="caption-attachment-7780" class="wp-caption-text">K-Means 要解决的问题</figcaption></figure>
+<h4>算法概要</h4>
+<p>这个算法其实很简单，如下图所示：</p>
+<p><span id="more-7779"></span></p>
+<figure id="attachment_7781" aria-describedby="caption-attachment-7781" style="width: 504px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-7781" title="K-Means 算法概要" src="https://coolshell.cn/wp-content/uploads/2012/06/K-Means.jpg" alt="K-Means 算法概要" width="504" height="370" srcset="https://coolshell.cn/wp-content/uploads/2012/06/K-Means.jpg 504w, https://coolshell.cn/wp-content/uploads/2012/06/K-Means-300x220.jpg 300w" sizes="(max-width: 504px) 100vw, 504px" /><figcaption id="caption-attachment-7781" class="wp-caption-text">K-Means 算法概要</figcaption></figure>
+<p>从上图中，我们可以看到，<strong>A, B, C, D, E 是五个在图中点。而灰色的点是我们的种子点，也就是我们用来找点群的点</strong>。有两个种子点，所以K=2。</p>
+<p>然后，K-Means的算法如下：</p>
+<ol>
+<li>随机在图中取K（这里K=2）个种子点。</li>
+<li>然后对图中的所有点求到这K个种子点的距离，假如点Pi离种子点Si最近，那么Pi属于Si点群。（上图中，我们可以看到A,B属于上面的种子点，C,D,E属于下面中部的种子点）</li>
+<li>接下来，我们要移动种子点到属于他的“点群”的中心。（见图上的第三步）</li>
+<li>然后重复第2）和第3）步，直到，种子点没有移动（我们可以看到图中的第四步上面的种子点聚合了A,B,C，下面的种子点聚合了D，E）。</li>
+</ol>
+<p>这个算法很简单，但是有些细节我要提一下，求距离的公式我不说了，大家有初中毕业水平的人都应该知道怎么算的。我重点想说一下“求点群中心的算法”</p>
+<h4>求点群中心的算法</h4>
+<p>一般来说，求点群中心点的算法你可以很简的使用各个点的X/Y坐标的平均值。不过，我这里想告诉大家另三个求中心点的的公式：</p>
+<p><strong>1）Minkowski Distance 公式 ——</strong> λ 可以随意取值，可以是负数，也可以是正数，或是无穷大。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7787" title="Minkowski Distance 公式" src="https://coolshell.cn/wp-content/uploads/2012/06/MinkowskiDistance_clip_image102.gif" alt="" width="131" height="51" /></p>
+<p><strong>2）Euclidean Distance 公式 </strong>—— 也就是第一个公式 λ=2 的情况</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7784" title="Euclidean Distance 公式" src="https://coolshell.cn/wp-content/uploads/2012/06/EuclideanDistance_clip_image002.gif" alt="" width="137" height="51" /></p>
+<p><strong>3）CityBlock Distance 公式 </strong>—— 也就是第一个公式 λ=1 的情况</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7782" title="CityBlock Distance 公式" src="https://coolshell.cn/wp-content/uploads/2012/06/CityBlockDistance_clip_image002.gif" alt="" width="111" height="45" /></p>
+<p>这三个公式的求中心点有一些不一样的地方，我们看下图（对于第一个 λ 在 0-1之间）。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" title="Minkowski Mean" src="https://coolshell.cn/wp-content/uploads/2012/06/Minkowski-Mean.jpg" alt="" width="180" height="180" />   <img decoding="async" loading="lazy" title="Euclidean distance" src="https://coolshell.cn/wp-content/uploads/2012/06/Euclidean-distance.jpg" alt="" width="180" height="180" />  <img decoding="async" loading="lazy" title="Manhattan distance" src="https://coolshell.cn/wp-content/uploads/2012/06/Manhattan-distance.jpg" alt="" width="180" height="180" /></p>
+<p style="text-align: center;"><strong>（1）Minkowski Distance     （2）<strong>Euclidean Distance    （3） <strong>CityBlock Distance</strong></strong></strong></p>
+<p style="text-align: left;">上面这几个图的大意是他们是怎么个逼近中心的，第一个图以星形的方式，第二个图以同心圆的方式，第三个图以菱形的方式。</p>
+<h4 style="text-align: left;">K-Means的演示</h4>
+<p style="text-align: left;">如果你以&#8221;<a href="https://www.google.com/search?hl=zh-CN&amp;q=K+Means+Demo" target="_blank">K Means Demo</a>&#8220;为关键字到Google里查你可以查到很多演示。这里推荐一个演示</p>
+<p style="text-align: center;"><a href="http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/AppletKM.html">http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/AppletKM.html</a></p>
+<p style="text-align: left;">操作是，鼠标左键是初始化点，右键初始化“种子点”，然后勾选“Show History”可以看到一步一步的迭代。</p>
+<p style="text-align: left;">注：这个演示的链接也有一个不错的 <a href="http://home.dei.polimi.it/matteucc/Clustering/tutorial_html/index.html" target="_blank">K Means Tutorial</a> 。</p>
+<h4 style="text-align: left;">K-Means ++ 算法</h4>
+<p>K-Means主要有两个最重大的缺陷——都和初始值有关：</p>
+<ul>
+<li> K 是事先给定的，这个 K 值的选定是非常难以估计的。很多时候，事先并不知道给定的数据集应该分成多少个类别才最合适。（ <a href="http://en.wikipedia.org/wiki/Multispectral_pattern_recognition" target="_blank">ISODATA 算法</a>通过类的自动合并和分裂，得到较为合理的类型数目 K）</li>
+</ul>
+<ul>
+<li>K-Means算法需要用初始随机种子点来搞，这个随机种子点太重要，不同的随机种子点会有得到完全不同的结果。（<a href="http://en.wikipedia.org/wiki/K-means%2B%2B" target="_blank">K-Means++算法</a>可以用来解决这个问题，其可以有效地选择初始点）</li>
+</ul>
+<p>我在这里重点说一下 K-Means++算法步骤：</p>
+<ol>
+<li>先从我们的数据库随机挑个随机点当“种子点”。</li>
+<li>对于每个点，我们都计算其和最近的一个“种子点”的距离D(<var>x</var>)并保存在一个数组里，然后把这些距离加起来得到Sum(D(<var>x</var>))。</li>
+<li>然后，再取一个随机值，用权重的方式来取计算下一个“种子点”。这个算法的实现是，先取一个能落在Sum(D(<var>x</var>))中的随机值Random，然后用Random -= D(<var>x</var>)，直到其&lt;=0，此时的点就是下一个“种子点”。</li>
+<li>重复第（2）和第（3）步直到所有的K个种子点都被选出来。</li>
+<li>进行K-Means算法。</li>
+</ol>
+<p>相关的代码你可以在这里找到“<a href="http://rosettacode.org/wiki/K-means%2B%2B_clustering" target="_blank">implement the K-means++ algorithm</a>”(墙) 另，<a href="http://commons.apache.org/math/api-2.1/index.html?org/apache/commons/math/stat/clustering/KMeansPlusPlusClusterer.html" rel="nofollow" target="_blank">Apache 的通用数据学库也实现了这一算法</a></p>
+<h4>K-Means 算法应用</h4>
+<p>看到这里，你会说，K-Means算法看来很简单，而且好像就是在玩坐标点，没什么真实用处。而且，这个算法缺陷很多，还不如人工呢。是的，前面的例子只是玩二维坐标点，的确没什么意思。但是你想一下下面的几个问题：</p>
+<p style="padding-left: 30px;">1）如果不是二维的，是多维的，如5维的，那么，就只能用计算机来计算了。</p>
+<p style="padding-left: 30px;">2）二维坐标点的X, Y 坐标，其实是一种向量，是一种数学抽象。现实世界中很多属性是可以抽象成向量的，比如，我们的年龄，我们的喜好，我们的商品，等等，能抽象成向量的目的就是可以让计算机知道某两个属性间的距离。如：我们认为，18岁的人离24岁的人的距离要比离12岁的距离要近，鞋子这个商品离衣服这个商品的距离要比电脑要近，等等。</p>
+<p><strong>只要能把现实世界的物体的属性抽象成向量，就可以用K-Means算法来归类了</strong>。</p>
+<p>在 《<a id="ctl01_lnkTitle" href="http://www.cnblogs.com/leoo2sk/archive/2010/09/20/k-means.html">k均值聚类(K-means)</a>》 这篇文章中举了一个很不错的应用例子，作者用亚洲15支足球队的2005年到1010年的战绩做了一个向量表，然后用K-Means把球队归类，得出了下面的结果，呵呵。</p>
+<ul>
+<li>亚洲一流：日本，韩国，伊朗，沙特</li>
+<li>亚洲二流：乌兹别克斯坦，巴林，朝鲜</li>
+<li>亚洲三流：中国，伊拉克，卡塔尔，阿联酋，泰国，越南，阿曼，印尼</li>
+</ul>
+<p>其实，这样的业务例子还有很多，比如，分析一个公司的客户分类，这样可以对不同的客户使用不同的商业策略，或是电子商务中分析商品相似度，归类商品，从而可以使用一些不同的销售策略，等等。</p>
+<p>最后给一个挺好的算法的幻灯片：<a href="http://www.cs.cmu.edu/~guestrin/Class/10701-S07/Slides/clustering.pdf">http://www.cs.cmu.edu/~guestrin/Class/10701-S07/Slides/clustering.pdf</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/220px-KnnClassification.svg_-150x150.png" alt="K Nearest Neighbor 算法" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8052.html" class="wp_rp_title">K Nearest Neighbor 算法</a></li><li ><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/08/cuckoo-150x150.jpg" alt="Cuckoo Filter：设计与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17225.html" class="wp_rp_title">Cuckoo Filter：设计与实现</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/538efefbgw1eiz9cvx78fj20rm0fmdi8-150x150.jpg" alt="【活动】解迷题送礼物" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11832.html" class="wp_rp_title">【活动】解迷题送礼物</a></li><li ><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/10/QR-Code-Overview-150x150.jpeg" alt="二维码的生成细节和原理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10590.html" class="wp_rp_title">二维码的生成细节和原理</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7779.html">K-Means 算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7779.html/feed</wfw:commentRss>
+			<slash:comments>88</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

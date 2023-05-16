@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>软件开发 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/%e8%bd%af%e4%bb%b6%e5%bc%80%e5%8f%91/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 05 Jul 2011 17:40:07 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Kent Beck 谈单元测试和持续部署</title>
+		<link>https://coolshell.cn/articles/2681.html</link>
+					<comments>https://coolshell.cn/articles/2681.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Thu, 22 Jul 2010 00:00:23 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[程序员]]></category>
+		<category><![CDATA[软件开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2681</guid>
+
+					<description><![CDATA[<p>文章来源 2010年7月2日，Roy Osherove 和 Kent Beck 在 blog.typemock.com 进行了一次对话，话题涉及单元测试（Uni...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2681.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2681.html">Kent Beck 谈单元测试和持续部署</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><em><a href="http://blog.typemock.com/2010/07/video-kent-beck-on-junit-max-and-lean.html">文章来源</a></em></p>
+<p>2010年7月2日，Roy Osherove 和 Kent Beck 在 blog.typemock.com 进行了一次对话，话题涉及单元测试（Unit Testing），<a href="http://www.threeriversinstitute.org/junitmax/">JUnit Max</a>（Kent 开发的一个单元测试的 Eclipse Plugin，不免费），和面向初创企业的精益方法（Lean Startups）。</p>
+<p><strong>单元测试和 JUnit Max</strong><br />
+作为软件开发方法学的大师、极限编程XP的创始人、敏捷宣言的创始人之一，Kent Beck 一直在努力最大化地利用单元测试的价值，他说一些程序员仍然认为单元测试并不是他们的工作，但是单元测试确实能够提高软件的质量。目前他正在开发 JUnit Max，这是一个 Eclipse plugin，每当程序员保存一个 Java 源文件的时候，JUnit Max 就会运行测试并报告反馈信息。测试中的错误将会如同编译错误一样被报告给程序员。JUnit Max 的核心思想是测试错误应该和编译错误一样被 IDE 报告给程序员，程序员不需要额外的菜单选项或者运行其他的工具来运行测试。特别是那些经常失败的测试，对于程序员来说是非常有价值的反馈信息。在测试驱动开发（Test Driven Development &#8211; TDD）中，我们重复着这样一个循环：“编写一个‘失败’的测试（Failing Test）” &#8211; “编码实现功能以便让测试通过”，随着开发的深入，测试越来越丰富，测试能够反馈给程序员的信息也越来越多，它们可以帮助程序员找出那些需要改进的代码。JUnit Max 能够缩短这个循环的周期，因为它更为频繁地运行测试和提供反馈。Roy 问道：“当你一个人编码的时候，你是否严格地遵循 TDD，即一定要先写测试，然后写实现代码。我个人发现这并不是一件容易做到的事情，特别是当一个人编码的时候。” Kent 回答：“视情况而定，有时候并不需要死板地遵循 TDD，比如当我在做一些探索性或者说实验性的编码时，并不需要写测试，因为我只是想尝试一下某些功能和特性。”</p>
+<p><span id="more-2681"></span></p>
+<p>Roy： “你在测试驱动开发中见过的最糟糕的错误有哪些？”<br />
+Kent：“很多程序员仅仅是拷贝和粘贴测试代码，但并不理解它们。所以我们经常能看到没有断言的测试，同时测试很多逻辑和功能的测试，过于臃肿或者过于短小的测试等等。当然这些错误在学习过程中很普遍，也是我们学习的一部分。”</p>
+<p>Roy：“你下一步最想尝试的新概念是什么？”<br />
+Kent：“我最近谈论的一个主题是 Software G Forces，是关于软件产品的部署频率（Frequency of Deployment），这里的部署是指面向最终用户的部署或者说发布，是生产环境而非测试环境。从前的软件产品每年（或数年）发布一个新的版本，而现在的软件产品发布频率越来越快，从每季度，每月，每周，每天，直至每小时。Kent 提及有一些非常复杂的软件产品的发布频率甚至是每天 40 到 50 次。此时 Roy 提出了一个非常好的问题：“产品发布得如此频繁，我们如何能够在这么短的时间间隔内获得用户反馈呢？”，Kent 回答道：“持续部署（Continuous Deployment）确实需要一些基础设施建设来支持，比如：自动版本回滚，自动错误检测，系统同时运行多个版本的能力，比如一个服务器集群中不同的服务器上可以运行产品的不同版本。”</p>
+<p>Roy 问道：“当你在开发一个产品的时候，你在为客户创造价值，而持续部署创造的则是一种内在的价值，并且实施过程也是非常复杂的，你怎样投入时间去实施它呢？是否需要从产品设计的一开始就考虑这些问题呢？”，Kent 答道：“5 年之内市场上可能会有许多持续部署的产品出现，目前我们可能需要自己来寻求解决方案，因为现在它还是一个较新的领域。持续部署的重点之一是及时捕获系统错误，不仅仅是技术层面上的错误，同时也包括业务层面。以 Amazon.com 为例，他们评价系统运行的良好程度是以业务运营状况为依据的，如果销售额出现不明原因的下降，系统也会发出错误警告。”</p>
+<p>注：为了不让文章过长，下半部分的面向初创企业的精益方法（Lean Startups）将在后面发布。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/12/bachelor-mechanical-eng-icon@72x-150x150.png" alt="我做系统架构的一些原则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21672.html" class="wp_rp_title">我做系统架构的一些原则</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2681.html">Kent Beck 谈单元测试和持续部署</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2681.html/feed</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>参透软件开发的本质 &#8211; Uncle Bob Martin 推荐的经典书籍</title>
+		<link>https://coolshell.cn/articles/2539.html</link>
+					<comments>https://coolshell.cn/articles/2539.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Mon, 05 Jul 2010 00:30:29 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[book]]></category>
+		<category><![CDATA[programming language]]></category>
+		<category><![CDATA[软件开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2539</guid>
+
+					<description><![CDATA[<p>数量级25（10^25）是 Uncle Bob 在 RailsConf 演讲的主题。如果你用一台 PDP 8（ 1960年代的计算机）和 Mac PowerBo...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2539.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2539.html">参透软件开发的本质 – Uncle Bob Martin 推荐的经典书籍</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>数量级25（10^25）是 Uncle Bob 在 <a href="http://en.oreilly.com/rails2010">RailsConf</a> 演讲的主题。如果你用一台 PDP 8（ 1960年代的计算机）和 Mac PowerBook 做比较的话，你会发现 Mac PowerBook 比 PDP 8 快8000倍，有6百万倍大的内存，11000倍的耗能，1500倍的容量等等。如果将这些0累加起来，很容易达到10^25。在过去40年里，我们的硬件计算能力获得了10^25倍的提升，而作为软件开发人员的我们并没有利用这些计算能力来提升多少我们的软件开发能力。没错，我们是写了不少的代码，但是它们基本上都是一些顺序语句，if 语句，和 while 循环等，没有什么新鲜的东西。你可能会说面向对象是新东西呀，但是那只是另外一种组织顺序、选择和迭代等语句的方法而已。除我们现有的编程语言之外，如果有新的编程语言能够产生并创造新的“微积分学”，从而将软件开发提高到一个新的高度，将会是一件非常令人期待的事情，因为顺序语句，选择语句和迭代等最终将成为历史。</p>
+<p>Uncle Bob 认为以下四本书是软件开发人员必须阅读的，并由他自己来排名。</p>
+<p>1. The Structure &amp; Interpretation of Computer Programs 计算机程序的构造和解释 （By Harold Abelson &amp; Gerald Sussman）</p>
+<p>书中使用的是 Scheme 语言（Lisp 的一个变种），此书的内容曾经是 MIT 计算机系的一门课程，当然现在已经不是了。</p>
+<p>2. Structured Programming 结构化程序设计 （By Edsger W. Dijkstra）</p>
+<p>相信软件专业的同学们都上过此课程，我们的启蒙书籍。这本书讨论了 go to 是怎样的邪恶，同时也讨论了面向对象。对比一下今天我们视为 best practice 的测试驱动开发（TDD），go to 在过去也曾经是 Fortran，Cobol 等语言的核心。</p>
+<p>3. The Annotated TURING （By Charles Petzold）</p>
+<p>Uncle Bob 令人尴尬地忘记了这本书的名字，他自嘲说自己从来记不住这本书名。但是此书在他的推荐列表中列第三位。</p>
+<p>4. Clean Code （By Robert C. Martin）</p>
+<p>Uncle Bob 本人的大作。</p>
+<p>我的一位同事将这位 Uncle Bob 视为软件开发领域中的上帝，Uncle Bob 这位大师在当下各类编程语言和平台层出不穷的时候，在我们为该学什么语言买什么书举棋不定的时候，推荐给读者这几本经典，也许是煞费苦心地想让我们参透软件开发的本质吧。不过会不会也是因为我们都在慢慢变老，许多旧的东西如今又变成了新鲜有趣的事情啦？（出自采访记者之口）</p>
+<p><a href="http://vimeo.com/12957619"><em>文章来源</em></a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6639.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/02/programming-language-150x150.jpg" alt="千万别惹程序员 " width="150" height="150" /></a><a href="https://coolshell.cn/articles/6639.html" class="wp_rp_title">千万别惹程序员 </a></li><li ><a href="https://coolshell.cn/articles/4626.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="读书笔记：对线程模型的批评" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4626.html" class="wp_rp_title">读书笔记：对线程模型的批评</a></li><li ><a href="https://coolshell.cn/articles/3385.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/12/rank_scatter1-150x150.png" alt="编程语言流行度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3385.html" class="wp_rp_title">编程语言流行度</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-150x150.jpg" alt="一些非常不错的资料" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_title">一些非常不错的资料</a></li><li ><a href="https://coolshell.cn/articles/3100.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/language-evolution-150x150.jpg" alt="编程语言进化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3100.html" class="wp_rp_title">编程语言进化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2539.html">参透软件开发的本质 – Uncle Bob Martin 推荐的经典书籍</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2539.html/feed</wfw:commentRss>
+			<slash:comments>9</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Richard Feynman, 挑战者号, 软件工程</title>
+		<link>https://coolshell.cn/articles/1654.html</link>
+					<comments>https://coolshell.cn/articles/1654.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 04 Nov 2009 08:49:30 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[流程方法]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Richard Feynman]]></category>
+		<category><![CDATA[挑战者号]]></category>
+		<category><![CDATA[软件开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1654</guid>
+
+					<description><![CDATA[<p>源文：链接  （本文主要根据挑战者号的问题，以及Richard Feynman那对NASA严厉的批评报告，批评了不适当的“自顶向下”的设计方法，并总结了一下软件...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1654.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1654.html">Richard Feynman, 挑战者号, 软件工程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="TEXT-ALIGN: left">源文：<a href="http://duartes.org/gustavo/blog/post/richard-feynman-challenger-disaster-software-engineering" target="_blank">链接</a>  （本文主要根据挑战者号的问题，以及Richard Feynman那对NASA严厉的批评报告，批评了不适当的“自顶向下”的设计方法，并总结了一下软件工程和其它工程的相通的一些观点。翻译水平有限，欢迎指正）</p>
+<p align="center"><img decoding="async" loading="lazy" src="http://static.duartes.org/img/blogPosts/250px-ChallengerCrew.jpg" alt="Challenger Crew" width="250" height="200" /></p>
+<p>佛罗里达州，美国东部时间1986年1月28日上午11时39分，<a href="http://zh.wikipedia.org/wiki/%E6%8C%91%E6%88%98%E8%80%85%E5%8F%B7%E8%88%AA%E5%A4%A9%E9%A3%9E%E6%9C%BA%E7%81%BE%E9%9A%BE">挑战者号航天飞机</a> 执行为期6天的<a href="http://en.wikipedia.org/wiki/STS-51-L">STS-51-L 任务</a>，在发射后，其右侧固体火箭助推器（SRB &#8211; <a href="http://en.wikipedia.org/wiki/Space_Shuttle_Solid_Rocket_Booster">Solid Rocket Booster</a>）的O型环密封圈（用于连接两节助推器）失效，泄漏出来的热汽达到了5000华氏度，直接蒸发了O型密封圈，并灼烧了毗邻的外部燃料舱，在几秒钟内，外部燃料舱出现结构连接失效，空气的动力迅速分解了航天飞机。在而航天飞机上升72秒以后，助推器脱落，导致航天发飞向侧面滑出。几乎在引航员 Michael J. Smith 发出&#8221;Uh oh&#8221; 的同时，整个航天飞机完全解体，片刻，航天飞机内部发生爆炸，所有7名宇航员罹难。 那时的我还只是一个小孩，我从电视下方滚动的新闻条目知道了这一惨剧。</p>
+<p>在那个时候，火箭助推器工程师曾经警告过这个O型环可能存在问题，但可惜的是，NASA的管理层忽略了这个问题。<img decoding="async" loading="lazy" style="MARGIN: 6px" src="http://static.duartes.org/img/blogPosts/ChallengerExplosion.jpg" alt="Challenger Explosion" width="300" height="191" align="right" />美国总统里根委派<a href="http://en.wikipedia.org/wiki/Rogers_Commission" target="_blank">罗杰斯委员会</a>对事故进行了调查，调查成员包括著名的物理学家Richard Feynman。其不羁的态度和直来直去的方法和罗杰斯委员会的风格形成了鲜明的反差。主席罗杰斯，一个政客，评论Feynman是一个“真正的痛苦”。最后，在委员会提交的报告中，Feynman反判的观点几乎被清除了出去。并且，Feynman曾被主席威胁过要把他的名字从报告中完全除掉，但最终，他们还是同意在报告中加一个附录，但只是个人观点—— <a href="http://www.ralentz.com/old/space/feynman-report.html">Appendix F &#8211; Personal Observations on Reliability of Shuttle</a>。</p>
+<p><span id="more-1654"></span></p>
+<p>这是一个好的报告，因为，这是一个富有才华的报告。其深深地洞察了在实现一些高可靠性的系统时的工程学中的一些很自然性的东西。是的，在这里，我并没有放上“软件工程” 的字样，只是工程。但Feynman的结论却非常和我们的软件开发有着不可分割的关系。这是最基本的东西，无论是软件工程，还是别的工程学。下面，让我们来看看，Feynman是怎么说的：</p>
+<blockquote><p>航天飞机主引擎的建造方式是<a href="http://en.wikipedia.org/wiki/Top-down"><strong>自顶向下</strong></a>(top down)，我们可以这样说。整个引擎被设计把所有的事情放在一起，而那些相关的细节上的东西在设计当时还并不是很成熟的。所以，<strong>当其中的小零件（轴承，涡轮片，散热管，等等）出现问题时</strong>，<strong>我们需要花费昂贵的代价才能找到事故的原因，也很难作出修改</strong>。要避免问题发生，需要频繁的维护和置换重要的零部件。修理很多时候不会解决真正的原因。</p></blockquote>
+<p>可见，软件开发中也一样，Bug在整个过程中存在的时间越长， <a href="http://stevemcconnell.com/ieeesoftware/eic17.htm">我们就越难解决这个问题</a>。很显然，自顶向下的方法，因为在设计的时候并不熟悉实际问题，所以，Bug从设计的时候就出现了。然而，我们需要明白，需求和设计的不同之处。需求需要对产品一种清楚和良好的定义，设计则是解决如何达到需求的方法。Feynman 在这里并没有反对 <a href="http://www.joelonsoftware.com/articles/fog0000000036.html">功能规格说明书</a>，他只是反对自顶向下的设计方法，比如： <a href="http://martinfowler.com/bliki/UmlAsBlueprint.html">UML 就是蓝图</a> 的鼓吹者。再来看看他的言论：</p>
+<blockquote><p>航天飞机主引擎是一个非常不同寻常的机器，它和以前所有的引擎都不一样。这完全超出了以前引擎制的工程经验。所以，不奇怪的，许多不同的流程和难点都会在工程中出现。<strong>然而，很不幸地，这是通过自顶向下设计，所以，那些流程和问题是很难被发现被修正的</strong>。设计要求的引擎寿命可以完成55次点火任务（相当于27,000秒的操作，也就是说，第次点火需要500秒），但事实上这并没有完成。而引擎现在则<strong>需要频繁维护，并需要经常更换重要的部件</strong>，比如：涡轮泵，轴承，金属片，等等。</p></blockquote>
+<p align="center"><img decoding="async" loading="lazy" style="MARGIN: 4px" src="http://static.duartes.org/img/blogPosts/feynman.jpg" alt="Richard Feynman" hspace="hspace" vspace="vspace" width="200" height="248" /></p>
+<p>“不合适的自顶向下的设计方式，导致了问题很难去发现和修正，最终没有完成设计需求，频繁性地维护”这些描述方式，听起来是不是似曾相识？我们每天在做的软件工程和这个不一样吗？Feynman 详细说明了为什么“自顶向下”的设计会让发现和解决这些问题成为那么的难和痛苦的一件事：</p>
+<blockquote><p>很多这些已被解决的问题在一开始设计时都是设计的难点。很自然地，没有人可以确定那些所有的已发现问题都能会出现，而其中一些，<strong>我们并没有根据正确的原因在正确的地方解决这些问题</strong>。</p></blockquote>
+<p>无论这是Linux内核，或是航天飞机引擎，这些设计时的基本的问题都是相通的。而“自顶向下”是其中荒唐的一个，因为，自顶向下，过度的注重了需求而忽略了现实，而那些下面非常细节的知识绝对是非常需要的，并不是所有的东西都可以抽象成出来。在他说起航空电子系统时（一个NASA的另一个部门）：</p>
+<blockquote><p>该软件是采用了从底向上的方法被小心地做了检查。<strong>首先，每一行代码都被检查过，然后，代码段和模块和一些详细的功能被验证过</strong>。而检查范围在一步一步地被扩大，直到新的改变被组合进来最终成为一个完整的系统。这个过程最终的完整的输出成为了最终的产品，成为了新的release。这个部门完全以一种中立的态度，<strong>把软件作为一个敌对方</strong>，不停地测试，校验，就像自己就是这个软件的用户一样。</p></blockquote>
+<p>是的，这就是1986年Feynman告诉大家的——Unit Test（单元测试），今天，Unit Test成为了软件开发活动中最最重要的一个环节（也许你以为是Coding）。并不单单只是Unit Test，“步步为营的增量式”和“以敌对的态度”，都是值得我们所学习的。我们经常听到有人在抱怨软件道，因为软件工程还太年轻了，还有很多知识我们还没有得到，所以总是那么多问题。这完全是胡说！我们痛苦是因为，我们 <a href="http://www.stevemcconnell.com/cc.htm">总是忽略</a> 早就确定了的， <a href="http://www.joelonsoftware.com/articles/fog0000000043.html">早为人所熟知</a>， <a href="http://www.stevemcconnell.com/rd.htm">以经历和实践去证明一切的方法</a>。 当然，在这方面，我们的管理层也需要负责，尤其是那些紊乱的时间进度，错误的激励机制，低档次的招聘，和一些让士气受挫的制度，等等。“管理”和“工程”间的紧张关系最终成为了糟糕的管理。Feynman在他的报告中也谈到了这点，下面其中的一小段话：</p>
+<blockquote><p>总而言之，计算机软件检查系统和<strong>最负责的态度</strong>。是的，那里并没有那种自欺欺人而不顾固体燃料助推器的标准。但可以肯定的是，有关管理部门<strong>最新的建议，建议取消此类复杂而昂贵的不必要的测试</strong>。</p></blockquote>
+<p>这只是其中的一个小段。我把其挑出来是因为其一针见血地指出了观点，比如“最负责的态度”，以及“逐步的自欺欺人”。我建议你读一读<a href="http://www.ralentz.com/old/space/feynman-report.html">报告全文</a>， 可以让你得到很多真相。关于软件工程，下面是几个主要观点：</p>
+<ul>
+<li>工程仅当在和其管理有好的关系的时候才能好。</li>
+<li>大型的从上从前端的设计是愚蠢的。</li>
+<li>软件工程和其它传统的工程学是一样的。</li>
+<li>可靠的系统由几近残酷的测试，增量式的自底向上的工程，以及高负责的态度来共同保证。</li>
+</ul>
+<p>这篇报告中，还有很多不错的观点，如果你感受到了，欢迎你告诉我。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2681.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="Kent Beck 谈单元测试和持续部署" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2681.html" class="wp_rp_title">Kent Beck 谈单元测试和持续部署</a></li><li ><a href="https://coolshell.cn/articles/2539.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="参透软件开发的本质 &#8211; Uncle Bob Martin 推荐的经典书籍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2539.html" class="wp_rp_title">参透软件开发的本质 &#8211; Uncle Bob Martin 推荐的经典书籍</a></li><li ><a href="https://coolshell.cn/articles/76.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/09meeting-thumbnail-150x150.jpg" alt="怎样做一个 Program Manager" width="150" height="150" /></a><a href="https://coolshell.cn/articles/76.html" class="wp_rp_title">怎样做一个 Program Manager</a></li><li ><a href="https://coolshell.cn/articles/2111.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="erlang打包独立环境" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2111.html" class="wp_rp_title">erlang打包独立环境</a></li><li ><a href="https://coolshell.cn/articles/2109.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="Python处理encoding的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2109.html" class="wp_rp_title">Python处理encoding的小技巧</a></li><li ><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/28.jpg" alt="Android将允许纯C/C++开发应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3549.html" class="wp_rp_title">Android将允许纯C/C++开发应用</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1654.html">Richard Feynman, 挑战者号, 软件工程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1654.html/feed</wfw:commentRss>
+			<slash:comments>14</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>怎样做一个 Program Manager</title>
+		<link>https://coolshell.cn/articles/76.html</link>
+					<comments>https://coolshell.cn/articles/76.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 10 Mar 2009 07:50:31 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[职场生涯]]></category>
+		<category><![CDATA[Program Manager]]></category>
+		<category><![CDATA[管理]]></category>
+		<category><![CDATA[软件开发]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=76</guid>
+
+					<description><![CDATA[<p>我个人认为，这是一篇不错的文章，虽然我不是Program Mananger，但是我几乎在做着和这个职位很相似的工作。在这里，我把这篇文章推荐给所有的程序员，我相...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/76.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/76.html">怎样做一个 Program Manager</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我个人认为，这是一篇不错的文章，虽然我不是Program Mananger，但是我几乎在做着和这个职位很相似的工作。在这里，我把这篇文章推荐给所有的程序员，我相信，这篇文章会让你明白，只有技术是远远不够的，因为没有Program Manager这个角色，程序员们只不过一些手中拿着利器却不知所措的散兵游勇。我希望我的导读和原文能给所有的程序带来启示。</p>
+<p style="padding-left: 30px;"><strong>原文在这里：</strong><br />
+“How to be a program manager”<br />
+<a href="http://www.joelonsoftware.com/items/2009/03/09.html">http://www.joelonsoftware.com/items/2009/03/09.html</a></p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2009/03/09meeting-thumbnail.jpg"><img decoding="async" loading="lazy" class="alignright size-medium wp-image-77" title="09meeting-thumbnail" src="https://coolshell.cn/wp-content/uploads/2009/03/09meeting-thumbnail-300x198.jpg" alt="09meeting-thumbnail" width="300" height="198" /></a>这篇文章的作者叫Joel Spolsky，在Microsoft做过Program Manager，这篇文章非常值得一读。下面是我给大家做的一个导读：</p>
+<p>首先，他讲了两个人，一个是负责WYSIWYG 字处理的天才级的Program Manager——Charles Simonyi，第二个是上世纪80年代的负责Mac OS上的Excel项目的程序员Jabe Blumenthal，他发现了程序员和市场人员的代沟，Marketing的人很难通过把MBA-Speaking翻译成实际的Feature，并且，有太多的和编码不相关的工作，比如说，和用户交谈，运行usability测试，Reivew竞争者的产品，并且得冥思苦想怎么能让事情变得更简单，而我们的程序员通常来说即不具备这样的时间，也不具备这样的能力。于是，Jabe开始了他的Program Manager的生涯。</p>
+<p><span id="more-76"></span></p>
+<p><strong><span style="text-decoration: underline;">工作范围</span></strong></p>
+<p>作者在第二节里说了一个PM主要负责哪些事务：</p>
+<ol>
+<li>Design UIs （用户界面的设计）</li>
+<li>Write functional specs （书写功能规格说明书）</li>
+<li>Coordinate teams （团队协调）</li>
+<li>Serve as the customer advocate, and （从用户角度思考问题）</li>
+<li>Wear Banana Republic chinos （Banana Republic是一个服装品牌，意思是作者在调侃PM需要衣冠楚楚，而不像程序员们只有T恤或牛仔裤）</li>
+</ol>
+<p>接下来，作者讲述了他第一份Program Manager工作的经历，非常有意思，那是一个关于Excel 用户定制化的项目（耗子注：应该是在Excel中加入VBScript的项目吧，就是所谓的宏）。</p>
+<p>第一个阶段</p>
+<ul>
+<li>首先，作者找了很多很多的用户谈论了这个什么是最有用最合理的实现，这是一个非常巨大的工作，花费了非常多的精力和时间。</li>
+<li>然后，作者找到了Visual Basic团队询问了是否可能给Excel提供一个编译器和代码编辑器，以便实现“宏”。</li>
+<li>接着，作者查看了一下Apple上面的AppleScript这种宏，取了取经。</li>
+<li>最后，作者同 Word, Access, Project, 和Mail团队们讨论了很多很多。</li>
+</ul>
+<p>作者说，这个阶段的工作让他满是伤痕，他甚至害怕听到手机铃响。</p>
+<p>第二个阶段</p>
+<ul>
+<li>确定大方向。他开始写下Visual Baisc应该怎么样在Excel里面工作的文档。并提供了一些简单的宏的样子。这应该是high-level的Functional Spec。</li>
+<li>当大的方向确定后，他开始了一些更为细节的功能规格说明的书写。这就是所谓的Functional Specification. (耗子注：这份文档应该只是说明从用户的角度上来看这个产品长成什么样，而不是实现)</li>
+<li>虽然FS并不需要说明怎么去实现，但这份文档应该是需要非常详细地说明整个Excel和VBScript怎么相互交互的，这是其中最重要的部分。</li>
+<li>当作者把FS的一个初始化版本发给开发团队（Ben Waldman）时，开发团队非常快地实现出了一个原型，并提供了面向对象的相关接口。但可惜的是，那并不是Program Manger所想要的。</li>
+<li>作者描述了一个细节如果帮助开发团队解决技术难点的例子。那是关于把一个Excel中的一个cell的值取出来的例子。当时，developer团队认为这是一个难点，因为这个值可能是任意类型的。而VB中却需要先声明变量的类型。后来，作者找到了VB的开发团队，了解到了Variants 和IDispatch可以做到这个。</li>
+</ul>
+<p>我们可以看到，FS在这样反复地和developer 团队推敲，甚至去帮助程序员解决技术难题，之后最终才能确定下来。一旦FS确定后，program manger需要做两件事：</p>
+<ol>
+<li>负责解释相关的问题。</li>
+<li>组织并形成相关的design。</li>
+</ol>
+<p>也就是说，除了对FS解释外，需还需要把What needs to do 变成 How to do的设计文档。另外，Program Manager可能会有下面的工作：</p>
+<ul>
+<li>测试人员会对FS有很多很多疑问，因为他们需要知道怎么样去测试这些FS中所包含的东西。</li>
+<li>和文档团队商讨如何写一个好的教程或是一个参考文档。</li>
+<li>和localization 团队制定localization 的策略。</li>
+<li>和市场人员说明VBA的优势和功能。</li>
+</ul>
+<p>我们可以看到，作者有太多，太多的会议和太多的与人沟通的事务，真是一个不简单的工作啊。</p>
+<p><strong><span style="text-decoration: underline;">冲突管理</span></strong></p>
+<p>后面，作者着重讲了“Conflicts”冲突，这可能是所有的团队都会有的问题。而我们的Program Manager因为要和那么多的人沟通交流，所以，必然会需要有一种超人的能力去管理与人的发生的观点上的冲突。作者，在这里说了和程序员发生的很多争论，因为Program Manager是从用户的角度出发，而我们程序员总是从技术和实现的角度出发，不同的角度必然会引发冲突。作者举了一个例子，他说，用户们喜欢一个“心灵感应”的界面和一个30英寸的显示器，而我们的程序员喜欢的只是用Python搞的命令行接口。呵呵。另外，作者引用了一个Excel中的“pivot tables ”所引发的一个历时最长的争议作为案例。</p>
+<p>最后，作者讨论了，争论是一个很好的事，就好像法院里的原告和被告都有自己的辩护律师一样，这有助于人们逼近事物的真相。对于软件开发也一样，良好的争论其实是对产品有好处的。我们应该在争论中关注事。</p>
+<p>当在讨论到和程序相处的过程，作者说到了和程序员相外并不是一件很容易的事，因为你并不编码而也没有技术能力，通常会受到程序员的冷眼。所以在和程序沟通的过程中需要保证两件事：1）确信自己的正确的。2）让程序员尊敬自己。而对于第二点，如何让程序员尊敬自己，作者发表了自己的见解：1）demonstrate intelligence（展示自己的才华），2）open-mindedness（心胸宽阔），3）fairness（公平，正直）。千万不要搞办公室政治，或是开私密的经理会，等等。不然的话，你必然受到排挤。</p>
+<p><strong><span style="text-decoration: underline;">推荐读物</span></strong></p>
+<p>最后作者给大家推荐了一些很不错的读物：</p>
+<ul>
+<li class="MsoNormal" style="mso-list: l0 level1 lfo3;"><span style="font-size: x-small; font-family: Arial;"><span style="font-size: 10pt; font-family: Arial;"><a title="blocked::http://www.amazon.com/gp/product/0596517718?ie=UTF8&amp;tag=joelonsoftware&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=0596517718" href="http://www.amazon.com/gp/product/0596517718?ie=UTF8&amp;tag=joelonsoftware&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=0596517718">Making Things Happen</a></span></span> （经理一般都在干什么？）</li>
+<li class="MsoNormal" style="mso-list: l0 level1 lfo3;"><span style="font-size: x-small; font-family: Arial;"><span style="font-size: 10pt; font-family: Arial;"><a title="blocked::http://www.amazon.com/gp/product/0321344758?ie=UTF8&amp;tag=joelonsoftware&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=0321344758" href="http://www.amazon.com/gp/product/0321344758?ie=UTF8&amp;tag=joelonsoftware&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=0321344758">Don’t Make Me Think</a></span></span>  （如果你要写FS或UI设计，你应该看看这本书）</li>
+<li class="MsoNormal" style="mso-list: l0 level1 lfo3;"><span style="font-size: x-small; font-family: Arial;"><span style="font-size: 10pt; font-family: Arial;"><a title="blocked::http://www.amazon.com/gp/product/1893115941?ie=UTF8&amp;tag=joelonsoftware&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=1893115941" href="http://www.amazon.com/gp/product/1893115941?ie=UTF8&amp;tag=joelonsoftware&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=1893115941">User Interface Design for Programmers</a>.</span></span> （作者自己的书，关于UI设计）</li>
+<li class="MsoNormal" style="mso-list: l0 level1 lfo3;"><span style="font-size: x-small; font-family: Arial;"><span style="font-size: 10pt; font-family: Arial;"><a title="blocked::http://www.amazon.com/gp/product/0671027034?ie=UTF8&amp;tag=joelonsoftware&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=0671027034" href="http://www.amazon.com/gp/product/0671027034?ie=UTF8&amp;tag=joelonsoftware&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=0671027034">How to Win Friends &amp; Influence People</a></span></span> （在人际关系方面，需要看看这本书）</li>
+</ul>
+<p class="MsoNormal" style="mso-list: l0 level1 lfo3;">（完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/2681.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="Kent Beck 谈单元测试和持续部署" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2681.html" class="wp_rp_title">Kent Beck 谈单元测试和持续部署</a></li><li ><a href="https://coolshell.cn/articles/2539.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="参透软件开发的本质 &#8211; Uncle Bob Martin 推荐的经典书籍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2539.html" class="wp_rp_title">参透软件开发的本质 &#8211; Uncle Bob Martin 推荐的经典书籍</a></li><li ><a href="https://coolshell.cn/articles/1654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/250px-ChallengerCrew-150x150.jpg" alt="Richard Feynman, 挑战者号, 软件工程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1654.html" class="wp_rp_title">Richard Feynman, 挑战者号, 软件工程</a></li><li ><a href="https://coolshell.cn/articles/971.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="质量管理经中的八个法则" width="150" height="150" /></a><a href="https://coolshell.cn/articles/971.html" class="wp_rp_title">质量管理经中的八个法则</a></li><li ><a href="https://coolshell.cn/articles/808.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/11.jpg" alt="22条经典的编程引言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/808.html" class="wp_rp_title">22条经典的编程引言</a></li><li ><a href="https://coolshell.cn/articles/3453.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="Sony PS3 Root Key 被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3453.html" class="wp_rp_title">Sony PS3 Root Key 被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/76.html">怎样做一个 Program Manager</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/76.html/feed</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

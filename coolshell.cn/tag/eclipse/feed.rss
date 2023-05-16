@@ -1,0 +1,1369 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Eclipse | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/eclipse/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 08 Apr 2011 03:30:06 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Eclipse开发Android应用程序入门:重装上阵</title>
+		<link>https://coolshell.cn/articles/4334.html</link>
+					<comments>https://coolshell.cn/articles/4334.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Fri, 08 Apr 2011 00:30:09 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4334</guid>
+
+					<description><![CDATA[<p>翻译:赵锟 原文：http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-a...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4334.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4334.html">Eclipse开发Android应用程序入门:重装上阵</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>翻译:赵锟</strong><br />
+原文：<a href="http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-android-with-eclipse-reloaded/">http://www.smashingmagazine.com/2011/03/28/get-started-developing-for-android-with-eclipse-reloaded/</a></p>
+<p>在我们教程系列的<a href="https://coolshell.cn/articles/4270.html">第一部分</a>中，我们使用Android和Eclipse开发了一个简单的饮茶计时器的应用程序。在第二部分，我们将继续开发这个程序，并给它增加一些其他的额外的功能。在开发的过程中，我们将给你介绍更多重要而强大的Android SDK特性，包括持久化数据存储，Activity和Intent，和共享用户首选项（译者注：类似于windows 的注册表的一种机制）。</p>
+<p>跟着本教程，你需要上一篇教程中的代码，如果你想直接使用代码，你可以使用如下的指令从<a href="http://github.com/cblunt/BrewClock">GitHub</a>上check out出tutorial_par_1标记的代码：</p>
+<p><img decoding="async" loading="lazy" width="793" height="564" src="https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full.jpg" alt="" title="1_starting_point_full"  class="aligncenter size-full wp-image-4362" srcset="https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full.jpg 793w, https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-300x213.jpg 300w, https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-768x546.jpg 768w, https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-380x270.jpg 380w" sizes="(max-width: 793px) 100vw, 793px" /><br />
+[code]<br />
+$ git clone git://github.com/cblunt/BrewClock.git<br />
+$ cd BrewClock<br />
+$ git checkout tutorial_part_1<br />
+[/code]</p>
+<p>在GitHub中检出了代码后，你需要将代码倒入到Eclipse中的项目中：</p>
+<ol>
+<li>运行      Eclipse 选择 <em>File → Import…</em></li>
+<li>在导入窗口, 选择 <em>“Existing Projects into Workspace”</em>并点击<em> “Next.”</em></li>
+<li>在下一屏，点击 <em>“Browse,”</em>选择你从GitHub上clone出的代码目录。</li>
+<li>点击“Finish” 将项目导入到Eclipse中。</li>
+</ol>
+<p><span id="more-4334"></span><br />
+在导入项目到Eclipse之后，你有可能会看到有如下的警告信息：<br />
+[code]<br />
+Android required .class compatibility set to 5.0.<br />
+Please fix project properties.<br />
+[/code]<br />
+如果有这种情况，右键点击“Project Explorer ”中新导入的BrewClock项目，并选择 “Fix Project Properties,” 并重启Eclipse。</p>
+<h3>数据持久化入门</h3>
+<p>当前,BrewClock 让用户为他们泡的茶设置一个定时器。这个非常棒的一个工作，但是如果对于不同的茶使用同一个泡茶时间的结果会怎样呢，是不每种茶都应该有自己的一个泡茶时间呢？如果这样，那岂不是所有的用户都需要记下每一类茶所需要泡的时间！这不是一个很好的用户体验。因此，在这篇教程中，我将新增一个功能来为用户每种不同的茶叶存放一个泡茶时间，并当用户想泡茶的时候，可以从茶叶列表中进行选择。</p>
+<p>为了实现这个目的，我们得利用Android的丰富的数据持久化的API。Android提供了几种方式来存储数据，本文将要覆盖其中的两种方式。第一种，使用SQLite数据库引擎来为我们存储数据。</p>
+<p>SQLite 是一种流行的轻量级SQL数据库引擎，它将数据存在单个文件中。SQLite经常用于桌面或在那些运行不能运行客户端-服务器SQL引擎（例如MySQL或PostgreSQL)的嵌入式的应用上。</p>
+<p>每个安装在Android上的应用都可以保存和使用多个SQLite数据库文件（由数据存储容量决定），这些数据由系统自动地进行管理。应用程序的数据是私有并且不能被其他的应用程序所访问。（数据可以通过ContentProvider(译者注：内容提供者类)类进行共享，但是我们不会在本教程中覆盖关于内容提供者的内容）。当数据应用程序被更新时，数据库文件就进行持久化，当应用程序被删除时，数据库文家就被删除。</p>
+<p>我们在BrewClock应用使用SQLite数据来维护我们的茶叶列表和泡茶所需要的时间。下面是我们我们将使用的数据表的一个总体介绍。</p>
+<p>[code]<br />
++&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;-+<br />
+| Table: teas                         |<br />
++&#8212;&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br />
+| Column     | Description            |<br />
++&#8212;&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br />
+| _ID        | integer, autoincrement |<br />
+| name       | text, not null         |<br />
+| brew_time  | integer, not null      |<br />
++&#8212;&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br />
+[/code]</p>
+<p>如果以前你使用过SQL，你应该熟悉这些内容。数据表有三个字段，一个唯一标示（_ID），茶叶名称(name)和泡茶时间(brew_time)字段。我们将使用Android提供给我们的API在应用中建立数据表。系统将负责在正确的位置为我们的创建数据库文件。</p>
+<h4>抽象数据库</h4>
+<p>为了确保数据库的代码容易被维护，我们用一个单独的类TeaData来抽象所有处理数据库创建，插入，和查询的代码。如果你熟悉模型-试图-控制(译者注：MVC)方法的话，这个你也应该熟悉。所有数据库代码与我们的BrewClockActitvity类隔离开来。Actitvity可以初始化一个新的TeaData实例（这个实例将连接数据库）并完成它所需要的工作。以这种方式工作保证了我们可以方便的更改我们所使用的数据库而不用修改其他那些和数据库不相关部分的代码。</p>
+<p>通过菜单File → New → Class.在BrewClock项目中创建一个TeaData的新类。确保TeaData扩展于android.database.sqlite.SQLiteOpenHelper 类，并选中“Constructors from superclass”复选框。<br />
+<img decoding="async" src="https://coolshell.cn/wp-content/uploads/2011/04/2_create_teadata_class1.jpg" alt="" title="1_starting_point_full"  class="aligncenter size-full wp-image-4362" /></p>
+<p>TeaData 类将为你自动地处理SQLite数据库的创建和版本。我们需要增加一些方法来作为其他代码到数据库的接口。</p>
+<p>增加两个常量来存储数据库的名字和版本,增加表名和表中列名。我们使用Android提供的常类BaseColumns._ID来做为表的唯一id列：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.DatabaseUtils;
+import android.provider.BaseColumns;
+
+public class TeaData extends SQLiteOpenHelper {
+  private static final String DATABASE_NAME = &quot;teas.db&quot;;
+  private static final int DATABASE_VERSION = 1;
+
+  public static final String TABLE_NAME = &quot;teas&quot;;
+
+  public static final String _ID = BaseColumns._ID;
+  public static final String NAME = &quot;name&quot;;
+  public static final String BREW_TIME = &quot;brew_time&quot;;
+
+  // …
+}
+</pre>
+<p>为TeaData增加一个构造方法，以数据库名称合版本号为参数调用其父类的构造方法。Android将会自动地打开数据库（如果数据库不存在就自动创建它）。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+public TeaData(Context context) {
+  super(context, DATABASE_NAME, null, DATABASE_VERSION);
+}
+</pre>
+<p>我们需要重载onCreate方法，并执行一个SQL 串执行创建数据库表的操作。Android将会在数据库文件第一次被创建时调用这个方法。</p>
+<p>在启动过程中，Android检查数据库的版本是否我们传入的版本一致。如果版本发生了改变，Android将会调用onUpgrade方法，在这个方法总，你可以编写修改数据库结构的业务逻辑。在本教程中，我们将让Android删除数据库并重建数据库。</p>
+<p>在onCreate和onUpgrade中增加如下的代码:</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+@Override
+public void onCreate(SQLiteDatabase db) {
+  // CREATE TABLE teas (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, brew_time INTEGER);
+  String sql =
+    &quot;CREATE TABLE &quot; + TABLE_NAME + &quot; (&quot;
+      + _ID + &quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;
+      + NAME + &quot; TEXT NOT NULL, &quot;
+      + BREW_TIME + &quot; INTEGER&quot;
+      + &quot;);&quot;;
+
+  db.execSQL(sql);
+}
+
+@Override
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+  db.execSQL(&quot;DROP TABLE IF EXISTS &quot; + TABLE_NAME);
+  onCreate(db);
+}
+
+</pre>
+<p>下一步，我们需要新增代码让我们方便地在数据库中新增茶叶记录。我们新增一个带茶叶名称和泡茶时间的方法来负责插入记录。Android为了尽量避免开发者使用SQL语句，提供了一堆类来处理向数据库中查入记录。首先，我们创建一个ContentValues集合，并将相关的值插入到这个集合中去。</p>
+<p>对于ContentValues集合，我们只要简单地提供一个列名和值来插入就行了。Android负责创建和运行正确的SQL。使用Android的数据类确保了你能写出安全，跨平台的数据库操作代码。</p>
+<p>Add a new method, insert(), to the TeaData class:</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+public void insert(String name, int brewTime) {
+  SQLiteDatabase db = getWritableDatabase();
+
+  ContentValues values = new ContentValues();
+  values.put(NAME, name);
+  values.put(BREW_TIME, brewTime);
+
+  db.insertOrThrow(TABLE_NAME, null, values);
+}
+
+</pre>
+<h4>查询数据</h4>
+<p>我们应用程序具有了在数据库中保存数据的能力后，我们同样也需要一种方式将数据取回来。Android提供了游标Cursor接口来完成这件工作。一个游标代表了针对数据库运行一个SQL返回的结果集，游标在这个结果集中维护了一个指针来指向结果集中的一行。这个指针可以向前，向后移动，并返回每一列的值，下面我们用图形来帮助你理解游标:</p>
+<p>SQL 查询: SELECT * from teas LIMIT 3;<br />
+[code]<br />
++&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;+</p>
+<p>|  _ID  |  name       |  brew_time  |</p>
+<p>+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;+</p>
+<p>|    1  |  Earl Grey  |          3  |</p>
+<p>|    2  |  Green      |          1  | &lt;= Cursor</p>
+<p>|    3  |  Assam      |          5  |</p>
+<p>+&#8212;&#8212;-+&#8212;&#8212;&#8212;&#8212;-+&#8212;&#8212;&#8212;&#8212;-+<br />
+[/code]</p>
+<p>在这个例子中，游标指向了结果集中的第二条记录（绿茶）。我们可以通过调用cursor.moveToPrevious()方法，将游标向前移动，让它指向第一行（Earl Grey），或者调用moveToNext向前移动指向Assam。要取到游标所指向记录的茶叶的名称，我们只要调用cursor.getString(1)，1代表我们向提取数据列的下标（注意下标识从0开始的，1代表第二列，依次类推）。</p>
+<p>在了解游标后，我们增加一个创建游标对象并返回数据库中所有的茶叶信息。在TeaData中增加all方法：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+public Cursor all(Activity activity) {
+  String[] from = { _ID, NAME, BREW_TIME };
+  String order = NAME;
+
+  SQLiteDatabase db = getReadableDatabase();
+  Cursor cursor = db.query(TABLE_NAME, from, null, null, null, null, order);
+  activity.startManagingCursor(cursor);
+
+  return cursor;
+}
+</pre>
+<p>因为这个方法乍一看有点古怪，所以让我们先来关心一下这个方法的一些细节。我们没有使用SQL的查询语句，而是使用了Android提供的数据库接口方法。</p>
+<p>第一，我们需要告诉Android，我们所关心的列的信息。我们创建了一个字符串数组，数组中存放这TeaData中列的标示信息。我们还设置了我名们期望的结果集按照哪一个列进行排序的列名。</p>
+<p>第二，我们使用getReadalbeDatabase()创建了一个到数据库的只读连接，并调用query方法告诉Android我们希望用query方法运行一个查询。query()方法有很多的参数，Android在内部将这些参数转化为一个查询语句。此外，Android的抽象层保证了即使底层数据储存机制发生了变化，我们的应用程序代码也能正确的工作。</p>
+<p>由于我们只要返回表中的所有记录，所以我们没有在方法中使用到链接join，过滤filter和分组group（例如：在SQL中的WHERE，JOIN，和GROUP BY）。from和order变量告诉查询数据库需要返回那些列和提取数据时按什么列进行排序。我们使用SQLiteDatabase.query()作为和数据库的人机交互接口。</p>
+<p>最后，我们让Activity（在本例中，我们的BrewClockActivity）来管理游标。通常，游标需要人工刷新内容，因此当我们增加一个新茶信息到数据库中时，我们就需要刷新我们的游标。每当我们的应用被挂起和恢复的时候，通过调用startManagingCursor()让Android来帮我们重建结果集。</p>
+<p>在TeaData类中增加count方法:</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/TeaData.java
+  public long count() {
+    SQLiteDatabase db = getReadableDatabase();
+    return DatabaseUtils.queryNumEntries(db, TABLE_NAME);
+  }
+
+</pre>
+<p>保存TeaData类，使用修正没有import 的类(Source → Organize Imports)，在完成我们的数据类后，下一步我们将着手修改我们BrewClock的人机界面。</p>
+<h4>修改BrewClock用户界面，允许进行茶叶选择</h4>
+<p>持久化茶和泡茶的时间的目的是让用能快速的选择他们所钟爱的预设置的茶。为了完成这个功能，我们需要再BrewClock的主界面上增加一个Spinner（类似于桌面上弹出菜单），生成一个来自于TeaData的茶列表。</p>
+<p>和前面的教程一样，我们使用了Eclipse的布局器编辑器在BrewClock的主界面布局XML文件中增加Spinner。在LinearLayout元素下面增加下面这些代码（大约在24行）。如果你打开了可视化的布局编辑器后，你可以点击窗口下面的地&#8221;Code View&#8221;进行切换。</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- /res/layout/main.xml --&gt;
+
+&lt;!-- Tea Selection --&gt;
+&lt;LinearLayout
+  android:orientation=&quot;vertical&quot;
+  android:layout_width=&quot;fill_parent&quot;
+  android:layout_height=&quot;wrap_content&quot;&gt;
+
+  &lt;Spinner
+    android:id=&quot;@+id/tea_spinner&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot; /&gt;
+
+&lt;/LinearLayout&gt;
+</pre>
+<p>在BrewClockActivity类里面,增加一个成员变量指向Spinner，通过使用findViewById连接界面上的控件：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+protected Spinner teaSpinner;
+protected TeaData teaData;
+
+// …
+
+public void onCreate(Bundle savedInstanceState) {
+  // …
+  teaData = new TeaData(this);
+  teaSpinner = (Spinner) findViewById(R.id.tea_spinner);
+}
+</pre>
+<p>运行你的程序以确保新的界面正确地生效。你应该在泡茶计数器下看见一个空白的弹出式菜单（或者是Spinner)。如果点击spinner，Android将显示一个弹出式的菜单并为你提供选择列表。在这时，菜单的内容因该是空的，现在让我们来绑定Spinner和我们的茶叶数据库。</p>
+<p><img decoding="async" loading="lazy" width="500" height="356" src="https://coolshell.cn/wp-content/uploads/2011/04/3_blank_spinner.jpg" alt="" title="3_blank_spinner"  class="aligncenter size-full wp-image-4364" srcset="https://coolshell.cn/wp-content/uploads/2011/04/3_blank_spinner.jpg 500w, https://coolshell.cn/wp-content/uploads/2011/04/3_blank_spinner-300x213.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<h4>数据绑定</h4>
+<p>当Android从数据库中查询数据时，它将会返回一个游标Cursor对象。Cursor代表了来自数据库的结果集，并可以移动游标来提取结果中的数据。使用一类Android提供的称为“适配器Adapter”的类，我们很容易将这个结果集绑定到Spinner上。适配器完成了提取数据库结果集中的数据并在界面上显示这些数据等这些复杂而困难工作。</p>
+<p>在我们的TeaData.all()方法中已经可以返回一个带有tea表内容的游标，使用这个游标，我们所需要做的工作就是创建一个SimpleCursor适配器来绑定我们的teaSpinner，Android会负责处理将数据显示在spinner的列表中。</p>
+<p>通过创建一个SimpleCursorAdapter类来连接Spinner与teaData.all()返回的游标：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// com/example/brewclock/BrewClockActivity.java
+
+public void onCreate(Bundle savedInstanceState) {
+  // …
+  Cursor cursor = teaData.all(this);
+
+  SimpleCursorAdapter teaCursorAdapter = new SimpleCursorAdapter(
+    this,
+    android.R.layout.simple_spinner_item,
+    cursor,
+    new String[] { TeaData.NAME },
+    new int[] { android.R.id.text1 }
+  );
+
+  teaSpinner.setAdapter(teaCursorAdapter);
+  teaCursorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+}
+
+</pre>
+<p>注意，我们使用了Android内建的android.R对象。这个对象提供了你的应用程序中的默认资源，例如视图和布局。在我们的代码中，我们使用了android.R.layout.simple_spinner_item，它是简单的文本标签布局。</p>
+<p>如果你再次运行的应用程序，你将会看到spinner中仍然是空的！虽然我们已经连接了我们的数据库，但是由于数据库中没有任何记录，所以我们任何看到了空列表。</p>
+<p>我们通过在构造方法中增加一些默认记录来让用户可以选择所需要的茶叶，为了避免重复记录，我们只有在数据库中记录为0的情况才增加默认记录。在本教程的代码中，我们使用前面增加的count()来检查数据库中表记录是否为空。</p>
+<p>增加当数据库中表为空的默认记录代码。把这些代码增加从数据库提取茶叶数据的前面（译者注：上一段的代码前）。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// com/example/brewclock/BrewClockActivity.java
+public void onCreate(Bundle savedInstanceState) {
+  // …
+
+  // Add some default tea data! (Adjust to your preference :)
+  if(teaData.count() == 0) {
+    teaData.insert(&quot;Earl Grey&quot;, 3);
+    teaData.insert(&quot;Assam&quot;, 3);
+    teaData.insert(&quot;Jasmine Green&quot;, 1);
+    teaData.insert(&quot;Darjeeling&quot;, 2);
+  }
+
+  // Code from the previous step:
+  Cursor cursor = teaData.all(this);
+
+  // …
+}
+
+</pre>
+<p>现在再次运行你的应用程序。你将会发现茶叶Spinner有了一条选择。点击Spinner让你可以从数据库选择你要的茶叶。</p>
+<p><img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2011/04/4_populated_spinner.jpg" alt="" title="4_populated_spinner" width="500" height="356" class="aligncenter size-full wp-image-4365" srcset="https://coolshell.cn/wp-content/uploads/2011/04/4_populated_spinner.jpg 500w, https://coolshell.cn/wp-content/uploads/2011/04/4_populated_spinner-300x213.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p>恭喜你！你已经成功关联了你的界面和代码。这是任何软件开发过程中一个非常重要的方面。正如你所看见的，Android将这一步简化的非常容易，但是功能有是非常的NB。使用游标和适配器，你可以将数据源（丛简单的字符串数组到复杂的数据库查询）绑定到任何类型的视图：spinner或列表，设置是类似iTunes cover-flow gallery!</p>
+<p>虽然现在已经可以开始泡茶了，但是我们工作还远没有结束。当你从Spinner选择了不同的茶，这个选择却不会发生任何作用。我们需要根据用户所选茶叶的种类取更新我们的泡茶时间。</p>
+<h4>读取选中茶叶数据并更新泡茶时间</h4>
+<p>为了能读取用户从数据库中选择茶叶的数据，我们必须增加一个针对此事件的监听器。类似于处理按钮点击事件的OnClickListener监听器一样，我们将实现一个OnItemSelectedListener。当用户从视图中做出一个选择的事件将触发这个监听器，例如从我们的Spinner。</p>
+<p>在BrewClockActivity中增加需要实现的接口OnItemSelectedListener。并增加其响应的处理方法onItemSelected()和onNothingSelected()：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+public class BrewClockActivity extends Activity implements OnClickListener, OnItemSelectedListener {
+  // …
+  public void onItemSelected(AdapterView&lt;?&gt; spinner, View view, int position, long id) {
+    if(spinner == teaSpinner) {
+      // Update the brew time with the selected tea’s brewtime
+      Cursor cursor = (Cursor) spinner.getSelectedItem();
+      setBrewTime(cursor.getInt(2));
+    }
+  }
+
+  public void onNothingSelected(AdapterView&lt;?&gt; adapterView) {
+    // Do nothing
+  }
+}
+
+</pre>
+<p>在这里我们要检查是触发的spinner此事件是不是BrewClock的teaSpinner。如果是，我们将提取代表选中记录的游标对象。这些都是由关联teaData和Spinner的SimpleCursorAdapter来提供我们完成的。Android知道哪个查询产生的Spinner数据，也知道用户选择的哪个数据。Android使用游标来返回数据库的一行记录，也代表了用户所选择的茶叶数据。</p>
+<p>Cursor的getInt()方法带了一个我们想提取的列的下标为参数。在我们的teaData.all()方法中创建游标的时候，我们读取的列是_ID,NAME和BREW_TIME。假设我们在teaSpinner中选择的是Jasmine Tea，那么将返回我们所选数据所对应的数据库记录。</p>
+<p>然后我们再通过传递参数2来选择此记录的第二列的整型值。这个值提供给setBrewTime()方法。这个方法用于更新界面上的泡茶时间。</p>
+<p>最后，我们需要告诉teaSpinner BrewClockActivity正在监听OnItemSelected事件。在BrewClockActivity的onCreate方法中增加下面的代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+public void onCreate() {
+  // …
+  teaSpinner.setOnItemSelectedListener(this);
+}
+</pre>
+<p>大功告成！再次运行你的程序，并从Spinner选择不同的茶叶。每次你所选的茶叶它所对应的泡茶时间都回显示对应的界面上。我们余下的代码中已经可以处理从当前时间开始递减计数。所以在有预先设置的茶叶种类下，我们已经可以完成我们所想要的功能。</p>
+<p>你当然可以，回到之前的代码中去增加一些茶叶种类你满足你的口味。但是如果你发布BrewClock程序到Android Market，每当有人向增加新的茶叶数据到数据库中，我就需要去手动的取更新数据中的内容并重新发布它；这样所有的人就必须去更新它，并且所有的人都有一个同样的列表。这听起来非常的不灵活，因此我们还有很多的工作需要完成！</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/5_default_teas.jpg" alt="" title="3_blank_spinner"  class="aligncenter size-full wp-image-4364"/></p>
+<p>如果用户自己有方法新增茶叶种类到数据库里面，将会非常的不错的做法。因此我们将在下一章继续。。。</p>
+<h3>Activity 介绍</h3>
+<p>和你应用程序中每个屏幕关联的代码就是Activity。每次当你从一屏切换到另外一屏，Android就会创建一个新的Activity。在真实世界中，虽然一个应用程序经常由多个屏幕/Activity构成，Andriod却将每个屏幕看作独立的个体。多个Activity工作在一起形成一种关联的体验，这是因为Android让你非常容易地在屏幕/Activity之间传递数据。</p>
+<p>在本节最后，你将为你的应用程序新增一个新的Activity（AddTeaActivity）并将它注册到Android系统中。你还需要从最初的BrewClockActivity传递数据到新的Activity中。</p>
+<p>首先，我们需要给用户一种方式切换到新的Activity上。我们将使用选项菜单来完成之一步。</p>
+<h4>选项菜单</h4>
+<p>当用户他们的设备上的“Menu”按键时，选项菜单以弹出菜单的形式出现。Android负责菜单的自动创建和显示；你只需要告诉Android，菜单显示什么内容和当用户点击菜单时该做什么就行。</p>
+<p>然而,最好不要在代码中硬编码菜单的标题，我们可以使用Android的字符串资源。字符串资源是一个独立的文件，在这个文件中你可以维护所有用于用户阅读的字符串和标签资源，并可以在代码调用它们。这就意味着当你在未来需要修改字符串时，你只要修改这一处地方即可。.</p>
+<p>在project explorer中导航到“res/values”下，你将会看到string.xml文件已经存在。这个是你再创建新项目的时候由Eclipse创建的，这文件存放着在整个应用程序我们将要使用的字符串。</p>
+<p>双击打开<em>strings.xml</em> ,通过窗口底部的选项页切换到XML 视图。</p>
+<p>在&lt;resources&gt;…&lt;/resources&gt; 元素中增加下面的内容:</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+
+&lt;!-- res/values/strings.xml --&gt;
+  &lt;resources&gt;
+    &lt;!-- … --&gt;
+    &lt;string name=&quot;add_tea_label&quot;&gt;Add Tea&lt;/string&gt;
+  &lt;/resources&gt;
+
+
+</pre>
+<p>我们在这里定义了一个字符串，add_tea_label和它关联的文本，我们可以在整个程序代码中通过add_tea_label来使用其关联的文本。如果标签因为某个原因需要修改，我们只需要在这个文件修改这一个地方就能完成整个程序的修改。</p>
+<p>下一步，让我们创建一个新文件完成选项菜单的定义，如果字符串和布局一样，菜单也使用XML来定义。因此我们将在Eclipse中川建一个新的XML文件：</p>
+<p>通过选择File → New → Other, 并选择“Android XML File.”在Eclipse中创建一个新的XML文件。</p>
+<p>选择资源的类型为 “Menu”，保存文件名为main.xml。Eclipse将为你自动的创建一个目录<em>res/menu</em>, 来存放你的菜单文件。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/7_new_menu_xml.jpg"></img></p>
+<p>打开<em>res/menus/main.xml</em> 文件, 通过窗口底部的“main.xml”选项页来切换到XML视图。</p>
+<p>增加菜单项， add_tea。</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/values/strings.xml --&gt;
+  &lt;resources&gt;
+    &lt;!-- … --&gt;
+    &lt;string name=&quot;add_tea_label&quot;&gt;Add Tea&lt;/string&gt;
+  &lt;/resources&gt;
+</pre>
+<p>注意android:title 属性被设置为@string/add_tea_label。这告诉Android在我们的strings.xml文件中查找add_tea_label并返回相关联的标签内容。在本列中我们的菜单项的标签时“Add Tea”。</p>
+<p>下一步，我们将告诉我们的Activity，当用户点击设备上的“memu”按键时来显示这个选项菜单。</p>
+<p>返回<em>BrewClockActivity.java</em>代码, 重载onCreateOptionsMenu 方法,这个方法告诉Android 当用户点击“Menu”按键时，装载我们的菜单：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+  MenuInflater inflater = getMenuInflater();
+  inflater.inflate(R.menu.main, menu);
+
+  return true;
+}
+
+</pre>
+<p>当用户点击他设备上的“Menu”按键时，Android将调用onCreateOptionsMenu。在这个方法中，我们创建了一个MenuInflater, 这个对象将从你的应用程序包中装载你的菜单资源。就如同按钮和文本域组成你的应用程序布局一样，main.xml资源也是通过全局对象R来生效的，因此我们将此对象提交给MenuInflater对象。</p>
+<p>为了测试菜单，保存并在模拟器中并运行应用程序。当程序运行起来使，点击“Menu”按键，你将会看到一个弹出式的菜单显示了一个“Add Tea”选项。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/8_add_teas_options_menu.jpg"></img></p>
+<p>如果你点击“Add Tea”选项，Android自动地检测到点击并关闭菜单。在后台，Android将会提醒应用程序选项已经被点击。</p>
+<h4>处理菜单点击</h4>
+<p>当用户点击 “Add Tea” 菜单选项，我们想要显示一个新的Activity以便我们能进入增加新茶叶种类的界面。通过选择File → New → Class来创建一个的Activiy。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/9_new_activity_settings.jpg"></img></p>
+<p>将新类命名为 AddTeaActivity,并确保它继承于android.app.Activity类。这个类也放在com.example.brewclock包中:</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+package com.example.brewclock;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class AddTeaActivity extends Activity {
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+}
+
+</pre>
+<p>上面样例中的空白Activity将不会完成任何工作。但是通过它，我们已经可以完成选项菜单的功能。</p>
+<p>在BrewClockActivity增加一个重载方法onOptionsItemSelected 。当用户点击菜单项时，这个方法被Android调用。 (注意点击的MenuItem为它的接收参数：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+  switch(item.getItemId()) {
+    case R.id.add_tea:
+      Intent intent = new Intent(this, AddTeaActivity.class);
+      startActivity(intent);
+      return true;
+
+    default:
+      return super.onOptionsItemSelected(item);
+  }
+}
+
+
+</pre>
+<p>通过上面的代码，我们告诉Android，当“Add Tea”被点击的时候，我们将要创建一个的Activity；在本教程中，就是AddTeaActivity。然而，不要直接创建这个类的实例，注意我们使用了Intent。Intent有着Android框架的强大特性；他们将Activity绑定在一起来组成应用程序，并允许在他们之间相互传递数据。</p>
+<p>Intent的优点甚至让你的应用程序可以使用用户安装的其他的应用程序。例如，当用户要从图库里面显示一张图片，Android自动地给显一个对话框来让用户选择应用程序来显示图片。任何注册为可以处理图片显示的应用程序都会出现在这个对话框的列表中。</p>
+<p>Intent功能强大而复杂的主体, 因此它值得你从官方的文档<a href="http://developer.android.com/guide/topics/intents/intents-filters.html">official Android SDK documentation</a>中仔细研究。</p>
+<p>让我们运行我们的应用程序，以测试我们的“Add Tea”屏幕。</p>
+<p>运行你的项目，按下Menu按键，并点击 “Add Tea.”。</p>
+<p>不如你预期的，你并没有看到 “Add Tea” Activity，出现在你面前的是一个Android开发者经常看到的对话框：</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/10_crash.jpg"></img></p>
+<p>虽然我们创建了一个Intent并告诉Android启动我们的AddTeaActivity Activity, 由于我们没有将这个Activity注册到Android系统中，我们的应用程序最终还是crash掉了。系统不知道从哪里去找到我们试图运行的Activity（应该还记得Intent可以启动安装在设备上的任何Activity吧）。让我们在应用程序的mainfest文件来注册这些Acitivity。</p>
+<p>打开应用的manifest文件，在Eclipse中的AndroidManifest.xml。通过窗口底部的“AndroidManifest.xml”选项页切换到xml视图</p>
+<p>应用程序的mainfest文件是保存你应用程序全局设置和信息的地方。你将会看见里面已经有一个.BrewClockActivity 的Activity声明，并且这个Activity在程序运行的时候启动。</p>
+<p>在&lt;application&gt;中, 增加一个 &lt;activity&gt; 节点，描述为“Add Tea”的 Activity. 使用我们早先在strings.xml声明的 add_tea_label字符串作为这个Activity的标题：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- AndroidManifest.xml --&gt;
+&lt;application …&gt;
+  …
+  &lt;activity android:name=&quot;.AddTeaActivity&quot; android:label=&quot;@string/add_tea_label&quot; /&gt;
+&lt;/application&gt;
+</pre>
+<p>在你再次运行BrewClock保存这个manifest文件。这一次，当你打开菜单并点击“Add Tea,”时Android将会启动AddTeaActivity。按下back按键返回主屏幕。</p>
+<p>完成了Activity的关联，下一步我们将要开发一个增加新茶的界面！</p>
+<h3>开发茶叶编辑器界面</h3>
+<p>开发一个增加茶叶界面和上一个教程中开发的BrewClock主界面是非常相似的。首先要创建一个布局文件，然后在按照下面的讲解添加适合的XML内容。</p>
+<p>和主界面开发所有不同的是，你可以使用Android最近改进的Eclipse布局编辑器来开界面。创建一个新的XML文件来定义你的布局。从菜单File → New然后选择 “Android XML File,” 选择 “Layout”类型。并将文件命令为<em>add_tea.xml</em>。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/11_new_layout_xml.jpg"></img></p>
+<p>用下面的布局内容替换<em>add_tea.xml</em> 文件的内容：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/layouts/add_tea.xml --&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout
+  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  android:layout_width=&quot;fill_parent&quot;
+  android:layout_height=&quot;fill_parent&quot;
+  android:orientation=&quot;vertical&quot;
+  android:padding=&quot;10dip&quot;&gt;
+
+  &lt;TextView
+    android:text=&quot;@string/tea_name_label&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot; /&gt;
+
+  &lt;EditText
+    android:id=&quot;@+id/tea_name&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;/&gt;
+
+  &lt;TextView
+    android:text=&quot;@string/brew_time_label&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;/&gt;
+
+  &lt;SeekBar
+    android:id=&quot;@+id/brew_time_seekbar&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:progress=&quot;2&quot;
+    android:max=&quot;9&quot; /&gt;
+
+  &lt;TextView
+    android:id=&quot;@+id/brew_time_value&quot;
+    android:text=&quot;3 m&quot;
+    android:textSize=&quot;20dip&quot;
+    android:layout_width=&quot;fill_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:gravity=&quot;center_horizontal&quot; /&gt;
+&lt;/LinearLayout&gt;
+
+</pre>
+<p>为了这个界面上使用的字符串，我们同样也需要在<em>strings.xml</em> 中增加一些新的内容：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/values/strings.xml --&gt;
+&lt;resources&gt;
+  &lt;!-- … --&gt;
+  &lt;string name=&quot;tea_name_label&quot;&gt;Tea Name&lt;/string&gt;
+
+  &lt;string name=&quot;brew_time_label&quot;&gt;Brew Time&lt;/string&gt;
+&lt;/resources&gt;
+
+</pre>
+<p>在这个布局中，我们加了一个新的界面控件类型，SeekBar。这个控件可以让用户通过从左向右拖拉一个指示器thumb，非常容易的指定泡茶时间。这个值得范围从0到android:max。</p>
+<p>在这个界面中，我们使用刻度是0到9，意思是从1分钟到10分钟（泡0分钟茶等于是浪费好茶）。第一，我们需要确保AddTeaActivity能正确地加载我们的界面:</p>
+<p>在Activity的onCreate()方法中增加下面的代码用于加载和显示add_tea布局文件：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public void onCreate(Bundle savedInstanceState) {
+  super.onCreate(savedInstanceState);
+  setContentView(R.layout.add_tea);
+}
+
+</pre>
+<p>现在通过运行项目来测试你的应用程序，按下“Menu”按键，并点击“Add Tea”菜单。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/12_add_tea_interface.jpg"/></p>
+<p>你将从“Add Tea”屏幕上看到你的新界面。你可以在文本域中输入文字和从左到右拖动SeekBar。但是由于我们没有增加相关代码，这个界面并没有实现什么具体的功能。</p>
+<p>在AddTeaActivity中增加下面这些属性，并关联到我们界面上元素：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public class AddTeaActivity {
+  // …
+
+  /** Properties **/
+  protected EditText teaName;
+  protected SeekBar brewTimeSeekBar;
+  protected TextView brewTimeLabel;
+
+  // …
+
+</pre>
+<p>下一步,关联属性和你的界面：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+public void onCreate(Bundle savedInstanceState) {
+  // …
+  // Connect interface elements to properties
+  teaName = (EditText) findViewById(R.id.tea_name);
+  brewTimeSeekBar = (SeekBar) findViewById(R.id.brew_time_seekbar);
+  brewTimeLabel = (TextView) findViewById(R.id.brew_time_value);
+}
+
+</pre>
+<p>界面非常的简单，我们只要增加相应SeekBar 改变事件的监听器。当用户从左到右移动SeekBar指示器时，我们的应用程序需要读出新值并更新SeekBar之下泡茶时间标签的内容。我们将使用一个监听器来检测SeekBar何时改变的：</p>
+<p>在AddTeaActivity类声明中增加实现 onSeekBarChangedListener接口，并添加所必要的方法：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public class AddTeaActivity
+extends Activity
+implements OnSeekBarChangeListener {
+  // …
+
+  public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    // TODO Detect change in progress
+  }
+
+  public void onStartTrackingTouch(SeekBar seekBar) {}
+
+  public void onStopTrackingTouch(SeekBar seekBar) {}
+}
+
+</pre>
+<p>我们唯一感兴趣的事件时onProgressChanged，因此我们需要在这个方法内增加代码更新泡茶时间标签的内容为SeekBar选中的值。之前我们说过SeekBar的刻度是0到9，因此我们需要将SeekBar的加1的值来显示给用户才有意义。</p>
+<p>在<em>AddTeaActivity.java</em>代码中增加如下的onProgressChanged()代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+  if(seekBar == brewTimeSeekBar) {
+    // Update the brew time label with the chosen value.
+    brewTimeLabel.setText((progress + 1) + &quot; m&quot;);
+  }
+}
+
+</pre>
+<p>在AddTeaActivity的onCreate方法中设置监听器：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public void onCreate(Bundle savedInstanceState) {
+  // …
+
+  // Setup Listeners
+  brewTimeSeekBar.setOnSeekBarChangeListener(this);
+}
+
+</pre>
+<p>现在运行你的程序，并拖动SeekBar,泡茶时间标签的内容将会同步更新为正确地值：</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/13_seekbar.jpg"></img></p>
+<h4>保存新增茶叶</h4>
+<p>完成了增加茶叶界面之后,剩下的工作就是让用户可以将他们新增的茶叶保存到数据库中.我们将会对界面上输入数据增加一点校验,以避免茶叶名为空的数据被保存到数据库中！</p>
+<p>在编辑器中打开<em>strings.xml</em> 增加一些我们在应用程序将要使用到的新标签。</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/values/strings.xml --&gt;
+&lt;string name=&quot;save_tea_label&quot;&gt;Save Tea&lt;/string&gt;
+&lt;string name=&quot;invalid_tea_title&quot;&gt;Tea could not be saved.&lt;/string&gt;
+
+&lt;string name=&quot;invalid_tea_no_name&quot;&gt;Enter a name for your tea.&lt;/string&gt;
+
+
+</pre>
+<p>如同前面的那样，我们需要为AddTeaActivity创建一个新的选项菜单来让用户可以执行保存茶叶的指令：</p>
+<p>在<em>res/menus</em> 目录，通过选择File → New 并选 Other → Android XML 文件来创建一个新的 <em>add_tea.xml</em> XML文件, 记住资源类型为“Menu”。</p>
+<p>增加保存茶叶的菜单项：</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+
+&lt;!-- res/menus/add_tea.xml --&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
+  &lt;item android:title=&quot;@string/save_tea_label&quot; android:id=&quot;@+id/save_tea&quot; /&gt;
+&lt;/menu&gt;
+
+
+</pre>
+<p>返回 AddTeaActivity 代码中,类似你在BrewClockActivity中一样，增加重载方法onCreateOptionsMenu 和onOptionsItemSelected。唯一的区别是这次你提供的MenuInflater的资源文件名是<em>add_tea.xml</em> ：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+  MenuInflater inflater = getMenuInflater();
+  inflater.inflate(R.menu.add_tea, menu);
+
+  return true;
+}
+
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+  switch(item.getItemId()) {
+    case R.id.save_tea:
+      saveTea();
+
+    default:
+      return super.onOptionsItemSelected(item);
+  }
+}
+
+</pre>
+<p>下一步, 增加新方法, saveTea(), 来保存茶叶信息。saveTea 首先从界面上读取茶叶的名称和用户所选的泡茶时间，如果这些输入数据都能通过验证，就将这些数据保存到数据库中：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+public boolean saveTea() {
+  // Read values from the interface
+  String teaNameText = teaName.getText().toString();
+  int brewTimeValue = brewTimeSeekBar.getProgress() + 1;
+
+  // Validate a name has been entered for the tea
+  if(teaNameText.length() &lt; 2) {
+    AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+    dialog.setTitle(R.string.invalid_tea_title);
+    dialog.setMessage(R.string.invalid_tea_no_name);
+    dialog.show();
+
+    return false;
+  }
+
+  // The tea is valid, so connect to the tea database and insert the tea
+  TeaData teaData = new TeaData(this);
+  teaData.insert(teaNameText, brewTimeValue);
+  teaData.close();
+
+  return true;
+}
+
+
+</pre>
+<p>大段的代码，让我们过一遍这段代码的逻辑。</p>
+<p>首先，我们从文本框中读取茶叶名称，从SeekBar读取泡茶时间（记着读的时间要加1以保证时间在1到10分钟之内）。下一步，我们验证茶叶名大于等于2个字符（这是非常简单的验证，如果想做更复杂的验证，那么就使用正则表达式吧）。</p>
+<p>如果茶叶名称非法，我们需要让用户知道。我们使用Android提供的工具类，AlertDialog.Biulder类，这个类给我们提供了一个快捷创建和显示模态窗口的方法。在设置完标题和错误信息后，通过调用show方法来显示对话框。这个对话框是模态的modal，因此用户只有按下back按键，这个对话框才会关闭。在这时，我们不想保存任何数据，所以我们的方法返回了false。</p>
+<p>如果茶名称合法，我们通过TeaData类创建一个到茶叶数据库的临时连接。这里又一次的显示出把数据库访问抽象成一个独立文件的好处：你可以从任何地方完成对数据库（译者注：其实应该是对TeaData 类）的访问。</p>
+<p>当调用完teaData.insert() 来增加记录到数据库后，我们不再需要数据库连接，因此在我们返回成功前，我们关闭了连接。</p>
+<p>在模拟器中运行你的程序，按下“Menu”按键，点击屏幕上的“Add Tea”。试图通过在此按下“Menu”和点击屏幕的 “Save Tea.”来保存空茶叶名的茶叶数据。由于是没有茶叶名，一条错误消息将出现在你的面前：</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/14_invalid_tea.jpg"/></p>
+<p>下一步，试着键入你的茶叶名，并选择合适的泡茶时间，再次从菜单选择 “Save Tea” 。这一次，你将不在看到错误的消息。事实上，你什么都看消息不到。</p>
+<h4>改进用户体验</h4>
+<p>这样做不是一个很好的用户体验，用户不能知道他的茶叶是否已经成功地保存了。事实上，用户只有从“Add Tea”界面返回，去茶叶列表中查看这一个办法来检查他的是否成功的被保存。这样的做法不好，让用户知道他们的茶叶数据被成功地保存会是更好的一种方式。在茶叶数据被成功保存后，让我们在屏幕上显示一条成功信息。</p>
+<p>我们要一条被动的非模态化的信息，因此AlertDialog这次就不能满足我们的需求了。下面我们将要使用另外一个Android的非常流行的特性，Toast。</p>
+<p>Toast 在接近屏幕的下方显示一条消息，但是并不会终止用户的操作。Toast经常用于做非重要的的提醒和状态更新。.</p>
+<p>在<em>strings.xml</em> 资源文件中新增一个字符串。注意字符串中的%s。我们在下一步中将保存的茶叶名字结合到这个字符串来显示信息。</p>
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">
+&lt;!-- res/values/strings.xml --&gt;
+&lt;string name=&quot;save_tea_success&quot;&gt;%s tea has been saved.&lt;/string&gt;
+</pre>
+<p>注意，在onOptionsItemSelected 代码中进行修改，当saveTea返回真时，创建并显示一条弹出式的Toast。第二参数getString()用来连接茶叶名称到Toast信息中。最后，我们需要将茶叶名称清楚，以便用户可以快速增加更多的新茶。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/AddTeaActivity.java
+// …
+switch(item.getItemId()) {
+ case R.id.save_tea:
+   if(saveTea()) {
+     Toast.makeText(this, getString(R.string.save_tea_success, teaName.getText().toString()), Toast.LENGTH_SHORT).show();
+     teaName.setText(&quot;&quot;);
+   }
+// …
+</pre>
+<p>现在，重新运行应用程序，并增加和保存一些新茶叶。你将会看到弹出式的Toast并让你知道你的茶叶信息已经被保存成功。getString()方法用于连接存在XML文件中的String和茶叶名称，并将%s替换成茶叶的名称。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/16_valid_save.jpg"></img></p>
+<p>按下“Back”按键，返回应用程序的主屏幕，点击茶叶spinner。你新增的在数据库中的茶叶已近可以显示在spinner的选项中！</p>
+<h3>用户首选项</h3>
+<p>现在BrewClock已经完成了所有的功能。用户可以增加他们喜爱的茶叶和各自不同的泡茶时间到数据库中，并且他们可以快速的从选择他们并开始泡上一杯新茶。任何新增的茶叶信息都被保存在数据库中，因此，即使你退出你的程序，这些茶叶信息在你下次启动程序时仍然可以从spinner列表中找到。</p>
+<p>当你重启BrewClock的时候，有一件事你必须注意，就是泡茶计数被清为了0。这使得跟踪我们每天喝了多少茶（一条重要的数据）变得困难。作为最后一个练习，让我们将泡茶计数保存在我们设备上。</p>
+<p>我们将不通过增加茶叶数据库的表来完成这个功能，我们将使用Android的“共享首选项Shared Preferences”，一个Android提供给你应用程序用于存储简单数据的数据库（字符串，数字，等等）。例如，优秀的最高分和用户首选项等（译者注：非常类似Windows下的注册表）。</p>
+<p>我们首先在<em>BrewClockActivity.java</em> 中增加一堆常量。这些常量用于存放你的共享首选项的名称。我们将使用键的名称来访问泡茶计数。Android负责保存和持久化我们的共享首选项文件。</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+
+// src/com/example/brewclock/BrewClockActivity.java
+
+protected static final String SHARED_PREFS_NAME = &quot;brew_count_preferences&quot;;
+
+protected static final String BREW_COUNT_SHARED_PREF = &quot;brew_count&quot;;
+
+</pre>
+<p>下一步，为了我们能在用户首选项中读写泡茶计数，而不是直接的依赖于代码中的初始值，我们将在代码中做一些修改。在BrewClockActivity 的 onCreate 方法中我们将就该setBrewCount附件的代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+public void onCreate() {
+  // … 
+
+  // Set the initial brew values
+  SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE);
+  brewCount = sharedPreferences.getInt(BREW_COUNT_SHARED_PREF, 0);
+  setBrewCount(brewCount);
+
+  // …
+}
+
+</pre>
+<p>这里我们将以使用SharedPreference来获取应用程序的共享首选项的实例，并希望得到brew_count键值的值（通过我们之前定义的BREW_COUNT_SHARED_PREF常量来标示）。如果值能获取，这个值将返回给应用程序，如果没有我们使用getInt的第二参数作为默认值返回（在教程中为0）。</p>
+<p>现在我们取得存储的泡茶计数值，我们需要确保每当泡茶计数更新的时候，这个值能写回到共享首选项中。</p>
+<p>BrewClockActivity的setBrewCount中增加下面的代码：</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+// src/com/example/brewclock/BrewClockActivity.java
+ public void setBrewCount(int count) {
+   brewCount = count;
+   brewCountLabel.setText(String.valueOf(brewCount));
+
+   // Update the brewCount and write the value to the shared preferences.
+   SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE).edit();
+   editor.putInt(BREW_COUNT_SHARED_PREF, brewCount);
+   editor.commit();
+ }
+
+
+</pre>
+<p>共享首选项不能直接地保存。我们需要使用Android的SharedPreferences.Editor类。调用SharedPreferences的edit方法，返回一个editor实例，这个实例用来保存我们的首选项值。我们只要调用editor实例的commit方法就可以将值保存到共享首选项中。</p>
+<p>我们应用程序的所有代码都已完成，现在让我们测试一下我们的程序！</p>
+<p>在模拟器中运行应用程序，定一个泡茶时间（这真是一个良好的借口去泡一杯你自己爱喝的茶哦）并退出应用程序，试着运行模拟器上的安装的其他应用程序确保BrewClock被终止。记住，除非这个应用程序已经不在内存中，否则Android不会终止一个Activity。</p>
+<p>当你下一次运行你的应用程序时，你将看见之前的泡茶计数已经被维护了。</p>
+<h3>总结</h3>
+<p>恭喜!你已经完成了这个应用的程序的所有开发工作,并使用了Android　SDK中的数个核心组件。在本教程中，你从中学到了：</p>
+<ul>
+<li>创建一个简单的SQLite数据库，并保存你的数据；</li>
+<li>使用Android的数据库类和编写客户化类抽象数据访问；</li>
+<li>在你的应用程序中增加选项菜单。；</li>
+<li>在你应用程序中创建并注册新Activity并使用Intent将他们绑定成一组界面；</li>
+<li>使用内建的“共享首选项”数据库来保存和提取简单用户数据。</li>
+</ul>
+<p>无论你要开发神马样类型的应用程序，数据存储和持久化是一个重要的主题。从工具程序和业务工具到3-D游戏，几乎每个应用程序都需要使用到Android提供的数据工具类。</p>
+<p><img decoding="async" src=" https://coolshell.cn/wp-content/uploads/2011/04/17_brew_up.jpg"/></p>
+<h4>Activities</h4>
+<p>虽然BrewClock现在在某方面来说已经是个功能完善的应用程序了。但是我们仍然可以在增加一些功能以改进用户体验。例如你可以使用下面的方法来改进你的应用程序：</p>
+<ul>
+<li>在保存茶叶的时候检查是否存在茶叶名称重名；</li>
+<li>增加一个菜单选项以将泡茶统计清0；</li>
+<li>在共享首选项中保存最后所选的泡茶名称和时间以便程序重启时有一个有意义的默认值；</li>
+<li>增加用户从茶叶数据库中删除记录的选项。</li>
+</ul>
+<p>在<a href="http://github.com/cblunt/BrewClock">GitHub库</a> 可以获取到所有的源代码，库中的未来的分支包含着Activitiy的解决方案 你可以通过切换你的本地代码拷贝到tutorial_2分支，下载这个开发教程源代码：<br />
+[code]</p>
+<p>$ git clone git://github.com/cblunt/BrewClock.git</p>
+<p>$ cd BrewClock</p>
+<p>$ git checkout tutorial_2</p>
+<p>[/code]<br />
+我希望你喜欢这个教程，希望这个教程能帮助你设计和开发更棒的Android应用程序。请通过在下面的回复让我知道你的建议和意见，当然我也欢迎你将你建议写在email中并发送给我。</p>
+<p><em>感谢<a href="http://blog.anselmbradford.com/">Anselm</a>的建议和反馈！ </em></p>
+<p><em>（全文完）</em><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/04/install-150x150.gif" alt="Eclipse开发Android应用程序入门" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4270.html" class="wp_rp_title">Eclipse开发Android应用程序入门</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="食客还是大厨" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_title">食客还是大厨</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4334.html">Eclipse开发Android应用程序入门:重装上阵</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4334.html/feed</wfw:commentRss>
+			<slash:comments>21</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Eclipse开发Android应用程序入门</title>
+		<link>https://coolshell.cn/articles/4270.html</link>
+					<comments>https://coolshell.cn/articles/4270.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Thu, 07 Apr 2011 08:40:36 +0000</pubDate>
+				<category><![CDATA[Java语言]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Android]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4270</guid>
+
+					<description><![CDATA[<p>By Chris Blunt 翻译：赵锟 原文出处：http://www.smashingmagazine.com/2010/10/25/get-started...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4270.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4270.html">Eclipse开发Android应用程序入门</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>By <a title="Posts by Chris Blunt" href="http://www.smashingmagazine.com/author/chris-blunt/">Chris Blunt</a></p>
+<p><strong>翻译：赵锟</strong><br />
+原文出处：<a href="http://www.smashingmagazine.com/2010/10/25/get-started-developing-for-android-with-eclipse/">http://www.smashingmagazine.com/2010/10/25/get-started-developing-for-android-with-eclipse/</a></p>
+<p>如今的移动设备应用程序开发充满着让人振奋的东西。功能强大的硬件支持，平板电脑，多样的软件平台（塞班 OS，iOS，WebOS，Windows Phone 7&#8230;)，移动设备开发者前景充满了机会和挑战。</p>
+<p>当你想要开始开发你的移动设备程序时，如此多的选择可能让你产生困扰。究竟应该选择神马平台？我应该学习神马语言？为你计划的项目选择神马工具？在本教程中，你将学会如何在Google公司的开源移动设备操作系统Android下开发应用程序。</p>
+<h3>为神马选Android</h3>
+<p>Android是一个基于Linux内核的开源平台， 并且被安装在来自于不同厂商的上千种设备中。Android将各种移动设备的硬件如 电子罗盘，摄像头，GPS，方向感应，等等暴露给你的应用程序。<br />
+<span id="more-4270"></span><br />
+Android的免费开发工具可以让你以0成本开始编写你的软件。当你想向世界展示你的应用程序的时候，你可以将你的软件发布到Google的 Android 市场。向Andriod Market 发布程序只一次性的收取注册费用（25元），并且不像苹果的App Store ，对每一次的提交都要做检查，除非你的程序明显地违法，在经过一个快速检查的流程后，才能让你的程序提供给客户下载和购买。</p>
+<p>下面是Android对于开发者的优点：</p>
+<ul>
+<li>Android的SDK可以在Windows,Mac和Linux上运行，因此你不需要为了开发环境支付额外的新硬件投入。（译者注：我曾近在Win7 64x + VMWare上成功的安装Mac Snow leopard + XCode的开发环境，对于爱用盗版的人来说，这点MS优势不是很大啊）</li>
+<li>构建于JAVA上的SDK。如果你熟悉JAVA语言，你就是事半功倍了。（译者注：这个酷壳有篇文章讨论过，大家可以参看：<a href="https://coolshell.cn" target="_blank">https://coolshell.cn</a>）</li>
+<li>你只要在Android Market上发布应用程序，你将有潜在的成千上万的用户。而且你不一定非要把程序发布在Android Market上，你还可以在你的博客上发布。而且有传言，Amazon已近在最近准备搭建他们自己的Android 应用程序商店了。</li>
+<li>除了了技术性的<a href="http://developer.android.com/sdk/index.html">SDK 文档</a>外,还可以找到其他更多的使用者和开发者的资源。</li>
+</ul>
+<p>闲话少说——下面让我们进入正题，开始开发我们的Android应用程序。</p>
+<h3>安装Eclipse和Android SDK</h3>
+<p>Android应用程序的推荐开发环境是带有Android开发包插件(Android Devlopment Toolkit (ADT))的Eclipse。我在这里简要说明一下安装流程。如果你需要更多的细节，Google的<a href="http://developer.android.com/sdk/">开发人员网页</a>中详尽地解释了具体的安装配置过程</p>
+<ul>
+<li>为你的平台下载<a href="http://developer.android.com/">Android      SDK</a>（Windows ， Mac OS X 或者 Linux）。</li>
+<li>在你的硬盘上解压下载文件 (在Linux, 我使用 /opt/local/).</li>
+<li>如果你没有安装Eclipse，下载并安装<a href="http://eclipse.org/downloads/packages/eclipse-ide-java-developers/galileosr2">Eclipse JAVA 集成开发环境</a>包。 用于编程的话,      Google推荐使用Eclipse 3.5 (Galileo).</li>
+<li>运行Eclipse 并选择<em>Help-&gt;Install New      Software</em>.</li>
+<li>在Available Software窗口中点击Add按钮。</li>
+<li>进入 Android Development Tools 的<em>Name</em>输入框, 在Location      输入框输入https://dl-ssl.google.com/android/eclipse/</li>
+<li>检查可用软件中有Developer Tools并点击OK按钮。这将安装Android      Development Tools 和DDMS, Android的调试工具。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4306" title="install" src="https://coolshell.cn/wp-content/uploads/2011/04/install.gif" alt="" width="500" height="519" /></p>
+<ul>
+<li>点击Next和Finish按钮以完成安装，安装完成后，你需要重启你的Eclipse一次。</li>
+<li>在Eclipse重启后，选择Window-&gt;Preference 后你可以在分类列表中看到Android这一项了。</li>
+<li>现在需要告诉Eclipse，你的Android SDK安装在什么地方。点击Android项后浏览选择你解压后的Android SDK所在的路径。例如/opt/local/android-sdk。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4303" title="eclipse_android_preferences" src="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_android_preferences.jpg" alt="" width="696" height="649" srcset="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_android_preferences.jpg 696w, https://coolshell.cn/wp-content/uploads/2011/04/eclipse_android_preferences-300x279.jpg 300w" sizes="(max-width: 696px) 100vw, 696px" /></p>
+<ul>
+<li>点击OK按钮，保存信息。</li>
+</ul>
+<h3>选择Android 平台</h3>
+<p>在你开始编写Android应用程序之前，你需要为你需要开发应用程序的Android设备下载SDK平台。每个平台都有可以安装在用户设备上的不同版本的SDK。对于Android1.5或以上版本，有两个可用的平台： <em>Android Open Source Project</em> 和 <em>Google</em>.</p>
+<p><em>Android Open Source Project</em> 平台是开源的，但是不包括Google公司的私有化扩展，比如Google Map。如果不选择使用Google的API，Google的地图功能就不会在你的应用程序中生效。除非你有特别的原因，否则我们推荐你选择Google平台，因为这样你可享受到Google的扩展类库提供的便利。</p>
+<ul>
+<li>选择<em>Window Android SDK and AVD Manager</em>.</li>
+<li>点击左栏中的<em>Available Packages</em> 并选择选择Respository中有效的Android SDK平台。</li>
+<li>你可以选择列表中所需要的平台，或全选下载所有有效的平台。当你选择完毕，单击<em>Install Selected </em>并完成安装。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4307" title="sdk" src="https://coolshell.cn/wp-content/uploads/2011/04/sdk.jpg" alt="" width="500" height="291" srcset="https://coolshell.cn/wp-content/uploads/2011/04/sdk.jpg 500w, https://coolshell.cn/wp-content/uploads/2011/04/sdk-300x174.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /><br />
+一旦成功的下载所有的平台后，你就可以准备开始开发Android应用程序了。</p>
+<h3>创建一个新的Android项目</h3>
+<p>Eclipse的新建项目向导能为你创建一个新的Android项目，并生成可以开始运行的文件和代码。通过向导生成代码，可以让你马上得到一个Android程序运行的直观映像并为你提供了一个帮助你快速入门的方法：</p>
+<ul>
+<li>选择 <em>File-&gt;New-&gt;Project…</em></li>
+<li>选择<em>Android Project</em></li>
+<li>在<em>New Project</em> 对话框, 键入如下的设置:</li>
+</ul>
+<p>[code]<br />
+Project Name: BrewClock<br />
+Build Target: Google Inc. 1.6 (Api Level 4)<br />
+Application Name: BrewClock<br />
+Package Name: com.example.brewclock<br />
+Create Activity: BrewClockActivity<br />
+Min SDK Version: 4<br />
+[/code]</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4304" title="eclipse_new_project_settings" src="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_new_project_settings.jpg" alt="" width="525" height="1061" srcset="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_new_project_settings.jpg 525w, https://coolshell.cn/wp-content/uploads/2011/04/eclipse_new_project_settings-148x300.jpg 148w, https://coolshell.cn/wp-content/uploads/2011/04/eclipse_new_project_settings-506x1024.jpg 506w" sizes="(max-width: 525px) 100vw, 525px" /></p>
+<p>在点击了完成按钮之后，Eclipse将为你创建一个新的可以运行的Android项目。注意，你通知了Eclipse生成了一个叫做BrewClockActivity的Activity。这个Activity的代码用于运行你的应用程序。生成的代码将在程序运行时非常简单地显示一条“Hello World”消息。</p>
+<h4>包</h4>
+<p>包名是你的应用程序标示。当你开始准备在Android Market上发布你的应用程序的时候，Android用这个标识符精确地记录你的应用程序的更新过程，因此让包名唯一是非常重要的。尽管我们在这里使用了com.example.brewclock这样的名字空间，对于真实的应用程序，你应该选择类似于com.你的公司名.你的应用程序名 这样的包名。</p>
+<h4>SDK 版本</h4>
+<p>Min SDK Version 是你的Android程序所能运行得最早版本号。对于每个新发布的Android，SDK会增加并修改一些方法。通过选择一个版本号，Android（Android Market）会知道你的应用程序能运行在等于或晚于指定版本的设备之上。</p>
+<h3>运行你的应用程序</h3>
+<p>现在让我们开始在Eclipse中运行我们的应用程序。由于是第一次运行，Eclipse将会询问你的项目类型：</p>
+<ul>
+<li>选择<em>Run-&gt;Run</em> 或 按下 <em>Ctrl+F11</em>.</li>
+<li>选择<em>Android Application</em> 并点击 <em>OK </em>按钮.</li>
+</ul>
+<p>Eclipse 将会在一个Android设备上运行一个应用程序。在这个时候，由于你没有任何Android设备，因此在运行时一定会返回一个失败，并且询问你是否要新建一个Android的虚拟设备。（AVD）<br />
+<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4305" title="eclipse_no_avd" src="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_no_avd.jpg" alt="" width="534" height="172" srcset="https://coolshell.cn/wp-content/uploads/2011/04/eclipse_no_avd.jpg 534w, https://coolshell.cn/wp-content/uploads/2011/04/eclipse_no_avd-300x96.jpg 300w" sizes="(max-width: 534px) 100vw, 534px" /></p>
+<h4>Android 虚拟设备</h4>
+<p>Android 虚拟设备 (AVD) 是一个模拟真实世界中Android设备的模拟器，例如移动电话或平板电脑。你可以在不买任何真实Android设备情况下，使用AVD测试你的应用。</p>
+<p>你可以创建任意多个你喜欢的AVD，每个可以建立在不同版本的Android平台之上。对于你创建的每个Android设备，你可以配置不同的硬件属性，比如是否具有物理键盘，是否支持GPS，摄像头的像素，等等。</p>
+<p>在你开始运行你的应用程序之前，你需要创建你的AVD，来运行指定的SDK平台（Google APIs 1.6）。</p>
+<p>现在让我开始:</p>
+<ul>
+<li>如果还没有开始运行你的应用程序，点击run（或按下 <em>Ctrl+F11</em>）。</li>
+<li>当目标设备弹出警告，点击<em>Yes</em> 以创建新的AVD。</li>
+<li>单击<em>Android SDK and AVD      Manager</em> 对话框内的<em>New</em> 按钮.</li>
+<li>为你的AVD键入如下的设置：</li>
+</ul>
+<p>[code]<br />
+Name: Android_1.6<br />
+Target: Google APIs (Google Inc.) &#8211; API Level 4<br />
+SD Card Size: 16 MiB<br />
+Skin Built In: Default (HVGA)<br />
+[/code]</p>
+<ul>
+<li>单击 <em>Create AVD</em> 让Android为你创建一个新虚拟设备。</li>
+<li>关闭the <em>Android SDK and AVD Manager</em> 对话框.</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4308" title="sdk_manager_new_avd" src="https://coolshell.cn/wp-content/uploads/2011/04/sdk_manager_new_avd.jpg" alt="" width="400" height="574" srcset="https://coolshell.cn/wp-content/uploads/2011/04/sdk_manager_new_avd.jpg 400w, https://coolshell.cn/wp-content/uploads/2011/04/sdk_manager_new_avd-209x300.jpg 209w" sizes="(max-width: 400px) 100vw, 400px" /></p>
+<h4>运行代码</h4>
+<p>再次运行你的应用程序（<em>Ctrl+F11</em>）。 Eclipse 将build 你的项目并运行一个新的AVD。记住，AVD模拟了一个完全的Android系统，因此你需要有耐心来等待这个缓慢的启动过程，就如同你重启真实的Android设备一样。一个好的做法是不要关闭你的AVD，直到你完成了你一天的工作。<br />
+当你的模拟器启动后，Eclipse自动地安装并运行你的应用程序。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4301" title="app_running-550-e1287474474253" src="https://coolshell.cn/wp-content/uploads/2011/04/app_running-550-e1287474474253.jpg" alt="" width="499" height="355" srcset="https://coolshell.cn/wp-content/uploads/2011/04/app_running-550-e1287474474253.jpg 499w, https://coolshell.cn/wp-content/uploads/2011/04/app_running-550-e1287474474253-300x213.jpg 300w" sizes="(max-width: 499px) 100vw, 499px" /></p>
+<h3>开发你第一个Android应用</h3>
+<p>生成的代码能良好的运行，但是你真正想要的是开发一个真实的应用程序。为此，我们首先果一个咸蛋的设计流程，并开始创建一个可以让你部署在Android设备上的应用。</p>
+<p>大部分的开发者（包括我自己）都喜欢每天一杯咖啡或茶。在下一节中，你将开发一个简单的泡茶计数器应用程序来记录用户泡了多少杯茶，并为泡每杯茶做一个定时器。</p>
+<p>你可以从<a href="http://github.com/cblunt/brewclock">GitHub</a>下载整个教程的源代码.</p>
+<h4>设计用户界面</h4>
+<p>在开发任何Android应用程序之前的第一步就是设计和开发用户界面。下面是一个我们这个应用程序的用户界面的一个概览。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4302" title="design_sketch" src="https://coolshell.cn/wp-content/uploads/2011/04/design_sketch.jpg" alt="" width="331" height="505" srcset="https://coolshell.cn/wp-content/uploads/2011/04/design_sketch.jpg 331w, https://coolshell.cn/wp-content/uploads/2011/04/design_sketch-196x300.jpg 196w" sizes="(max-width: 331px) 100vw, 331px" /></p>
+<p>用户将能通过+和-按钮设置一个泡茶的定时器。当单击开始按钮，定时器将开始按指定的时间递减。除非用户再次点击按钮以取消计时，否则当定时器为0的时候，累计的泡茶计数brew将增加1。</p>
+<h4>开发用户界面</h4>
+<p>Android 用户界面或布局<em>layouts</em>, 是通过XML文档来描述的，可以在项目的res/layouts目录下找到。在之前运行在模拟器上代码中，我们可以看到由eclipse自动生成的布局代码在res/layouts/main.xml 中。</p>
+<p>Eclipse有一个图形化的布局设计器，通过在屏幕上的拖拽控制来完成布局的设计，然而，我却发现直接写XML并使用图形布局来预览是更容易的方式。</p>
+<p>现在让我们对main.xml做一些工作以达到上图的效果：</p>
+<ul>
+<li>在Eclipse中通过双击PackageExplorer的res/layouts/main.xml 来打开xml。</li>
+<li>点击屏幕下方main.xml 来切换为xml视图。</li>
+</ul>
+<p>将main.xml中内容改为如下的内容：</p>
+<p>[code]<br />
+# /res/layouts/main.xml<br />
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;<br />
+&lt;LinearLayout<br />
+  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;<br />
+  android:orientation=&quot;vertical&quot;<br />
+  android:layout_width=&quot;fill_parent&quot;<br />
+  android:layout_height=&quot;fill_parent&quot;&gt;<br />
+  &lt;LinearLayout<br />
+    android:orientation=&quot;horizontal&quot;<br />
+    android:layout_width=&quot;fill_parent&quot;<br />
+    android:layout_height=&quot;wrap_content&quot;<br />
+    android:padding=&quot;10dip&quot;&gt;<br />
+    &lt;TextView<br />
+      android:layout_width=&quot;wrap_content&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:textSize=&quot;20dip&quot;<br />
+      android:text=&quot;Brews: &quot; /&gt;<br />
+    &lt;TextView<br />
+      android:layout_width=&quot;fill_parent&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:text=&quot;None&quot;<br />
+      android:gravity=&quot;right&quot;<br />
+      android:textSize=&quot;20dip&quot;<br />
+      android:id=&quot;@+id/brew_count_label&quot; /&gt;<br />
+  &lt;/LinearLayout&gt;<br />
+  &lt;LinearLayout<br />
+    android:orientation=&quot;horizontal&quot;<br />
+    android:layout_width=&quot;fill_parent&quot;<br />
+    android:layout_height=&quot;wrap_content&quot;<br />
+    android:layout_weight=&quot;1&quot;<br />
+    android:gravity=&quot;center&quot;<br />
+    android:padding=&quot;10dip&quot;&gt;<br />
+    &lt;Button<br />
+      android:id=&quot;@+id/brew_time_down&quot;<br />
+      android:layout_width=&quot;wrap_content&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:text=&quot;-&quot;<br />
+      android:textSize=&quot;40dip&quot; /&gt;<br />
+    &lt;TextView<br />
+      android:id=&quot;@+id/brew_time&quot;<br />
+      android:layout_width=&quot;wrap_content&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:text=&quot;0:00&quot;<br />
+      android:textSize=&quot;40dip&quot;<br />
+      android:padding=&quot;10dip&quot; /&gt;<br />
+    &lt;Button<br />
+      android:id=&quot;@+id/brew_time_up&quot;<br />
+      android:layout_width=&quot;wrap_content&quot;<br />
+      android:layout_height=&quot;wrap_content&quot;<br />
+      android:text=&quot;+&quot;<br />
+      android:textSize=&quot;40dip&quot; /&gt;<br />
+  &lt;/LinearLayout&gt;<br />
+  &lt;Button<br />
+    android:id=&quot;@+id/brew_start&quot;<br />
+    android:layout_width=&quot;fill_parent&quot;<br />
+    android:layout_height=&quot;wrap_content&quot;<br />
+    android:layout_gravity=&quot;bottom&quot;<br />
+    android:text=&quot;Start&quot; /&gt;<br />
+&lt;/LinearLayout&gt;</p>
+<p>[/code]</p>
+<p>正如你所见的，Android的XML布局文件是繁琐的，但却能让你控制到屏幕的各个元素。</p>
+<p>在Android中最重要的接口元素是布局Layout容器，例如例子中使用的LinearLayout 。这些元素对于用户是不可见的,但是却扮演者例如Buttons 和TextViews这些元素的布局容器。</p>
+<p>Android中有几种不同类型的布局视图layout view，每一种都用于开发不同的布局。如同LinearLayout 和AbsoluteLayout ，TableLayout 可以让你使用更为复杂的基于表格结构的布局。你可以在SDK的API文档的<a href="http://developer.android.com/guide/topics/ui/layout-objects.html">通用布局对象</a>中查找到更多的布局。</p>
+<h4>关联你的布局Layout与代码</h4>
+<p>保存你的布局，在Eclipse中点击<em>Run</em>图标或按下<em>Ctrl+F11</em>重新在模拟器中运行你的程序。你现看到不是之前出现的Hello World消息了，你将看到Android显示了一个新的界面。</p>
+<p>如果点击界面上的任何按钮，他们将期望的显示为高亮，但是不会执行任何操作。现在让我们在布局修改后改进一下我们的源码：</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+import android.widget.Button;
+import android.widget.TextView;
+
+public class BrewClockActivity extends Activity {
+  /** Properties **/
+  protected Button brewAddTime;
+  protected Button brewDecreaseTime;
+  protected Button startBrew;
+  protected TextView brewCountLabel;
+  protected TextView brewTimeLabel;
+
+  ...
+ }
+</pre>
+<p>下一步,我们将修改调用onCreate。当Android启动你的应用程序的时候，Android会首先调用这个方法。 在Eclipse生成的代码中，onCreate把activity的视图设置成R.layout.main。这行代码告诉Android解释我们的布局配置XML文件，并显示它。</p>
+<h4>资源对象</h4>
+<p>在Android中，R是一个自动生成的对象，这是一个特殊的对象，你可以在代码中通过这个对象访问项目中的资源（布局，字符串，菜单，图标，&#8230;） 。每个资源都有一个给定的id。在上面的那个布局文件中，有一些@+id XML 属性。我们将通过这些值来关联布局中的Buttons 与TextViews和我们的代码和：</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+public class BrewClockActivity extends Activity {
+  ...
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.main);
+
+    // Connect interface elements to properties
+    brewAddTime = (Button) findViewById(R.id.brew_time_up);
+    brewDecreaseTime = (Button) findViewById(R.id.brew_time_down);
+    startBrew = (Button) findViewById(R.id.brew_start);
+    brewCountLabel = (TextView) findViewById(R.id.brew_count_label);
+    brewTimeLabel = (TextView) findViewById(R.id.brew_time);
+  }
+}
+</pre>
+<h4>监听事件</h4>
+<p>为了检测到用户单击我们的按钮，我们需要实现一个监听器listener。你可能会从其他的事件驱动系统中熟悉监听器或回调函数<em>callbacks</em>。比如Javascript/JQuery事件或Rails的回调函数。</p>
+<p>Android通过Listener接口提供相似的机制，例如OnClickListener，这个接口中定义了那些会被事件触发的方法。当用户点击屏幕的时候，实现OnClickListener 接口将会通知你的应用程序，并告诉他们所按得屏幕按钮。你当然也需要告诉每个button的ClickListener，以便Android知道具体通知到那个监听器：</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+// Be sure not to import
+// `android.content.dialoginterface.OnClickListener`.
+import android.view.View.OnClickListener;
+
+public class BrewClockActivity extends Activity
+  implements OnClickListener {
+  ...
+  public void onCreate(Bundle savedInstanceState) {
+    ...
+    // Setup ClickListeners
+    brewAddTime.setOnClickListener(this);
+    brewDecreaseTime.setOnClickListener(this);
+    startBrew.setOnClickListener(this);
+  }
+  ...
+  public void onClick(View v) {
+    // TODO: Add code to handle button taps
+  }
+}
+</pre>
+<p>下一步，我们将增加每个按钮按下的处理过程。我们将为Activity类增加4个属性，这些属性将用来让用户设置和记录我们泡茶时间，泡茶计数，计时器是否在运行的标志。</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+public class BrewClockActivity extends Activity
+  implements OnClickListener {
+  ...
+  protected int brewTime = 3;
+  protected CountDownTimer brewCountDownTimer;
+  protected int brewCount = 0;
+  protected boolean isBrewing = false;
+  ...
+  public void onClick(View v) {
+    if(v == brewAddTime)
+      setBrewTime(brewTime + 1);
+    else if(v == brewDecreaseTime)
+      setBrewTime(brewTime -1);
+    else if(v == startBrew) {
+      if(isBrewing)
+        stopBrew();
+      else
+        startBrew();
+    }
+  }
+}
+</pre>
+<p>注意我们使用了Android提供的类CountDownTimer 。这让我们非常容易的创建和开始一个简单的递减计数，这个递减计数在递减运行的时候，每当执行一个递减就发出一个通知。你将在下面的startBrew 方法中使用到这个计数器。</p>
+<p>在下面的方法是所有处理逻辑，这些处理逻辑用于处理设置泡茶时间，开始停止计数和维护计数器。我们同样地在onCreate方法中来初始化我们的 brewTime和 brewCount变量。</p>
+<p>将这些代码放入到不同的类中是一种好做法。但是为了简洁，我把我们所有的代码都放到了BrewClockActivity中：</p>
+<p># /src/com/example/brewclock/BrewClockActivity.java</p>
+<pre data-enlighter-language="java" class="EnlighterJSRAW">
+...
+public class BrewClockActivity extends Activity
+  implements OnClickListener {
+  ...
+  public void onCreate(Bundle savedInstanceState) {
+    ...
+    // Set the initial brew values
+    setBrewCount(0);
+    setBrewTime(3);
+  }
+
+  /**
+   * Set an absolute value for the number of minutes to brew.
+   * Has no effect if a brew is currently running.
+   * @param minutes The number of minutes to brew.
+   */
+  public void setBrewTime(int minutes) {
+    if(isBrewing)
+      return;
+
+    brewTime = minutes;
+
+    if(brewTime &lt; 1)
+      brewTime = 1;
+
+    brewTimeLabel.setText(String.valueOf(brewTime) + &quot;m&quot;);
+  }
+
+  /**
+   * Set the number of brews that have been made, and update
+   * the interface.
+   * @param count The new number of brews
+   */
+  public void setBrewCount(int count) {
+    brewCount = count;
+    brewCountLabel.setText(String.valueOf(brewCount));
+  }
+
+  /**
+   * Start the brew timer
+   */
+  public void startBrew() {
+    // Create a new CountDownTimer to track the brew time
+    brewCountDownTimer = new CountDownTimer(brewTime * 60 * 1000, 1000) {
+      @Override
+      public void onTick(long millisUntilFinished) {
+        brewTimeLabel.setText(String.valueOf(millisUntilFinished / 1000) + &quot;s&quot;);
+      }
+
+      @Override
+      public void onFinish() {
+        isBrewing = false;
+        setBrewCount(brewCount + 1);
+
+        brewTimeLabel.setText(&quot;Brew Up!&quot;);
+        startBrew.setText(&quot;Start&quot;);
+      }
+    };
+
+    brewCountDownTimer.start();
+    startBrew.setText(&quot;Stop&quot;);
+    isBrewing = true;
+  }
+
+  /**
+   * Stop the brew timer
+   */
+  public void stopBrew() {
+    if(brewCountDownTimer != null)
+      brewCountDownTimer.cancel();
+
+    isBrewing = false;
+    startBrew.setText(&quot;Start&quot;);
+  }
+  ...
+}
+</pre>
+<p>这段代码唯一和Android相关的就是使用setText方法来设置文本的显示文字。在startBrew方法中，我们创建，并开始了一个CountDownTimer来开每秒递减计数直到计数器为0。注意，我们定义了CountDownTimer以内联方式监听onTick 和 onFinish方法。 onTick 方法将每1000毫秒（1秒）执行一次，并递减, 当计数器为0的时候，onFinish方法被调用。</p>
+<h4>避免在你的代码中硬编码</h4>
+<p>为了使教程代码简单，我故意地在程序中将控件的标号直接写到字串中（例如： &#8220;Brew Up!&#8221;, &#8220;Start&#8221;, &#8220;Stop&#8221;） 通常，这不是一个好的做法，因为如果在大型项目中，这样做会使得修改变得麻烦。</p>
+<p>Android 提供了一种简洁的方法让你使用R对象来使字符串和代码分离。R 让你在xml文件（res/values/strings.xml）定义所有你程序中字符串，并让你可以在代码中应用到这些字符串。例如：</p>
+<p># /res/values/strings.xml</p>
+<p>[code]<br />
+&lt;string name=&quot;brew_up_label&quot;&gt;Brew Up!&lt;/string&gt;<br />
+&#8230;<br />
+[/code]</p>
+<p># /res/com/example/brewclock/BrewClockActivity.java</p>
+<p>[code]<br />
+&#8230;<br />
+brewLabel.setText(R.string.brew_up_label);<br />
+&#8230;<br />
+[/code]</p>
+<p>现在，如果你想改变Brew Up! 字样，你只要一次性的修改strings.xml文件就行了。你的应用将生成一堆代码来保证你程序中所有使用到这些字符串的地方都能被生效！</p>
+<h4>运行Brew Clock</h4>
+<p>代码完成之后，现在是试运行程序的时候了。单击<em>Run</em> 或 <em>Ctrl+F11</em> 在模拟器中启动我们的应用. 所有都运行良好，你将会看到你创建的用户界面在准备时间一到就可以喝你所泡的茶了！试着设置不同的时间，并点击<em>Start</em> 观看倒计时。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4300" title="app_finished-550-e1287474491689" src="https://coolshell.cn/wp-content/uploads/2011/04/app_finished-550-e1287474491689.jpg" alt="" width="499" height="355" srcset="https://coolshell.cn/wp-content/uploads/2011/04/app_finished-550-e1287474491689.jpg 499w, https://coolshell.cn/wp-content/uploads/2011/04/app_finished-550-e1287474491689-300x213.jpg 300w" sizes="(max-width: 499px) 100vw, 499px" /></p>
+<h3>总结</h3>
+<p>在这个关于Android的简单介绍中，你已学会如何安装Android SDK和Eclipse的Android 开发工具插件（ADT）。你也学会如何创建一个模拟设备，并通过这个设备来测试你的应用程序。你还学会了如何开发Android应用程序。上面了那些作为标题的关键概念在以后你自己开发Android应用程序的时候将会经常用到。</p>
+<p>我们希望，这个教程能激发你的开发移动应用程序的欲望，并步入这个令人激动的领域。Android为当前和即将到来的移动设备应用程序开发提供了一条宽广的道路。如果你已经开发你自己的移动应用，请在评论中告诉我们。</p>
+<p><em>(ik), (vf)</em></p>
+<p><em>（全文完）</em><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4334.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/04/1_starting_point_full-150x150.jpg" alt="Eclipse开发Android应用程序入门:重装上阵" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4334.html" class="wp_rp_title">Eclipse开发Android应用程序入门:重装上阵</a></li><li ><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2015/04/phishing-1-150x150.jpg" alt="关于移动端的钓鱼式攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17066.html" class="wp_rp_title">关于移动端的钓鱼式攻击</a></li><li ><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/12/1053-DHH-150x150.jpg" alt="DHH 谈混合移动应用开发" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12225.html" class="wp_rp_title">DHH 谈混合移动应用开发</a></li><li ><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/inbox2-640x264-150x150.jpg" alt="Google Inbox如何跨平台重用代码？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12136.html" class="wp_rp_title">Google Inbox如何跨平台重用代码？</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/1.jpg" alt="食客还是大厨" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3589.html" class="wp_rp_title">食客还是大厨</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4270.html">Eclipse开发Android应用程序入门</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4270.html/feed</wfw:commentRss>
+			<slash:comments>34</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Eclipse和Vim快捷键桌面</title>
+		<link>https://coolshell.cn/articles/3181.html</link>
+					<comments>https://coolshell.cn/articles/3181.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 18 Oct 2010 00:23:04 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3181</guid>
+
+					<description><![CDATA[<p>点击图片看大图 （转载本站文章请注明作者和出处 酷 壳 &#8211; CoolShell ，请勿用于任何商业用途） 相关文章Eclipse 和 Vim无插件V...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3181.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3181.html">Eclipse和Vim快捷键桌面</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>点击图片看大图</p>
+<p><figure id="attachment_3185" aria-describedby="caption-attachment-3185" style="width: 581px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900.png"><img decoding="async" loading="lazy" class="size-large wp-image-3185     " title="Eclipse 快捷键桌面" src="https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900-1024x640.png" alt="" width="581" height="363" srcset="https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900-1024x640.png 1024w, https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900-300x188.png 300w, https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900-768x480.png 768w, https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900-432x270.png 432w, https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900-1200x750.png 1200w, https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900.png 1843w" sizes="(max-width: 581px) 100vw, 581px" /></a><figcaption id="caption-attachment-3185" class="wp-caption-text">Eclipse 快捷键桌面</figcaption></figure><br />
+<span id="more-3181"></span><br />
+<figure id="attachment_3184" aria-describedby="caption-attachment-3184" style="width: 590px" class="wp-caption aligncenter"><a href="https://coolshell.cn/wp-content/uploads/2010/10/vim-shortcuts.png"><img decoding="async" loading="lazy" class="size-large wp-image-3184      " title="vim 移动快捷键桌面" src="https://coolshell.cn/wp-content/uploads/2010/10/vim-shortcuts-1024x640.png" alt="" width="590" height="370" srcset="https://coolshell.cn/wp-content/uploads/2010/10/vim-shortcuts-1024x640.png 1024w, https://coolshell.cn/wp-content/uploads/2010/10/vim-shortcuts-300x187.png 300w, https://coolshell.cn/wp-content/uploads/2010/10/vim-shortcuts.png 1920w" sizes="(max-width: 590px) 100vw, 590px" /></a><figcaption id="caption-attachment-3184" class="wp-caption-text">vim 移动快捷键桌面</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/1837.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/11/eclim-150x150.png" alt="Eclipse 和 Vim" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1837.html" class="wp_rp_title">Eclipse 和 Vim</a></li><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3181.html">Eclipse和Vim快捷键桌面</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3181.html/feed</wfw:commentRss>
+			<slash:comments>16</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Eclipse 3.6 （Helios）新特性</title>
+		<link>https://coolshell.cn/articles/2554.html</link>
+					<comments>https://coolshell.cn/articles/2554.html#comments</comments>
+		
+		<dc:creator><![CDATA[jnj]]></dc:creator>
+		<pubDate>Wed, 07 Jul 2010 00:30:14 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<category><![CDATA[Java]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2554</guid>
+
+					<description><![CDATA[<p>2010年6月23日 Eclipse 3.6 Helios 正式发布，对 Java 程序员来说有哪些新特性值得关注？ 1、检查并报告是否有缺失的 @Overri...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2554.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2554.html">Eclipse 3.6 （Helios）新特性</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>2010年6月23日 Eclipse 3.6 Helios 正式发布，对 Java 程序员来说有哪些新特性值得关注？</p>
+<p>1、检查并报告是否有缺失的 @Override 注解，此功能仅对 Java 1.6 版本适用。在以前版本中，当我们为一个方法加上 @Override  注解，但是这个方法实际上并没有过载（override）任何父类的方法时，将会得到警告信息。在新版本中，如果我们忘记为一个过载方法加上 @Override 注解，同样也会得到警告信息。</p>
+<p>2、变量视图中新增了一个列用于显示当前变量类型的实例数（Layout -&gt; Select Column）。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-6.bmp"><img decoding="async" loading="lazy" width="478" height="169" class="alignnone size-full wp-image-2561" title="Eclipse 3.6 - 6" src="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-6.bmp" alt="" srcset="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-6.bmp 478w, https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-6-300x106.bmp 300w" sizes="(max-width: 478px) 100vw, 478px" /></a></p>
+<p>3、Java 视图中的包名称可以用自定义的规则来显示（Window –&gt; Preferences –&gt; Java –&gt; Appearance）。</p>
+<p><a href="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-3.png"><img decoding="async" loading="lazy" class="alignnone size-medium wp-image-2558" title="Eclipse 3.6 - 3" src="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-3-300x157.png" alt="" width="300" height="157" srcset="https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-3-300x157.png 300w, https://coolshell.cn/wp-content/uploads/2010/07/Eclipse-3.6-3.png 477w" sizes="(max-width: 300px) 100vw, 300px" /></a></p>
+<p><span id="more-2554"></span></p>
+<p>4、用户可以选择在关闭 Eclipse 时不清除本地更改历史（local history），这样可以加快关闭的速度，但同时本地更改历史记录将会无限制地增大。</p>
+<p>5、查看实现代码（Open Implementation）。此功能在 Navigate 菜单中能够找到，目前没有缺省的快捷键，用户可以为其自定义一个（Windows –&gt; Preferences –&gt; General –&gt; Keys）。例如，用户可以查看一个抽象方法的具体实现，如果有多个实现， Eclipse 会显示一个弹出窗口。</p>
+<p><a href="../wp-content/uploads/2010/07/Eclipse-3.6-2.png"><img decoding="async" loading="lazy" title="Eclipse 3.6 - 2" src="../wp-content/uploads/2010/07/Eclipse-3.6-2.png" alt="" width="293" height="184" /></a></p>
+<p>6、虚拟文件夹（Virtual Folders）。用户可以在 workspace 中创建文件夹，这些文件夹只对 Eclipse 可见，对操作系统不可见。并且它们只能包含其他的虚拟文件夹和外部链接资源。</p>
+<p><a href="../wp-content/uploads/2010/07/Eclipse-3.6-4.png"><img decoding="async" loading="lazy" title="Eclipse 3.6 - 4" src="../wp-content/uploads/2010/07/Eclipse-3.6-4.png" alt="" width="259" height="192" /></a></p>
+<p>7、安装配置比较（Compare Configurations）。通过此功能用户可以查看那些组件在哪一时间被安装，还可以选择卸载无用的安装以节省空间。</p>
+<p><a href="../wp-content/uploads/2010/07/Eclipse-3.6-5.png"><img decoding="async" loading="lazy" title="Eclipse 3.6 - 5" src="../wp-content/uploads/2010/07/Eclipse-3.6-5-300x256.png" alt="" width="300" height="256" /></a></p>
+<p>8、提供了对 JSF 2.0，Apache Tomcat 7，和 Aapache CXF 的支持，新增了 JAX-RS project facet。</p>
+<p>9、Eclipse 市场客户端（Eclipse Market Place Client）。在以前的版本中安装插件（plugins）一直都不能说是一件简单的事情，用户需要搜索相应的 update site URL。新版本引入了和 Apple 的应用商店类似的概念，用户可以在 Eclipse IDE 内搜索和安装插件了，此功能在 Help 菜单中可以找到。</p>
+<p><a href="../wp-content/uploads/2010/07/Eclipse-3.6-1.png"><img decoding="async" loading="lazy" title="Eclipse 3.6 - 1" src="../wp-content/uploads/2010/07/Eclipse-3.6-1-300x215.png" alt="" width="300" height="215" /></a></p>
+<p><em><a href="http://www.techsagar.com/2010/07/10-new-features-which-i-liked-the-most-in-eclipse-helios-3-6-2/">文章来源一</a>，<a href="http://rajakannappan.blogspot.com/2010/05/new-features-in-eclipse-36-helios.html">文章来源二</a></em><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="面向GC的Java编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_title">面向GC的Java编程</a></li><li ><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li ><a href="https://coolshell.cn/articles/11175.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li><li ><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/图1-3-150x150.jpg" alt="无锁HashMap的原理与实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9703.html" class="wp_rp_title">无锁HashMap的原理与实现</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2554.html">Eclipse 3.6 （Helios）新特性</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2554.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Eclipse 和 Vim</title>
+		<link>https://coolshell.cn/articles/1837.html</link>
+					<comments>https://coolshell.cn/articles/1837.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 23 Nov 2009 01:07:40 +0000</pubDate>
+				<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[eclim]]></category>
+		<category><![CDATA[Eclipse]]></category>
+		<category><![CDATA[vim]]></category>
+		<category><![CDATA[vrapper]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1837</guid>
+
+					<description><![CDATA[<p>以前，neo和发布过如何在vim中得到你最喜爱的IDE特性，这是一篇在vim中装一些插件而让Vim拥有IDE的功能，比如代码自动提示等功能。当然，目前，可能强大...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1837.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1837.html">Eclipse 和 Vim</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前，neo和发布过<a rel="bookmark" href="https://coolshell.cn/articles/894.html">如何在vim中得到你最喜爱的IDE特性</a>，这是一篇在vim中装一些插件而让Vim拥有IDE的功能，比如代码自动提示等功能。当然，目前，可能强大最好用的IDE就是<a href="http://eclipse.org/">Eclipse</a>和，而最强大的编辑器又是<a href="http://vim.org/">Vim</a>了，可不可以让这两个东西合二为一呢。没有问题，开源社区的创造力永远不会让你低估。</p>
+<p>在Vim中拥有Eclipse的功能，在Eclipse里有Vim的功能，那么eclim是你的选择了。<a href="http://eclim.org/">http://eclim.org/</a> 相关的<a href="http://eclim.org/translations/zh_TW/vim/cheatsheet.html#translations-zh-tw-vim-cheatsheet" target="_blank">中文文档</a>。使用eclim，你可以在vim中有Eclipse的功能，也可以在Eclipse中嵌入Vim编辑器。很酷。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3029" title="eclim" src="https://coolshell.cn/wp-content/uploads/2009/11/eclim.png" alt="" width="490" height="408" srcset="https://coolshell.cn/wp-content/uploads/2009/11/eclim.png 490w, https://coolshell.cn/wp-content/uploads/2009/11/eclim-300x250.png 300w, https://coolshell.cn/wp-content/uploads/2009/11/eclim-324x270.png 324w" sizes="(max-width: 490px) 100vw, 490px" /></p>
+<p style="text-align: left;"><span id="more-1837"></span></p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" src="http://eclim.org/_images/gvim_eclim_view.png" alt="_images/java_editor_eclim_view.png" width="696" height="519" /></p>
+<p>还有一个工具是<strong>Vrapper</strong>，这个工具是在Eclipse中使用Vim，你只需要在Eclipse的工具栏上点一下那个gvim的按钮就可以了。</p>
+<p><a href="http://vrapper.sourceforge.net/home/">http://vrapper.sourceforge.net/home/</a></p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="alignnone" title="Vrapper" src="http://vrapper.sourceforge.net/img/toolbar_button.png" alt="" width="174" height="114" /></p>
+<p>（全文完）<a rel="bookmark" href="https://coolshell.cn/articles/894.html"></a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3181.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/EclipseCanoo1440x900-150x150.png" alt="Eclipse和Vim快捷键桌面" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3181.html" class="wp_rp_title">Eclipse和Vim快捷键桌面</a></li><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1837.html">Eclipse 和 Vim</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1837.html/feed</wfw:commentRss>
+			<slash:comments>18</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

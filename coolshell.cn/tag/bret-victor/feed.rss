@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Bret Victor | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/bret-victor/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Tue, 30 Oct 2012 08:56:10 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Bret Victor &#8211; Learnable Programming</title>
+		<link>https://coolshell.cn/articles/8387.html</link>
+					<comments>https://coolshell.cn/articles/8387.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 14 Oct 2012 08:37:04 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Bret Victor]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Programming]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8387</guid>
+
+					<description><![CDATA[<p>大家是否还记得之前酷壳向大家介绍的苹果设计师Bret Victor一种可视编程的视频《Bret Victor – Inventing on Principle》...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8387.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8387.html">Bret Victor – Learnable Programming</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>大家是否还记得之前酷壳向大家介绍的苹果设计师<a href="http://worrydream.com/" target="_blank">Bret Victor</a>一种可视编程的视频《<a href="https://coolshell.cn/articles/6775.html" rel="bookmark">Bret Victor – Inventing on Principle</a>》，最近，他写了一篇文章——<a href="http://worrydream.com/LearnableProgramming/" target="_blank"> Learnable Programming</a>，写这篇文章的原因是因为“可汗学院(Khan Academy)”近期上线的一个<a href="http://www.khanacademy.org/cs" target="_blank">在线编程环境</a>，根据他的演讲提供了一堆基于Javascript的“实时编程”的环境，因为这个环境是<a href="http://ejohn.org/blog/introducing-khan-cs" target="_blank">引用了他的想法</a>，所以，他有必要出来喷两句。</p>
+<p>这篇文章的开头就是一个问题——“<em>How do we get people to understand programming?</em>”，我们怎么让人们懂得编程？</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8389" title="Learnable_Programming" src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming.jpg" alt="" width="650" height="207" srcset="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming.jpg 650w, https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-300x96.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-604x192.jpg 604w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<p>然后，他说了两条——</p>
+<ul>
+<li><strong>编程是一种思考，而不是一种死记硬背的技能！</strong>你学会了“for循环”并不是说你就学会了编程，这就好像你知道有铅笔这个东西，但是你对绘画还是什么不懂。（对于这一条，正好这两天我在微博上和人辩论“<a href="http://weibo.com/1401880315/yFQkJn8bC" target="_blank">基础算法面试题是否好</a>”（还有<a href="http://weibo.com/1401880315/yFOeyy00M" target="_blank">微博一</a>，<a href="http://weibo.com/1401880315/z06Y0qMGf" target="_blank">微博二</a>），而且我以前也写过一篇《<a title="为什么我反对纯算法面试题" href="https://coolshell.cn/articles/8138.html" target="_blank">为什么我反对纯算法面试</a>》，这里借用Bret的话再加强一下我的观点——“<strong>我们一方面在骂中国的应试教育毁了学生，另一方面我们又在把我们的面试变成“考八股文”式的考试！  你会qsort有什么用？你只不过是会用一支高级铅笔而已罢了。</strong>”）</li>
+</ul>
+<ul>
+<li><strong>人只有看得见，才能理解。</strong>如果一个程序员不能看到他的程序在干什么，那么她就不能理解程序。（对于这一条，让我想到了Donald Knuth的话——“An algorithm must be seen to be believe!”）</li>
+</ul>
+<p>所以，Bret 觉得编程软件的目标是——</p>
+<p><span id="more-8387"></span></p>
+<ul>
+<li>支持并激发强大的思考。 To support and encourage powerful ways of thinking.</li>
+<li>让程序员可以看得见程序的运行过程。To enable programmers to see and understand the execution of their programs</li>
+</ul>
+<p>他说，可汗学院的“实时编程环境”并没有达到上面的任何一个目标。他还说用Javascript这样设计得很垃圾的语言根本不能支持强大的思考，而且还忽略了近十年来的成果，可汗学院这些东西完全是毫无价值的。</p>
+<p>Bret认为，Alan Perlis的名言——“要学会编程，你必需得同时变成机器和程序”是错误的，这句被广为流传的错误名言，让我们把编程变成很难，并且掩盖了编程的艺术。人并不是一台机器，我们也不应该强迫自己变成那样。</p>
+<p>接下来，他说明了一个编程系统应该有两个部分——</p>
+<ul>
+<li><strong>编程的“环境”，是其中一部分需要安装在电脑上的。</strong></li>
+</ul>
+<ul>
+<li><strong>编程的“语言”，是另一部分需要安装在程序员大脑里的。</strong></li>
+</ul>
+<p>他随笔给出来了一些Design Principles——</p>
+<p>对于“<strong>编程环境</strong>”，应该能让学习者干下面的事：</p>
+<ul>
+<li><strong>阅读程序词汇 read the vocabulary</strong> <em>&#8212; </em>这些单词意味着什么？是不是显而易见不用思考的？是不是很自然地被上下文解释了？</li>
+</ul>
+<ul>
+<li><strong>跟进流程 follow the flow</strong> <em>&#8212; </em>在什么时候会发生什么？流程的时间过程是不是看得见摸得着的？流程的粒度是否有意义？</li>
+</ul>
+<ul>
+<li><strong>看见状态 see the state</strong> <em>&#8212; </em>电脑在想些什么？你能不能看到电脑里的数据？并可以看到不同状态的比较？没有任何状态会隐藏？</li>
+</ul>
+<ul>
+<li><strong>通过交互来创造代码 create by reacting</strong> <em>&#8212; </em>从粗糙开始，然后开始雕琢程序。交互是否实时显示在屏幕上？有多少组件我可以用来做实时交互？</li>
+</ul>
+<ul>
+<li><strong>通过抽像来创造代码 create by abstracting</strong> <em>&#8212; </em>从一些hard code开始，然后开始抽象成变量<em>，</em>抽象成公式，抽象成函数。从一个开始作模板，然后做多个不同的东西。</li>
+</ul>
+<p>对于“<strong>编程语言</strong>” 来说，它应该提供下面的事：</p>
+<ul>
+<li><strong>同一性和比方 identity and metaphor</strong> <em>&#8212; </em>我怎么把电脑的世界和我的世界联系起来?<em> </em>推荐了一本书《<em><a href="http://books.google.com/books?id=HhIEAgUfGHwC&amp;printsec=frontcover">&#8220;Mindstorms&#8221;</a></em>》</li>
+</ul>
+<ul>
+<li><strong>分解 decomposition</strong> <em>&#8212; </em>怎么把我的想法分解成碎片？<em>how do I break down my thoughts into mind-sized pieces?</em></li>
+<li><strong>重组 recomposition</strong> <em>&#8212; </em>怎么把这些碎片重组起来？<em> how do I glue pieces together?</em></li>
+<li><strong>可读性 readability</strong> <em>&#8212; </em>这一大堆程序单词是什么意思？<em>what do these words mean?</em></li>
+</ul>
+<p>然后，他说“The Features are not the point”，<strong>我们很多时候会关注编程环境和编程语言提供的功能，这就好像我们在看一本书有哪些单词一样，有哪些单词不重要，重要的是我这些单词组合起来传达了一个什么信息</strong>？<strong>一个设计的好的系统并不是一堆功能，一个设计得好的编程环境是激发特定的思考方式</strong>。所有的功能都是非常小心翼翼地组合起来为之服务。（不好意思，我又要插一句。我觉得这和我在《<a title="抄袭，腾讯 和 产品" href="https://coolshell.cn/articles/7617.html" target="_blank">抄袭，腾讯和产品</a>》一文中，我所理解的“什么是真正的产品”有点类似——真正的产品不是功能的组合，而是要表达的价值和对某一特定问题端到端的解决方案）</p>
+<p>接下来，Bret用大量的示例告诉了大家上面所说的那几条是具体是什么。大家一定要去读一读！（我把这些东西总结果在上面的那些条目中了）</p>
+<p>最后，Bret说了一下，他被问过很多次——这些漂亮的想法怎么应用到现实世界中？他说这个问题问的是对的，但是这些问题问的就好像是——“怎么能让一匹马从内燃机引擎受益”一样，其假设的改变是错误的。他回答到，更准确的是——“<strong>Programming has to work like this</strong>”，所以他说，他的这些东西不是一种“Training”，也不是一种“银弹”，只不过是拿开了眼罩。</p>
+<p><strong>更新：</strong>一楼回复的朋友给了一个中译版的链接：<a href="http://chengyichao.info/learnable-programming/">http://chengyichao.info/learnable-programming/</a></p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/07/1920px-Margaret_Hamilton_-_restoration-e1563697198766-1-150x150.jpg" alt="50年前的登月程序和程序员有多硬核" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19612.html" class="wp_rp_title">50年前的登月程序和程序员有多硬核</a></li><li ><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/29.jpg" alt="Leetcode 编程训练" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12052.html" class="wp_rp_title">Leetcode 编程训练</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8387.html">Bret Victor – Learnable Programming</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8387.html/feed</wfw:commentRss>
+			<slash:comments>33</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Bret Victor &#8211; Inventing on Principle</title>
+		<link>https://coolshell.cn/articles/6775.html</link>
+					<comments>https://coolshell.cn/articles/6775.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 09 Mar 2012 00:38:48 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[Apple]]></category>
+		<category><![CDATA[Bret Victor]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=6775</guid>
+
+					<description><![CDATA[<p>Bret Victor（简历） &#8211; 苹果公司的UI交互设计师（大神级的人），在 CUSEC（Canadian University Software...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/6775.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/6775.html">Bret Victor – Inventing on Principle</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://worrydream.com" target="_blank">Bret Victor</a>（<a href="http://worrydream.com/#!/cv/bret_victor_resume.pdf" target="_blank">简历</a>） &#8211; 苹果公司的UI交互设计师（大神级的人），在 <a href="http://cusec.net" target="_blank">CUSEC</a>（<em>Canadian University Software Engineering Conference</em>） 上做了一个题为 “Inventing on Principle” 的演讲（<a href="http://vimeo.com/36579366" target="_blank">vimeo视频链接</a>），这个演讲中展示了五个示例：</p>
+<ul>
+<li>用程序画树。如何把程序绘图变成实时的，如何把程序和图映射起来。</li>
+<li>游戏调试。在实时编程的基础上，可以更容易的让你看到程序参数对游戏的调整，甚至对游戏过程的可视化调试。</li>
+<li>算法调试。在写二分查找算法时可以实时看到程序的执行过程。边写边看到。</li>
+<li>电路图。可以实时地看到电路图中各个部件的对1/0信号的处理。</li>
+<li>动画。一种比flash制作动画更NB 的方法。</li>
+</ul>
+<p>下面是优酷上的视频——你一定会被示例中的那些编程工具所震撼！</p>
+<p><center><embed src="http://player.youku.com/player.php/sid/XMzUyOTIyNzg0/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></center></p>
+<p>不过，Bret并不是在说什么编程，也不是在说什么技术，他是在说 How to live your life。</p>
+<p><span id="more-6775"></span></p>
+<p>他认为，在我们的生活当中，我们听到太多的诸如：“跟随你的喜好”、“跟随你的兴趣”，“跟随你的热情”之类的东西，但他更认为，更应该是“跟随一个原则 follow you principle”，他认为真正能让你把事做正确的不是你的喜好，不是你的兴趣，也不是热情，而一个做事的原则。在这个演讲中Bret介绍了他自己的原则和他人的原则，供你参考和并找到你的原则从而live in your life。</p>
+<p>Bret的原则是，他觉得人总是会有很多想法，而把这些想法变成现实是一件非常重要的事，也是最难的事。他觉得当我们在写代码实现一个东西的时候，在实现一个游戏，算法，电路，动画的时候，人很难把自己脑海里的东西映射成现实的东西，因为一个想法变成现实，需要反反复复的调整，如果看不见，就没办法调整。而我们在写好程序，需要编译程序，运行程序，才能看到结果，之后，有些东西发现并不满意，需要做调整，于是需要猜着去改一下程序，再编译运行，再看结果，于是，这个调整的过程相当令人痛苦，因为代码里的那些数字，我需要一点一点地去试，调大调小，总是不能调到我们想要的结果，从而让人无法正常思考。所以，他的原则是——<strong>创造者需要对自己的创造的东西有实时的反馈</strong>。于是出现了视频中的实时编程的那些示例。（其实，这个东西和Firebug很相似，我还记得以前和朋友说过，如果写C/C++程序也能有像Firebug的这种工具就好了，现在果然离实现不远了）</p>
+<p>Bret说起他的动机的时候，他说，他把这个事当成了一种责任而不是一种机会。他说，这就好像我们听到的：审查机制，性别歧视，环境破坏，违反人权等这些问题，绝大多数人是不会把这些事当成一个机会的，而那些有责任感的人会把解决这些问题当作一种责任。同样，当他看到我们被工具或环境限制住了我们创造东西的过程时，他并不觉得这是一个可以发明更好的产品的机会，甚至这是开创自己事业的机会，或是对社会做贡献的机会。他认为想法相当的宝贵，如果一个好的想法推动不了的时候，他会很难受，就像看到一场灾难一样，他觉得，让大家的想法能够顺的进行，这是他的一个责任。</p>
+<p>后面他，举到了很多人的例子，</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Larry_Tesler" target="_blank">Larry Tesler</a> &#8211; 著名的计算机科学家，前苹果的首席科学家，图形界面的创造者（在“<a title="SteveY对Amazon和Google平台的长篇大论" href="https://coolshell.cn/articles/5701.html" target="_blank">SteveY对Amazon和Google平台的长篇大论</a>”中提到过他）。他在70年代看到人们在使用电脑文本编辑器时，需要按某个键进入某种模式（Mode），然后才能输入（VI）。他觉得这样操作起来很复杂，也很不舒服，所以，他为自己设定了一个原则——“Don&#8217;t Mode Me In”，他做了很多尝试，做了一个叫Gypsy的文档编辑器，可以通过拖拽移动字符，而且他还发明了复制粘贴，对于一个没有使用过电脑的人来说，只需半个小时的训练就可以输入文字了。Larry把消除模式设置成了自己的原则或责任。他的个人主页是：http://www.nomodes.com，他的Twitter是 @nomodes，甚至他的车牌也是nomodes.</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Elizabeth_Cady_Stanton" target="_blank">Elizabeth Cady Stanton</a>，100年前的一个美国的女权主义者，当时，她主张妇女的各项权益，比如参与投票，所有人都以为他疯了，今天看来，她是对的，她消除了性别歧视。这和Larry 很相似，他们都看到了一种文化上的错误，并要预见到了未来的样子，他们都为自己设定了一个原则或是信仰，而去为之奋斗。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Doug_Engelbart" target="_blank">Doug Engelbart</a>，美国发明家，瑞典人和挪威人后裔。最广为人知的是他发明了鼠标，另外他的小组是人机交互的先锋，开发了超文本系统、网络计算机，以及图形用户界面的先驱；并致力于倡导运用计算机和网络，来协同解决世界上日益增长的紧急而又复杂的问题。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Alan_Kay" target="_blank">Alan Kay</a>，美国计算机科学家，在面向对象编程和窗口式图形用户界面方面作出了先驱性贡献。2003年获得图灵奖。目前担任Viewpoints研究院院长，加州大学伯克利分校兼职教授。曾任Apple公司院士，惠普公司资深院士。他有一句尽人皆知的名言——预测未来的最好办法就是创造未来。他相信如果小孩能够熟练掌握电脑，如果写程序是和读书写字一样成为基础知识，那么人们就掌握了一种新的方式去思考，新的方式去了解世界。他所有发明的东西都基于他自己的原则或信条。</p>
+<p style="padding-left: 30px;"><a href="http://en.wikipedia.org/wiki/Richard_Stallman" target="_blank">Richard Stallman</a>，是美国自由软件运动的精神领袖、GNU计划以及自由软件基金会（Free Software Foundation）的创立者。作为一个著名的黑客，他的主要成就包括Emacs及后来的GNU Emacs，GNU C 编译器及GDB 调试器。他所写作的GNU通用公共许可证（GNU GPL）是世上最广为采用的自由软件许可证，为copyleft观念开拓出一条崭新的道路。他的原则，是软件必须是自由的，他认为软件的自由是关乎道义上的对错的，关系到人类的自由。他没车没房没结婚没孩子，也不用手机，但他有非常忠实自由的信条和责任感。</p>
+<p>Bret通过这些例子继续强调——他并不是要大家样做，他只是给大家一个选择。你可以成为一个非常优秀的工程师，非常熟练地掌握了一些技术，你也可以为这个社会做很多贡献，这是成为一个工匠的路，也是大多数人走的路。不过旁边还有一条路，值得去走，那就是解决问题的路，这条路往一头走是创业者，往另一头走是学者，但你需要找到一个你自己的原则，你可能需要很长时间才能找到你的原则，Bret说他花了10年才搞清楚他的原则是什么。</p>
+<p>个人以为，Bret所说这个原则也好，信条也好，是一种对自己创造力有引导性质的原则和信条，并不是那些已有的原则或信条，否则那只不过是在跟从了，所以，这些原则和信条应该是新的东西，是自己悟出来的东西，这样的原则和信条会导致你有一种责任感向正确的方向去创造。当然，这些原则也不是那些非常笼统和模糊的东西，比如，要创业开公司，要设计出有更好的用户体验的东西，要创造有很多用户使用的产品，或是有更好的收入什么的。其应该是明确的，有指导性的，就像Bret他自己的信条一样——“创造者需要即时的反馈”，就像他演示的那样，当你在一行一行修改你的代码的时候，你可以立即看到代码运行的过程和效果。这个原则可以指导着他要对一切达不到这个原则的东西负责，并引导着他知道应该做什么，不应该做什么，从而去创造新的东西，解决问题。</p>
+<p>当然，世界是多元的，每个人都有每个人自己的原则。不同的原则必然会把你导到不同的路上。不管你是否同意，视频中的那些演示是相当令人震撼的。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/10/Learnable_Programming-150x150.jpg" alt="Bret Victor &#8211; Learnable Programming" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8387.html" class="wp_rp_title">Bret Victor &#8211; Learnable Programming</a></li><li ><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="多些时间能少写些代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_title">多些时间能少写些代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/6775.html">Bret Victor – Inventing on Principle</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/6775.html/feed</wfw:commentRss>
+			<slash:comments>56</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

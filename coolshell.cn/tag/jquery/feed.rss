@@ -1,0 +1,1220 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>jQuery | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/jquery/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Mon, 27 Aug 2012 07:35:47 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>一次Ajax查错的经历</title>
+		<link>https://coolshell.cn/articles/8170.html</link>
+					<comments>https://coolshell.cn/articles/8170.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 27 Aug 2012 06:56:59 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8170</guid>
+
+					<description><![CDATA[<p>先说故事，再说想法吧。 我有一朋友做网站，用jQuery的Ajax方法从后端载入一段HTML代码然后动态插入到网页的Div元件中。这个东西太普遍了。jQuery...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8170.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8170.html">一次Ajax查错的经历</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>先说故事，再说想法吧。</p>
+<p>我有一朋友做网站，用jQuery的Ajax方法从后端载入一段HTML代码然后动态插入到网页的Div元件中。这个东西太普遍了。jQuery强大的load方法可以完成这个事情。朋友的代码是这么写的：</p>
+<p>[javascript]var tab = jQuery(&quot;#dynamic_tab&quot;);<br />
+var url = &quot;/list_ajax/&quot;;<br />
+tab.load(url);[/javascript]</p>
+<p>简单到不能再简单了。在Chrome，Firefox，Safari下运行一点问题也没有，只有IE不行，不管是IE7，IE8，还是IE9。问题的症壮是，使用IE访问那个Ajax的链接，没有问题，但是在jQuery的Ajax方法返回了“undefined”的respons对象。没有任何报错！</p>
+<p>怎么搞也搞不定，只好Google了一下——“<a href="https://www.google.com/#hl=zh-CN&amp;newwindow=1&amp;site=&amp;source=hp&amp;q=jQuery+load+IE&amp;btnK=Google+%E6%90%9C%E7%B4%A2&amp;oq=jQuery+load+IE" target="_blank">jQuery load IE</a>”，一看，很多人都在问这个问题。于是开始了<a title="各种流行的编程风格" href="https://coolshell.cn/articles/2058.html" target="_blank">散弹枪编程方式</a>。</p>
+<p>排在第一的就是StackOverflow被浏览了33K次的这个问题：<a href="http://stackoverflow.com/questions/1061525/jquerys-load-not-working-in-ie-but-fine-in-firefox-chrome-and-safari" target="_blank">jQuery&#8217;s .load() not working in IE &#8211; but fine in Firefox, Chrome and Safari</a>，答案没有被打勾（不靠谱），StackOverflow还有很多人问相似的问题，不过都没有答案。不管三七二十一，先试了一下，散弹枪嘛。试了半天都没有用。</p>
+<p>然后上Google查，又看到有人说的IE缓存的问题，什么，要把cache设置成false，或是用下面的方法来解决：</p>
+<p>[javascript]var tab = jQuery(&quot;#dynamic_tab&quot;);<br />
+var fuckie = Math.random();<br />
+var url = &quot;/list_ajax/&quot;+&quot;?fuckie=&quot;+fuckie;<br />
+tab.load(url);[/javascript]</p>
+<p>反正还是一样，统统不Work，几乎所有的都试了，都不Work。搞了一天的朋友恼怒道：“Microsoft应该快点倒闭吧，产品太烂了”。IE的确是太烂了。</p>
+<p><span id="more-8170"></span></p>
+<p>于是我用IE9的网页调试器可以看到点了Ajax的链接后，<strong>IE对网站有http的Ajax请求，也可以看到请求返回了，但是就是不显示在我的页面上——jQuery的Ajax的responseText为undefined!</strong></p>
+<p>对于我这个老家伙，对jQuery也不熟，我只得开始调试jQuery的代码，想看看里面干了什么，报了什么错？调了一个小时，基本上把jQuery的Ajax的封装看懂了七七八八了，但是还是没找到为什么有问题。</p>
+<p>于是，我只得架起原生态的Ajax，看看IE的那个Ajax的ActiveX的对象干了什么事？写了下面的代码（当年写Ajax就是这么写的，所以也不费劲，况且网上还有例程可以抄）：</p>
+<p>[javascript]<br />
+function InitAjax()<br />
+{<br />
+    var ajax=false;<br />
+    try {<br />
+        ajax = new ActiveXObject(&quot;Msxml2.XMLHTTP&quot;);<br />
+    } catch (e) {<br />
+        try {<br />
+            ajax = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);<br />
+        } catch (E) {<br />
+            ajax = false;<br />
+        }<br />
+    }<br />
+    if (!ajax &amp;&amp; typeof XMLHttpRequest!=&#8217;undefined&#8217;) {<br />
+        ajax = new XMLHttpRequest();<br />
+    }<br />
+    return ajax;<br />
+}</p>
+<p>var ajax = InitAjax();<br />
+ajax.open(&quot;GET&quot;, url, true);<br />
+ajax.onreadystatechange = function() {<br />
+    if (ajax.readyState == 4 &amp;&amp; ajax.status == 200) {<br />
+        var show = document.getElementById(&quot;HaoChenDIV&quot;).value;<br />
+        show.innerHTML = ajax.responseText;<br />
+    }<br />
+}<br />
+ajax.send(null);<br />
+[/javascript]</p>
+<p>一运行，还是不行，没见IE报什么错，不过，可以确定这不是jQuery的问题了，估计还是我们自己程序的问题。不过此时的程序太好调试了，调试中，在IE9下调式发现原生的IE的Ajax对象在onreadystatechange函数里，其responseText是下面这个样子：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-8171" title="ajax error in ie" src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error.jpg" alt="" width="601" height="153" srcset="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error.jpg 601w, https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-300x76.jpg 300w" sizes="(max-width: 601px) 100vw, 601px" /></p>
+<p>什么是“<strong>系统错误: -1072896658</strong>”？上<a href="https://www.google.com/#hl=zh-CN&amp;newwindow=1&amp;q=ajax+%22%E7%B3%BB%E7%BB%9F%E9%94%99%E8%AF%AF:+-1072896658%22&amp;oq=ajax+%22%E7%B3%BB%E7%BB%9F%E9%94%99%E8%AF%AF:+-1072896658%22" target="_blank">google一查</a>，一堆页面，基本上是说乱码了，也就是ajax的后端程序返回的网页编码不认识吧。需要在返回的http header里加上 charset=utf-8。</p>
+<p>于是，修改后端的Ajax的程序，明确指定了返回的HTTP Header中的charset，于是IE下就工作正常了，再切回jQuery的load代码，一切正常了（后端的程序本来是utf-8的编码格式，但是不骨明确在HTTP Header中指定，但是只有IE不会自动检测）。</p>
+<p>这个问题的原因就是因为我们没有按照规范去写网页。所以，举一反三，HTML的规范还有哪些，太多了，记也记不住。但也许你会知道<strong>有一个叫 <a href="http://validator.w3.org" target="_blank">http://validator.w3.org</a> 的网站可以帮你校验你网页中的很多不规范的东西</strong>。这个工具会报很多很多错，很多都有点吹毛求疵，不过，可以让你看看（注：今天的coolshell装了很多插件，也被我调过一些东西，所以出错很多，我还记得以前没有插件没有我定制化的样式的时候，Wordpress一个错都不报）。</p>
+<h4>后记</h4>
+<p>我把这个问题和过程分享出来，主要有这么几个目的，并抛出几个问题，大家可以思考一下：</p>
+<p style="padding-left: 30px;">1）这个问题网上有很多人都在报，但是基本上找不到答案（包括StackOverflow），所以，我分享出来，填补一下空白。</p>
+<p style="padding-left: 30px;">2）我相信我们的程序员天天都在经历这样的事，我不知道大家在遇到这样的事情会怎么做？也许大多数人都在网上查各种解决方案，然后一个一个的试，直到试对了——散弹枪式的编程，呵呵。当然，大多数答案都是可能找到的。但<strong>当我们找到答案了后，我们还会深入去了解这个问题的具体原因并举一反三地去思考一其周边的东西吗</strong>？</p>
+<p style="padding-left: 30px;">3）另外，在今天这样N多框架，N多lib，N多开源的年代下，<strong>不知道大家有没有失去了从零开始自己写代码的能力？</strong>比如上面的这个问题，不知道有多少人还会自己写原生态的Ajax？不过，我还是建议大家能在使用各种框架的时候，明白那些最基础的知识，求甚解，知其然知其所以然，真的很重要。</p>
+<p>我是从那个“吃糠的年代”过来的程序员，那时的程序员什么都要自己干，很辛苦，今天我和很多人说我以前的那些经历，会被笑话，但是我从这些什么都自己的干的年代过的经历，让我受益很多。我把我的想法分享给大家，希望对大家有用。</p>
+<p>(全文完)<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="来信， 创业 和 移动互联网" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5815.html" class="wp_rp_title">来信， 创业 和 移动互联网</a></li><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8170.html">一次Ajax查错的经历</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8170.html/feed</wfw:commentRss>
+			<slash:comments>93</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>开源中最好的Web开发的资源</title>
+		<link>https://coolshell.cn/articles/4795.html</link>
+					<comments>https://coolshell.cn/articles/4795.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 08 Jun 2011 00:28:52 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[CSS3]]></category>
+		<category><![CDATA[Database]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4795</guid>
+
+					<description><![CDATA[<p>文章来源：Best “must know” open sources to build the new Web。个人感觉这个收集贴收集成相当的全。 学习HTML...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4795.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4795.html">开源中最好的Web开发的资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>文章来源：<a title="Best “must know” open sources to build the new Web" href="http://www.b2bweb.fr/molokoloco/best-must-know-ressources-for-building-the-new-web-%E2%98%85/" target="_blank">Best “must know” open sources to build the new Web</a>。个人感觉这个收集贴收集成相当的全。</p>
+<h4>学习HTML 5编程和设计</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="wallOfWonder" src="http://www.b2bweb.fr/wp-content/uploads/wallOfWonder.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://www.html5rocks.com/" target="_blank"><strong>HTML5 Rocks</strong></a> : Major Feature Groups  的学习 HTML5 的资源 (HTML5 演示, 教程 ). <a href="http://code.google.com/p/html5rocks/" target="_blank">源码</a></li>
+<li>很不错的 <a href="https://mozillademos.org/demos/dashboard/demo.html" target="_blank"><strong>HTML5 Dashboard</strong></a> &#8211; Mozilla，效果很炫。</li>
+<li><a href="http://developers.whatwg.org/" target="_blank"><strong>WhatWG Developers</strong></a>, 一个清楚的 HTML5 技术规格说明书。</li>
+<li>★ <a href="http://stackoverflow.com/" target="_blank"><strong>StackOverflow</strong></a> : 大名鼎鼎的技术问答式论坛。</li>
+<li>★ <a href="http://addyosmani.com/blog/" target="_blank"><strong>Addyosmani</strong></a>, jQuery 和 JavaScript 文章教程</li>
+<li><a href="http://www.sohtanaka.com/web-design-tutorials/" target="_blank"><strong>Sohtanaka</strong></a>, jQuery 和 JavaScript 文章和教程</li>
+<li>★ <a href="http://net.tutsplus.com/category/tutorials/" target="_blank"><strong>Nettuts+</strong></a> 是一个面对Web开发人员和设计人员的网站，提供各种技术教程和文章，覆盖 HTML, CSS, Javascript, CMS’s, PHP 和 Ruby on Rails.</li>
+<li><a href="http://tympanus.net/codrops/" target="_blank"><strong>Codrops</strong></a>, 教程和 web 资源</li>
+<li><a href="http://www.webappers.com/" target="_blank"><strong>WebAppers</strong></a>, 最好的开源资源</li>
+<li><a href="http://tutorialzine.com/" target="_blank"><strong>Tutorialzine</strong></a> – PHP MySQL jQuery CSS 教程, 资源和赠品</li>
+<li><strong><a href="https://developer.mozilla.org/en/JavaScript/Guide" target="_blank">Mozilla JavaScript guide</a></strong></li>
+<li> <a href="http://code.google.com/p/molokoloco-coding-project/" target="_blank"><strong>codes snippets</strong></a>, 作者自己收集的一些代码片段</li>
+</ul>
+<p><span id="more-4795"></span></p>
+<h4>服务器端的软件</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="nodeJs" src="http://www.b2bweb.fr/wp-content/uploads/nodeJs.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://nodejs.org/" target="_blank"><strong>Node.js</strong></a> 是服务器端的 JavaScript 环境，其使用了异步事件驱动模式。其让Node.js在很多互联网应用体系结构下获得非常不错的性能。 <a href="https://github.com/joyent/node/" target="_blank">源码</a> 和 <a href="http://jsapp.us/" target="_blank">实时演示</a>。</li>
+<li><a href="http://www.phantomjs.org/" target="_blank"><strong>PhantomJS</strong></a> 也是一个服务器端的 JavaScript API的WebKit。其支持各种Web标准： DOM 处理, CSS 选择器, JSON, Canvas, 和 SVG</li>
+<li><strong><a href="http://www.lighttpd.net/" target="_blank">Lighttpd</a></strong> 一个轻量级的开源Web服务器。新闻，文档，benchmarks, bugs, 和 download. Lighttpd 支撑了几个非常著名的 Web 2.0 网站，如：YouTube, wikipedia 和 meebo.</li>
+<li><strong><a href="http://nginx.net/" target="_blank">NGinx</a></strong>, 性能巨高无比的轻量级的Web服务器。比Apache高多了。花了6年的时间，终于走到了1.0版。</li>
+<li><strong><a href="http://httpd.apache.org/" target="_blank">Apache HTTP Server</a></strong> 是一个很流行的并支持多个流行的操作系统的Web服务器。</li>
+<li>★ <strong><a href="http://nodejs.org/" target="_blank"></a><a href="http://www.php.net/" target="_blank">PHP</a></strong> 可能是最流行的服务器端的Web脚本动态处理语言。</li>
+<li>当然，还有 <strong><a href="http://www.ruby-lang.org/fr/" target="_blank">Ruby</a></strong>, <strong><a href="http://www.python.org/" target="_blank">Python</a></strong>, <strong><a href="http://www.erlang.org/" target="_blank">Erlang</a></strong>, <strong><a href="http://www.perl.org/" target="_blank">Perl</a></strong>, <strong><a href="http://www.java.com/fr/" target="_blank">Java</a></strong>, <strong><a href="http://www.microsoft.com/net/" target="_blank">.NET</a></strong>, <strong><a href="http://www.android.com/" target="_blank">Android</a></strong>, <strong><a href="http://cpp.developpez.com/" target="_blank">C++</a></strong>, <strong><a href="http://golang.org/" target="_blank">Go</a></strong>,<a href="https://github.com/pmcelhaney/Mustache.cfc"></a><strong><a href="http://fantom.org/" target="_blank"> Fantom</a></strong>,<strong><a href="http://jashkenas.github.com/coffee-script/" target="_blank">CoffeeScript</a></strong>, <strong><a href="http://www.digitalmars.com/" target="_blank">D</a></strong>, …</li>
+</ul>
+<h4>PHP 框架和工具</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="drupal" src="http://www.b2bweb.fr/wp-content/uploads/drupal.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://wordpress.org/download/" target="_blank"><strong>WordPress</strong></a> 是一个基于博客系统的开源软件。参看《<a title="WordPress是怎么赢的？" href="https://coolshell.cn/articles/3716.html" target="_blank">WordPress是怎么赢的？</a>》</li>
+<li><strong><a href="http://drupal.org/" target="_blank">Drupal</a></strong> 是一个内容管理系统 (CMS).</li>
+<li><a href="http://www.centurion-project.org/" target="_blank"><strong>Centurion</strong></a> 是一个新出现的开源 CMS ，一个灵然的 PHP5 Content Management Framework. 使用 Zend Framework, 其组件坚持通用，简单，清楚和可重用的设计原则。</li>
+<li><strong><a href="http://www.phpbb.com/" target="_blank">phpBB</a></strong> 一个开源的论坛（国内的Discuz！更多）</li>
+<li><strong>★ <a href="http://simplepie.org/" target="_blank">SimplePie</a></strong> : 超快的，易用的,  RSS  和 Atom feed PHP解析。</li>
+<li><strong>★ <a href="http://phpthumb.gxdlabs.com/" target="_blank">PHPthumb</a></strong>, PHP 图片处理库</li>
+<li><strong>★ <a href="http://phpmailer.worxware.com/" target="_blank">PHPMailer</a></strong> 强大的全功能的PHP邮件库</li>
+<li><strong><a href="http://code.google.com/p/pubsubhubbub/" target="_blank">PubSubHubbub</a></strong>协议，一个简单，开放， server-to-server 的 pubsub (publish/subscribe) 协议——Atom and RSS的扩展。</li>
+<li>更多的请参看 &#8211; <a title="20 你应该知道的PHP库" href="https://coolshell.cn/articles/200.html" target="_blank">20个你应该知道PHP库</a> 和 <a title="9个强大免费的PHP库" href="https://coolshell.cn/articles/455.html" target="_blank">9个强大免费的PHP库</a></li>
+</ul>
+<h4>数据库</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="sqldesigner" src="http://www.b2bweb.fr/wp-content/uploads/sqldesigner.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://couchdb.apache.org/" target="_blank"><strong>Apache CouchDB</strong></a> 是一个面向文档的数据库管理系统。它提供以JSON 作为数据格式的REST 接口来对其进行操作，并可以通过视图来操纵文档的组织和呈现。.<a href="https://github.com/apache/couchdb" target="_blank">源码</a>.</li>
+<li><a href="http://code.google.com/p/monoql/" target="_blank"><strong>MonoQL</strong></a> 是一个采用PHP+ExtJS开发的MySQL数据库管理工具。界面极像一个桌面应用程序，支持大部分常用的功能包括：表格设计，数据浏览/编辑，数据导入/导出和高级查询等。</li>
+<li><strong> </strong><a href="http://mariadb.org/"><strong>MariaDB</strong></a> 是<a title="MySQL" href="http://www.mysql.com/" target="_blank">MySQL</a>的一个分支，由MySQL 创始人Monty Widenius 所开发。GPL，用来对抗Oracle所有的MySQL的license的不测。自Oracle收购SUN以来，整个社区对于MySQL前途的担忧就没有停止过。</li>
+<li>★ <a href="http://www.sqlite.org/" target="_blank"><strong>SQLite</strong></a> 不像常见的客户端/服务器结构范例，SQLite引擎不是个程序与之通信的独立进程，而是连接到程序中成为它的一个主要部分。所以主要的通信协议是在编程语言内的直接API调用。这在消耗总量、延迟时间和整体简单性上有积极的作用。整个数据库（定义、表、索引和数据本身）都在宿主主机上存储在一个单一的文件中。它的简单的设计是通过在开始一个事务的时候锁定整个数据文件而完成的。库实现了多数的SQL-92标准，包括事务，就是代表原子性、一致性、隔离性和持久性的（ACID），触发器和多数的复杂查询。不进行类型检查。你可以把字符串插入到整数列中。某些用户发现这是使数据库更加有用的创新，特别是与无类型的脚本语言一起使用的时候。其他用户认为这是主要的缺点。</li>
+<li><strong><a href="http://ondras.zarovi.cz/sql/demo/" target="_blank">SQL 在线设计编辑器</a></strong>，这一节的那个图片就是这个在线编辑器的样子了。一个画数据库图表的在线工具。很强大。</li>
+</ul>
+<h4>API 和 在线数据</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="yql" src="http://www.b2bweb.fr/wp-content/uploads/yql.png" alt="" width="600" height="238" /></p>
+<ul>
+<li><a href="http://www.programmableweb.com/apis/directory" target="_blank"><strong>ProgrammableWeb</strong></a>, 最流行的Web Services 和 API 目录大全。</li>
+<li><strong><a href="http://code.google.com/intl/fr/apis/gdata/docs/directory.html" target="_blank">Google Data Protocol</a></strong> 一组Google服务的数据服务API。</li>
+<li><a href="http://developer.yahoo.com/everything.html" target="_blank"><strong>Yahoo! Developer Network</strong></a> – APIs 和 Tools</li>
+<li><a href="http://pipes.yahoo.com/" target="_blank"><strong>Yahoo! Pipes</strong></a> 可视化在线编程工具，它是一个用于过滤、转换和聚合网页内容的服务。</li>
+<li>★ The <a href="http://developer.yahoo.com/yql/console/" target="_blank"><strong>Yahoo! Query Language</strong></a> 一个很像 SQL的网页查询工具。</li>
+</ul>
+<h4>在线代码和媒体编辑器</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="jsfiddle" src="http://www.b2bweb.fr/wp-content/uploads/jsfiddle.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://www.coderun.com/" target="_blank"><strong>CodeRun Studio</strong></a>一个基于JavaScript语言开发的跨平台的集成开发环境，它立足于云计算的设计思路，方便开发者在浏览器端便可以轻松开发、调试和部署网络应用程序。（参看《<a rel="bookmark" href="https://coolshell.cn/articles/1883.html" target="_blank">Coderun.com 在线开发IDE</a>》）</li>
+<li><a href="https://github.com/ajaxorg/cloud9" target="_blank"><strong>Cloud9 IDE</strong></a> – 一个基于Node.JS构建的JavaScript程序开发Web IDE。它拥有一个非常快的文本编辑器支持为JS, HTML, CSS和这几种的混合代码进行着色显示。</li>
+<li>★ <a href="http://jsfiddle.net/" target="_blank"><strong>jsFiddle</strong></a> – Javascript的在线运行展示框架，这个工具可以有效的帮助web前端开发人员来有效分享和演示前端效果，其简单而强大 (JavaScript, MooTools, jQuery, Prototype, YUI, Glow and Dojo, HTML, CSS)</li>
+<li><strong><a href="http://www.akshell.com/" target="_blank">Akshell</a>，</strong>一种云服务，它使用服务端的JavaScript和在线的IDE帮助开发者进行快速应用程序开发。 它还提供云托管，所以部署是即时的。</li>
+<li><a href="http://braincast.nl/samples/jsoneditor/" target="_blank"><strong>JSONeditor</strong></a>, 一个好用的JSON 编辑器</li>
+<li>★ <a href="http://tinymce.moxiecode.com/wiki.php/TinyMCE" target="_blank"><strong>TinyMCE</strong></a> 一个轻量级的基于浏览器的所见即所得编辑器，支持目前流行的各种浏览器，由JavaScript写成。</li>
+<li><a href="http://www.sencha.com/products/designer/" target="_blank"><strong>Ext Designer</strong></a> 是一个桌面应用工具，帮助你快速开发基于ExtJS 的用户界面。</li>
+<li>★  <strong><a href="http://www.lucidchart.com/" target="_blank">LucidChart</a></strong>，一款基于最新的html5技术的在线图表绘制软件，功能强大，速度快捷，运行此软件需要支持html5的浏览器。</li>
+<li><a href="http://balsamiq.com/products/mockups" target="_blank"><strong>Balsamiq Mockups</strong></a>, 产品设计师绘制线框图或产品原型界面的利器。</li>
+<li><a href="http://colorschemedesigner.com/" target="_blank"><strong>Color Scheme Designer</strong></a> 3 &#8211; 一个免费的线上调色工具</li>
+<li>★ <a href="http://pixlr.com/editor/" target="_blank"><strong>Pixlr</strong></a>, 是一个来自瑞典基于Flash的免费在线图片处理网站。除了操作介面和功能接近Photoshop，还是多语言版本，支持简体中文。（以前<a title="在线作图编辑服务" href="https://coolshell.cn/articles/3244.html" target="_blank">酷壳介绍过</a>）</li>
+<li><a href="http://www.aviary.com/" target="_blank"><strong>Aviary</strong></a>, 是一个基于HTML5 的在线图片处理工具，可以很容易的对图片进行后期处理。 <a href="http://developers.aviary.com/" target="_blank">Aviary API</a></li>
+<li><strong><a href="http://www.degraeve.com/favicon/" target="_blank">Favicon Generator</a>, </strong>线上favicon(16&#215;16)制作工具。</li>
+</ul>
+<h4>代码资源和版本控制</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="github" src="http://www.b2bweb.fr/wp-content/uploads/github.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="https://github.com/" target="_blank"><strong>GitHub</strong></a> 是一个用于使用Git版本控制系统的项目的基于互联网的存取服务。</li>
+<li><a href="http://code.google.com/p/msysgit/" target="_blank"><strong>Git</strong></a> 是一个由Linus为了更好地管理linux内核开发而创立的分布式版本控制／软件配置管理软件。其巨快无比，高效，采用了分布式版本库的方式，不必服务器端软件支持，使源代码的发布和交流极其方便。</li>
+<li><a href="http://code.google.com/" target="_blank"><strong>Google Code</strong></a> 谷歌公司官方的开发者网站，包含各种开发技术的API、开发工具、以及开发技术参考资料。</li>
+<li><strong><a href="http://code.google.com/intl/zh-CN/apis/libraries/" target="_blank">Google Libraries API</a></strong> Google 将优秀的 JavaScript 框架部署在其 CDN 上，在我们的网站上使用 Google Libraries API 可以加速 JavaScript 框架的加载速度。</li>
+<li><a href="http://snipplr.com/" target="_blank"><strong>Snipplr</strong></a> 一个开放的源代码技巧分享社区，号称Code 2.0。和一般的源码分享网站不同，它针对的并不是大型网站源码，而是一些编程的代码技巧。</li>
+</ul>
+<h4>JavaScript 桌面应用框架</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="jqueryUI" src="http://www.b2bweb.fr/wp-content/uploads/jqueryUI.jpg" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://jquery.com/" target="_blank"><strong>jQuery</strong></a> 是一个快速、简单的JavaScript library， 它简化了HTML 文件的traversing，事件处理、动画、Ajax 互动，从而方便了网页制作的快速发展。  <a href="https://github.com/jquery/jquery" target="_blank">源码</a>, <a href="http://api.jquery.com/" target="_blank">API</a>, <a href="http://api.jquery.com/browser/" target="_blank">API浏览</a>, <a href="http://interface.eyecon.ro/docs/animate" target="_blank">很不错的文档</a>.</li>
+<li>★ 官方的 <a href="http://jqueryui.com/" target="_blank"><strong>jQuery User Interface (UI) library</strong></a> (演示和文档). <a href="https://github.com/jquery/jquery-ui%20" target="_blank">源码</a>,<a href="http://jqueryui.com/themeroller/" target="_blank">Themes Roller</a>, <a href="http://jqueryui.com/download" target="_blank">Download</a>.</li>
+<li><a href="http://developer.yahoo.com/yui/2/" target="_blank"><strong>YUI 2</strong></a> — Yahoo! User Interface Library</li>
+<li><a href="http://mootools.net/" target="_blank"><strong>Mootools</strong></a>, 一个超级轻量级的 web2.0 JavaScript framework</li>
+<li><a href="http://www.prototypejs.org/" target="_blank"><strong>Prototype</strong></a> 提供面向对象的Javascript和AJAX</li>
+<li><a href="http://dojotoolkit.org/" target="_blank"><strong>Dojo</strong></a> The Dojo Toolkit，一个强大的无法被打败的面向对象JavaScript框架。主要由三大模块组成：Core、Dijit、DojoX。Core提供Ajax,events,packaging,CSS-based querying,animations,JSON等相关操作API。Dijit是一个可更换皮肤，基于模板的WEB UI控件库。DojoX包括一些创新/新颖的代码和控件：DateGrid，charts，离线应用，跨浏览器矢量绘图等。</li>
+<li>★ <a href="http://dev.sencha.com/deploy/ext-4.0.0/docs/" target="_blank"><strong>Ext JS 4</strong></a>, 业内最强大的 JavaScript framework。</li>
+<li><a href="http://phpjs.org/functions/index" target="_blank"><strong>PHP.js</strong></a>, 一个开源的JavaScript 库，它尝试在JavaScript 中实现PHP 函数。在你的项目中导入<em>PHP.JS</em> 库，可以在静态页面使用你喜欢的PHP 函数。</li>
+</ul>
+<h4>JavaScript 移动和触摸框架</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="senchatouch" src="http://www.b2bweb.fr/wp-content/uploads/senchatouch.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://jquerymobile.com/" target="_blank"><strong>jQuery Mobile</strong></a> : 是 jQuery 在手机上和平板设备上的版本。jQuery Mobile 不仅会给主流移动平台带来jQuery核心库，而且会发布一个完整统一的jQuery移动UI框架。支持全球主流的移动平台。jQuery Mobile开发团队说：能开发这个项目，我们非常兴奋。移动Web太需要一个跨浏览器的框架，让开发人员开发出真正的移动Web网站。我们将尽全力去满足这样的需求。 <a href="https://github.com/jquery/jquery-mobile" target="_blank">Sources</a>.</li>
+<li><a href="http://zeptojs.com/" target="_blank"><strong>Zepto.js</strong></a> Zepto.js 是支持移动WebKit浏览器的JavaScript框架，具有与jQuery兼容的语法。2-5k的库，通过不错的API处理绝大多数的基本工作。 <a href="https://github.com/madrobby/zepto" target="_blank">Sources</a>.</li>
+<li><a href="http://microjs.com/" target="_blank"><strong>MicroJS</strong></a> : Microjs网站应用列出了很多轻量的Javascript类库和框架，它们都很小，大部分小于5kb。这样你不需要因为只需要一个功能就要加载一个JS的框架。</li>
+<li>★ <a href="http://phonegap.com/" target="_blank"><strong>PhoneGap</strong></a> :是一款开源的手机应用开发平台，它仅仅只用HTML和JavaScript语言就可以制作出能在多个移动设备上运行的应用。 <a href="https://github.com/phonegap/phonegap" target="_blank">Sources</a>.</li>
+<li>★ <a href="http://www.sencha.com/products/touch/" target="_blank"><strong>Sencha Touch</strong></a> Sencha Touch 是一个支持多种智能手机平台（iPhone, Android, 和BlackBerry）的 HTML5 框架。Sencha Touch可以让你的Web App看起来像Native App。美丽的用户界面组件和丰富的数据管理，全部基于最新的HTML5和CSS3的 WEB标准，全面兼容Android和Apple iOS设备。</li>
+<li><a href="http://jqtouch.com/" target="_blank"><strong>JQtouch</strong></a>, 是一个jQuery 的插件，主要用于手机上的Webkit 浏览器上实现一些包括动画、列表导航、默认应用样式等各种常见UI效果的JavaScript 库。 <a href="http://github.com/senchalabs/jQTouch" target="_blank">Sources</a>.</li>
+<li><a href="http://www.dhtmlx.com/touch/" target="_blank"><strong>DHTMLX Touch</strong></a> 针对移动和触摸设备的JavaScript 框架。DHTMLX Touch基于HTML5，创建移动web应用。它不只是一组UI 小工具，而是一个完整的框架，可以针对移动和触摸设备创建跨平台的web应用。它兼容主流的web浏览器，用DHTMLX Touch创建的应用，可以在iPad、iPhone、Android智能手机等上面运行流畅。</li>
+</ul>
+<h4>jQuery 插件</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="flexiGrid" src="http://www.b2bweb.fr/wp-content/uploads/flexiGrid.jpg" alt="" width="600" height="238" /></p>
+<ul>
+<li><a href="http://imakewebthings.github.com/jquery-waypoints/" target="_blank"><strong>Waypoints</strong></a> 是一个jQuery 用来实现捕获各种滚动事件的插件，例如实现无翻页的内容浏览，或者固定某个元素不让滚动等等。支持主流浏览器版本。</li>
+<li><strong><a href="http://plugins.jquery.com/project/lazy" target="_blank">Lazy loader</a> </strong>插件可以实现图片的延迟加载，当网页比较长的时候，会先只加载用户视窗内的图片，视窗外的图片会等到你拖动滚动条至后面才加载，这样有效的避免了因图片过多而加载慢的弊端。</li>
+<li><a href="https://github.com/gskinner/TweenJS" target="_blank"><strong>TweenJS</strong></a> : 一个简单和强大的 tweening / animation 的Javascript库。</li>
+<li><a href="http://janne.aukia.com/easie/" target="_blank"> <strong>Easings</strong></a> 类Css3的jQuery 动画插件</li>
+<li><a href="http://www.spritely.net/" target="_blank"><strong>Spritely</strong></a> 这个插件可以创建出如flash一样的动画效果，比如：在页面上有一只飞动的小鸟，一个动态滚动的背景等。</li>
+<li><strong><a href="https://github.com/blueimp/jQuery-File-Upload/" target="_blank">File Upload</a>, </strong>jQuery 文件上传插件4.4.1</li>
+<li><a href="http://www.agilecarousel.com/" target="_blank"><strong>Slideshow/Carousel</strong></a> 插件. <a href="https://github.com/edtalmadge/Agile-Carousel" target="_blank">Sources</a>.</li>
+<li><a href="http://www.buildinternet.com/project/supersized/" target="_blank"><strong>Supersized</strong></a> – 全屏式的背景/幻灯片插件</li>
+<li><a href="http://desandro.com/resources/jquery-masonry" target="_blank"><strong>Masonry</strong></a> i一款非常酷的自动排版插件，这款jQuery工具可以根据网格来自动排列水平和垂直元素，超越原来的css. <a href="https://github.com/desandro/masonry" target="_blank">Sources</a>.</li>
+<li>jQuery 简单 <a href="http://layout.jquery-dev.net/demos.cfm" target="_blank"><strong>Layout</strong></a> 演示，管理各种边栏式，可改变大小式的布局。</li>
+<li><a href="http://www.flexigrid.info/" target="_blank"><strong>Flexigrid</strong></a> – jQuery <a href="http://www.flexigrid.info/" target="_blank"><strong></strong></a>数据表插件</li>
+<li><a href="http://isotope.metafizzy.co/" target="_blank"><strong>Isotope</strong></a>绝对是一个令人难以置信的<em>jQuery</em>插件，你可以用它来创建动态和智能布局。你可以隐藏和显示与过滤项目，重新排序和整理甚至更多。</li>
+<li><a href="http://www.evanbyrne.com/article/super-gestures-jquery-plugin" target="_blank"><strong>Super Gestures</strong></a> jQuery 插件可以实现鼠标手势的功能。</li>
+<li><a href="https://github.com/brandonaaron/jquery-mousewheel" target="_blank"><strong>MouseWheel</strong></a> 是由Brandon Aaron开发的<em>jQuery</em>插件，用于添加跨浏览器的鼠标滚轮支持。</li>
+<li><a href="http://code.drewwilson.com/entry/autosuggest-jquery-plugin" target="_blank"><strong>AutoSuggest</strong></a> jQuery 插件可以让你添加一些自动完成的功能。</li>
+<li><a href="http://craigsworks.com/projects/qtip/" target="_blank"><strong>qTip</strong></a> 一个漂亮的<em>jQuery</em> 的工具提示插件，这个插件功能相当强大。</li>
+<li>jQuery <a href="http://www.highcharts.com/demo/" target="_blank"><strong>Charts and graphic</strong></a> 用来制作图表。</li>
+<li>jQuery Tools– The <a href="http://flowplayer.org/tools/demos/" target="_blank"><strong>missing UI library</strong></a></li>
+</ul>
+<h4>其它 jQuery 资源</h4>
+<ul>
+<li><a href="http://www.smashingmagazine.com/2011/04/07/useful-javascript-and-jquery-tools-libraries-plugins" target="_blank">http://www.smashingmagazine.com/2011/04/07/useful-javascript-and-jquery-tools-libraries-plugins</a></li>
+<li><a href="http://webdesigneraid.com/weekly-html5-news-and-inspirations-%E2%80%93-tutorials-tools-resources-and-freebies-v-2/" target="_blank">http://webdesigneraid.com/weekly-html5-news-and-inspirations-%E2%80%93-tutorials-tools-resources-and-freebies-v-2/</a></li>
+<li><a href="http://www.designer-daily.com/15-useful-jquery-plugins-and-tutorials-5207" target="_blank">http://www.designer-daily.com/15-useful-jquery-plugins-and-tutorials-5207</a></li>
+<li><a href="http://www.julien-verkest.fr/22/11/2007/240-plugins-jquery" target="_blank">http://www.julien-verkest.fr/22/11/2007/240-plugins-jquery</a></li>
+<li><a href="http://www.hotscripts.com/blog/10-great-html5-experiments-apps/" target="_blank">http://www.hotscripts.com/blog/10-great-html5-experiments-apps/</a></li>
+<li><a href="http://www.noupe.com/jquery/excellent-jquery-navigation-menu-tutorials.html" target="_blank">http://www.noupe.com/jquery/excellent-jquery-navigation-menu-tutorials.html</a></li>
+<li><a href="http://www.noupe.com/php/20-useful-php-jquery-tutorials.html" target="_blank">http://www.noupe.com/php/20-useful-php-jquery-tutorials.html</a></li>
+<li><a href="http://aext.net/2010/04/excellent-jquery-plugins-resources-for-data-presentation-and-grid-layout/" target="_blank">http://aext.net/2010/04/excellent-jquery-plugins-resources-for-data-presentation-and-grid-layout/</a></li>
+<li><a href="http://webdesigneraid.com/html5-canvas-graphing-solutions-every-web-developers-must-know/" target="_blank">http://webdesigneraid.com/html5-canvas-graphing-solutions-every-web-developers-must-know/</a></li>
+<li><a href="http://gestureworks.com/features/open-source-gestures/" target="_blank">http://gestureworks.com/features/open-source-gestures/</a></li>
+<li><a href="http://edtechdev.wordpress.com/2011/01/14/some-exciting-new-html5javascript-projects/" target="_blank">http://edtechdev.wordpress.com/2011/01/14/some-exciting-new-html5javascript-projects/</a></li>
+<li><a href="http://net.tutsplus.com/articles/web-roundups/30-developers-you-must-subscribe-to-as-a-javascript-junkie/" target="_blank">http://net.tutsplus.com/articles/web-roundups/30-developers-you-must-subscribe-to-as-a-javascript-junkie/</a></li>
+</ul>
+<h4>HTML5 视频播放器</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="leanBackPlayer" src="http://www.b2bweb.fr/wp-content/uploads/leanBackPlayer.jpg" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="https://github.com/webmademovies/popcorn-js" target="_blank"><strong>Popcorn.js</strong></a> 是一个HTML5 Video框架，它提供了易于使用的API来同步交互式内容，让操作HTML5 Video元素的属性，方法和事件变得简单易用。 (来自Mozilla)</li>
+<li><a href="http://dev.mennerich.name/showroom/html5_video/" target="_blank"><strong>LeanBack Player</strong></a> HTML5视频播放器,没有依赖任何JavaScript框架。支持全屏播放，音量控制，在同一个页面中播放多个视频。 (来自Google)</li>
+<li><a href="http://m.vid.ly/user/" target="_blank"><strong>Vid.ly</strong></a> 为你上传的视频提供转换功能，并且为转换后的视频创建一个短网址。通过Vid.ly，让你的视频可以在14种不同的浏览器和设备上播放，不需要再去考虑将要浏览视频的人使用什么设备了，以避免各各软件巨头之间的利益之争带来了不兼容，给用户带来了巨大的困扰，短网址让你可以通过Twitter、Facebook等方式方便分享视频。Vid.ly还可以通过html代码嵌入到其他网页中。Vid.ly免费帐户空间为1GB，免费帐户也没有播放或浏览限制。</li>
+</ul>
+<h4>JavaScript 音频处理与可视化效果</h4>
+<p><img decoding="async" loading="lazy" title="soundmanager" src="http://www.b2bweb.fr/wp-content/uploads/soundmanager.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ 使用HTML5 和 Flash, <a href="http://www.schillmania.com/projects/soundmanager2/" target="_blank"><strong>SoundManager V2</strong></a> 只用单一API的提供了可靠，简单和强大的跨平台的音频处理。</li>
+<li><a href="https://github.com/corbanbrook/dsp.js/" target="_blank"><strong>DSP</strong></a>, JavaScript的声音Digital Signal Processing</li>
+<li>The Radiolab <a href="http://yoyodyne.cc/radiolab/" target="_blank"><strong>Hyper Audio Player</strong></a> v1, 带给你 WNYC Radiolab, SoundCloud 和 Mozilla Drumbeat</li>
+<li><a href="http://jplayer.org/" target="_blank"><strong>jPlayer</strong></a>, 一个 jQuery HTML5 音频/ 视频库，功能齐全的API</li>
+</ul>
+<h4>JavaScript 图形 和 3D</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="processing" src="http://www.b2bweb.fr/wp-content/uploads/processing.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://processingjs.org/" target="_blank"><strong>Processing.js</strong></a>是一个开放的编程语言，在不使用Flash或Java小程序的前提下, 可以实现程序图像、动画和互动的应用。其使用Web标准，无需任何插件。</li>
+<li>★ Javascript 3D 引擎: <a href="https://github.com/mrdoob/three.js" target="_blank"><strong>ThreeJS</strong></a> 由 Mr Doob 开发，一个轻量级的 3D 引擎，不需要了解细节，傻瓜都能使用。这个引擎可以使用&lt;canvas&gt;, &lt;svg&gt; 和 WebGL.</li>
+<li><a href="http://www.iquilezles.org/apps/shadertoy/" target="_blank"><strong>Shader Toy</strong></a>, 一款使用WebGL的在线着色器编辑器(2D/3D). 基于在线的应用架构使您无需下载任何软件即可开始体验. Shader Toy包含大量实用着色器, 诸如光线追踪, 场景距离渲染, 球体, 隧道, 变形, 后期处理特效等.</li>
+<li><a href="http://senchalabs.github.com/philogl/" target="_blank"><strong>PhiloGL</strong></a>, Sencha的PhiloGL是首个WebGL开发工具之一，提供了高水准的功能，来构建WebGL应用。Sencha创建了几个演示，来描述框架交互式3D虚拟化的能力，比如<a href="http://senchalabs.github.com/philogl/PhiloGL/examples/temperatureAnomalies/">3D view of global temperature changes</a>。</li>
+<li><a href="http://benvanik.github.com/WebGL-Inspector/" target="_blank"><strong>WebGL Inspector</strong></a> 你就Firebug等Web调试工具一样，这个是 WebGL的调试工具。</li>
+<li><a href="http://www.khronos.org/webgl/wiki_1_15/" target="_blank"><strong>WebGL frameworks</strong></a> 由 Khronos Group 收集的一个WebGL框架列表。</li>
+<li><a href="http://easeljs.com/" target="_blank"><strong>EaselJS</strong></a>, 一个使用html5的canvas的 JavaScript 库. <a href="https://github.com/gskinner/EaselJS" target="_blank">Sources</a>.</li>
+<li><a href="http://www.webresourcesdepot.com/free-javascript-game-frameworks-to-create-a-web-based-fun/" target="_blank"><strong>JavaScript Game Frameworks</strong></a> 免费的JS游戏框架列表。另，可参看 <a title="JS游戏引擎列表" href="https://coolshell.cn/articles/3516.html" target="_blank">JS游戏框架列表</a>。</li>
+<li><a href="http://raphaeljs.com/" target="_blank"><strong>Raphaël</strong></a>是一个小型的JavaScript 库，用来简化在页面上显示向量图的工作。你可以用它在页面上绘制各种图表、并进行图片的剪切、旋转等操作。参看<a title="Javascript向量图Lib–Raphaël" href="https://coolshell.cn/articles/3107.html" target="_blank">Javascript向量图Lib–Raphaël</a></li>
+<li><a href="http://keith-wood.name/svgRef.html" target="_blank"><strong>jQuery SVG</strong></a> 插件让你可以了 SVG canvas 进行交互。</li>
+<li><a href="http://code.google.com/intl/fr/apis/chart/" target="_blank"><strong>Google chart tools</strong></a> &#8211;  参看本站的<a href="https://coolshell.cn/articles/582.html" target="_blank">使用Google API做统计图</a></li>
+<li><a href="https://coolshell.cn/articles/582.html" target="_blank"></a><a href="http://arborjs.org/" target="_blank"><strong>Arbor.js</strong></a>, 是一个利用webworkers和jQuery创建的数据图形可视化JavaScript框架。它为图形组织和屏幕刷新处理提供了一个高效、力导向布局算法。</li>
+</ul>
+<h4>JavaScript 浏览器接口 (HTML5)</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="amplify" src="http://www.b2bweb.fr/wp-content/uploads/amplify.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://www.modernizr.com/" target="_blank"><strong>Modernizr</strong></a> – 是一个专为HTML5 和CSS3 开发的功能检测类库，可以根据浏览器对HTML5 和CSS3 的支持程度提供更加便捷的前端优化方案.<a href="https://github.com/Modernizr/Modernizr" target="_blank">Sources</a>. 一个有用的列表 <a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills" target="_blank">cross-browser Polyfills</a></li>
+<li><a href="http://code.google.com/p/html5shiv/" target="_blank"><strong>HTML5Shiv</strong></a> : 该项目的目的是为了让IE 能识别HTML5 的元素。</li>
+<li><a href="https://github.com/remy/polyfills" target="_blank"><strong>Polyfills</strong></a> : 这个项目收集了一些代码片段其用Javascript支持不同的浏览器的特别功能，有些代码需要Flash。</li>
+<li><a href="http://yepnopejs.com/" target="_blank"><strong>YepNopeJS</strong></a> : 一个异步的条件式的加载器。<a href="https://github.com/SlexAxton/yepnope.js" target="_blank">Sources</a>.</li>
+<li>jQuery <a href="https://github.com/codler/jQuery-Css3-Finalize/" target="_blank"><strong>CSS3 Finalise</strong></a> : 是否厌倦了为每一个浏览器的CSS3属性加前缀？</li>
+<li>★ <a href="http://amplifyjs.com/" target="_blank"><strong>Amplify.js</strong></a> :一套用于web应用数据管理和应用程序通讯的<strong> jQuery 组件库</strong>。提供简单易用的API接口。Amplify的目标是通过为各种数据源提供一个统一的程序接口简化各种格式数据的数据处理。Amplify的存储组件使用localStorage 和 sessionStorage标准处理客户端的存储信息，对一些老的浏览器支持可能有问题。Amplify&#8217;为jQuery的ajax方法request增加了一些额外的特性。 <a href="https://github.com/appendto/amplify" target="_blank">Sources</a>.</li>
+<li><a href="https://github.com/balupton/history.js" target="_blank"><strong>History.js</strong></a> 优美地支持了HTML5 History/State APIs</li>
+<li><a href="http://socket.io/" target="_blank"><strong>Socket.IO</strong></a> Web的socket编程。</li>
+</ul>
+<h4>JavaScript 工具</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="headJs" src="http://www.b2bweb.fr/wp-content/uploads/headJs.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★  {{<a href="http://mustache.github.com/" target="_blank"><strong>mustaches</strong></a>}} 小型的 JavaScript 模板引擎。</li>
+<li><a href="http://jsonselect.org/" target="_blank"><strong>json:select()</strong></a>, CSS式的JSON选择器</li>
+<li><a href="http://headjs.com/" target="_blank"><strong>HeadJS</strong></a>, 异步JavaScript装载。其最大特点就是不仅可以按顺序执行还可以并发装载载js。</li>
+<li><a href="http://code.google.com/p/jsdoc-toolkit/" target="_blank"><strong>JsDoc Toolkit</strong></a>是一款辅助工具，你只需要根据约定在JavaScript 代码中添加相应的注释，它就可以根据这些注释来自动生成API文档。</li>
+<li><a href="https://github.com/filamentgroup/Responsive-Images" target="_blank"><strong>Responsive image</strong></a>, 一个试验性的项目，用来处理<a href="http://www.alistapart.com/articles/responsive-web-design/">responsive layouts</a> 式的图片。</li>
+<li><a href="http://marijnhaverbeke.nl/uglifyjs" target="_blank"><strong>UglifyJS</strong></a>是基于NodeJS的Javascript语法解析/压缩/格式化工具，它支持任何CommonJS模块系统的Javascript平台。</li>
+<li><a href="http://www.dhteumeuleu.com/" target="_blank"><strong>Dhteumeuleu</strong></a>, 交互式的 DOM 脚本和DHTML 的开源演示。</li>
+<li><a href="https://github.com/documentcloud/backbone/" target="_blank"><strong>Backbone</strong></a>是一个前端 JS 代码 MVC 框架，被著名的 37signals 用来构建他们的移动客户端。它不可取代 Jquery，不可取代现有的Template 库。而是和这些结合起来构建复杂的 web 前端交互应用。如果项目涉及大量的 javascript 代码，实现很多复杂的前端交互功能，首先你会想到把数据和展示分离。使用 Jquery 的 selector 和 callback 可以轻松做到这点。但是对于富客户端的WEB应用大量代码的结构化组织非常必要。Backbone 就提供了 javascript 代码的组织的功能。Backbone 主要包括 models, collections, views 和 events, controller 。</li>
+</ul>
+<h4>客户端和模拟器</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="firebug" src="http://www.b2bweb.fr/wp-content/uploads/firebug.png" alt="" width="600" height="238" /></p>
+<ul>
+<li><a href="http://browsershots.org/" target="_blank"><strong>BrowserShot</strong></a>, 检查浏览器的兼容性，跨浏览器平器的测试</li>
+<li><strong><a href="http://tester.jonasjohn.de/" target="_blank">Test everything</a></strong>… 输入一个你想要测试的URL……</li>
+<li><a href="http://tmobile.modeaondemand.com/htc/g1/" target="_blank"><strong>Android browser</strong></a> 模拟器</li>
+<li><a href="http://iphonetester.com/" target="_blank"><strong>iPhone browser</strong></a> 模拟器</li>
+<li><a href="http://www.opera.com/mobile/demo/" target="_blank"><strong>Opera browser</strong></a> 模拟器</li>
+<li>★ <a href="http://getfirebug.com/whatisfirebug" target="_blank"><strong>Firebug</strong></a> 与 <strong><a href="http://www.mozilla.com/fr/firefox/" target="_blank">Firefox</a></strong> 集成，可以查看和调试你的Web页面。</li>
+</ul>
+<h3>CSS3 和 字库</h3>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="patternTap" src="http://www.b2bweb.fr/wp-content/uploads/patternTap.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://www.css3maker.com/" target="_blank"><strong>CSS3 Maker</strong></a> CCS3的生成器</li>
+<li>容易地创建 <strong><a href="http://www.sencha.com/products/animator/" target="_blank">CSS3 animations</a>。</strong> Sencha Animator 是一个桌面应用可以为WebKit浏览器和触摸式移动设备创建 CSS3 animations 。</li>
+<li><a href="http://csswarp.eleqtriq.com/" target="_blank"><strong>CSSwarp</strong></a> – CSS 文本扭曲生成器</li>
+<li><a href="http://www.colorzilla.com/gradient-editor/" target="_blank"><strong>Gradient Editor</strong></a>, 一个强大的Photoshop式的CSS 渐变编译器。来自 ColorZilla</li>
+<li>★ <a href="http://www.google.com/webfonts" target="_blank"><strong>Google Web Fonts</strong></a> 通过Google Web Fonts API 可以浏览所有的字体</li>
+<li><a href="http://www.fontsquirrel.com/fontface/generator" target="_blank"><strong>@font-face Kit Generator</strong></a>, 为Web转换字体</li>
+<li><a href="http://www.typetester.org/" target="_blank"><strong>Typetester</strong></a>, 比较字体。</li>
+<li><a href="http://mediaqueri.es/" target="_blank"><strong>Media Queries</strong></a>. 一组 responsive web 设计。</li>
+<li><a href="http://patterntap.com/" target="_blank"><strong>Pattern TAP</strong></a>, UI组件。</li>
+</ul>
+<h4>Website (FULL) 模板</h4>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="boilerplate" src="http://www.b2bweb.fr/wp-content/uploads/boilerplate1.png" alt="" width="600" height="238" /></p>
+<ul>
+<li>★ <a href="http://html5boilerplate.com/" target="_blank"><strong>HTML5 Boilerplate</strong></a> 是一个<a href="http://www.mhtml5.com/">HTML5 </a>/ CSS / js模板，是实现跨浏览器正常化、性能优化，稳定的可选功能如跨域Ajax和Flash的最佳实践。 项目的开发商称之为技巧集合，目的是满足您开发一个跨浏览器，并且面向未来的网站的需求。 <a href="https://github.com/paulirish/html5-boilerplate" target="_blank">Sources</a>.</li>
+<li><a href="http://sickdesigner.com/resources/HTML5-starter-pack/" target="_blank"><strong>HTML5 starter pack</strong></a> 是一个干净的和有组织的目录结构，其可适合很多项目，还有一些很常用的文件，以及简单的Photoshop设计模板。</li>
+<li>★ <a href="http://initializr.com/" target="_blank"><strong>Initializr</strong></a> 是一个HTML5 模板生成器，其可以帮你在15秒内创建一个HTML5的项目。</li>
+<li><a href="http://tympanus.net/Tutorials/AnimatedPortfolioGallery/" target="_blank"><strong>Animated Portfolio Gallery</strong></a> （<a href="http://tympanus.net/codrops/2010/11/14/animated-portfolio-gallery/" target="_blank">教程</a>）</li>
+<li> <a href="http://tutorialzine.com/2010/07/making-slick-mobileapp-website-jquery-css/" target="_blank"><strong>Slick MobileApp Website</strong></a> 如果通过 jQuery 和 CSS 制作一个手机应用的网站。</li>
+<li> <a href="http://net.tutsplus.com/tutorials/javascript-ajax/how-to-build-an-rss-reader-with-jquery-mobile-2/" target="_blank"><strong>RSS Reader</strong></a> 如果通过 jQuery Mobile 创建一个RSS Reader</li>
+<li>★ <a href="http://addyosmani.com/blog/building-spas-jquerys-best-friends/" target="_blank"><strong>Single Page Applications</strong></a> 使用jQuery的朋友们 (Backbone, Underscore, …)创建单一页面。</li>
+<li><a href="http://code.google.com/p/gtv-resources/" target="_blank"><strong>Google TV Optimized Templates</strong></a>, 传统电视已经开始和网路融合，但现阶段产业仍然正在摸索之中，为此将来的网页亦会有结构上的改变。<a href="http://code.google.com/p/gtv-resources/">Google TV Optimized Templates</a>是一个用HTML/JavaScript制成的开源软体，一如其名是一个对Google TV作出了最佳化的的网页范本，其特色是以遥控器作为操作的前提，令使用者无需输入任何文字就可以进行控制。未来除了会有专用遥控器外，还会采用智能手机透过W-iFi控制Google TV的方法。Optimized Templates的界面中左方会展示分类，右方会显示该分类下的影片截图，影片播放、切换、全画面表示都可透过键盘上的方向键、Backspace或Enter等键完成，方便今后的网站开发人员借镜。HTML5 版的模板使用了 <a href="http://code.google.com/p/gtv-ui-lib" target="_blank">Google TV UI library</a>, jQuery  和 Closure 。</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="Web中的省略号" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_title">Web中的省略号</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4795.html">开源中最好的Web开发的资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4795.html/feed</wfw:commentRss>
+			<slash:comments>124</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>另类UX让你输入强口令</title>
+		<link>https://coolshell.cn/articles/3877.html</link>
+					<comments>https://coolshell.cn/articles/3877.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 03 Mar 2011 01:26:41 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[password]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[UX]]></category>
+		<category><![CDATA[口令]]></category>
+		<category><![CDATA[安全]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3877</guid>
+
+					<description><![CDATA[<p>昨天和大家说了一下关于口令破解的一些东西，那篇文章告诉我们需要设置一个比较强的不易破解的口令。 今天在网上看到一个强大的jQuery插件，叫NakedPassw...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3877.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3877.html">另类UX让你输入强口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p><script src="http://www.nakedpassword.com/javascripts/jquery.js" type="text/javascript"></script> <script src="http://www.nakedpassword.com/javascripts/naked_password.0.2.2.min.js" type="text/javascript"></script></p>
+<p><script type="text/javascript">  	$(document).ready(function() { 	     $("input:password").nakedPassword({path: "http://www.nakedpassword.com/np_images/"}); 		});</script></p>
+<p>昨天和大家说了一下<a title="破解你的口令" href="https://coolshell.cn/articles/3801.html" target="_blank">关于口令破解</a>的一些东西，那篇文章告诉我们需要设置一个比较强的不易破解的口令。</p>
+<p>今天在网上看到一个强大的jQuery插件，叫<a title="NakedPassword.com" href="http://www.nakedpassword.com/" target="_blank">NakedPassword</a>，其通过“<strong>强大的用户体验</strong>”让你输入一个比较强且不易被破解的口令。虽然有点另类，但是我个人相当欣赏这个UX，因为UX实在是太到位了——<strong>只有你输入的口令比较强，图片中的女人才会脱光衣服</strong>。</p>
+<p>下面是演示：</p>
+<p style="text-align: center;">请输入你的口令（输入时出现效果）</p>
+<p style="text-align: center;">
+<input id="test" style="font-size: 25px;" type="password" /></p>
+<p>这个例子和<a title="用户界面和用户体验的差别" href="https://coolshell.cn/articles/3142.html" target="_blank">以前的那个例子</a>一样，告诉你UX设计是重要性。</p>
+<p>（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/12/63071edagw1doah4id8l4j-150x150.jpg" alt="CSDN明文口令泄露的启示" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6193.html" class="wp_rp_title">CSDN明文口令泄露的启示</a></li><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/passwords-150x150.png" alt="破解你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3801.html" class="wp_rp_title">破解你的口令</a></li><li ><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/18.jpg" alt="Twitter的禁用口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2451.html" class="wp_rp_title">Twitter的禁用口令</a></li><li ><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="如何管理并设计你的口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2428.html" class="wp_rp_title">如何管理并设计你的口令</a></li><li ><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="如何防范密码被破解" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2078.html" class="wp_rp_title">如何防范密码被破解</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3877.html">另类UX让你输入强口令</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3877.html/feed</wfw:commentRss>
+			<slash:comments>52</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Web开发人员速查卡</title>
+		<link>https://coolshell.cn/articles/3684.html</link>
+					<comments>https://coolshell.cn/articles/3684.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 16 Feb 2011 10:59:06 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Apache]]></category>
+		<category><![CDATA[ASP]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[MySQL]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Unicode]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[XML]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3684</guid>
+
+					<description><![CDATA[<p>无论你是多牛的程序员，你都无法记住所有的东西。而很多时候，查找某些知识又比较费事。所以，网上有很多Cheat Sheets，翻译成小抄也好 ，速查卡也好，总之就...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3684.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3684.html">Web开发人员速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>无论你是多牛的程序员，你都无法记住所有的东西。而很多时候，查找某些知识又比较费事。所以，网上有很多Cheat Sheets，翻译成小抄也好 ，速查卡也好，总之就是帮你节省 时间的。之前给大家介绍过<a rel="bookmark" href="https://coolshell.cn/articles/870.html" target="_blank">Web设计的速查卡</a>、<a rel="bookmark" href="https://coolshell.cn/articles/2964.html" target="_blank">25个jQuery的编程小抄</a>，还有<a rel="bookmark" href="https://coolshell.cn/articles/1566.html" target="_blank">程序员小抄大全</a>，今天转一篇开发人员的速查卡，<a href="http://www.topdesignmag.com/all-the-cheat-sheets-that-a-web-developer-needs/" target="_blank">源文在这里</a>。下面的文章我就不翻译了。</p>
+<h2>HTML Cheat Sheet</h2>
+<p><img decoding="async" loading="lazy" title="1" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/1128.jpg" alt="" width="450" height="127" /></p>
+<ul>
+<li><a href="http://www.html.su/" target="_blank">HTML/XTML in one page</a></li>
+<li><a href="http://refcardz.dzone.com/refcardz/html5-new-standards-web-interactivity" target="_blank">HTML5: The Evolution of Web Standards by James Sugrue</a></li>
+<li><a href="http://www.elizabethcastro.com/html/extras/xhtml_ref.html" target="_blank">(X)HTML Elements and Attributes</a></li>
+<li><a href="http://www.w3.org/QA/2002/04/valid-dtd-list.html" target="_blank">Doctype Declarations (DTDs)</a></li>
+<li><a href="http://www.digitalmediaminute.com/reference/entity/index.php" target="_blank">XHTML Character Entity Reference</a></li>
+<li><a href="http://downloads.gosquared.com/help_sheets/08/HTML-Help-Sheet-02.jpg" target="_blank">GoSquared HTML Help Sheet</a></li>
+</ul>
+<p><span id="more-3684"></span></p>
+<p><strong> </strong></p>
+<h2>CSS Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="2" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/2104.jpg" alt="" width="451" height="112" /></p>
+<ul>
+<li><a href="http://www.css.su/" target="_blank">CSS in one page</a></li>
+<li><a href="http://www.elizabethcastro.com/html/extras/cssref.html" target="_blank">CSS Properties and Values</a></li>
+<li><a href="http://www.blooberry.com/indexdot/css/propindex/all.htm" target="_blank">All CSS Properties Listed Alphabetically</a></li>
+<li><a href="http://www.dustindiaz.com/css-shorthand/" target="_blank">CSS Shorthand Guide</a></li>
+<li><a href="http://www.gosquared.com/liquidicity/archives/1010" target="_blank">GoSquared CSS Help Sheet</a></li>
+</ul>
+<h2>Adobe Flash Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="3" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/312.png" alt="" width="449" height="87" /></p>
+<ul>
+<li><a href="http://michaeldoyle.eu/blog/wp-content/uploads/2009/10/flash-cheat-sheet.pdf" target="_blank">Flash Cheat Sheet</a></li>
+<li><a href="http://edutechwiki.unige.ch/en/Flash_CS3_keyboard_shortcuts" target="_blank">Flash CS3 Keyboard Shortcuts</a></li>
+</ul>
+<p><strong> </strong></p>
+<h2><strong>ASP Cheat Sheets</strong></h2>
+<h2><strong><img decoding="async" loading="lazy" title="4" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/430.jpg" alt="" width="451" height="106" /><br />
+</strong></h2>
+<ul>
+<li><a href="http://refcardz.dzone.com/refcardz/core-aspnet" target="_blank">Core ASP.NET</a></li>
+<li><a href="http://www.newdrp.com/Posters/Development/tabid/67/id/284/Default.aspx" target="_blank">ASP.NET MVC Framework Cheat Sheet</a></li>
+<li><a href="http://www.newdrp.com/Posters/Development/tabid/67/id/286/Default.aspx" target="_blank">ASP.NET MVC View Cheat Sheet</a></li>
+</ul>
+<h2>PHP Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="5" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/55.png" alt="" width="450" height="112" /></p>
+<ul>
+<li><a href="http://www.dreamincode.net/forums/topic/35660-php-quick-reference-cheat-sheet/" target="_blank">PHP Basics Quick Reference Sheet</a></li>
+<li><a href="http://www.digilife.be/quickreferences/QRC/PHP%20Cheat%20Sheet.pdf" target="_blank">PHP Cheat Sheet</a></li>
+<li><a href="http://www.sk89q.com/content/2010/04/phpsec_cheatsheet.pdf" target="_blank">PHP Security Cheat Sheet</a></li>
+<li><a title="PHP Variable and Array Tests (php version 5.1.6) by Barry Hunter" href="http://www.deformedweb.co.uk/php_variable_tests.php" target="_blank">PHP Variable and Array Tests</a></li>
+<li><a href="http://downloads.gosquared.com/help_sheets/08/PHP-Help-Sheet-01.jpg" target="_blank">GoSquared PHP Help Sheet</a></li>
+</ul>
+<h2>MySQL Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="6" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/65.png" alt="" width="450" height="89" /></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/mysql-cheat-sheet/" target="_blank">MySQL Cheat Sheet by Dave Child</a></li>
+<li><a href="http://www.cheat-sheets.org/saved-copy/MySQL_QuickRef.pdf" target="_blank">MySQL Database Quick Reference</a></li>
+<li><a href="http://www.sqltutorial.org/sql-cheat-sheet.aspx" target="_blank">SQL Statements Cheat Sheet</a></li>
+</ul>
+<h2>JavaScript Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="7" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/75.png" alt="" width="451" height="118" /></p>
+<ul>
+<li><a href="http://www.javascript.su/" target="_blank">JavaScript in one page</a></li>
+<li><a href="http://www.addedbytes.com/cheat-sheets/javascript-cheat-sheet/" target="_blank">JavaScript Cheat Sheet</a></li>
+<li><a href="http://wps.aw.com/wps/media/objects/2234/2287950/javascript_refererence.pdf" target="_blank">Addison-Wesley’s JavaScript Reference Card</a></li>
+</ul>
+<h2>jQuery Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="8" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/85.png" alt="" width="450" height="109" /></p>
+<ul>
+<li><a href="http://colorcharge.com/jquery/" target="_blank">jQuery Cheatsheet</a></li>
+<li><a href="http://woork.blogspot.com/2009/09/jquery-visual-cheat-sheet.html" target="_blank">jQuery 1.3 Visual Cheat Sheet by Antonio Lupetti</a></li>
+<li><a href="http://refcardz.dzone.com/refcardz/jquery-selectors" target="_blank">jQuery Selectors by Bear Bibeault &amp; Yehuda Katz</a></li>
+</ul>
+<h2>Unicode Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="9" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/97.png" alt="" width="450" height="112" /></p>
+<ul>
+<li><a href="http://www.utf.ru/" target="_blank">The Unicode Character Code</a></li>
+<li><a href="http://www.visibone.com/htmlref/char/cer.htm" target="_blank">HTML Characters, Numeric Codes, 0-65535 by Bob Stein</a></li>
+</ul>
+<h2>XML Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="10" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/106.png" alt="" width="450" height="111" /></p>
+<ul>
+<li><a href="http://www.xml.su/" target="_blank">XML in one page</a></li>
+<li><a href="http://www.mulberrytech.com/quickref/XMLquickref.pdf" target="_blank">XML 1.0 Syntax Quick Reference by Mulberry Technologies</a></li>
+</ul>
+<h2>mod_rewrite and .htaccess Cheat Sheets</h2>
+<p><img decoding="async" loading="lazy" title="11" src="http://www.topdesignmag.com/wp-content/uploads/2011/01/1111.png" alt="" width="455" height="95" /></p>
+<ul>
+<li><a href="http://www.addedbytes.com/cheat-sheets/mod_rewrite-cheat-sheet/" target="_blank">mod_rewrite Cheat Sheet by Dave Child</a></li>
+<li><a href="http://www.thejackol.com/htaccess-cheatsheet/" target="_blank">htaccess Cheatsheet</a></li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/16.jpg" alt="Web中的省略号" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1949.html" class="wp_rp_title">Web中的省略号</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3684.html">Web开发人员速查卡</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3684.html/feed</wfw:commentRss>
+			<slash:comments>22</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>30+ Web下拉菜单</title>
+		<link>https://coolshell.cn/articles/3207.html</link>
+					<comments>https://coolshell.cn/articles/3207.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 20 Oct 2010 06:06:43 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[Menu]]></category>
+		<category><![CDATA[UI]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3207</guid>
+
+					<description><![CDATA[<p>以前给大家介绍过13个不错的Javascript和CSS的菜单、20个优秀的Javascript导航技术、30种时尚的CSS网站导航条，今天在网上看到一篇文章其...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3207.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3207.html">30+ Web下拉菜单</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前给大家介绍过<a rel="bookmark" href="https://coolshell.cn/articles/1660.html" target="_blank">13个不错的Javascript和CSS的菜单</a>、<a rel="bookmark" href="https://coolshell.cn/articles/918.html" target="_blank">20个优秀的Javascript导航技术</a>、<a rel="bookmark" href="https://coolshell.cn/articles/562.html" target="_blank">30种时尚的CSS网站导航条</a>，今天在网上看到一篇文章其收集了30多个下拉菜单（分为两类，jQuery和CSS+Javascript的），转过来。</p>
+<p>原文：<a href="http://smashinghub.com/3-useful-drop-down-menu-scripts-to-enhance-header-navigation.htm" target="_blank">http://smashinghub.com/3-useful-drop-down-menu-scripts-to-enhance-header-navigation.htm</a></p>
+<h4>jQuery</h4>
+<h3><strong><a href="http://www.dynamicdrive.com/dynamicindex1/ddsmoothmenu.htm"><strong>Smooth Navigation Menu</strong></a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-5.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4179" title="Drop-Down-Menu-Scripts-5" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-5.jpg" alt="Drop Down Menu Scripts 5 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /><br />
+</a></strong></p>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-5.jpg"></a></strong></p>
+<p><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-5.jpg"></a></p>
+<p><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-5.jpg"> </a></p>
+<p><span id="more-3207"></span></p>
+<p><strong><br />
+</strong></p>
+<h3><strong> </strong><strong><a href="http://javascript-array.com/scripts/jquery_simple_drop_down_menu/">Simple Drop Down Menu Plugin</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-6.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4178" title="Drop-Down-Menu-Scripts-6" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-6.jpg" alt="Drop Down Menu Scripts 6 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://www.filamentgroup.com/lab/jquery_ipod_style_and_flyout_menus/">Dropdown, iPod Drilldown, and Flyout styles </a></strong></h3>
+<div><strong><br />
+</strong></div>
+<div><a href="http://smashinghub.com/wp-content/uploads/2010/10/drilldown.gif"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4185" title="drilldown" src="http://smashinghub.com/wp-content/uploads/2010/10/drilldown.gif" alt="drilldown 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="360" /></a></div>
+<h3><strong><a href="http://designreviver.com/tutorials/jquery-css-example-dropdown-menu/">jQuery and CSS Example</a><br />
+</strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-7.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4177" title="Drop-Down-Menu-Scripts-7" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-7.jpg" alt="Drop Down Menu Scripts 7 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong> </strong><strong><a href="http://www.webdesigndev.com/web-development/create-the-fanciest-dropdown-menu-you-ever-saw">Create the Fanciest Drop Down Menu You Ever Saw</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-8.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4176" title="Drop-Down-Menu-Scripts-8" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-8.jpg" alt="Drop Down Menu Scripts 8 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://net.tutsplus.com/tutorials/javascript-ajax/a-different-top-navigation/">A Different Top Navigation</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-9.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4174" title="Drop-Down-Menu-Scripts-9" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-9.jpg" alt="Drop Down Menu Scripts 9 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong> </strong><strong><a href="http://css-tricks.com/simple-jquery-dropdowns/">Simple jQuery Dropdowns</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-15.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4169" title="Drop-Down-Menu-Scripts-15" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-15.jpg" alt="Drop Down Menu Scripts 15 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://www.noupe.com/tutorial/drop-down-menu-jquery-css.html"><strong>Sexy Drop Down Menu with jQuery and CSS</strong></a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-1.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4183" title="Drop-Down-Menu-Scripts-1" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-1.jpg" alt="Drop Down Menu Scripts 1 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://net.tutsplus.com/tutorials/html-css-techniques/how-to-create-a-drop-down-nav-menu-with-html5-css3-and-jquery/"><strong>How to Create a Drop Down Nav Menu with HTML5, CSS3, and jQuery</strong></a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-31.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4182" title="Drop-Down-Menu-Scripts-3" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-31.jpg" alt="Drop Down Menu Scripts 31 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://www.jankoatwarpspeed.com/post/2009/07/28/reinventing-drop-down-with-css-jquery.aspx">Reinventing a Drop Down with CSS and jQuery</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-14.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4168" title="Drop-Down-Menu-Scripts-14" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-14.jpg" alt="Drop Down Menu Scripts 14 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong> </strong><strong><a href="http://users.tpg.com.au/j_birch/plugins/superfish/">Superfish</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-13.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4170" title="Drop-Down-Menu-Scripts-13" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-13.jpg" alt="Drop Down Menu Scripts 13 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a></strong><strong> </strong><strong><a href="http://www.clarklab.net/blog/posts/animated-drop-down-menu-with-jquery/"></a></strong></p>
+<h3><strong><a href="http://www.clarklab.net/blog/posts/animated-drop-down-menu-with-jquery/">Animated Drop Down Menu with jQuery</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-12.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4171" title="Drop-Down-Menu-Scripts-12" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-12.jpg" alt="Drop Down Menu Scripts 12 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://www.filamentgroup.com/lab/jquery_ipod_style_and_flyout_menus/">jQuery Menu: Dropdown, Drilldown, and iPod Flyout Styles</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-16.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4167" title="Drop-Down-Menu-Scripts-16" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-16.jpg" alt="Drop Down Menu Scripts 16 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://www.givainc.com/labs/mcdropdown_jquery_plugin.htm">McDropdown jQuery Plugin</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-17.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4166" title="Drop-Down-Menu-Scripts-17" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-17.jpg" alt="Drop Down Menu Scripts 17 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a></strong><strong><a href="http://www.hv-designs.co.uk/2009/02/17/sliding-jquery-menu/"><strong> </strong></a></strong></p>
+<h3><strong><a href="http://www.sohtanaka.com/web-design/mega-drop-downs-w-css-jquery/"><strong>Mega Drop Down Menus with CSS &amp; jQuery</strong></a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-3.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4181" title="Drop-Down-Menu-Scripts-3" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-3.jpg" alt="Drop Down Menu Scripts 3 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://www.hv-designs.co.uk/2009/02/17/sliding-jquery-menu/"><strong>Sliding jQuery Menu</strong></a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-4.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4180" title="Drop-Down-Menu-Scripts-4" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-4.jpg" alt="Drop Down Menu Scripts 4 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://jdsharp.us/jQuery/plugins/jdMenu/">jdMenu Hierarchical Menu Plugin</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-18.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4164" title="Drop-Down-Menu-Scripts-18" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-18.jpg" alt="Drop Down Menu Scripts 18 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong> </strong><strong><a href="http://apycom.com/menus/1-dim-gray.html">Dim Gray Drop Down Menu</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-19.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4163" title="Drop-Down-Menu-Scripts-19" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-19.jpg" alt="Drop Down Menu Scripts 19 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></p>
+<h3><strong><a href="http://www.kriesi.at/archives/create-a-multilevel-dropdown-menu-with-css-and-improve-it-via-jquery">Create a MultiLevel Dropdown Menu with CSS and Improve it with jQuery</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-20.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4162" title="Drop-Down-Menu-Scripts-20" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-20.jpg" alt="Drop Down Menu Scripts 20 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a></strong></p>
+<h3><strong> </strong><strong><a href="http://www.queness.com/post/966/jquery-drop-down-menu-for-rss-subscription-tutorial">jQuery Drop Down Menu for RSS Subscription</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-11.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4172" title="Drop-Down-Menu-Scripts-11" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-11.jpg" alt="Drop Down Menu Scripts 11 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a></strong><strong> </strong><strong><a href="http://www.queness.com/preview/1047/easy-to-style-jquery-drop-down-menu-tutorial"></a></strong></p>
+<h3><strong><a href="http://www.queness.com/preview/1047/easy-to-style-jquery-drop-down-menu-tutorial">Easy to Style jQuery Drop Down Menu</a></strong></h3>
+<h2><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-10.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4173" title="Drop-Down-Menu-Scripts-10" src="http://smashinghub.com/wp-content/uploads/2010/10/Drop-Down-Menu-Scripts-10.jpg" alt="Drop Down Menu Scripts 10 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="300" /></a><br />
+</strong></h2>
+<h4><strong>CSS and Java Scripts<br />
+</strong></h4>
+<h3><strong><a rel="nofollow" href="http://lwis.net/free-css-drop-down-menu/">Lwis Dropdown Menu Framework</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/lwis_menu.png"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4187" title="lwis_menu" src="http://smashinghub.com/wp-content/uploads/2010/10/lwis_menu.png" alt="lwis menu 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong></p>
+<h3><strong><a rel="nofollow" href="http://greengeckodesign.com/projects/menumatic.aspx">MenuMatic </a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/menumatic.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4188" title="menumatic" src="http://smashinghub.com/wp-content/uploads/2010/10/menumatic.jpg" alt="menumatic 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong><strong><a rel="nofollow" href="http://www.andrewsellick.com/35/sexy-sliding-javascript-side-bar-menu-using-mootools"></a></strong></p>
+<h3><strong><a rel="nofollow" href="http://www.andrewsellick.com/35/sexy-sliding-javascript-side-bar-menu-using-mootools">Sexy Sliding Menu</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/sliding_menu.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4189" title="sliding_menu" src="http://smashinghub.com/wp-content/uploads/2010/10/sliding_menu.jpg" alt="sliding menu 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong></p>
+<h3><strong><a rel="nofollow" href="http://www.cssplay.co.uk/menus/circular-sub.html">Circular Menu</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/circular_menu.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4190" title="circular_menu" src="http://smashinghub.com/wp-content/uploads/2010/10/circular_menu.jpg" alt="circular menu 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong><strong><a rel="nofollow" href="http://www.jankoatwarpspeed.com/post/2009/01/19/Create-Vimeo-like-top-navigation.aspx"></a></strong></p>
+<h3><strong><a rel="nofollow" href="http://www.jankoatwarpspeed.com/post/2009/01/19/Create-Vimeo-like-top-navigation.aspx">Vimeo-like Top Navigation</a></strong></h3>
+<p><a href="http://smashinghub.com/wp-content/uploads/2010/10/vimeo_menu.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4191" title="vimeo_menu" src="http://smashinghub.com/wp-content/uploads/2010/10/vimeo_menu.jpg" alt="vimeo menu 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a><strong><a rel="nofollow" href="http://www.filamentgroup.com/lab/jquery_ipod_style_and_flyout_menus/"></a></strong></p>
+<h3><strong><a rel="nofollow" href="http://www.filamentgroup.com/lab/jquery_ipod_style_and_flyout_menus/">FG jQuery Menu</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/fg_menu.png"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4192" title="fg_menu" src="http://smashinghub.com/wp-content/uploads/2010/10/fg_menu.png" alt="fg menu 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong></p>
+<h3><strong><a rel="nofollow" href="http://extjs.com/">Ext JS Tree Panel</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/dragdrop.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4193" title="dragdrop" src="http://smashinghub.com/wp-content/uploads/2010/10/dragdrop.jpg" alt="dragdrop 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong></p>
+<h3><strong><a rel="nofollow" href="http://www.kriesi.at/archives/apple-menu-improved-with-jquery">Apple Style Menu</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/appele1.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4194" title="appele1" src="http://smashinghub.com/wp-content/uploads/2010/10/appele1.jpg" alt="appele1 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong></p>
+<h3><strong><a rel="nofollow" href="http://www.designmeme.com/articles/hoverboxmenu/">Hover Box</a></strong></h3>
+<h3><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/hoverbox.jpg"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4195" title="hoverbox" src="http://smashinghub.com/wp-content/uploads/2010/10/hoverbox.jpg" alt="hoverbox 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong><strong><a rel="nofollow" href="http://www.styledmenus.com/">Styled Menus</a></strong></h3>
+<p><strong><a href="http://smashinghub.com/wp-content/uploads/2010/10/style.png"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-4196" title="style" src="http://smashinghub.com/wp-content/uploads/2010/10/style.png" alt="style 30+ Useful Drop Down Menu Scripts To Enhance Header Navigation" width="500" height="236" /></a></strong></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/1660.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="13个不错的Javascript和CSS的菜单" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1660.html" class="wp_rp_title">13个不错的Javascript和CSS的菜单</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="Web开发中需要了解的东西" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6043.html" class="wp_rp_title">Web开发中需要了解的东西</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3207.html">30+ Web下拉菜单</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3207.html/feed</wfw:commentRss>
+			<slash:comments>14</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些非常不错的资料</title>
+		<link>https://coolshell.cn/articles/3192.html</link>
+					<comments>https://coolshell.cn/articles/3192.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 18 Oct 2010 01:38:51 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[All-In-One Framework]]></category>
+		<category><![CDATA[book]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Intel]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[Microsoft]]></category>
+		<category><![CDATA[VB.NET]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3192</guid>
+
+					<description><![CDATA[<p>一、Intel 给开发人员推荐的资料列表（2010年下半年） 其中包含了 硬件：硬件，电源，存储，无线 软件：多线程和多核技术，高性能计算，图形游戏，用户关注 ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3192.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3192.html">一些非常不错的资料</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<h4>一、<a href="http://www.intel.com/technology/rr/RRlist.pdf" target="_blank">Intel 给开发人员推荐的资料列表（2010年下半年）</a></h4>
+<figure id="attachment_3197" aria-describedby="caption-attachment-3197" style="width: 500px" class="wp-caption aligncenter"><a href="http://www.intel.com/technology/rr/RRlist.pdf" target="_blank"><img decoding="async" loading="lazy" class="size-full wp-image-3197 " title="Intel Recommended Books for Developers" src="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers.jpg" alt="" width="500" height="317" srcset="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-300x190.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-426x270.jpg 426w" sizes="(max-width: 500px) 100vw, 500px" /></a><figcaption id="caption-attachment-3197" class="wp-caption-text">Intel Recommended Books for Developers</figcaption></figure>
+<p>其中包含了</p>
+<ul>
+<li>硬件：硬件，电源，存储，无线</li>
+<li>软件：多线程和多核技术，高性能计算，图形游戏，用户关注</li>
+<li>嵌入式：设计，软件，操作系统，安全，优化。</li>
+<li>IT部门：策略和决策，服务器和数据中心，客户端</li>
+</ul>
+<p><span id="more-3192"></span></p>
+<p style="padding-left: 30px;"><span style="color: #ffffff;">－－</span></p>
+<h4>二、<a href="http://jqfundamentals.com/book/" target="_blank">jQuery Fundamentals</a></h4>
+<figure id="attachment_3196" aria-describedby="caption-attachment-3196" style="width: 500px" class="wp-caption aligncenter"><a href="http://jqfundamentals.com/book/" target="_blank"><img decoding="async" loading="lazy" class="size-full wp-image-3196 " title="jQuery Fundamentals" src="https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals.jpg" alt="" width="500" height="314" srcset="https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals-300x188.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a><figcaption id="caption-attachment-3196" class="wp-caption-text">jQuery Fundamentals</figcaption></figure>
+<p>这可能是我见过写得最好的jQuery教程了，大量的示例，只是没有时间和精力，不然一定全部翻译过来。</p>
+<figure id="attachment_3195" aria-describedby="caption-attachment-3195" style="width: 500px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-3195 " title="jQuery Fundamentals - Code Example" src="https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals-Code-Example.jpg" alt="" width="500" height="263" srcset="https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals-Code-Example.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/jQuery-Fundamentals-Code-Example-300x157.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /><figcaption id="caption-attachment-3195" class="wp-caption-text">jQuery Fundamentals - Code Example</figcaption></figure>
+<p>还有其它关于jQuery的文章，你还可以查看《<a rel="bookmark" href="https://coolshell.cn/articles/2964.html" target="_blank">25个jQuery的编程小抄</a>》</p>
+<p style="padding-left: 30px;"><span style="color: #ffffff;">－－</span></p>
+<h4>三、<a href="http://www.htdp.org/2003-09-26/Book/" target="_blank">How to Design Programs</a></h4>
+<figure id="attachment_3194" aria-describedby="caption-attachment-3194" style="width: 500px" class="wp-caption aligncenter"><a href="http://www.htdp.org/2003-09-26/Book/" target="_blank"><img decoding="async" loading="lazy" class="size-full wp-image-3194 " title="How to Design Programs" src="https://coolshell.cn/wp-content/uploads/2010/10/How-to-Design-Programs.jpg" alt="" width="500" height="344" srcset="https://coolshell.cn/wp-content/uploads/2010/10/How-to-Design-Programs.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/How-to-Design-Programs-300x206.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a><figcaption id="caption-attachment-3194" class="wp-caption-text">How to Design Programs</figcaption></figure>
+<p>想学学如何设计程序吗？英国剑桥大学写的，MIT出版的，希望你能看看，非常不错。</p>
+<p style="padding-left: 30px;"><span style="color: #ffffff;">－－</span></p>
+<h4>四、<a href="http://1code.codeplex.com/" target="_blank">Microsoft All-In-One Code Framework</a></h4>
+<figure id="attachment_3193" aria-describedby="caption-attachment-3193" style="width: 500px" class="wp-caption aligncenter"><a href="http://1code.codeplex.com/" target="_blank"><img decoding="async" loading="lazy" class="size-full wp-image-3193" title="Microsoft All-In-One Code Framework" src="https://coolshell.cn/wp-content/uploads/2010/10/Microsoft-All-In-One-Code-Framework.jpg" alt="" width="500" height="388" srcset="https://coolshell.cn/wp-content/uploads/2010/10/Microsoft-All-In-One-Code-Framework.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/10/Microsoft-All-In-One-Code-Framework-300x232.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a><figcaption id="caption-attachment-3193" class="wp-caption-text">Microsoft All-In-One Code Framework</figcaption></figure>
+<p>C++/C#/VB.NET的一站式代码和资料，还有coding standard，也是很不错的。</p>
+<p>——————————————————————</p>
+<p>查看《<a rel="bookmark" href="https://coolshell.cn/articles/2775.html">免费电子书列表</a>》查看更多的电子书。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/22.jpg" alt="免费电子书列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_title">免费电子书列表</a></li><li ><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt=".NET代码转换器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_title">.NET代码转换器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3192.html">一些非常不错的资料</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3192.html/feed</wfw:commentRss>
+			<slash:comments>12</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>HTML5 小游戏展示</title>
+		<link>https://coolshell.cn/articles/2998.html</link>
+					<comments>https://coolshell.cn/articles/2998.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 21 Sep 2010 10:48:51 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2998</guid>
+
+					<description><![CDATA[<p>使用 HTML5 的 Canvas可以搞出一些很有趣的东西，如2D图形，位图，动画等。而使用Javascript来操作这些东西，可以设计出很多的小游戏。 下面是...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2998.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2998.html">HTML5 小游戏展示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>使用 HTML5 的 Canvas可以搞出一些很有趣的东西，如2D图形，位图，动画等。而使用Javascript来操作这些东西，可以设计出很多的小游戏。 下面是一些用HTML5做出来的小游戏，让我想得了我小时候的那些游戏。</p>
+<p>顺祝大家中秋节快乐！以及进入史上最混乱的长假调休。呵呵。</p>
+<h4><a rel="nofollow" href="http://hakim.se/experiments/html5/sinuous/01/" target="_blank">Sinuous</a></h4>
+<p>小心被红点撞上。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-4.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.nihilogic.dk/labs/mariokart/" target="_blank">超级玛丽卡丁车</a></h4>
+<p>A small but fun racing game built in html5 canvas and javascript.</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-1.jpg" alt="" /></p>
+<p><span id="more-2998"></span></p>
+<h4><a rel="nofollow" href="http://arandomurl.com/2010/07/25/html5-pacman.html" target="_blank">吃豆</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-5.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.benjoffe.com/code/games/torus/" target="_blank">圆环俄罗斯方块</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-2.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.kevs3d.co.uk/dev/asteroids/" target="_blank">Asteroids</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-3.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.paulbrunt.co.uk/bert/" target="_blank">Bert’s Breakdown</a></h4>
+<p>很不错的游戏，漂亮的界面以及不错的关卡设置。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-6.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://reas.com/twitch/" target="_blank">TWITCH</a></h4>
+<p>TWITCH是一个解题性质的游戏。试试看你有多快。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-7.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://29a.ch/jswars/" target="_blank">JS Wars</a></h4>
+<p>一个经典的空战游戏。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-8.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.yvoschaap.com/chainrxn/" target="_blank">Chain Reaction</a></h4>
+<p>一个简单又容易上瘾的游戏。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-9.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://grenlibre.fr/demo/same/" target="_blank">Same Game</a></h4>
+<p>这个游戏相信大家都会玩，把相同颜色的连在一起。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-10.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.wiicade.com/playJSGame.aspx?gameID=1317&amp;gameName=Coverfire" target="_blank">Coverfire</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-11.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.mattpelham.com/racing/" target="_blank">JQuery Racing</a></h4>
+<p>靠！这个游戏很耐完，我相信你一定会在上面花很多时间。 jQuery 做的。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-12.jpg" alt="" /></p>
+<h3><a rel="nofollow" href="http://joncom.be/experiments/thrust/">Thrust</a></h3>
+<p>经典的八位图游戏。让我想起了《<a title="史上最烂的超级玛丽" href="https://coolshell.cn/articles/2834.html" target="_blank">史上最烂的超级玛丽</a>》</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-13.jpg" alt="" /></p>
+<h3><a rel="nofollow" href="http://aduros.emufarmers.com/easel/">俄罗斯方块</a></h3>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-14.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://alteredqualia.com/cubeout/" target="_blank">3D 俄罗斯方块 – Cubeout</a></h4>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-15.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://dougx.net/plunder/plunder.html" target="_blank">Galatic Plunder</a></h4>
+<p>这个游戏使用了Canvas 和 Audio，主要是为了证明，没有Flash，用HTML5一样行。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-16.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://10k.aneventapart.com/Uploads/62/" target="_blank">Lines</a></h4>
+<p>很简单的游戏，我老看到办公室里很多人在玩。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-17.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://10k.aneventapart.com/Uploads/392/" target="_blank">RGB Invaders</a></h4>
+<p>小蜜蜂。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-18.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.agent8ball.com/" target="_blank">Agent 008 Ball</a></h4>
+<p>受不了了，还有台球。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-19.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://www.somethinghitme.com/projects/jslander/" target="_blank">JSLander</a></h4>
+<p>一个飞船着陆游戏。速度不要起过去6，不然就坠毁了。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-20.jpg" alt="" /></p>
+<h4><a rel="nofollow" href="http://10k.aneventapart.com/Uploads/27/" target="_blank">Rainbow Blocks</a></h4>
+<p>SameGame 和JT的另一种变种。</p>
+<p><img decoding="async" src="http://blog.insicdesigns.com/wp-content/uploads/2010/09/canvas-21.jpg" alt="" /></p>
+<p><strong>文章</strong>：<a href="http://blog.insicdesigns.com/2010/09/showcase-of-games-developed-using-html5-canvas/">http://blog.insicdesigns.com/2010/09/showcase-of-games-developed-using-html5-canvas/</a></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/11/stackparts.com_-150x150.png" alt="一些文章资源和趣闻" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5537.html" class="wp_rp_title">一些文章资源和趣闻</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/23.jpg" alt="JS游戏引擎列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3516.html" class="wp_rp_title">JS游戏引擎列表</a></li><li ><a href="https://coolshell.cn/articles/3267.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/flash_vs_html5-150x150.jpg" alt="游戏Flash vs HTML5" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3267.html" class="wp_rp_title">游戏Flash vs HTML5</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2998.html">HTML5 小游戏展示</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2998.html/feed</wfw:commentRss>
+			<slash:comments>31</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>25个jQuery的编程小抄</title>
+		<link>https://coolshell.cn/articles/2964.html</link>
+					<comments>https://coolshell.cn/articles/2964.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 19 Sep 2010 00:14:12 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[Cheat Sheet]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2964</guid>
+
+					<description><![CDATA[<p>以前本站向大家介绍过“程序员小抄大全”，这里是25个jQuery的小抄（有一些在墙外），有的还可以设置成你的电脑桌面。这些东西可以让你很快速地记得一些常用的东西...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2964.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2964.html">25个jQuery的编程小抄</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>以前本站向大家介绍过“<a rel="bookmark" href="https://coolshell.cn/articles/1566.html" target="_blank">程序员小抄大全</a>”，这里是25个jQuery的小抄（有一些在墙外），有的还可以设置成你的电脑桌面。这些东西可以让你很快速地记得一些常用的东西，就好像软件的快捷键一样。希望它们对你会有帮助。</p>
+<h3><a href="http://colorcharge.com/jquery/" target="_blank">1. jQuery 1.2 Cheat-sheet</a> [PNG]</h3>
+<p><a href="http://colorcharge.com/jquery/"><img decoding="async" loading="lazy" title="1" src="http://technologytosoftware.com/wp-content/uploads/2010/09/1.png" alt="" width="550" height="377" /></a></p>
+<p><span id="more-2964"></span></p>
+<h3><a href="http://www.gscottolson.com/weblog/2008/01/11/jquery-cheat-sheet/" target="_blank">2. jQuery 1.2 Cheat Sheet v1.0</a> [PDF]</h3>
+<p><a href="http://www.gscottolson.com/weblog/2008/01/11/jquery-cheat-sheet/"><img decoding="async" loading="lazy" title="2" src="http://technologytosoftware.com/wp-content/uploads/2010/09/2.png" alt="" width="550" height="374" /></a></p>
+<h3><a href="http://blog.acodingfool.com/cheatsheets/jquery-1-3-cheatsheet/" target="_blank">3. jQuery 1.3 Cheatsheet</a> [PDF]</h3>
+<p><a href="http://blog.acodingfool.com/cheatsheets/jquery-1-3-cheatsheet/"><img decoding="async" loading="lazy" title="3" src="http://technologytosoftware.com/wp-content/uploads/2010/09/32.jpg" alt="" width="550" height="636" /></a></p>
+<h3><a href="http://api.jquery.com/" target="_blank">4. jQuery API Browser</a> [Adobe AIR, HTML]</h3>
+<p><a href="http://api.jquery.com/"><img decoding="async" loading="lazy" title="4" src="http://technologytosoftware.com/wp-content/uploads/2010/09/42.jpg" alt="" width="550" height="151" /></a></p>
+<h3>5. <a href="http://n-bp.com/jquery_cheat_sheet/v11/" target="_blank">jQuery1.1 Cheat Sheet</a> [HTML]</h3>
+<p><a href="http://n-bp.com/jquery_cheat_sheet/v11/"><img decoding="async" loading="lazy" title="5" src="http://technologytosoftware.com/wp-content/uploads/2010/09/52.jpg" alt="" width="550" height="358" /></a></p>
+<h3>6. <a href="http://jtouch.colorcharge.com/" target="_blank">jTouch – jQuery Cheat Sheet for iPhone</a> [HTML]</h3>
+<p><a href="http://jtouch.colorcharge.com/"><img decoding="async" loading="lazy" title="6" src="http://technologytosoftware.com/wp-content/uploads/2010/09/62.jpg" alt="" width="550" height="189" /></a></p>
+<h3>7.<a href="http://www.futurecolors.ru/jquery/" target="_blank"> jQuery 1.4 API Cheat Sheet</a> [HTML, PDF, PNG]</h3>
+<p><a href="http://www.futurecolors.ru/jquery/"><img decoding="async" loading="lazy" title="7" src="http://technologytosoftware.com/wp-content/uploads/2010/09/7.jpg" alt="" width="550" height="189" /></a></p>
+<h3>8. <a href="http://refcardz.dzone.com/refcardz/jquery-selectors" target="_blank">jQuery Selectors</a> [PDF]</h3>
+<p><a href="http://refcardz.dzone.com/refcardz/jquery-selectors"><img decoding="async" loading="lazy" title="8" src="http://technologytosoftware.com/wp-content/uploads/2010/09/82.jpg" alt="" width="550" height="189" /></a></p>
+<h3>9.<a href="http://oscarotero.com/jquery/" target="_blank"> jQuery 1.3 Quick API Reference</a> [ HTML]</h3>
+<p><a href="http://oscarotero.com/jquery/"><img decoding="async" loading="lazy" title="9" src="http://technologytosoftware.com/wp-content/uploads/2010/09/9.png" alt="" width="550" height="343" /></a></p>
+<h3>10.<a href="http://oscarotero.com/jquery/ui.html"> </a><a href="http://oscarotero.com/jquery/ui.html" target="_blank">jQuery UI 1.7 Quick API Reference</a> [ HTML]</h3>
+<p><a href="http://oscarotero.com/jquery/ui.html"><img decoding="async" loading="lazy" title="10" src="http://technologytosoftware.com/wp-content/uploads/2010/09/102.jpg" alt="" width="550" height="189" /></a></p>
+<h3>11. <a href="http://www.javascripttoolbox.com/jquery/cheatsheet/" target="_blank">jQuery 1.3.2 Cheat Sheet</a> [Microsoft Excel (XLS), PDF, PNG]</h3>
+<p><a href="http://www.javascripttoolbox.com/jquery/cheatsheet/"><img decoding="async" loading="lazy" title="11" src="http://technologytosoftware.com/wp-content/uploads/2010/09/112.jpg" alt="" width="550" height="189" /></a></p>
+<h3>12. <a href="http://www.javascripttoolbox.com/jquery/cheatsheet/" target="_blank">jQuery 1.1.3 Cheat Sheet</a> [Microsoft Excel (XLS), PDF, PNG]</h3>
+<p><a href="http://www.javascripttoolbox.com/jquery/cheatsheet/"><img decoding="async" loading="lazy" title="12" src="http://technologytosoftware.com/wp-content/uploads/2010/09/12.gif" alt="" width="550" height="426" /></a></p>
+<h3>13. <a href="http://woork.blogspot.com/2009/09/jquery-visual-cheat-sheet.html" target="_blank">jQuery 1.3 Visual Cheat Sheet</a> [PDF]</h3>
+<p><a href="http://woork.blogspot.com/2009/09/jquery-visual-cheat-sheet.html"><img decoding="async" loading="lazy" title="13" src="http://technologytosoftware.com/wp-content/uploads/2010/09/13.jpg" alt="" width="550" height="389" /></a></p>
+<h3>14.<a href="http://woorkup.com/2010/06/13/jquery-1-4-2-visual-cheat-sheet/" target="_blank"> jQuery 1.4.2 Visual Cheat Sheet</a> [JPEG, PDF]</h3>
+<p><a href="http://woorkup.com/2010/06/13/jquery-1-4-2-visual-cheat-sheet/"><img decoding="async" loading="lazy" title="14" src="http://technologytosoftware.com/wp-content/uploads/2010/09/14.jpg" alt="" width="550" height="579" /></a></p>
+<h3>15. <a href="http://remysharp.com/jquery-api/" target="_blank">jQuery API</a> [HTML]</h3>
+<p><a href="http://remysharp.com/jquery-api/"><img decoding="async" loading="lazy" title="15" src="http://technologytosoftware.com/wp-content/uploads/2010/09/15.jpg" alt="" width="550" height="189" /></a></p>
+<h3>16. <a href="http://labs.impulsestudios.ca/jquery-cheat-sheet" target="_blank">jQuery 1.4 Cheat Sheet</a> [PDF]</h3>
+<p><a href="http://labs.impulsestudios.ca/jquery-cheat-sheet"><img decoding="async" loading="lazy" title="16" src="http://technologytosoftware.com/wp-content/uploads/2010/09/16.jpg" alt="" width="550" height="189" /></a></p>
+<h3>17.<a href="http://chris4403.blogspot.com/2008/01/jquery-cheatsheet-wallpaper.html" target="_blank"> jQuery cheatsheet Wallpaper</a></h3>
+<p><a href="http://chris4403.blogspot.com/2008/01/jquery-cheatsheet-wallpaper.html"><img decoding="async" loading="lazy" title="17" src="http://technologytosoftware.com/wp-content/uploads/2010/09/17.jpg" alt="" width="550" height="189" /></a></p>
+<h3>18. <a href="http://carlos.bueno.org/jq-yui.html" target="_blank">jQuery – YUI3 Rosetta Stone</a> [HTML]</h3>
+<p><a href="http://carlos.bueno.org/jq-yui.html"><img decoding="async" loading="lazy" title="18" src="http://technologytosoftware.com/wp-content/uploads/2010/09/18.jpg" alt="" width="550" height="247" /></a></p>
+<h3>19. <a href="http://www.cheat-sheets.org/#jQuery" target="_blank">jQuery 1.2 by Adrien Gibrat</a> [PDF]</h3>
+<p><a href="http://www.cheat-sheets.org/#jQuery"><img decoding="async" loading="lazy" title="19" src="http://technologytosoftware.com/wp-content/uploads/2010/09/19.jpg" alt="" width="550" height="255" /></a></p>
+<h3>20. <a href="http://acodingfool.typepad.com/blog/2009/01/jquery-13-cheat-sheet.html" target="_blank">jQuery 1.3 Cheat Sheet</a></h3>
+<p><a href="http://acodingfool.typepad.com/blog/2009/01/jquery-13-cheat-sheet.html"><img decoding="async" loading="lazy" title="20" src="http://technologytosoftware.com/wp-content/uploads/2010/09/20.jpg" alt="" width="550" height="336" /></a></p>
+<h3>21. <a href="http://www.gmtaz.com/index.php/jquery-13-cheatsheet-wallpaper/" target="_blank">jQuery 1.3 Cheatsheet Wallpaper </a>[1920×1200, 1680×1050 and 1440×900]</h3>
+<p><a href="http://www.gmtaz.com/index.php/jquery-13-cheatsheet-wallpaper/"><img decoding="async" loading="lazy" title="21" src="http://technologytosoftware.com/wp-content/uploads/2010/09/211.jpg" alt="" width="550" height="189" /></a></p>
+<h3><a href="http://www.cheat-sheets.org/saved-copy/jQuery.1.3.Visual.Cheat.Sheet.by.WOORK.pdf" target="_blank">22. jQuery 1.3 Visual Cheat Sheet by Antonio Lupetti</a> [PDF]</h3>
+<p><a href="http://www.cheat-sheets.org/saved-copy/jQuery.1.3.Visual.Cheat.Sheet.by.WOORK.pdf"><img decoding="async" loading="lazy" title="22" src="http://technologytosoftware.com/wp-content/uploads/2010/09/22.jpg" alt="" width="550" height="378" /></a></p>
+<h3><a href="http://codylindley.com/jqueryselectors/" target="_blank">23. jQuery Selectors Cheatsheet</a> [HTML]</h3>
+<p><a href="http://codylindley.com/jqueryselectors/"><img decoding="async" loading="lazy" title="23" src="http://technologytosoftware.com/wp-content/uploads/2010/09/23.jpg" alt="" width="550" height="189" /></a></p>
+<h3><a href="http://jn.orz.hm/jquery/ui_effect.html" target="_blank">24. jQuery UI – Effects Cheatsheet</a> [HTML]</h3>
+<p><a href="http://jn.orz.hm/jquery/ui_effect.html"><img decoding="async" loading="lazy" title="24" src="http://technologytosoftware.com/wp-content/uploads/2010/09/24.jpg" alt="" width="550" height="189" /></a></p>
+<h3>25. <a href="http://elegantcode.com/wp-content/uploads/2010/03/Jquery-Validator-Cheat-sheet.pdf" target="_blank">jQuery Validator Cheatsheet </a>– Elegant Code [PDF]</h3>
+<p><a href="http://elegantcode.com/wp-content/uploads/2010/03/Jquery-Validator-Cheat-sheet.pdf"><img decoding="async" loading="lazy" title="25" src="http://technologytosoftware.com/wp-content/uploads/2010/09/25.jpg" alt="" width="550" height="189" /></a></p>
+<p>文章：<a href="http://technologytosoftware.com/most-useful-jquery-cheat-sheets.html" target="_blank">http://technologytosoftware.com/most-useful-jquery-cheat-sheets.html</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/vim_cheat_sheet_for_programmers_print-150x150.png" alt="给程序员的VIM速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5479.html" class="wp_rp_title">给程序员的VIM速查卡</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="另类UX让你输入强口令" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3877.html" class="wp_rp_title">另类UX让你输入强口令</a></li><li ><a href="https://coolshell.cn/articles/3480.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/01/OB-LP754_bestjo_D_20110104181820-150x150.jpg" alt="一些有意思的网站和贴子" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3480.html" class="wp_rp_title">一些有意思的网站和贴子</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2964.html">25个jQuery的编程小抄</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2964.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个jQuery的插件</title>
+		<link>https://coolshell.cn/articles/2357.html</link>
+					<comments>https://coolshell.cn/articles/2357.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 14 Apr 2010 05:42:36 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2357</guid>
+
+					<description><![CDATA[<p>jQuery这个强大的玩意我就不多说了，不知道可以上网搜搜看。IE6我也不多说了，这可能是史上骂名最多的一个浏览器，网上有N多的声讨IE6的文章，你也可以参看本...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2357.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2357.html">一个jQuery的插件</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>jQuery这个强大的玩意我就不多说了，不知道可以上网搜搜看。IE6我也不多说了，这可能是史上骂名最多的一个浏览器，网上有N多的声讨IE6的文章，你也可以参看本站的《<a rel="bookmark" href="https://coolshell.cn/articles/1817.html">9个最常见IE的Bug及其fix</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/1245.html">IE的CSS相关的BUG</a>》，如果你今天还在用IE6，或是IE类浏览器，那请让我小小的BS你一下。</p>
+<p>这个jQuery的Plugin可能是有史以来所有plugin中最有个性的一个，因为这个plugin什么也不干，其会用户的IE6版的浏览器直接Crash掉。这个plugin叫jQuery Crash，其网页链接在下面，是一个四星级的插件，仅仅435个字节。</p>
+<p style="text-align: center;"><a href="http://plugins.jquery.com/project/crash" target="_blank">http://plugins.jquery.com/project/crash</a></p>
+<p style="text-align: left;">其是这样介绍自己的，有脏话，我就不翻译了。</p>
+<blockquote><p>A jQuery plugin for crashing IE6. That&#8217;ll teach those motherf!%@*#s to upgrade their s#*t.</p></blockquote>
+<p>其它，让IE系例的浏览器挂掉，并不需要Javascript，你可以尝试点击下面这个页面，这是一个纯HTML的页面，没有任何的CSS，或是JS的东西，只有HTML。请小心打开（如果在Firefox中打开也可能会挂，Chrome中没事）</p>
+<p style="text-align: center;"><a href="http://www.gregmerideth.net/html/iecrash.html" target="_blank">http://www.gregmerideth.net/html/iecrash.html</a></p>
+<p>这个纯HTML的来源是本来是作者写了一个程序生成了一个N层嵌套的表格，结果在IE5中导致了IE5不响应直到Crash并使用了100%的CPU资源，这么多年过去了，还是老样子，在我的dual-core+IE7上，也是一样，占了50%的CPU，而且还有很高的内核使用，最后只能把进程给kill了。BT啊，纯HTML都会让IE这样。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/Green-Computing-150x150.jpg" alt="做个环保主义的程序员" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7186.html" class="wp_rp_title">做个环保主义的程序员</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/06/sina_xss01-150x150.png" alt="新浪微博的XSS攻击" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4914.html" class="wp_rp_title">新浪微博的XSS攻击</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3921.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/03/IE6-Countdown-150x150.png" alt="中国仍是IE6的重灾区" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3921.html" class="wp_rp_title">中国仍是IE6的重灾区</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2357.html">一个jQuery的插件</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2357.html/feed</wfw:commentRss>
+			<slash:comments>23</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Web中的省略号</title>
+		<link>https://coolshell.cn/articles/1949.html</link>
+					<comments>https://coolshell.cn/articles/1949.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 15 Dec 2009 00:43:59 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[ellipsis]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1949</guid>
+
+					<description><![CDATA[<p>在Web开发中，对于一种情况很常见。那就是，文本太长，而放置文本的容器不够长，而我们又不想让文本换行，所以，我们想使用省略号来解决这个问题。但是，在今天HTML...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1949.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1949.html">Web中的省略号</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在Web开发中，对于一种情况很常见。那就是，文本太长，而放置文本的容器不够长，而我们又不想让文本换行，所以，我们想使用省略号来解决这个问题。但是，在今天HTML的标准中并没有相关的标识或属性让你可以简单地完成这个事。但是我们可以使用CSS样式表来完成这个事，在IE，Safari，Chrome，Opera中都可以。但在Firefox中却不行，但我们可以使用jQuery来解决Firefox不兼容的问题。下面是相关的代码示例。</p>
+<p><strong>使用CSS设置省略号</strong></p>
+<pre data-enlighter-language="html" class="EnlighterJSRAW">
+overflow: hidden;
+text-overflow: ellipsis;
+-o-text-overflow: ellipsis;
+white-space: nowrap;
+width: 100%;
+</pre>
+<p><span id="more-1949"></span></p>
+<ul>
+<li><strong>overflow</strong> 属性是必需的，并且属性要是hidden。</li>
+<li><strong>white-space: nowrap</strong> 也是必需的。如果文本可以自动换行，就算是不可见，也不会有省略号的。因为文本换行了，所以没有超过容器的尺寸，所以也就不会有省略号了。</li>
+<li> <strong>width </strong>属性仅在需要支持IE6时设置。 设置成100%仅是为了解决IE6的不兼容问题。（关于IE中的那些不兼容问题，你可以参看本站的《<a rel="bookmark" href="https://coolshell.cn/articles/1817.html">9个最常见IE的Bug及其fix</a>》）</li>
+<li><strong>text-overflow: ellipsis</strong> 就是设置省略号了。目前还不是HTML的标准规范。其是由IE引入的，可以在IE6+，Safari 3.2+和Chrome上工作。</li>
+<li><strong>-o-text-overflow: ellipsis</strong> 是 Opera 支持的。可以在 Opera 9.0+使用。</li>
+</ul>
+<p><strong>使用jQuery设置省略号</strong></p>
+<p>正如前面所说过的，Firefox并不支持CSS中的那些省略号设置，因为那并不是标准的HTML规范。所以，我们需要使用jQuery的Javascript来干这个事。你可以下载由Devon Govett写的<a href="http://devongovett.wordpress.com/2009/04/06/text-overflow-ellipsis-for-firefox-via-jquery/">jQuery 省略号插件</a>，于是，你可以简单的把&#8221;ellipsis&#8221;赋给某些元件或是CSS定义，如下所示：</p>
+<p>[javascript]$(document).ready(function() {<br />
+    $(&#8216;.ellipsis&#8217;).ellipsis();<br />
+}[/javascript]</p>
+<p>或是</p>
+<p>[javascript]$(&quot;span&quot;).ellipsis();[/javascript]<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1949.html">Web中的省略号</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1949.html/feed</wfw:commentRss>
+			<slash:comments>8</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>十个Web开发文章和教程</title>
+		<link>https://coolshell.cn/articles/1387.html</link>
+					<comments>https://coolshell.cn/articles/1387.html#respond</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 31 Aug 2009 09:18:41 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[CSS3]]></category>
+		<category><![CDATA[jQuery]]></category>
+		<category><![CDATA[PHP]]></category>
+		<category><![CDATA[Wordpress]]></category>
+		<category><![CDATA[正则表达式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1387</guid>
+
+					<description><![CDATA[<p>下面是十个在2009年8月份里出现的十个非常不错的Web开发方面的文章和教程。推荐给大家，当然，都是英文啦。如果你愿意，欢迎翻译后提交给酷壳。 1）一个简单的L...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1387.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1387.html">十个Web开发文章和教程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是十个在2009年8月份里出现的十个非常不错的Web开发方面的文章和教程。推荐给大家，当然，都是英文啦。如果你愿意，欢迎翻译后提交给<a href="https://coolshell.cn" target="_blank">酷壳</a>。</p>
+<p>1）<a href="http://www.queness.com/post/530/simple-lava-lamp-menu-tutorial-with-jquery" target="_blank">一个简单的Lava 灯式的菜单</a>（使用jQuery完成）</p>
+<p>2）<a href="http://www.jankoatwarpspeed.com/post/2009/08/20/Table-of-contents-using-jQuery.aspx" target="_blank">使用jQuery自动生成文章内容的目录</a>。就像是使用Word一样，设置一下标题，然后可以自动生成文章的目录。</p>
+<p>3）<a href="http://www.queness.com/post/484/create-a-thumbnail-gallery-with-slick-heading-and-caption-effect-with-jquery" target="_blank">使用jQuery为图片创建图片标题和描述</a>。这是一个超Cool的效果，当你的鼠标移到图片上的时候，图片的上下会出现遮覆，上面是标题，下面是描述，相当不错的用户体验，当鼠标移开后，遮覆消失。</p>
+<p><span id="more-1387"></span></p>
+<p>4）<a href="http://net.tutsplus.com/videos/screencasts/a-crash-course-in-advanced-css3-effects/" target="_blank">CSS3速成教程</a>。主要讨论了CSS3的这些特性：旋转和改变大小，动画，Photoshop风格的遮罩，图片倒影，色彩渐变，转换等。有一个不错的flash视频。</p>
+<p>5）<a href="http://www.hongkiat.com/blog/30-new-useful-wordpress-tricks-hacks/" target="_blank">30+相当有用的Wordpress的巧门</a>。相当相当不错的一些和Wordpress相关的插件和小巧门，非常非常地实用。</p>
+<p>6）<a href="http://www.noupe.com/php/htaccess-techniques.html" target="_blank">htaccess技术的权威性指南</a>。本文给出了12个非常有用的apache的设置，可以让你更容易设置你的站点，在这篇文章的最后，还列出了一些经验上的东西。另外，你可以参考本站的《<a rel="bookmark" href="https://coolshell.cn/articles/1035.html">16个简单实用的.htaccess小贴示</a>》。</p>
+<p>7）<a href="http://www.noupe.com/php/php-regular-expressions.html" target="_blank">PHP正则表达式入门</a>。一个相当不错的入门教程，写得简单易懂。</p>
+<p>8）<a href="http://net.tutsplus.com/tutorials/other/8-regular-expressions-you-should-know/" target="_blank">你需要知道的8个正则表达式</a>。正则表达式很有用，但是它具体用在什么地方呢？这篇文章给你了一票非常实用的示例。相当的不错。浏览这篇文章时别忘了看一下大家的回复，那里面也有很多不错的资源。</p>
+<p>9）<a href="http://speckyboy.com/2009/08/26/20-jquery-plugins-and-tutorials-to-enhance-forms/" target="_blank">20个可以改进表单的jQuery插件</a>。都是相当实用的插件，可以让你的Web表单相当的成熟和有很好的用户体验。</p>
+<p>10）<a href="http://css-tricks.com/inapproprite-uses/" target="_blank">数据库，HTML，CSS，JS不适应的用法</a>。很不错的文章，你需要记住下面的这个表格。</p>
+<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid">
+<div style="display: block; float: left; width: 200px; text-align: right;">Database</div>
+<div><em style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt">is for</em>content</div>
+</div>
+<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid">
+<div style="display: block; float: left; width: 200px; text-align: right;">HTML</div>
+<div><em style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt">is for</em>describing and displaying content</div>
+</div>
+<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid">
+<div style="display: block; float: left; width: 200px; text-align: right;">CSS</div>
+<div><em style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt">is for</em>design</div>
+</div>
+<div style="PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; OVERFLOW: hidden; PADDING-TOP: 5px; BORDER-BOTTOM: #cccccc 1px solid">
+<div style="display: block; float: left; width: 200px; text-align: right;">JavaScript</div>
+<div><em style="PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0pt; PADDING-TOP: 0pt">is for</em>functionality</div>
+</div>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/08/Pagination-e1312791884744-150x150.jpg" alt="PHP分页技术的代码和示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5160.html" class="wp_rp_title">PHP分页技术的代码和示例</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1387.html">十个Web开发文章和教程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1387.html/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

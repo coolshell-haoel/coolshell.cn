@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Linus Torvalds | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/linus-torvalds/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 31 Dec 2014 01:59:33 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Linus：为何对象引用计数必须是原子的</title>
+		<link>https://coolshell.cn/articles/16910.html</link>
+					<comments>https://coolshell.cn/articles/16910.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Wed, 31 Dec 2014 01:59:33 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[Atomic]]></category>
+		<category><![CDATA[Concurrency]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[lock-free]]></category>
+		<category><![CDATA[Parallelism]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=16910</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） Linus大神又在rant了！这次的吐槽对象是时下很火热的并行技术(parellism)，并直截了当地表示并行计算是浪费所...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/16910.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/16910.html">Linus：为何对象引用计数必须是原子的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>Linus大神又在rant了！这次的吐槽对象是时下很火热的<strong>并行技术(parellism)</strong>，并直截了当地表示<a title="并行计算基本上就是浪费大家的时间" href="http://www.vaikan.com/linus-parallel-computing-is-a-huge-waste-of-everybodys-time/" target="_blank">并行计算是浪费所有人时间</a>(<a href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146227">&#8220;The whole &#8220;let&#8217;s parallelize&#8221; thing is a huge waste of everybody&#8217;s time.&#8221;</a>)。大致意思是说<strong>乱序性能快、提高缓存容量、降功耗</strong>。当然笔者不打算正面讨论并行的是是非非（过于宏伟的主题），因为Linus在另一则<a title="reference counting" href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146183" target="_blank">帖子</a>中举了对象<strong>引用计数(reference counting)</strong>的例子来说明并行的复杂性。</p>
+<p>在Linus回复之前有人指出<strong>对象需要锁机制的情况下，引用计数的原子性问题：</strong></p>
+<blockquote><p>Since it is being accessed in a multi-threaded way, via multiple access paths, generally it needs its own mutex &#8212; otherwise, reference counting would not be required to be atomic and a lock of a higher-level object would suffice.</p>
+<p>由于（对象）通过多线程方式及多种获取渠道，一般而言它需要自身维护一个互斥锁——否则引用计数就不要求是原子的，一个更高层次的对象锁足矣。</p></blockquote>
+<p>而Linus不那么认为：</p>
+<blockquote><p>The problem with reference counts is that you often need to take them *before* you take the lock that protects the object data.</p>
+<p>引用计数的问题在于你经常需要在对象数据<strong>上锁保护之前</strong>完成它。</p></blockquote>
+<p>The thing is, you have two different cases:</p>
+<p>问题有两种情况：</p>
+<p style="padding-left: 30px;"><strong>&#8211; object *reference* 对象引用</strong></p>
+<p style="padding-left: 30px;"><strong>&#8211; object data 对象数据</strong></p>
+<p>and they have completely different locking.</p>
+<p><strong>它们锁机制是完全不一样的。</strong></p>
+<p><span id="more-16910"></span></p>
+<p>Object data locking is generally per-object. Well, unless you don&#8217;t have huge scalability issues, in which case you may have some external bigger lock (extreme case: one single global lock).</p>
+<p>对象数据保护一般是一个对象拥有一个锁，假设你没有海量扩展性问题，不然你需要一些外部大一点的锁（极端的例子，一个对象一个全局锁）。</p>
+<p>But object *referencing* is mostly about finding the object (and removing/freeing it). Is it on a hash chain? Is it in a tree? Linked list? When the reference count goes down to zero, it&#8217;s not the object data that you need to protect (the object is not used by anything else, so there&#8217;s nothing to protect!), it&#8217;s the ways to find the object you need to protect.</p>
+<p>但对象引用主要关于对象的寻找（移除或释放），它是否在哈希链，一棵树或者链表上。<strong>当对象引用计数降为零，你要保护的不是对象数据，因为对象没有在其它地方使用，你要保护的是对象的寻找操作。</strong></p>
+<p>And the lock for the lookup operation cannot be in the object, because &#8211; by definition &#8211; you don&#8217;t know what the object is! You&#8217;re trying to look it up, after all.</p>
+<p>而且查询操作的锁不可能在对象内部，因为根据定义，你还不知道这是什么对象，你在尝试寻找它。</p>
+<p>So generally you have a lock that protects the lookup operation some way, and the reference count needs to be atomic with respect to that lock.</p>
+<p>因此一般你要对查询操作上锁，而且引用计数相对<strong>那个锁</strong>来说是原子的（译者注：查询锁不是引用计数所在的对象所有，不能保护对象引用计数，后面会解释为何引用计数变更时其所在对象不能上锁）。</p>
+<p>And yes, that lock may well be sufficient, and now you&#8217;re back to non-atomic reference counts. But you usually don&#8217;t have just one way to look things up: you might have pointers from other objects (and that pointer is protected by the object locking of the other object), but there may be multiple such objects that point to this (which is why you have a reference count in the first place!)</p>
+<p>当然这个锁是充分有效的，现在假设引用计数是非原子的，但你常常不仅仅使用一种方式来查询：你可能拥有其它对象的指针（这个指针又被其它对象的对象锁给保护起来），但同时还会有多个对象指向它（这就是为何你第一时间需要引用计数的理由）。</p>
+<p>See what happens? There is no longer one single lock for lookup. Imagine walking a graph of objects, where objects have pointers to each other. Each pointer implies a reference to an object, but as you walk the graph, you have to release the lock from the source object, so you have to take a new reference to the object you are now entering.</p>
+<p>看看会发生什么？查询不止存在一个锁保护。你可以想象走过一张对象流程图，其中对象存在指向其它对象的指针，每个指针暗含了一次对象引用，但当你走过这个流程图，你必须释放源对象的锁，而你进入新对象时又必须增加一次引用。</p>
+<p>And in order to avoid deadlocks, you can not in the general case take the lock of the new object first &#8211; you have to release the lock on the source object, because otherwise (in a complex graph), how do you avoid simple ABBA deadlock?</p>
+<p>而且为了避免死锁，你一般不能立即对新对象上锁——你必须释放源对象的锁，否则在一个复杂流程图里，你如何避免<strong>ABBA死锁</strong>（译者注：假设两个线程，一个是A-&gt;B，另一个B-&gt;;A，当线程一给A上锁，线程二给B上锁，此时两者谁也无法释放对方的锁）？</p>
+<p>So atomic reference counts fix that. They work because when you move from object A to object B, you can do this:</p>
+<p>原子引用计数修正了这一点，当你从对象A到对象B，你会这样做：</p>
+<p>(a) you have a reference count to A, and you can lock A</p>
+<p style="padding-left: 30px;">对象A增加一次引用计数，并上锁。</p>
+<p>(b) once object A is locked, the pointer from A to B is stable, and you know you have a reference to B (because of that pointer from A to B)</p>
+<p style="padding-left: 30px;">对象A一旦上锁，A指向B的指针就是稳定的，于是你知道你引用了对象B。</p>
+<p>(c) but you cannot take the object lock for B (ABBA deadlock) while holding the lock on A</p>
+<p style="padding-left: 30px;">但你不能在对象A上锁期间给B上锁（ABBA死锁）。</p>
+<p>(d) increment the atomic reference count on B</p>
+<p style="padding-left: 30px;">对象B增加一次原子引用计数。</p>
+<p>(e) now you can drop the lock on A (you&#8217;re &#8220;exiting&#8221; A)</p>
+<p style="padding-left: 30px;">现在你可以扔掉对象A的锁（退出对象A）。</p>
+<p>(f) your reference count means that B cannot go away from under you despite unlocking A, so now you can lock B.</p>
+<p style="padding-left: 30px;">对象B的原子引用计数意味着即使给A解锁期间，B也不会失联，现在你可以给B上锁。</p>
+<p>See? Atomic reference counts make this kind of situation possible. Yes, you want to avoid the overhead if at all possible (for example, maybe you have a strict ordering of objects, so you know you can walk from A to B, and never walk from B to A, so there is no ABBA deadlock, and you can just lock B while still holding the lock on A).</p>
+<p>看见了吗？原子引用计数使这种情况成为可能。是的，你想尽一切办法避免这种代价，比如，你也许把对象写成严格顺序的，这样你可以从A到B，绝不会从B到A，如此就不存在ABBA死锁了，你也就可以在A上锁期间给B上锁了。</p>
+<p>But if you don&#8217;t have some kind of forced ordering, and if you have multiple ways to reach an object (and again &#8211; why have reference counts in the first place if that isn&#8217;t true!) then atomic reference counts really are the simple and sane answer.</p>
+<p>但如果你无法做到这种强迫序列，如果你有多种方式接触一个对象（再一次强调，这是第一时间使用引用计数的理由），这样，原子引用计数就是简单又理智的答案。</p>
+<p>If you think atomic refcounts are unnecessary, that&#8217;s a big flag that you don&#8217;t actually understand the complexities of locking.</p>
+<p><strong>如果你认为原子引用计数是不必要的，这就大大说明你实际上不了解锁机制的复杂性。</strong></p>
+<p>Trust me, concurrency is hard. There&#8217;s a reason all the examples of &#8220;look how easy it is to parallelize things&#8221; tend to use simple arrays and don&#8217;t ever have allocations or freeing of the objects.</p>
+<p>相信我，<strong>并发设计是困难的。</strong>所有关于“并行化如此容易”的理由都倾向于使用简单数组操作做例子，甚至不包含对象的分配和释放。</p>
+<p>People who think that the future is highly parallel are invariably completely unaware of just how hard concurrency really is. They&#8217;ve seen Linpack, they&#8217;ve seen all those wonderful examples of sorting an array in parallel, they&#8217;ve seen all these things that have absolutely no actual real complexity &#8211; and often very limited real usefulness.</p>
+<p>那些认为未来是高度并行化的人一成不变地完全没有意识到并发设计是多么困难。他们只见过<a title="Linpack" href="http://en.wikipedia.org/wiki/LINPACK" target="_blank">Linpack</a>，他们只见过并行技术中关于数组排序的一切精妙例子，他们只见过一切绝不算真正复杂的事物——对真正的用处经常是非常有限的。</p>
+<p>（译者注：当然，我无意借大神之口把技术宗教化。实际上Linus又在另一篇<a title="评价" href="http://www.realworldtech.com/forum/?threadid=146066&amp;curpostid=146198" target="_blank">帖子</a>中综合了对并行的评价。）</p>
+<p>Oh, I agree. My example was the simple case. The really complex cases are much worse.</p>
+<p>哦，我同意。我的例子还算简单，真正复杂的用例更糟糕。</p>
+<p>I seriously don&#8217;t believe that the future is parallel. People who think you can solve it with compilers or programming languages (or better programmers) are so far out to lunch that it&#8217;s not even funny.</p>
+<p>我严重不相信未来是并行的。有人认为你可以通过编译器，编程语言或者更好的程序员来解决问题，他们目前都是神志不清，没意识到这一点都不有趣。</p>
+<p>Parallelism works well in simplified cases with fairly clear interfaces and models. You find parallelism in servers with independent queries, in HPC, in kernels, in databases. And even there, people work really hard to make it work at all, and tend to expressly limit their models to be more amenable to it (eg databases do some things much better than others, so DB admins make sure that they lay out their data in order to cater to the limitations).</p>
+<p>并行计算可以在简化的用例以及具备清晰的接口和模型上正常工作。你发现并行在服务器上独立查询里，在高性能计算(High-performance computing)里，在内核里，在数据库里。即使如此，人们还得花很大力气才能使它工作，并且还要明确限制他们的模型来尽更多义务（例如数据库要想做得更好，数据库管理员得确保数据得到合理安排来迎合局限性）。</p>
+<p>Of course, other programming models can work. Neural networks are inherently very parallel indeed. And you don&#8217;t need smarter programmers to program them either..</p>
+<p>当然，其它编程模型倒能派上用场，神经网络(neural networking)天生就是非常并行化的，你不需要更聪明的程序员为之写代码。</p>
+<h4>参考资料</h4>
+<ul>
+<li><a title="Real World Technologies" href="http://www.realworldtech.com/" target="_blank">Real World Technologies</a>：Linus常去“灌水”的一个论坛，讨论未来机器架构（看名字就知道Linus技术偏好，及其之前对虚拟化技术(virtualization)的<a title="virtualization is evil" href="http://www.networkworld.com/article/2220440/opensource-subnet/torvalds-says---virtualization-is-evil-.html" target="_blank">吐槽</a>）</li>
+<li><a title="多线程程序中操作的原子性" href="http://www.parallellabs.com/2010/04/15/atomic-operation-in-multithreaded-application/" target="_blank">多线程程序中操作的原子性</a>：解释为什么i++不是原子操作</li>
+<li><a title="Concurrency Is Not Parallelism" href="http://www.vaikan.com/docs/Concurrency-is-not-Parallelism" target="_blank"> Concurrency Is Not Parallelism</a>：Go语言之父Rob Pike幻灯片解释“并发”与“并行”概念上的区别</li>
+</ul>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="对九个超级程序员的采访" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_title">对九个超级程序员的采访</a></li><li ><a href="https://coolshell.cn/articles/6790.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/o_conditional_update_1-150x150.png" alt="多版本并发控制(MVCC)在分布式系统中的应用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6790.html" class="wp_rp_title">多版本并发控制(MVCC)在分布式系统中的应用</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/1619.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/Linus_windows_7-150x150.jpg" alt="Windows 7 的新粉丝 Linus Torvalds" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1619.html" class="wp_rp_title">Windows 7 的新粉丝 Linus Torvalds</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/16910.html">Linus：为何对象引用计数必须是原子的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/16910.html/feed</wfw:commentRss>
+			<slash:comments>37</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Alan Cox：大教堂、市集与市议会</title>
+		<link>https://coolshell.cn/articles/9917.html</link>
+					<comments>https://coolshell.cn/articles/9917.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Mon, 08 Jul 2013 07:42:27 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Alan Cox]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=9917</guid>
+
+					<description><![CDATA[<p>（感谢网友 @我的上铺叫路遥 投稿） 在网上搜到的Cox大叔于1998年在开源社区写的一篇文章，当时很轰动，明眼人一看就知道是针对ESR那篇《大教堂与市集》，从...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/9917.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/9917.html">Alan Cox：大教堂、市集与市议会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>（感谢网友 </strong><a href="http://weibo.com/fullofbull" target="_blank"><strong>@我的上铺叫路遥</strong></a><strong> 投稿）</strong></p>
+<p>在网上搜到的Cox大叔于1998年在开源社区写的一篇文章，当时很轰动，明眼人一看就知道是针对ESR那篇《大教堂与市集》，从中可见Alan在项目管理风格上乃至个人性格上都与ESR、Linus等人不同之处。顺便说一句，Alan现在出于“家庭原因”已经离开了Linux项目，他曾经评价Linus是<a href="http://apolyton.net/showthread.php/130212-Linus-Torvalds-is-a-terrible-engineer-Alan-Cox" target="_blank">a good developer but a terrible engineer</a>，甚至在Google+上直接说Linus就是一a*sh**e。不管如何，两位曾经十余年里并肩战斗惺惺相惜的大牛就此分道扬镳还是惹人唏嘘。</p>
+<p>言归正传，以下为slashdot收录的英文原文：<a href="http://news.slashdot.org/story/98/10/13/1423253/featurecathedrals-bazaars-and-the-town-council" target="_blank">Cathedrals, Bazaars and the Town Council</a>。</p>
+<p>以下是一些我对市集模式的想法，我认为这值得分享，这种模式会教你如何完全毁掉一个自由软件项目。我还举了一个我称之为“市议会”(Town Council)效应的实例（虽然那些市议员们可不这么认为，注：此处指Linux项目开发者）。</p>
+<p>关于软件开发人员，你必须去了解一些情况。首先要了解的是真正优秀的程序员相对来说并不普遍，不仅如此，在很多其它专业领域里“真正的程序员”和一些捣乱的家伙之间的区别要比“伟大”和“普通”之间的区别要大得多，研究表明生产效率上最好的同其余的比重是30:1。</p>
+<p>其次，你需要了解的是一大堆妄想型码农(wannabe programmer)总是善于发表意见。其中很多人患上了一种叫做“流行性热词”(buzzword)疾病，或者对他们“非黑即白”(one true path)的思考方式有着特殊的偏执，网上很多讨论都是廉价的。</p>
+<p><span id="more-9917"></span></p>
+<p>第三个关于软件项目的事情就是我们所谓的“闲杂人员”(the masses)。他们不是编程人员，而在其它方面有着大量贡献——文档编辑、用户支持，以及对那类经常争论你应该获得许可证才能上网的人的说服工作。</p>
+<p>我想以Linux 8086（注，Intel设计的16位处理器架构）为例来说明如何将整个工程全部搞砸。将Linux的一个子集移植到8086上大体是这世上最无聊的活动之一。整件事的发起就像个笑话并走向失控。</p>
+<p>只有极少数真正的程序员会将时间及其良好的精神状态（或许那是假的）花费在那些唯一价值在于“黑客精神”(Hack Value)的项目上，故而在任何时候那种项目也就两三个核心贡献人员而已。</p>
+<p>不幸的是大批人认为将Linux运行在8086上是干净的，为此义不容辞地想要“入伙”。这类人大多属于妄想型码农之流，以至于连闲杂人员在一个安全距离之外都会沾染上这个项目的“愚蠢”因子。</p>
+<p>问题的导火索在于一大批充满（大多善意的）危险的一知半解的人们的意识观念——不是代码，而是意识观念。他们似乎很懂得如何去编程，但很多人连“Hello World”这样的C程序都不会。他们花了几星期时间去争论并投票该使用什么编译器，甚至在项目开展一年后还在争论是否去写个充分完美的编译器。他们热衷于辩论如何生成大量二进制文件，却又对内核swapper（注，即idle task）设计一无所知。</p>
+<p>Linux 8086项目仍然进行着，真正的开发人员将邮件列表里许多其他成员加入到清除文件(kill files)中，以便他们之间可以顺畅地通过邮件列表沟通，只因半吊子打酱油的家伙实在太多了。这一切不再是市集模式，而是形成了一个核心小组，对圈子里许多人而言这是一种礼貌用语。在这种情形下人们不可避免地处于被动位置。</p>
+<p>像Linux这种基于用户/程序员的项目成长缓慢，虽然它是靠着一群贡献代码的人得以成长起来，但这些人的背景要么是从原始的Minix（注，一种微内核操作系统）黑客社区起家，要么通过艰难的方式不断从头学起。随着项目增长，人们本应该形成一个“Linux内核结构规划管理委员会”，而不是掉入将人们招来唤去，不将失败视为问题的怪圈，用Linus的话来说就是“给我看源码”。</p>
+<p>如果有人陷入困境，他可以发帖询问，在这之前包括现在很大程度上都基于人们正常地拥有时间并具备知识来回复他。在Linux 8086的案例中，开发人员很长一段时间身陷囹圄。假使主动活跃的程序员对只有潜在用处的妄想型码农的比例更高一点的话，我们就可以将一些杂音转化成生产力。项目也就获得更多有用的程序员，他们可以轮流向他人传授经验，任何学习活动都会让你变得更好，哪怕只有一些少量实习生。</p>
+<p>一些人会认为你无法将那些“次要程序员”(lesser programmer)训练成真正的程序员。就Linux项目的个人经验而言，很多人员只要获得一丁点儿的帮助和自信鼓励都将成为世界上最好的开发人员之一。只要帮助和鼓励足够多，很多人就能成功。</p>
+<p>Linux 8086总算大部分从“侵扰”中恢复过来，可至今仍是个不起眼的小项目。你可以从CVS目录树上下载这个由Alistair Riddich领导的项目，他做了很多优秀的工作。随着市议员的撤出，人们可以询问、参与并改善这个项目。</p>
+<p>我们从这个项目，还有其它相同命运的早期Linux 16位处理器项目（有的已死）中很清楚地学到以下几点教训。</p>
+<ul>
+<li>从项目一开始就发布源代码。哪怕不是很有用也无关紧要，将市议会排序分类的最好方式就是发布源代码并告知人们。Linux、KDE以及GNOME都遵循这种方式并获益良多。你可以花一辈子时间去争论怎样写代码才是正确的。只要代码公布，人们（不管水平怎样）都会把玩它。</li>
+</ul>
+<ul>
+<li>要欣赏那些给一点帮助就会对项目做出巨大贡献的人。如果他们最初的补丁有错误，不要盛气凌人，向其解释问题出在哪里并给出解决方案的建议，或者可以查询解决方法的地方。解答真正的问题，帮助别人，你所花费的一分一秒都会成十倍地回报在项目上，对社会也会带来无法估量的好处。[注]</li>
+</ul>
+<ul>
+<li>不要忘记那些非开发人员。我难过地发现许多人问起“前5名最重要的内核成员”时却极少涉及在所有人中最重要的一些——他们负责维护网站，更新日志和邮件列表，还有编辑文档，这些都是同等重要。<br />
+Linus那句“给我看源代码”对真正的项目来说是个狭隘的视角。当你听到人们说“我很想帮忙，可我不会编程”，那么他可以从事文档编写。当人们说“但英语不是我的第一语言”，这时你需要的是一位文档编辑或另一门语言翻译者。</li>
+</ul>
+<ul>
+<li>尝试将有用的人从杂音中分离出来，将有意愿帮忙的人从一大堆无聊评论中分离出来是很难的。在Linux 8086项目中我的确错误地放弃了这一目标，如何将那些只会空谈而又无所事事的人弄走是一门学问。</li>
+</ul>
+<p>下次碰到人们在项目上投票，或者问题讨论了一个月才实现这类情况，给予他们警告。这样才能使人正确地解决问题。在你看来如果一些稀奇古怪的事务不顾一切地运行着，要求他们给你发个补丁，只要能够生效的话。</p>
+<p>小心地说“我们应该怎样”之类的话，对“我该如何做”这样的人伸出援手。</p>
+<p>Alan</p>
+<p>[注]这段话举个例子说明一下。Linux IPv6源码作者以前在葡萄牙上网聊天，只会简单讨论和问一些基本问题。我们助其弄明白一些内核原理之后，他写了大约75%的IPv6协议栈代码，他最近受聘于美国思科公司。</p>
+<p>附录一：一篇针对本文的<a href="http://tech.groups.yahoo.com/group/java-os-project/message/2358?var=1&amp;p=1" target="_blank">吐槽贴</a></p>
+<p>附录二：2009年Cox回复Torvalds的<a href="https://lkml.org/lkml/2009/7/28/375" target="_blank">邮件</a>，事情起因是Cox的一个tty patch导致<a href="https://lkml.org/lkml/2009/7/11/125" target="_blank">kdesu(KDE project&#8217;s su utility)</a>程序无法工作，该问题争论长达两个星期，此后Alan离开了Linux项目投奔Intel。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/1278.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/20.jpg" alt="Linus Torvalds 语录 Top 10" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1278.html" class="wp_rp_title">Linus Torvalds 语录 Top 10</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/9917.html">Alan Cox：大教堂、市集与市议会</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/9917.html/feed</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Linus：利用二级指针删除单向链表</title>
+		<link>https://coolshell.cn/articles/8990.html</link>
+					<comments>https://coolshell.cn/articles/8990.html#comments</comments>
+		
+		<dc:creator><![CDATA[Leo]]></dc:creator>
+		<pubDate>Mon, 04 Feb 2013 00:33:20 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Coding]]></category>
+		<category><![CDATA[Kernel]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8990</guid>
+
+					<description><![CDATA[<p>感谢网友full_of_bull投递此文（注：此文最初发表在这个这里，我对原文后半段修改了许多，并加入了插图） Linus大婶在slashdot上回答一些编程爱...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8990.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8990.html">Linus：利用二级指针删除单向链表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><strong>感谢网友full_of_bull投递此文</strong>（注：此文最初发表在这个<a href="http://www.oldlinux.org/oldlinux/viewthread.php?tid=14575&amp;extra=page%3D1" target="_blank">这里</a>，我对原文后半段修改了许多，并加入了插图）</p>
+<p>Linus大婶在<a href="http://meta.slashdot.org/story/12/10/11/0030249/linus-torvalds-answers-your-questions" target="_blank">slashdot</a>上回答一些编程爱好者的提问，其中一个人问他什么样的代码是他所喜好的，大婶表述了自己一些观点之后，举了一个指针的例子，解释了什么才是<strong>core low-level coding</strong>。</p>
+<p>下面是Linus的教学原文及翻译——</p>
+<p style="padding-left: 30px;">“At the opposite end of the spectrum, I actually wish more people understood the really core low-level kind of coding. Not big, complex stuff like the lockless name lookup, but simply good use of pointers-to-pointers etc. For example, I&#8217;ve seen too many people who delete a singly-linked list entry by keeping track of the &#8220;prev&#8221; entry, and then to delete the entry, doing something like。（在这段话的最后，我实际上希望更多的人了解什么是真正的核心底层代码。这并不像无锁文件名查询（注：可能是git源码里的设计）那样庞大、复杂，只是仅仅像诸如使用二级指针那样简单的技术。例如，我见过很多人在删除一个单项链表的时候，维护了一个&#8221;prev&#8221;表项指针，然后删除当前表项，就像这样）”</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">if (prev)
+    prev-&gt;next = entry-&gt;next;
+else
+    list_head = entry-&gt;next;</pre>
+<p style="padding-left: 30px;">and whenever I see code like that, I just go &#8220;This person doesn&#8217;t understand pointers&#8221;. And it&#8217;s sadly quite common.（当我看到这样的代码时，我就会想“这个人不了解指针”。令人难过的是这太常见了。）</p>
+<p><span id="more-8990"></span></p>
+<p style="padding-left: 30px;">People who understand pointers just use a &#8220;pointer to the entry pointer&#8221;, and initialize that with the address of the list_head. And then as they traverse the list, they can remove the entry without using any conditionals, by just doing a &#8220;*pp = entry-&gt;next&#8221;. （了解指针的人会使用链表头的地址来初始化一个“指向节点指针的指针”。当遍历链表的时候，可以不用任何条件判断（注：指prev是否为链表头）就能移除某个节点，只要写)</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">*pp = entry-&gt;next</code></p>
+<p style="padding-left: 30px;">So there&#8217;s lots of pride in doing the small details right. It may not be big and important code, but I do like seeing code where people really thought about the details, and clearly also were thinking about the compiler being able to generate efficient code (rather than hoping that the compiler is so smart that it can make efficient code *despite* the state of the original source code). （纠正细节是令人自豪的事。也许这段代码并非庞大和重要，<strong>但我喜欢看那些注重代码细节的人写的代码，也就是清楚地了解如何才能编译出有效代码</strong>（而不是寄望于聪明的编译器来产生有效代码，即使是那些原始的汇编代码））。</p>
+<p>Linus举了一个单向链表的例子，但给出的代码太短了，一般的人很难搞明白这两个代码后面的含义。正好，有个编程爱好者阅读了这段话，并给出了一个<a href="http://wordaligned.org/articles/two-star-programming" target="_blank">比较完整的代码</a>。他的话我就不翻译了，下面给出代码说明。</p>
+<p>如果我们需要写一个remove_if(link*, rm_cond_func*)的函数，也就是传入一个单向链表，和一个自定义的是否删除的函数，然后返回处理后的链接。</p>
+<p>这个代码不难，基本上所有的教科书都会提供下面的代码示例，而这种写法也是大公司的面试题<strong>标准</strong>模板：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW">typedef struct node
+{
+    struct node * next;
+    ....
+} node;
+
+typedef bool (* remove_fn)(node const * v);
+
+// Remove all nodes from the supplied list for which the
+// supplied remove function returns true.
+// Returns the new head of the list.
+node * remove_if(node * head, remove_fn rm)
+{
+    for (node * prev = NULL, * curr = head; curr != NULL; )
+    {
+        node * const next = curr-&gt;next;
+        if (rm(curr))
+        {
+            if (prev)
+                prev-&gt;next = next;
+            else
+                head = next;
+            free(curr);
+        }
+        else
+            prev = curr;
+        curr = next;
+    }
+    return head;
+}</pre>
+<p>这里remove_fn由调用查提供的一个是否删除当前实体结点的函数指针，其会判断删除条件是否成立。这段代码维护了两个节点指针prev和curr，<strong>标准的教科书写法——删除当前结点时，需要一个previous的指针，并且还要这里还需要做一个边界条件的判断——curr是否为链表头</strong>。于是，要删除一个节点（不是表头），只要将前一个节点的next指向当前节点的next指向的对象，即下一个节点（即：prev-&gt;next = curr-&gt;next），然后释放当前节点。</p>
+<p>但在Linus看来，这是不懂指针的人的做法。那么，什么是core low-level coding呢？那就是<strong>有效地利用二级指针，将其作为管理和操作链表的首要选项。</strong>代码如下：</p>
+<pre data-enlighter-language="c" class="EnlighterJSRAW" data-enlighter-highlight="5,8,12">void remove_if(node ** head, remove_fn rm)
+{
+    for (node** curr = head; *curr; )
+    {
+        node * entry = *curr;
+        if (rm(entry))
+        {
+            *curr = entry-&gt;next;
+            free(entry);
+        }
+        else
+            curr = &amp;entry-&gt;next;
+    }
+}</pre>
+<p>同上一段代码有何改进呢？我们看到：<strong>不需要prev指针了，也不需要再去判断是否为链表头了，但是，<span style="color: #cc0000;">curr变成了一个指向指针的指针</span></strong>。这正是这段程序的精妙之处。（注意，我所highlight的那三行代码）</p>
+<p>让我们来人肉跑一下这个代码，对于——</p>
+<ul>
+<li><strong>删除节点是表头</strong>的情况，输入参数中传入head的二级指针，在for循环里将其初始化curr，然后entry就是*head(*curr)，我们马上删除它，那么第8行就等效于*head = (*head)-&gt;next，就是删除表头的实现。</li>
+</ul>
+<ul>
+<li><strong>删除节点不是表头</strong>的情况，对于上面的代码，我们可以看到——</li>
+</ul>
+<p style="padding-left: 30px;"><strong>1）<strong>（第12行）</strong>如果不删除当前结点 —— curr保存的是当前结点next指针的地址</strong>。</p>
+<p style="padding-left: 30px;"><strong>2）（第5行） entry 保存了 *curr <strong>—— </strong>这意味着在下一次循环：entry就是prev-&gt;next指针所指向的内存。</strong></p>
+<p style="padding-left: 30px;"><strong></strong><strong>3）（第8行）删除结点：*curr = entry-&gt;next; —— 于是：prev-&gt;next 指向了 entry -&gt; next;</strong></p>
+<p>是不是很巧妙？我们可以只用一个二级指针来操作链表，对所有节点都一样。</p>
+<p>如果你对上面的代码和描述理解上有困难的话，你可以看看下图的示意：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-9018" alt="" src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer.jpg" width="479" height="470" srcset="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer.jpg 479w, https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-300x294.jpg 300w, https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-275x270.jpg 275w" sizes="(max-width: 479px) 100vw, 479px" /></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/muxnt-150x150.jpg" alt="代码执行的效率" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7886.html" class="wp_rp_title">代码执行的效率</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8990.html">Linus：利用二级指针删除单向链表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8990.html/feed</wfw:commentRss>
+			<slash:comments>194</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>对九个超级程序员的采访</title>
+		<link>https://coolshell.cn/articles/8275.html</link>
+					<comments>https://coolshell.cn/articles/8275.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 14 Sep 2012 00:29:54 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=8275</guid>
+
+					<description><![CDATA[<p>原文：《Q&#38;A With Nine Great Programmers》时间有限，我只能粗译，难免错误。 这篇访谈源自2006年，最先发布在波兰程序员 ...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/8275.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/8275.html">对九个超级程序员的采访</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>原文：《<a href="http://www.dodgycoder.net/2012/09/q-with-nine-great-programmers.html" target="_blank">Q&amp;A With Nine Great Programmers</a>》时间有限，我只能粗译，难免错误。</p>
+<p><strong>这篇访谈源自2006年，最先发布在波兰程序员 Jaroslaw &#8220;sztywny&#8221; Rzeszótko (AKA &#8220;Stiff&#8221;) 的博客上。但是这篇博文现在找不到了。非常感谢他能授权我重新发布这个博文。</strong></p>
+<p style="padding-left: 30px;"><em>在一个炎热无聊的下午，我突发奇想。我想通过电子邮件的方式对那些我非常感兴趣和非常敬重的程序员问10个问题。准备这10个问题我只花了5分钟，这些都是我个人想问他们的问题，所以，我基本上没想太多要问他们什么。最后两个问题和编程没有什么关系，我就是想问题这些人的一些兴趣爱好。另外，不是每一个人都想回答我的，这是我第一次做“访谈”，所以，我犯了一些错误，一些问题没有得到回答。不管怎么样，我得到了很多很有意思的内容，所以，这对我绝对是一次很有意义的经历。</em><br />
+<em></em></p>
+<p style="padding-left: 30px;"><em>并不是每一个人都回了我的邮件，也并不是每一个人都同意回答我的这些问题，也许在我发布这篇文章后我会得到那些回答，但是我已经迫不及待想把这些东西发布了，所以，我可能会更新这篇文章（更新：2006年3月8日，我收到了<em>Bjarne Stroustrup的回信</em>）</em></p>
+<p><em>&#8212; Jaroslaw</em></p>
+<h4>介绍</h4>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Linus_Torvalds"><strong>Linus Torvalds</strong></a> &#8211; <a href="http://linux.org/">Linux kernel</a> 作者。</li>
+</ul>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Dave_Thomas_(programmer)"><strong>Dave Thomas</strong></a> &#8211; &#8220;Pragmatic Programmer&#8221;(注：<a href="http://book.douban.com/subject/1417047/" target="_blank">douban</a>) 和 &#8220;Programming Ruby&#8221;(注：<a href="http://book.douban.com/subject/1422056/" target="_blank">douban</a>) 以及其它一些优秀书籍的作者。 你可以在 <a href="http://pragdave.pragprog.com/">这里</a> 读读他对编程的一些想法。</li>
+</ul>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/David_Heinemeier_Hansson"><strong>David Heinemeier Hansson</strong></a> &#8211;   <a href="http://rubyonrails.org/">Rails Framework</a> 作者- 一个目前最新最热的Web开发框架。他的blog在 <a href="http://david.heinemeierhansson.com/">这里</a>. （陈皓注：他也是<a title="37signals" href="http://en.wikipedia.org/wiki/37signals">37signals</a>的领导人之一）</li>
+</ul>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Steve_Yegge"><strong>Steve Yegge</strong></a> &#8211; 他可能并不那么知名，但是他给了很多有意思的回答。他有一个很火的关于编程的 <a href="http://steve-yegge.blogspot.com/">blog</a>，他也是游戏 &#8220;Wyvern&#8221; 的作者。（陈皓注：他最火的是去年在google+上<a title="SteveY对Amazon和Google平台的长篇大论" href="https://coolshell.cn/articles/5701.html" target="_blank">对google和amazon的吐槽</a>，06年他应该在google了）</li>
+</ul>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Peter_Norvig"><strong>Peter Norvig</strong></a> &#8211; Research Director at Google, 知名的 Lisper，AI书的著名作家，<a href="http://norvig.com/">个人主页</a>。</li>
+</ul>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Guido_Van_Rossum"><strong>Guido Van Rossum</strong></a> &#8211; <a href="http://python.org/">Python</a> 发明者。</li>
+</ul>
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Bjarne_Stroustrup"><strong>Bjarne Stroustrup</strong></a> &#8211; C++发明者， <a href="http://www.stroustrup.com/">个人主页</a>。</li>
+</ul>
+<ul>
+<li><strong><a href="http://en.wikipedia.org/wiki/James_Gosling">James Gosling</a></strong> &#8211;  <a href="http://java.sun.com/">Java</a> 发明者。</li>
+</ul>
+<ul>
+<li><strong><a href="http://en.wikipedia.org/wiki/Tim_bray">Tim Bray</a></strong> &#8211;  XML 和 Atom 规格说明书作者之一 <a href="http://www.tbray.org/ongoing/">个人博客</a> 。</li>
+</ul>
+<div><span id="more-8275"></span></div>
+<h4>Q 1: 你是怎么学编程的？是从学校里学的吗？或者你没有上过学:) ？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>在我17岁的时候，我在HP的计算器中用他们的RPN 栈语言自学编程的。在这之前，我尝试过学习编程一两次，但都没有学成。HP 28c 和 48g 的科学计算器是一个很牛的东西，而且还有不错的文档。我搞了一本3D图形的书，并很费力地把其中的Pascal语言转成RPN栈语言，并用48g写了一个3D的线框图渲染图。运行的还不错，在我买了PC和Turbo Pascal之后，我开始认真地学习编程。在我进入大学计算机科学专业之前，我已经是一个不错的程序员了。</p>
+<p>我在华盛顿大学拿到了计算机科学学位，这绝对是有价值的，所以，我建议所有的程序员都应该得到计算机科学专业的学位。</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>我没有在学校里学过编程，我在主要是读我自己想读的书，或是就直接去编程 (一开始在 <a href="http://en.wikipedia.org/wiki/Commodore_VIC-20" target="_blank">Commodore VIC-20</a> 学编程， 然后是 <a href="http://en.wikipedia.org/wiki/Sinclair_QL" target="_blank">Sinclair QL</a>上编程)。</p>
+<p>当然，我觉得上大学非常有用。我没有去一个工科大学，我上了赫尔辛基大学，这是一个比较偏理论的大学，所以，那里的教育并没有那么多的编程的东西（编程只是很少一部分），这里大多数的课程都倾向于教一些基础概念的东西，如：复杂性分析。看上去很无聊，甚至有点浪费时间，但是我还是觉得这些课有用，我对大多数课都还比较enjoy。所以，我觉得我可能在这些方面是一个比较好的程序员。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>我学编程是从用HTML做我的第一个网页开始的。那时，我想当我的网页能动态地显示一些内容，所以，我选择了ASP和PHP。在做完这个网页后，我知道了怎么去编程，于是我开始我的计算机科学和商业管理学位的学习。</p>
+<p><strong><em>Peter Norvig</em></strong></p>
+<p>我是从高中和大学课程中学编程的，但是我还是觉得我自己学得更多。</p>
+<p><strong><em>Dave Thomas</em></strong></p>
+<p>我是在高中学编程的。我完全地迷住了，我对编程爱得无法自拔，然后，我开始挑选那些提供软件开发课程的大学。最终，我去了伦敦大学的帝国学院。第二年我就开始学习软件开发的课程了，那绝对是非凡的，学生和教员在一起工作把教材做得更好，每一个人都可以从中学到很多。这些课程给了我难以置信和非常雄厚的软件开发背景。我在那里读到了博士，最后去创业了。</p>
+<p>关于“我是怎么学编程的”这个问题，我的回答是“我现在还在学编程”。我认为好的程序员一生都在学编程。这并不是去学一门语言或是一个代码库，好的程序员会对他们的编程技艺一年又一年地精益求精。</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>我去的那个大学有一个大型主机和很多不同的计算机课程。这对我很重要。</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>起初，我是自学的。在我去上大学之前，我就找到了一份程序员的工作。但是我很高兴我去了大学，在那里有很多乐趣，最终我学到了博士。</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>我先上的是Aarhus大学， 然后是 剑桥大学(Cambridge)，这两个大学教了我很多很有用的东西，这些东西为了以后的工作打下了基础。另外，我对编程和钱的关系学得非常好——知道了真实世界的问题，正确性，维护性，准时交付，等等，这些比教育可能更重要。</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>我本来想去做一个数学老师的。但是，那个学数学的大学要我去学几个计算机的课。</p>
+<h4>Q 2: 你们觉得对程序员最重要的事是什么？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>沟通能力（写和说）。除非你可以让你的想法更有效率地传递出去，否则你不可能做得比编程更多的事。程序员应该疯狂地阅读，锻炼写作能力，参加一些写作培训课程，甚至锻炼在公开场合演讲的能力。</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>It’s a thing I call &#8220;taste&#8221;. 有一件事，我把它叫做“品味”。</p>
+<p>我倾向于不从熟练程度来评判那些和我工作过的人。这些人能非常艰苦地写出很多代码，但是我想从他们对别人的代码的反应做出评判，这样我们就可以明白他们自己写的代码怎么样，知道他们使用的方法怎么样。他们对别人的评判还告诉我，他们是不是有好的“品味”。是这样的，如果一个人没有“好的品味”，那么他一般不会很好的评判他人的代码，他自己写的代码通常也不会很好。</p>
+<p>哦，这并不只是唯一的事。还有一件事，尤其在开源项目里，那是他是否有能力能和别人进行简单的沟通，告诉别人他要干什么，怎么干。这个能力可以告诉别人为什么你干的事是非常重要的，并不是所有的人都有这个能力。</p>
+<p>也就是说，有一些人可以写出很不错的代码，但他们并不一定能解释这些代码，他们也并不一定有好的品味，但是代码可以运行得不错。有时，你需要另一个人（有那种不错的品味的人）把他的代码转成更好的形式。也就是说，任何一个程序员都需要那种可以用清晰的代码来解决复杂问题的基础能力。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>很强的对有价值的事的感觉。你可以问问自己这个问题你有没有这种能力：我现在做的这个事值不值得做？很多程序员浪费了如大海一样的时间去做一些无意义的事。</p>
+<p><strong><em>Peter Norvig</em></strong></p>
+<p>我不觉得只有一个，如果要我说一个的话，我说是“专注”。</p>
+<p><strong><em>Dave Thomas</em></strong></p>
+<p>热情。</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>你的问题很难回答啊:-) 我猜，如果程序员会在早晨煎个鸡蛋做早餐，那真是无价的能力。</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>自我激发。你需要全身心地投入到你要做的事中。</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>把事想清楚的能力：程序必需要能清楚地理解问题并能清楚地表述解决方案。</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>能为自己的直觉提供证据的能力。</p>
+<h4>Q 3: 你是否认为数学和/或物理是一种很重要的编程技能？为什么？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>数学有很多的分支和程序员相关，他们是“离散数学”和“具体数学”。这些分支包括的学科有，概率论，组合数学，图论，归纳证明，和其它有用的东西。我会鼓励所有的程序员都去学习离散数学，无论能学多少，因为这总比什么都不懂强。</p>
+<p>对于传统的数学，我也不经常用，但是我需要的时候这些数学知识会很管用。例如，在我之前的工作中我就用到了微积分。我需要估计每个小时中某服务的高峰时间的流量负载，所以，他的负载是跟着太阳走的就像一个正弦曲线一样。最简单的方式就是把每个小时的负载曲线给整合起来。如果我不知道微积分，我就不知道怎么更为准确地估计。</p>
+<p>当年我在开发我的Wyvern游戏的时候，我的平面几何的知识对我非常有帮助。而且经常使用代数和线性代数的知识。但我很少在工作中使用三角学或微分方程，微积分同样也很少。</p>
+<p>我想说，简单的数学基础让我的技能比一般程序员好过5%到10%。如果我了解更多的数学，我确信我会比今天做得更好，所以，我每周都会花几个小时学习数学。</p>
+<p>我喜欢物理，我还在学习物理，我会花我一生去理解量子力学。但是我个却没有发现物理对我的程序员工作有多有用。当然，如果我从事一些和物理相关的工作，可能会有用，例如：3D游戏编程，或是某种物理特性仿真。</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>我个人认为有很强的数学背景是一件好事。但我不确信物理是不是这样的，但是我深信懂数学的人会让你成为一个更好的程序员。这些智力模型都是相通的。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>根本没用。至少对业务编程和Web应用来说没用。但是数学可能对一个人的写作有很重要的帮助。</p>
+<p><strong><em>Peter Norvig</em></strong></p>
+<p>是的。很多相法都是从数学来的：归纳，递归，逻辑，等等。</p>
+<p><strong><em>Dave Thomas</em></strong></p>
+<p>也许吧。但老实说，我没见到过懂这些学科和好的程序员有很大的相关性。</p>
+<p>然而，我见过有音乐背景和好的编程技能有很强的相关性。我不知道这为什么，但是我怀疑大脑中的某个区域可以让人即可以写出好的音乐，也可以写出好的代码。（陈皓注：<em><a href="http://www.weibo.com/n/Sir%E9%98%BF%E6%80%AA">@Sir阿怪</a> </em>貌似就是这个例子）</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>数学，当然（对于一些学科是很重要的，我不关心微分方程，但是代数和逻辑学是很重要的），物理，我不觉得对编程技能有关，当然物理在其它很多地方很有意思。</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>当然！数学教会了我逻辑和推导……让我有了一双懂分析的眼睛。当我们分析算法的时候，数学是无法被取代的。</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>这要看程序员自己和项目性质了。以前的数学很有用，物理一般，但是学好物理是是学习应用数学最好的一条路。</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>对我来说，在我的编程生涯中我从来都没有用过大学里教的数学。</p>
+<h4>Q 4: 关于编程，你们认为接下来的大事是什么？X-Oriented编程，Y语言，量子电脑 ？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>我认为Web编程会逐渐变成最最重要的客户端编程。而对于原来传统的客端端编程都会被废弃，如： GTK, Java Swing/SWT, Qt, 当然，所有的和平台有关的东西，例如 Cocoa 和 Win32/MFC/等。</p>
+<p>当然，这不会一晚上就发生了。这会在第一个十年内缓慢地发生，而在第二个十年内，Web Apps最终会胜利。工具，语言，协议，和浏览器技术都会进步得非常快，并会完全超出你今天能干的事。每一年都会向前进一步，而从今天开始，我会最终决定把我所有的应用开发全部切换到基于浏览器的应用。（陈皓注：我也是这么认为的，参看《<a title="来信， 创业 和 移动互联网" href="https://coolshell.cn/articles/5815.html">来信，创业，移动互联网</a>》）</p>
+<p>微软和苹果最终不愿意这个事发生，所以，触发这个事的第一步会是一个开源的浏览器（如：Firefox）开始到了支配市场的地位，然后会出现某种Firefox的杀手级应用（这种杀手级应用可能会像iTunes一样，所有的人都会用它，只需要下载Firefox）</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>我并不认为我们会看到一个“大的跳跃”。我们只会看到很多的工作帮助我们把那些沉闷辛苦的工作变得更简单——会有一个更高级别的语言，也许把简单的数据库集成到语言中来会是其中最主要一个。</p>
+<p>例如，我个人相信“Visual Basic”在编程方面比“面向对象”做得更多。当然，人们都在取笑VB是一个很烂的编程语言，并且人们在谈论OO语言都十多年了。但我还觉得不是这样的，Visual Basic 不是一个好的语言，但是我觉得VB那简单的数据库接口比OO更重要。</p>
+<p>所以，我认为会语言有很多的改进，并且，硬件的改进会让编程更容易，但我并不期望会有巨大的生产力或是革命性的改进。</p>
+<p>至少，你不会开始搞真正的AI的东西，我也不认为真的AI会变成某种你不需要编程的东西。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>我从不试图预测未来。我也不相信命运一说。最好预测未来的方式就是去实现未来。</p>
+<p><strong><em>Peter Norvig</em></strong></p>
+<p>大规模的分布式处理</p>
+<p><strong><em>Dave Thomas</em></strong></p>
+<p>下一个最牛的事会被再下一个最牛的事所掩盖，然后再被再再下一个所掩盖，再再再下一个所掩盖……。这是一件没完没了的事，所以，我并不会试图去找最牛的事，因为这会让人们忘了那些最真实的问题：把基本的东西做对。我们要让用户更满意，专注于交付有价值的东西，自豪于我们做的事。一个程序员可以使用很多工具把这些事做得更好，而不是去追逐时尚和流行。</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>对不起，我没有那么多水晶球。我CGI被发明了5年后预测过它 :-)</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>有两个事是我现在最关心的，那就是要对付并行和复杂。</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>我不知道，我也不愿猜。</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>不知道。</p>
+<h4>Q 5: 如果你有3个月学一个相对较新的技术，你会学什么？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>我的确有3个月的业余时间，我准备学一下 Dojo (<a href="http://dojotoolkit.org" target="_blank">http://dojotoolkit.org</a>) 和高级 AJAX 及 DHTML。我会通过开发一个相当牛的Web应用来学习他们。Dojo 真的酷，并且我确信它会越来越好。</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>嗯，我真的很爱做 FPGA（可编程芯片），但我部是太忙了而不是坐来来开始学习。我喜爱和硬件打交道：很明显这个原因是因为我最终在做操作系统，因为操作系统（除了编译器）基本上都是在和硬件打交道，但我没有真正地自己去设计和做一个硬件。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>Mac 的 Cocoa 编程</p>
+<p><strong><em>Peter Norvig</em></strong></p>
+<p>我想把 Javascript 学得更好，<del>然也</del>当然也想学 flash.</p>
+<p><strong><em>Dave Thomas</em></strong></p>
+<p>如果“新”是对于我来说，那么我会去学钢琴课。</p>
+<p>如果“新”是说技术，我猜 我会选择学习某种和为残疾人服务的有关的技术。</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>单板滑雪。</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>搞点有乐趣的东西，我会学习最新的3D渲染技术。我可能会写一个光子映射渲染器。</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>3个月只有很少的东西你可以学，我觉得你只能参加某个成熟领域的培训。</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>安全，加密，数字签名，身份标识，等等。对我来说，从没学过这些东西对我来说是个很大的问题。</p>
+<h4>Q 6: 你们觉得如何让一些程序员可能有超过其它程序员10倍或100倍的生产力？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>我想你应该考虑一下为什么不是让所有的程序员都一样牛。托马斯爱迪生有一句关于天才的名言也许会给你一些启示。</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>我真的不知道，我想，一些人之所以更牛是因为他们可以专注于那些重要的事，而更多的只不过是在应付。那些我所知道的真的很牛的程序员从很年轻的时候就在做事了。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>把难题变简单的能力。</p>
+<p><strong><em>Peter Norvig</em></strong></p>
+<p>把整体问题一次性放入大脑的能力。</p>
+<p><strong><em>Dave Thomas</em></strong></p>
+<p>他们关心他们做的事。</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>大脑结构基因不同。</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>他们知道他们要做什么，他们不并不急于仓促行事。他们有他们要做的事的整个蓝图。</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>首先，缺少足够的职业培训，或基础不够。其次，这些人要即聪明（那种可以把事情想清楚，直达核心的能力），又有经验，并有使用工具的知识。编程需要把理论和实践结合起来 &#8211; 并不是使用没有实际业务的知识。</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>令人惊讶的思维改变。</p>
+<h4>Q 7: 什么工具是你的最爱（操作系统，编程/脚本语言，文本编辑器，版本管理，shell，数据库，或其它没它你活不了的工具），为什么不是别的？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>操作系统： Unix! 我用Linux，cygwin，和 darwin。你无法打败那些高效的工具。每一个程序员都应该学习使用/bin和/usr/bin下的所有命令。</p>
+<p>脚本语言：Ruby。我几乎对所有的重要的脚本语言都很熟悉： Perl, Python, Tcl, Lua, Awk, Bash, 和一些我忘了的。但是我太懒了，而Ruby是目前所有脚本语言中最简单的，它应该是天堂制造的。</p>
+<p>编程语言：没有一个我喜欢的，我觉得所有的编程语言都很扯。我倾向于Java，因为它很强，可跨平台，有多不错的工具和类库。但是Java未来会进化或是灭亡，Java还没有好到可以永远保持其领先地位。</p>
+<p>文本编辑器：Emacs，因为这是迄今最好的编辑器。</p>
+<p>版本管理：SVN，Perforce更好一些，但是也很贵。</p>
+<p>Shell脚本： Bash, 因为我太懒了去学一个更好的。</p>
+<p>数据库： 当然是MySQL，没有之一。</p>
+<p>其它：我发现GIMP是无价的，但也是令人恼<del>炎</del>火的。我用这个东西好几年了，但什么也没干，但是我没它活不了。很讽刺吧。Firefox 越来越是我最重要的工具。如果让我去用IE和Safari，我会有严重的窒息感。</p>
+<p>注：所有的这些工具 (Unix, Emacs, Firefox, GIMP, MySQL, Bash, SVN, Perforce) 都有一个共同点：他们是可扩展的。例如：他们都有可编程的API。伟大的程序员知道怎么编写他们的工具，而不只是去使用。</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>实际上，我最终也没有用过几个工具，而我却花了一些时间让这些工具为我工作。最大的事是我自己写了个操作系统，我也自己写了个版本管理系统（git），我用的文本编辑器是 micro-emacs &#8211; 最终我也定制和扩展了它。</p>
+<p>除了上面三个，其它的东西，我深度关心我的邮件阅读软件，我使用“pine”，并不是因为它是史上最好的邮件阅读软件，因为我习惯了，用它我会有最低限度的大惊小怪。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>OS X, TextMate, Ruby, Subversion, MySQL. 这些组合让我很快乐。我希望那些有好的品味的专注于重要的事的工具。</p>
+<p><strong><em>Peter Norvig</em></strong></p>
+<p>我不喜欢那三大操作系统 &#8211; Windows, Mac, Linux。我喜欢 Python 和 Lisp. Emacs.</p>
+<p><strong><em>Dave Thomas</em></strong></p>
+<p>在使用Linux10年后我转到Mac平台有两年多了。Mac并不见得有多好，但是它不需要很牛的技术，也不需要经常维护，这让我可以让我更专心得使用它。</p>
+<p>我并不是一个单一工具的信仰者，我喜欢换来换去的，这样可以让我有更多的经历。现在，我使用 OSX, Emacs, TextMate, Rails, Ruby, SVN, CVS, Rake, make, xsltproc, TeX, MySQL, Postgres, 还有一堆高效的小工具。没人知道我明年会用什么。</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>Unix/Linux, Python, vi+emacs, Firefox.</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>这些天，我在用 NetBeans. 用它可以干我想干的所有的事，清洁，简单和高效。这是最好的我永远要生活在其中的环境了。</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>Unix, sam (一个非常简单的文本编辑器), 当然，一个好的C++编译器。</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>我喜欢 Unix-like 的操作系统，像 Python 和 Ruby 的动态语言，像Java的静态语言（具体说来是Java API） Emacs, 还有, bash, whatever, NetBeans.</p>
+<h4>Q 8: 你最喜欢的编程书是什么？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>大哥，这个问题太难了。也许是&#8221;Gödel, Escher, Bach: an Eternal Golden Braid&#8221; (作者Hofstadter)？虽然这不是严格意义上的编程的书，如果你要明确意义上的编程书，那么可能是 SICP (mitpress.mit.edu).</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>嗨。这两天我在读一些小说，或是非计算机读物（老的但是有用的 &#8220;The Selfish Gene&#8221; 作者 Richard Dawkins)。</p>
+<p>如果要问我编程的书，我脑子里只出现了唯 一一本真正的经典的编程的书 Kernighan &amp; Ritchie 的 &#8220;The C Programming Language&#8221;，因为这本书太牛了，可读性强并且很短。考<del>虚</del>虑一下你想学到这世上一门最重要编程语言，并且它很要很薄，而且还有可读性，这真是一个奇迹。</p>
+<p>也就是说，其它我很喜欢的书并不是编程的，而是关于计算机结构和硬件的。那显然是 Patterson &amp; Hennessy 的计算机结构的书，但是我个人也许更喜欢 Crawford &amp; Gelsinger 的 &#8220;Programming the 80386?，这是我在开始写Linux时用的书。</p>
+<p>相似的原因，我还喜欢 Andrew Tanenbaum 的 &#8220;Operating Systems: Design and Implementation&#8221;.</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>我喜欢 Extreme Programming Explained 其摒弃了一般的编程实践，我还喜欢 Patterns of Enterprise Application Architecture 其出众地说明了抽象和具现的平衡。</p>
+<p><strong><em>Peter Norvig</em></strong></p>
+<p>Structure and Interpretation of Computer Programs</p>
+<p><strong><em>Dave Thomas</em></strong></p>
+<p>这关系到你所谓的“最喜欢”，也许我最喜欢的是IBM的 &#8220;IBM/360 Principles of Operation.&#8221;</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>Neil Stephenson的 Quicksilver.</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>Programming Pearls 作者Jon Bentley.</p>
+<p><em><strong>Bjarne Stroustrup</strong></em></p>
+<p>K&amp;R.</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>Bentley的 Programming Pearls</p>
+<h4>Q 9: 你最喜欢的和编程无关的一本书是什么？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>只能是一本吗？这不可能。有太多太多我喜欢的书了。</p>
+<p>我这个月读过最喜欢的书是 &#8220;Stardust&#8221; (Neil Gaiman) 和 &#8220;The Mind’s I&#8221; (Hofstadter/Dennet).</p>
+<p>我最喜欢的作者是 Kurt Vonnegut, Jr. 和 Jack Vance.</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>我在前面说过 Dawkins的 Selfish Gene。在小说方面，有很多很多我enjoy的，但是几乎没有我特别喜欢的一本。我一般不会重读一本书，我的选择总是会变。我可能更喜欢科幻小说，如：&#8221;Stranger in a Strange Land&#8221; 作者 Heinlein，这是我青少年时期最喜欢的书，但现在并不是我喜欢的了。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>1984, George Orwell.</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>Neil Stephenson 的 Quicksilver.</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>Guns, Germs &amp; Steel 作者 Jared Diamond</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>我没有固定喜欢的书。目前是 O’Brian 的 Aubrey/Maturin 系列。</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>One Day in the Life of Ivan Denisovich</p>
+<h4>Q 10: 你最喜欢的乐队/演奏家/作曲家？</h4>
+<p><strong><em>Steve Yegge</em></strong></p>
+<p>喜欢的风格：古典音乐，动漫原声音乐，电脑游戏音乐</p>
+<p>喜欢的作曲家：Rachmaninoff, Chopin, Bach</p>
+<p>喜欢的演奏者：David Russell (古典吉它), Sviatoslav Richter (钢琴)</p>
+<p>喜欢的动漫音乐： Last Exile, Haibane Renmei</p>
+<p><strong><em>Linus Torvalds</em></strong></p>
+<p>实际上我并不太喜欢音乐，但是当我听音乐的时候，我一般听经典摇滚乐，如： Pink Floyd ，Beatles ，Queen 和 The Who 乐队。</p>
+<p><strong><em>David Heinemeier Hansson</em></strong></p>
+<p>我喜欢很多风格。 Beth Orton, Aimee Mann, Jewel, Lauryn Hill. Actually, 所有的这些都可以归到 Girls with Guitars ;).</p>
+<p><strong><em>Guido Van Rossum</em></strong></p>
+<p>Philip Glass.</p>
+<p><strong><em>James Gosling</em></strong></p>
+<p>我喜欢听民歌: Christine Lavin, Woody Guthrie, Pete Seeger&#8230;</p>
+<p><strong><em>Bjarne Stroustrup</em></strong></p>
+<p>乐队: The Dixie Chicks. 作曲家: Beethoven.</p>
+<p><strong><em>Tim Bray</em></strong></p>
+<p>看我的博客吧。</p>
+<p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+<p>. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .</p>
+<h4><strong> 补充说明</strong></h4>
+<p>我之所以发现这篇文章，是因为我读到了 Jeff Atwood 的这篇名为 &#8220;<a href="http://www.codinghorror.com/blog/2006/07/linus-torvalds-visual-basic-fan.html">Linus Torvalds, Visual Basic Fan</a>&#8221; 的文章，这篇文章指向了 &#8220;<a href="http://sztywny.titaniumhosting.com/2006/07/23/stiff-asks-great-programmers-answers/">STIFF ASKS, GREAT PROGRAMMERS ANSWER</a>&#8221; 这篇文章，但是链接已坏了，然后，我搜了一下也没有搜到这篇文章。然后我去了 archive.org 搜了一下，并找到了这篇由 Jaroslaw Rzeszótko 写的博客。</p>
+<p>因为这篇博文现在找不到了，所以，我想我应该重新把它贴出来，这样其它人可以读一下这篇有意思的文章。所以，我向原作者取得了授权，再次感谢 Jaroslaw!</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/10/communication-150x150.png" alt="聊聊团队协同和协同工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22298.html" class="wp_rp_title">聊聊团队协同和协同工具</a></li><li ><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/http_method-150x150.png" alt="“一把梭：REST API 全用 POST”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22173.html" class="wp_rp_title">“一把梭：REST API 全用 POST”</a></li><li ><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/02/monitoring-150x150.jpeg" alt="谈谈公司对员工的监控" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22157.html" class="wp_rp_title">谈谈公司对员工的监控</a></li><li ><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2021/07/knowledge_sharing-300x169-1-150x150.jpeg" alt="如何做一个有质量的技术分享" width="150" height="150" /></a><a href="https://coolshell.cn/articles/21589.html" class="wp_rp_title">如何做一个有质量的技术分享</a></li><li ><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/08/programmer.01-e1596792460687-150x150.png" alt="程序员如何把控自己的职业" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20977.html" class="wp_rp_title">程序员如何把控自己的职业</a></li><li ><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/01/remote-150x150.jpg" alt="MegaEase的远程工作文化" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20765.html" class="wp_rp_title">MegaEase的远程工作文化</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/8275.html">对九个超级程序员的采访</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/8275.html/feed</wfw:commentRss>
+			<slash:comments>70</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Unix传奇(上篇)</title>
+		<link>https://coolshell.cn/articles/2322.html</link>
+					<comments>https://coolshell.cn/articles/2322.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 09 Apr 2010 00:45:27 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[Bill Joy]]></category>
+		<category><![CDATA[Dennis Ritchie]]></category>
+		<category><![CDATA[Ken Thompson]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Richard Stallman]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2322</guid>
+
+					<description><![CDATA[<p>【本文曾于2007年3月于我在CSDN上的BLOG发布，现在我把其搬到酷壳来，一来是觉得这段历史相当传奇，值得大家再看看，二来也和我在酷壳上发布的一些文章相互链...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2322.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2322.html">Unix传奇(上篇)</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><span style="color: #808080;">【本文曾于2007年3月于</span><a href="http://blog.csdn.net/haoel" target="_blank"><span style="color: #0000ff;">我在CSDN上的BLOG</span></a><span style="color: #808080;">发布，现在我把其搬到酷壳来，一来是觉得这段历史相当传奇，值得大家再看看，二来也和我在酷壳上发布的一些文章相互链接。】</span></p>
+<hr />
+<p>了解过去，我们才能知其然，更知所以然。总结过去，我们才会知道我们明天该如何去规划，该如何去走。在时间的滚轮中，许许多的东西就像流星一样一闪而逝，而有些东西却能经受着时间的考验散发着经久的魅力，让人津津乐道，流传至今。要知道明天怎么去选择，怎么去做，不是盲目地跟从今天各种各样琳琅满目前沿技术，而应该是去 —— 认认真真地了解和回顾历史。 </p>
+<p>Unix是目前还在存活的操作系统的元老了，走过了40年的历程（参看《<a rel="bookmark" href="https://coolshell.cn/articles/1032.html" target="_blank">Unix 40年：Unix年鉴</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1023.html">Unix 40年：昨天，今天和明天</a>》）。在技术更新如此迅速的计算机世界的今天，Unix始终保持它那神圣的光环，它那曲折和令人叹息的历史，以及由它引发的思想变革，对当今计算机文化造成的深远影响，这40年所产生的人和事，让它成为了一个传奇，不能不让人为之惊叹。</p>
+<p>这是一段所有从事计算机行业人员尤其是软件开发人员需要了解的历史。Unix的传奇历史是整个计算机世界文化最具代表性的，它对整个计算机世界文化的影响也是最巨大，最深远的。他给人带来的不单单的对过去的回味，更为我们带来了计算机世界的新思潮。</p>
+<p>了解这段的历史的人，才能体会计算机世界变迁过程中的是是非非，才能了解计算机世界中的文化，从而才能参与到整个计算机革命的大潮中。希望这段历史，这篇文章能让你感受到计算机世界那强力的脉搏，从而让你踏上这条令人充满激情的道路。</p>
+<p><strong><a href="https://coolshell.cn/articles/2322.html" target="_blank">上篇</a></strong></p>
+<ul>
+<li>Unix起源</li>
+<li>Unix分裂</li>
+<li>Unix的法律纠纷</li>
+<li>GNU开源组织</li>
+<li>Linux横空出世</li>
+<li>Linux今天的领袖</li>
+</ul>
+<p><span id="more-2322"></span></p>
+<p><strong><a href="https://coolshell.cn/articles/2324.html" target="_blank">下篇</a></strong></p>
+<ul>
+<li>Unix与黑客文化</li>
+<li>Unix的历史教训</li>
+<li>Unix 家族谱</li>
+<li>Unix的特点</li>
+<li>Unix的影响和哲学</li>
+<li>Unix痛恨者手册</li>
+</ul>
+<p> </p>
+<h3>Unix 起源</h3>
+<p> 回顾Unix历史，我们就要说一下一个叫MULTICS（Multiplexed Information and Computing Service）的项目。上世纪六十年代时，大部份计算机都是采用批处理（Batch Processing）的方式（也就是说，当作业积累一定数量的时候，计算机才会进行处理）。那时，我们熟知的美国电话及电报公司（American Telephone and Telegraph Inc.；AT&amp;T）、通用电器公司（General Electrics；G.E.）及麻省理工学院（Massachusetts Institute of Technology；MIT）计划合作开发一个多用途（General-Purpose）、分时（Time-Sharing）及多用户（Multi-User）的操作系统，也就是这个MULTICS，其被设计运行在GE-645大型主机上。不过，这个项目由于太过复杂，整个目标过于庞大，糅合了太多的特性，进展太慢，几年下来都没有任何成果，而且性能都很低。于是到了1969年2月，贝尔实验室（Bell Labs）决定退出这个项目。</p>
+<p> 熟悉这段历史的人都知道，贝尔实验室中的有个叫Ken Thompson的人，他为MULTICS这个操作系统写游戏了个叫“Space Travel”的游戏，在MULTICS上经过实际运行后，他发现游戏速度很慢而且耗费昂贵 —— 每次运行会花费75美元。退出这个项目以后。他为了让这个游戏能玩，所以他找来Dennis Ritchie为这个游戏开发一个极其简单的操作系统。这就是后来的Unix。（值得一提的是，当时他们本想在DEC-10上写，后来没有申请到，只好在实验室的墙角边找了一台被人遗弃的Digital PDP-7的迷你计算机进行他们的计划，这台计算机上连个操作系统都没有，于是他们用汇编语言仅一个月的时间就开发了一个操作系统的原型）他们的同事Brian Kernighan非常不喜欢这个系统，嘲笑Ken Thompson说：“你写的系统好真差劲，干脆叫Unics算了。”Unics的名字就是相对于MULTICS的一种戏称，后业改成了Unix。于是，Unix就在这样被游戏和玩笑创造了，当时是1969年8月。也就是这一年，Linux之父Linus Torvalds在芬兰出生了。</p>
+<p>1971年，Ken Thompson写了充分长篇的申请报告，申请到了一台PDP-11/24的机器。于是Unix第一版出来了。在一台PDP-11/24的机器上完成。这台电脑只有24KB的物理内存和500K磁盘空间。Unix占用了12KB的内存，剩下的一半内存可以支持两用户进行Space Travel的游戏。而著名的fork()系统调用也就是在这时出现的。</p>
+<p>到了1973年的时候，Ken Thompson 与Dennis Ritchie感到用汇编语言做移植太过于头痛，他们想用高级语言来完成第三版，对于当时完全以汇编语言来开发程序的年代，他们的想法算是相当的疯狂。一开始他们想尝试用Fortran，可是失败了。后来他们用一个叫BCPL（Basic Combined Programming Language）的语言开发，他们整合了BCPL形成B语言，后来Dennis Ritchie觉得B语言还是不能满足要求，就是就改良了B语言，这就是今天的大名鼎鼎的C语言。于是，Ken Thompson 与Dennis Ritchie成功地用C语言重写了Unix的第三版内核。至此，Unix这个操作系统修改、移植相当便利，为Unix日后的普及打下了坚实的基础。而Unix和C完美地结合成为一个统一体，C与Unix很快成为世界的主导。</p>
+<p>Unix的第一篇文章 “The UNIX Time Sharing System”由Ken Thompson和Dennis</p>
+<p>Ritchie于1974年7月的 the Communications of the ACM发表。这是UNIX与外界的首次接触。结果引起了学术界的广泛兴趣并对其源码索取，所以，Unix第五版就以“仅用于教育目的”的协议，提供给各大学作为教学之用，成为当时操作系统课程中的范例教材。各大学公司开始通过Unix源码对Unix进行了各种各样的改进和扩展。于是，Unix开始广泛流行。</p>
+<p style="text-align: center;"><img decoding="async" src="http://p.blog.csdn.net/images/p_blog_csdn_net/haoel/15190/o_unixrichiethompson.jpg" alt="" /><br />
+Ken Thompson &amp; Dennis Ritchie</p>
+<p> </p>
+<h3>Unix分裂</h3>
+<p>1978年，对 Unix而言是革命性的一年；因为学术界的老大柏克利大学 （UC Berkeley），推出了一份以第六版为基础，加上一些改进和新功能而成的 Unix。这就是著名的“1 BSD（1st Berkeley Software Distribution）”，开创了Unix的另一个分支：BSD 系列。 同时期，AT&amp;T成立USG（Unix Support Group），将 Unix变成商业化的产品。从此，BSD的 Unix 便和AT&amp;T 的Unix 分庭抗礼，Unix就分为System IV和4.x BSD这两大主流，各自蓬勃发展。</p>
+<p>1979年发布的Unix 第七版被称为是“最后一个真正的Unix”，这个版本的Unix内核只有40K bytes。后来这个版本被移植到VAX机上（我在大学时学习C语言时用过这个VAX机，我还记得那时上VAX机最大的爱好就是使用talk命令和别人聊天，呵呵）。20世纪80年代相继发布的8、9、10版本只授权给了少数大学。</p>
+<p>1982年，AT&amp;T基于版本7开发了UNIX System Ⅲ的第一个版本，这是一个商业版本仅供出售。为了解决混乱的UNIX版本情况，AT&amp;T综合了其他大学和公司开发的各种UNIX，开发了UNIX System V Release 1。这个新的UNIX商业发布版本不再包含源代码，所以加州大学Berkeley分校继续开发BSD UNIX，作为UNIX System III和V的替代选择。BSD对UNIX最重要的贡献之一是TCP/IP。BSD 有8个主要的发行版中包含了TCP/IP：4.1c、4.2、4.3、4.3-Tahoe、4.3-Reno、Net2、4.4以及 4.4-lite。这些发布版中的TCP/IP代码几乎是现在所有系统中TCP/IP实现的前辈，包括AT&amp;T System V UNIX 和Microsoft Windows中的TCP/IP都参照了BSD的源码。</p>
+<p>同时，其他一些公司也开始为其自己的小型机或工作站提供商业版本的UNIX系统，有些选择System V作为基础版本，有些则选择了BSD。BSD的一名主要开发者，Bill Joy，在BSD基础上开发了SunOS，并最终创办了Sun Microsystems。</p>
+<p style="text-align: center;"> <img decoding="async" src="http://p.blog.csdn.net/images/p_blog_csdn_net/haoel/15190/o_bill_joy.gif" alt="" /><br />
+Bill Joy</p>
+<p> 1991年，一群BSD开发者（Donn Seeley、Mike Karels、Bill Jolitz 和 Trent Hein）离开了加州大学，创办了Berkeley Software Design, Inc (BSDI)。BSDI是第一家在便宜常见的Intel平台上提供全功能商业BSD UNIX的厂商。后来Bill Jolitz 离开了BSDI，开始了386BSD的工作。386BSD被认为是FreeBSD、OpenBSD 和 NetBSD、DragonFlyBSD的先辈。</p>
+<p>这是一个AT&amp;T妄图私有化的Unix的时代。为了私有化Unix，1986年IEEE指定了一个委员会制定了一个一个开放作业系统的标准,称为 POSIX (Portable Operating Systems Interface)。最后加上个X，不知道是为了好听，还是因为这本质上是UNIX的标准。当然，AT&amp;T的Unix取得了这个标准制订战争的胜利，还取得了Unix这个注册商标。此时BSD的拥护者自喻为冷酷无情的公司帝国的反抗军。就销售量来说，AT&amp;T UNIX始终赶不上BSD/Sun。到1990年，AT&amp;T与BSD版本已难明显区分，因为彼此都有采用对方的新发明。</p>
+<p> 这段时期，从实验室出来的被全世界所分享的Unix，正处于被私有化的关键时期。（这里有一个笑话——《<a rel="bookmark" href="https://coolshell.cn/articles/1439.html" target="_blank">Alice梦游UNIX仙境</a>》）</p>
+<h3>Unix的法律纠纷</h3>
+<p> Berkeley Software Design, Inc（BSDI）很快就与AT&amp;T的UNIX Systems Laboratories（USL）附属公司产生了法律纠纷，USL是AT&amp;T注册的公司。AT&amp;T为了拥有System V版权，以及Unix商标，为了垄断Unix，1992年，USL正式对BSDI提起诉讼，说BSD剽窃他的源码。而最终了结了好评如潮的BSD系统。</p>
+<p>由于最后判决悬而未决，这桩法律诉讼将BSD后裔的开发，特别是自由软件，延迟了两年，这导致没有法律问题的Linux内核获得了极大的支持。Linux跟386BSD的开发几乎同时起步，Linus说，当时如果有自由的基于386的Unix-like操作系统，他就可能不会创造Linux。尽管无法预料这给以后的软件业究竟造成了什么样的影响（如果没有这个法律纠纷，很有可能没有今天的革命性的Linux），但有一点可以肯定，Linux更加丰富了这块土壤。</p>
+<p>这场官司一直打到 AT&amp;T将自己的Unix系统实验室卖掉，新接手的Novell公司采取了一种比较开明的做法，允许BSDI自由发布自己的BSD，但是前提是必须将来自于AT&amp;T的代码完全删除，于是诞生了4.4 BSD Lite版，由于这个版本不存在法律问题，4.4BSD Lite成为了现代BSD系统的基础版本。</p>
+<p>这桩诉讼最终在1994年1月了结，更多地满足了BSDI的利益。伯克利套件的18,000个文件中，只有3个文件要求删除，另有70个文件要求修改，并显示USL的版权说明。这项调解另外要求，USL不得对4.4BSD提起诉讼，不管是用户还是BSDI代码的分发者。于是，BSD Unix走上了复兴的道路。BSD的开发也走向了几个不同的方向，并最终导致了FreeBSD、OpenBSD和NetBSD的出现。</p>
+<p>从AT&amp;T意识到了Unix的商业价值，不再将Unix源码授权给学术机构以来，到以后的几十年，Unix仍在不断变化，其版权所有者不断变更，授权者的数量也在增加。Unix的版权曾经为AT&amp;T所有，之后Novell拥有了Unix，再之后Novell又将版权出售给了SCO（这一事实双方尚存在争议）。有很多大公司在取得了Unix的授权之后，开发了自己的Unix产品。（几年前，据传闻微软为了限制Linux，微软让SCO到法院告Linux剽窃其源码）</p>
+<p>由于Unix是由C语言写的，所以修改和移植都很容易，因此，很多商业公司及学术机构均加入这个操作系统的研发，各个不同版本的Unix也开始蓬勃发展。这才产生了今天这么多的各式各样的Unix衍生产品。如AIX、Solaris、HP-UX、IRIX、OSF、Ultrix等等。（这些商业化的Unix基本上都是源于AT&amp;T授权的Unix System V）</p>
+<h3>Unix开源组织</h3>
+<p>AT&amp;T的这种商业态度，让当时许许多的Unix的爱好者和软件开发者们感到相当的痛心和忧虑，他们认为商业化的种种限制并不利于产生的发展，相反还能导制产品出现诸多的问题。随着商业化Unix的版本的种种限制和诸多问题，引起了大众的不满和反对。于是，大家开始有组织地结成“反叛联盟”以此对抗欺行罢市的AT&amp;T等商业化行为。</p>
+<p>另一方面，关于“大教堂”（集权、封闭、受控、保密）和“集市”（分权、公开、精细的同僚复审）两种开发模式的对比成为了新思潮的中心思想。这个新思潮对IT业产生了非常深远影响。为整个计算机世界带来了革命性的价值观。</p>
+<p><img decoding="async" src="http://p.blog.csdn.net/images/p_blog_csdn_net/haoel/15190/o_richard_stallman.jpg" alt="" align="right" />此时，一个名叫Richard Stallman的领袖出现了，他认为Unix是一个相当好的操作系统，如果大家都能够将自己所学贡献出来，那么这个系统将会更加的优异！他倡导的Open Source的概念，就是针对Unix这一事实反对实验室里的产品商业化私有化。尽管Stallman既不是、也从来没有成为一个Unix程序员，但在后1980的大环境下，实现一个仿Unix操作系统成了他追求的明确战略目标。Richard Stallman早期的捐助者大都是新踏入Unix土地的老牌ARPANET黑客，他们对代码共享的使命感甚至比那些有更多Unix背景的人强烈。</p>
+<p>为了这个理想，Richard Stallman于1984年创业了GNU，计划开发一套与Unix相互兼容的的软件。1985 年 Richard Stallman 又创立了自由软件基金会（Free Software Foundation）来为 GNU 计划提供技术、法律以及财政支持。尽管 GNU 计划大部分时候是由个人自愿无偿贡献，但 FSF 有时还是会聘请程序员帮助编写。当 GNU 计划开始逐渐获得成功时，一些商业公司开始介入开发和技术支持。当中最著名的就是之后被 Red Hat 兼并的 Cygnus Solutions。</p>
+<p>GNU组织的建立，延续了当年Unix刚出现时的情形，并为这种情形建立了可靠的法律和财务保障。GNU 工程十几年以来, 已经成为一个对软件开发主要的影响力量， 创造了无数的重要的工具。例如：强健的编译器，有力的文本编辑器，甚至一个全功能的操作系统。从那时开始，许多程序员聚集起来开始开发一个自由的、高质量、易理解的软件，让这使得Unix社区生机勃勃，一派繁荣景象。</p>
+<p> 自90年代发起这个计划以来，GNU 开始大量的产生或收集各种系统所必备的组件，像是——函数库（libraries）、编译器（compilers）、调式工具（debugs）、文本编辑器（text editors）、网站服务器（web server），以及一个Unix的使用者接口（Unix shell）等等，等等。但由于种种原因，GNU一直没有开发操作系统的kernel。正当Richard Stallman在为操作系统内核伤脑筋的时候，Linux出现了。</p>
+<h3>Linux横空出世</h3>
+<p><img decoding="async" loading="lazy" src="http://p.blog.csdn.net/images/p_blog_csdn_net/haoel/15190/o_linus.gif" alt="" width="230" height="186" align="left" />1990年，Linus Torvalds还是芬兰赫尔辛基大学的一名学生，最初是用汇编语言写了一个在80386保护模式下处理多任务切换的程序，后来从Minix（Andy Tanenbaum教授所写的很小 的Unix操作系统,主要用于操作系统教学）得到灵感，进一步产生了自认为狂妄的想法——写一个比Minix更好的Minix，于是开始写了一些硬件的设备驱动程序，一个小的文件系统。这样0.0.1版本的Linux就出来了，但是它只具有操作系统内核的勉强的雏形，甚至不能运行，你必须在有Minix的机器上编译以后才能玩。这时候Linus已经完全着迷而不想停止，决定踢开Minix，于是在1991年10 月5号发布Linux 0.0.2版本,在这个版本中已经可以运行bash 和gcc。</p>
+<p>从一开始，Linus就决定自由扩散Linux，包括原代码，随即Linux引起黑客们（hacker）的注意，通过计算机网络加入了Linux的内核开发。Linux倾向于成为一个黑客的系统——直到今天，在Linux社区里内核的开发被认为是真正的编程。由于一批高水平黑客的加入，使Linux 发展迅猛，几乎一两个礼拜就有新版或修正版的出现，到1993年底94年初，Linux 1.0终于诞生了！Linux 1.0已经是一个功能完备的操作系统，而且内核写得紧凑高效，可以充分发挥硬件的性能，在4M内存的80386机器上也表现得非常好，至今人们还在津津乐道。时至今日，kernel的版本已经出到2.6。Linux的发展不像传统的软件工程，它完全是透过网络，集合世界各地的高手而成的一套操作系统，在这里我们也可以见识到网络快速传播的威力。Linux初次让整个世界感觉到了开源力量和网络力量的如此强大。（Linux 的标志和吉祥物是一只名字叫做 Tux 的 企鹅，标志的由来是因为Linus在澳洲时曾被一只动物园里的企鹅咬了一口，便选择了企鹅作为Linux的标志。）</p>
+<p>Linux 的历史是和GNU紧密联系在一起的。从1983年开始的GNU计划致力于开发一个自由并且完整的类Unix操作系统，包括软件开发工具和各种应用程序。到1991年 Linux 内核发布的时候，GNU已经几乎完成了除了系统内核之外的各种必备软件的开发。在 Linus Torvalds 和其它开发人员的努力下，GNU组件可以运行于Linux内核之上。整个内核是基于 GNU 通用公共许可，也就是GPL（GNU General Public License，GNU通用公共许可证）的，但是Linux内核并不是GNU 计划的一部分。1994年3月，Linux1.0版正式发布，Marc Ewing成立了 Red Hat 软件公司，成为最著名的 Linux 分销商之一。</p>
+<p>严格来讲，Linux这个词本身只表示Linux内核，但在实际上人们已经习惯了用Linux来形容整个基于Linux内核，并且使用GNU 工程各种工具和应用程序的操作系统(也被称为GNU/Linux)。基于这些组件的Linux软件被称为Linux发行版。一般来讲，一个Linux发行套件包含大量的软件，比如软件开发工具，数据库，Web服务器（例如Apache)，X Window，桌面环境（比如GNOME和KDE），办公套件（比如OpenOffice.org），等等。</p>
+<p>1991至1995年间，Linux从概念型的0.1版本内核原型，发展成为能够在性能和特性上均堪媲美专有Unix的操作系统，并且在连续正常工作时间等重要统计数据上打败了这些Unix中的绝大部分。1995年，Linux找到了自己的杀手级应用——开源的web服务器Apache。就像Linux，Apache出众地稳定和高效。很快，运行Apache的Linux机器成了全球ISP平台的首选。约60%的网站选用Apache，轻松击败了另两个主要的专有型竞争对手。今天的LAMP（Linux , Apache, MySQL, PHP）已经成为了架构Web服务器的主要首选。</p>
+<p> 现如今的Linux不但可以装在几乎所有的主流服务器上，当然也包括桌面的X86系统中。其还常常被用于嵌入式系统，机顶盒、手机、交换机、游戏机、PDA、网络交换机、路由器、等等，都是因为Linux那精彩的内核。</p>
+<p>Linux的出现，不仅仅给世界带来了一个免费的操作系统，也不仅仅是对Unix自由、共享的文化的延续，它的出现带给了计算机世界自Unix、GNU以来更为成熟的思想和文化。</p>
+<h3>Linux今天的领袖</h3>
+<p><strong> </strong></p>
+<p>Linux和GNU关系是比较微妙的。那时，自由软件基金会编写的用户软件工具包铺平了一条摆脱高成本专有软件开发工具的前进道路。意识服从经济，而不是领导：一些新手加入了RMS的革命运动，高举GPL大旗，另一些人则更认同整体意义上的Unix传统，加入了反对GPL的阵营，但其他大部分人置身事外，一心编码。</p>
+<p>Linus Torvalds巧妙地跨越了GPL和反GPL的派别之争。他利用GNU工具包搭起了自创的Linux内核，用GPL的传染性质保护它，但拒绝认同Richard Stallman的许可协议反映的思想体系计划。Linus Torvalds明确表示他认为自由软件一般情况下更好，但他偶尔也用专有软件。即使在他自己的事业中，他也拒绝成为狂热分子。这一点极大地吸引了大多数黑客，他们虽然早就反感Richard Stallman的言辞，但他们的怀疑论一直缺个有影响力或者令人信服的代言人。而Linus Torvalds正好充当了这一角色。</p>
+<p> <img decoding="async" src="http://p.blog.csdn.net/images/p_blog_csdn_net/haoel/15190/o_Linus_Torvalds.jpg" alt="" align="right" />Linus Torvalds令人愉快的实用主义及灵活而低调的行事风格，促使黑客文化在1993至1997年间取得了一连串令人惊奇的胜利，不仅仅在技术上的成功，还让围绕Linux操作系统的发行、服务和支持产业有了坚实的开端。结果，他的名望和影响也一飞冲天。Torvalds成为了互联网时代的英雄；到1995年为止，他只用了四年时间就在整个黑客文化界声名显赫，而Richard Stallman为此花了十五年，而且他还远远超过了Stallman向外界贩卖“自由软件”的记录。与Torvalds相比，Richard Stallman的言辞渐渐显得既刺耳又无力。（参看《<a rel="bookmark" href="https://coolshell.cn/articles/1278.html" target="_blank">Linus Torvalds 语录 Top 10</a>》）</p>
+<p>今天，我们也说不清楚是GNU Linux还是Linux GNU。Linux既不排斥开源，也不排斥商业化，Linus认为好的软件是需要免费和商业化共同推进的。正是这种革命性的想法，造就了今天的Linux火红的局面（参看《<a rel="bookmark" href="https://coolshell.cn/articles/1360.html" target="_blank">谁写了Linux</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1283.html" target="_blank">Linux基金会的广告</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/85.html" target="_blank">Linux Distribution Timeline</a>》）。Linux就像一股清泉流入了所有人的心中，引发了很多的启迪和思考。</p>
+<p><a href="https://coolshell.cn/articles/2324.html" target="_blank"><strong>Unix传奇（下篇） &gt;&gt;&gt;&gt;</strong></a></p>
+<h2><strong>(</strong><strong>转载时请注明作者和出处。未经许可，请勿用于商业用途</strong><strong>)</strong></h2>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19996.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/11/ken.dennis-300x186-1-150x150.jpeg" alt="Unix 50 年：Ken Thompson 的密码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19996.html" class="wp_rp_title">Unix 50 年：Ken Thompson 的密码</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2322.html">Unix传奇(上篇)</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2322.html/feed</wfw:commentRss>
+			<slash:comments>125</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Windows 7 的新粉丝 Linus Torvalds</title>
+		<link>https://coolshell.cn/articles/1619.html</link>
+					<comments>https://coolshell.cn/articles/1619.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2009 06:21:50 +0000</pubDate>
+				<category><![CDATA[Windows]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1619</guid>
+
+					<description><![CDATA[<p>正当Windows 7 开始热卖的时候，正当广大北美用户抱怨Windows 7的销售价格，在东方要比西方便宜很多的时候。我们著名的Linus Torvalds来...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1619.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1619.html">Windows 7 的新粉丝 Linus Torvalds</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>正当Windows 7 开始热卖的时候，正当广大北美用户抱怨Windows 7的销售价格，在东方要比西方便宜很多的时候。我们著名的Linus Torvalds来到了日本东京的一个软件商店里“庆祝Windows 7的Release”，难道他是去那里买一份便宜的Windows 7？</p>
+<p style="text-align: center;"><a href="http://www.flickr.com/photos/offthebroiler/4036243510/sizes/o/" target=_blank><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2009/10/Linus_windows_7.jpg" alt="Linus Torvalds 在一个日本的软件商店" width="475" /></a></p>
+<p style="text-align: center;"><em>Linus Torvalds, 图片来自一个未经确认的 Yodobashi 商店， Tokyo, Japan. 来源: Jim Zemlin/The Linux Foundation (<strong>点击看大图</strong>)</em></p>
+<p>这个图片目前还没有新闻报道，不过已有很多来源可以参考了……</p>
+<p><span id="more-1619"></span></p>
+<p>Linus在日本参加一个<a href="http://events.linuxfoundation.org/events/japan-linux-symposium"><strong>Japan Linux Symposium</strong></a>的座谈会，在一个Picaca的<a href="http://picasaweb.google.com/cschlaeger/JapanLinuxSymposium#5395400000458161906" target="_blank">链接</a>上说，Microsoft选择了和Japan Linux Symposium同一天，在座谈会的间隙，Linus和其同事想做点有趣的事情，于是他们来到了Windows 7的小商店里，当然，售货员同志并不知道这人是谁，而Linus一进店里马上就做了一个下蹲坚大拇指的手势，而他的同事很识相地马上就照了一张照片。呵呵，当然，他们什么也没有买。</p>
+<p>而在一个据说是照片作者的 <a href="http://blogs.zdnet.com/perlow/?p=11403" target="_blank">BLOG</a> 上，博主也证实了相关的说法，说，这是Linus的一种幽默的态度，还说，Linus应该做一个V字型的手势而不是大拇指，这主要是Linus对东方文不了解。呵呵。</p>
+<p>呵呵，很有意思吧。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/16910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="Linus：为何对象引用计数必须是原子的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/16910.html" class="wp_rp_title">Linus：为何对象引用计数必须是原子的</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="对九个超级程序员的采访" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_title">对九个超级程序员的采访</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1619.html">Windows 7 的新粉丝 Linus Torvalds</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1619.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Linus Torvalds 语录 Top 10</title>
+		<link>https://coolshell.cn/articles/1278.html</link>
+					<comments>https://coolshell.cn/articles/1278.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 16 Aug 2009 06:56:25 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1278</guid>
+
+					<description><![CDATA[<p>下面是Linux的创始人Linus Torvalds的一些言论，这是我个人认为最有意思的10句。如果你想看更多的Linus Torvalds说过的话，你可以看看...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1278.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1278.html">Linus Torvalds 语录 Top 10</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright" title="linus torvalds" src="https://coolshell.cn/wp-content/uploads/2009/08/linus_torvalds_talking.jpg" alt="linus torvalds" width="144" height="218" />下面是Linux的创始人Linus Torvalds的一些言论，这是我个人认为最有意思的10句。如果你想看更多的Linus Torvalds说过的话，你可以看看他在维基百科上的词条：<a href="http://en.wikiquote.org/wiki/Linus_Torvalds" target="_blank">Linux Torvalds</a>。我们在下面给出中英文对照，希望你能喜欢。</p>
+<blockquote><p>“Really, I’m not out to destroy Microsoft. That will just be a completely unintentional side effect ” （真的，我并不是想要干掉Microsoft，如果真是那样了，那完全是一个无意的副作用）——&#8221;The Way We Live Now: Questions for Linus Torvalds&#8221;, 接受《New York Times》的采访， 2003-09-28.</p></blockquote>
+<blockquote><p>“Only wimps use tape backup: _real_ men just upload their important stuff on ftp, and let the rest of the world mirror it”（只有愚昧的人才会用磁带来做备份，真正聪明的人会上传他们最重要的东西到FTP服务器上，而剩下事情是，让世界各地的人来镜像这些东西）——(1996-07-20). <a title="http://groups.google.com/groups?selm=Pine.LNX.3.91.960720095713.20645F-100000%40linux.cs.Helsinki.FI" rel="nofollow" href="http://groups.google.com/groups?selm=Pine.LNX.3.91.960720095713.20645F-100000%40linux.cs.Helsinki.FI">在linux.dev.kernel 新闻组上的一个贴子</a></p></blockquote>
+<p><span id="more-1278"></span></p>
+<blockquote><p>“Software is like sex; it’s better when it’s free.” （软件就像是性一样，仅当是自由的时候才会更好）—— 1996 的FSF 大会， <a title="http://www.argentilinux.com.ar/doku.php/linux_videos_documentales:the_code_linux" rel="nofollow" href="http://www.argentilinux.com.ar/doku.php/linux_videos_documentales:the_code_linux">相关视频</a>。</p></blockquote>
+<blockquote><p>“Is “I hope you all die a painful death” too strong?”（“我希望你们所有人在痛苦中死去”这句话是不是太强硬啦？）——这句话是，Linus是在拒绝某些硬件产商想在Linux的内核中植入特定的硬件处理程序，对那些硬件产商说的。</p></blockquote>
+<blockquote><p>“Most days I wake up thinking I’m the luckiest bastard alive.”（很多天当我醒来的时候，我想到我是世界上最幸运的还活着的混蛋）—— <cite id="CITEREFTorvalds.2C_Linus_and_David_Diamond2001" style="font-style: normal;">Linus  <cite id="CITEREFTorvalds.2C_Linus_and_David_Diamond2001" style="font-style: normal;">Torvalds </cite>和David Diamond (2001). <em>Just for Fun: The Story of an Accidental Revolutionary.</em></cite></p></blockquote>
+<blockquote><p>“An infinite number of monkeys typing into GNU emacs would never make a good program.” （即使是无穷多个猴子在GNU的emacs中输入东西，那也不会写出一段好的程序）—— 出自 <a title="http://www.linuxhq.com/kernel/v1.3/53/Documentation/CodingStyle" rel="nofollow" href="http://www.linuxhq.com/kernel/v1.3/53/Documentation/CodingStyle">Linux 1.3.53 编程风格</a></p></blockquote>
+<blockquote><p>“Talk is cheap. Show me the code.”（能说算不上什么，有本事就把你的代码给我看看）—— 2000-08-25， <a title="http://lkml.org/lkml/2000/8/25/132" rel="nofollow" href="http://lkml.org/lkml/2000/8/25/132">给linux-kernel 邮件列表的一封邮件</a></p></blockquote>
+<blockquote><p>“I’m a bastard. I have absolutely no clue why people can ever think otherwise. Yet they do. People think I’m a nice guy, and the fact is that I’m a scheming, conniving bastard who doesn’t care for any hurt feelings or lost hours of work, if it just results in what I consider to be a better system. And I’m not just saying that. I’m really not a very nice person. I can say “I don’t care” with a straight face, and really mean it.” （我是一个混蛋。我完全不知道人们为什么会从另外一个角度来看我，但是他们确实是（那么做的）。人们认为我是个好人，但事实上我是个诡计多端的混蛋，只要最终能得到我所认为的更好的系统，那么我对任何感情的伤害或工作时间的损失都不在乎。我并不只是（在口头上）说说而已，我真的不是一个很好的人。我能面无表情地说“我不在乎”，而且我确实不在乎。）—— 2000-09-06，<a title="http://lkml.org/lkml/2000/9/6/65" rel="nofollow" href="http://lkml.org/lkml/2000/9/6/65">给 linux-kernel 邮件列表的邮件</a></p></blockquote>
+<blockquote><p>“Those that can, do. Those that can’t, complain.”（那些能做的人就做，不能做的人就只会抱怨）——2003-09-23， <a title="http://kerneltrap.org/node/901" rel="nofollow" href="http://kerneltrap.org/node/901">给Linux Kernel 邮件列表</a> （注意：Linus只是借用了一下这个句型，这个引言的原创在<a href="http://shlomif.livejournal.com/39215.html" target="_blank">这里</a>）</p></blockquote>
+<blockquote><p>“You see. I don’t think any new thoughts. I think thoughts that other people have thought, and I rearrange them. But Sara, she thinks thoughts that never were before.”（您看，我没有任何新的想法。我的想法都是别人已经想过的，而我只是去重新组织一下别人的想法。但是莎拉不一样，她的想法是从来没有人想过的）—— 这是Linus给和他的母亲说起他的姐姐Sara。</p></blockquote>
+<p>维基百科上的“<a href="http://en.wikiquote.org/wiki/Linus_Torvalds" target="_blank">Linus Torvald 词条</a>”上有很多他的语录，你不妨去看看，你喜欢哪些呢？<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/04/o_unixrichiethompson-150x150.jpg" alt="Unix传奇(上篇)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2322.html" class="wp_rp_title">Unix传奇(上篇)</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1278.html">Linus Torvalds 语录 Top 10</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1278.html/feed</wfw:commentRss>
+			<slash:comments>40</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

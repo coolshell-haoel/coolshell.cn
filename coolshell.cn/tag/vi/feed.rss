@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>vi | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/vi/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 25 Apr 2012 16:01:43 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>游戏：VIM大冒险</title>
+		<link>https://coolshell.cn/articles/7166.html</link>
+					<comments>https://coolshell.cn/articles/7166.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 26 Apr 2012 00:22:22 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7166</guid>
+
+					<description><![CDATA[<p>不知道大家是否还记得“Vim简明攻略”呢？你是不是对Vim的那一大堆热键很头痛呢？现在好好，下面这个游戏是一个使用VIM热键玩的游戏。你可以在玩游戏的过程中熟悉...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7166.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7166.html">游戏：VIM大冒险</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>不知道大家是否还记得“<a title="简明 Vim 练级攻略" href="https://coolshell.cn/articles/5426.html" target="_blank">Vim简明攻略</a>”呢？你是不是对Vim的那一大堆热键很头痛呢？现在好好，下面这个游戏是一个使用VIM热键玩的游戏。你可以在玩游戏的过程中熟悉Vim的热键。</p>
+<p><strong>你可以点击图片，或是图片下的网址打开这个游戏</strong></p>
+<p style="text-align: center;"><strong><a href="http://vim-adventures.com/" target="_blank">http://vim-adventures.com/</a></strong></p>
+<p style="text-align: center;"><a href="http://vim-adventures.com/" target="_blank"><img decoding="async" loading="lazy" class=" wp-image-7172 aligncenter" title="VIM Adventures" src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun.jpg" alt="VIM大冒险" width="600" height="369" srcset="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun.jpg 600w, https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-300x185.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-439x270.jpg 439w" sizes="(max-width: 600px) 100vw, 600px" /></a></p>
+<p style="text-align: left;">我试玩了一下这个游戏，真的很不错，下面是一些我给的游戏攻略。</p>
+<p style="text-align: left;"><span id="more-7166"></span></p>
+<ul>
+<li>第一关，场景一，首先是使用vim的h, j, k, l四个键来控制方向。（如果你妄图使用光标键的话，系统会出现黄色警告的）你需要使用h, j, k, l 四个方向走到图的右边，找到一把钥匙。（注意：迷宫墙上有些斜面，你可以通过斜面），找到钥匙后，钥匙会出现在你的右上角的位置，示意着你的光标要向那个方向移动，当你到达一个门的时候，会自动开门，进入第二关。</li>
+</ul>
+<ul>
+<li>第二关，每一关的小人都会给你一些英文提示，教你怎么玩。关于第二关，你会看到你过不去，小会提示你，那些绿草地就向我们文件中的行，你在行上按上下键，光标会在这一列上移动，如果这一下面的一行没有这么长，光标会到行尾。这个vim的特性会告诉我们如何过这一关——移到最上面的行尾（因为是最长的可以越过最下面的障碍），然后按下光标键，到最后一行时你就会发现光标已经过了阻碍。如此通过第二场景，达到一个小人后，按下键，进入第二关。</li>
+</ul>
+<ul>
+<li>第三关，我们可以看到地图上有很多的字母，我们还可以看到有两个键，一个是w，一个是e，我们可以把光标移到w上吃到w后，我们就可以使用w键了——以单词为单位移动光标，这样，我们就可以吃到e了和第一把钥匙，我们按w和e我们就可以看到这两个按键都是以单词为单位移动光标的，一个是单词头，一个是单词尾（参看我以前给大家的<a title="给程序员的VIM速查卡" href="https://coolshell.cn/articles/5479.html" target="_blank">vim按键速查卡</a>）。然后，我们在最后一行通过单词跳跃到最右边吃到b—— 回到该单词的头，可以得到第二把钥匙。然后往上走，使用b 和 e键拿到第三把钥匙。然后就可以打开三个门通关了。</li>
+</ul>
+<figure id="attachment_7174" aria-describedby="caption-attachment-7174" style="width: 431px" class="wp-caption aligncenter"><a href="http://vim-adventures.com/"><img decoding="async" loading="lazy" class="size-full wp-image-7174" title="Vim Adventures 第三关" src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun02.jpg" alt="Vim Adventures 第三关" width="431" height="286" srcset="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun02.jpg 431w, https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun02-300x199.jpg 300w" sizes="(max-width: 431px) 100vw, 431px" /></a><figcaption id="caption-attachment-7174" class="wp-caption-text">Vim Adventures 第三关</figcaption></figure>
+<p style="text-align: left;">然后，就需要你注册才能玩了。作者说，因为需要发的邮件太多了，所以现在系统发不出邮件了，请等待。所以，不知道作者是用来收集邮件的，还是没有开发完，不过，<strong>这个游戏的创意实在是太赞了</strong>。推荐给大家。</p>
+<p style="text-align: left;"><strong>哪位会做游戏又熟Vim的朋友也能做一个？</strong></p>
+<p style="text-align: left;">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3125.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/horrorstories.txt-150x150.jpg" alt="主流文本编辑器学习曲线" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3125.html" class="wp_rp_title">主流文本编辑器学习曲线</a></li><li ><a href="https://coolshell.cn/articles/3083.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="三个教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3083.html" class="wp_rp_title">三个教程</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/894.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_gvim_ars-150x150.jpg" alt="将vim变得简单:如何在vim中得到你最喜爱的IDE特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/894.html" class="wp_rp_title">将vim变得简单:如何在vim中得到你最喜爱的IDE特性</a></li><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7166.html">游戏：VIM大冒险</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7166.html/feed</wfw:commentRss>
+			<slash:comments>142</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>主流文本编辑器学习曲线</title>
+		<link>https://coolshell.cn/articles/3125.html</link>
+					<comments>https://coolshell.cn/articles/3125.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 12 Oct 2010 00:55:42 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Emacs]]></category>
+		<category><![CDATA[Pico]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3125</guid>
+
+					<description><![CDATA[<p>下图是几个经典的文本编辑器的学习曲线，不排除其中有调侃和幽默的味道。 注1：Pico(PIne COmposer)是Unix操作系统中最常见的三种文字处理软件之...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3125.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3125.html">主流文本编辑器学习曲线</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下图是几个经典的文本编辑器的学习曲线，不排除其中有调侃和幽默的味道。</p>
+<figure id="attachment_3126" aria-describedby="caption-attachment-3126" style="width: 600px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-3126 " title="主流编辑器学习曲线图" src="https://coolshell.cn/wp-content/uploads/2010/10/horrorstories.txt.jpg" alt="" width="600" height="400" srcset="https://coolshell.cn/wp-content/uploads/2010/10/horrorstories.txt.jpg 600w, https://coolshell.cn/wp-content/uploads/2010/10/horrorstories.txt-300x200.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/10/horrorstories.txt-405x270.jpg 405w" sizes="(max-width: 600px) 100vw, 600px" /><figcaption id="caption-attachment-3126" class="wp-caption-text">主流编辑器学习曲线图</figcaption></figure>
+<p><strong>注1</strong>：<strong>Pico</strong>(<strong>PI</strong>ne <strong>CO</strong>mposer)是Unix操作系统中最常见的三种文字处理软件之一，具有文字编辑、搜索、拼写检查、文件浏览和段对齐功能，适合高效地编辑短小的文件。Pico是由华盛顿大学开发的免费软件，随着<a title="Pine（尚未撰写）" href="http://www.washington.edu/pine/" target="_blank">pine</a>电子邮件处理软件发布。它是在Emacs的基础上以pine的邮件编辑为目标而开发的，所以其指令集是Emacs的子集，但是由于在界面上有提示快捷键，相对于vi和Emacs来说更加容易使用。由于Pico虽然是免费软件，但是它并不是开源软件，所以很多Linux版本并不包含Pico。这些版本通常提供一个界面类似的开源软件<a title="Nano" href="http://www.nano-editor.org/" target="_blank">nano</a>——Pico的克隆版。</p>
+<p><strong>注2</strong>：图中的纵横坐标没有标明。我所理解的是——X轴是熟练程度，Y轴是技能。于是对于notepad 来说，技能和熟练程度呈正比。对于VS来说，熟练程度越大，所需要技能先是越来越多，而随着熟练程度的增长，你需要的技能也越少。而对于VI来说，一开始就需要相当大的技能，但一旦掌握这些技能，则你将会越来越熟练。而对于emacs来说，技能和熟练程度是呈旋涡状。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/3083.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="三个教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3083.html" class="wp_rp_title">三个教程</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/894.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_gvim_ars-150x150.jpg" alt="将vim变得简单:如何在vim中得到你最喜爱的IDE特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/894.html" class="wp_rp_title">将vim变得简单:如何在vim中得到你最喜爱的IDE特性</a></li><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3125.html">主流文本编辑器学习曲线</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3125.html/feed</wfw:commentRss>
+			<slash:comments>174</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>三个教程</title>
+		<link>https://coolshell.cn/articles/3083.html</link>
+					<comments>https://coolshell.cn/articles/3083.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 09 Oct 2010 06:06:21 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3083</guid>
+
+					<description><![CDATA[<p>第一个是关于vim的，相当的全面。 http://stevelosh.com/blog/2010/09/coming-home-to-vim/ 第二个是Mozi...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3083.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3083.html">三个教程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>第一个是关于vim的，相当的全面。</p>
+<p><a href="http://stevelosh.com/blog/2010/09/coming-home-to-vim/" target="_blank">http://stevelosh.com/blog/2010/09/coming-home-to-vim/</a></p>
+<p>第二个是Mozilla的Javascript教程</p>
+<p><a href="https://developer.mozilla.org/en/JavaScript/Guide" target="_blank">https://developer.mozilla.org/en/JavaScript/Guide</a></p>
+<p>第三个是Kernighan 和Ritchie 的 &#8220;The C Programming Language&#8221;第二版的问答和练习。</p>
+<p><a href="http://users.powernet.co.uk/eton/kandr2/" target="_blank">http://users.powernet.co.uk/eton/kandr2/</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/10739.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/lua-150x150.gif" alt="Lua简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10739.html" class="wp_rp_title">Lua简明教程</a></li><li ><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="数据即代码：元驱动编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_title">数据即代码：元驱动编程</a></li><li ><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="类型的本质和函数式实现" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10169.html" class="wp_rp_title">类型的本质和函数式实现</a></li><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="对象的消息模型" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5202.html" class="wp_rp_title">对象的消息模型</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3083.html">三个教程</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3083.html/feed</wfw:commentRss>
+			<slash:comments>19</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一些非常有意思的杂项资源</title>
+		<link>https://coolshell.cn/articles/3013.html</link>
+					<comments>https://coolshell.cn/articles/3013.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 28 Sep 2010 00:38:34 +0000</pubDate>
+				<category><![CDATA[Ajax开发]]></category>
+		<category><![CDATA[Ruby]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[AJAX]]></category>
+		<category><![CDATA[CSS]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Flash]]></category>
+		<category><![CDATA[Go]]></category>
+		<category><![CDATA[GUI]]></category>
+		<category><![CDATA[HTML]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Structure Synth]]></category>
+		<category><![CDATA[UI]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<category><![CDATA[Web]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3013</guid>
+
+					<description><![CDATA[<p>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3013.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是一些最近在互联网上看到的一些各式各样的资源和文章，当然，都是英文社区的，本来想每一个写一篇文章，但是觉得一篇文章一句话真没劲，所以，把这些东西合并写成一篇文章，这样有利于减轻本站的负载，也有利于节省网络带宽，同样，也就节省了能力和电力，因此也就很环保，很低碳。呵呵。</p>
+<ul>
+<li>先是一个《Windows Internal》第五版的第五章的电子版（英文的），你可以在<a href="http://download.sysinternals.com/Files/WindowsInternals-Ch05.pdf" target="_blank"><strong>这里下载</strong></a>。关于其它一些电子书，你可以看看本站的这篇文章《<a rel="bookmark" href="https://coolshell.cn/articles/2775.html" target="_blank">免费电子书列表</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/240.html">非常不错的编程技术教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/336.html">超过100本的linux免费书籍</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/355.html">20本最好的Linux免费书籍</a>》</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><a href="http://www.3dtin.com/" target="_blank"><strong>http://www.3dtin.com/</strong></a>是一个用纯Javascript搞的一个3D作图的网站，Javascript是越来越强大了。这个演示可以让你看到以后Web应用的潜力。关于<a href="https://coolshell.cn/articles/tag/javascript" target="_blank">Javascript的一些东西</a>，你可以参看本站的这些文章《<a rel="bookmark" href="https://coolshell.cn/articles/2785.html" target="_blank">JS1K 演示</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2276.html" target="_blank">又一个Javascript试验田</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/2065.html" target="_blank">一个Windows 3.1的Web网站</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1932.html" target="_blank">哥是玩程序的</a>》。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到这些很酷很炫的东西，大家一定会想到使用Flash，不过，目前的<a href="https://coolshell.cn/articles/2735.html" target="_blank">Flash正在受到HTML5的强力挑战</a>，目前，对于HTML5的展示网站很多，让我们看到了HTML5完全可以做出Flash的样子，比如前些天本站说到的<a href="https://coolshell.cn/articles/2926.html" target="_blank">这个演示</a>，还有给大家展示的<a href="https://coolshell.cn/articles/2998.html" target="_blank">纯HTML5的小游戏</a>，不过，那些都是一些演示和展示罢了。今天在网上看到一个更强大的HTML5游戏，相当有可玩性，大家不妨一去试玩：<strong><a href="http://www.phoboslab.org/biolab/" target="_blank">http://www.phoboslab.org/biolab/</a></strong></li>
+</ul>
+<p><a href="http://www.phoboslab.org/biolab/"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3017" title="一个很不错的HTML5游戏" src="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg" alt="" width="483" height="321" srcset="https://coolshell.cn/wp-content/uploads/2010/09/biolab.jpg 483w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-300x199.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/09/biolab-406x270.jpg 406w" sizes="(max-width: 483px) 100vw, 483px" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>HTML5 可以应用的还不只是游戏，这不，<a href="http://thechangelog.com/post/1097381443/vexflow-html5-canvas-javascript-library-music-and-guitar" target="_blank">有文章指出</a>，用<a href="http://www.vexflow.com/" target="_blank"><strong>VexFlow</strong></a>还可以很轻松地在网页上发布乐谱。而<a href="http://stepheneisenhauer.com/demos/drummachine/" target="_blank"><strong>这个网页</strong></a>还可以让你制作Hi-PoP音乐。</li>
+</ul>
+<p style="text-align: center;"><a href="http://www.vexflow.com/"><img decoding="async" loading="lazy" src="http://cl.ly/c4f966c6d51cfc9be20b/content" alt="Rendered music" width="530" height="240" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说到Web开发，就得要提CSS了，这里有一个在线编辑CSS的网站，很不错，<a href="http://css3.mikeplate.com/" target="_blank"><strong>http://css3.mikeplate.com/</strong></a>。关于CSS和Web开发的一些文章，你可以查看本站的<a href="https://coolshell.cn/articles/tag/css" target="_blank">CSS的Tag</a>。现在，这种在线的东西是越来越多了，比如：《<a rel="bookmark" href="https://coolshell.cn/articles/2271.html" target="_blank">Emacs配色在线生成器</a><span style="font-weight: normal; font-size: 13px;">》、《</span><a rel="bookmark" href="https://coolshell.cn/articles/1883.html" target="_blank">Coderun.com 在线开发IDE</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1830.html" target="_blank">正则表达式生成器</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1611.html" target="_blank">Ajax开发利器UIzard</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/776.html" target="_blank">一个在线的画UML图的网站</a>》。</li>
+</ul>
+<p><span id="more-3013"></span></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起在线服务，就不得不说说在线代码编译的服务，我觉得这种服务相当好，不需要你在本机安装编译器或IDE，想试试某个语言的语法，真接上网就OK，很方便。以前本站向大家介绍过《<a rel="bookmark" href="https://coolshell.cn/articles/1310.html" target="_blank">在线代码编译服务Codepad.org</a>》其支持：C，C++，D，Haskell，Lua，OCaml，PHP，Perl，Plain Text，Python，Ruby，Scheme，Tcl。当然，在这里，向你介绍一个可以运行Go语言的：<strong><a href="http://golang.org/doc/play/" target="_blank">http://golang.org/doc/play/</a></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web开发，很自然的就能想到UI。下面是一个<a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns" target="_blank"><strong>UI的设计Patterns</strong></a>，这篇文章告诉了我们12个比较常用或是经典的图形UI Patterns。关于<a href="https://coolshell.cn/articles/tag/ui" target="_blank">UI方面的话题</a>，你可以参看酷壳的《<a rel="bookmark" href="https://coolshell.cn/articles/363.html" target="_blank">35个强大的UI设计教程</a>》、《<a rel="bookmark" href="https://coolshell.cn/articles/1907.html" target="_blank">UI的恶梦</a>》和《<a rel="bookmark" href="https://coolshell.cn/articles/2313.html" target="_blank">史上最糟糕的网站</a>》。</li>
+</ul>
+<p><a href="http://designingwebinterfaces.com/designing-web-interfaces-12-screen-patterns"><img decoding="async" loading="lazy" class="aligncenter" title="12个标准的图形UI设计模式" src="http://theresaneil.files.wordpress.com/2008/12/standard_screen_patterns.png" alt="" width="476" height="705" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>说起Web的界面，最让各位WEB开发者痛苦的就是网页兼容性问题，IE是一个恶梦，因为其自己和自己都不兼容，在MSDN上，有这样的一个网页说明了<a href="http://msdn.microsoft.com/en-us/library/cc351024" target="_blank"><strong>从IE5一直到IE9的CSS的兼容性问题</strong></a>，很多很多的表格，头都看大了。当然，以前本站的《<a rel="bookmark" href="https://coolshell.cn/articles/757.html" target="_blank">检查网页浏览器的兼容性</a>》的文章向你介绍过如何查看网站在不同浏览器中和操作系统下的效果（其也是一个在线服务）。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>当然，Web上的开发，问题最大的还是安全问题，我们的Ruby on Rails给出了一个<a href="http://guides.rubyonrails.org/security.html" target="_blank"><strong>Web安全的开发教程</strong></a>，相当不错哦。谈到了几乎所有最有威胁和最常用的网上攻击，这个文档应该是所有Web开发者都需要注意的。</li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>下面是一个给新手学习linux用的一个桌面（点击图片看大图），其列出了很多常用的命令，以及VI的常用命令。关于VI的一些东西，你可以查看<a href="https://coolshell.cn/articles/tag/vim" target="_blank">本站的这些文章</a>，如：<a rel="bookmark" href="https://coolshell.cn/articles/1651.html" target="_blank">VIM有趣的命令</a>、<a rel="bookmark" href="https://coolshell.cn/articles/894.html" target="_blank">如何在vim中得到你最喜爱的IDE特性</a></li>
+</ul>
+<p style="text-align: center;"><a href="http://i.imgur.com/CJkR9.png"><img decoding="async" loading="lazy" class="aligncenter" title="Linux命令桌面" src="http://i.imgur.com/CJkR9.png" alt="" width="553" height="346" /></a></p>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li>最后，给大家介绍一个关于文件格式方面东西，我们知道，很多文件的开头表明着这个文件的类型，所以，有这样的一个网站了维护了这么一个信息列表，其把几乎所有常见的文件头的那段和文件类型相关的Magic Number列了出来，而且还保持更新，非常不错哦，这个网站是：<strong><a href="http://www.garykessler.net/library/file_sigs.html">http://www.garykessler.net/library/file_sigs.html</a><span style="font-weight: normal;">，希望能对你有用哦。</span></strong></li>
+</ul>
+<p><span style="color: #ffffff;">→</span></p>
+<ul>
+<li><strong><span style="font-weight: normal;">最最后，给大家介绍一个开源项目，叫<a href="http://structuresynth.sourceforge.net/" target="_blank"><strong>Structure Synth</strong></a>，这个东西可以用来画出一些很酷的图，相当不错，使用起来非常简单，我试用了一下，的确很强大。用一些简单的脚本就可以作出很不错的3D图，下面是他的一个示例，只需要写那么不到10行的代码，很简单。</span></strong></li>
+</ul>
+<p><a href="http://structuresynth.sourceforge.net/index.php"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-3018" title="Structure Synth" src="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg" alt="" width="500" height="301" srcset="https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth.jpg 500w, https://coolshell.cn/wp-content/uploads/2010/09/Structure-Synth-300x180.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></a></p>
+<p style="padding-left: 60px;">想看看，大家用这个东西做什么酷图了吗？上 <a href="http://www.flickr.com/groups/structuresynth/" target="_blank">http://www.flickr.com/groups/structuresynth/</a> 看看吧。</p>
+<p id="pool_4652540301" style="text-align: center;"><a title="structure 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540301/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4029/4652540301_db50832fdc_t.jpg" border="0" alt="structure 作者 Supreet Kumar" width="100" height="56" /></a> <a title="architecture x-ray 2 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4652540021/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4044/4652540021_0f17294ca5_t.jpg" border="0" alt="architecture x-ray 2 作者 Supreet Kumar" width="100" height="62" /></a> <a title="perspective 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4650270228/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4002/4650270228_8cc69948bc_t.jpg" border="0" alt="perspective 作者 Supreet Kumar" width="100" height="60" /></a> <a title="snake shade 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4649663253/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4042/4649663253_aa041ab239_t.jpg" border="0" alt="snake shade 作者 Supreet Kumar" width="100" height="57" /></a> <a title="thatched beauty 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641732162/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3414/4641732162_e2b078825f_t.jpg" border="0" alt="thatched beauty 作者 Supreet Kumar" width="100" height="63" /></a><br />
+<a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055399/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm4.static.flickr.com/3353/4641055399_25688820a9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="70" /></a> <a title="aircraft 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4641055019/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4064/4641055019_6ed80cd1b9_t.jpg" border="0" alt="aircraft 作者 Supreet Kumar" width="100" height="65" /></a> <a title=" 作者 FracturedPixel" href="http://www.flickr.com/photos/cav666/4640849748/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4062/4640849748_0532451842_t.jpg" border="0" alt=" 作者 FracturedPixel" width="100" height="63" /></a> <a title="splash1 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4636427318/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4008/4636427318_c84acf4aa4_t.jpg" border="0" alt="splash1 作者 Supreet Kumar" width="100" height="63" /></a> <a title="joy 作者 Supreet Kumar" href="http://www.flickr.com/photos/9857764@N02/4635820649/in/pool-structuresynth"><img decoding="async" loading="lazy" src="http://farm5.static.flickr.com/4012/4635820649_720cd6599b_t.jpg" border="0" alt="joy 作者 Supreet Kumar" width="100" height="53" /></a></p>
+<p id="pool_4635820649">（全文完）</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/14.jpg" alt="一些有意思的贴子和工具" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3903.html" class="wp_rp_title">一些有意思的贴子和工具</a></li><li ><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/02/1128-150x150.jpg" alt="Web开发人员速查卡" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3684.html" class="wp_rp_title">Web开发人员速查卡</a></li><li ><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/05/Render-Process-150x150.jpg" alt="浏览器的渲染原理简介" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9666.html" class="wp_rp_title">浏览器的渲染原理简介</a></li><li ><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/08/ajax_error-150x150.jpg" alt="一次Ajax查错的经历" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8170.html" class="wp_rp_title">一次Ajax查错的经历</a></li><li ><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/css-layouts-150x150.gif" alt="CSS 布局:40个教程、技巧、例子和最佳实践" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6840.html" class="wp_rp_title">CSS 布局:40个教程、技巧、例子和最佳实践</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3013.html">一些非常有意思的杂项资源</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3013.html/feed</wfw:commentRss>
+			<slash:comments>45</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>将vim变得简单:如何在vim中得到你最喜爱的IDE特性</title>
+		<link>https://coolshell.cn/articles/894.html</link>
+					<comments>https://coolshell.cn/articles/894.html#comments</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Sat, 23 May 2009 08:32:05 +0000</pubDate>
+				<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[vi]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=894</guid>
+
+					<description><![CDATA[<p>原文出处:这里 摘要： 开源的vim文本编辑器提供许多灵活而强大的功能，但是vim自身是很难被配置使用的，在本教材中，我们将向你显示通过几个简单的方式使得你的v...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/894.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/894.html">将vim变得简单:如何在vim中得到你最喜爱的IDE特性</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>原文出处:<a href="http://arstechnica.com/open-source/guides/2009/05/vim-made-easy-how-to-get-your-favorite-ide-features-in-vim.ars">这里</a></p>
+<p><strong>摘要：</strong><br />
+开源的vim文本编辑器提供许多灵活而强大的功能，但是vim自身是很难被配置使用的，在本教材中，我们将向你显示通过几个简单的方式使得你的vim具有集成开发环境IDE的行为</p>
+<p>vim是很多程序员和系统管理员最爱的文本编辑器，虽然他提供了很多优秀而灵活的功能，但是对于新手来说他依然是难于上手的。从传统集成开发环境转到vim的开发人员通常会开在发方式的转变中发现迷失了自己。</p>
+<p>我经常收到来自于读者的邮件，他们希望能找到一种方式使得vim变得对开发者更友好。一个常见的抱怨是vim并不是自身就带有IDE的特性，并且如何来通过配置能得到等价IDE功能也不是很清晰。而揭开vim真正神奇的秘密就是利用强大的vim插件系统和对vim自身功能的改善和增强的第三方脚本。在阅你读本文之前，我已经整理好了一个vim的有用tips和插件列表，这些列表中的内容将会使那些用惯IDE功能的人们在vim上感到宾至如归的感觉。</p>
+<p><span id="more-894"></span></p>
+<p>虽然vim主要是设计给基于字符方式的文本编辑器，并且它有可能是这类编辑器中最高效的工具，但是现在在vim上也存在一些更适合新手使用的基于图形的外壳。不像运行在终端窗口上的vim，你可以尝试使用一下gvim,一个基于GUI的vim版本。gvim拥有可配置的的菜单和工具条，因此可以通过鼠标直接访问到vim的编程上的最本质的特性。gvim可以让你使用操作系统自带的文件对话框，并允许你通过鼠标点击拖拉编辑面板的能力。gvim有windows和linux的版本，等价的Mac OS X的版本是MacVim，MacVim提供了Mac机的本地Cocoa用户接口，包括菜单集成的功能。<br />
+<a rel="attachment wp-att-896" href="https://coolshell.cn/?attachment_id=896"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-896" title="vimtxt_gvim_ars" src="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_gvim_ars.jpg" alt="vimtxt_gvim_ars" width="708" height="648" srcset="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_gvim_ars.jpg 708w, https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_gvim_ars-300x275.jpg 300w, https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_gvim_ars-295x270.jpg 295w" sizes="(max-width: 708px) 100vw, 708px" /></a></p>
+<p>我听到来自vim用户最经常被抱怨的功能是vim的编辑区列表非常麻烦，并且没有一种简单的方式可以明了的看到什么文件是打开的。在vim上有几个插件可以解决这个问题，并提供了一个额外的编辑区列表用于方便在打开文件中切换。我最喜欢的一个插件是<a href="http://www.vim.org/scripts/script.php?script_id=159">MiniBufExplorer</a>，它将列表显示在窗口的头上。当MiniBufExplorer被激活时，你可以通过tab键来在列表的这些项中循环，然后通过回车键或双击鼠标来选择在编辑区显示和你要处理的文件。<br />
+<a rel="attachment wp-att-898" href="https://coolshell.cn/?attachment_id=898"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-898" title="vimtxt_vim_minibufexplorer_ars" src="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_minibufexplorer_ars.jpg" alt="vimtxt_vim_minibufexplorer_ars" width="478" height="393" srcset="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_minibufexplorer_ars.jpg 478w, https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_minibufexplorer_ars-300x246.jpg 300w" sizes="(max-width: 478px) 100vw, 478px" /></a></p>
+<p>许多的IDE工具都有用于显示你程序项目结构和允许你通过鼠标在特定的类和方法间跳转的代码导航区。你可以通过使用流行的<a href="http://vim-taglist.sourceforge.net/installation.html">Tag List 插件</a>来得到这个特性。这个插件需要<a href="http://ctags.sourceforge.net/">Exuberant Ctags</a>实用工具，这个工具用于分析你的代码。TagList可以通过命令:Tlist来激活，并将你的类和方法显示在激活的区域，当你打开其他的文件或切换到其他打开文件时，新的类或方法会被加到代码导航区。在gvim中你可以通过单击方法名跳到对应方法定义。如果要使用键盘，那么通过光标键上下移光标到你希望的方法处，单击回车即可达到目标。</p>
+<p><a rel="attachment wp-att-895" href="https://coolshell.cn/?attachment_id=895"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-895" title="vimtxt_vim_taglist_ars" src="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_taglist_ars.jpg" alt="vimtxt_vim_taglist_ars" width="720" height="854" srcset="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_taglist_ars.jpg 720w, https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_taglist_ars-252x300.jpg 252w" sizes="(max-width: 720px) 100vw, 720px" /></a></p>
+<p>自动文本完成(<strong>译者注</strong>：就是eclipse，visual studio中常见的输入前几个字符后面的内容通过列表显示的功能)是另外一种在IDE工具中常用特性，并且很多用户都希望在vim中有这些特性。这个特性已经在vim7中通过<a href="http://vim.wikia.com/wiki/Omni_completion">Omnicompletion system</a>被引入进来。它是可编程，这就意味着你可以通过定制，使的这个功能能在各种个样的编程语言中使用，在vim中甚至存在对动态语言python或ruby生效的自动文本完成功能。现在，自动文本完成的配置已经变成了vim包中的一个部分，所以现在你可以什么都不做就能让这个功能生效。要调出自动完成菜单(列表)，你需要敲下ctrl+x和ctrl+o键，接着你可以用ctrl+n和ctrl+p在可能完成列表中进行上下选择，当你移动到一个选项，vim将为你在另外一个Scratch区域显示带方法说明和属性的上下文帮助信息。<br />
+<a rel="attachment wp-att-897" href="https://coolshell.cn/?attachment_id=897"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-897" title="vimtxt_vim_completion_ars" src="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_completion_ars.jpg" alt="vimtxt_vim_completion_ars" width="708" height="850" srcset="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_completion_ars.jpg 708w, https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_vim_completion_ars-249x300.jpg 249w" sizes="(max-width: 708px) 100vw, 708px" /></a></p>
+<p>你可以多种方式来改善你的vim体验，<a href="http://vim.wikia.com/wiki/Main_Page">vim维基vim wiki</a>和<a href="http://www.vim.org/scripts/index.php">脚本库script repository</a>为你提供了可用于增强功能的第三方增强扩展集合。这些插件实现sinppet system，outlining tools，项目管理工具，和大量的其他的特性。同时还有大量的脚本实现了对某些特定编程语言和框架的增强。例如有一个<a href="http://www.vim.org/scripts/script.php?script_id=1567">非常流行的脚本</a>，这个脚本将会改善你Ruby的语法高亮，并且为你Ruby on Rail的部署提供了非常方便的导航特性</p>
+<p>同时也有一些<a href="http://cream.sourceforge.net/">面向新手的脚本集合</a>，这个集合使得vim的行为变得更像一个带有简单菜单和快捷键的传统的文本编辑器。如果你对vim那些神秘键盘命名感到不舒服的话，你可以选择这个作为你使用vim的开始。</p>
+<p>vim的多样性使得它满足不同的用户使用。对于那些没有时间，能力，和爱好去通过自己去建立一个完美vim配置的人来说，无数的第三方脚本和插件为你提供了一种简单的方式，通过这种方式你可以付出很少的努力就能得到你想要的功能和特性。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/3125.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/horrorstories.txt-150x150.jpg" alt="主流文本编辑器学习曲线" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3125.html" class="wp_rp_title">主流文本编辑器学习曲线</a></li><li ><a href="https://coolshell.cn/articles/3083.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="三个教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3083.html" class="wp_rp_title">三个教程</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/03/success_vim-150x150.jpg" alt="无插件Vim编程技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11312.html" class="wp_rp_title">无插件Vim编程技巧</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/894.html">将vim变得简单:如何在vim中得到你最喜爱的IDE特性</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/894.html/feed</wfw:commentRss>
+			<slash:comments>39</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>VI的一些小技巧</title>
+		<link>https://coolshell.cn/articles/556.html</link>
+					<comments>https://coolshell.cn/articles/556.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 17 Apr 2009 04:45:20 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[vi]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=556</guid>
+
+					<description><![CDATA[<p>下面是一些vi的小技巧。 :sp &#60;filename&#62;  打开一个文件，并和当前打开的文件分屏显示。 Ctrl+W+W 在分屏显示中的不同文件中切换...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/556.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/556.html">VI的一些小技巧</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是一些vi的小技巧。</p>
+<p style="padding-left: 30px;"><strong>:sp &lt;filename&gt;<br />
+</strong> 打开一个文件，并和当前打开的文件分屏显示。</p>
+<p style="padding-left: 30px;"><strong>Ctrl+W+W<br />
+</strong>在分屏显示中的不同文件中切换。</p>
+<p style="padding-left: 30px;"><strong>*</strong><br />
+向前搜索目前光标所在的单词。</p>
+<p style="padding-left: 30px;"><strong>#</strong><br />
+向后搜索目前光标所在的单词。</p>
+<p style="padding-left: 30px;"><strong>:%s/word1/word2/g<br />
+</strong>全文搜索word1并以word2替换之。</p>
+<p style="padding-left: 30px;"><strong>:&#8217;a,&#8217;bs/word1/word2/g</strong><br />
+仅在第a行到第b行间搜索并替换。</p>
+<p style="padding-left: 30px;"><span id="more-556"></span></p>
+<p style="padding-left: 30px;"><strong>:!&lt;command&gt;</strong><br />
+执行一个Shell命令。</p>
+<p style="padding-left: 30px;"><strong>:!javac %</strong><br />
+使用%可以表示当前文件名。比如：sample.java，以达到编译的目的。</p>
+<p style="padding-left: 30px;"><strong>:sh</strong><br />
+启运一个shell而不退出vi。exit 命令后回到vi.</p>
+<p style="padding-left: 30px;"><strong>:line_number</strong><br />
+冒号后跟数字表示要到第几行，如果跟1，表示到文件头，如果跟$，表示到文件尾。</p>
+<p style="padding-left: 30px;"><strong>Ctrl+G</strong><br />
+可以显示当前行在整个文件的百分比。</p>
+<p style="padding-left: 30px;"><strong>&lt;number&gt;<br />
+</strong>重复一个命令number次。比如先输入50，然后输入dd，表示删除50行。</p>
+<p style="padding-left: 30px;"><strong>yy</strong><br />
+拷贝一个行到VI的剪贴版。</p>
+<p style="padding-left: 30px;"><strong>p<br />
+</strong>粘贴VI</p>
+<p style="padding-left: 30px;"><strong>&gt;&gt; 和 &lt;&lt;<br />
+</strong>用于向右或右左的缩进。</p>
+<p style="padding-left: 30px;"><strong>u<br />
+</strong>undo上一次改变。</p>
+<p style="padding-left: 30px;"><strong>U<br />
+</strong>undo当前行所有的改变。</p>
+<p style="padding-left: 30px;"><strong>Ctrl + R</strong><br />
+redo被undo了的改变。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/04/vimadventuresgamefun-150x150.jpg" alt="游戏：VIM大冒险" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7166.html" class="wp_rp_title">游戏：VIM大冒险</a></li><li ><a href="https://coolshell.cn/articles/3125.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/horrorstories.txt-150x150.jpg" alt="主流文本编辑器学习曲线" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3125.html" class="wp_rp_title">主流文本编辑器学习曲线</a></li><li ><a href="https://coolshell.cn/articles/3083.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="三个教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3083.html" class="wp_rp_title">三个教程</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/894.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/05/vimtxt_gvim_ars-150x150.jpg" alt="将vim变得简单:如何在vim中得到你最喜爱的IDE特性" width="150" height="150" /></a><a href="https://coolshell.cn/articles/894.html" class="wp_rp_title">将vim变得简单:如何在vim中得到你最喜爱的IDE特性</a></li><li ><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt=".NET代码转换器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_title">.NET代码转换器</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/556.html">VI的一些小技巧</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/556.html/feed</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

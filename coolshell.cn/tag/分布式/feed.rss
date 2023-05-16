@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>分布式 | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/%e5%88%86%e5%b8%83%e5%bc%8f/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sun, 21 Apr 2019 08:39:28 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>程序员练级攻略（2018)  与我的专栏</title>
+		<link>https://coolshell.cn/articles/18360.html</link>
+					<comments>https://coolshell.cn/articles/18360.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 29 May 2018 04:38:23 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[React]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[Web]]></category>
+		<category><![CDATA[分布式]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">https://coolshell.cn/?p=18360</guid>
+
+					<description><![CDATA[<p>写极客时间8个月了，我的专栏现在有一定的积累了，今天想自己推荐一下。因为最新的系列《程序员练级攻略（2018）版》正在连载中，而且文章积累量到了我也有比较足的自...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/18360.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/18360.html">程序员练级攻略（2018)  与我的专栏</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium" src="https://coolshell.cn/wp-content/uploads/2018/05/专栏-300x262.jpg" alt="" width="300" height="262" />写极客时间8个月了，我的专栏现在有一定的积累了，今天想自己推荐一下。因为最新的系列《程序员练级攻略（2018）版》正在连载中，而且文章积累量到了我也有比较足的自信向大家推荐我的这个专栏了。推荐就从最新的这一系统的文章开始。</p>
+<p>2011年，我在 <a href="https://coolshell.cn/">CoolShell</a> 上发表了 《<a href="https://coolshell.cn/articles/4990.html">程序员技术练级攻略</a>》一文，得到了很多人的好评（转载的不算，在我的网站上都有近1000W的访问量了）。并且陆续收到了一些人的反馈，说跟着这篇文章找到了不错的工作。几年过去，也收到了好些邮件和私信，希望我把这篇文章更新一下，因为他们觉得有点落伍了。是的，<strong>老实说，抛开这几年技术的更新迭代不说，那篇文章写得也不算特别系统，同时标准也有点低，当时是给一个想要入门的朋友写的，所以，非常有必要从头更新一下《程序员练级攻略》这一主题</strong>。</p>
+<p>目前，我在我极客时间的专栏上更新《程序员练级攻略（2018版）》。升级版的《程序员练级攻略》会比Coolshell上的内容更多，也更专业。这篇文章有【入门篇】、【修养篇】、【专业基础篇】、【软件设计篇】、【高手成长篇】五大篇章，它们会帮助你从零开始，一步步地，系统地，从陌生到熟悉，到理解掌握，从编码到设计再到架构，从码农到程序员再到工程师再到架构师的一步一步进阶，完成从普通到精通到卓越的完美转身……</p>
+<p>这篇文章是我写得最累也是最痛苦的文章，原因如下：</p>
+<ul>
+<li> <strong>学习路径的梳理</strong>。这是一份计算编程相关知识地图，也是一份成长和学习路径。所以有太多的推敲了，知识的路径，体，地图……这让我费了很多工夫，感觉像在编写一本教材一样，即不能太高大上，也不能误人子弟。</li>
+<li><strong>新旧知识的取舍。</strong>另外，因为我的成长经历中很多技术都成了过去时，所以对于新时代的程序员应该学习新的技术，然后，很多基础技术在今天依然管用，所以，在这点上，哪些要那些不要，也花了我很多的工夫。</li>
+<li><strong>文章书籍的推荐</strong>。为了推荐最好的学习资料和资源，老实说，我几乎翻遍了整个互联网，进行了大量的阅读和比较。这个过程让我也受益非浅。一开始，这篇文章的大小居然在500K左右，太多的信息就是没有信息，所以在信息的筛选上我花费了很多的工夫，删掉了60%的内容。但是，依然很宠大。</li>
+</ul>
+<p><strong>总之，你一定会被这篇文章的内容所吓到的，是的，我就是故意这样做的，因为，这本来就没有什么捷径，也不可能速成，很多知识都是硬骨头，你只能一口一口的啃，我故意这样做就是为了让你不要有“速成”的幻想，也可以轻而一举的吓退那些不想用功不想努力的人</strong>。</p>
+<p>但是，我们也要知道《易经》有云：“<strong>取法其上，得乎其中，取法其中，得乎其下，取法其下，法不得也</strong>”。所以，我这里会给你立个比较高标准，你要努力达到，相信我，就算是达不到，也会比你一开始期望的要高很多……</p>
+<p>下面是这份练级攻略的目录，目前只在极客时间上发布，你需要付费阅读（在本文最后有相关的二维码）。</p>
+<p><span id="more-18360"></span></p>
+<p><img decoding="async" loading="lazy" class="alignnone size-full aligncenter" src="https://coolshell.cn/wp-content/uploads/2018/05/程序员练级攻略.png" alt="" width="290" height="1937" /></p>
+<p>&nbsp;</p>
+<p>那么，除程序员练级攻略外，我还写了哪些内容？下面是迄今为止我所有的文章的目录。你可以在下面看一下相关的目录。这也算是我开收费专栏来8个月给大家的一份答卷吧。我也没有想到，我居然写了这么多的文章，而且对很多人都很有用。</p>
+<p>首先是个人成长和经验之谈的东西，在这里的文章还没有完全更新完，未来要更新什么我也不清楚，但是可以呈现出来的内容和方向如下所示，供你参考。对于个人成长中的内容，都是我多年来的心得和体会，从读者的反馈来看是非常不错的，你一定要要阅读的。</p>
+<p><img decoding="async" loading="lazy" class="alignnone size-large aligncenter" src="https://coolshell.cn/wp-content/uploads/2018/05/个人成长和经验之谈-319x1024.png" alt="" width="319" height="1024" /></p>
+<p>分布式系统架构，我一共出了两个系列，一个是分布式系统架构的本质，另一个是设计模式。前者偏概念，后者偏技术。这里旨在让你看到整个分布式系统设计的一个非常系统的蓝图，但是因为在手机端上，不可能写得非常细，所以，会缺失一些细节，这些细节我是故意缺失的，主要是有几方面的原因，</p>
+<ul>
+<li>一方面，这是为了阅读的效果，手机上的文章不过长，所以，不能有太多的细节。</li>
+<li>另一方面，也是是想留给大家自行学习，而不是一定要我把饭喂到你的嘴里，你才能吃得着。<strong>学习不只是为要答案，而是学方法</strong></li>
+<li>最后是我的私心，因为我也在创业，所以，技术细节上东西正是我在做的产品，所以，如果你想了解得更细，你需要和我有更商业合作。</li>
+</ul>
+<p><img decoding="async" loading="lazy" class="alignnone size-full aligncenter" src="https://coolshell.cn/wp-content/uploads/2018/05/分布式架构的本质.png" alt="" width="321" height="689" /></p>
+<p>&nbsp;</p>
+<p><img decoding="async" loading="lazy" class="alignnone  size-full aligncenter" src="https://coolshell.cn/wp-content/uploads/2018/05/分布式架构设计模式-弹力篇.png" alt="" width="331" height="1065" /></p>
+<p><img decoding="async" loading="lazy" class="alignnone  size-full aligncenter" src="https://coolshell.cn/wp-content/uploads/2018/05/分布式架构设计模式-管理篇.png" alt="" width="353" height="669" /></p>
+<p><img decoding="async" loading="lazy" class="alignnone  size-full aligncenter" src="https://coolshell.cn/wp-content/uploads/2018/05/分布式架构设计模式-性能篇.png" alt="" width="328" height="592" /></p>
+<p>区块链的技术专栏本来不在我的写作计划中的，但是因为来问我这方面的技术人太多了，所以，就被问了一系列的文章，这里的文章除了一些技术上的科普，同样有有很多我的观点，你不但可以学到技术，还可以了解一些金融知识和相关的逻辑，我个人觉得这篇文章是让你有独立思考的文章。</p>
+<p><img decoding="async" loading="lazy" class=" size-full alignnone aligncenter" src="https://coolshell.cn/wp-content/uploads/2018/05/区块链技术.png" alt="" width="304" height="771" /></p>
+<p>我的专栏还在继续，接下来还有一个系列的文章——《从技术到管理》，欢迎关注，也欢迎扫码订阅。</p>
+<p><strong>最后友情提示一下：在手机上学习并不是最好的学习方式，也不要在我的专栏上进行学习，把我的专栏当成一个你的助手，当成一个向导，当成一个跳板，真正的学习还是要在线下，专心的，系统地、有讨论地、不断实践地学习，这点希望大家切记！</strong></p>
+<p>&nbsp;</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full " src="https://coolshell.cn/wp-content/uploads/2018/05/专栏.jpg" alt="" width="665" height="580" /></p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4758.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="如何写出无法维护的代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4758.html" class="wp_rp_title">如何写出无法维护的代码</a></li><li ><a href="https://coolshell.cn/articles/1992.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/language-fanboys-150x150.jpg" alt="程序员眼中的编程语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1992.html" class="wp_rp_title">程序员眼中的编程语言</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/18360.html">程序员练级攻略（2018)  与我的专栏</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/18360.html/feed</wfw:commentRss>
+			<slash:comments>62</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>从Gitlab误删除数据库想到的</title>
+		<link>https://coolshell.cn/articles/17680.html</link>
+					<comments>https://coolshell.cn/articles/17680.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 02 Feb 2017 08:11:28 +0000</pubDate>
+				<category><![CDATA[技术新闻]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[Gitlab]]></category>
+		<category><![CDATA[High Availability]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[分布式]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17680</guid>
+
+					<description><![CDATA[<p>昨天，Gitlab.com发生了一个大事，某同学误删了数据库，这个事看似是个低级错误，不过，因为Gitlab把整个过程的细节都全部暴露出来了，所以，可以看到很多...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17680.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17680.html">从Gitlab误删除数据库想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright wp-image-17685" src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600.jpg" width="300" height="215" srcset="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600.jpg 439w, https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-300x215.jpg 300w, https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-377x270.jpg 377w" sizes="(max-width: 300px) 100vw, 300px" />昨天，Gitlab.com发生了一个大事，某同学误删了数据库，这个事看似是个低级错误，不过，因为Gitlab把整个过程的细节都全部暴露出来了，所以，可以看到很多东西，而对于类似这样的事情，我自己以前也干过，而在最近的两公司中我也见过（Amazon中见过一次，阿里中见过至少四次），正好通过这个事来说说一下自己的一些感想和观点吧。<strong>我先放个观点：你觉得有备份系统就不会丢数据了吗？</strong></p>
+<h4>事件回顾</h4>
+<p>整个事件的回顾Gitlab.com在第一时间就放到了<a href="https://docs.google.com/document/d/1GCK53YDcBWQveod9kfzW-VCxIABGiryG7_z_6jHdVik/pub" target="_blank">Google Doc上</a>，事后，又发了<a href="https://about.gitlab.com/2017/02/01/gitlab-dot-com-database-incident/" target="_blank">一篇Blog</a>来说明这个事，在这里，我简单的回顾一下这个事件的过程。</p>
+<p>首先，一个叫YP的同学在给gitlab的线上数据库做一些负载均衡的工作，在做这个工作时的时候突发了一个情况，Gitlab被DDoS攻击，数据库的使用飙高，在block完攻击者的IP后，发现有个staging的数据库(db2.staging)已经落后生产库4GB的数据，于是YP同学在Fix这个staging库的同步问题的时候，发现db2.staging有各种问题都和主库无法同步，在这个时候，YP同学已经工作的很晚了，在尝试过多个方法后，发现db2.staging都hang在那里，无法同步，于是他想把db2.staging的数据库删除了，这样全新启动一个新的复制，结果呢，删除数据库的命令错误的敲在了生产环境上（db1.cluster），结果导致整个生产数据库被误删除。（<strong>陈皓注：这个失败基本上就是 “工作时间过长” + “在多数终端窗口中切换中迷失掉了”</strong>）</p>
+<p><span id="more-17680"></span></p>
+<p>在恢复的过程中，他们发现只有db1.staging的数据库可以用于恢复，而其它的5种备份机制都不可用，第一个是数据库的同步，没有同步webhook，第二个是对硬盘的快照，没有对数据库做，第三个是用pg_dump的备份，发现版本不对（用9.2的版本去dump 9.6的数据）导致没有dump出数据，第四个S3的备份，完全没有备份上，第五个是相关的备份流程是问题百出的，只有几个粗糙的人肉的脚本和糟糕的文档，也就是说，不但是是人肉的，而且还是完全不可执行的。（<strong>陈皓注：就算是这些备份机制都work，其实也有问题，因为这些备份大多数基本上都是24小时干一次，所以，要从这些备份恢复也一定是是要丢数据的了，只有第一个数据库同步才会实时一些</strong>）</p>
+<p>最终，gitlab从db1.staging上把6个小时前的数据copy回来，结果发现速度非常的慢，备份结点只有60Mbits/S，拷了很长时间（<strong>陈皓注：为什么不把db1.staging给直接变成生产机？因为那台机器的性能很差</strong>）。数据现在的恢复了，不过，因为恢复的数据是6小时前的，所以，有如下的数据丢失掉了：</p>
+<ul class="ul1">
+<li class="li1"><span class="s2">粗略估计，有4613 的项目， 74 forks,  和 350 imports 丢失了；但是，因为Git仓库还在，所以，可以从Git仓库反向推导数据库中的数据，但是，项目中的issues等就完全丢失了。</span></li>
+<li class="li1"><span class="s2">大约有±4979 提交记录丢失了（陈皓注：估计也可以用git仓库中反向恢复）。</span></li>
+<li class="li1"><span class="s2">可能有 707  用户丢失了，这个数据来自Kibana的日志。</span></li>
+<li class="li2"><span class="s4">在1月31日17:20 后的Webhooks 丢失了。</span></li>
+</ul>
+<p>因为Gitlab把整个事件的细节公开了出来，所以，也得到了很多外部的帮助，2nd Quadrant的CTO &#8211; <span class="s1"><a href="https://www.linkedin.com/in/simonat2ndquadrantdotcom" target="_blank">Simon Riggs</a> 在他的blog上也发布文章 <a href="http://blog.2ndquadrant.com/dataloss-at-gitlab/" target="_blank">Dataloss at Gitlab </a>给了一些非常不错的建议：</span></p>
+<ul>
+<li>关于PostgreSQL 9.6的数据同步hang住的问题，可能有一些Bug，正在fix中。</li>
+<li>PostgreSQL有4GB的同步滞后是正常的，这不是什么问题。</li>
+<li>正常的停止从结点，会让主结点自动释放WALSender的链接数，所以，不应该重新配置主结点的 max_wal_senders 参数。但是，停止从结点时，主结点的复数连接数不会很快的被释放，而新启动的从结点又会消耗更多的链接数。他认为，Gitlab配置的32个链接数太高了，通常来说，2到4个就足够了。</li>
+<li>另外，之前gitlab配置的max_connections=8000太高了，现在降到2000个是合理的。</li>
+<li>pg_basebackup 会先在主结点上建一个checkpoint，然后再开始同步，这个过程大约需要4分钟。</li>
+<li>手动的删除数据库目录是非常危险的操作，这个事应该交给程序来做。推荐使用刚release 的 <a href="https://www.2ndquadrant.com/en/resources/repmgr/" target="_blank">repmgr</a></li>
+<li>恢复备份也是非常重要的，所以，也应该用相应的程序来做。推荐使用 <a href="https://www.2ndquadrant.com/en/resources/barman/" target="_blank">barman</a> （其支持S3）</li>
+<li>测试备份和恢复是一个很重要的过程。</li>
+</ul>
+<p>看这个样子，估计也有一定的原因是——Gitlab的同学对PostgreSQL不是很熟悉。</p>
+<p>随后，Gitlab在其网站上也开了一系列的issues，其issues列表在这里 <a href="https://gitlab.com/gitlab-com/www-gitlab-com/issues/1108" target="_blank">Write post-mortem</a> (这个列表可能还会在不断更新中)</p>
+<ul class="ul1">
+<li class="li1"><span class="s1"><span class="s2"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1094">infrastructure#1094</a> &#8211; Update PS1 across all hosts to more clearly differentiate between hosts and environments</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1095">infrastructure#1095</a> &#8211; Prometheus monitoring for backups</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1096">infrastructure#1096</a> &#8211; Set PostgreSQL&#8217;s max_connections to a sane value</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1097">infrastructure#1097</a> &#8211; Investigate Point in time recovery &amp; continuous archiving for PostgreSQL</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1098">infrastructure#1098</a> &#8211; Hourly LVM snapshots of the production databases</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1099">infrastructure#1099</a> &#8211; Azure disk snapshots of production databases</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1100">infrastructure#1100</a> &#8211; Move staging to the ARM environment</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1101">infrastructure#1101</a> &#8211; Recover production replica(s)</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1102">infrastructure#1102</a> &#8211; Automated testing of recovering PostgreSQL database backups</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1103">infrastructure#1103</a> &#8211; Improve PostgreSQL replication documentation/runbooks</span></span></li>
+<li class="li1"><span class="s3"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1104">infrastructure#1104</a> &#8211; Kick out SSH users inactive for N minutes</span></span></li>
+<li class="li2"><span class="s5"><span class="s4"><a href="https://gitlab.com/gitlab-com/infrastructure/issues/1105">infrastructure#1105</a> &#8211; Investigate pgbarman for creating PostgreSQL backups</span></span></li>
+</ul>
+<p>从上面的这个列表中，我们可以看到一些改进措施了。挺好的，不过我觉得还不是很够。</p>
+<h4>相关的思考</h4>
+<p>因为类似这样的事，我以前也干过（误删除过数据库，在多个终端窗口中迷失掉了自己所操作的机器……），而且我在amazon里也见过一次，在阿里内至少见过四次以上（在阿里人肉运维的误操作的事故是我见过最多的），但是我无法在这里公开分享，私下可以分享。在这里，我只想从非技术和技术两个方面分享一下我的经验和认识。</p>
+<h5>技术方面</h5>
+<p><strong>人肉运维</strong></p>
+<p>一直以来，我都觉得直接到生产线上敲命令是一种非常不好的习惯。我认为，<strong>一个公司的运维能力的强弱和你上线上环境敲命令是有关的，你越是喜欢上线敲命令你的运维能力就越弱，越是通过自动化来处理问题，你的运维能力就越强</strong>。理由如下：</p>
+<p style="padding-left: 30px;">其一，如果说对代码的改动都是一次发布的话，那么，对生产环境的任何改动（包括硬件、操作系统、网络、软件配置……），也都算是一次发布。那么这样的发布就应该走发布系统和发布流程，要被很好的测试、上线和回滚计划。关键是，走发布过程是可以被记录、追踪和回溯的，而在线上敲命令是完全无法追踪的。没人知道你敲了什么命令。</p>
+<p style="padding-left: 30px;">其二，真正良性的运维能力是——人管代码，代码管机器，而不是人管机器。你敲了什么命令没人知道，但是你写个工具做变更线上系统，这个工具干了什么事，看看工具的源码就知道了。</p>
+<p>另外、有人说，以后不要用rm了，要用mv，还有人说，以后干这样的事时，一个人干，另一个人在旁边看，还有人说，要有一个checklist的强制流程做线上的变更，还有人说要增加一个权限系统。我觉得，这些虽然可以work，但是依然不好，再由如下：</p>
+<p style="padding-left: 30px;">其一、如果要解决一个事情需要加更多的人来做的事，那这事就做成劳动密集型了。今天我们的科技就是在努力消除人力成本，而不是在增加人力成本。而做为一个技术人员，解决问题的最好方式是努力使用技术手段，而不是使用更多的人肉手段。<strong>人类区别于动物的差别就是会发明和使用现代化的工具，而不是使用更多的人力</strong>。另外，<strong>这不仅仅因为是，人都是会有这样或那样的问题（疲惫、情绪化、急燥、冲动……），而机器是单一无脑不知疲惫的，更是因为，机器干活的效率和速度是比人肉高出N多倍的</strong>。</p>
+<p style="padding-left: 30px;">其二、增加一个权限系统或是别的一个watch dog的系统完全是在开倒车，权限系统中的权限谁来维护和审批？不仅仅是因为多出来的系统需要多出来的维护，关键是这个事就没有把问题解决在root上。除了为社会解决就业问题，别无好处，故障依然会发生，有权限的人一样会误操作。对于Gitlab这个问题，正如2nd Quadrant的CTO建议的那样，你需要的是一个自动化的备份和恢复的工具，而不是一个权限系统。</p>
+<p style="padding-left: 30px;">其三、像使用mv而不rm，搞一个checklist和一个更重的流程，更糟糕。这里的逻辑很简单，因为，1）这些规则需要人去学习和记忆，本质上来说，你本来就不相信人，所以你搞出了一些规则和流程，而这些规则和流程的执行，又依赖于人，换汤不换药，2）另外，<strong>写在纸面上的东西都是不可执行的，可以执行的就是只有程序，所以，为什么不把checklist和流程写成代码呢</strong>？（你可能会说程序也会犯错，是的，程序的错误是consistent，而人的错误是inconsistent）</p>
+<p>最关键的是，<strong>数据丢失有各种各样的情况，不单单只是人员的误操作，比如，掉电、磁盘损坏、中病毒等等，在这些情况下，你设计的那些想流程、规则、人肉检查、权限系统、checklist等等统统都不管用了，这个时候，你觉得应该怎么做呢？是的，你会发现，你不得不用更好的技术去设计出一个高可用的系统！别无它法。</strong></p>
+<h4>关于备份</h4>
+<p>一个系统是需要做数据备份的，但是，你会发现，<strong>Gitlab这个事中，就算所有的备份都可用，也不可避免地会有数据的丢失，或是也会有很多问题</strong>。理由如下：</p>
+<p style="padding-left: 30px;">1）备份通常来说都是周期性的，所以，如果你的数据丢失了，从你最近的备份恢复数据里，从备份时间到故障时间的数据都丢失了。</p>
+<p style="padding-left: 30px;">2）备份的数据会有版本不兼容的问题。比如，在你上次备份数据到故障期间，你对数据的scheme做了一次改动，或是你对数据做了一些调整，那么，你备份的数据就会和你线上的程序出现不兼容的情况。</p>
+<p style="padding-left: 30px;">3）有一些公司或是银行有灾备的数据中心，但是灾备的数据中心没有一天live过。等真正灾难来临需要live的时候，你就会发现，各种问题让你live不起来。你可以读一读几年前的这篇报道好好感受一下《<a href="http://finance.sina.com.cn/money/bank/20140804/091219903553.shtml" target="_blank">以史为鉴 宁夏银行7月系统瘫痪最新解析</a>》</p>
+<p>所以，在灾难来临的时候，你会发现你所设计精良的“备份系统”或是“灾备系统”就算是平时可以工作，但也会导致数据丢失，而且可能长期不用的备份系统很难恢复（比如应用、工具、数据的版本不兼容等问题）。</p>
+<p>我之前写过一篇《<a href="https://coolshell.cn/articles/10910.html" target="_blank">分布式系统的事务处理</a>》，你还记得下面这张图吗？看看 Data Loss 那一行的，在Backups, Master/Slave 和 Master/Master的架构下，都是会丢的。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10942" src="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg" alt="" width="566" height="255" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg 566w, https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter-300x135.jpg 300w" sizes="(max-width: 566px) 100vw, 566px" /></p>
+<p>所以说，<strong>如果你要让你的备份系统随时都可以用，那么你就要让它随时都Live着</strong>，而随时都Live着的多结点系统，基本上就是一个分布式的高可用的系统。因为<strong>，数据丢失的原因有很多种，比如掉电、磁盘损坏、中病毒等等，而那些流程、规则、人肉检查、权限系统、checklist等等都只是让人不要误操作，都不管用，这个时候，你不得不用更好的技术去设计出一个高可用的系统！别无它法。（重要的事，得再说一篇）</strong></p>
+<p>另外，你可以参看我的另一篇《<a href="https://coolshell.cn/articles/17459.html" target="_blank">关于高可用系统</a>》，这篇文章中以MySQL为例，数据库的replication也只能达到 两个9。</p>
+<p><strong>AWS 的 S3 的的高可用是4个加11个9的持久性（</strong>所谓11个9的持久性durability，AWS是这样定义的，如果你存了1万个对象，那么丢一个的时间是1000万年<strong>），这意味着，不仅仅只是硬盘坏，机器掉电，整个机房挂了，其保证可以承受有两个设施的数据丢失，数据还是可用的。试想，如果你把数据的可用性通过技术做到了这个份上，那么，你还怕被人误删一个结点上的数据吗？</strong></p>
+<h5>非技术方面</h5>
+<p><strong>故障反思</strong></p>
+<p>一般说来，故障都需要反思，在Amazon，S2以上的故障都需要写COE（Correction of Errors），其中一节就是需要Ask 5 Whys，我发现在Gitlab的故障回顾的blog中第一段中也有说要在今天写个Ask 5 Whys。关于Ask 5 Whys，其实并不是亚马逊的玩法，这还是算一个业内常用的玩法，也就是说不断的为自己为为什么，直到找到问题的概本原因，这会逼着所有的当事人去学习和深究很多东西。在Wikipedia上有相关的词条 <a href="https://en.wikipedia.org/wiki/5_Whys" target="_blank">5 Whys</a>，其中罗列了14条规则：</p>
+<ol>
+<li>你需要找到正确的团队来完成这个故障反思。</li>
+<li>使用纸或白板而不是电脑。</li>
+<li>写下整个问题的过程，确保每个人都能看懂。</li>
+<li>区别原因和症状。</li>
+<li>特别注意因果关系。</li>
+<li>说明Root Cause以及相关的证据。</li>
+<li>5个为什么的答案需要是精确的。</li>
+<li>寻找问题根源的步骤，而不是直接跳到结论。</li>
+<li>要基础客观的事实、数据和知识。</li>
+<li>评估过程而不是人。</li>
+<li>千万不要把“人为失误”或是“工作不注意”当成问题的根源。</li>
+<li>培养信任和真诚的气氛和文化。</li>
+<li>不断的问“为什么”直到问题的根源被找到。这样可以保证同一个坑不会掉进去两次。<sup id="cite_ref-7" class="reference"></sup></li>
+<li>当你给出“为什么”的答案时，你应该从用户的角度来回答。</li>
+</ol>
+<p><strong>工程师文化</strong></p>
+<p>上述的这些观点，其实，我在我的以住的博客中都讲过很多遍了，你可以参看《<a href="https://coolshell.cn/articles/17497.html" target="_blank">什么是工程师文化？</a>》以及《<a href="https://coolshell.cn/articles/11656.html" target="_blank">开发团队的效率</a>》。其实，说白了就是这么一个事——<strong>如果你是一个技术公司，你就会更多的相信技术而不是管理。相信技术会用技术来解决问题，相信管理，那就只会有制度、流程和价值观来解决问题</strong>。</p>
+<p>这个道理很简单，<strong>数据丢失有各种各样的情况，不单单只是人员的误操作，比如，掉电、磁盘损坏、中病毒等等，在这些情况下，你设计的那些流程、规则、人肉检查、权限系统、checklist等等统统都不管用，这个时候，你觉得应该怎么做呢？是的，你会发现，你不得不用更好的技术去设计出一个高可用的系统！别无它法。（重要的事得说三遍）</strong></p>
+<p><strong>事件公开</strong></p>
+<p>很多公司基本上都是这样的套路，首先是极力掩盖，如果掩盖不了了就开始撒谎，撒不了谎了，就“文过饰非”、“避重就轻”、“转移视线”。然而，面对危机的最佳方法就是——“多一些真诚，少一些套路”，<strong>所谓的“多一些真诚”的最佳实践就是——“透明公开所有的信息”</strong>，Gitlab此次的这个事给大家树立了非常好的榜样。AWS也会把自己所有的故障和细节都批露出来。</p>
+<p><strong>事情本来就做错了，而公开所有的细节，会让大众少很多猜测的空间，有利于抵制流言和黑公关，同时，还会赢得大众的理解和支持</strong>。看看Gitlab这次还去YouTube上直播整个修复过程，是件很了不起的事，大家可以到他们的blog上看看，对于这样的透明和公开，一片好评。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png" alt="关于高可用的系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17459.html" class="wp_rp_title">关于高可用的系统</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li><li ><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/15.jpg" alt="多些时间能少写些代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5686.html" class="wp_rp_title">多些时间能少写些代码</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17680.html">从Gitlab误删除数据库想到的</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17680.html/feed</wfw:commentRss>
+			<slash:comments>67</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>关于高可用的系统</title>
+		<link>https://coolshell.cn/articles/17459.html</link>
+					<comments>https://coolshell.cn/articles/17459.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 21 Aug 2016 04:34:53 +0000</pubDate>
+				<category><![CDATA[技术管理]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[High Availability]]></category>
+		<category><![CDATA[Paxos]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[分布式]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=17459</guid>
+
+					<description><![CDATA[<p>在《这多年来我一直在钻研的技术》这篇文章中，我讲述了一下，我这么多年来一直在关注的技术领域，其中我多次提到了工业级的软件，我还以为有很多人会问我怎么定义工业级？...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/17459.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/17459.html">关于高可用的系统</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-17475" src="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-300x300.png" alt="HighAvailability-BK" width="300" height="300" srcset="https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-300x300.png 300w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-150x150.png 150w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-768x768.png 768w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-200x200.png 200w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK-270x270.png 270w, https://coolshell.cn/wp-content/uploads/2016/08/HighAvailability-BK.png 1000w" sizes="(max-width: 300px) 100vw, 300px" />在《<a href="https://coolshell.cn/articles/17446.html" target="_blank">这多年来我一直在钻研的技术</a>》这篇文章中，我讲述了一下，我这么多年来一直在关注的技术领域，其中我多次提到了工业级的软件，我还以为有很多人会问我怎么定义工业级？以及一个高可用性的软件系统应该要怎么干出来？这样我也可以顺理成章的写下这篇文章，但是没有人问，那么，我只好厚颜无耻的自己写下这篇文章了。哈哈。</p>
+<p>另外，我在一些讨论高可用系统的地方看到大家只讨论各个公司的技术方案，<strong>其实，高可用的系统并不简单的是技术方案，一个高可用的系统其实还包括很多别的东西，所以，我觉得大家对高可用的系统了解的还不全面，为了让大家的认识更全面，所以，我写下这篇文章</strong>。</p>
+<h4>理解高可用系统</h4>
+<p>首先，我们需要理解什么是高可用，英文叫High Availability（<a href="https://en.wikipedia.org/wiki/High_availability">Wikipedia词条</a>），基本上来说，就是要让我们的计算环境（包括软硬件）做到full-time的可用性。在设计上一般来说，需要做好如下的设计：</p>
+<p><span id="more-17459"></span></p>
+<ol>
+<li>对软硬件的冗余，以消除单点故障。任何系统都会有一个或多个冗余系统做standby</li>
+<li>对故障的检测和恢复。检测故障以及用备份的结点接管故障点。这也就是failover</li>
+<li>需要很可靠的交汇点（CrossOver）。这是一些不容易冗余的结点，比如域名解析，负载均衡器等。</li>
+</ol>
+<p>听起似乎很简单吧，然而不是，细节之处全是魔鬼，冗余结点最大的难题就是对于有状态的结点的数据复制和数据一致性的保证（无状态结点的冗余相对比较简单）。冗余数据所带来的一致性问题是魔鬼中的魔鬼：</p>
+<ul>
+<li>如果系统的数据镜像到冗余结点是异步的，那么在failover的时候就会出现数据差异的情况。</li>
+</ul>
+<ul>
+<li>如果系统在数据镜像到冗余结点是同步的，那么就会导致冗余结点越多性能越慢。</li>
+</ul>
+<p>所以，很多高可用系统都是在做各种取舍，这需要比对着业务的特点来的，比如银行账号的余额是一个状态型的数据，那么，冗余时就必需做到强一致性，再比如说，订单记录属于追加性的数据，那么在failover的时候，就可以到备机上进行追加，这样就比较简单了（阿里目前所谓的异地双活其实根本做不到状态型数据的双活）。</p>
+<p>下面，总结一下高可用的设计原理：</p>
+<ul>
+<li>要做到数据不丢，就必需要持久化</li>
+<li>要做到服务高可用，就必需要有备用（复本），无论是应用结点还是数据结点</li>
+<li>要做到复制，就会有数据一致性的问题。</li>
+<li>我们不可能做到100%的高可用，也就是说，我们能做到几个9个的SLA。</li>
+</ul>
+<h4>高可用系统的技术解决方案</h4>
+<p>我在《<a href="https://coolshell.cn/articles/10910.html" target="_blank">分布式系统的事务处理</a>》中引用过下面这个图：这个图来自来自：Google App Engine的co-founder Ryan Barrett在2009年的Google I/O上的演讲《<a href="http://snarfed.org/transactions_across_datacenters_io.html" target="_blank">Transaction Across DataCenter</a>》（视频： <a title="阿里旺旺无法确定该链接的安全性" href="http://www.youtube.com/watch?v=srOgpXECblk" target="_blank">http://www.youtube.com/watch?v=srOgpXECblk</a>）</p>
+<p><img decoding="async" loading="lazy" class="size-full wp-image-10942 aligncenter" src="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg" alt="Transaction Across DataCenter" width="566" height="255" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg 566w, https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter-300x135.jpg 300w" sizes="(max-width: 566px) 100vw, 566px" /></p>
+<p>这个图基本上来说是目前高可用系统中能看得到的所有的解决方案的基础了。M/S、MM实现起来不难，但是会有很多问题，2PC的问题就是性能不行，而Paxos的问题就是太复杂，实现难度太大。</p>
+<p>总结一下各个高可用方案的的问题：</p>
+<ul>
+<li>对于最终一致性来说，在宕机的情况下，会出现数据没有完全同步完成，会出现数据差异性。</li>
+<li>对于强一致性来说，要么使用性能比较慢的<a href="https://en.wikipedia.org/wiki/X/Open_XA">XA系</a>的两阶段提交的方案，要么使用性能比较好，但是实现比较复杂的Paxos协议。</li>
+</ul>
+<p>注：这是软件方面的方案。当然，也可以使用造价比较高的硬件解决方案，不过本文不涉及硬件解决方案。</p>
+<p>另外，现今开源软件中，很多缓存，消息中间件或数据库都有持久化和Replication的设计，从而也都有高可用解决方案，但是开源软件一般都没有比较高的SLA，所以，如果我们使用开源软件的话，需要注意这一点。</p>
+<h4>高可用技术方案的示例</h4>
+<p>下面，我们来看一下MySQL的高可用的方案的SLA（下图下面红色的标识表示了这个方案有几个9）：</p>
+<p><a href="http://www.slideshare.net/andrewjamesmorgan/mysql-high-availability-solutions-feb-2015-webinar"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17461" src="https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638.jpg" alt="mysql-high-availability-solutions-feb-2015-webinar-9-638" width="638" height="359" srcset="https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638.jpg 638w, https://coolshell.cn/wp-content/uploads/2016/08/mysql-high-availability-solutions-feb-2015-webinar-9-638-300x169.jpg 300w" sizes="(max-width: 638px) 100vw, 638px" /></a></p>
+<p style="text-align: center;">图片来源：<a href="http://www.slideshare.net/andrewjamesmorgan/mysql-high-availability-solutions-feb-2015-webinar">MySQL High Availability Solutions</a></p>
+<p>简单解释一下MySQL的这几个方案（主要是想表达一个越多的9就越复杂）</p>
+<ul>
+<li>MySQL Repleaction就是传统的异步数据同步或是半同步Semi-Sync（只要有一个slave收到更新就返回成功）这个方式本质上不到2个9。</li>
+<li>MySQL Fabric简单来说就是数据分片下的M/S的读写分离模式。这个方案的的可用性可以达到99%</li>
+<li>DRBD通过底层的磁盘同步技术来解决数据同步的问题，就是RAID 1——把两台以上的主机的硬盘镜像成一个。这个方案不到3个9</li>
+<li>Solaris Clustering/Oracle VM ，这个机制监控了包括硬件、操作系统、网络和数据库。这个方案一般会伴随着节点间的“心跳机制”，而且还会动用到SAN（Storage Area Network）或是本地的分布式存储系统，还会动用虚拟化技术来做虚拟机的迁移以降低宕机时间的概率。这个解决方案完全就是一个“全栈式的解决方案”。这个方案接近4个9。</li>
+<li>MySQL Cluster是官方的一个开源方案，其把MySQL的集群分成SQL Node 和Data Node，Data Node是一个自动化sharing和复制的集群NDB，为了更高的可用性，MySQL Cluster采用了“完全同步”的数据复制的机制来冗余数据结点。这个方案接近5个9。</li>
+</ul>
+<p>那么，这些2个9，3个9，4个9，5个9是什么意思呢？又是怎么来的呢？请往下看。</p>
+<h4>高可用性的SLA的定义</h4>
+<p><strong>上面那些都不是本文的重点，本文的重点现在开始，如何测量系统的高可用性</strong>。当然是SLA，全称<a href="https://en.wikipedia.org/wiki/Service-level_agreement" target="_blank">Service Level Agrement</a>，也就是有几个9的高可用性。</p>
+<p>工业界有两种方法来测量SLA，</p>
+<ul>
+<li>一个是故障发生到恢复的时间</li>
+<li>另一个是两次故障间的时间</li>
+</ul>
+<p>但大多数都采用第一种方法，也就是故障发生到恢复的时间，也就是服务不可用的时间，如下表所示：</p>
+<table class="wikitable" align="center">
+<tbody>
+<tr>
+<th>系统可用性%</th>
+<th>宕机时间/年</th>
+<th>宕机时间/月</th>
+<th>宕机时间/周</th>
+<th>宕机时间/天</th>
+</tr>
+<tr>
+<td align="left">90% (1个9)</td>
+<td>36.5 天</td>
+<td>72 小时</td>
+<td>16.8 小时</td>
+<td>2.4 小时</td>
+</tr>
+<tr>
+<td align="left">99% (2个9)</td>
+<td>3.65 天</td>
+<td>7.20 小时</td>
+<td>1.68 小时</td>
+<td>14.4 分</td>
+</tr>
+<tr>
+<td align="left">99.9% (3个9)</td>
+<td>8.76 小时</td>
+<td>43.8 分</td>
+<td>10.1 分钟</td>
+<td>1.44 分</td>
+</tr>
+<tr>
+<td align="left">99.99% (4个9)</td>
+<td>52.56 分</td>
+<td>4.38 分</td>
+<td>1.01 分钟</td>
+<td>8.66 秒</td>
+</tr>
+<tr>
+<td align="left">99.999% (5个9)</td>
+<td>5.26 分</td>
+<td>25.9 秒</td>
+<td>6.05 秒</td>
+<td>0.87 秒</td>
+</tr>
+</tbody>
+</table>
+<p>比如，99.999%的可用性，一年只能有5分半钟的服务不可用。感觉很难做到吧。</p>
+<p><strong>就算是3个9的可用性，一个月的宕机时间也只有40多分钟，看看那些设计和编码不认真的团队，把所有的期望寄托在人肉处理故障的运维团队， 一个故障就能处理1个多小时甚至2-3个小时，连个自动化的工具都没有，还好意思在官网上声明自己的SLA是3个9或是5个9，这不是欺骗大众吗？</strong>。</p>
+<h4>影响高可用的因素</h4>
+<p>老实说，我们很难计算我们设计的系统有多少的可用性，因为影响一个系统的因素实在是太多了，除了软件设计，还有硬件，还有每三方的服务（如电信联通的宽带SLA），当然包括“建筑施工队的挖掘机”。所以，正如SLA的定义，<strong>这不仅仅只是一个技术指标，而是一种服务提供商和用户之间的contract或契约</strong>。<strong>这种工业级的玩法，就像飞机一样，并不是把飞机造出来就好了，还有大量的无比专业的配套设施、工具、流程、管理和运营</strong>。</p>
+<p>简而言之，SLA的几个9就是能持续提供可用服务的级别，不过，工业界中，会把服务不可用的因素分成两种：一种是有计划的，一种是无计划的。</p>
+<h5>无计划的宕机原因</h5>
+<p>下图来自Oracle的 《<a href="https://docs.oracle.com/cd/A91202_01/901_doc/rac.901/a89867/pshavdtl.htm">High Availability Concepts and Best Practices</a>》</p>
+<p>&nbsp;</p>
+<h5><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17467" src="https://coolshell.cn/wp-content/uploads/2016/08/unplaned_downtime.gif" alt="unplaned_downtime" width="600" height="602" />有计划的宕机原因</h5>
+<p>下图来自Oracle的 《<a href="https://docs.oracle.com/cd/A91202_01/901_doc/rac.901/a89867/pshavdtl.htm">High Availability Concepts and Best Practices</a>》</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-17466" src="https://coolshell.cn/wp-content/uploads/2016/08/planned_downtime.gif" alt="planned_downtime" width="600" height="356" /></p>
+<p>&nbsp;</p>
+<p>我们可以看到，上面的宕机原因包括如下：</p>
+<p>无计划的</p>
+<ul>
+<li>系统级的故障 &#8211;  包括主机、操作系统、中间件、数据库、网络、电源以及外围设备</li>
+<li>数据和中介的故障 &#8211; 包括人员误操作、硬盘故障、数据乱了</li>
+<li>还有：自然灾害、人为破坏、以及供电问题。</li>
+</ul>
+<p>有计划的</p>
+<ul>
+<li>日常任务：备份，容量规划，用户和安全管理，后台批处理应用</li>
+<li>运维相关：数据库维护、应用维护、中间件维护、操作系统维护、网络维护</li>
+<li>升级相关：数据库、应用、中间件、操作系统、网络、包括硬件升级</li>
+</ul>
+<h4>真正决定高可用系统的本质原因</h4>
+<p>从上面这些会影响高可用的SLA的因素，你看到了什么？如果你还是只看到了技术方面或是软件设计的东西，那么你只看到了冰山一角。我们再仔细想一想，<strong>那个5个9的SLA在一年内只能是5分钟的不可用时间，5分钟啊，如果按一年只出1次故障，你也得在五分钟内恢复故障，让我们想想，这意味着什么？</strong></p>
+<p><strong>如果你没有一套科学的牛逼的软件工程的管理，没有牛逼先进的自动化的运维工具，没有技术能力很牛逼的工程师团队，怎么可能出现高可用的系统啊</strong>。</p>
+<p>是的，<strong>要干出高可用的系统，这TMD就是一套严谨科学的工程管理</strong>，其中包括但不限于了：</p>
+<ul>
+<li>软件的设计、编码、测试、上线和软件配置管理的水平</li>
+<li>工程师的人员技能水平</li>
+<li>运维的管理和技术水平</li>
+<li>数据中心的运营管理水平</li>
+<li>依赖于第三方服务的管理水平</li>
+</ul>
+<p>深层交的东西则是——对工程这门科学的尊重：</p>
+<ul>
+<li>对待技术的态度</li>
+<li>一个公司的工程文化</li>
+<li>领导者对工程的尊重</li>
+</ul>
+<p><strong>所以，以后有人在你面前提高可用，你要看的不是他的技术设计，而还要看看他们的工程能力，看看他们公司是否真正的尊重工程这门科学</strong>。</p>
+<h4>其它</h4>
+<p>有好些非技术甚至技术人员和我说过，做个APP做个网站，不就是找几个码农过来写写代码嘛。等系统不可用的时候，他们才会明白，要找技术能力比较强的人，但是，<strong>就算你和他们讲一万遍道理，他们也很难会明白写代码怎么就是一种工程了，而工程怎么就成了一门科学了。其实，很多做技术的人都不明白这个道理</strong>。</p>
+<p>包括很多技术人员也永远不会理解，为什么要做好多像Code Review、自动化运维、自动化测试、持续集成之类这样很无聊的东西。就像我在《<a href="https://coolshell.cn/articles/11432.html" target="_blank">从Code Review 谈如何做技术</a>》中提到的，阿里很多的工程师，架构师/专家，甚至资深架构师都没有这个意识，当然，这不怪他们，因为经历决定思维方式，他们的经历的是民用级的系统，做的都是堆功能的工作，的确不需要。</p>
+<p>看完这些，最后让我们都扪心自问一下，你还敢说你的系统是高可用的了么？ ;-)</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/02/gitlab-600-150x150.jpg" alt="从Gitlab误删除数据库想到的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17680.html" class="wp_rp_title">从Gitlab误删除数据库想到的</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li><li ><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/01/trade-off-150x150.jpg" alt="分布式系统的事务处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10910.html" class="wp_rp_title">分布式系统的事务处理</a></li><li ><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/07/inverted-bookshelf_thumb-150x150.jpg" alt="IoC/DIP其实是一种管理思想" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9949.html" class="wp_rp_title">IoC/DIP其实是一种管理思想</a></li><li ><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="Bret Victor &#8211; Inventing on Principle" width="150" height="150" /></a><a href="https://coolshell.cn/articles/6775.html" class="wp_rp_title">Bret Victor &#8211; Inventing on Principle</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/17459.html">关于高可用的系统</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/17459.html/feed</wfw:commentRss>
+			<slash:comments>87</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>分布式系统的事务处理</title>
+		<link>https://coolshell.cn/articles/10910.html</link>
+					<comments>https://coolshell.cn/articles/10910.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 20 Jan 2014 03:08:16 +0000</pubDate>
+				<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[2PC]]></category>
+		<category><![CDATA[3PC]]></category>
+		<category><![CDATA[Consistency]]></category>
+		<category><![CDATA[Design]]></category>
+		<category><![CDATA[NWR]]></category>
+		<category><![CDATA[Paxos]]></category>
+		<category><![CDATA[Performance]]></category>
+		<category><![CDATA[Vector Clock]]></category>
+		<category><![CDATA[分布式]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=10910</guid>
+
+					<description><![CDATA[<p>当我们在生产线上用一台服务器来提供数据服务的时候，我会遇到如下的两个问题： 1）一台服务器的性能不足以提供足够的能力服务于所有的网络请求。 2）我们总是害怕我们...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/10910.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/10910.html">分布式系统的事务处理</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-10946" alt="" src="https://coolshell.cn/wp-content/uploads/2014/01/trade-off.jpg" width="251" height="200" />当我们在生产线上用一台服务器来提供数据服务的时候，我会遇到如下的两个问题：</p>
+<p style="padding-left: 30px;">1）一台服务器的性能不足以提供足够的能力服务于所有的网络请求。</p>
+<p style="padding-left: 30px;">2）我们总是害怕我们的这台服务器停机，造成服务不可用或是数据丢失。</p>
+<p>于是我们不得不对我们的服务器进行扩展，加入更多的机器来分担性能上的问题，以及来解决单点故障问题。 通常，我们会通过两种手段来扩展我们的数据服务：</p>
+<p style="padding-left: 30px;">1）<strong>数据分区</strong>：就是把数据分块放在不同的服务器上（如：uid % 16，一致性哈希等）。</p>
+<p style="padding-left: 30px;">2）<strong>数据镜像</strong>：让所有的服务器都有相同的数据，提供相当的服务。</p>
+<p>对于第一种情况，我们无法解决数据丢失的问题，单台服务器出问题时，会有部分数据丢失。所以，<strong>数据服务的高可用性只能通过第二种方法来完成——数据的冗余存储</strong>（一般工业界认为比较安全的备份数应该是3份，如：Hadoop和Dynamo）<strong>。 但是，加入更多的机器，会让我们的数据服务变得很复杂，尤其是跨服务器的事务处理，也就是跨服务器的数据一致性</strong>。这个是一个很难的问题。 让我们用最经典的Use Case：“A帐号向B帐号汇钱”来说明一下，熟悉RDBMS事务的都知道从帐号A到帐号B需要6个操作：</p>
+<ol>
+<li>从A帐号中把余额读出来。</li>
+<li>对A帐号做减法操作。</li>
+<li>把结果写回A帐号中。</li>
+<li>从B帐号中把余额读出来。</li>
+<li>对B帐号做加法操作。</li>
+<li>把结果写回B帐号中。</li>
+</ol>
+<p>为了数据的一致性，这6件事，要么都成功做完，要么都不成功，而且这个操作的过程中，对A、B帐号的其它访问必需锁死，所谓锁死就是要排除其它的读写操作，不然会有脏数据的问题，这就是事务。那么，我们在加入了更多的机器后，这个事情会变得复杂起来：</p>
+<p><span id="more-10910"></span></p>
+<p style="padding-left: 30px;">1）<strong>在数据分区的方案中</strong>：如果A帐号和B帐号的数据不在同一台服务器上怎么办？我们需要一个跨机器的事务处理。也就是说，如果A的扣钱成功了，但B的加钱不成功，我们还要把A的操作给回滚回去。这在跨机器的情况下，就变得比较复杂了。</p>
+<p style="padding-left: 30px;">2）<strong>在数据镜像的方案中</strong>：A帐号和B帐号间的汇款是可以在一台机器上完成的，但是别忘了我们有多台机器存在A帐号和B帐号的副本。如果对A帐号的汇钱有两个并发操作（要汇给B和C），这两个操作发生在不同的两台服务器上怎么办？也就是说，在数据镜像中，在不同的服务器上对同一个数据的写操作怎么保证其一致性，保证数据不冲突？</p>
+<p>同时，我们还要考虑性能的因素，如果不考虑性能的话，事务得到保证并不困难，系统慢一点就行了。除了考虑性能外，我们还要考虑可用性，也就是说，一台机器没了，数据不丢失，服务可由别的机器继续提供。 于是，我们需要重点考虑下面的这么几个情况：</p>
+<p style="padding-left: 30px;">1）<strong>容灾</strong>：数据不丢、结点的Failover</p>
+<p style="padding-left: 30px;">2）<strong>数据的一致性</strong>：事务处理</p>
+<p style="padding-left: 30px;">3）<strong>性能：吞吐量 、 响应时间</strong></p>
+<p>前面说过，要解决数据不丢，只能通过数据冗余的方法，就算是数据分区，每个区也需要进行数据冗余处理。这就是数据副本：当出现某个节点的数据丢失时可以从副本读到，数据副本是分布式系统解决数据丢失异常的唯一手段。所以，在这篇文章中，简单起见，我们只讨论在数据冗余情况下考虑数据的一致性和性能的问题。简单说来：</p>
+<p style="padding-left: 30px;"><strong>1）要想让数据有高可用性，就得写多份数据。</strong></p>
+<p style="padding-left: 30px;"><strong>2）写多份的问题会导致数据一致性的问题。</strong></p>
+<p style="padding-left: 30px;"><strong>3）数据一致性的问题又会引发性能问题</strong></p>
+<p>这就是软件开发，按下了葫芦起了瓢。</p>
+<h4>一致性模型</h4>
+<p>说起数据一致性来说，简单说有三种类型（当然，如果细分的话，还有很多一致性模型，如：顺序一致性，FIFO一致性，会话一致性，单读一致性，单写一致性，但为了本文的简单易读，我只说下面三种）：</p>
+<p style="padding-left: 30px;">1）<strong>Weak 弱一致性</strong>：当你写入一个新值后，读操作在数据副本上可能读出来，也可能读不出来。比如：某些cache系统，网络游戏其它玩家的数据和你没什么关系，VOIP这样的系统，或是百度搜索引擎（呵呵）。</p>
+<p style="padding-left: 30px;">2）<strong>Eventually 最终一致性</strong>：当你写入一个新值后，有可能读不出来，但在某个时间窗口之后保证最终能读出来。比如：DNS，电子邮件、Amazon S3，Google搜索引擎这样的系统。</p>
+<p style="padding-left: 30px;">3）<strong>Strong 强一致性</strong>：新的数据一旦写入，在任意副本任意时刻都能读到新值。比如：文件系统，RDBMS，Azure Table都是强一致性的。</p>
+<p>从这三种一致型的模型上来说，我们可以看到，Weak和Eventually一般来说是异步冗余的，而Strong一般来说是同步冗余的，异步的通常意味着更好的性能，但也意味着更复杂的状态控制。同步意味着简单，但也意味着性能下降。 好，让我们由浅入深，一步一步地来看有哪些技术：</p>
+<h4>Master-Slave</h4>
+<p>首先是Master-Slave结构，对于这种加构，Slave一般是Master的备份。在这样的系统中，一般是如下设计的：</p>
+<p style="padding-left: 30px;">1）读写请求都由Master负责。</p>
+<p style="padding-left: 30px;">2）写请求写到Master上后，由Master同步到Slave上。</p>
+<p>从Master同步到Slave上，你可以使用异步，也可以使用同步，可以使用Master来push，也可以使用Slave来pull。 通常来说是Slave来周期性的pull，所以，是最终一致性。这个设计的问题是，如果Master在pull周期内垮掉了，那么会导致这个时间片内的数据丢失。如果你不想让数据丢掉，Slave只能成为Read-Only的方式等Master恢复。</p>
+<p>当然，如果你可以容忍数据丢掉的话，你可以马上让Slave代替Master工作（对于只负责计算的结点来说，没有数据一致性和数据丢失的问题，Master-Slave的方式就可以解决单点问题了） 当然，Master Slave也可以是强一致性的， 比如：当我们写Master的时候，Master负责先写自己，等成功后，再写Slave，两者都成功后返回成功，整个过程是同步的，如果写Slave失败了，那么两种方法，一种是标记Slave不可用报错并继续服务（等Slave恢复后同步Master的数据，可以有多个Slave，这样少一个，还有备份，就像前面说的写三份那样），另一种是回滚自己并返回写失败。（注：一般不先写Slave，因为如果写Master自己失败后，还要回滚Slave，此时如果回滚Slave失败，就得手工订正数据了）你可以看到，如果Master-Slave需要做成强一致性有多复杂。</p>
+<h4>Master-Master</h4>
+<p>Master-Master，又叫<a href="http://en.wikipedia.org/wiki/Multi-master_replication" target="_blank">Multi-master</a>，是指一个系统存在两个或多个Master，每个Master都提供read-write服务。这个模型是Master-Slave的加强版，数据间同步一般是通过Master间的异步完成，所以是最终一致性。 Master-Master的好处是，一台Master挂了，别的Master可以正常做读写服务，他和Master-Slave一样，当数据没有被复制到别的Master上时，数据会丢失。很多数据库都支持Master-Master的Replication的机制。</p>
+<p>另外，如果多个Master对同一个数据进行修改的时候，这个模型的恶梦就出现了——对数据间的冲突合并，这并不是一件容易的事情。看看Dynamo的Vector Clock的设计（记录数据的版本号和修改者）就知道这个事并不那么简单，而且Dynamo对数据冲突这个事是交给用户自己搞的。就像我们的SVN源码冲突一样，对于同一行代码的冲突，只能交给开发者自己来处理。（在本文后后面会讨论一下Dynamo的Vector Clock）</p>
+<h4>Two/Three Phase Commit</h4>
+<p>这个协议的缩写又叫2PC，中文叫两阶段提交。在分布式系统中，每个节点虽然可以知晓自己的操作时成功或者失败，却无法知道其他节点的操作的成功或失败。当一个事务跨越多个节点时，为了保持事务的ACID特性，需要引入一个作为<strong>协调者</strong>的组件来统一掌控所有节点(称作<b>参与者</b>)的操作结果并最终指示这些节点是否要把操作结果进行真正的提交(比如将更新后的数据写入磁盘等等)。 两阶段提交的算法如下：</p>
+<p><strong> 第一阶段</strong>：</p>
+<ol>
+<li>协调者会问所有的参与者结点，是否可以执行提交操作。</li>
+<li>各个参与者开始事务执行的准备工作：如：为资源上锁，预留资源，写undo/redo log……</li>
+<li>参与者响应协调者，如果事务的准备工作成功，则回应“可以提交”，否则回应“拒绝提交”。</li>
+</ol>
+<p><strong>第二阶段</strong>：</p>
+<ul>
+<li>如果所有的参与者都回应“可以提交”，那么，协调者向所有的参与者发送“正式提交”的命令。参与者完成正式提交，并释放所有资源，然后回应“完成”，协调者收集各结点的“完成”回应后结束这个Global Transaction。</li>
+</ul>
+<ul>
+<li>如果有一个参与者回应“拒绝提交”，那么，协调者向所有的参与者发送“回滚操作”，并释放所有资源，然后回应“回滚完成”，协调者收集各结点的“回滚”回应后，取消这个Global Transaction。</li>
+</ul>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-10929" alt="" src="https://coolshell.cn/wp-content/uploads/2014/01/Two-phase_commit.png" width="518" height="195" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Two-phase_commit.png 647w, https://coolshell.cn/wp-content/uploads/2014/01/Two-phase_commit-300x113.png 300w" sizes="(max-width: 518px) 100vw, 518px" /></p>
+<p>我们可以看到，2PC说白了就是第一阶段做Vote，第二阶段做决定的一个算法，也可以看到2PC这个事是强一致性的算法。在前面我们讨论过Master-Slave的强一致性策略，和2PC有点相似，只不过2PC更为保守一些——先尝试再提交。 2PC用的是比较多的，在一些系统设计中，会串联一系列的调用，比如：A -&gt; B -&gt; C -&gt; D，每一步都会分配一些资源或改写一些数据。比如我们B2C网上购物的下单操作在后台会有一系列的流程需要做。如果我们一步一步地做，就会出现这样的问题，如果某一步做不下去了，那么前面每一次所分配的资源需要做反向操作把他们都回收掉，所以，操作起来比较复杂。现在很多处理流程（Workflow）都会借鉴2PC这个算法，使用 try -&gt; confirm的流程来确保整个流程的能够成功完成。 举个通俗的例子，西方教堂结婚的时候，都有这样的桥段：</p>
+<p style="padding-left: 30px;">1）牧师分别问新郎和新娘：你是否愿意……不管生老病死……（询问阶段）</p>
+<p style="padding-left: 30px;">2）当新郎和新娘都回答愿意后（锁定一生的资源），牧师就会说：我宣布你们……（事务提交）</p>
+<p>这是多么经典的一个两阶段提交的事务处理。 另外，我们也可以看到其中的一些问题， A）其中一个是同步阻塞操作，这个事情必然会非常大地影响性能。 B）另一个主要的问题是在TimeOut上，比如，</p>
+<p style="padding-left: 30px;">1）如果第一阶段中，参与者没有收到询问请求，或是参与者的回应没有到达协调者。那么，需要协调者做超时处理，一旦超时，可以当作失败，也可以重试。</p>
+<p style="padding-left: 30px;">2）如果第二阶段中，正式提交发出后，如果有的参与者没有收到，或是参与者提交/回滚后的确认信息没有返回，一旦参与者的回应超时，要么重试，要么把那个参与者标记为问题结点剔除整个集群，这样可以保证服务结点都是数据一致性的。</p>
+<p style="padding-left: 30px;">3）糟糕的情况是，第二阶段中，如果参与者收不到协调者的commit/fallback指令，参与者将处于“状态未知”阶段，参与者完全不知道要怎么办，比如：如果所有的参与者完成第一阶段的回复后（可能全部yes，可能全部no，可能部分yes部分no），如果协调者在这个时候挂掉了。那么所有的结点完全不知道怎么办（问别的参与者都不行）。为了一致性，要么死等协调者，要么重发第一阶段的yes/no命令。</p>
+<p>两段提交最大的问题就是第3）项，<strong>如果第一阶段完成后，参与者在第二阶没有收到决策，那么数据结点会进入“不知所措”的状态，这个状态会block住整个事务</strong>。也就是说，协调者Coordinator对于事务的完成非常重要，Coordinator的可用性是个关键。 因些，我们引入三段提交，三段提交在<a href="http://en.wikipedia.org/wiki/Three-phase_commit_protocol" target="_blank">Wikipedia</a>上的描述如下，他把二段提交的第一个段break成了两段：询问，然后再锁资源。最后真正提交。三段提交的示意图如下：</p>
+<p style="padding-left: 30px;"><img decoding="async" loading="lazy" class="aligncenter" alt="" src="https://coolshell.cn/wp-content/uploads/2014/01/Three-phase_commit_diagram.png" width="611" height="321" /></p>
+<p>三段提交的核心理念是：<strong>在询问的时候并不锁定资源，除非所有人都同意了，才开始锁资源</strong>。</p>
+<p style="text-align: left;">理论上来说，如果第一阶段所有的结点返回成功，那么有理由相信成功提交的概率很大。这样一来，可以降低参与者Cohorts的状态未知的概率。也就是说，一旦参与者收到了PreCommit，意味他知道大家其实都同意修改了。这一点很重要。下面我们来看一下3PC的状态迁移图：（<strong>注意图中的虚线，那些F,T是Failuer或Timeout</strong>，其中的：状态含义是 q &#8211; Query，a &#8211; Abort，w &#8211; Wait，p &#8211; PreCommit，c &#8211; Commit）</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-10931" alt="" src="https://coolshell.cn/wp-content/uploads/2014/01/Three-phase_commit_status.png" width="614" height="374" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Three-phase_commit_status.png 767w, https://coolshell.cn/wp-content/uploads/2014/01/Three-phase_commit_status-300x183.png 300w" sizes="(max-width: 614px) 100vw, 614px" /></p>
+<p style="text-align: left;">从上图的状态变化图我们可以从虚线（那些F,T是Failuer或Timeout）看到——<strong>如果结点处在P状态（PreCommit）的时候发生了F/T的问题，三段提交比两段提交的好处是，三段提交可以继续直接把状态变成C状态（Commit），而两段提交则不知所措</strong>。</p>
+<p style="text-align: left;">其实，三段提交是一个很复杂的事情，实现起来相当难，而且也有一些问题。</p>
+<p style="text-align: left;">看到这里，我相信你有很多很多的问题，你一定在思考2PC/3PC中各种各样的失败场景，<strong>你会发现Timeout是个非常难处理的事情，因为网络上的Timeout在很多时候让你无所事从，你也不知道对方是做了还是没有做。于是你好好的一个状态机就因为Timeout成了个摆设</strong>。</p>
+<p style="text-align: left;"><strong>一个网络服务会有三种状态：1）Success，2）Failure，3）Timeout，第三个绝对是恶梦，尤其在你需要维护状态的时候</strong>。</p>
+<h4>Two Generals Problem（两将军问题）</h4>
+<p><a href="http://en.wikipedia.org/wiki/Two_Generals'_Problem" target="_blank">Two Generals Problem</a> 两将军问题是这么一个思维性实验问题： 有两支军队，它们分别有一位将军领导，现在准备攻击一座修筑了防御工事的城市。这两支军队都驻扎在那座城市的附近，分占一座山头。一道山谷把两座山分隔开来，并且两位将军唯一的通信方式就是派各自的信使来往于山谷两边。不幸的是，这个山谷已经被那座城市的保卫者占领，并且存在一种可能，那就是任何被派出的信使通过山谷是会被捕。 请注意，虽然两位将军已经就攻击那座城市达成共识，但在他们各自占领山头阵地之前，并没有就进攻时间达成共识。两位将军必须让自己的军队同时进攻城市才能取得成功。因此，他们必须互相沟通，以确定一个时间来攻击，并同意就在那时攻击。如果只有一个将军进行攻击，那么这将是一个灾难性的失败。 这个思维实验就包括考虑他们如何去做这件事情。下面是我们的思考：</p>
+<p style="padding-left: 30px;">1）第一位将军先发送一段消息“让我们在上午9点开始进攻”。然而，一旦信使被派遣，他是否通过了山谷，第一位将军就不得而知了。任何一点的不确定性都会使得第一位将军攻击犹豫，因为如果第二位将军不能在同一时刻发动攻击，那座城市的驻军就会击退他的军队的进攻，导致他的军对被摧毁。</p>
+<p style="padding-left: 30px;">2）知道了这一点，第二位将军就需要发送一个确认回条：“我收到您的邮件，并会在9点的攻击。”但是，如果带着确认消息的信使被抓怎么办？所以第二位将军会犹豫自己的确认消息是否能到达。</p>
+<p style="padding-left: 30px;">3）于是，似乎我们还要让第一位将军再发送一条确认消息——“我收到了你的确认”。然而，如果这位信使被抓怎么办呢？</p>
+<p style="padding-left: 30px;">4）这样一来，是不是我们还要第二位将军发送一个“确认收到你的确认”的信息。</p>
+<p>靠，于是你会发现，这事情很快就发展成为不管发送多少个确认消息，都没有办法来保证两位将军有足够的自信自己的信使没有被敌军捕获。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter  wp-image-10933" alt="" src="https://coolshell.cn/wp-content/uploads/2014/01/two-generals-problems.jpg" width="538" height="251" srcset="https://coolshell.cn/wp-content/uploads/2014/01/two-generals-problems.jpg 598w, https://coolshell.cn/wp-content/uploads/2014/01/two-generals-problems-300x139.jpg 300w" sizes="(max-width: 538px) 100vw, 538px" /></p>
+<p style="text-align: left;"><strong style="line-height: 1.5em;">这个问题是无解的</strong><span style="line-height: 1.5em;">。</span><span style="line-height: 1.5em;">两个将军问题和它的无解证明首先由E.A.Akkoyunlu,K.Ekanadham和R.V.Huber于1975年在《一些限制与折衷的网络通信设计》一文中发表，就在这篇文章的第73页中一段描述两个黑帮之间的通信中被阐明。 1978年，在Jim Gray的《数据库操作系统注意事项》一书中（从第465页开始）被命名为两个将军悖论。作为两个将军问题的定义和无解性的证明的来源，这一参考被广泛提及。</span></p>
+<p style="text-align: left;">这个实验意在阐明：试图通过建立在一个不可靠的连接上的交流来协调一项行动的隐患和设计上的巨大挑战。</p>
+<p style="text-align: left;">从工程上来说，一个解决两个将军问题的实际方法是使用一个能够承受通信信道不可靠性的方案，并不试图去消除这个不可靠性，但要将不可靠性削减到一个可以接受的程度。比如，第一位将军排出了100位信使并预计他们都被捕的可能性很小。在这种情况下，不管第二位将军是否会攻击或者受到任何消息，第一位将军都会进行攻击。另外，第一位将军可以发送一个消息流，而第二位将军可以对其中的每一条消息发送一个确认消息，这样如果每条消息都被接收到，两位将军会感觉更好。然而我们可以从证明中看出，他们俩都不能肯定这个攻击是可以协调的。他们没有算法可用（比如，收到4条以上的消息就攻击）能够确保防止仅有一方攻击。再者，第一位将军还可以为每条消息编号，说这是1号，2号……直到n号。这种方法能让第二位将军知道通信信道到底有多可靠，并且返回合适的数量的消息来确保最后一条消息被接收到。如果信道是可靠的话，只要一条消息就行了，其余的就帮不上什么忙了。最后一条和第一条消息丢失的概率是相等的。</p>
+<p> 两将军问题可以扩展成更变态的<strong>拜占庭将军问题 (Byzantine Generals Problem)</strong>，其故事背景是这样的：拜占庭位于现在土耳其的伊斯坦布尔，是东罗马帝国的首都。由于当时拜占庭罗马帝国国土辽阔，为了防御目的，因此每个军队都分隔很远，将军与将军之间只能靠信差传消息。 在战争的时候，拜占庭军队内所有将军必需达成一致的共识，决定是否有赢的机会才去攻打敌人的阵营。但是，军队可能有叛徒和敌军间谍，这些叛徒将军们会扰乱或左右决策的过程。这时候，在已知有成员谋反的情况下，其余忠诚的将军在不受叛徒的影响下如何达成一致的协议，这就是拜占庭将军问题。</p>
+<h4>Paxos算法</h4>
+<p><a href="http://en.wikipedia.org/wiki/Paxos_(computer_science)" target="_blank">Wikipedia上的各种Paxos算法</a>的描述非常详细，大家可以去围观一下。</p>
+<p>Paxos 算法解决的问题是在一个可能发生上述异常的分布式系统中如何就某个值达成一致，保证不论发生以上任何异常，都不会破坏决议的一致性。一个典型的场景是，在一个分布式数据库系统中，如果各节点的初始状态一致，每个节点都执行相同的操作序列，那么他们最后能得到一个一致的状态。为保证每个节点执行相同的命令序列，需要在每一条指令上执行一个「一致性算法」以保证每个节点看到的指令一致。一个通用的一致性算法可以应用在许多场景中，是分布式计算中的重要问题。从20世纪80年代起对于一致性算法的研究就没有停止过。</p>
+<p><strong>Notes</strong>：Paxos算法是莱斯利·兰伯特（Leslie Lamport，就是 LaTeX 中的&#8221;La&#8221;，此人现在在微软研究院）于1990年提出的一种基于消息传递的一致性算法。由于算法难以理解起初并没有引起人们的重视，使Lamport在八年后1998年重新发表到ACM Transactions on Computer Systems上（<a href="http://research.microsoft.com/users/lamport/pubs/lamport-paxos.pdf" rel="nofollow">The Part-Time Parliament</a>）。即便如此paxos算法还是没有得到重视，2001年Lamport 觉得同行无法接受他的幽默感，于是用容易接受的方法重新表述了一遍（<a href="http://research.microsoft.com/users/lamport/pubs/paxos-simple.pdf" rel="nofollow">Paxos Made Simple</a>）。可见Lamport对Paxos算法情有独钟。近几年Paxos算法的普遍使用也证明它在分布式一致性算法中的重要地位。2006年Google的三篇论文初现“云”的端倪，其中的Chubby Lock服务使用Paxos作为Chubby Cell中的一致性算法，Paxos的人气从此一路狂飙。（Lamport 本人在 <a href="http://research.microsoft.com/users/lamport/pubs/pubs.html#lamport-paxos" target="_blank">他的blog 中</a>描写了他用9年时间发表这个算法的前前后后）</p>
+<p>注：Amazon的AWS中，所有的云服务都基于一个ALF（Async Lock Framework）的框架实现的，这个ALF用的就是Paxos算法。我在Amazon的时候，看内部的分享视频时，设计者在内部的Principle Talk里说他参考了ZooKeeper的方法，但他用了另一种比ZooKeeper更易读的方式实现了这个算法。</p>
+<p>简单说来，Paxos的目的是让整个集群的结点对某个值的变更达成一致。Paxos算法基本上来说是个民主选举的算法——大多数的决定会成个整个集群的统一决定。任何一个点都可以提出要修改某个数据的提案，是否通过这个提案取决于这个集群中是否有超过半数的结点同意（所以Paxos算法需要集群中的结点是单数）。</p>
+<p><span style="line-height: 1.5em;">这个算法有两个阶段（假设这个有三个结点：A，B，C）：</span></p>
+<p style="padding-left: 30px;"><strong>第一阶段：Prepare阶段</strong></p>
+<p style="padding-left: 30px;">A把申请修改的请求Prepare Request发给所有的结点A，B，C。注意，Paxos算法会有一个Sequence Number（你可以认为是一个提案号，这个数不断递增，而且是唯一的，也就是说A和B不可能有相同的提案号），这个提案号会和修改请求一同发出，任何结点在“Prepare阶段”时都会拒绝其值小于当前提案号的请求。所以，结点A在向所有结点申请修改请求的时候，需要带一个提案号，越新的提案，这个提案号就越是是最大的。</p>
+<p style="padding-left: 30px;">如果接收结点收到的提案号n大于其它结点发过来的提案号，这个结点会回应Yes（本结点上最新的被批准提案号），并保证不接收其它&lt;n的提案。这样一来，结点上在Prepare阶段里总是会对最新的提案做承诺。</p>
+<p style="padding-left: 30px;">优化：在上述 prepare 过程中，如果任何一个结点发现存在一个更高编号的提案，则需要通知 提案人，提醒其中断这次提案。</p>
+<p style="padding-left: 30px;"><strong>第二阶段：Accept阶段</strong></p>
+<p style="padding-left: 30px;">如果提案者A收到了超过半数的结点返回的Yes，然后他就会向所有的结点发布Accept Request（同样，需要带上提案号n），如果没有超过半数的话，那就返回失败。</p>
+<p style="padding-left: 30px;">当结点们收到了Accept Request后，如果对于接收的结点来说，n是最大的了，那么，它就会修改这个值，如果发现自己有一个更大的提案号，那么，结点就会拒绝修改。</p>
+<p>我们可以看以，这似乎就是一个“两段提交”的优化。其实，<strong>2PC/3PC都是分布式一致性算法的残次版本，Google Chubby的作者Mike Burrows说过这个世界上只有一种一致性算法，那就是Paxos，其它的算法都是残次品。</strong></p>
+<p><strong></strong>我们还可以看到：对于同一个值的在不同结点的修改提案就算是在接收方被乱序收到也是没有问题的。</p>
+<p>关于一些实例，你可以看一下Wikipedia中文中的“<a href="http://zh.wikipedia.org/zh/Paxos%E7%AE%97%E6%B3%95#.E5.AE.9E.E4.BE.8B" target="_blank">Paxos样例</a>”一节，我在这里就不再多说了。对于Paxos算法中的一些异常示例，大家可以自己推导一下。你会发现基本上来说只要保证有半数以上的结点存活，就没有什么问题。</p>
+<p>多说一下，自从Lamport在1998年发表Paxos算法后，对Paxos的各种改进工作就从未停止，其中动作最大的莫过于2005年发表的<a href="http://research.microsoft.com/apps/pubs/default.aspx?id=64624" target="_blank">Fast Paxos</a>。无论何种改进，其重点依然是在消息延迟与性能、吞吐量之间作出各种权衡。为了容易地从概念上区分二者，称前者Classic Paxos，改进后的后者为Fast Paxos。</p>
+<h4>总结</h4>
+<div id="Msg_18730">下图来自：Google App Engine的co-founder Ryan Barrett在2009年的google i/o上的演讲《<a href="http://snarfed.org/transactions_across_datacenters_io.html" target="_blank">Transaction Across DataCenter</a>》（视频： <a title="阿里旺旺无法确定该链接的安全性" href="http://www.youtube.com/watch?v=srOgpXECblk" target="_blank">http://www.youtube.com/watch?v=srOgpXECblk</a>）</div>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-10942" alt="" src="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg" width="566" height="255" srcset="https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter.jpg 566w, https://coolshell.cn/wp-content/uploads/2014/01/Transaction-Across-DataCenter-300x135.jpg 300w" sizes="(max-width: 566px) 100vw, 566px" /></p>
+<p style="text-align: left;">前面，我们说过，要想让数据有高可用性，就需要冗余数据写多份。写多份的问题会带来一致性的问题，而一致性的问题又会带来性能问题。从上图我们可以看到，我们基本上来说不可以让所有的项都绿起来，这就是著名的CAP理论：一致性，可用性，分区容忍性，你只可能要其中的两个。</p>
+<h4>NWR模型</h4>
+<p><strong>最后我还想提一下Amazon Dynamo的NWR模型。这个NWR模型把CAP的选择权交给了用户，让用户自己的选择你的CAP中的哪两个</strong>。</p>
+<p>所谓NWR模型。N代表N个备份，W代表要写入至少W份才认为成功，R表示至少读取R个备份。<strong>配置的时候要求W+R &gt; N</strong>。 因为W+R &gt; N， 所以 R &gt; N-W 这个是什么意思呢？就是读取的份数一定要比总备份数减去确保写成功的倍数的差值要大。</p>
+<p>也就是说，每次读取，都至少读取到一个最新的版本。从而不会读到一份旧数据。当我们需要高可写的环境的时候，我们可以配置W = 1 如果N=3 那么R = 3。 这个时候只要写任何节点成功就认为成功，但是读的时候必须从所有的节点都读出数据。如果我们要求读的高效率，我们可以配置 W=N R=1。这个时候任何一个节点读成功就认为成功，但是写的时候必须写所有三个节点成功才认为成功。</p>
+<p>NWR模型的一些设置会造成脏数据的问题，因为这很明显不是像Paxos一样是一个强一致的东西，所以，可能每次的读写操作都不在同一个结点上，于是会出现一些结点上的数据并不是最新版本，但却进行了最新的操作。</p>
+<p>所以，Amazon Dynamo引了数据版本的设计。也就是说，如果你读出来数据的版本是v1，当你计算完成后要回填数据后，却发现数据的版本号已经被人更新成了v2，那么服务器就会拒绝你。版本这个事就像“乐观锁”一样。</p>
+<p>但是，对于分布式和NWR模型来说，版本也会有恶梦的时候——就是版本冲的问题，比如：我们设置了N=3 W=1，如果A结点上接受了一个值，版本由v1 -&gt; v2，但还没有来得及同步到结点B上（异步的，应该W=1，写一份就算成功），B结点上还是v1版本，此时，B结点接到写请求，按道理来说，他需要拒绝掉，但是他一方面并不知道别的结点已经被更新到v2，另一方面他也无法拒绝，因为W=1，所以写一分就成功了。于是，出现了严重的版本冲突。</p>
+<p>Amazon的Dynamo把版本冲突这个问题巧妙地回避掉了——版本冲这个事交给用户自己来处理。</p>
+<p>于是，Dynamo引入了Vector Clock（矢量钟？!）这个设计。这个设计让每个结点各自记录自己的版本信息，也就是说，对于同一个数据，需要记录两个事：1）谁更新的我，2）我的版本号是什么。</p>
+<p>下面，我们来看一个操作序列：</p>
+<p style="padding-left: 30px;">1）一个写请求，第一次被节点A处理了。节点A会增加一个版本信息(A，1)。我们把这个时候的数据记做D1(A，1)。 然后另外一个对同样key的请求还是被A处理了于是有D2(A，2)。这个时候，D2是可以覆盖D1的，不会有冲突产生。</p>
+<p style="padding-left: 30px;">2）现在我们假设D2传播到了所有节点(B和C)，B和C收到的数据不是从客户产生的，而是别人复制给他们的，所以他们不产生新的版本信息，所以现在B和C所持有的数据还是D2(A，2)。于是A，B，C上的数据及其版本号都是一样的。</p>
+<p style="padding-left: 30px;">3）如果我们有一个新的写请求到了B结点上，于是B结点生成数据D3(A,2; B,1)，意思是：数据D全局版本号为3，A升了两新，B升了一次。这不就是所谓的代码版本的log么？</p>
+<p style="padding-left: 30px;">4）如果D3没有传播到C的时候又一个请求被C处理了，于是，以C结点上的数据是D4(A,2; C,1)。</p>
+<p style="padding-left: 30px;">5）好，最精彩的事情来了：如果这个时候来了一个读请求，我们要记得，我们的W=1 那么R=N=3，所以R会从所有三个节点上读，此时，他会读到三个版本：</p>
+<ul>
+<ul>
+<li>A结点：D2(A,2)</li>
+<li>B结点：D3(A,2;  B,1);</li>
+<li>C结点：D4(A,2;  C,1)</li>
+</ul>
+</ul>
+<p style="padding-left: 30px;">6）这个时候可以判断出，D2已经是旧版本（已经包含在D3/D4中），可以舍弃。</p>
+<p style="padding-left: 30px;">7）但是D3和D4是明显的版本冲突。于是，交给调用方自己去做版本冲突处理。就像源代码版本管理一样。</p>
+<p>很明显，上述的Dynamo的配置用的是CAP里的A和P。</p>
+<p>我非常推大家都去看看这篇论文：《<a href="http://www.read.seas.harvard.edu/~kohler/class/cs239-w08/decandia07dynamo.pdf" target="_blank">Dynamo：Amazon&#8217;s Highly Available Key-Value Store</a>》，如果英文痛苦，你可以<a href="http://vdisk.weibo.com/s/AKRQZMLLc1ol  " target="_blank">看看译文</a>（译者不详）。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="http://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="http://coolshell.cn/articles/6470.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/01/12306-150x150.png" alt="由12306.cn谈谈网站性能技术 " width="150" height="150" /></a><a href="http://coolshell.cn/articles/6470.html" class="wp_rp_title">由12306.cn谈谈网站性能技术 </a></li><li ><a href="http://coolshell.cn/articles/9169.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/Disruptor-150x150.png" alt="并发框架Disruptor译文" width="150" height="150" /></a><a href="http://coolshell.cn/articles/9169.html" class="wp_rp_title">并发框架Disruptor译文</a></li><li ><a href="http://coolshell.cn/articles/6790.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/03/o_conditional_update_1-150x150.png" alt="多版本并发控制(MVCC)在分布式系统中的应用" width="150" height="150" /></a><a href="http://coolshell.cn/articles/6790.html" class="wp_rp_title">多版本并发控制(MVCC)在分布式系统中的应用</a></li><li ><a href="http://coolshell.cn/articles/8239.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/09/lock_free_bicycle-150x150.jpg" alt="无锁队列的实现" width="150" height="150" /></a><a href="http://coolshell.cn/articles/8239.html" class="wp_rp_title">无锁队列的实现</a></li><li ><a href="http://coolshell.cn/articles/7236.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/05/Bannière-Unix-linux-150x150.jpg" alt="用Unix的设计思想来应对多变的需求" width="150" height="150" /></a><a href="http://coolshell.cn/articles/7236.html" class="wp_rp_title">用Unix的设计思想来应对多变的需求</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/10910.html">分布式系统的事务处理</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/10910.html/feed</wfw:commentRss>
+			<slash:comments>181</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

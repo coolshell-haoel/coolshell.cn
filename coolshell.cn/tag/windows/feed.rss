@@ -1,0 +1,1431 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Windows | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/windows/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 20 Jun 2012 09:41:16 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>性能调优攻略</title>
+		<link>https://coolshell.cn/articles/7490.html</link>
+					<comments>https://coolshell.cn/articles/7490.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 20 Jun 2012 01:24:53 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Windows]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[数据库]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[系统架构]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[MySQL]]></category>
+		<category><![CDATA[Performance]]></category>
+		<category><![CDATA[SQL]]></category>
+		<category><![CDATA[TCP]]></category>
+		<category><![CDATA[UDP]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7490</guid>
+
+					<description><![CDATA[<p>关于性能优化这是一个比较大的话题，在《由12306.cn谈谈网站性能技术》中我从业务和设计上说过一些可用的技术以及那些技术的优缺点，今天，想从一些技术细节上谈谈...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7490.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7490.html">性能调优攻略</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-medium wp-image-7641" title="Performance Tuning" src="https://coolshell.cn/wp-content/uploads/2012/06/f1-300x216.jpg" alt="" width="300" height="216" srcset="https://coolshell.cn/wp-content/uploads/2012/06/f1-300x216.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/06/f1.jpg 350w" sizes="(max-width: 300px) 100vw, 300px" />关于性能优化这是一个比较大的话题，在《<a title="由12306.cn谈谈网站性能技术" href="https://coolshell.cn/articles/6470.html" target="_blank">由12306.cn谈谈网站性能技术</a>》中我从业务和设计上说过一些可用的技术以及那些技术的优缺点，今天，想从一些技术细节上谈谈性能优化，主要是一些代码级别的技术和方法。<strong>本文的东西是我的一些经验和知识，并不一定全对，希望大家指正和补充</strong>。</p>
+<p>在开始这篇文章之前，大家可以移步去看一下酷壳以前发表的《<a title="代码优化概要" href="https://coolshell.cn/articles/2967.html" target="_blank">代码优化概要</a>》，这篇文章基本上告诉你——<strong>要进行优化，先得找到性能瓶颈</strong>！ 但是在讲如何定位系统性能瓶劲之前，请让我讲一下系统性能的定义和测试，因为没有这两件事，后面的定位和优化无从谈起。</p>
+<h4>一、系统性能定义</h4>
+<p>让我们先来说说如何什么是系统性能。这个定义非常关键，如果我们不清楚什么是系统性能，那么我们将无法定位之。我见过很多朋友会觉得这很容易，但是仔细一问，其实他们并没有一个比较系统的方法，所以，在这里我想告诉大家如何系统地来定位性能。 总体来说，系统性能就是两个事：</p>
+<ol>
+<li><strong>Throughput</strong> ，吞吐量。也就是每秒钟可以处理的请求数，任务数。</li>
+<li><strong>Latency</strong>， 系统延迟。也就是系统在处理一个请求或一个任务时的延迟。</li>
+</ol>
+<p>一般来说，一个系统的性能受到这两个条件的约束，缺一不可。比如，我的系统可以顶得住一百万的并发，但是系统的延迟是2分钟以上，那么，这个一百万的负载毫无意义。系统延迟很短，但是吞吐量很低，同样没有意义。所以，一个好的系统的性能测试必然受到这两个条件的同时作用。 有经验的朋友一定知道，这两个东西的一些关系：</p>
+<ul>
+<li><strong>Throughput越大，Latency会越差。</strong>因为请求量过大，系统太繁忙，所以响应速度自然会低。</li>
+<li><strong>Latency越好，能支持的Throughput就会越高。</strong>因为Latency短说明处理速度快，于是就可以处理更多的请求。</li>
+</ul>
+<h4>二、系统性能测试</h4>
+<p>经过上述的说明，我们知道要测试系统的性能，需要我们收集系统的Throughput和Latency这两个值。</p>
+<p><span id="more-7490"></span></p>
+<ul>
+<li>首先，<strong>需要定义Latency这个值</strong>，比如说，对于网站系统响应时间必需是5秒以内（对于某些实时系统可能需要定义的更短，比如5ms以内，这个更根据不同的业务来定义）</li>
+</ul>
+<ul>
+<li>其次，<strong>开发性能测试工具</strong>，一个工具用来制造高强度的Throughput，另一个工具用来测量Latency。对于第一个工具，你可以参考一下“<a title="十个免费的Web压力测试工具" href="https://coolshell.cn/articles/2589.html" target="_blank">十个免费的Web压力测试工具</a>”，关于如何测量Latency，你可以在代码中测量，但是这样会影响程序的执行，而且只能测试到程序内部的Latency，真正的Latency是整个系统都算上，包括操作系统和网络的延时，你可以使用Wireshark来抓网络包来测量。这两个工具具体怎么做，这个还请大家自己思考去了。</li>
+</ul>
+<ul>
+<li>最后，<strong>开始性能测试</strong>。你需要不断地提升测试的Throughput，然后观察系统的负载情况，如果系统顶得住，那就观察Latency的值。这样，你就可以找到系统的最大负载，并且你可以知道系统的响应延时是多少。</li>
+</ul>
+<p>再多说一些，</p>
+<ul>
+<li>关于Latency，如果吞吐量很少，这个值估计会非常稳定，当吞吐量越来越大时，系统的Latency会出现非常剧烈的抖动，所以，我们在测量Latency的时候，我们需要注意到Latency的分布，也就是说，有百分之几的在我们允许的范围，有百分之几的超出了，有百分之几的完全不可接受。也许，平均下来的Latency达标了，但是其中仅有50%的达到了我们可接受的范围。那也没有意义。</li>
+</ul>
+<ul>
+<li>关于性能测试，我们还需要定义一个时间段。比如：在某个吞吐量上持续15分钟。因为当负载到达的时候，系统会变得不稳定，当过了一两分钟后，系统才会稳定。另外，也有可能是，你的系统在这个负载下前几分钟还表现正常，然后就不稳定了，甚至垮了。所以，需要这么一段时间。这个值，我们叫做峰值极限。</li>
+</ul>
+<ul>
+<li>性能测试还需要做Soak Test，也就是在某个吞吐量下，系统可以持续跑一周甚至更长。这个值，我们叫做系统的正常运行的负载极限。</li>
+</ul>
+<p>性能测试有很多很复要的东西，比如：burst test等。 这里不能一一详述，这里只说了一些和性能调优相关的东西。总之，性能测试是一细活和累活。</p>
+<h4>三、定位性能瓶颈</h4>
+<p><img decoding="async" loading="lazy" class="alignright size-full wp-image-7640" title="bottleneck" src="https://coolshell.cn/wp-content/uploads/2012/06/bottleneck.jpg" alt="" width="200" height="200" srcset="https://coolshell.cn/wp-content/uploads/2012/06/bottleneck.jpg 200w, https://coolshell.cn/wp-content/uploads/2012/06/bottleneck-150x150.jpg 150w" sizes="(max-width: 200px) 100vw, 200px" />有了上面的铺垫，我们就可以测试到到系统的性能了，再调优之前，我们先来说说如何找到性能的瓶颈。我见过很多朋友会觉得这很容易，但是仔细一问，其实他们并没有一个比较系统的方法。</p>
+<h5>3.1）查看操作系统负载</h5>
+<p>首先，当我们系统有问题的时候，我们不要急于去调查我们代码，这个毫无意义。我们首要需要看的是操作系统的报告。看看操作系统的CPU利用率，看看内存使用率，看看操作系统的IO，还有网络的IO，网络链接数，等等。Windows下的perfmon是一个很不错的工具，Linux下也有很多相关的命令和工具，比如：<a href="http://sourceware.org/systemtap/" target="_blank">SystemTap</a>，<a href="https://latencytop.org/" target="_blank">LatencyTOP</a>，vmstat, sar, iostat, top, tcpdump等等 。通过观察这些数据，我们就可以知道我们的软件的性能基本上出在哪里。比如：</p>
+<p>1）先看CPU利用率，如果CPU利用率不高，但是系统的Throughput和Latency上不去了，这说明我们的程序并没有忙于计算，而是忙于别的一些事，比如IO。（另外，CPU的利用率还要看内核态的和用户态的，内核态的一上去了，整个系统的性能就下来了。而对于多核CPU来说，CPU 0 是相当关键的，如果CPU 0的负载高，那么会影响其它核的性能，因为CPU各核间是需要有调度的，这靠CPU0完成）</p>
+<p>2）然后，我们可以看一下IO大不大，IO和CPU一般是反着来的，CPU利用率高则IO不大，IO大则CPU就小。关于IO，我们要看三个事，一个是磁盘文件IO，一个是驱动程序的IO（如：网卡），一个是内存换页率。这三个事都会影响系统性能。</p>
+<p>3）然后，查看一下网络带宽使用情况，在Linux下，你可以使用iftop, iptraf, ntop, tcpdump这些命令来查看。或是用Wireshark来查看。</p>
+<p>4）如果CPU不高，IO不高，内存使用不高，网络带宽使用不高。但是系统的性能上不去。这说明你的程序有问题，比如，你的程序被阻塞了。可能是因为等那个锁，可能是因为等某个资源，或者是在切换上下文。</p>
+<p><strong>通过了解操作系统的性能，我们才知道性能的问题，比如：带宽不够，内存不够，TCP缓冲区不够，等等，很多时候，不需要调整程序的，只需要调整一下硬件或操作系统的配置就可以了</strong>。</p>
+<h5>3.2）使用Profiler测试</h5>
+<p>接下来，我们需要使用性能检测工具，也就是使用某个Profiler来差看一下我们程序的运行性能。如：Java的JProfiler/TPTP/CodePro Profiler，GNU的gprof，IBM的PurifyPlus，Intel的VTune，AMD的CodeAnalyst，还有Linux下的OProfile/perf，后面两个可以让你对你的代码优化到CPU的微指令级别，如果你关心CPU的L1/L2的缓存调优，那么你需要考虑一下使用VTune。 使用这些Profiler工具，可以让你程序中各个模块函数甚至指令的很多东西，如：<strong>运行的时间</strong> ，<strong>调用的次数</strong>，<strong>CPU的利用率</strong>，等等。这些东西对我们来说非常有用。</p>
+<p>我们重点观察运行时间最多，调用次数最多的那些函数和指令。这里注意一下，对于调用次数多但是时间很短的函数，你可能只需要轻微优化一下，你的性能就上去了（比如：某函数一秒种被调用100万次，你想想如果你让这个函数提高0.01毫秒的时间 ，这会给你带来多大的性能）</p>
+<p>使用Profiler有个问题我们需要注意一下，因为Profiler会让你的程序运行的性能变低，像PurifyPlus这样的工具会在你的代码中插入很多代码，会导致你的程序运行效率变低，从而没发测试出在高吞吐量下的系统的性能，对此，一般有两个方法来定位系统瓶颈：</p>
+<p>1）在你的代码中自己做统计，使用微秒级的计时器和函数调用计算器，每隔10秒把统计log到文件中。</p>
+<p>2）分段注释你的代码块，让一些函数空转，做Hard Code的Mock，然后再测试一下系统的Throughput和Latency是否有质的变化，如果有，那么被注释的函数就是性能瓶颈，再在这个函数体内注释代码，直到找到最耗性能的语句。</p>
+<p>最后再说一点，<strong>对于性能测试，不同的Throughput会出现不同的测试结果，不同的测试数据也会有不同的测试结果。所以，用于性能测试的数据非常重要，性能测试中，我们需要观测试不同Throughput的结果</strong>。</p>
+<h4>四、常见的系统瓶颈</h4>
+<p>下面这些东西是我所经历过的一些问题，也许并不全，也许并不对，大家可以补充指正，我<strong>纯属抛砖引玉</strong>。关于系统架构方面的性能调优，大家可移步看一下《<a title="由12306.cn谈谈网站性能技术" href="https://coolshell.cn/articles/6470.html" target="_blank">由12306.cn谈谈网站性能技术</a>》，关于Web方面的一些性能调优的东西，大家可以看看《<a title="Web开发中需要了解的东西" href="https://coolshell.cn/articles/6043.html" target="_blank">Web开发中需要了解的东西</a>》一文中的性能一章。我在这里就不再说设计和架构上的东西了。</p>
+<p><strong></strong>一般来说，性能优化也就是下面的几个策略：</p>
+<ul>
+<li><strong>用空间换时间</strong>。各种cache如CPU L1/L2/RAM到硬盘，都是用空间来换时间的策略。这样策略基本上是把计算的过程一步一步的保存或缓存下来，这样就不用每次用的时候都要再计算一遍，比如数据缓冲，CDN，等。这样的策略还表现为冗余数据，比如数据镜象，负载均衡什么的。</li>
+</ul>
+<ul>
+<li><strong>用时间换空间</strong>。有时候，少量的空间可能性能会更好，比如网络传输，如果有一些压缩数据的算法（如前些天说的“<a title="Huffman 编码压缩算法" href="https://coolshell.cn/articles/7459.html">Huffman 编码压缩算法</a>” 和 “<a title="rsync 的核心算法" href="https://coolshell.cn/articles/7425.html">rsync 的核心算法</a>”），这样的算法其实很耗时，但是因为瓶颈在网络传输，所以用时间来换空间反而能省时间。</li>
+</ul>
+<ul>
+<li><strong>简化代码</strong>。最高效的程序就是不执行任何代码的程序，所以，代码越少性能就越高。关于代码级优化的技术大学里的教科书有很多示例了。如：减少循环的层数，减少递归，在循环中少声明变量，少做分配和释放内存的操作，尽量把循环体内的表达式抽到循环外，条件表达的中的多个条件判断的次序，尽量在程序启动时把一些东西准备好，注意函数调用的开销（栈上开销），注意面向对象语言中临时对象的开销，小心使用异常（不要用异常来检查一些可接受可忽略并经常发生的错误），…… 等等，等等，这连东西需要我们非常了解编程语言和常用的库。</li>
+</ul>
+<ul>
+<li><strong>并行处理</strong>。如果CPU只有一个核，你要玩多进程，多线程，对于计算密集型的软件会反而更慢（因为操作系统调度和切换开销很大），CPU的核多了才能真正体现出多进程多线程的优势。并行处理需要我们的程序有Scalability，不能水平或垂直扩展的程序无法进行并行处理。从架构上来说，这表再为——是否可以做到不改代码只是加加机器就可以完成性能提升？</li>
+</ul>
+<p>总之，<strong>根据2：8原则来说，20%的代码耗了你80%的性能，找到那20%的代码，你就可以优化那80%的性能</strong>。 下面的一些东西都是我的一些经验，我只例举了一些最有价值的性能调优的的方法，供你参考，也欢迎补充。</p>
+<p><strong>4.1）算法调优</strong>。算法非常重要，好的算法会有更好的性能。举几个我经历过的项目的例子，大家可以感觉一下。</p>
+<ul>
+<li>一个是<strong>过滤算法</strong>，系统需要对收到的请求做过滤，我们把可以被filter in/out的东西配置在了一个文件中，原有的过滤算法是遍历过滤配置，后来，我们找到了一种方法可以对这个过滤配置进行排序，这样就可以用二分折半的方法来过滤，系统性能增加了50%。</li>
+</ul>
+<ul>
+<li>一个是<strong>哈希算法</strong>。计算哈希算法的函数并不高效，一方面是计算太费时，另一方面是碰撞太高，碰撞高了就跟单向链表一个性能（可参看<a title="Hash Collision DoS 问题" href="https://coolshell.cn/articles/6424.html">Hash Collision DoS 问题</a>）。我们知道，算法都是和需要处理的数据很有关系的，就算是被大家所嘲笑的“冒泡排序”在某些情况下（大多数数据是排好序的）其效率会高于所有的排序算法。哈希算法也一样，广为人知的哈希算法都是用英文字典做测试，但是我们的业务在数据有其特殊性，所以，对于还需要根据自己的数据来挑选适合的哈希算法。对于我以前的一个项目，公司内某牛人给我发来了一个哈希算法，结果让我们的系统性能上升了150%。（关于各种哈希算法，你一定要看看<a href="http://programmers.stackexchange.com/questions/49550/which-hashing-algorithm-is-best-for-uniqueness-and-speed/145633#145633" target="_blank">StackExchange上的这篇关于各种hash算法的文章</a> ）</li>
+</ul>
+<ul>
+<li><strong>分而治之和预处理</strong>。以前有一个程序为了生成月报表，每次都需要计算很长的时间，有时候需要花将近一整天的时间。于是我们把我们找到了一种方法可以把这个算法发成增量式的，也就是说我每天都把当天的数据计算好了后和前一天的报表合并，这样可以大大的节省计算时间，每天的数据计算量只需要20分钟，但是如果我要算整个月的，系统则需要10个小时以上（SQL语句在大数据量面前性能成级数性下降）。这种分而治之的思路在大数据面前对性能有很帮助，就像merge排序一样。SQL语句和数据库的性能优化也是这一策略，如：使用嵌套式的Select而不是笛卡尔积的Select，使用视图，等等。</li>
+</ul>
+<p><strong>4.2）代码调优</strong>。从我的经验上来说，代码上的调优有下面这几点：</p>
+<ul>
+<li><strong>字符串操作</strong>。这是最费系统性能的事了，无论是strcpy, strcat还是strlen，最需要注意的是字符串子串匹配。所以，能用整型最好用整型。举几个例子，第一个例子是N年前做银行的时候，我的同事喜欢把日期存成字符串（如：2012-05-29 08:30:02），我勒个去，一个select  where between语句相当耗时。另一个例子是，我以前有个同事把一些状态码用字符串来处理，他的理由是，这样可以在界面上直接显示，后来性能调优的时候，我把这些状态码全改成整型，然后用位操作查状态，因为有一个每秒钟被调用了150K次的函数里面有三处需要检查状态，经过改善以后，整个系统的性能上升了30%左右。还有一个例子是，我以前从事的某个产品编程规范中有一条是要在每个函数中把函数名定义出来，如：const char fname[]=&#8221;functionName()&#8221;, 这是为了好打日志，但是为什么不声明成 static类型的呢？</li>
+</ul>
+<ul>
+<li><strong>多线程调优</strong>。有人说，thread is evil，这个对于系统性能在某些时候是个问题。因为多线程瓶颈就在于互斥和同步的锁上，以及线程上下文切换的成本，怎么样的少用锁或不用锁是根本（比如：<a title="多版本并发控制(MVCC)在分布式系统中的应用" href="https://coolshell.cn/articles/6790.html">多版本并发控制(MVCC)在分布式系统中的应用</a> 中说的乐观锁可以解决性能问题），此外，还有读写锁也可以解决大多数是读操作的并发的性能问题。这里多说一点在C++中，我们可能会使用线程安全的智能指针AutoPtr或是别的一些容器，只要是线程安全的，其不管三七二十一都要上锁，上锁是个成本很高的操作，使用AutoPtr会让我们的系统性能下降得很快，如果你可以保证不会有线程并发问题，那么你应该不要用AutoPtr。我记得我上次我们同事去掉智能指针的引用计数，让系统性能提升了50%以上。对于Java对象的引用计数，如果我猜的没错的话，到处都是锁，所以，Java的性能问题一直是个问题。另外，线程不是越多越好，线程间的调度和上下文切换也是很夸张的事，尽可能的在一个线程里干，尽可能的不要同步线程。这会让你有很多的性能。</li>
+</ul>
+<ul>
+<li><strong>内存分配</strong>。不要小看程序的内存分配。malloc/realloc/calloc这样的系统调非常耗时，尤其是当内存出现碎片的时候。我以前的公司出过这样一个问题——在用户的站点上，我们的程序有一天不响应了，用GDB跟进去一看，系统hang在了malloc操作上，20秒都没有返回，重启一些系统就好了。这就是内存碎片的问题。这就是为什么很多人抱怨STL有严重的内存碎片的问题，因为太多的小内存的分配释放了。有很多人会以为用内存池可以解决这个问题，但是实际上他们只是重新发明了Runtime-C或操作系统的内存管理机制，完全于事无补。当然解决内存碎片的问题还是通过内存池，具体来说是一系列不同尺寸的内存池（这个留给大家自己去思考）。当然，少进行动态内存分配是最好的。说到内存池就需要说一下池化技术。比如线程池，连接池等。池化技术对于一些短作业来说（如http服务） 相当相当的有效。这项技术可以减少链接建立，线程创建的开销，从而提高性能。</li>
+</ul>
+<ul>
+<li><strong>异步操作</strong>。我们知道Unix下的文件操作是有block和non-block的方式的，像有些系统调用也是block式的，如：Socket下的select，Windows下的WaitforObject之类的，如果我们的程序是同步操作，那么会非常影响性能，我们可以改成异步的，但是改成异步的方式会让你的程序变复杂。异步方式一般要通过队列，要注间队列的性能问题，另外，异步下的状态通知通常是个问题，比如消息事件通知方式，有callback方式，等，这些方式同样可能会影响你的性能。但是通常来说，异步操作会让性能的吞吐率有很大提升（Throughput），但是会牺牲系统的响应时间（latency）。这需要业务上支持。</li>
+</ul>
+<ul>
+<li><strong>语言和代码库</strong>。我们要熟悉语言以及所使用的函数库或类库的性能。比如：STL中的很多容器分配了内存后，那怕你删除元素，内存也不会回收，其会造成内存泄露的假像，并可能造成内存碎片问题。再如，STL某些容器的size()==0  和 empty()是不一样的，因为，size()是O(n)复杂度，empty()是O(1)的复杂度，这个要小心。Java中的JVM调优需要使用的这些参数：-Xms -Xmx -Xmn -XX:SurvivorRatio -XX:MaxTenuringThreshold，还需要注意JVM的GC，GC的霸气大家都知道，尤其是full GC（还整理内存碎片），他就像“恐龙特级克赛号”一样，他运行的时候，整个世界的时间都停止了。</li>
+</ul>
+<p><strong>4.3）网络调优</strong></p>
+<p>关于网络调优，尤其是TCP Tuning（你可以以这两个关键词在网上找到很多文章），这里面有很多很多东西可以说。看看Linux下TCP/IP的那么多参数就知道了（顺便说一下，你也许不喜欢Linux，但是你不能否认Linux给我们了很多可以进行内核调优的权力）。强烈建议大家看看《<a href="http://book.douban.com/subject/1088054/" target="_blank">TCP/IP 详解 卷1:协议</a>》这本书。我在这里只讲一些概念上的东西。</p>
+<p><strong>A） TCP调优</strong></p>
+<p>我们知道TCP链接是有很多开销的，一个是会占用文件描述符，另一个是会开缓存，一般来说一个系统可以支持的TCP链接数是有限的，我们需要清楚地认识到TCP链接对系统的开销是很大的。正是因为TCP是耗资源的，所以，很多攻击都是让你系统上出现大量的TCP链接，把你的系统资源耗尽。比如著名的SYNC Flood攻击。</p>
+<p>所以，我们要注意配置KeepAlive参数，这个参数的意思是定义一个时间，如果链接上没有数据传输，系统会在这个时间发一个包，如果没有收到回应，那么TCP就认为链接断了，然后就会把链接关闭，这样可以回收系统资源开销。（注：HTTP层上也有KeepAlive参数）对于像HTTP这样的短链接，设置一个1-2分钟的keepalive非常重要。这可以在一定程度上防止DoS攻击。有下面几个参数（下面这些参数的值仅供参考）：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">net.ipv4.tcp_keepalive_probes = 5
+net.ipv4.tcp_keepalive_intvl = 20
+net.ipv4.tcp_fin_timeout = 30</pre>
+<p>对于TCP的TIME_WAIT这个状态，主动关闭的一方进入TIME_WAIT状态，TIME_WAIT状态将持续2个MSL(Max Segment Lifetime)，默认为4分钟，TIME_WAIT状态下的资源不能回收。有大量的TIME_WAIT链接的情况一般是在HTTP服务器上。对此，有两个参数需要注意，</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">net.ipv4.tcp_tw_reuse=1
+net.ipv4.tcp_tw_recycle=1</pre>
+<p>前者表示重用TIME_WAIT，后者表示回收TIME_WAIT的资源。</p>
+<p>TCP还有一个重要的概念叫RWIN（TCP Receive Window Size），这个东西的意思是，我一个TCP链接在没有向Sender发出ack时可以接收到的最大的数据包。为什么这个很重要？因为如果Sender没有收到Receiver发过来ack，Sender就会停止发送数据并会等一段时间，如果超时，那么就会重传。这就是为什么TCP链接是可靠链接的原因。重传还不是最严重的，如果有丢包发生的话，TCP的带宽使用率会马上受到影响（会盲目减半），再丢包，再减半，然后如果不丢包了，就逐步恢复。相关参数如下：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">net.core.wmem_default = 8388608
+net.core.rmem_default = 8388608
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216</pre>
+<p>一般来说，理论上的RWIN应该设置成：吞吐量  * 回路时间。Sender端的buffer应该和RWIN有一样的大小，因为Sender端发送完数据后要等Receiver端确认，如果网络延时很大，buffer过小了，确认的次数就会多，于是性能就不高，对网络的利用率也就不高了。也就是说，对于延迟大的网络，我们需要大的buffer，这样可以少一点ack，多一些数据，对于响应快一点的网络，可以少一些buffer。因为，如果有丢包（没有收到ack），buffer过大可能会有问题，因为这会让TCP重传所有的数据，反而影响网络性能。（当然，网络差的情况下，就别玩什么高性能了） 所以，高性能的网络重要的是要让网络丢包率非常非常地小（基本上是用在LAN里），如果网络基本是可信的，这样用大一点的buffer会有更好的网络传输性能（来来回回太多太影响性能了）。</p>
+<p>另外，我们想一想，如果网络质量非常好，基本不丢包，而业务上我们不怕偶尔丢几个包，如果是这样的话，那么，我们为什么不用速度更快的UDP呢？你想过这个问题了吗？</p>
+<p><strong>B）UDP调优</strong></p>
+<p>说到UDP的调优，有一些事我想重点说一样，那就是MTU——最大传输单元（其实这对TCP也一样，因为这是链路层上的东西）。所谓最大传输单元，你可以想像成是公路上的公交车，假设一个公交车可以最多坐70人，带宽就像是公路的车道数一样，如果一条路上最多可以容下100辆公交车，那意味着我最多可以运送7000人，但是如果公交车坐不满，比如平均每辆车只有20人，那么我只运送了2000人，于是我公路资源（带宽资源）就被浪费了。 所以，我们对于一个UDP的包，我们要尽量地让他大到MTU的最大尺寸再往网络上传，这样可以最大化带宽利用率。对于这个MTU，以太网是1500字节，光纤是4352字节，802.11无线网是7981。但是，当我们用TCP/UDP发包的时候，我们的有效负载Payload要低于这个值，因为IP协议会加上20个字节，UDP会加上8个字节（TCP加的更多），所以，一般来说，你的一个UDP包的最大应该是1500-8-20=1472，这是你的数据的大小。当然，如果你用光纤的话， 这个值就可以更大一些。（顺便说一下，对于某些NB的千光以态网网卡来说，在网卡上，网卡硬件如果发现你的包的大小超过了MTU，其会帮你做fragment，到了目标端又会帮你做重组，这就不需要你在程序中处理了）</p>
+<p>再多说一下，使用Socket编程的时候，你可以使用setsockopt() 设置 SO_SNDBUF/SO_RCVBUF 的大小，TTL和KeepAlive这些关键的设置，当然，还有很多，具体你可以查看一下Socket的手册。</p>
+<p>最后说一点，UDP还有一个最大的好处是multi-cast多播，这个技术对于你需要在内网里通知多台结点时非常方便和高效。而且，多播这种技术对于机会的水平扩展（需要增加机器来侦听多播信息）也很有利。</p>
+<p><strong>C）网卡调优</strong></p>
+<p><strong></strong>对于网卡，我们也是可以调优的，这对于千兆以及网网卡非常必要，在Linux下，我们可以用ifconfig查看网上的统计信息，如果我们看到overrun上有数据，我们就可能需要调整一下txqueuelen的尺寸（一般默认为1000），我们可以调大一些，如：ifconfig eth0 txqueuelen 5000。Linux下还有一个命令叫：ethtool可以用于设置网卡的缓冲区大小。在Windows下，我们可以在网卡适配器中的高级选项卡中调整相关的参数（如：Receive Buffers, Transmit Buffer等，不同的网卡有不同的参数）。把Buffer调大对于需要大数据量的网络传输非常有效。</p>
+<p><strong>D）其它网络性能</strong></p>
+<p>关于多路复用技术，也就是用一个线程来管理所有的TCP链接，有三个系统调用要重点注意：一个是select，这个系统调用只支持上限1024个链接，第二个是poll，其可以突破1024的限制，但是select和poll本质上是使用的轮询机制，轮询机制在链接多的时候性能很差，因主是O(n)的算法，所以，epoll出现了，epoll是操作系统内核支持的，仅当在链接活跃时，操作系统才会callback，这是由操作系统通知触发的，但其只有Linux Kernel 2.6以后才支持（准确说是2.5.44中引入的），当然，如果所有的链接都是活跃的，过多的使用epoll_ctl可能会比轮询的方式还影响性能，不过影响的不大。</p>
+<p>另外，关于一些和DNS Lookup的系统调用要小心，比如：gethostbyaddr/gethostbyname，这个函数可能会相当的费时，因为其要到网络上去找域名，因为DNS的递归查询，会导致严重超时，而又不能通过设置什么参数来设置time out，对此你可以通过配置hosts文件来加快速度，或是自己在内存中管理对应表，在程序启动时查好，而不要在运行时每次都查。另外，在多线程下面，gethostbyname会一个更严重的问题，就是如果有一个线程的gethostbyname发生阻塞，其它线程都会在gethostbyname处发生阻塞，这个比较变态，要小心。（你可以试试GNU的gethostbyname_r()，这个的性能要好一些） 这种到网上找信息的东西很多，比如，如果你的Linux使用了NIS，或是NFS，某些用户或文件相关的系统调用就很慢，所以要小心。</p>
+<p><strong>4.4）系统调优</strong></p>
+<p><strong>A）I/O模型</strong></p>
+<p>前面说到过select/poll/epoll这三个系统调用，我们都知道，Unix/Linux下把所有的设备都当成文件来进行I/O，所以，那三个操作更应该算是I/O相关的系统调用。说到  I/O模型，这对于我们的I/O性能相当重要，我们知道，Unix/Linux经典的I/O方式是（关于Linux下的I/O模型，大家可以读一下这篇文章《<a href="http://www.ibm.com/developerworks/cn/linux/l-async/" target="_blank">使用异步I/O大大提高性能</a>》）：</p>
+<p>第一种，同步阻塞式I/O，这个不说了。</p>
+<p>第二种，同步无阻塞方式。其通过fctnl设置 O_NONBLOCK 来完成。</p>
+<p>第三种，对于select/poll/epoll这三个是I/O不阻塞，但是在事件上阻塞，算是：I/O异步，事件同步的调用。</p>
+<p>第四种，AIO方式。这种I/O 模型是一种处理与 I/O 并行的模型。I/O请求会立即返回，说明请求已经成功发起了。在后台完成I/O操作时，向应用程序发起通知，通知有两种方式：一种是产生一个信号，另一种是执行一个基于线程的回调函数来完成这次 I/O 处理过程。</p>
+<p>第四种因为没有任何的阻塞，无论是I/O上，还是事件通知上，所以，其可以让你充分地利用CPU，比起第二种同步无阻塞好处就是，第二种要你一遍一遍地去轮询。Nginx之所所以高效，是其使用了epoll和AIO的方式来进行I/O的。</p>
+<p>再说一下Windows下的I/O模型，</p>
+<p>a）一个是WriteFile系统调用，这个系统调用可以是同步阻塞的，也可以是同步无阻塞的，关于看文件是不是以Overlapped打开的。关于同步无阻塞，需要设置其最后一个参数Overlapped，微软叫Overlapped I/O，你需要WaitForSingleObject才能知道有没有写完成。这个系统调用的性能可想而知。</p>
+<p>b）另一个叫WriteFileEx的系统调用，其可以实现异步I/O，并可以让你传入一个callback函数，等I/O结束后回调之， 但是这个回调的过程Windows是把callback函数放到了APC（<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms681951(v=vs.85).aspx" target="_blank">Asynchronous Procedure Calls</a>）的队列中，然后，只用当应用程序当前线程成为可被通知状态（Alterable）时，才会被回调。只有当你的线程使用了这几个函数时<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms687036(v=vs.85).aspx">WaitForSingleObjectEx</a>, <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms687028(v=vs.85).aspx">WaitForMultipleObjectsEx</a>, <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms684245(v=vs.85).aspx">MsgWaitForMultipleObjectsEx</a>, <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms686293(v=vs.85).aspx">SignalObjectAndWait</a> 和 <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms686307(v=vs.85).aspx">SleepEx</a>，线程才会成为Alterable状态。可见，这个模型，还是有wait，所以性能也不高。</p>
+<p>c）然后是IOCP &#8211; IO Completion Port，IOCP会把I/O的结果放在一个队列中，但是，侦听这个队列的不是主线程，而是专门来干这个事的一个或多个线程去干（老的平台要你自己创建线程，新的平台是你可以创建一个线程池）。IOCP是一个线程池模型。这个和Linux下的AIO模型比较相似，但是实现方式和使用方式完全不一样。</p>
+<p>当然，真正提高I/O性能方式是把和外设的I/O的次数降到最低，最好没有，所以，对于读来说，内存cache通常可以从质上提升性能，因为内存比外设快太多了。对于写来说，cache住要写的数据，少写几次，但是cache带来的问题就是实时性的问题，也就是latency会变大，我们需要在写的次数上和相应上做权衡。</p>
+<p><strong>B）多核<strong>CPU</strong>调优</strong></p>
+<p>关于CPU的多核技术，我们知道，CPU0是很关键的，如果0号CPU被用得过狠的话，别的CPU性能也会下降，因为CPU0是有调整功能的，所以，我们不能任由操作系统负载均衡，因为我们自己更了解自己的程序，所以，我们可以手动地为其分配CPU核，而不会过多地占用CPU0，或是让我们关键进程和一堆别的进程挤在一起。</p>
+<ul>
+<li>对于Windows来说，我们可以通过“任务管理器”中的“进程”而中右键菜单中的“设置相关性……”（Set Affinity&#8230;）来设置并限制这个进程能被运行在哪些核上。</li>
+</ul>
+<ul>
+<li>对于Linux来说，可以使用taskset命令来设置（你可以通过安装schedutils来安装这个命令：apt-get install schedutils）</li>
+</ul>
+<p>多核CPU还有一个技术叫<a href="http://en.wikipedia.org/wiki/Non-Uniform_Memory_Access" target="_blank">NUMA</a>技术（Non-Uniform Memory Access）。传统的多核运算是使用SMP(Symmetric Multi-Processor )模式，多个处理器共享一个集中的存储器和I/O总线。于是就会出现一致存储器访问的问题，一致性通常意味着性能问题。NUMA模式下，处理器被划分成多个node， 每个node有自己的本地存储器空间。关于NUMA的一些技术细节，你可以查看一下这篇文章《<a href="http://www.ibm.com/developerworks/cn/linux/l-numa/index.html" target="_blank">Linux 的 NUMA 技术</a>》，在Linux下，对NUMA调优的命令是：<strong>numactl </strong>。如下面的命令：（指定命令“myprogram arg1 arg2”运行在node 0 上，其内存分配在node 0 和 1上）</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">numactl --cpubind=0 --membind=0,1 myprogram arg1 arg2</code></p>
+<p>当然，上面这个命令并不好，因为内存跨越了两个node，这非常不好。最好的方式是只让程序访问和自己运行一样的node，如：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">$ numactl --membind 1 --cpunodebind 1 --localalloc myapplication</code></p>
+<p><strong>C）文件系统调优</strong></p>
+<p>关于文件系统，因为文件系统也是有cache的，所以，为了让文件系统有最大的性能。首要的事情就是分配足够大的内存，这个非常关键，在Linux下可以使用free命令来查看 free/used/buffers/cached，理想来说，buffers和cached应该有40%左右。然后是一个快速的硬盘控制器，SCSI会好很多。最快的是Intel SSD 固态硬盘，速度超快，但是写次数有限。</p>
+<p>接下来，我们就可以调优文件系统配置了，对于Linux的Ext3/4来说，几乎在所有情况下都有所帮助的一个参数是关闭文件系统访问时间，在/etc/fstab下看看你的文件系统 有没有noatime参数（一般来说应该有），还有一个是dealloc，它可以让系统在最后时刻决定写入文件发生时使用哪个块，可优化这个写入程序。还要注间一下三种日志模式：data=journal、data=ordered和data=writeback。默认设置data=ordered提供性能和防护之间的最佳平衡。</p>
+<p>当然，对于这些来说，ext4的默认设置基本上是最佳优化了。</p>
+<p>这里介绍一个Linux下的查看I/O的命令—— iotop，可以让你看到各进程的磁盘读写的负载情况。</p>
+<p>其它还有一些关于NFS、XFS的调优，大家可以上google搜索一些相关优化的文章看看。关于各文件系统，大家可以看一下这篇文章——《<a href="http://www.ibm.com/developerworks/cn/linux/l-jfs/" target="_blank">Linux日志文件系统及性能分析</a>》</p>
+<p><strong>4.5）数据库调优</strong></p>
+<p>数据库调优并不是我的强项，我就仅用我非常有限的知识说上一些吧。注意，下面的这些东西并不一定正确，因为在不同的业务场景，不同的数据库设计下可能会得到完全相反的结论，所以，我仅在这里做一些一般性的说明，具体问题还要具体分析。</p>
+<p><strong>A）数据库引擎调优</strong></p>
+<p>我对数据库引擎不是熟，但是有几个事情我觉得是一定要去了解的。</p>
+<ul>
+<li><strong>数据库的锁的方式</strong>。这个非常非常地重要。并发情况下，锁是非常非常影响性能的。各种隔离级别，行锁，表锁，页锁，读写锁，事务锁，以及各种写优先还是读优先机制。性能最高的是不要锁，所以，分库分表，冗余数据，减少一致性事务处理，可以有效地提高性能。NoSQL就是牺牲了一致性和事务处理，并冗余数据，从而达到了分布式和高性能。</li>
+<li><strong>数据库的存储机制</strong>。不但要搞清楚各种类型字段是怎么存储的，更重要的是数据库的数据存储方式，是怎么分区的，是怎么管理的，比如Oracle的数据文件，表空间，段，等等。了解清楚这个机制可以减轻很多的I/O负载。比如：MySQL下使用<span style="font-size: xx-small;">show engines;</span>可以看到各种存储引擎的支持。不同的存储引擎有不同的侧重点，针对不同的业务或数据库设计会让你有不同的性能。</li>
+<li><strong>数据库的分布式策略</strong>。最简单的就是复制或镜像，需要了解分布式的一致性算法，或是主主同步，主从同步。通过了解这种技术的机理可以做到数据库级别的水平扩展。</li>
+</ul>
+<p><strong>B）SQL语句优化</strong></p>
+<p>关于SQL语句的优化，首先也是要使用工具，比如：<a href="http://www.mysql.com/products/enterprise/query.html" target="_blank">MySQL SQL Query Analyzer</a>，<a href="http://www.oracle-base.com/articles/11g/sql-performance-analyzer-11gr1.php" target="_blank">Oracle SQL Performance Analyzer</a>，或是微软<a href="http://msdn.microsoft.com/en-us/library/aa216945(v=sql.80).aspx" target="_blank">SQL Query Analyzer</a>，基本上来说，所有的RMDB都会有这样的工具，来让你查看你的应用中的SQL的性能问题。 还可以使用explain来看看SQL语句最终Execution Plan会是什么样的。</p>
+<p>还有一点很重要，数据库的各种操作需要大量的内存，所以服务器的内存要够，优其应对那些多表查询的SQL语句，那是相当的耗内存。</p>
+<p>下面我根据我有限的数据库SQL的知识说几个会有性能问题的SQL：</p>
+<ul>
+<li><strong>全表检索</strong>。比如：select * from user where lastname = &#8220;xxxx&#8221;，这样的SQL语句基本上是全表查找，线性复杂度O(n)，记录数越多，性能也越差（如：100条记录的查找要50ms，一百万条记录需要5分钟）。对于这种情况，我们可以有两种方法提高性能：一种方法是分表，把记录数降下来，另一种方法是建索引（为lastname建索引）。索引就像是key-value的数据结构一样，key就是where后面的字段，value就是物理行号，对索引的搜索复杂度是基本上是O(log(n)) ——用B-Tree实现索引（如：100条记录的查找要50ms，一百万条记录需要100ms）。</li>
+</ul>
+<ul>
+<li><strong>索引</strong>。对于索引字段，最好不要在字段上做计算、类型转换、函数、空值判断、字段连接操作，这些操作都会破坏索引原本的性能。当然，索引一般都出现在Where或是Order by字句中，所以对Where和Order by子句中的子段最好不要进行计算操作，或是加上什么NOT之类的，或是使用什么函数。</li>
+</ul>
+<ul>
+<li><strong>多表查询</strong>。关系型数据库最多的操作就是多表查询，多表查询主要有三个关键字，EXISTS，IN和JOIN（关于各种join，可以参看<a title="图解SQL的Join" href="https://coolshell.cn/articles/3463.html" target="_blank">图解SQL的Join</a>一文）。基本来说，现代的数据引擎对SQL语句优化得都挺好的，JOIN和IN/EXISTS在结果上有些不同，但性能基本上都差不多。有人说，EXISTS的性能要好于IN，IN的性能要好于JOIN，我各人觉得，这个还要看你的数据、schema和SQL语句的复杂度，对于一般的简单的情况来说，都差不多，所以千万不要使用过多的嵌套，千万不要让你的SQL太复杂，宁可使用几个简单的SQL也不要使用一个巨大无比的嵌套N级的SQL。还有人说，如果两个表的数据量差不多，Exists的性能可能会高于In，In可能会高于Join，如果这两个表一大一小，那么子查询中，Exists用大表，In则用小表。这个，我没有验证过，放在这里让大家讨论吧。另，有一篇关于SQL Server的文章大家可以看看《<a href="http://explainextended.com/2009/06/16/in-vs-join-vs-exists/" target="_blank">IN vs JOIN vs EXISTS</a>》</li>
+</ul>
+<ul>
+<li><strong>JOIN操作</strong>。有人说，Join表的顺序会影响性能，只要Join的结果集是一样，性能和join的次序无关。因为后台的数据库引擎会帮我们优化的。Join有三种实现算法，嵌套循环，排序归并，和Hash式的Join。（MySQL只支持第一种）</li>
+</ul>
+<ul style="padding-left: 60px;">
+<ul>
+<li>嵌套循环，就好像是我们常见的多重嵌套循环。注意，前面的索引说过，数据库的索引查找算法用的是B-Tree，这是O(log(n))的算法，所以，整个算法复法度应该是O(log(n)) * O(log(m)) 这样的。</li>
+<li>Hash式的Join，主要解决嵌套循环的O(log(n))的复杂，使用一个临时的hash表来标记。</li>
+<li>排序归并，意思是两个表按照查询字段排好序，然后再合并。当然，索引字段一般是排好序的。</li>
+</ul>
+</ul>
+<p style="padding-left: 60px;">还是那句话，具体要看什么样的数据，什么样的SQL语句，你才知道用哪种方法是最好的。</p>
+<ul>
+<li><strong>部分结果集。</strong>我们知道MySQL里的Limit关键字，Oracle里的rownum，SQL Server里的Top都是在限制前几条的返回结果。这给了我们数据库引擎很多可以调优的空间。一般来说，返回top n的记录数据需要我们使用order by，注意在这里我们需要为order by的字段建立索引。有了被建索引的order by后，会让我们的select语句的性能不会被记录数的所影响。使用这个技术，一般来说我们前台会以分页方式来显现数据，Mysql用的是OFFSET，SQL Server用的是FETCH NEXT，这种Fetch的方式其实并不好是线性复杂度，所以，如果我们能够知道order by字段的第二页的起始值，我们就可以在where语句里直接使用&gt;=的表达式来select，这种技术叫seek，而不是fetch，seek的性能比fetch要高很多。</li>
+</ul>
+<ul>
+<li><strong>字符串</strong>。正如我前面所说的，字符串操作对性能上有非常大的恶梦，所以，能用数据的情况就用数字，比如：时间，工号，等。</li>
+</ul>
+<ul>
+<li><strong>全文检索</strong>。千万不要用Like之类的东西来做全文检索，如果要玩全文检索，可以尝试使用<a href="http://sphinxsearch.com/" target="_blank">Sphinx</a>。</li>
+</ul>
+<ul>
+<li><strong>其它</strong>。
+<ul>
+<li>不要select *，而是明确指出各个字段，如果有多个表，一定要在字段名前加上表名，不要让引擎去算。</li>
+<li>不要用Having，因为其要遍历所有的记录。性能差得不能再差。</li>
+<li>尽可能地使用UNION ALL  取代  UNION。</li>
+<li>索引过多，insert和delete就会越慢。而update如果update多数索引，也会慢，但是如果只update一个，则只会影响一个索引表。</li>
+<li>等等。</li>
+</ul>
+</li>
+</ul>
+<p>关于SQL语句的优化，网上有很多文章， 不同的数据库引擎有不同的优化技巧，正如本站以前转发的《<a href="https://coolshell.cn/articles/1846.html" rel="bookmark">MySQL性能优化的最佳20+条经验</a>》</p>
+<p>先写这么多吧，欢迎大家指正补充。</p>
+<blockquote><p><strong>注：</strong>这篇文章的确是个大杂烩。其实其中的说到的很多技术在网上都有很多很多的技术文章，google一下就能找到一堆有很多细节的文章，所以我也就不写了。这篇性能调优的文章写作的动机是之前看到 <a href="http://weibo.com/n/%E6%B7%98%E5%AE%9D%E8%A4%9A%E9%9C%B8">@淘宝褚霸</a> 强推的<a href="http://highscalability.com/">highscalability.com</a>上的这篇文章：<a href="http://highscalability.com/blog/2012/5/16/big-list-of-20-common-bottlenecks.html" target="_blank">Big List Of 20 Common Bottlenecks</a>，觉得这篇文章泛泛而谈，觉得自己能写得比它好，所以就产生了动机。</p></blockquote>
+<p>（<span style="color: #cc0000;"><strong>转载时请注明作者和出处，请勿用于商业用途</strong></span>）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/10/HTTP-770x513-300x200-1-150x150.jpg" alt="HTTP的前世今生" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19840.html" class="wp_rp_title">HTTP的前世今生</a></li><li ><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/06/Alan-Cox-150x150.jpg" alt="Alan Cox：单向链表中prev指针的妙用" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9859.html" class="wp_rp_title">Alan Cox：单向链表中prev指针的妙用</a></li><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7490.html">性能调优攻略</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7490.html/feed</wfw:commentRss>
+			<slash:comments>171</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>10大经典错误</title>
+		<link>https://coolshell.cn/articles/5107.html</link>
+					<comments>https://coolshell.cn/articles/5107.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 08 Aug 2011 00:37:36 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[404]]></category>
+		<category><![CDATA[Error]]></category>
+		<category><![CDATA[IE]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Windows]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=5107</guid>
+
+					<description><![CDATA[<p>下面是10、11个经典的错误，升序排名。希望大家补充！ 10、DOS的Abort，Retry, Fail？错误 85年以后出生的人可能不知道DOS是什么了，只有...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/5107.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/5107.html">10大经典错误</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是10、11个经典的错误，升序排名。希望大家补充！</p>
+<h4>10、DOS的Abort，Retry, Fail？错误</h4>
+<p>85年以后出生的人可能不知道DOS是什么了，只有那老家伙还知道这是什么。我还记得当时的我对于Abort和Fail这两个选择还是比较清楚的，不过，今天完全忘记了Abort和Fail的差别是什么？这个出是DOS下的经常出现，也相当的经典，以至于在Wikepedia上都有专门的业面 <a href="http://en.wikipedia.org/wiki/Abort,_Retry,_Fail%3F" target="_blank">Abort, Retry, Fail?</a>。简称为ARF。当然，ARI &#8211; Abort, Retry, Ignore?</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-5108" title="Dos Abort Retry Fail" src="https://coolshell.cn/wp-content/uploads/2011/08/Dos_Abort_Retry_Fail.png" alt="" width="220" height="112" /></p>
+<h4>9、Windows Vista 的红屏错误</h4>
+<p><a href="http://en.wikipedia.org/wiki/Red_Screen_of_Death" target="_blank">红屏错误</a>（RSoD &#8211; Red Screen of Death）不单单只是Windows Vista引入的（也许是蓝屏太有名了，突然变成红屏，大家觉得这个是比蓝屏更NB的错，所以也就引人关注了），PlayStation的也喜欢使用红屏。</p>
+<figure id="attachment_5109" aria-describedby="caption-attachment-5109" style="width: 512px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5109  " title="Longhorn RSoD" src="https://coolshell.cn/wp-content/uploads/2011/08/Longhorn_RSoD.png" alt="" width="512" height="320" srcset="https://coolshell.cn/wp-content/uploads/2011/08/Longhorn_RSoD.png 640w, https://coolshell.cn/wp-content/uploads/2011/08/Longhorn_RSoD-300x187.png 300w" sizes="(max-width: 512px) 100vw, 512px" /><figcaption id="caption-attachment-5109" class="wp-caption-text">Windows Vista 的 RSoD</figcaption></figure>
+<p><span id="more-5107"></span></p>
+<figure id="attachment_5110" aria-describedby="caption-attachment-5110" style="width: 480px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5110" title="PSP的红屏" src="https://coolshell.cn/wp-content/uploads/2011/08/Rsodhc6.png" alt="" width="480" height="272" srcset="https://coolshell.cn/wp-content/uploads/2011/08/Rsodhc6.png 480w, https://coolshell.cn/wp-content/uploads/2011/08/Rsodhc6-300x170.png 300w" sizes="(max-width: 480px) 100vw, 480px" /><figcaption id="caption-attachment-5110" class="wp-caption-text">PSP的红屏</figcaption></figure>
+<h4>8、PC机的开机报警</h4>
+<p>攒过PC的朋友都知道如果你的内存条有问题，PC开机时会长鸣报警，一长一短则是显卡有问题，等等。你可以上Wikipedia上看看相关的词条——<a href="http://en.wikipedia.org/wiki/Power-on_self_test">Power On Self-Test Beep</a>。</p>
+<figure id="attachment_5111" aria-describedby="caption-attachment-5111" style="width: 400px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5111" title="AMI BIOS " src="https://coolshell.cn/wp-content/uploads/2011/08/POST_P5KPL.jpg" alt="" width="400" height="317" srcset="https://coolshell.cn/wp-content/uploads/2011/08/POST_P5KPL.jpg 400w, https://coolshell.cn/wp-content/uploads/2011/08/POST_P5KPL-300x237.jpg 300w" sizes="(max-width: 400px) 100vw, 400px" /><figcaption id="caption-attachment-5111" class="wp-caption-text">第一代的AMI BIOS</figcaption></figure>
+<h4>7、Twitter的大鲸鱼</h4>
+<p>Twitter的服务器负载一吃紧，下面的这个页面就会显现出来了，大家把它叫做<strong>Fail Whale </strong>，这个情况在今年4月份以前的2到3年是非常频繁发生的，现在看似好很多了，看来Twitter工程师们克服了这个负载问题。你千万不要以为这个图是Twitter自己设计的，这个图是一个叫<a href="http://www.google.com/search?q=yiying+lu&amp;ie=utf-8&amp;oe=utf-8&amp;aq=t&amp;rls=FlockInc.:en-US:unofficial&amp;client=firefox">Yiying Lu</a>的人设计的。不过由Twitter引发出来的文化影响力是比较深远的，甚至还出现了相要把这个事发扬光大的Fail Whale project (<a href="http://www.twitter.com/failwhale">@FailWhale</a>, <a href="http://www.failwhale.com/">failwhale.com</a>)以及相关的T恤衫。你可以看看<a href="http://www.readwriteweb.com/archives/the_story_of_the_fail_whale.php" target="_blank">这篇文章</a>。</p>
+<figure id="attachment_5112" aria-describedby="caption-attachment-5112" style="width: 511px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5112 " title="Twitter Fail Whale" src="https://coolshell.cn/wp-content/uploads/2011/08/FailWhale.png" alt="" width="511" height="375" srcset="https://coolshell.cn/wp-content/uploads/2011/08/FailWhale.png 639w, https://coolshell.cn/wp-content/uploads/2011/08/FailWhale-300x220.png 300w" sizes="(max-width: 511px) 100vw, 511px" /><figcaption id="caption-attachment-5112" class="wp-caption-text">Twitter Fail Whale</figcaption></figure>
+<h4>6、Kernel Panic</h4>
+<p>Kernel Panic相关于Windows 的蓝屏错误，其发生在Mac OS X和Linux下，在Mac OS X v10.6 <em>Snow Leopard</em>中，当进入内核错误后，会在画面上出现一个有英语、法语、德语、西班牙语及日语的当机画面，被多数用户称为“五国语言当机”，简称“五国”。在Linux上则是Linux Kernel oops。当内核检测到问题时，它会打印一个oops信息然后杀死全部相关进程。oops信息可以帮助Linux内核工程师调试，检测oops出现的条件，并修复导致oops的程序错误。</p>
+<figure id="attachment_5113" aria-describedby="caption-attachment-5113" style="width: 460px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5113" title="Mac OS X 10.6的内核错误警告，俗称“五国”" src="https://coolshell.cn/wp-content/uploads/2011/08/Panic10.6.png" alt="" width="460" height="285" srcset="https://coolshell.cn/wp-content/uploads/2011/08/Panic10.6.png 460w, https://coolshell.cn/wp-content/uploads/2011/08/Panic10.6-300x185.png 300w" sizes="(max-width: 460px) 100vw, 460px" /><figcaption id="caption-attachment-5113" class="wp-caption-text">Mac OS X 10.6的内核错误警告，俗称“五国”</figcaption></figure>
+<figure id="attachment_5114" aria-describedby="caption-attachment-5114" style="width: 480px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5114 " title="Linux-2.6-oops-parisc" src="https://coolshell.cn/wp-content/uploads/2011/08/Linux-2.6-oops-parisc.jpg" alt="" width="480" height="480" srcset="https://coolshell.cn/wp-content/uploads/2011/08/Linux-2.6-oops-parisc.jpg 600w, https://coolshell.cn/wp-content/uploads/2011/08/Linux-2.6-oops-parisc-150x150.jpg 150w, https://coolshell.cn/wp-content/uploads/2011/08/Linux-2.6-oops-parisc-300x300.jpg 300w" sizes="(max-width: 480px) 100vw, 480px" /><figcaption id="caption-attachment-5114" class="wp-caption-text">PA-RISC上发生的Linux内核oops，用ASCII显示一头死牛</figcaption></figure>
+<h4>5、Windows的非法操作</h4>
+<p>这个错误信息主要是操作系统用来保护自己的错误，也就是Windows下的程序crash。通常来说，是内存访问错误引发的。不过，这个东西在windows下太多了，这是Win95和Win98中的大量的问题，包括微软自己的软件也经常出现这个问题，最为典型的就是IE6的crash。让IE6 出现这样的错误真是太简单了，参看<a title="一个jQuery的插件" href="https://coolshell.cn/articles/2357.html" target="_blank">酷壳的这篇文章</a>。</p>
+<figure id="attachment_5115" aria-describedby="caption-attachment-5115" style="width: 398px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5115" title="该程序执行了非法操作" src="https://coolshell.cn/wp-content/uploads/2011/08/gag_screenshot.gif" alt="" width="398" height="135" srcset="https://coolshell.cn/wp-content/uploads/2011/08/gag_screenshot.gif 398w, https://coolshell.cn/wp-content/uploads/2011/08/gag_screenshot-300x101.gif 300w" sizes="(max-width: 398px) 100vw, 398px" /><figcaption id="caption-attachment-5115" class="wp-caption-text">该程序执行了非法操作</figcaption></figure>
+<h4>4、Windows RPC Error</h4>
+<p>这个错误之所以很牛，是因为在2003年的8月份，很多使用Windows的用户都看到了这个错误，其系统被强行重启，重启了以后又收到这个错误，然后又被重启。这个事看上去就像一个正常的Windows的错误（相当正常，因为这样的红叉叉在Windows上看到了N多次了，用户都习惯了），但其实，这个事是有人故意的，这就是那个著名的<a href="http://en.wikipedia.org/wiki/Blaster_(computer_worm)">Blaster worm</a>蠕虫病毒，其利用了Windows DCOM的一个漏洞。</p>
+<figure id="attachment_5116" aria-describedby="caption-attachment-5116" style="width: 282px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5116" title="Windows RPC Error" src="https://coolshell.cn/wp-content/uploads/2011/08/Windows-RPC-Error.jpg" alt="" width="282" height="258" /><figcaption id="caption-attachment-5116" class="wp-caption-text">Windows RPC Error</figcaption></figure>
+<h4>3、Xbox 360 三红错误</h4>
+<p>这个错误又叫RRoD &#8211; Red Ring of Death，在中国地区叫“三红”。微软在推出的游戏主机Xbox360后，众多用户曾向微软方面投诉游戏主机经常出现不同程度的故障，而且概率偏高，有调查显示，早期版本Xbox360返修率高达68% ，而最近的报告指出故障机率还是有33%。过热是游戏配件产品制造商Nyko认为Xbox360主机发生三红灯警告的主要原因，也有人指出因为Xbox 360机能不足所以长期开机超频引致过热。<a href="http://www.bloomberg.com/apps/news?pid=newsarchive&amp;sid=aOrvYZ2gPwZk&amp;refer=home" target="_blank">有报告指出</a>微软花费了超过11.5亿美元在回收及修理出现问题的XBOX 360。</p>
+<figure id="attachment_5118" aria-describedby="caption-attachment-5118" style="width: 455px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5118" title="XBox 360 Red Ring of Death" src="https://coolshell.cn/wp-content/uploads/2011/08/XBox-Red-Ring-of-Death.jpg" alt="" width="455" height="341" srcset="https://coolshell.cn/wp-content/uploads/2011/08/XBox-Red-Ring-of-Death.jpg 455w, https://coolshell.cn/wp-content/uploads/2011/08/XBox-Red-Ring-of-Death-300x224.jpg 300w" sizes="(max-width: 455px) 100vw, 455px" /><figcaption id="caption-attachment-5118" class="wp-caption-text">XBox 360 Red Ring of Death</figcaption></figure>
+<h4 style="text-align: left;">2、Web上的404错误</h4>
+<p style="text-align: left;">HTTP 404或Not Found错误讯息是HTTP的其中一种“标准回应讯息”（HTTP状态码），此讯息代表客户端在浏览网页时，服务器无法打到用户要请求的资源，所以报错。404是一个你无法避免的错误，因为可能是因为用户或你的开发人员编码里打错连接。所以，很多公司借用这个机会来美化404页面，本站以前也介绍过（如：<a title="StackOverflow的404错误页" href="https://coolshell.cn/articles/2529.html" target="_blank">StackOverflow的404</a>，<a title="几个有趣的404错误页面" href="https://coolshell.cn/articles/1826.html" target="_blank">各式各样的404错</a>），这里还有一个404的一首诗：</p>
+<blockquote>
+<p style="text-align: left;">four oh four<br />
+by mind21_98</p>
+<p>oh what a wonderful tizzy<br />
+which was in a fizzy<br />
+he couldn&#8217;t find the file<br />
+which was hiding in the bushes</p>
+<p>push the back button oh traveller<br />
+contact the owner of the last tavern<br />
+find out how to get to where you&#8217;re going<br />
+and be on your way</p></blockquote>
+<h4 style="text-align: left;">1、Windows 蓝屏错误</h4>
+<p style="text-align: left;"><a href="http://en.wikipedia.org/wiki/Blue_Screen_of_Death" target="_blank">Blue Screen of Death</a>，缩写为：<strong>BSoD</strong>。这是这个世界最著名的错误了，和Kernel Panic 一样，基本上就是说，内核死翘翘了。在各种场合上我们都能看到这个错误。</p>
+<figure id="attachment_5119" aria-describedby="caption-attachment-5119" style="width: 535px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5119" title="北京2008奥林匹克" src="https://coolshell.cn/wp-content/uploads/2011/08/bjolympics.png" alt="" width="535" height="368" srcset="https://coolshell.cn/wp-content/uploads/2011/08/bjolympics.png 535w, https://coolshell.cn/wp-content/uploads/2011/08/bjolympics-300x206.png 300w" sizes="(max-width: 535px) 100vw, 535px" /><figcaption id="caption-attachment-5119" class="wp-caption-text">北京2008奥林匹克</figcaption></figure>
+<figure id="attachment_5120" aria-describedby="caption-attachment-5120" style="width: 535px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5120" title="飞机场航班显示" src="https://coolshell.cn/wp-content/uploads/2011/08/bsodairport.png" alt="" width="535" height="400" srcset="https://coolshell.cn/wp-content/uploads/2011/08/bsodairport.png 535w, https://coolshell.cn/wp-content/uploads/2011/08/bsodairport-300x224.png 300w" sizes="(max-width: 535px) 100vw, 535px" /><figcaption id="caption-attachment-5120" class="wp-caption-text">飞机场航班显示</figcaption></figure>
+<figure id="attachment_5121" aria-describedby="caption-attachment-5121" style="width: 535px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5121" title="商场显示屏" src="https://coolshell.cn/wp-content/uploads/2011/08/bsodbay.png" alt="" width="535" height="359" srcset="https://coolshell.cn/wp-content/uploads/2011/08/bsodbay.png 535w, https://coolshell.cn/wp-content/uploads/2011/08/bsodbay-300x201.png 300w" sizes="(max-width: 535px) 100vw, 535px" /><figcaption id="caption-attachment-5121" class="wp-caption-text">商场显示屏</figcaption></figure>
+<p>Bill Gates在Win98发布会上的蓝屏遭遇：</p>
+<p><center><embed src="http://www.tudou.com/v/eISuBfkMxlo/v.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" wmode="opaque" width="480" height="400"></embed></center></p>
+<p>&nbsp;</p>
+<p>本来文章到这里就可以结束了，上文参考自这里<a href="http://technologizer.com/2008/09/18/errormessage" target="_blank">The 13 Greatest Error Message of All Time</a>。不过，我觉得还有一个错误必然会载入史册。这就是下面的“该页无法显示错误”</p>
+<h4>0、该页无法显示错误</h4>
+<p>这个错误对于中国用户不会陌生。这个错误以前更多的是Connection Reset，N年前你访问很多国外的网站者会遇到Connection Reset错，今天呢，更多的是“Time Out”，因为，关键词匹配太耗性能了，图片和视频的无法使用关键词过滤，所以，还不如直接封了IP，简单而粗暴，今天的Connection Reset更多的是出现在使用Google的搜索，当你搜某些关键词时就出这个错了。</p>
+<figure id="attachment_5122" aria-describedby="caption-attachment-5122" style="width: 593px" class="wp-caption aligncenter"><img decoding="async" loading="lazy" class="size-full wp-image-5122" title="该页无法显示 Connection Reset" src="https://coolshell.cn/wp-content/uploads/2011/08/connection-reset.png" alt="" width="593" height="365" srcset="https://coolshell.cn/wp-content/uploads/2011/08/connection-reset.png 593w, https://coolshell.cn/wp-content/uploads/2011/08/connection-reset-300x184.png 300w" sizes="(max-width: 593px) 100vw, 593px" /><figcaption id="caption-attachment-5122" class="wp-caption-text">该页无法显示 Connection Reset</figcaption></figure>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li><li ><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/09/biolab-150x150.jpg" alt="一些非常有意思的杂项资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3013.html" class="wp_rp_title">一些非常有意思的杂项资源</a></li><li ><a href="https://coolshell.cn/articles/1998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/operatingsystems-fanboys-150x150.jpg" alt="粉丝眼中的操作系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1998.html" class="wp_rp_title">粉丝眼中的操作系统</a></li><li ><a href="https://coolshell.cn/articles/1579.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/operating-systems-150x150.jpg" alt="一张关于操作系统的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1579.html" class="wp_rp_title">一张关于操作系统的图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/5107.html">10大经典错误</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/5107.html/feed</wfw:commentRss>
+			<slash:comments>47</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>如何学好C语言</title>
+		<link>https://coolshell.cn/articles/4102.html</link>
+					<comments>https://coolshell.cn/articles/4102.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 29 Mar 2011 02:25:20 +0000</pubDate>
+				<category><![CDATA[C/C++语言]]></category>
+		<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Windows]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[编程语言]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[Java]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Programmer]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[程序员]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4102</guid>
+
+					<description><![CDATA[<p>有人在酷壳的留言版上询问下面的问题 keep_walker : 今天晚上我看到这篇文章。 http://programmers.stackexchange.co...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4102.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4102.html">如何学好C语言</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>有人在酷壳的留言版上询问下面的问题</p>
+<blockquote cite="https://coolshell.cn/guestbook#commentbody-40269"><p><a href="https://coolshell.cn/guestbook#comment-40269">keep_walker</a> <strong>:</strong><br />
+今天晚上我看到这篇文章。<br />
+<a onclick="pageTracker._trackPageview('/outgoing/programmers.stackexchange.com/questions/62502/small-c-projects?referer=http%3A%2F%2Fcoolshell.cn%2F');" rel="nofollow" href="http://programmers.stackexchange.com/questions/62502/small-c-projects">http://programmers.stackexchange.com/questions/62502/small-c-projects</a></p>
+<p>我也遇到了和提问的老外一样的问题。。能给像遇到这样烦恼的程序员一点建议嘛？谢谢！</p></blockquote>
+<p>我相信，这可能是很多朋友的问题，我以前也有这样的感觉，编程编到一定的时候，发现能力到了瓶颈，既不深，也不扎实，半吊子。比如：你长期地使用Java和.NET ，这些有虚拟机的语言对于开发便利是便利，但是对于程序员来说可能并不太好，原因有两个：</p>
+<ol>
+<li>虚拟机屏蔽了操作系统的系统调用，以及很多底层机制。</li>
+<li>大量的封装好的类库也屏蔽了很多实现细节。</li>
+</ol>
+<p>一段时间后，你会发现你知其然，不知所以然。。我以前在CSDN上写过一篇《<strong>Java NIO类库Selector机制解析（<a href="http://blog.csdn.net/haoel/archive/2008/03/27/2224055.aspx" target="_blank">上</a>，<a href="http://blog.csdn.net/haoel/archive/2008/03/27/2224069.aspx" target="_blank">下</a>，<a href="http://blog.csdn.net/haoel/archive/2008/05/04/2379586.aspx" target="_blank">续</a>）</strong>》，在那篇文章中我说提到过（有讥讽的语气）Java的程序员不懂底层实现，所以很难把技术学得更扎实。此时，一部分程序员会不自然地想学学底层的技术，很自然的，C语言就被提了上来。</p>
+<p>下面是我给这位朋友的一些建议：</p>
+<p><span id="more-4102"></span></p>
+<ul>
+<li><strong>鼓励并为你叫好</strong>。我鼓励你想要去学C语言的想法和精神，很多人都觉得C语言好学，其实并不然。（你可以看看《<a rel="nofollow" href="https://coolshell.cn/articles/945.html" target="_blank">C语言的迷题</a>》）现在的这个社会更多地去关注那些时髦的技术，而忽略了这个流行了40+年的C语言。<strong>一门技术如果能够流行40多年，这才是你需要去关注和学习的技术</strong>，而不是那些刚出来的技术（<a title="那些炒作过度的技术和概念" href="https://coolshell.cn/articles/3609.html" target="_blank">过度炒作的技术</a>，<a title="Windows编程革命简史" href="https://coolshell.cn/articles/3008.html" target="_blank">Windows编程史</a>）。这才是踏踏实实的精神。</li>
+</ul>
+<ul>
+<li><strong>不要找借口</strong>。这一条路走下来并不容易，不要给自己找借口。我最不喜欢听到的就是“<strong>很忙，没有时间</strong>”这样的借口。我以前在银行做项目，早9点到晚10点，周一到周六，我一样可以每天抽1个小时来看书和专研，一年下来也能精读5、6本书。我现在的工作项目和招聘任务很紧张，刚生的小孩只有自己和老婆两人带，还需要准备讲课，但是我还是能够找到时间看文章写文章维护酷壳。所以，我可以告诉你，“<strong>时间就像乳沟，只要你肯挤，就一定会有</strong>”。</li>
+</ul>
+<ul>
+<li><strong>学好C语言和系统编程</strong>。我认为，学好编程有四个方面：<strong>语言、算法和数据结构、系统调用和设计</strong>。
+<ul>
+<li><strong>语言</strong>。我可以告诉你C语言有两大主题你要好好学，一个是内存管理，一个是指针！这个世界上90%以上的C/C++出的严重性错误全是和这两个有关。不要看谭浩强的那本书，那本是本烂书。推荐这本书给你《<a href="http://product.china-pub.com/14975&amp;ref=browse" target="_blank">C程序设计语言（第2版·新版）</a><span style="font-size: 13px; line-height: 19px;">》</span></li>
+<li><span style="font-size: 13px; line-height: 19px;"><strong>算法和数据结构</strong>。我认为，用C语言实现算法和数据结构莫过于最爽的事情。推荐你看这本书——<a href="http://product.china-pub.com/192975&amp;ref=browse" target="_blank">算法:C语言实现(第1～4部分)基础知识、数据结构、排序及搜索(原书第3版)</a>，还有那本经典的《<a href="http://product.china-pub.com/31701" target="_blank">算法导论</a>》</span></li>
+<li><span style="font-size: 13px; line-height: 19px;"><a href="http://product.china-pub.com/192975&amp;ref=browse" target="_blank"></a><strong>系统编程</strong>。Windows下推荐两本书——《<a href="http://product.china-pub.com/52880" target="_blank">Windows 程序设计 </a>》和《<a href="http://product.china-pub.com/209058" target="_blank">Windows核心编程</a>》，Unix/Linux下推荐两本书——《<a href="http://product.china-pub.com/30181" target="_blank">Unix高级环境编程</a>》和《<a href="http://product.china-pub.com/196770" target="_blank">Unix网络编程卷1，套接字</a>》《<a href="http://product.china-pub.com/196859" target="_blank">Unix网络编程卷2，进程间通信</a>》尤其是《Unix网络编程》这本书，一通百通，无论Windows还是Unix/Linux，都是一样的。</span></li>
+<li><strong>系统设计</strong>。关于设计方面，我全力推荐《<a href="http://product.china-pub.com/197413" target="_blank">Unix编程艺术</a>》，看完以后，你就明白什么是真正的编程文化了。然后，当你看到Windows的Fans的某些言论时，你就知道什么叫一笑了之了。</li>
+</ul>
+</li>
+</ul>
+<p>如果你能在2-3年内精读完这些书，并全部融会贯通，那么你就明白什么是一览众山小的感觉了！我足足花了5年时间才算是真正全部读完这些书的。最后，祝你好运！努力！</p>
+<p><em><strong>&#8212;&#8212;-更新：2011/03/29 20:00&#8212;&#8212;-</strong></em></p>
+<p>我想，这篇文章主要想告诉大家这么几件事：</p>
+<ul>
+<li>编程编到一定时候，你就需要了解底层系统的机制，否则，知其然不知所以然。</li>
+<li>我没有否定非C的程序员的逻辑，真正的逻辑是——如果你想要了解底层机制，请学习C语言和操作系统。</li>
+<li>40多年的Unix/C影响深远。包括影响了Windows。如果你想一通百通，一定要了解Unix。那是计算机文化真正的根。</li>
+<li>不要肤浅地去思考问题。比如，不要以为一个DBA就不会考虑数据库引擎的内存页面的问题。也不要以为Web程序员就不需要了解后台的服务器和脚本的运行性能以及TCP/IP的问题。</li>
+</ul>
+<p><strong>高手往往都是有很强的系统的基础知识的，表面的东西永远是肤浅的。</strong><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="对技术的态度" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8088.html" class="wp_rp_title">对技术的态度</a></li><li ><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/07/programmer-150x150.png" alt="程序员技术练级攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4990.html" class="wp_rp_title">程序员技术练级攻略</a></li><li ><a href="https://coolshell.cn/articles/4758.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/30.jpg" alt="如何写出无法维护的代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4758.html" class="wp_rp_title">如何写出无法维护的代码</a></li><li ><a href="https://coolshell.cn/articles/1992.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/language-fanboys-150x150.jpg" alt="程序员眼中的编程语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1992.html" class="wp_rp_title">程序员眼中的编程语言</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4102.html">如何学好C语言</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4102.html/feed</wfw:commentRss>
+			<slash:comments>267</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>纯文本配置还是注册表</title>
+		<link>https://coolshell.cn/articles/4077.html</link>
+					<comments>https://coolshell.cn/articles/4077.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 28 Mar 2011 00:42:10 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[Windows]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[InI]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Register]]></category>
+		<category><![CDATA[Unix]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=4077</guid>
+
+					<description><![CDATA[<p>我们知道Unix/Linux下的程序配置文件从来都是纯文本的，你可以自由地修改和查看，他们也没有什么什么XML之类的玩意（参看XML的这两篇文章：一，二），这个...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/4077.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/4077.html">纯文本配置还是注册表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我们知道Unix/Linux下的程序配置文件从来都是纯文本的，你可以自由地修改和查看，他们也没有什么什么XML之类的玩意（参看XML的这两篇文章：<a title="信XML，得永生！" href="https://coolshell.cn/articles/2504.html" target="_blank">一</a>，<a title="信XML，得自信" href="https://coolshell.cn/articles/3498.html" target="_blank">二</a>），这个最重要的Unix文化（参看<a title="Unix传奇(下篇)" href="https://coolshell.cn/articles/2324.html" target="_blank">Unix传奇下篇</a>）40多年来就这么沿续下来了。我很佩服Microsoft的创新能力，一会儿用INI，一会儿用注册表，一会又是用XML，这就是<a title="Windows编程革命简史" href="https://coolshell.cn/articles/3008.html" target="_blank">Windows的编程中那“强大”的创新</a>。在网上又看到有人在争论为什么用注册表而不是纯文本，所以，写下这篇文章。</p>
+<h4>引入注册表所谓的原因</h4>
+<p>首先，让我们来看一下为什么微软觉得要使用注册表而不是ini文件，下面是一些其列出来的ini方面的毛病：</p>
+<ul>
+<li>ini文件不支持Unicode</li>
+<li>ini文件的安全权限不够</li>
+<li>ini文件在多进程下存取会有问题</li>
+<li>如果一个进程锁上了这个文件，另一个进程就无法获得，只能出错。</li>
+<li>ini文件只能包含字符串，无法使用二进制</li>
+<li>解析ini文件相对来说性能比较慢，第一次读写都需要把整个文件读入内存，然后再写回去。</li>
+<li>ini文件最大只有32K</li>
+<li>ini文件的默认目录在Windows系统目录下，只能这个目录只能Windows管理员才能访问</li>
+<li>ini只能包含了两层，对于多层不支持。</li>
+<li>把ini文件放在中央服务器上管理很困难。</li>
+</ul>
+<p>而微软说，注册表可以完美地解决这些问题。居然微软只说到了ini文件，但我觉得不单单是ini，所有的以纯文本方式保存配置文件的方法都会出现上述这样的问题。</p>
+<h4>我的观点</h4>
+<p>那么，当你在看到这些言论时，你是怎么想的？你有没有经过自己的独立思考？还是你觉得注册表完美地解决了所有的一切？下面是我的一些观点：</p>
+<p><span id="more-4077"></span></p>
+<ul>
+<li><span style="color: #800000;">首先，我们要知道没有任何一件事是完美的，凡事必然有好的一面，也有不好的一面。</span></li>
+<li><span style="color: #800000;">其次，当我们在改进一个东西时，不单单要解决其不好的东西，还要把其好的东西给传承下来。</span></li>
+</ul>
+<p>所以，当你看到一些只说好或是只说坏的东西时，这往往意味着“宗教”或“洗脑”，这正是需要你独立思考的时候。</p>
+<h4>纯文本配置文件的好处</h4>
+<p>下面，是我觉得纯文本配置文件的好处（我用Unix下的纯文本配置文件来举例）：</p>
+<ul>
+<li>很容易进行版本管理（配置文件和程序代码一样都需要版本控制）</li>
+<li>很容易移植到别的平台</li>
+<li>很容易自定义文本文件的格式和语法，已也有相关的库支持（ini只支持ANSI字符，只有32K，只支持两级，那是ini的问题，解决这些问题不需要引入注册表）</li>
+<li>可以在配置文本中写注释信息</li>
+<li>你要很容易的使用grep，awk，sed等等以及来和脚本集成。</li>
+<li>你可以很容易地拆分配置文件把其放到conf.d中，这样一来，你就非常灵活
+<ul>
+<li>你就不用整个文件都读入内存，</li>
+<li>你也可以分别设置上不同的存取权限，</li>
+<li>同样可以减小多个进程同时存取的问题</li>
+<li>同样可以引用别的二进制配置的文件</li>
+</ul>
+</li>
+<li>你可以很容易地产生备份或是在不同的配置中来回地切换配置文件以进行调试。</li>
+<li>你可以很容易地使用rsync来向中央服务器同步你的配置文件。或者使用NFS/NIS直接就把配置放在中央服务器上。</li>
+</ul>
+<h4>真正的原因</h4>
+<p>可见，Windows 的注册表并没有把纯文本配置文件的这些好处都带过来，所以，经过这样的独立思考，我们可以知道，微软引入注册表的真正原因是——</p>
+<ul>
+<li>让你的程序不具移植性，让你的软件永远运行在Windows上。</li>
+<li>增加你编程的复杂度和你维护配置文件的复杂度，让你在痛苦之后，苦苦哀求微软再发布下一个“创新”。</li>
+</ul>
+<p>各位程序员——Windows是很危险的，你们还是回火星去吧。</p>
+<p>（<strong>全文完，转载时请注明作者和出处</strong>）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/1272.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/08/linux_airline-150x150.jpg" alt="操作系统航空公司" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1272.html" class="wp_rp_title">操作系统航空公司</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/4077.html">纯文本配置还是注册表</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/4077.html/feed</wfw:commentRss>
+			<slash:comments>62</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>两本电子书</title>
+		<link>https://coolshell.cn/articles/3270.html</link>
+					<comments>https://coolshell.cn/articles/3270.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 08 Nov 2010 03:47:09 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[book]]></category>
+		<category><![CDATA[ebook]]></category>
+		<category><![CDATA[Python]]></category>
+		<category><![CDATA[Windows]]></category>
+		<category><![CDATA[Windows Phone 7]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3270</guid>
+
+					<description><![CDATA[<p>Learn Python The Hard Way (pdf) Programming Windows Phone 7 (Charles Petzold) （转...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3270.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3270.html">两本电子书</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://learnpythonthehardway.org/static/LearnPythonTheHardWay.pdf" target="_blank"><strong>Learn Python The Hard Way (pdf)</strong></a></p>
+<p style="text-align: center;"><strong> </strong></p>
+<figure id="attachment_3272" aria-describedby="caption-attachment-3272" style="width: 245px" class="wp-caption aligncenter"><a href="http://learnpythonthehardway.org/static/LearnPythonTheHardWay.pdf"><img decoding="async" loading="lazy" class="size-full wp-image-3272" title="Learn Python The Hard Way" src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way.jpg" alt="" width="245" height="320" srcset="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way.jpg 245w, https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-230x300.jpg 230w, https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-207x270.jpg 207w" sizes="(max-width: 245px) 100vw, 245px" /></a><figcaption id="caption-attachment-3272" class="wp-caption-text">Learn Python The Hard Way</figcaption></figure>
+<p><a href="http://download.microsoft.com/download/5/0/A/50A39509-D015-410F-A8F2-A5511E5A988D/Microsoft_Press_ebook_Programming_Windows_Phone_7_PDF.pdf" target="_blank"><strong>Programming Windows Phone 7 (Charles Petzold)</strong></a></p>
+<p><figure id="attachment_3271" aria-describedby="caption-attachment-3271" style="width: 245px" class="wp-caption aligncenter"><a href="http://download.microsoft.com/download/5/0/A/50A39509-D015-410F-A8F2-A5511E5A988D/Microsoft_Press_ebook_Programming_Windows_Phone_7_PDF.pdf"><img decoding="async" loading="lazy" class="size-full wp-image-3271" title="Programming Windows Phone 7 by Charles Petzold" src="https://coolshell.cn/wp-content/uploads/2010/11/Free-Ebook-Programming-Windows-Phone-7-by-Charles-Petzold.jpg" alt="" width="245" height="299" /></a><figcaption id="caption-attachment-3271" class="wp-caption-text">Programming Windows Phone 7 by Charles Petzold</figcaption></figure><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="Python 和 PyGame 的一些示例" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4710.html" class="wp_rp_title">Python 和 PyGame 的一些示例</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/Intel-Recommended-Books-for-Developers-150x150.jpg" alt="一些非常不错的资料" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3192.html" class="wp_rp_title">一些非常不错的资料</a></li><li ><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/22.jpg" alt="免费电子书列表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2775.html" class="wp_rp_title">免费电子书列表</a></li><li ><a href="https://coolshell.cn/articles/1157.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="Python 自然语言处理" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1157.html" class="wp_rp_title">Python 自然语言处理</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3270.html">两本电子书</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3270.html/feed</wfw:commentRss>
+			<slash:comments>10</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Windows的达尔文进化图</title>
+		<link>https://coolshell.cn/articles/3097.html</link>
+					<comments>https://coolshell.cn/articles/3097.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 11 Oct 2010 00:56:40 +0000</pubDate>
+				<category><![CDATA[Windows]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[UI]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3097</guid>
+
+					<description><![CDATA[<p>之前发布过《操作系统图形界面发展史(1981-2009)》，今天在网上看到一张自于Testking.com的关于Windows的进化图，其从1985年的wind...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3097.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3097.html">Windows的达尔文进化图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>之前发布过《<a rel="bookmark" href="https://coolshell.cn/articles/105.html" target="_blank">操作系统图形界面发展史(1981-2009)</a>》，今天在网上看到一张自于<a href="http://testking.com/">Testking.com</a>的关于Windows的进化图，其从1985年的windows 1.0到2009年的windows 7的。挺有意思的。点击可以看大图。</p>
+<p style="text-align: center;"><a href="http://www.testking.com/techking/infographics/the-darwinian-evolution-of-windows-infographic/"><img decoding="async" src="http://www.testking.com/techking/wp-content/uploads/2010/10/W_600.jpg" border="0" alt="The Darwinian Evolution of Windows" /></a></p>
+<p>图片来源: <a href="http://www.testking.com/techking/infographics/the-darwinian-evolution-of-windows-infographic/" target="_blank">The Darwinian Evolution of Windows</a> by <a href="http://www.testking.com/techking/" target="_blank">Tech King</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/105.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/19-windows-3-150x150.gif" alt="操作系统图形界面发展史(1981-2009)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/105.html" class="wp_rp_title">操作系统图形界面发展史(1981-2009)</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="一些有意思的文章和资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4220.html" class="wp_rp_title">一些有意思的文章和资源</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3097.html">Windows的达尔文进化图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3097.html/feed</wfw:commentRss>
+			<slash:comments>8</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Windows编程革命简史</title>
+		<link>https://coolshell.cn/articles/3008.html</link>
+					<comments>https://coolshell.cn/articles/3008.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 27 Sep 2010 00:51:30 +0000</pubDate>
+				<category><![CDATA[Windows]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[.NET]]></category>
+		<category><![CDATA[ActiveX]]></category>
+		<category><![CDATA[C++]]></category>
+		<category><![CDATA[COM]]></category>
+		<category><![CDATA[DDE]]></category>
+		<category><![CDATA[J++]]></category>
+		<category><![CDATA[OLE]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=3008</guid>
+
+					<description><![CDATA[<p>源文：A Brief History of Windows Programming Revolutions （Ron Burk） 首先，是 Windows AP...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/3008.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/3008.html">Windows编程革命简史</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>源文：<a href="http://www.drdobbs.com/windows/225701475" target="_blank">A Brief History of Windows Programming Revolutions</a> （Ron Burk）</p>
+<p>首先，是 Windows API 和 <a href="http://en.wikipedia.org/wiki/DLL_hell" target="_blank">DLL Hell</a>。（译注：DLL Hell——DLL灾难，就是微软的DLL升级时因为不同版本可能造成应用程序无法运行的灾难，首当其冲的是COM编程，相信大家都知道某些木马或是病毒更改了一些系统的DLL可以导致整个Windows不举，这就是DLL Hell） 于是，第一次革命是<a href="http://en.wikipedia.org/wiki/Dynamic_Data_Exchange" target="_blank">DDE</a>——我们可以创建一个状态条在上面显示Microsoft的股票价格（译注：Dynamic Data Exchange，工作原理是： 甲方申请一块全局内存，然后把内存指针postmessage到乙方，乙方根据收到的指针访问那块全局内存）。</p>
+<p>在那个时候，Microsoft 创建了 VERSIONINFO 资源来管理版本信息，当然，是用来消除DLL Hell。但是，另一个微软内部的小组发现了DDE的致命缺陷：这不是他们做的！</p>
+<p>为了解决这个问题，他们创造了OLE（很像DDE，只是名字不一样），而且，我还记得在一次 Microsoft 大会上，某个微软的演讲者正式宣布—— Windows API 马上就会被 OLE API 所重写并取代，我还盲目地相信了这一说法。而且，所有的在图形界面的控件都会是OCX，那是OLE引入的接口，同样，其目的是为了消除DLL Hell。相信大家都记得，那个时候，我们是怎么地梦想着有一天，我们的应用程序（当然是非常大的程序）可以完全地被嵌入到Word文档中。</p>
+<p>然而，在Microsoft的某处，Microsoft有些人开始信仰 C++，其确信MFC的出现并可以解决所有的一切问题，但是，因为历史原因，OLE并没有出局，其改了一个名字，叫COM，此时，我们立马意识到OLE（以前的DDE？）真正意味着什么——其用精心的版本管理系统来消除DLL Hell。与此同时，Microsoft的一个变节小组发现了一个MFC的致命缺陷：这不是他们做的！</p>
+<p><span id="more-3008"></span></p>
+<p>当然，微软件的动作是很快的，他们立刻修正了问题——创造了ATL，有些像MFC，只是名字不同，他们想使用漂亮的ATL把那些晦涩难懂的COM的知识给隐藏住。这个动作刺激了COM团队（或是OLE团队？）改名为ActiveX，并发布了成千上万的新接口（甚至是很多版本化的接口，当然，主要目的是为了消除DLL Hell），当然，ActiveX可以让我们的程序可以从Web游览器上下载，并可以完美地和病毒一起嵌入浏览器中（哈，还不紧跟时代，感谢ATL吧）。此时，操作系统团队就像一个失宠的孩子一样，大声呼喊着“<a href="http://www.microsoft.com/middleeast/egypt/cmic/" target="_blank">Cairo操作系统</a>来了”引起大家注意，当然有一些怪异恶心的东西连他们自己也无法解释清楚，所以，别提发布了。为了声誉，操作系统团队的确引入了“系统文件保护”的理念，当然也是为了消除DLL Hell。</p>
+<p>这个时候，Microsoft的某个团队发现了Java的致命缺陷：这不是他们做的！于是他们创造了一个叫J，或是Jole，或是ActiveJ的东西（对不起，我真的记不起叫什么了）来挽救Java（译者：应该是Visual J++）。看起来很像Java，只是名字不同罢了。这太让人兴奋了，但是Sun使用了一些相当古老的法律条款向Microsoft提起了法律诉讼，其在一年内限制了任何一个公司可以发布类似Java的产品。这明显是抑制微软复制别人产品的一次尝试，唯一不同的，其结果导致了微软流向国会议员裤兜的现金网络的建立（在这个网络可以得到时事新闻和价值$14.75的T恤衫）。还记得 J/Jole/ActiveJ 的项目经理用他的鞋桌在敲着桌子并信誓旦旦地坚持 Microsoft 将永远不会放弃他的产品。SB！所有的这些也就仅仅意味着一件事——没有人关心ActiveX团队（或者是COM？）。令人难以置信的是，微软把这些东东全部集成起来，成了COM+（难道不应该是ActiveX+?），还有MTS（我不知道为什么没有COM和Active或是X或是+的字眼，而直接叫MTS了——我为这个名词感到实实在在地震惊！）。他们总是那么NB地为那些流行词加上“+”号。在那段时间，还有人曾叫喊着“Windows DNA”以及“Windows Washboard”，但这两个东西最终在我搞清是什么玩意的之前就夭折了。</p>
+<p>在这一点上，Microsoft已经很不安地窥视着Internet好几年了，他们终于意识到Internet上有一个致命缺陷：嗯，你应该知道这是什么（译注：Internet不是做他们做的！）。于是他们开始培养我们和.NET约会（.NET的发音很像“doughnut”圆环图，不过，这只是他们的唯一不同），这和Internet很相似，只不过.NET有更多的印刷品。其让我们清楚再清楚地了解一件事：.NET会消除DLL Hell。.NET包含了一个新的编程语言，叫C#（为了解决已经死翘翘的Active++ J++的缺陷）。.NET还包含一个虚拟机，所有的语言都运行在上面（这主要是为了解决依赖于Intel CPU的缺陷）。.NET还包含了一个单一的登录系统（这主要是为了解决“不把口令存放在Microsoft服务器上”的缺陷）。实际上，我们更容易做的是把.NET不包含的事给列出来。.NET绝对是一个划时代地Windows编程革命……当然，仅到明年。</p>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11235.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/2.jpg" alt="一个浮点数跨平台产生的问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11235.html" class="wp_rp_title">一个浮点数跨平台产生的问题</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt=".NET代码转换器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/2672.html" class="wp_rp_title">.NET代码转换器</a></li><li ><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="https://coolshell.cn/articles/20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/api-design-300x278-2-150x150.jpg" alt="API设计原则 &#8211; Qt官网的设计实践总结" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18024.html" class="wp_rp_title">API设计原则 &#8211; Qt官网的设计实践总结</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/3008.html">Windows编程革命简史</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/3008.html/feed</wfw:commentRss>
+			<slash:comments>239</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>微软的安全补丁分析</title>
+		<link>https://coolshell.cn/articles/2305.html</link>
+					<comments>https://coolshell.cn/articles/2305.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Tue, 06 Apr 2010 00:42:44 +0000</pubDate>
+				<category><![CDATA[Windows]]></category>
+		<category><![CDATA[业界新闻]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[网络安全]]></category>
+		<category><![CDATA[安全补丁]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2305</guid>
+
+					<description><![CDATA[<p>截止至2009年底，大约有90%的微软安全补丁是把管理员权限给disable了。根据 BeyondTrust的报告，到今年3月分，Windows 7 有57%的...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2305.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2305.html">微软的安全补丁分析</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-2308" title="微软大量的安全补丁移除管理员权限" src="https://coolshell.cn/wp-content/uploads/2010/04/mshole.jpg" alt="" width="220" height="220" srcset="https://coolshell.cn/wp-content/uploads/2010/04/mshole.jpg 220w, https://coolshell.cn/wp-content/uploads/2010/04/mshole-150x150.jpg 150w, https://coolshell.cn/wp-content/uploads/2010/04/mshole-200x200.jpg 200w" sizes="(max-width: 220px) 100vw, 220px" />截止至2009年底，大约有90%的微软安全补丁是把管理员权限给disable了。根据 <a href="http://www.beyondtrust.com/">BeyondTrust</a>的报告，到今年3月分，Windows 7 有57%的安全补丁是以移除管理员权限作为解决方法的，相比较而言，Windows 2000 是 53%，Windows XP 是 62%，Windows Server 2003 是 55%，Windows Vista 是 54% 以及 Windows Server 2008 是 53%，而最牛的要算是 —— 100% 的 Microsoft Office 和 94%  Internet Explorer （其中100% 的 IE8 ）的安全补丁是移除管理员权限。</p>
+<p>这对于某些公司的IT部门来说是个好消息，因为这些公司的IT部门通常是不会让公司的员工有本机的管理员权限的，根据微软大量的安全补丁是移除某些管理员权限的这一特性，这意味着对于本机只有一般用户权限IT管理，将会防住很大一部份的恶意攻击。</p>
+<p>Paul Cooke, Windows Client Enterprise Security主管说：“我们相信，如果你只是用一般用户来操作Windows的话，这会是一种很好的方式”。而这一提法，相对于Unix的尽可能的不用root用户操作系统这一观点，整整落后了几十年，Windows的用户很习惯于在Administrator下操作系统，这样，一旦中招，任何程序都以系统管理员的权限运行，所以结果也是毁灭性的。这样操作电脑的方式对于Unix的用户来说简直是不可想像的，因为在Unix下，99%的情况下，操作者都不会使用管理员的账号。</p>
+<p>还记得以前和朋友的一段对话：</p>
+<p><span id="more-2305"></span></p>
+<p style="padding-left: 30px;">朋友：“为什么Windows下很容易中病毒，Unix/Linux下却不常见？杀毒软件在Windows下是必备的，但还是很容易中招，而Unix/Linux却可以祼奔。”</p>
+<p style="padding-left: 30px;">陈皓：“那是因为大家都用Windows的Administrator用户操作电脑，而且文件系统都没有权限设置。不像Unix/Linux，没人总是用root操作电脑，而且，所有的文件和目限都有权限。所以，Windows下，一中病毒，病毒就会以管理员的权限运行，不但破坏你的系统甚至干掉你的杀毒软件。而Unix/Linux下，就算中毒，干掉的也是当前用户下的文件，对于系统文件和系统进程来说，不会有任何问题。”</p>
+<p style="padding-left: 30px;">朋友：“那么在Windows下，如何和Unix/Liunx一样使用？”</p>
+<p style="padding-left: 30px;">陈皓：“首先，尽量不要使用Adminstrator用户，使用User用户操作电脑。并且把文件系统格式化成NTFS，这样才能设置上权限。把C盘的根目录，%Windows%以及%System%目录，注册表的关键位置（服务、启动等），都设置上只有Administrator可写，User只读。这样一来，就算是中毒，病毒最多改写当关用户文件，其根本无法操作C盘根目录和Windows%以及%System%目录以及注册表的关键位置，还有IE的插件等（这些地方都是病毒最爱去的地方），中毒后不会对系统造成伤害。在这种情况下，你就算没有杀毒软件祼奔也没有问题”</p>
+<p style="padding-left: 30px;">朋友：“嗯，听起来不错。不过这样整是不是太麻烦了，特别是要装一些软件什么的。”</p>
+<p style="padding-left: 30px;">陈皓：“是的，没错。按道理来说，各个用户的软件应该是装在其用户的目录和环境下，而不应该装在系统的目录下，Unix/Liunx就是这么做的，但是Windows并没有提供这样的方式，很多软件都要去Adminstrator下安装，所以，在系统上装上一些恶意插件，流氓软件也就很正常了。没办法，这就是Windows和Unix/Liunx的差别了，Windows出生的时候就是单用户的，Unix/Liunx则是多用户的，这是Windows先天设计的缺陷，所以，今天这样的局面也是理所当然的。”</p>
+<p>上面的这段对话，也许有助于你了解Windows，安全等方面的东西。下面，让我们再来用一组数据结束本文。</p>
+<p>总体来说，去年一年中64%的所有的微软安全补丁把管理员权限给移除了。如果你只考虑Critical级别的安全补丁，那么有点到80%补丁是移除管理员权限，如果只考虑远程攻击方面的，那么这个比率是84% 。相关的报道请查看如下文章：</p>
+<li><a href="http://www.beyondtrust.com/downloads/whitepapers/documents/wp039_BeyondTrust_2009_Microsoft_Vulnerability_Analysis.pdf">90% of Critical Microsoft Windows 7 Vulnerabilities are Mitigated by Eliminating Admin Rights</a> (beyondtrust.com)</li>
+<li><a href="http://news.cnet.com/8301-27080_3-20001359-245.html">Report: Windows 7 holes eased by axing admin rights</a> (news.cnet.com)</li>
+<p>（全文完）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/09/bashbug-150x150.jpg" alt="bash代码注入的安全漏洞" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11973.html" class="wp_rp_title">bash代码注入的安全漏洞</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2305.html">微软的安全补丁分析</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2305.html/feed</wfw:commentRss>
+			<slash:comments>11</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个Windows 3.1的Web网站</title>
+		<link>https://coolshell.cn/articles/2065.html</link>
+					<comments>https://coolshell.cn/articles/2065.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 25 Jan 2010 05:50:02 +0000</pubDate>
+				<category><![CDATA[Web开发]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Javascript]]></category>
+		<category><![CDATA[Windows]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=2065</guid>
+
+					<description><![CDATA[<p>啥也不说了，请大家围观下面这个网站吧。 http://www.michaelv.org/ 打开这个网站，你会看到N年前DOS时代的Windows 3.1的界面，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/2065.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/2065.html">一个Windows 3.1的Web网站</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>啥也不说了，请大家围观下面这个网站吧。</p>
+<p style="text-align: center;"><a href="http://www.michaelv.org/" target="_blank"><strong>http://www.michaelv.org/</strong></a></p>
+<p style="text-align: left;">打开这个网站，你会看到N年前DOS时代的Windows 3.1的界面，居然还可以扫雷，呵呵。真应了那句话——“只要是可以被Javascript实现的应用或程序，最终都会被Javascript所实现”。另，关于其它Web上更为疯狂的程序，可以查看本站的<a href="https://coolshell.cn/articles/1932.html" target="_blank">这篇文章</a>。还有这个<a href="https://coolshell.cn/articles/1883.html" target="_blank">在线的IDE</a>。下面是win3.1的截图：</p>
+<p style="text-align: center;"><a href="https://coolshell.cn/wp-content/uploads/2010/01/Win32web.jpg"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-2066" title="一个Windows3.1的web网站" src="https://coolshell.cn/wp-content/uploads/2010/01/Win32web.jpg" alt="" width="640" height="480" srcset="https://coolshell.cn/wp-content/uploads/2010/01/Win32web.jpg 640w, https://coolshell.cn/wp-content/uploads/2010/01/Win32web-300x225.jpg 300w, https://coolshell.cn/wp-content/uploads/2010/01/Win32web-360x270.jpg 360w" sizes="(max-width: 640px) 100vw, 640px" /></a> </p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/01/pretty-code-150x150.gif" alt="Chrome开发者工具的小技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17634.html" class="wp_rp_title">Chrome开发者工具的小技巧</a></li><li ><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/10/drawing-recursive-150x150.jpg" alt="如何读懂并写出装逼的函数式代码" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17524.html" class="wp_rp_title">如何读懂并写出装逼的函数式代码</a></li><li ><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/yoda-lambda-150x150.png" alt="函数式编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10822.html" class="wp_rp_title">函数式编程</a></li><li ><a href="https://coolshell.cn/articles/10739.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/12/lua-150x150.gif" alt="Lua简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10739.html" class="wp_rp_title">Lua简明教程</a></li><li ><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="数据即代码：元驱动编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/10337.html" class="wp_rp_title">数据即代码：元驱动编程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/2065.html">一个Windows 3.1的Web网站</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/2065.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>粉丝眼中的操作系统</title>
+		<link>https://coolshell.cn/articles/1998.html</link>
+					<comments>https://coolshell.cn/articles/1998.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 24 Dec 2009 06:50:46 +0000</pubDate>
+				<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[MacOS]]></category>
+		<category><![CDATA[OS]]></category>
+		<category><![CDATA[Windows]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1998</guid>
+
+					<description><![CDATA[<p>在发布完《程序员眼中的编程语言》一文后，发现网上还有一个关于操作系统的。如下所示。 图片的横轴是三大操作系统。 纵轴是各操作系统的粉丝和信徒。 中间的各个小图片...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1998.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1998.html">粉丝眼中的操作系统</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>在发布完《<a rel="bookmark" href="https://coolshell.cn/articles/1992.html">程序员眼中的编程语言</a>》一文后，发现网上还有一个关于操作系统的。如下所示。</p>
+<ul>
+<li>图片的横轴是三大操作系统。</li>
+<li>纵轴是各操作系统的粉丝和信徒。</li>
+<li>中间的各个小图片则是，粉丝眼中的操作系统的形象。</li>
+</ul>
+<p>关于操作系统，还有<a href="https://coolshell.cn/articles/1579.html" target="_blank">这一张图</a>也很有意思。</p>
+<p style="text-align: center;"><img decoding="async" loading="lazy" class="alignnone size-full wp-image-1999" title="粉丝眼中的操作系统" src="https://coolshell.cn/wp-content/uploads/2009/12/operatingsystems-fanboys.jpg" alt="粉丝眼中的操作系统" width="540" height="430" srcset="https://coolshell.cn/wp-content/uploads/2009/12/operatingsystems-fanboys.jpg 540w, https://coolshell.cn/wp-content/uploads/2009/12/operatingsystems-fanboys-300x239.jpg 300w, https://coolshell.cn/wp-content/uploads/2009/12/operatingsystems-fanboys-339x270.jpg 339w" sizes="(max-width: 540px) 100vw, 540px" /></p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/1579.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/operating-systems-150x150.jpg" alt="一张关于操作系统的图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1579.html" class="wp_rp_title">一张关于操作系统的图</a></li><li ><a href="https://coolshell.cn/articles/105.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/19-windows-3-150x150.gif" alt="操作系统图形界面发展史(1981-2009)" width="150" height="150" /></a><a href="https://coolshell.cn/articles/105.html" class="wp_rp_title">操作系统图形界面发展史(1981-2009)</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1998.html">粉丝眼中的操作系统</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1998.html/feed</wfw:commentRss>
+			<slash:comments>20</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Windows 7 的新粉丝 Linus Torvalds</title>
+		<link>https://coolshell.cn/articles/1619.html</link>
+					<comments>https://coolshell.cn/articles/1619.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 23 Oct 2009 06:21:50 +0000</pubDate>
+				<category><![CDATA[Windows]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Linus Torvalds]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1619</guid>
+
+					<description><![CDATA[<p>正当Windows 7 开始热卖的时候，正当广大北美用户抱怨Windows 7的销售价格，在东方要比西方便宜很多的时候。我们著名的Linus Torvalds来...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1619.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1619.html">Windows 7 的新粉丝 Linus Torvalds</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>正当Windows 7 开始热卖的时候，正当广大北美用户抱怨Windows 7的销售价格，在东方要比西方便宜很多的时候。我们著名的Linus Torvalds来到了日本东京的一个软件商店里“庆祝Windows 7的Release”，难道他是去那里买一份便宜的Windows 7？</p>
+<p style="text-align: center;"><a href="http://www.flickr.com/photos/offthebroiler/4036243510/sizes/o/" target=_blank><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2009/10/Linus_windows_7.jpg" alt="Linus Torvalds 在一个日本的软件商店" width="475" /></a></p>
+<p style="text-align: center;"><em>Linus Torvalds, 图片来自一个未经确认的 Yodobashi 商店， Tokyo, Japan. 来源: Jim Zemlin/The Linux Foundation (<strong>点击看大图</strong>)</em></p>
+<p>这个图片目前还没有新闻报道，不过已有很多来源可以参考了……</p>
+<p><span id="more-1619"></span></p>
+<p>Linus在日本参加一个<a href="http://events.linuxfoundation.org/events/japan-linux-symposium"><strong>Japan Linux Symposium</strong></a>的座谈会，在一个Picaca的<a href="http://picasaweb.google.com/cschlaeger/JapanLinuxSymposium#5395400000458161906" target="_blank">链接</a>上说，Microsoft选择了和Japan Linux Symposium同一天，在座谈会的间隙，Linus和其同事想做点有趣的事情，于是他们来到了Windows 7的小商店里，当然，售货员同志并不知道这人是谁，而Linus一进店里马上就做了一个下蹲坚大拇指的手势，而他的同事很识相地马上就照了一张照片。呵呵，当然，他们什么也没有买。</p>
+<p>而在一个据说是照片作者的 <a href="http://blogs.zdnet.com/perlow/?p=11403" target="_blank">BLOG</a> 上，博主也证实了相关的说法，说，这是Linus的一种幽默的态度，还说，Linus应该做一个V字型的手势而不是大拇指，这主要是Linus对东方文不了解。呵呵。</p>
+<p>呵呵，很有意思吧。<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/16910.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="Linus：为何对象引用计数必须是原子的" width="150" height="150" /></a><a href="https://coolshell.cn/articles/16910.html" class="wp_rp_title">Linus：为何对象引用计数必须是原子的</a></li><li ><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/10.jpg" alt="Alan Cox：大教堂、市集与市议会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9917.html" class="wp_rp_title">Alan Cox：大教堂、市集与市议会</a></li><li ><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/linus_pointer_to_pointer-150x150.jpg" alt="Linus：利用二级指针删除单向链表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8990.html" class="wp_rp_title">Linus：利用二级指针删除单向链表</a></li><li ><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/13.jpg" alt="对九个超级程序员的采访" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8275.html" class="wp_rp_title">对九个超级程序员的采访</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1619.html">Windows 7 的新粉丝 Linus Torvalds</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1619.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一张关于操作系统的图</title>
+		<link>https://coolshell.cn/articles/1579.html</link>
+					<comments>https://coolshell.cn/articles/1579.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 15 Oct 2009 02:44:53 +0000</pubDate>
+				<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[MacOS]]></category>
+		<category><![CDATA[Windows]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1579</guid>
+
+					<description><![CDATA[<p>一图胜千言 （转载本站文章请注明作者和出处 酷 壳 &#8211; CoolShell ，请勿用于任何商业用途） 相关文章粉丝眼中的操作系统性能调优攻略10大经...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1579.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1579.html">一张关于操作系统的图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>一图胜千言<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-1580" title="operating-systems" src="https://coolshell.cn/wp-content/uploads/2009/10/operating-systems.jpg" alt="operating-systems" width="504" height="445" srcset="https://coolshell.cn/wp-content/uploads/2009/10/operating-systems.jpg 504w, https://coolshell.cn/wp-content/uploads/2009/10/operating-systems-300x265.jpg 300w, https://coolshell.cn/wp-content/uploads/2009/10/operating-systems-306x270.jpg 306w" sizes="(max-width: 504px) 100vw, 504px" /><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/1998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/12/operatingsystems-fanboys-150x150.jpg" alt="粉丝眼中的操作系统" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1998.html" class="wp_rp_title">粉丝眼中的操作系统</a></li><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li><li ><a href="https://coolshell.cn/articles/1272.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/08/linux_airline-150x150.jpg" alt="操作系统航空公司" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1272.html" class="wp_rp_title">操作系统航空公司</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1579.html">一张关于操作系统的图</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1579.html/feed</wfw:commentRss>
+			<slash:comments>14</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>操作系统航空公司</title>
+		<link>https://coolshell.cn/articles/1272.html</link>
+					<comments>https://coolshell.cn/articles/1272.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sun, 16 Aug 2009 04:54:24 +0000</pubDate>
+				<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[轶事趣闻]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Mac]]></category>
+		<category><![CDATA[OS X]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[Windows]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1272</guid>
+
+					<description><![CDATA[<p> 我们知道，不同的操作系统有不同的系统，不同的风格，那么，如果操作系统和航空公司，会是怎么样的一种情况？让我们尝试地来做这样一个幽默的类比，把操作系统的特点带到...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1272.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1272.html">操作系统航空公司</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><img decoding="async" loading="lazy" class="alignright size-full wp-image-1276" title="Linux 航空公司" src="https://coolshell.cn/wp-content/uploads/2009/08/linux_airline.jpg" alt="Linux 航空公司" width="240" height="180" /> 我们知道，不同的操作系统有不同的系统，不同的风格，那么，如果操作系统和航空公司，会是怎么样的一种情况？让我们尝试地来做这样一个幽默的类比，把操作系统的特点带到航空公司，让我们看看会是怎么样的一个情况。</p>
+<p><strong>UNIX Airways</strong></p>
+<p>Unix航空公司需要每一个人在乘机的时候带上一个飞机零件，他们会在飞机跑道上把飞机的这些零件一片一片地组装起来，然后，在不停地争论着倒底是要建造什么样的飞机。是AIX，还是Solaris？是FreeBSD还是HP-UX？……</p>
+<p><strong>Air DOS</strong></p>
+<p>DOS 航空公司的飞机需要每一位乘客在后面推飞机直到飞机开始滑行，然后他们跳上飞机并且跟着飞机一起沿着海岸滑行直至飞机再次掉到地面，然后乘客们再次推动飞机，然后跳上飞，如此循环不止……</p>
+<p><span id="more-1272"></span></p>
+<p><strong>Mac Airlines</strong></p>
+<p>Mac航空公司中，所有的乘务员，机长，行李搬运工，和机票代理无论是看上去还是行为上都是完全一致的。每次当你询问细节的时候，他们都会很绅士地但很坚定地告诉你，你不需要知道那么多的细节，也没有必要知道，所有一切的事情都已经在你不需要知道的情况下完成了，所以，你只需要shut up。</p>
+<p><strong>Windows Air</strong></p>
+<p>Windows航空公司的航站楼是那么的漂亮和多彩，并且有非常友好的乘务员，相当简单的行李和乘机手续，同样平滑的离站程序。但是，当飞机起飞10分钟后，通常飞机会在没有任何警告的情况下就爆炸了。</p>
+<p><strong>Windows NT Air</strong></p>
+<p>Windows NT航空公司和Windows航空公司一样，但是他的成本更高，使用更大型的飞机，并且当其爆炸的时候，你可以换乘在40英里半径内的其它飞行器。</p>
+<p><strong>Windows XP Air</strong></p>
+<div id="result_box" style="TEXT-ALIGN: left" dir="ltr">您所在的这个机场，根据合同，只允许乘坐XP的航空飞机。所有的飞机是相同的，明亮的色彩，以及比原来的需要大3倍。XP航空公司的标志是巨大的，并都指向相同的方向。无论你走哪一条路，有些身穿斗篷和戴着尖角帽子的人会坚持地跟着你走。你的行李和衣物都会被拿走并被XP航空套装和相同的XP手提箱所取代，你周围的人都和你有一样套装和手提箱，当然，这些东西的成本都会包含在机票中。如果你不签合，飞机不会起飞。飞机途中的娱乐表演承诺和实际是一样的，那就是米老鼠动画片会一遍一遍地播放。在你需要吃东西喝饮料的前，你不得不先打电话给你的旅行社。在整个航行过程中你都被会搜索。如果你去厕所两次以上，你得再补一张票。无论你所预订的目的地是哪里，你永远都会最终被迫降在加拿大的惠斯勒（Whistler）。</div>
+<p><strong> OS X Air</strong></p>
+<p>你进入了一个白色的航站楼，你所能看到的是一个坐在角落白桌子后面的一位女士，你走上去取你的机票。她微笑地对你说，“欢迎乘座OS X航空公司，请您允许我给您照张相”，她一边指向了在墙上你没注意到的已经给你拍了照的照相机，一边对你说，“谢谢，这是您的机票”。一张最少上面有你照片的机票被递到了你的手上，上面已经有了你所有的信息。你右边的一扇门打开了，你走了进去，你看到了一个很宽敞的空间，只有一个座位在中间，你坐下，听着音乐，看着电影，直到飞行结束。你自始至终都不会看到其它的乘客。当你登陆下机的时候，你对你自己说：“哇，这确实相当的好啊，但感觉好像少了些什么”。</p>
+<p><strong>Windows Vista Airlines</strong></p>
+<p>你进入了一个非常漂亮的航站楼，旁边停着一架你从未见过的超级大的飞机。每隔10英尺，都会有一个安全人员出现，并问你是否“确认”你想要继续向前乘坐飞机，或者你可以取消这个飞行，当然，我们并不知道取消会意味着什么。你继续前行到一个桌子前询问为什么这架飞机那么大？在安全人员向你确认过你需要问问题并且你确实要听到回答后，工作人员告诉你，这是世界上最大的飞机，是因为它可以让乘客们感觉更好，但是因飞机的需求需要把飞机被设计成要比正常飞行速度慢两倍，所以他们只好加大尺寸，这样才能达到让他速度变慢的目标。</p>
+<p>一旦上了飞机，每一个乘客都会被乘务员单独地询问是否真的想要乘坐本次航班，因为这是公司的制度规定。同样，机场还会再向大家再次询问同样的问题。当你回答了若干次“是”以后，你却被一些陌生人（黑客）在你的脸上打了一拳，因为那些陌生人问你：“你真确定我可以打你的脸吗？‘确定’或是‘取消’”，而你却条件反射地回答了“确定”。</p>
+<p>在起飞的以后，飞行员意识到飞机的起落架驱动没有被更新，不能和新型的飞机在一些工作。所以，在整个飞机过程中，起落架都在处于降落的状态。这样一来，整个飞机飞行得更慢，但是飞行员继续飞行这样飞机，他们希望起落架的生产产商会尽快地给一个最新版本符合Vista航空公司标准的起落架驱动程序更新。</p>
+<p>终于，你到达了你的目的地，你却得到的是Windows XP航空公司的奖励里程而不是尝试新型的飞机的奖励。你的一个亲密的朋友在听过你的故事以后，告诉你Linux航空公司会好得多。</p>
+<p><strong>Linux Air</strong></p>
+<p>对其它所有航空公司都不满的员工决定离开他们自己的航空公司。他们开始自己建造飞机，机票柜台，以及自己铺设飞机跑道。他们只用很少的费用给你提供可打印的机票，但你完全可以自己下载下来打印机票。</p>
+<p>当你登机的时候，会有人递给你一个座位，四个螺栓，一个扳手和一本“安装座位-HOWTO.html”手册。一但安装好了，可随意调整或更改的座位可能让你相当地舒服，从飞机离开到目的地，其几乎不会发生一个错误，而且，飞机过程中的飞行餐非常不错。你会想去告诉选乘别的航空公司的乘客你那完美的经历，但你所能得到的回答是一句反问，“乘座飞机还要自己去安装自己的座位？”。</p>
+<p>（全文完）</p>
+<p>文章：<a href="http://www.linuxscrew.com/2007/10/07/fun-linux-unix-windows-os-x-and-dos-airlines/" target="_blank">来源</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1272.html">操作系统航空公司</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1272.html/feed</wfw:commentRss>
+			<slash:comments>13</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>Windows下和程序员相关小工具</title>
+		<link>https://coolshell.cn/articles/506.html</link>
+					<comments>https://coolshell.cn/articles/506.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Mon, 13 Apr 2009 13:47:47 +0000</pubDate>
+				<category><![CDATA[Windows]]></category>
+		<category><![CDATA[操作系统]]></category>
+		<category><![CDATA[工具]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=506</guid>
+
+					<description><![CDATA[<p>1 HOUR SOFTWARE &#8211; 很多的小工具集 .NET Memory Profiler &#8211; 可以找出.NET程序中的内存泄露问题，...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/506.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/506.html">Windows下和程序员相关小工具</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://www.donationcoder.com/Software/Skrommel/index.html" target="_blank">1 HOUR SOFTWARE</a> &#8211; 很多的小工具集</p>
+<p><a href="http://memprofiler.com/" target="_blank">.NET Memory Profiler</a> &#8211; 可以找出.NET程序中的内存泄露问题，并找出可优化的内存。</p>
+<p><a href="http://www.aisto.com/roeder/dotnet/" target="_blank">.NET Reflector</a> &#8211; 查看，导航，搜索.NET汇编中的类的继承关系。</p>
+<p><a href="http://www.pysoft.com/ActiveWebCamMainpage.htm" target="_blank">Active Webcam</a> &#8211; Webcam 视频监视软件。</p>
+<p><a href="http://www.joejoesoft.com/cms/showpage.php?cid=97" target="_blank">ArsClip</a> &#8211; 剪贴版管理程序，可以跟踪每次剪贴版中的内容，并可以通过设置热键，取出粘贴其中的内容。</p>
+<p><a href="http://www.netcoole.com/asp2aspx.htm" target="_blank">ASP2ASPX</a> &#8211; 转换ASP 程序页到ASP.NET</p>
+<p><a href="http://www.autohotkey.com/" target="_blank">AutoHotKey</a> &#8211; 自动点击键盘和鼠标。</p>
+<p><span id="more-506"></span></p>
+<p><a href="http://www.fmjsoft.com/awframe.html" target="_blank">Awave Studio</a> &#8211; 几乎是所有的音频格式的转换程序。</p>
+<p><a href="http://www.bookcase.com/library/software/msdos.util.batch.html" target="_blank">Batch files</a> &#8211; 想要不同功能的bat文件吗？这个站点集成了很多功能强大的bat文件。</p>
+<p><a href="http://www.nu2.nu/pebuilder/" target="_blank">BartPE</a> &#8211; 制作一张可以启动的Windows CD/DVD</p>
+<p><a href="http://www.scootersoftware.com/" target="_blank">Beyond Compare</a> &#8211; 快速容易地比较和合并本地，远程或FTP服务器上的文件和目录。</p>
+<p><a href="http://www.bitpim.org/" target="_blank">BitPim</a> &#8211; 可以查看并操作绝大多数的 CDMA 手机</p>
+<p><a href="http://www.bullzip.com/products/pdf/info.php" target="_blank">Bullzip PDF Printer</a> &#8211; PDF文件打印机程序。</p>
+<p><a href="http://www.oxid.it/cain.html" target="_blank">Cain &amp; Abel</a> &#8211; 口令恢复工具。（可以用作正常和不正常的情况）</p>
+<p><a href="http://www.techsmith.com/camtasia.asp" target="_blank">Camtasia Studio</a> &#8211; 屏幕录像工具。</p>
+<p><a href="http://msdn2.microsoft.com/en-us/vcsharp/aa336818.aspx" target="_blank">C# Programming Tools</a> &#8211; C# 开发工具</p>
+<p><a href="http://www.ccleaner.com/" target="_blank">CCleaner</a> &#8211; 系统优化，隐私和清理工具。</p>
+<p><a href="http://ftp.uma.es/ClientesVPN/?C=M;O=A" target="_blank">Cisco VPN Clients</a> &#8211; Cisco VPN客户端。</p>
+<p><a href="http://clonedetectivevs.codeplex.com/" target="_blank">Clone Detective</a> &#8211; 这是一个集成到Visual Studio 中，允许你分析自己的C# projects 中是否有重复的代码，以便你重构你的代码。</p>
+<p><a href="http://www.codesmithtools.com/" target="_blank">CodeSmith</a> &#8211; 代码生成器，可惜是收费的。</p>
+<p><a href="http://tools.tortoisesvn.net/CommitMonitor" target="_blank">Commit Monitor</a> &#8211; 一个任务栏中的小监视器，当 subversion 的源代码被别人更新过了，他可以通知你。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?familyid=22e69ae4-7e40-4807-8a86-b3d36fab68d3&amp;displaylang=en" target="_blank">Consolas Font Pack</a> &#8211; 终级的程序字体。（VS2005）</p>
+<p><a href="http://www.nirsoft.net/utils/cports.html" target="_blank">CurrPorts</a> &#8211; 把所有打开的 TCP/IP 和UDP 端口都列出来。</p>
+<p><a href="http://www.daemon-tools.cc/dtcc/download.php?mode=ViewCategory&amp;catid=5" target="_blank">DAEMON Tools Lite</a> &#8211; 大名鼎鼎的超轻量级的虚拟光驱程序。</p>
+<p><a href="http://wiki.lunarsoft.net/wiki/Dial-a-fix" target="_blank">DialAFix</a> &#8211; 可以修复很多不同的Windows 问题的小工具。</p>
+<p><a href="http://www.pcmag.com/article2/0,2817,1944519,00.asp" target="_blank">DiskAction</a> &#8211; 查看目前的进程是怎么在存取你的硬盘的。</p>
+<p><a href="http://www.bigbangenterprises.de/en/doublekiller" target="_blank">DoubleKiller</a> &#8211; 查找相同的文件，并保留其中的一份。</p>
+<p><a href="http://www.stack.nl/~dimitri/doxygen/" target="_blank">Doxygen</a> &#8211; 一个通过程序注释创建程序文档的工具，非常有用。</p>
+<p><a href="http://www.innovative-sol.com/drivermax/" target="_blank">DriverMax</a> &#8211; 导出所有驱动器的数据到一个目录或一个压缩文件中。</p>
+<p><a href="http://www.debuginspector.com/index.htm" target="_blank">Debug Inspector</a> &#8211; 在多线程中，可以同时看到各个线程的函数调用栈。并可以检测死锁。</p>
+<p><a href="http://www.exactaudiocopy.de/" target="_blank">EAC</a> &#8211; 从CD或DVD中捕捉音视的程序。</p>
+<p><a href="http://www.heidi.ie/node/14" target="_blank">Eraser</a> &#8211; 彻底地删文件，删除文件后，在原来分配给文件的硬盘上写上一些随机的字符。</p>
+<p><a href="http://www.lavalys.com/" target="_blank">EVEREST</a> &#8211; PC 诊断和benchmark的工具。</p>
+<p><a href="http://www.fiddlertool.com/fiddler/version.asp" target="_blank">Fiddler</a> &#8211; Web 调试代理。</p>
+<p><a href="http://www.gbordier.com/" target="_blank">FILEACL</a> &#8211; NTFS 权限管理工具。</p>
+<p><a href="http://www.lopesoft.com/en/fmtools/info.html" target="_blank">FileMenu Tools</a> &#8211; Explorer 的右键菜单管理工具。</p>
+<p><a href="http://filezilla-project.org/" target="_blank">FileZilla</a> &#8211; 鼎鼎大名的FTP/FTPS/SFTP 客户端。</p>
+<p><a href="http://addons.mozilla.org/en-US/firefox/addon/1843/" target="_blank">FireBug</a> &#8211; 在Firefox中调试JavaScript。</p>
+<p><a href="http://fireftp.mozdev.org/" target="_blank">FireFTP</a> &#8211; Firefox的FTP 客户端。</p>
+<p><a href="http://www.fortresgrand.com/products/f101/f101.htm" target="_blank">Fortres 101</a> &#8211; 桌面安全软件。</p>
+<p><a href="http://www.slavasoft.com/fsum/" target="_blank">FSUM</a> &#8211; 一个验证文件完整性的命令行工具。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=9aeaa970-f281-4fb0-aba1-d59d7ed09772&amp;DisplayLang=en" target="_blank">FxCop</a> &#8211; .NET 源码分析工具。</p>
+<p><a href="http://getright.com/" target="_blank">GetRight</a> &#8211; 一个非常优秀的下载管理器。</p>
+<p><a href="https://secure.logmein.com/products/hamachi/vpn.asp" target="_blank">Hamachi</a> &#8211; 可以提供一个VPN 服务。设置起来非常简单，只需要10分钟，然后你就可以通过internet连入你的公司或家里了。</p>
+<p><a href="http://www.hmailserver.com/" target="_blank">hMailServer</a> &#8211; 免费的邮件服务器。</p>
+<p><a href="http://www.ieinspector.com/httpanalyzer/" target="_blank">HTTP Analyzer</a> &#8211; 实时监控，跟踪，调试，并分析 HTTP/HTTPS 的访问。</p>
+<p><a href="http://www.port80software.com/products/httpzip/" target="_blank">httpZip</a> &#8211; 基于IIS 4, 5, 和6.0 的ISAPI。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?familyid=56FC92EE-A71A-4C73-B628-ADE629C89499&amp;displaylang=en" target="_blank">IIS 6.0 Resource Kit Tools</a> &#8211; 帮助你设置，保护和管理IIS。</p>
+<p><a href="http://www.codeplex.com/iisadmin" target="_blank">IIsAdmin.NET</a> &#8211; 创建多个IIS站点的定义。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=4516A6F7-5D44-482B-9DBD-869B4A90159C" target="_blank">Internet Explorer 7 Blocker</a> &#8211; 阻止IE7 被安装。（奇怪的工具）</p>
+<p><a href="http://www.imtoo.com/mpeg-encoder.html" target="_blank">ImTOO MPEG Encoder</a> &#8211; 视频格式转换。</p>
+<p><a href="http://installpad.com/" target="_blank">InstallPad</a> &#8211; 让你的程序运行地更快一些。</p>
+<p><a href="http://tangiblesoftwaresolutions.com/" target="_blank">Instant C#</a> &#8211; 把 VB.NET程序 转成C#程序</p>
+<p><a href="http://sourceforge.net/project/downloading.php?groupname=javara&amp;filename=JavaRa.zip&amp;use_mirror=osdn" target="_blank">JavaRa</a> &#8211; 删除好的没有用的Java版本。</p>
+<p><a href="http://jaxe.sourceforge.net/" target="_blank">Jaxe</a> &#8211; 一个免费的 XML 编辑器，并支持 XPath 搜索。</p>
+<p><a href="http://www.kessels.com/JkDefrag/" target="_blank">JKDefrag</a> &#8211; 一个很不错的磁盘碎片整理优化程序。</p>
+<p><a href="http://www.rekenwonder.com/linkmagic.htm" target="_blank">Junction Link Magic</a> &#8211; 创建 junction points（比如我的文档，网上邻居这类的目录）</p>
+<p><a href="http://www.jzip.com/" target="_blank">jZip</a> &#8211; 创建，解压，压缩Zip, TAR, GZip 和7-Zip文件，只能解压 RAR 和ISO文件。</p>
+<p><a href="http://www.launchy.net/" target="_blank">Launchy</a> &#8211; 在你的开始菜单中创建文件，工程，目录和收藏夹等东西。</p>
+<p><a href="http://www.leafnetworks.net/" target="_blank">Leaf Networks</a> &#8211; 创建你自己私有的网络。</p>
+<p><a href="http://www.linqpad.net/" target="_blank">LINQPad</a> &#8211; 一个小工具可以和 SQL databases,，XML data 和object collections 交互。</p>
+<p><a href="http://www.mediafour.com/macdrive" target="_blank">MacDrive</a> &#8211; 在Windows下挂载OS-X HFS/HFS+ 文件系统。</p>
+<p><a href="http://www.magiciso.com/" target="_blank">MagicISO</a> &#8211; 一个强大的 CD/DVD 映像文件 创建/编辑/提取工具。</p>
+<p><a href="http://technet.microsoft.com/en-us/security/cc184924.aspx" target="_blank">MBSA</a> &#8211; 帮你校对并比对你系统目前的系统安全是否是微软推荐的。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=890cd06b-abf8-4c25-91b2-f8d975cf8c07&amp;displaylang=en" target="_blank">Microsoft Log Parser</a> &#8211; 可以读取基于文本的log files，XML 文件或CSV 文件，这些文件一般都是Windows操作系统中各种工具的日志文件，比如事件日志，注册表，性能监视器和活动目录。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=7c8051c2-9bfc-4c81-859d-0864979fa403&amp;displaylang=en" target="_blank">Microsoft PowerShell 2</a> &#8211; Microsoft下一代的命令行shell</p>
+<p><a href="http://en.wikipedia.org/wiki/Robocopy" target="_blank">Microsoft RoboCopy</a> &#8211; 强大的文件拷贝。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?FamilyId=56E5B1C5-BF17-42E0-A410-371A838E570A&amp;displaylang=en" target="_blank">Microsoft SQL Server Database Publishing Wizard 1.1</a> &#8211; 把SQL  Sever数据库变成T-SQL 脚本。</p>
+<p><a href="http://www.microsoft.com/windowsserver2008/en/us/support-unix.aspx" target="_blank">Microsoft SUA for UNIX-based Applications</a> &#8211; 和UNIX 互通的组件。</p>
+<p><a href="http://www.mono-project.com/Start" target="_blank">Mono/GTK#/Moonlight</a> &#8211; Linux下的.NET, ASP.NET 和 Silverlight</p>
+<p><a href="http://download.microsoft.com/download/7/b/6/7b6abd84-7841-4978-96f5-bd58df02efa2/winxpvirtualcdcontrolpanel_21.exe" target="_blank">Microsoft Virtual CD-ROM Control Panel</a> &#8211; ISO 文件虚拟光驱。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?familyid=72d6aa49-787d-4118-ba5f-4f30fe913628&amp;displaylang=en" target="_blank">Microsoft XML Notepad 2007</a> &#8211;  XML 文件编辑器。</p>
+<p><a href="http://www.mygenerationsoftware.com/portal/default.aspx" target="_blank">MyGeneration</a> &#8211; 代码生成器。</p>
+<p><a href="http://www.nat32.com/" target="_blank">NAT32 IP Router</a> &#8211; 一个外网内网IP转换程序。</p>
+<p><a href="http://www.pcmag.com/article2/0,2817,2122550,00.asp" target="_blank">NetShare Manager</a> &#8211; 组织并控制不同网络的网络共享。</p>
+<p><a href="http://www.netstumbler.com/" target="_blank">NetStumbler</a> &#8211; 网络抓包程序，用于Wi-Fi 网络。</p>
+<p><a href="http://users.pandora.be/ahmadi/nettools.htm" target="_blank">NetTools</a> &#8211; 一个全面的主机监控，网络扫描，安全，管理工具。可能还更多。</p>
+<p><a href="http://www.nirsoft.net/utils/index.html" target="_blank">NirTools</a> &#8211; 一个Windows 工具集。</p>
+<p><a href="http://www.joejoesoft.com/cms/showpage.php?cid=97" target="_blank">NOD32</a> &#8211; 号称是目前最好的防病毒软件。</p>
+<p><a href="http://www.netikus.net/products_nttoolkit.html" target="_blank">NT Toolkit</a> &#8211; 一系例小巧而实用为了网络管理而设计的工具。</p>
+<p><a href="http://www.meinberg.de/english/sw/ntp.htm" target="_blank">NTP</a> &#8211; Windows的网络时间服务程序。</p>
+<p><a href="http://www.stardock.com/products/odnt/" target="_blank">Object Desktop</a> &#8211; 让Windows看起来就是你想要的。</p>
+<p><a href="http://openvpn.net/" target="_blank">OpenVPN</a> &#8211; 全功能的开源 SSL VPN 解决方案。支持远程访问， site-to-site VPNs, Wi-Fi 安全，和企业级的解决方案——比如负载平衡，权限策略等</p>
+<p><a href="http://osiris.shmoo.com/" target="_blank">Osiris Host Integrity Monitoring</a> &#8211; 一个主机监控程序。其可以监控一台或多台主机是否发生了改变，其维护了一个非常细的日志来记录了文件系统，用户，内核模块的改变，以及更多的东西。</p>
+<p><a href="http://www.ossim.net/" target="_blank">OSSIM</a> &#8211; 全称是Open Source Security Information Management，一个提供了全面的工具，这些小工具在一起工作，可让你看到所有主机的网络/物理资源的使用情况。</p>
+<p><a href="http://www.getpaint.net/" target="_blank">Paint.NET</a> &#8211; 一个免费的很简单的图片编辑器。</p>
+<p><a href="http://www.powergrep.com/" target="_blank">PowerGREP</a> &#8211; Windows 下的grep 工具，不但支持文本文件，还支持，二进制文件，压缩文件，WORD文件，EXCEL电子表格，PDF文件等等。（关于grep，这是一个Unix下的扫描文件内容或标准输出，并找到匹配字符串的程序）</p>
+<p><a href="http://www.powerlocker.com/index_files/PowerLockerPro.htm" target="_blank">PowerLocker</a> &#8211; 提供了一个快速简单的方式让你锁住你的PowerShell scripts</p>
+<p><a href="http://www.stevemiller.net/puretext/" target="_blank">PureText</a> &#8211; 任务栏小图标可以移除剪贴板里的文本格式。</p>
+<p><a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/" target="_blank">PuTTY</a> &#8211; 这个不用多说了，鼎鼎大名的免费的Telnet 和SSH客户端程序。</p>
+<p><a href="http://www.regexbuddy.com/" target="_blank">RegExBuddy</a> &#8211; 一个容易创建正规表达式的工具。即简单，也复杂。</p>
+<p><a href="http://sourceforge.net/projects/regulator/" target="_blank">Regulator</a> &#8211; 高级的正则表达式测试工具。并有语法高亮显示和web-service 集成以读取Regexlib.com的在线正则表达式。</p>
+<p><a href="http://www.jetbrains.com/resharper/" target="_blank">ReSharper</a> &#8211; 完全集成于Visual Studio，实时的错误高亮，代码提示，以及单元测试工具。一供有超过30 个高级的代码重构方案，多个代码导航和收搜工具，自动代码生成，和代码模板生成，以及其它更多的功能以配合C#, VB.NET, ASP.NET, XML, 和XAML使用。</p>
+<p><a href="http://www.revouninstaller.com/" target="_blank">Revo Uninstaller</a> &#8211; 反安装，删除程序。以解决反安装中的问题。</p>
+<p><a href="http://www.roboform.com/" target="_blank">RoboForm</a> &#8211; 口令管理，网页表单填写。</p>
+<p><a href="http://www.codeplex.com/sdctasks" target="_blank">SDC Tasks Library</a> &#8211; 超过300 MSBuild 任务。</p>
+<p><a href="http://blogs.msdn.com/delay/archive/2009/03/11/where-s-your-leak-at-using-windbg-sos-and-gcroot-to-diagnose-a-net-memory-leak.aspx" target="_blank">SOS</a> &#8211; WinDbg 扩展，可以让WPF 和Silverlight 程序员使用。</p>
+<p><a href="http://www.gtopala.com/" target="_blank">System Information for Windows</a> &#8211; 收集系统属性和配置的细节信息。并用一种极端的完整的方式显示出来。</p>
+<p><a href="http://www.javacoolsoftware.com/spywareblaster.html" target="_blank">SpywareBlaster</a> &#8211; 阻止你的IE中了基于ActiveX的间谍软件，广告软件，以及流氓软件，或是其它你不想要的软件。</p>
+<p><a href="http://www.nirsoft.net/utils/smsniff.html" target="_blank">SmartSniff</a> &#8211; TCP/IP 抓包程序。</p>
+<p><a href="http://www.techsmith.com/" target="_blank">SnagIt</a> &#8211; 强大的抓屏程序。</p>
+<p><a href="http://subversion.tigris.org/" target="_blank">subversion</a> &#8211; 鼎鼎大名的代码版本控制软件。</p>
+<p><a href="http://sqldigger.bdsweb.be/" target="_blank">SQL Digger</a> &#8211; SQL存过，视图等关键字搜索工具。</p>
+<p><a href="http://www.cabercomputing.com/Products-SqlTac.aspx" target="_blank">SQLTac</a> &#8211; 强大的协助你管理你的Domain Knowledge工具。</p>
+<p><a href="http://www.sqltools.net/" target="_blank">SQLTools</a> &#8211; 免费的Oracle PL/SQL 编辑器。</p>
+<p><a href="http://www.sqlyog.com/" target="_blank">SQLyog</a> &#8211; 免费的MySQL 编辑器。</p>
+<p><a href="http://code.msdn.microsoft.com/sourceanalysis" target="_blank">StyleCop</a> &#8211; 分析C# 源代码，以保成代码风格的一致性。</p>
+<p><a href="http://www.superantispyware.com/" target="_blank">SuperAntiSpyware</a> &#8211; 最牛的反间谍软件扫描器。</p>
+<p><a href="http://www.2brightsparks.com/syncback/sbpro.html" target="_blank">SyncBackPro</a> &#8211; 实时加密，版本备份和同步。</p>
+<p><a href="http://synergy2.sourceforge.net/" target="_blank">synergy2</a> &#8211; 让一个鼠标键盘共享给多个电脑使用。</p>
+<p><a href="http://live.sysinternals.com/" target="_blank">SysInternals Suite Live</a> &#8211; 一个超强的NETBIOS 版本的SysInternals Suite</p>
+<p><a href="http://technet.microsoft.com/en-us/sysinternals/0e18b180-9b7a-4c49-8120-c47c5a693683.aspx" target="_blank">Sysinternals Suite</a> &#8211; 一级超强的高兴系统工具和技术信息。</p>
+<p><a href="http://www.sysresccd.org/" target="_blank">SystemRescueCD</a> &#8211; 可启动的 Linux CD </p>
+<p><a href="http://jpsoft.com/" target="_blank">Take Command</a> &#8211; 最好的图形Shell。</p>
+<p><a href="http://www.pcmag.com/article2/0,2817,2253746,00.asp" target="_blank">TaskPower</a> &#8211; 查看并分析进程的运行。</p>
+<p><a href="http://www.jetbrains.com/teamcity" target="_blank">TeamCity</a> &#8211; 惊艳的持续综合包。</p>
+<p><a href="http://www.cgsecurity.org/wiki/TestDisk" target="_blank">TestDisk</a> &#8211; 恢复丢失的分区。</p>
+<p><a href="http://www.threatfire.com/" target="_blank">ThreatFire</a> &#8211; 实时的行为分析和间谍软件检测软件。</p>
+<p><a href="http://www.jam-software.com/software.html" target="_blank">TreeSize Free</a> &#8211; 告诉你为什么宝贵的磁盘空间到哪里去了。</p>
+<p><a href="http://www.ceruleanstudios.com/" target="_blank">Trillian</a> &#8211; 多人网络聊天工具。</p>
+<p><a href="http://www.truecrypt.org/" target="_blank">TrueCrypt</a> &#8211; 免费的开源的磁盘加密软件，可用于Windows Vista/XP, Mac OS X, 和Linux</p>
+<p><a href="http://www.bitvise.com/tunnelier" target="_blank">Tunnelier</a> &#8211; SSH 和SFTP 客户端。</p>
+<p><a href="http://www.microsoft.com/windowsxp/downloads/powertoys/xppowertoys.mspx" target="_blank">TweakUI</a> &#8211; 可以修正一些惹人烦的关于Windows UI的小软件。</p>
+<p><a href="http://www.ultraedit.com/" target="_blank">UltraEdit</a> &#8211; Text, hex, HTML, PHP, Java, Javascript, Perl, 等等，一个强大的编辑器。</p>
+<p><a href="http://www.realtimesoft.com/ultramon/" target="_blank">UltraMon</a> &#8211; 多显示器工具。</p>
+<p><a href="http://www.undelete-plus.com/" target="_blank">Undelete Plus</a> &#8211; 恢复被删除的文件。</p>
+<p><a href="http://ccollomb.free.fr/unlocker/" target="_blank">Unlocker</a> &#8211; 有些时候，一些文件被一些进程占着我们无法删除，这个程序就是把这些被锁住的文件解锁。</p>
+<p><a href="http://www.roadkil.net/program.php?ProgramID=29" target="_blank">Unstoppable Copier</a> &#8211; 恢复被物理损坏的硬盘上的文件。允许你从一些坏磁道上把文件备份下来。</p>
+<p><a href="http://www.utorrent.com/" target="_blank">uTorrent</a> &#8211; BitTorrent 客户端。</p>
+<p><a href="http://shark007.net/" target="_blank">Vista 64-bit Codecs</a> &#8211; Windows Vista 64-bit下的音频和视频解码器。</p>
+<p><a href="http://www.visualsvn.com/" target="_blank">VisualSVN</a> &#8211; 为了Microsoft Visual Studio开发的专业的Subversion 集成程序</p>
+<p><a href="http://virtuawin.sourceforge.net/" target="_blank">VirtuaWin</a> &#8211; 虚拟桌面。</p>
+<p><a href="http://www.videolan.org/vlc/" target="_blank">VLC Media Player</a> &#8211; 免费的音频和视频播放器。</p>
+<p><a href="http://www.vlite.net/" target="_blank">vLite</a> &#8211; 一个可以定制Windows Vista 安装的小工具。</p>
+<p><a href="http://www.vmware.com/download/server/" target="_blank">VMware Server</a> &#8211; 在一台机器上运行多个操作系统。</p>
+<p><a href="http://www.weblogexpert.com/" target="_blank">Weblog Expert</a> &#8211; 快速和强大的网站访问log 分析和报告。</p>
+<p><a href="http://www.microsoft.com/whdc/devtools/debugging/default.mspx" target="_blank">WinDbg</a> &#8211; 低层的Windows程序调试工具。</p>
+<p><a href="http://www.httrack.com/" target="_blank">WinHTTrack</a> &#8211; 网页拷贝。</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=3E972E9A-E08A-49A2-9D3A-C0519479E85A&amp;displaylang=en" target="_blank">Windows NT 4.0 Resource Kit</a> &#8211; 老了但可能还是有用的Windows NT 4.0 工具</p>
+<p><a href="http://support.microsoft.com/kb/927229" target="_blank">Windows 2000 Resource Kit</a> &#8211; Windows 2000 工具集</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?familyid=9D467A69-57FF-4AE7-96EE-B18C4790CFFD&amp;displaylang=en" target="_blank">Windows 2003 Resource Kit</a> &#8211; Windows 2003 工具集</p>
+<p><a href="http://www.microsoft.com/downloads/details.aspx?FamilyID=96a35011-fd83-419d-939b-9a772ea2df90&amp;displaylang=en" target="_blank">Windows 2003 Support Tools</a> &#8211; Windows 2003 管理工具集</p>
+<p><a href="http://windirstat.info/" target="_blank">WinDirStat</a> &#8211; 磁盘使用统计和清楚工具。</p>
+<p><a href="http://www.bitvise.com/winsshd" target="_blank">WinSSHD</a> &#8211; SSH 服务程序。</p>
+<p><a href="http://www.wireshark.org/" target="_blank">WireShark</a> &#8211; 强大的网络协义抓包分析器。</p>
+<p><a href="http://www.zftpserver.com/" target="_blank">zFTPServer Suite</a> &#8211; FTP 服务程序，以及强大的SSL 加密安全认证。</p>
+<p>（如有不足，请补充）<!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/3097.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/W_600-150x150.jpg" alt="Windows的达尔文进化图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3097.html" class="wp_rp_title">Windows的达尔文进化图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/506.html">Windows下和程序员相关小工具</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/506.html/feed</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>4月14日，微软补丁日</title>
+		<link>https://coolshell.cn/articles/404.html</link>
+					<comments>https://coolshell.cn/articles/404.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 10 Apr 2009 02:21:37 +0000</pubDate>
+				<category><![CDATA[Windows]]></category>
+		<category><![CDATA[技术新闻]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=404</guid>
+
+					<description><![CDATA[<p>下周二，微软准备release至少8个以上的安全补丁，如下表所示。目前没有太多的信息，不过，我们知道的是其中Excel的那个BUG早在2月份的时候就报告了，ht...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/404.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/404.html">4月14日，微软补丁日</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下周二，微软准备release至少8个以上的安全补丁，如下表所示。目前没有太多的信息，不过，我们知道的是其中Excel的那个BUG早在2月份的时候就报告了，<a href="http://www.microsoft.com/technet/security/advisory/968272.mspx">http://www.microsoft.com/technet/security/advisory/968272.mspx</a>，可是这么长的时候后才有patch。哎。</p>
+<p>这次的BUG数之多，覆盖面之广（包括IE，Office，DirectX，Windows &#8230;），看来，下周二各个公司的IT部门又有得忙了。</p>
+<table style="margin-left: -3pt; border-collapse: collapse;" border="1" cellspacing="0" cellpadding="0" width="100%">
+<tbody>
+<tr>
+<td style="background: #cccccc; padding: 0.75pt;" bgcolor="#cccccc">
+<p class="MsoNormal"><strong><span style="font-size: x-small; font-family: Verdana;"><span style="font-weight: bold; font-size: 10pt; font-family: Verdana;">编号</span></span></strong></p>
+</td>
+<td style="background: #cccccc; padding: 0.75pt;" bgcolor="#cccccc">
+<p class="MsoNormal"><strong><span style="font-size: x-small; font-family: Verdana;"><span style="font-weight: bold; font-size: 10pt; font-family: Verdana;">严重程度</span></span></strong></p>
+</td>
+<td style="background: #cccccc; padding: 0.75pt;" bgcolor="#cccccc">
+<p class="MsoNormal"><strong><span style="font-size: x-small; font-family: Verdana;"><span style="font-weight: bold; font-size: 10pt; font-family: Verdana;">攻击方式</span></span></strong></p>
+</td>
+<td style="background: #cccccc; padding: 0.75pt;" bgcolor="#cccccc">
+<p class="MsoNormal"><strong><span style="font-size: x-small; font-family: Verdana;"><span style="font-weight: bold; font-size: 10pt; font-family: Verdana;">重启</span></span></strong></p>
+</td>
+<td style="background: #cccccc; padding: 0.75pt;" bgcolor="#cccccc">
+<p class="MsoNormal"><strong><span style="font-size: x-small; font-family: Verdana;"><span style="font-weight: bold; font-size: 10pt; font-family: Verdana;">影响的软件*</span></span></strong></p>
+</td>
+</tr>
+<tr>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Windows1</span></span></p>
+</td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">严重</span></span></p>
+</td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">远程代码运行</span></span></p>
+</td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">需要重启</span></span></p>
+</td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Microsoft Windows, Microsoft Office</span></span></p>
+</td>
+</tr>
+<tr>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Windows2</span></span></p>
+</td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">严重</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">远程代码运行</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">需要重启</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Microsoft Windows</span></span></p>
+</td>
+</tr>
+<tr>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Windows3</span></span></p>
+</td>
+<td style="padding: 0.75pt;"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">严重</span></span></p>
+<p></span></span></td>
+<td style="padding: 0.75pt;"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">远程代码运行</span></span></p>
+<p></span></span></td>
+<td style="padding: 0.75pt;"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">可能需要重启</span></span></p>
+<p></span></span></td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Microsoft Windows</span></span></p>
+</td>
+</tr>
+<tr>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">IE</span></span></p>
+</td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">严重</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">远程代码运行</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">需要重启</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Microsoft Windows, Internet Explorer</span></span></p>
+</td>
+</tr>
+<tr>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Excel</span></span></p>
+</td>
+<td style="padding: 0.75pt;"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">严重</span></span></p>
+<p></span></span></td>
+<td style="padding: 0.75pt;"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">远程代码运行</span></span></p>
+<p></span></span></td>
+<td style="padding: 0.75pt;"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">可能需要重启</span></span></p>
+<p></span></span></td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Microsoft Office</span></span></p>
+</td>
+</tr>
+<tr>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Windows4</span></span></p>
+</td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">重要</span></span></p>
+</td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">获取更高权限</span></span></p>
+</td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">需要重启</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Microsoft Windows</span></span></p>
+</td>
+</tr>
+<tr>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">ISA</span></span></p>
+</td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">重要</span></span></p>
+</td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">拒绝式服务</span></span></p>
+</td>
+<td style="padding: 0.75pt;"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">需要重启</span></span></p>
+<p></span></span></td>
+<td style="padding: 0.75pt;">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Microsoft Forefront Edge Security</span></span></p>
+</td>
+</tr>
+<tr>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Windows5</span></span></p>
+</td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">中级</span></span></p>
+</td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">获取更高权限</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;"></p>
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">需要重启</span></span></p>
+<p></span></span></td>
+<td style="background: #e9e9e6; padding: 0.75pt;" bgcolor="#e9e9e6">
+<p class="MsoNormal"><span style="font-size: x-small; font-family: Verdana;"><span style="font-size: 10pt; font-family: Verdana;">Microsoft Windows</span></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>相关信息可以参看这里：</p>
+<p><a href="http://www.microsoft.com/technet/security/bulletin/ms09-apr.mspx">http://www.microsoft.com/technet/security/bulletin/ms09-apr.mspx</a><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/06/f1-150x150.jpg" alt="性能调优攻略" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7490.html" class="wp_rp_title">性能调优攻略</a></li><li ><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/5.jpg" alt="10大经典错误" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5107.html" class="wp_rp_title">10大经典错误</a></li><li ><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/25.jpg" alt="如何学好C语言" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4102.html" class="wp_rp_title">如何学好C语言</a></li><li ><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="纯文本配置还是注册表" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4077.html" class="wp_rp_title">纯文本配置还是注册表</a></li><li ><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/11/Learn-Python-The-Hard-Way-150x150.jpg" alt="两本电子书" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3270.html" class="wp_rp_title">两本电子书</a></li><li ><a href="https://coolshell.cn/articles/3097.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2010/10/W_600-150x150.jpg" alt="Windows的达尔文进化图" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3097.html" class="wp_rp_title">Windows的达尔文进化图</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/404.html">4月14日，微软补丁日</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/404.html/feed</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>rsync | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/rsync/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 04 Dec 2019 09:10:36 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>28个Unix/Linux的命令行神器</title>
+		<link>https://coolshell.cn/articles/7829.html</link>
+					<comments>https://coolshell.cn/articles/7829.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Wed, 11 Jul 2012 00:10:11 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[CLI]]></category>
+		<category><![CDATA[Game]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[Performance]]></category>
+		<category><![CDATA[rsync]]></category>
+		<category><![CDATA[Unix]]></category>
+		<category><![CDATA[vim]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7829</guid>
+
+					<description><![CDATA[<p>下面是Kristóf Kovács收集的28个Unix/Linux下的28个命令行下的工具（原文链接），有一些是大家熟悉的，有一些是非常有用的，有一些是不为人知...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7829.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7829.html">28个Unix/Linux的命令行神器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>下面是<a href="http://kkovacs.eu/" target="_blank">Kristóf Kovács</a>收集的28个Unix/Linux下的28个命令行下的工具（<a href="http://kkovacs.eu/cool-but-obscure-unix-tools" target="_blank">原文链接</a>），有一些是大家熟悉的，有一些是非常有用的，有一些是不为人知的。这些工具都非常不错，希望每个人都知道。本篇文章还在<a href="http://news.ycombinator.com/item?id=2567186" target="_blank">Hacker News上被讨论</a>，你可以过去看看。我以作者的原文中加入了官网链接和一些说明。</p>
+<div class="alpha grid_6">
+<h4>dstat &amp; sar</h4>
+<p>iostat, vmstat, ifstat 三合一的工具，用来查看系统性能（我在《<a title="性能调优攻略" href="https://coolshell.cn/articles/7490.html" target="_blank">性能调优攻略</a>》中提到过那三个xxstat工具）。</p>
+<p>官方网站：<a href="http://dag.wieers.com/rpm/packages/dstat/" target="_blank">http://dag.wieers.com/rpm/packages/dstat/</a></p>
+<p>你可以这样使用：</p>
+<p><code data-enlighter-language="shell" class="EnlighterJSRAW">alias dstat=&#039;dstat -cdlmnpsy&#039;</code></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot.png" alt="dstat screenshot" width="400" height="326" /></p>
+<h4 class="caption_text">slurm</h4>
+</div>
+<p>查看网络流量的一个工具</p>
+<p>官方网站：<em>  <a href="https://computing.llnl.gov/linux/slurm/" target="_blank">Simple Linux Utility for Resource Management</a></em></p>
+<p><span id="more-7829"></span></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/slurm_screenshot.png" alt="slurm screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>vim &amp; emacs</h4>
+<p>真正程序员的代码编辑器。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/vim_screenshot.png" alt="vim screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>screen, dtach, tmux, byobu</h4>
+<p>你是不是经常需要 SSH 或者 telent 远程登录到 Linux 服务器？你是不是经常为一些长时间运行的任务而头疼，比如系统备份、ftp 传输等等。通常情况下我们都是为每一个这样的任务开一个远程终端窗口，因为他们执行的时间太长了。必须等待它执行完毕，在此期间可不能关掉窗口或者断开连接，否则这个任务就会被杀掉，一切半途而废了。</p>
+<p><a href="http://www.gnu.org/software/screen/" target="_blank"><strong>Screen</strong></a>是一个可以在多个进程之间多路复用一个物理终端的窗口管理器。Screen中有会话的概念，用户可以在一个screen会话中创建多个screen窗口，在每一个screen窗口中就像操作一个真实的telnet/SSH连接窗口那样。请参看IBM DeveloperWorks的这篇文章《<a href="http://www.ibm.com/developerworks/cn/linux/l-cn-screen/" target="_blank">使用 screen 管理你的远程会话</a>》</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/gnu_screen_screenshot.png" alt="gnu screen screenshot" width="400" height="326" /></p>
+<p><a href="http://dtach.sourceforge.net/" target="_blank"><strong>dtach</strong> </a>是用来模拟screen的detach的功能的小工具，其可以让你随意地attach到各种会话上 。下图为dtach+dvtm的样子。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7861" title="dtach+dvtm" src="https://coolshell.cn/wp-content/uploads/2012/07/dtach+dvtm.png" alt="" width="500" height="477" srcset="https://coolshell.cn/wp-content/uploads/2012/07/dtach+dvtm.png 500w, https://coolshell.cn/wp-content/uploads/2012/07/dtach+dvtm-300x286.png 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p><strong><a title="http://tmux.sourceforge.net/" href="http://tmux.sourceforge.net/" rel="nofollow">tmux</a></strong>是一个优秀的终端复用软件，类似<a title="http://www.gnu.org/software/screen/" href="http://www.gnu.org/software/screen/" rel="nofollow">GNU Screen</a>，但来自于OpenBSD，采用BSD授权。使用它最直观的好处就是，通过一个终端登录远程主机并运行tmux后，在其中可以开启多个控制台而无需再“浪费”多余的终端来连接这台远程主机；当然其功能远不止于此。与screen相比的优点：可以横向和纵向分割窗口，且窗格可以自由移动和调整大小。可在多个缓冲区进行复制和粘贴，支持跨窗口搜索；非正常断线后不需重新detach；……  有人说——<strong>与tmux相比，screen简直弱爆了</strong>。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7860" title="tmux" src="https://coolshell.cn/wp-content/uploads/2012/07/tmux3.png" alt="" width="650" height="404" srcset="https://coolshell.cn/wp-content/uploads/2012/07/tmux3.png 650w, https://coolshell.cn/wp-content/uploads/2012/07/tmux3-300x186.png 300w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<div class="align_right">
+<p><a href="https://launchpad.net/byobu/" target="_blank"><strong>byobu</strong></a>是Ubuntu开发的，在Screen的基础上进行包装，使其更加易用的一个工具。最新的Byobu，已经是基于Tmux作为后端了。可通过“byobu-tmux”这个命令行前端来接受各种与tmux一模一样的参数来控制它。Byobu的细节做的非常好，效果图如下：<img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7864" title="byobu-tmux" src="https://coolshell.cn/wp-content/uploads/2012/07/byobu-tmux.jpg" alt="" width="650" height="406" srcset="https://coolshell.cn/wp-content/uploads/2012/07/byobu-tmux.jpg 650w, https://coolshell.cn/wp-content/uploads/2012/07/byobu-tmux-300x187.jpg 300w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<p class="caption_text">
+</div>
+<h4>multitail</h4>
+<p>MultiTail是个用来实现同时监控多个文档、类似tail命令的功能的软件。他和tail的区别就是他会在控制台中打开多个窗口，这样使同时监控多个日志文档成为可能。他还可以看log文件的统计，合并log文件，过滤log文件，分屏，……。</p>
+<p>官网：<a href="http://www.vanheusden.com/multitail/">http://www.vanheusden.com/multitail/</a></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/multitail_screenshot.png" alt="multitail screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>tpp</h4>
+<p>终端下的PPT，要是在某某大会上用这个演示PPT，就太TMD的Geek了。</p>
+<p>官网：<a href="http://www.ngolde.de/tpp.html">http://www.ngolde.de/tpp.html</a></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/tpp_screenshot.png" alt="tpp screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>xargs &amp; parallel</h4>
+<p>Executes tasks from input (even multithread).</p>
+<p>xargs 是一个比较古老的命令，有简单的并行功能，这个不说了。<span>对于</span><a href="http://www.gnu.org/software/parallel/"><span>GNU parallel</span></a><span> ( </span><a href="http://savannah.gnu.org/projects/parallel"><span>online manpage</span></a><span><span> )来说，它不仅能够处理本机上多执行绪，还能分散至远端电脑协助处理。</span><span>而使用GNU parallel前，要先确定本机有安装GNU parallel / ssh / rsync，远端电脑也要安装ssh。</span></span></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/xargs_screenshot.png" alt="xargs screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>duplicity &amp; rsyncrypto</h4>
+<p><a href="http://duplicity.nongnu.org/" target="_blank">Duplicity</a>是使用rsync算法加密的高效率备份软件，Duplicity支持目录加密生产和格式上传到远程或本地文件服务器。</p>
+<p><a href="http://rsyncrypto.lingnu.com/index.php/Home_Page" target="_blank">rsyncrypto</a> 就是 rsync + encryption。对于rsync的算法可参看酷壳的<a title="rsync 的核心算法" href="https://coolshell.cn/articles/7425.html" target="_blank">rsync核心算法</a>。</p>
+<p>Encrypting backup tools.</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/duplicity_screenshot.png" alt="duplicity screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>nethack &amp; slash&#8217;em</h4>
+<p><a href="http://www.nethack.org/" target="_blank">NetHack</a>（<a href="http://zh.wikipedia.org/zh/NetHack" target="_blank">Wiki</a>），20年历史的古老电脑游戏。没有声音，没有漂亮的界面，不过这个游戏真的很有意思。网上有个家伙说：<strong>如果你一生只做一件事情，那么玩NetHack</strong>。这句话很惹眼，但也让人觉得这个游戏很复杂不容易上手。其实，这个游戏很虽然很复杂，却容易上手。虽然玩通关很难，但上手很容易。NetHack上有许多复杂的规则，&#8221;the DevTeam thinks of everything&#8221;（开发团队想到了所有的事情)。各种各样的怪物，各种各样的武器&#8230;.，有许多spoilers文件来说明其规则。除了每次开始随机生成的地图，每次玩游戏，你也都会碰到奇怪的事情: 因为喝了一种药水，变成了机器人;因为踢坏了商店的门被要求高价赔偿;你的狗为你偷来了商店的东西&#8230;.. 这有点象人生，你不能完全了解这个世界，但你仍然可以选择自己的面对方式。</p>
+<p>网上有许多文章所这是最好的电脑游戏或最好的电脑游戏之一。也许是因为它开放的源代码让人赞赏，古老的历史让人宽容，复杂的规则让人敬畏。虽然它不是当前流行的游戏，但它比任何一个当前流行的游戏都更有可能再经受20年的考验。</p>
+<p><a href="http://www.slashem.org" target="_blank">Slash&#8217;EM</a> 也是一个基于NetHack的经典游戏。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/nethack_screenshot.png" alt="nethack screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>lftp</h4>
+<p>利用<a href="http://lftp.yar.ru/" target="_blank">lftp</a>命令行ftp工具进行网站数据的增量备份，镜像，就像使用rsync一样。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/lftp_screenshot.png" alt="lftp screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>ack</h4>
+<p><a href="http://betterthangrep.com/"><span>ack</span></a><span>是一个perl脚本，是grep的一个可选替换品。其可以对匹配字符有高亮显示。是为程序员专门设计的，默认递归搜索，省提供多种文件类型供选。</span></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/ack_screenshot.png" alt="ack screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>calcurse &amp; remind + wyrd</h4>
+<p><a href="http://calcurse.org/" target="_blank">calcurse</a>是一个命令行下的日历和日程软件。<a href="http://www.roaringpenguin.com/products/remind" target="_blank">remind</a> + <a href="http://pessimization.com/software/wyrd/" target="_blank">wyrd</a>也很类似。关于日历，我不得不提一个<a title="Linux的cycle日历（你懂的）" href="https://coolshell.cn/articles/3489.html" target="_blank">Linux的Cycle日历</a>，也是一个神器，呵呵。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/calcurse_screenshot.png" alt="calcurse screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>newsbeuter &amp; rsstail</h4>
+<p><a href="http://newsbeuter.org/" target="_blank">newsbeuter </a>和 <a href="http://www.vanheusden.com/rsstail/" target="_blank">rsstail</a> 是命令行下RSS的阅读工具。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/newsbeuter_screenshot.png" alt="newsbeuter screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>powertop</h4>
+<p><a title="做个环保主义的程序员" href="https://coolshell.cn/articles/7186.html" target="_blank">做个环保的程序员</a>，看看自己的电脑里哪些程序费电。<a href="https://01.org/powertop/" target="_blank">PowerTOP</a> 是一个让 Intel 平台的笔记本电脑节省电源的 Linux 工具。此工具由 Intel 公司发布。它可以帮助用户找出那些耗电量大的程序，通过修复或者关闭那些应用程序或进程，从而为用户节省电源。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/powertop_screenshot.png" alt="powertop screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+</div>
+<div class="omega grid_6">
+<h4>htop &amp; iotop</h4>
+<p><a href="http://htop.sourceforge.net/" target="_blank">htop</a> 和 <a href="http://guichaz.free.fr/iotop/" target="_blank">iotop</a>  用来查看进程，内存和IO负载。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/htop_screenshot.png" alt="htop screenshot" width="400" height="326" /></p>
+</div>
+<h4>ttyrec &amp; ipbt</h4>
+<p><a href="http://0xcc.net/ttyrec/index.html.en" target="_blank">ttyrec</a> 是一个 tty 控制台录制程序，其所录制的数据文件可以使用与之配套的 ttyplay 播放。不管是你在 tty 中的各种操作，还是在 tty 中耳熟能详的软件，都可进行录制。</p>
+<p><a href="http://www.chiark.greenend.org.uk/~sgtatham/ipbt/" target="_blank">ipbt</a> 是一个用来回放 ttyrec 所录制的控制台输入过程的工具。</p>
+<p>与此类似的还有<a href="http://shelr.tv/" target="_blank">Shelr</a> 和 <a href="http://sourceforge.net/projects/termrec/" target="_blank">termrec </a></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/ipbt_screenshot.png" alt="ipbt screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>rsync</h4>
+<p>通过SSH进行文件同步的经典工具（<a title="rsync 的核心算法" href="https://coolshell.cn/articles/7425.html" target="_blank">核心算法</a>）</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/rsync_screenshot.png" alt="rsync screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>mtr</h4>
+<p><a href="http://www.bitwizard.nl/mtr/" target="_blank">MTR</a> &#8211; traceroute 2.0，其是把 traceroute 和 ping 集成在一块的一个小工具 用于诊断网络。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/mtr_screenshot.png" alt="mtr screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>socat &amp; netpipes</h4>
+<p><a href="http://www.dest-unreach.org/socat/" target="_blank">socat</a>是一个多功能的网络工具，名字来由是” Socket CAT”，可以看作是netcat的N倍加强版。</p>
+<p><a href="http://web.purplefrog.com/~thoth/netpipes/" target="_blank">netpipes</a> 和socat一样，主要是用来在命令行来进行socket操作的命令，这样你就可以在Shell脚本下行进socket网络通讯了。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/socat_screenshot.png" alt="socat screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>iftop &amp; iptraf</h4>
+<p><a href="http://www.ex-parrot.com/~pdw/iftop/" target="_blank">iftop</a>和<a href="http://iptraf.seul.org/" target="_blank">iptraf</a>可以用来查看当前网络链接的一些流量情况。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/iftop_screenshot.png" alt="iftop screenshot" width="400" height="326" /></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7867" title="iptraf-tcpudp" src="https://coolshell.cn/wp-content/uploads/2012/07/iptraf-tcpudp.gif" alt="" width="562" height="354" srcset="https://coolshell.cn/wp-content/uploads/2012/07/iptraf-tcpudp.gif 562w, https://coolshell.cn/wp-content/uploads/2012/07/iptraf-tcpudp-300x188.gif 300w" sizes="(max-width: 562px) 100vw, 562px" /></p>
+<p class="caption_text">
+</div>
+<h4>siege &amp; tsung</h4>
+<p><a href="http://www.joedog.org/siege-home/" target="_blank">Siege</a>是一个压力测试和评测工具，设计用于WEB开发这评估应用在压力下的承受能力：可以根据配置对一个WEB站点进行多用户的并发访问，记录每个用户所有请求过程的相应时间，并在一定数量的并发访问下重复进行。</p>
+<p><a href="http://tsung.erlang-projects.org/" target="_blank">Tsung</a> 是一个压力测试工具，可以测试包括HTTP, WebDAV, PostgreSQL, MySQL, LDAP, and XMPP/Jabber等服务器。针对 HTTP 测试，Tsung 支持 HTTP 1.0/1.1 ，包含一个代理模式的会话记录、支持 GET、POST 和 PUT 以及 DELETE 方法，支持 Cookie 和基本的 WWW 认证，同时还支持 SSL。</p>
+<p>参看：<a title="十个免费的Web压力测试工具" href="https://coolshell.cn/articles/2589.html" target="_blank">十个免费的Web压力测试工具</a></p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/siege_screenshot.png" alt="siege screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>ledger</h4>
+<p><a href="http://ledger-cli.org/" target="_blank">ledger</a> 一个命令行下记帐的小工具。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/ledger_screenshot.png" alt="ledger screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>taskwarrior</h4>
+<p><a href="http://taskwarrior.org/projects/show/taskwarrior" target="_blank">TaskWarrior</a> 是一个基于命令行的 TODO 列表管理工具。主要功能包括：标签、彩色表格输出、报表和图形、大量的命令、底层API、多用户文件锁等功能。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/taskwarrior_screenshot.png" alt="taskwarrior screenshot" width="400" height="326" /></p>
+<p>下图是TaskWarrior 2.0的界面：</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7868" title="TaskWarrior2.0" src="https://coolshell.cn/wp-content/uploads/2012/07/TaskWarrior2.0.png" alt="" width="395" height="480" srcset="https://coolshell.cn/wp-content/uploads/2012/07/TaskWarrior2.0.png 395w, https://coolshell.cn/wp-content/uploads/2012/07/TaskWarrior2.0-246x300.png 246w" sizes="(max-width: 395px) 100vw, 395px" /></p>
+<p class="caption_text">
+</div>
+<h4>curl</h4>
+<p><a href="http://curl.haxx.se/" target="_blank">cURL</a>是一个利用URL语法在命令行下工作的文件传输工具，1997年首次发行。它支持文件上传和下载，所以是综合传输工具，但按传统，习惯称cURL为下载工具。cURL还包含了用于程序开发的libcurl。cURL支援的通訊協定有FTP、FTPS、HTTP、HTTPS、TFTP、SFTP、Gopher、SCP、Telnet、DICT、FILE、LDAP、LDAPS、IMAP、POP3、SMTP和RTSP。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/curl_screenshot.png" alt="curl screenshot" width="400" height="326" /></p>
+<p class="caption_text">
+</div>
+<h4>rtorrent &amp; aria2</h4>
+<p><a href="http://libtorrent.rakshasa.no/" target="_blank">rTorrent</a> 是一个非常简洁、优秀、非常轻量的BT客户端. 它使用了 ncurses 库以 C++ 编写, 因此它完全基于文本并在终端中运行. 将 rTorrent 用在安装有 GNU Screen 和 Secure Shell 的低端系统上作为远程的 BT 客户端是非常理想的。</p>
+<p><a href="http://aria2.sourceforge.net/">aria2</a> 是 Linux 下一个不错的高速下载工具。由于它具有分段下载引擎，所以支持从多个地址或者从一个地址的多个连接来下载同一个文件。这样自然就大大加快了文件的下载速度。aria2 也具有断点续传功能，这使你随时能够恢复已经中断的文件下载。除了支持一般的 http(s) 和 ftp 协议外，aria2 还支持 BitTorrent 协议。这意味着，你也可以使用 aria2 来下载 torrent 文件。</p>
+<div class="align_right">
+<p class="caption_text"> <img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/rtorrent_screenshot.png" alt="rtorrent screenshot" width="400" height="326" /></p>
+</div>
+<h4>ttytter &amp; earthquake</h4>
+<p><a href="http://www.floodgap.com/software/ttytter" target="_blank">TTYtter</a> 是一个Perl写的命令行上发Twitter的工具，可以进行所有其他平台客户端能进行的事情，当然，支持中文。脚本控、CLI控、终端控、Perl控的最愛。</p>
+<p><a href="https://github.com/jugyo/earthquake" target="_blank">Earthquake</a>也是一个命令行上的Twitter客户端。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/ttytter_screenshot.png" alt="ttytter screenshot" width="400" height="326" /></p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7870" title="earthquake" src="https://coolshell.cn/wp-content/uploads/2012/07/earthquake.jpg" alt="" width="550" height="314" srcset="https://coolshell.cn/wp-content/uploads/2012/07/earthquake.jpg 550w, https://coolshell.cn/wp-content/uploads/2012/07/earthquake-300x171.jpg 300w" sizes="(max-width: 550px) 100vw, 550px" /></p>
+<p class="caption_text">
+</div>
+<h4>vifm &amp; ranger</h4>
+<p><a href="http://vifm.sourceforge.net/" target="_blank">Vifm</a> 基于ncurses的文件管理器，DOS风格，用键盘操作。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/vifm_screenshot.png" alt="vifm screenshot" width="400" height="326" /></p>
+<p><a href="http://savannah.nongnu.org/projects/ranger" target="_blank">Ranger</a>用 Python 完成，默认为使用 Vim 风格的按键绑定，比如 hjkl（上下左右），dd（剪切），yy（复制）等等。功能很全，扩展/可配置性也非常不错。类似MacOS X下Finder（文件管理器）的多列文件管理方式。支持多标签页。实时预览文本文件和目录。</p>
+<div class="align_right">
+<p class="caption_text"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7871" title="ranger" src="https://coolshell.cn/wp-content/uploads/2012/07/ranger.png" alt="" width="668" height="340" srcset="https://coolshell.cn/wp-content/uploads/2012/07/ranger.png 668w, https://coolshell.cn/wp-content/uploads/2012/07/ranger-300x152.png 300w" sizes="(max-width: 668px) 100vw, 668px" /></p>
+</div>
+<h4>cowsay &amp; sl</h4>
+<p><a href="http://www.nog.net/~tony/warez/cowsay.shtml" target="_blank">cowsay </a> 不说了，如下所示，哈哈哈。还有xcowsay，你可以自己搜一搜。</p>
+<div class="align_right">
+<p><img decoding="async" loading="lazy" class="aligncenter" title="" src="https://coolshell.cn/wp-content/uploads/2012/07/cowsay_screenshot.png" alt="cowsay screenshot" width="400" height="326" /></p>
+<p class="caption_text"> sl是什么？ls？，呵呵，你会经常把ls 打成sl吗？如果是的话，这个东西可以让你娱乐一下，你会看到一辆火车呼啸而过~~，相当拉风。你可以使用sudo apt-get install sl 安装。</p>
+<p class="caption_text"><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7872" title="sl" src="https://coolshell.cn/wp-content/uploads/2012/07/sl.jpg" alt="" width="500" height="254" srcset="https://coolshell.cn/wp-content/uploads/2012/07/sl.jpg 500w, https://coolshell.cn/wp-content/uploads/2012/07/sl-300x152.jpg 300w" sizes="(max-width: 500px) 100vw, 500px" /></p>
+<p class="caption_text">最后，再介绍一个命令中linuxlogo，你可以使用 sudo apt-get install linuxlogo来安装，然后，就可以使用linuxlogo -L<br />
+来看一下各种Linux的logo了</p>
+<p class="caption_text"><img decoding="async" loading="lazy" class="aligncenter" title="linuxlogo" src="https://coolshell.cn/wp-content/uploads/2012/07/linuxlogo.jpg" alt="" width="450" height="371" /></p>
+<p class="caption_text">（全文完）</p>
+</div>
+</div>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/01/linux-bash-300x225-150x150.jpg" alt="应该知道的Linux技巧" width="150" height="150" /></a><a href="https://coolshell.cn/articles/8883.html" class="wp_rp_title">应该知道的Linux技巧</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/11/tux-fork-150x150.gif" alt="vfork 挂掉的一个问题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12103.html" class="wp_rp_title">vfork 挂掉的一个问题</a></li><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2013/02/sed-superman-150x150.png" alt="sed 简明教程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/9104.html" class="wp_rp_title">sed 简明教程</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7829.html">28个Unix/Linux的命令行神器</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7829.html/feed</wfw:commentRss>
+			<slash:comments>120</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>rsync 的核心算法</title>
+		<link>https://coolshell.cn/articles/7425.html</link>
+					<comments>https://coolshell.cn/articles/7425.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Thu, 17 May 2012 00:25:38 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[程序设计]]></category>
+		<category><![CDATA[adler]]></category>
+		<category><![CDATA[Algorithm]]></category>
+		<category><![CDATA[checksum]]></category>
+		<category><![CDATA[Linux]]></category>
+		<category><![CDATA[MD5]]></category>
+		<category><![CDATA[rsync]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=7425</guid>
+
+					<description><![CDATA[<p>rsync是unix/linux下同步文件的一个高效算法，它能同步更新两处计算机的文件与目录，并适当利用查找文件中的不同块以减少数据传输。rsync中一项与其他...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/7425.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/7425.html">rsync 的核心算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script><a href="http://en.wikipedia.org/wiki/Rsync" target="_blank" rel="noopener noreferrer">rsync</a>是unix/linux下同步文件的一个高效算法，它能同步更新两处计算机的文件与目录，并适当利用查找文件中的不同块以减少数据传输。rsync中一项与其他大部分类似程序或协定中所未见的重要特性是镜像是只对有变更的部分进行传送。rsync可拷贝／显示目录属性，以及拷贝文件，并可选择性的压缩以及递归拷贝。rsync利用由<a href="http://en.wikipedia.org/wiki/Andrew_Tridgell" target="_blank" rel="noopener noreferrer">Andrew Tridgell</a>发明的算法。这里不介绍其使用方法，只介绍其核心算法。我们可以看到，Unix下的东西，一个命令，一个工具都有很多很精妙的东西，怎么学也学不完，这就是<a title="Unix传奇(上篇)" href="https://coolshell.cn/articles/2322.html" target="_blank" rel="noopener noreferrer">Unix的文化</a>啊。</p>
+<p>本来不想写这篇文章的，因为原先发现有很多中文blog都说了这个算法，但是看了一下，发现这些中文blog要么翻译国外文章翻译地非常烂，要么就是介绍这个算法介绍得很乱让人看不懂，还有错误，误人不浅，所以让我觉得有必要写篇rsync算法介绍的文章。（当然，我成文比较仓促，可能会有一些错误，请指正）</p>
+<h4>问题</h4>
+<p>首先， 我们先来想一下rsync要解决的问题，如果我们要同步的文件只想传不同的部分，我们就需要对两边的文件做diff，但是这两个问题在两台不同的机器上，无法做diff。如果我们做diff，就要把一个文件传到另一台机器上做diff，但这样一来，我们就传了整个文件，这与我们只想传输不同部的初衷相背。</p>
+<p>于是我们就要想一个办法，让这两边的文件见不到面，但还能知道它们间有什么不同。这就出现了rsync的算法。</p>
+<h4>算法</h4>
+<p>rsync的算法如下：（<strong>假设我们同步源文件名为fileSrc，同步目的文件叫fileDst</strong>）</p>
+<p><span id="more-7425"></span></p>
+<p>1）<strong>分块Checksum算法</strong>。首先，我们会把fileDst的文件平均切分成若干个小块，比如每块512个字节（最后一块会小于这个数），然后对每块计算两个checksum，</p>
+<ul>
+<li>一个叫<a href="http://en.wikipedia.org/wiki/Rolling_hash" target="_blank" rel="noopener noreferrer">rolling checksum</a>，是弱checksum，32位的checksum，其使用的是Mark Adler发明的<a title="Adler-32" href="http://en.wikipedia.org/wiki/Adler-32">adler-32</a>算法，</li>
+<li>另一个是强checksum，128位的，以前用md4，现在用md5 hash算法。</li>
+</ul>
+<p>为什么要这样？因为若干年前的硬件上跑md4的算法太慢了，所以，我们需要一个快算法来鉴别文件块的不同，但是弱的adler32算法碰撞概率太高了，所以我们还要引入强的checksum算法以保证两文件块是相同的。<strong>也就是说，弱的checksum是用来区别不同，而强的是用来确认相同</strong>。（checksum的具体公式可以参看<a href="http://rsync.samba.org/tech_report/node3.html" target="_blank" rel="noopener noreferrer">这篇文章</a>）</p>
+<p>2）<strong>传输算法。</strong>同步目标端会把fileDst的一个checksum列表传给同步源，这个列表里包括了三个东西，<strong>rolling checksum(32bits)</strong>，<strong>md5 checksume(128bits)</strong>，<strong>文件块编号</strong>。</p>
+<p>我估计你猜到了同步源机器拿到了这个列表后，会对fileSrc做同样的checksum，然后和fileDst的checksum做对比，这样就知道哪些文件块改变了。</p>
+<p>但是，聪明的你一定会有以下两个疑问：</p>
+<ul>
+<li>如果我fileSrc这边在文件中间加了一个字符，这样后面的文件块都会位移一个字符，这样就完全和fileDst这边的不一样了，但理论上来说，我应该只需要传一个字符就好了。这个怎么解决？</li>
+</ul>
+<ul>
+<li>如果这个checksum列表特别长，而我的两边的相同的文件块可能并不是一样的顺序，那就需要查找，线性的查找起来应该特别慢吧。这个怎么解决？</li>
+</ul>
+<p>很好，让我们来看一下同步源端的算法。</p>
+<p>3）<strong>checksum查找算法</strong>。同步源端拿到fileDst的checksum数组后，会把这个数据存到一个hash table中，用rolling checksum做hash，以便获得O(1)时间复杂度的查找性能。这个hash table是16bits的，所以，hash table的尺寸是2的16次方，对rolling checksum的hash会被散列到0 到 2^16 &#8211; 1中的某个整数值。（对于hash table，如果你不清楚，建议回去看大学时的数据结构教科书）</p>
+<p>顺便说一下，我在网上看到很多文章说，“要对rolling checksum做排序”（比如<a href="http://www.yejun.cn/?p=472" target="_blank" rel="noopener noreferrer">这篇</a>和<a href="http://blog.csdn.net/tobeandnottobe/article/details/6719848" target="_blank" rel="noopener noreferrer">这篇</a>），这两篇文章都引用并翻译了<a href="http://rsync.samba.org/tech_report/node4.html" target="_blank" rel="noopener noreferrer">原作者的这篇文章</a>，但是他们都理解错了，不是排序，就只是把fileDst的checksum数据，按rolling checksum做存到2^16的hash table中，当然会发生碰撞，把碰撞的做成一个链表就好了。这就是<a href="http://rsync.samba.org/tech_report/node4.html" target="_blank" rel="noopener noreferrer">原文</a>中所说的第二步——搜索有碰撞的情况。</p>
+<p>4）<strong>比对算法</strong>。这是最关键的算法，细节如下：</p>
+<p style="padding-left: 30px;">4.1）取fileSrc的第一个文件块（我们假设的是512个长度），也就是从fileSrc的第1个字节到第512个字节，取出来后做rolling checksum计算。计算好的值到hash表中查。</p>
+<p style="padding-left: 30px;">4.2）如果查到了，说明发现在fileDst中有潜在相同的文件块，于是就再比较md5的checksum，因为rolling checksume太弱了，可能发生碰撞。于是还要算md5的128bits的checksum，这样一来，我们就有 2^-(32+128) = 2^-160的概率发生碰撞，这太小了可以忽略。<strong>如果rolling checksum和md5 checksum都相同，这说明在fileDst中有相同的块，我们需要记下这一块在fileDst下的文件编号</strong>。</p>
+<p style="padding-left: 30px;">4.3）如果fileSrc的rolling checksum 没有在hash table中找到，那就不用算md5 checksum了。表示这一块中有不同的信息。总之，只要rolling checksum 或 md5 checksum 其中有一个在fileDst的checksum hash表中找不到匹配项，那么就会触发算法对fileSrc的rolling动作。于是，<strong>算法会住后step 1个字节，取fileSrc中字节2-513的文件块要做checksum，go to (4.1) </strong>&#8211; 现在你明白什么叫rolling checksum了吧。</p>
+<p style="padding-left: 30px;">4.4）这样，我们就可以找出fileSrc相邻两次匹配中的那些文本字符，这些就是我们要往同步目标端传的文件内容了。</p>
+<h4 class="p1"><b>rolling checksum算法</b></h4>
+<p class="p1">这个算法很简单，也叫<a href="https://en.wikipedia.org/wiki/Rabin%E2%80%93Karp_string_search_algorithm" target="_blank" rel="noopener noreferrer">Rabin-Karp 算法</a>，由 Richard M. Karp 和 Michael O. Rabin 在 1987 年发表，它也是用来解决多模式串匹配问题的。其最大的精髓是，当我们往后面step 1个字符的时候，不用全部重新计算所有的checksum，也就是说，我们从 [0, 512] rolling 到 [1, 513] 时，我们不需要重新计算从1到513的checksum，而是重用 [0，512]的checksum直接算出来。</p>
+<p class="p1">这个算法比较简单，我举个例子，我们有一个数字：12345678，假设我们以5个长度作为一个块，那么，第一个块就是 12345 ，12345可以表示为：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW"> 1 * 10^4 + 2 * 10^3 + 3 * 10^2 + 4 * 10^1 + 5 * 10^0 = 12345 </code></p>
+<p class="p1">如果我们要step 1步，也就是要得到 23456， 我们不必计算：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">2 * 10^4 + 3 * 10^3 + 4 * 10^2 + 5 * 10^1 + 6 * 10^0</code></p>
+<p class="p1">而是直接计算：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">(12345 - 1 * 10^4) * 10 + 6 * 10 ^0</code></p>
+<p class="p1">我们可以看到，其中，我们把12345最左边第一位去掉，然后，再加上最右边的一位。这就是Rolling checksum的算法。</p>
+<p class="p1">实际的公式是：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">hash ( t[0, m-1] ) = t[0] * b^(m-1) + t[1] * b^[m-2] ..... t[m-1] * b^0</code></p>
+<p class="p1">其中的 b是一个常数基数，在 Rabin-Karp 算法中，我们一般取值为  256。</p>
+<p class="p1">于是，在计算 hash ( t[1, m] ) 时，只需要下面这样就可以了：</p>
+<p><code data-enlighter-language="c" class="EnlighterJSRAW">hash( t[1, m] ) = hash ( t[0, m-1] ) - t[0] * b^(m-1)  + t[m] * b ^0</code></p>
+<h4>图示</h4>
+<p>怎么，你没看懂？ 好吧，我送佛送上西，画个示意图给你看看（对图中的东西我就不再解释了）。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7428" title="rsync algorithm" src="https://coolshell.cn/wp-content/uploads/2012/05/rsync-algorithm.jpg" alt="" width="650" height="463" srcset="https://coolshell.cn/wp-content/uploads/2012/05/rsync-algorithm.jpg 650w, https://coolshell.cn/wp-content/uploads/2012/05/rsync-algorithm-300x214.jpg 300w, https://coolshell.cn/wp-content/uploads/2012/05/rsync-algorithm-379x270.jpg 379w" sizes="(max-width: 650px) 100vw, 650px" /></p>
+<p>这样，最终，在同步源这端，我们的rsync算法可能会得到下面这个样子的一个数据数组，图中，红色块表示在目标端已匹配上，不用传输（注：我专门在其中显示了两块chunk #5，相信你会懂的），而白色的地方就是需要传输的内容（注意：这些白色的块是不定长的），这样，同步源这端把这个数组（白色的就是实际内容，红色的就放一个标号）压缩传到目的端，在目的端的rsync会根据这个表重新生成文件，这样，同步完成。</p>
+<p><img decoding="async" loading="lazy" class="aligncenter size-full wp-image-7427" title="rsync algorithm result" src="https://coolshell.cn/wp-content/uploads/2012/05/rsync-algorithm-result.jpg" alt="" width="606" height="82" srcset="https://coolshell.cn/wp-content/uploads/2012/05/rsync-algorithm-result.jpg 606w, https://coolshell.cn/wp-content/uploads/2012/05/rsync-algorithm-result-300x40.jpg 300w" sizes="(max-width: 606px) 100vw, 606px" /></p>
+<p>最后想说一下，对于某些压缩文件使用rsync传输可能会传得更多，因为被压缩后的文件可能会非常的不同。对此，对于gzip和bzip2这样的命令，记得开启 “rsyncalbe” 模式。</p>
+<p>（全文完，<strong>转载时请注明作者和出处</strong>）</p>
+<p><audio style="display: none;" controls="controls"></audio></p>
+<p><audio style="display: none;" controls="controls"></audio><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" ><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/08/puzzle-150x150.png" alt="谜题的答案和活动的心得体会" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11847.html" class="wp_rp_title">谜题的答案和活动的心得体会</a></li><li ><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2012/07/dstat_screenshot-150x150.png" alt="28个Unix/Linux的命令行神器" width="150" height="150" /></a><a href="https://coolshell.cn/articles/7829.html" class="wp_rp_title">28个Unix/Linux的命令行神器</a></li><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/7425.html">rsync 的核心算法</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/7425.html/feed</wfw:commentRss>
+			<slash:comments>244</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

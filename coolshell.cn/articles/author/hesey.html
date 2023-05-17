@@ -1,602 +1,780 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="zh-CN" prefix="og: https://ogp.me/ns#" amp="" data-amp-auto-lightbox-disable transformed="self;v=1" i-amphtml-layout="" i-amphtml-no-boilerplate="">
+<!--[if IE 8]>
+<html id="ie8" dir="ltr" lang="zh-CN"
+	prefix="og: https://ogp.me/ns#" >
+<![endif]-->
+<!--[if !(IE 8) ]><!-->
+<html dir="ltr" lang="zh-CN" prefix="og: https://ogp.me/ns#">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<link rel="profile" href="https://gmpg.org/xfn/11" />
+<link rel="pingback" href />
+<link rel="shortcut icon" href="../../favicon.png">
+<title>王 晨纯 | 酷 壳 - CoolShell</title>
+
+<meta name="description" content="阿里巴巴Java开发工程师，目前负责天猫和淘宝的店铺浏览系统，长期关注系统稳定性、性能优化、Web系统架构。（Blog: blog.hesey.net 新浪微博：Hesey小纯纯）" />
+<meta name="robots" content="noindex, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+<link rel="canonical" href="hesey.html" />
+<meta name="generator" content="All in One SEO (AIOSEO) 4.3.6.1 " />
+<script type="application/ld+json" class="aioseo-schema">
+			{"@context":"https:\/\/schema.org","@graph":[{"@type":"BreadcrumbList","@id":"https:\/\/coolshell.cn\/articles\/author\/hesey#breadcrumblist","itemListElement":[{"@type":"ListItem","@id":"https:\/\/coolshell.cn\/#listItem","position":1,"item":{"@type":"WebPage","@id":"https:\/\/coolshell.cn\/","name":"\u4e3b\u9801","description":"\u4eab\u53d7\u7f16\u7a0b\u548c\u6280\u672f\u6240\u5e26\u6765\u7684\u5feb\u4e50 \u2013 https:\/\/coolshell.cn","url":"https:\/\/coolshell.cn\/"},"nextItem":"https:\/\/coolshell.cn\/articles\/author\/hesey#listItem"},{"@type":"ListItem","@id":"https:\/\/coolshell.cn\/articles\/author\/hesey#listItem","position":2,"item":{"@type":"WebPage","@id":"https:\/\/coolshell.cn\/articles\/author\/hesey","name":"\u738b \u6668\u7eaf","description":"\u963f\u91cc\u5df4\u5df4Java\u5f00\u53d1\u5de5\u7a0b\u5e08\uff0c\u76ee\u524d\u8d1f\u8d23\u5929\u732b\u548c\u6dd8\u5b9d\u7684\u5e97\u94fa\u6d4f\u89c8\u7cfb\u7edf\uff0c\u957f\u671f\u5173\u6ce8\u7cfb\u7edf\u7a33\u5b9a\u6027\u3001\u6027\u80fd\u4f18\u5316\u3001Web\u7cfb\u7edf\u67b6\u6784\u3002\uff08Blog: blog.hesey.net \u65b0\u6d6a\u5fae\u535a\uff1aHesey\u5c0f\u7eaf\u7eaf\uff09","url":"https:\/\/coolshell.cn\/articles\/author\/hesey"},"previousItem":"https:\/\/coolshell.cn\/#listItem"}]},{"@type":"CollectionPage","@id":"https:\/\/coolshell.cn\/articles\/author\/hesey#collectionpage","url":"https:\/\/coolshell.cn\/articles\/author\/hesey","name":"\u738b \u6668\u7eaf | \u9177 \u58f3 - CoolShell","description":"\u963f\u91cc\u5df4\u5df4Java\u5f00\u53d1\u5de5\u7a0b\u5e08\uff0c\u76ee\u524d\u8d1f\u8d23\u5929\u732b\u548c\u6dd8\u5b9d\u7684\u5e97\u94fa\u6d4f\u89c8\u7cfb\u7edf\uff0c\u957f\u671f\u5173\u6ce8\u7cfb\u7edf\u7a33\u5b9a\u6027\u3001\u6027\u80fd\u4f18\u5316\u3001Web\u7cfb\u7edf\u67b6\u6784\u3002\uff08Blog: blog.hesey.net \u65b0\u6d6a\u5fae\u535a\uff1aHesey\u5c0f\u7eaf\u7eaf\uff09","inLanguage":"zh-CN","isPartOf":{"@id":"https:\/\/coolshell.cn\/#website"},"breadcrumb":{"@id":"https:\/\/coolshell.cn\/articles\/author\/hesey#breadcrumblist"}},{"@type":"Organization","@id":"https:\/\/coolshell.cn\/#organization","name":"\u9177\u58f3-CoolShell","url":"https:\/\/coolshell.cn\/","logo":{"@type":"ImageObject","url":"https:\/\/coolshell.cn\/wp-content\/uploads\/2020\/04\/mini.logo_.png","@id":"https:\/\/coolshell.cn\/#organizationLogo","width":306,"height":306},"image":{"@id":"https:\/\/coolshell.cn\/#organizationLogo"}},{"@type":"Person","@id":"https:\/\/coolshell.cn\/articles\/author\/hesey#author","url":"https:\/\/coolshell.cn\/articles\/author\/hesey","name":"\u738b \u6668\u7eaf","image":{"@type":"ImageObject","@id":"https:\/\/coolshell.cn\/articles\/author\/hesey#authorImage","url":"https:\/\/secure.gravatar.com\/avatar\/ad2761d3a84a1b29276b995d7719e694?s=96&d=mm&r=g","width":96,"height":96,"caption":"\u738b \u6668\u7eaf"},"mainEntityOfPage":{"@id":"https:\/\/coolshell.cn\/articles\/author\/hesey#profilepage"}},{"@type":"WebSite","@id":"https:\/\/coolshell.cn\/#website","url":"https:\/\/coolshell.cn\/","name":"\u9177 \u58f3 - CoolShell","description":"\u4eab\u53d7\u7f16\u7a0b\u548c\u6280\u672f\u6240\u5e26\u6765\u7684\u5feb\u4e50 - Coding Your Ambition","inLanguage":"zh-CN","publisher":{"@id":"https:\/\/coolshell.cn\/#organization"}}]}
+		</script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript">
+			window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+			ga('create', "UA-7486123-1", { 'cookieDomain': 'coolshell.cn' } );
+			ga('send', 'pageview');
+		</script>
+<script async src="https://www.google-analytics.com/analytics.js" type="d4729eff30ad65897d1db9e9-text/javascript"></script>
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+<script type="d4729eff30ad65897d1db9e9-text/javascript">
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/coolshell.cn\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.2"}};
+/*! This file is auto-generated */
+!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){p.clearRect(0,0,i.width,i.height),p.fillText(e,0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(t,0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(p&&p.fillText)switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s("\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!s("\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!s("\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!s("\ud83e\udef1\ud83c\udffb\u200d\ud83e\udef2\ud83c\udfff","\ud83e\udef1\ud83c\udffb\u200b\ud83e\udef2\ud83c\udfff")}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(e=t.source||{}).concatemoji?c(e.concatemoji):e.wpemoji&&e.twemoji&&(c(e.twemoji),c(e.wpemoji)))}(window,document,window._wpemojiSettings);
+</script>
+<style type="text/css">img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 0.07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="series_font-css" href="../../wp-content/plugins/simple-post-series/inc/icomoon/style%EF%B9%96ver=2.4.css" type="text/css" media="all" />
+<link rel="stylesheet" id="wp-block-library-css" href="../../wp-content/plugins/gutenberg/build/block-library/style%EF%B9%96ver=15.7.0.css" type="text/css" media="all" />
+<link rel="stylesheet" id="classic-theme-styles-css" href="../../wp-includes/css/classic-themes.min%EF%B9%96ver=6.2.css" type="text/css" media="all" />
+<style id="global-styles-inline-css" type="text/css">body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}body .is-layout-flow > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-flow > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-flow > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignleft{float: left;margin-inline-start: 0;margin-inline-end: 2em;}body .is-layout-constrained > .alignright{float: right;margin-inline-start: 2em;margin-inline-end: 0;}body .is-layout-constrained > .aligncenter{margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > :where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width: var(--wp--style--global--content-size);margin-left: auto !important;margin-right: auto !important;}body .is-layout-constrained > .alignwide{max-width: var(--wp--style--global--wide-size);}body .is-layout-flex{display: flex;}body .is-layout-flex{flex-wrap: wrap;align-items: center;}body .is-layout-flex > *{margin: 0;}body .is-layout-grid{display: grid;}body .is-layout-grid > *{margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}
+.wp-block-pullquote{font-size: 1.5em;line-height: 1.6;}
+.wp-block-navigation a:where(:not(.wp-element-button)){color: inherit;}
+</style>
+<link rel="stylesheet" id="wp-postratings-css" href="../../wp-content/plugins/wp-postratings/css/postratings-css%EF%B9%96ver=1.90.1.css" type="text/css" media="all" />
+<link rel="stylesheet" id="wp-pagenavi-css" href="../../wp-content/plugins/wp-pagenavi/pagenavi-css%EF%B9%96ver=2.70.css" type="text/css" media="all" />
+<link rel="stylesheet" id="ez-toc-css" href="../../wp-content/plugins/easy-table-of-contents/assets/css/screen.min%EF%B9%96ver=2.0.48.css" type="text/css" media="all" />
+<style id="ez-toc-inline-css" type="text/css">div#ez-toc-container p.ez-toc-title {font-size: 120%;}div#ez-toc-container p.ez-toc-title {font-weight: 500;}div#ez-toc-container ul li {font-size: 95%;}div#ez-toc-container nav ul ul li ul li {font-size: %!important;}
+.ez-toc-container-direction {direction: ltr;}.ez-toc-counter ul{counter-reset: item;}.ez-toc-counter nav ul li a::before {content: counters(item, ".", decimal) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;margin-right: .2em; float: left;}.ez-toc-widget-direction {direction: ltr;}.ez-toc-widget-container ul{counter-reset: item;}.ez-toc-widget-container nav ul li a::before {content: counters(item, ".", decimal) ". ";display: inline-block;counter-increment: item;flex-grow: 0;flex-shrink: 0;margin-right: .2em; float: left;}
+</style>
+<link rel="stylesheet" id="bootstrap-css" href="../../wp-content/themes/MyNisarg/css/bootstrap%EF%B9%96ver=6.2.css" type="text/css" media="all" />
+<link rel="stylesheet" id="nisarg-style-css" href="../../wp-content/themes/MyNisarg/style%EF%B9%96ver=6.2.css" type="text/css" media="all" />
+<style id="nisarg-style-inline-css" type="text/css">/* Color Scheme */
+
+	/* Accent Color */
+
+	a:active,
+	a:hover,
+	a:focus {
+	    color: #009688;
+	}
+
+	.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+		color: #009688;
+	}
+
+	
+	.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+		color: #009688;			
+	}
+
+	@media (min-width: 768px){
+		.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+			border-top: 4px solid #009688;
+		}		
+	}
+
+	.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {	    
+	    background-color: #009688;
+	}
 
 
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="preconnect" href="https://cdn.ampproject.org"><style amp-runtime="" i-amphtml-version="012301261900000">html{overflow-x:hidden!important}html.i-amphtml-fie{height:100%!important;width:100%!important}html:not([amp4ads]),html:not([amp4ads]) body{height:auto!important}html:not([amp4ads]) body{margin:0!important}body{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;-ms-text-size-adjust:100%;text-size-adjust:100%}html.i-amphtml-singledoc.i-amphtml-embedded{-ms-touch-action:pan-y pinch-zoom;touch-action:pan-y pinch-zoom}html.i-amphtml-fie>body,html.i-amphtml-singledoc>body{overflow:visible!important}html.i-amphtml-fie:not(.i-amphtml-inabox)>body,html.i-amphtml-singledoc:not(.i-amphtml-inabox)>body{position:relative!important}html.i-amphtml-ios-embed-legacy>body{overflow-x:hidden!important;overflow-y:auto!important;position:absolute!important}html.i-amphtml-ios-embed{overflow-y:auto!important;position:static}#i-amphtml-wrapper{overflow-x:hidden!important;overflow-y:auto!important;position:absolute!important;top:0!important;left:0!important;right:0!important;bottom:0!important;margin:0!important;display:block!important}html.i-amphtml-ios-embed.i-amphtml-ios-overscroll,html.i-amphtml-ios-embed.i-amphtml-ios-overscroll>#i-amphtml-wrapper{-webkit-overflow-scrolling:touch!important}#i-amphtml-wrapper>body{position:relative!important;border-top:1px solid transparent!important}#i-amphtml-wrapper+body{visibility:visible}#i-amphtml-wrapper+body .i-amphtml-lightbox-element,#i-amphtml-wrapper+body[i-amphtml-lightbox]{visibility:hidden}#i-amphtml-wrapper+body[i-amphtml-lightbox] .i-amphtml-lightbox-element{visibility:visible}#i-amphtml-wrapper.i-amphtml-scroll-disabled,.i-amphtml-scroll-disabled{overflow-x:hidden!important;overflow-y:hidden!important}amp-instagram{padding:54px 0px 0px!important;background-color:#fff}amp-iframe iframe{box-sizing:border-box!important}[amp-access][amp-access-hide]{display:none}[subscriptions-dialog],body:not(.i-amphtml-subs-ready) [subscriptions-action],body:not(.i-amphtml-subs-ready) [subscriptions-section]{display:none!important}amp-experiment,amp-live-list>[update]{display:none}amp-list[resizable-children]>.i-amphtml-loading-container.amp-hidden{display:none!important}amp-list [fetch-error],amp-list[load-more] [load-more-button],amp-list[load-more] [load-more-end],amp-list[load-more] [load-more-failed],amp-list[load-more] [load-more-loading]{display:none}amp-list[diffable] div[role=list]{display:block}amp-story-page,amp-story[standalone]{min-height:1px!important;display:block!important;height:100%!important;margin:0!important;padding:0!important;overflow:hidden!important;width:100%!important}amp-story[standalone]{background-color:#000!important;position:relative!important}amp-story-page{background-color:#757575}amp-story .amp-active>div,amp-story .i-amphtml-loader-background{display:none!important}amp-story-page:not(:first-of-type):not([distance]):not([active]){transform:translateY(1000vh)!important}amp-autocomplete{position:relative!important;display:inline-block!important}amp-autocomplete>input,amp-autocomplete>textarea{padding:0.5rem;border:1px solid rgba(0,0,0,0.33)}.i-amphtml-autocomplete-results,amp-autocomplete>input,amp-autocomplete>textarea{font-size:1rem;line-height:1.5rem}[amp-fx^=fly-in]{visibility:hidden}amp-script[nodom],amp-script[sandboxed]{position:fixed!important;top:0!important;width:1px!important;height:1px!important;overflow:hidden!important;visibility:hidden}
-/*# sourceURL=/css/ampdoc.css*/[hidden]{display:none!important}.i-amphtml-element{display:inline-block}.i-amphtml-blurry-placeholder{transition:opacity 0.3s cubic-bezier(0.0,0.0,0.2,1)!important;pointer-events:none}[layout=nodisplay]:not(.i-amphtml-element){display:none!important}.i-amphtml-layout-fixed,[layout=fixed][width][height]:not(.i-amphtml-layout-fixed){display:inline-block;position:relative}.i-amphtml-layout-responsive,[layout=responsive][width][height]:not(.i-amphtml-layout-responsive),[width][height][heights]:not([layout]):not(.i-amphtml-layout-responsive),[width][height][sizes]:not(img):not([layout]):not(.i-amphtml-layout-responsive){display:block;position:relative}.i-amphtml-layout-intrinsic,[layout=intrinsic][width][height]:not(.i-amphtml-layout-intrinsic){display:inline-block;position:relative;max-width:100%}.i-amphtml-layout-intrinsic .i-amphtml-sizer{max-width:100%}.i-amphtml-intrinsic-sizer{max-width:100%;display:block!important}.i-amphtml-layout-container,.i-amphtml-layout-fixed-height,[layout=container],[layout=fixed-height][height]:not(.i-amphtml-layout-fixed-height){display:block;position:relative}.i-amphtml-layout-fill,.i-amphtml-layout-fill.i-amphtml-notbuilt,[layout=fill]:not(.i-amphtml-layout-fill),body noscript>*{display:block;overflow:hidden!important;position:absolute;top:0;left:0;bottom:0;right:0}body noscript>*{position:absolute!important;width:100%;height:100%;z-index:2}body noscript{display:inline!important}.i-amphtml-layout-flex-item,[layout=flex-item]:not(.i-amphtml-layout-flex-item){display:block;position:relative;-ms-flex:1 1 auto;flex:1 1 auto}.i-amphtml-layout-fluid{position:relative}.i-amphtml-layout-size-defined{overflow:hidden!important}.i-amphtml-layout-awaiting-size{position:absolute!important;top:auto!important;bottom:auto!important}i-amphtml-sizer{display:block!important}@supports (aspect-ratio:1/1){i-amphtml-sizer.i-amphtml-disable-ar{display:none!important}}.i-amphtml-blurry-placeholder,.i-amphtml-fill-content{display:block;height:0;max-height:100%;max-width:100%;min-height:100%;min-width:100%;width:0;margin:auto}.i-amphtml-layout-size-defined .i-amphtml-fill-content{position:absolute;top:0;left:0;bottom:0;right:0}.i-amphtml-replaced-content,.i-amphtml-screen-reader{padding:0!important;border:none!important}.i-amphtml-screen-reader{position:fixed!important;top:0px!important;left:0px!important;width:4px!important;height:4px!important;opacity:0!important;overflow:hidden!important;margin:0!important;display:block!important;visibility:visible!important}.i-amphtml-screen-reader~.i-amphtml-screen-reader{left:8px!important}.i-amphtml-screen-reader~.i-amphtml-screen-reader~.i-amphtml-screen-reader{left:12px!important}.i-amphtml-screen-reader~.i-amphtml-screen-reader~.i-amphtml-screen-reader~.i-amphtml-screen-reader{left:16px!important}.i-amphtml-unresolved{position:relative;overflow:hidden!important}.i-amphtml-select-disabled{-webkit-user-select:none!important;-ms-user-select:none!important;user-select:none!important}.i-amphtml-notbuilt,[layout]:not(.i-amphtml-element),[width][height][heights]:not([layout]):not(.i-amphtml-element),[width][height][sizes]:not(img):not([layout]):not(.i-amphtml-element){position:relative;overflow:hidden!important;color:transparent!important}.i-amphtml-notbuilt:not(.i-amphtml-layout-container)>*,[layout]:not([layout=container]):not(.i-amphtml-element)>*,[width][height][heights]:not([layout]):not(.i-amphtml-element)>*,[width][height][sizes]:not([layout]):not(.i-amphtml-element)>*{display:none}amp-img:not(.i-amphtml-element)[i-amphtml-ssr]>img.i-amphtml-fill-content{display:block}.i-amphtml-notbuilt:not(.i-amphtml-layout-container),[layout]:not([layout=container]):not(.i-amphtml-element),[width][height][heights]:not([layout]):not(.i-amphtml-element),[width][height][sizes]:not(img):not([layout]):not(.i-amphtml-element){color:transparent!important;line-height:0!important}.i-amphtml-ghost{visibility:hidden!important}.i-amphtml-element>[placeholder],[layout]:not(.i-amphtml-element)>[placeholder],[width][height][heights]:not([layout]):not(.i-amphtml-element)>[placeholder],[width][height][sizes]:not([layout]):not(.i-amphtml-element)>[placeholder]{display:block;line-height:normal}.i-amphtml-element>[placeholder].amp-hidden,.i-amphtml-element>[placeholder].hidden{visibility:hidden}.i-amphtml-element:not(.amp-notsupported)>[fallback],.i-amphtml-layout-container>[placeholder].amp-hidden,.i-amphtml-layout-container>[placeholder].hidden{display:none}.i-amphtml-layout-size-defined>[fallback],.i-amphtml-layout-size-defined>[placeholder]{position:absolute!important;top:0!important;left:0!important;right:0!important;bottom:0!important;z-index:1}amp-img[i-amphtml-ssr]:not(.i-amphtml-element)>[placeholder]{z-index:auto}.i-amphtml-notbuilt>[placeholder]{display:block!important}.i-amphtml-hidden-by-media-query{display:none!important}.i-amphtml-element-error{background:red!important;color:#fff!important;position:relative!important}.i-amphtml-element-error:before{content:attr(error-message)}i-amp-scroll-container,i-amphtml-scroll-container{position:absolute;top:0;left:0;right:0;bottom:0;display:block}i-amp-scroll-container.amp-active,i-amphtml-scroll-container.amp-active{overflow:auto;-webkit-overflow-scrolling:touch}.i-amphtml-loading-container{display:block!important;pointer-events:none;z-index:1}.i-amphtml-notbuilt>.i-amphtml-loading-container{display:block!important}.i-amphtml-loading-container.amp-hidden{visibility:hidden}.i-amphtml-element>[overflow]{cursor:pointer;position:relative;z-index:2;visibility:hidden;display:initial;line-height:normal}.i-amphtml-layout-size-defined>[overflow]{position:absolute}.i-amphtml-element>[overflow].amp-visible{visibility:visible}template{display:none!important}.amp-border-box,.amp-border-box *,.amp-border-box :after,.amp-border-box :before{box-sizing:border-box}amp-pixel{display:none!important}amp-analytics,amp-auto-ads,amp-story-auto-ads{position:fixed!important;top:0!important;width:1px!important;height:1px!important;overflow:hidden!important;visibility:hidden}amp-story{visibility:hidden!important}html.i-amphtml-fie>amp-analytics{position:initial!important}[visible-when-invalid]:not(.visible),form [submit-error],form [submit-success],form [submitting]{display:none}amp-accordion{display:block!important}@media (min-width:1px){:where(amp-accordion>section)>:first-child{margin:0;background-color:#efefef;padding-right:20px;border:1px solid #dfdfdf}:where(amp-accordion>section)>:last-child{margin:0}}amp-accordion>section{float:none!important}amp-accordion>section>*{float:none!important;display:block!important;overflow:hidden!important;position:relative!important}amp-accordion,amp-accordion>section{margin:0}amp-accordion:not(.i-amphtml-built)>section>:last-child{display:none!important}amp-accordion:not(.i-amphtml-built)>section[expanded]>:last-child{display:block!important}
-/*# sourceURL=/css/ampshared.css*/</style><meta name="description" content="阿里巴巴Java开发工程师，目前负责天猫和淘宝的店铺浏览系统，长期关注系统稳定性、性能优化、Web系统架构。（Blog: blog.hesey.net 新浪微博：Hesey小纯纯）"><meta name="robots" content="noindex, max-snippet:-1, max-image-preview:large, max-video-preview:-1"><meta name="generator" content="All in One SEO (AIOSEO) 4.3.0 "><meta name="generator" content="WordPress 6.1.1"><meta name="generator" content="AMP Plugin v2.4.0; mode=standard"><link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""><link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="preload" href="https://coolshell.cn/wp-content/themes/MyNisarg/fonts/glyphicons-halflings-regular.eot#iefix" as="font" crossorigin=""><link rel="preload" href="../../wp-content/themes/MyNisarg/font-awesome/fonts/fontawesome-webfont.eot#iefix&amp;v=4.3.0" as="font" crossorigin=""><link rel="preload" href="../../wp-content/plugins/simple-post-series/inc/icomoon/fonts/icomoon%EF%B9%969pskf8.eot#iefix" as="font" crossorigin=""><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="dns-prefetch" href="https://fonts.gstatic.com"><script async="" src="https://cdn.ampproject.org/v0.mjs" type="module" crossorigin="anonymous"></script><script async nomodule src="https://cdn.ampproject.org/v0.js" crossorigin="anonymous"></script><script src="https://cdn.ampproject.org/v0/amp-anim-0.1.mjs" async="" custom-element="amp-anim" type="module" crossorigin="anonymous"></script><script async nomodule src="https://cdn.ampproject.org/v0/amp-anim-0.1.js" crossorigin="anonymous" custom-element="amp-anim"></script><script src="https://cdn.ampproject.org/v0/amp-form-0.1.mjs" async="" custom-element="amp-form" type="module" crossorigin="anonymous"></script><script async nomodule src="https://cdn.ampproject.org/v0/amp-form-0.1.js" crossorigin="anonymous" custom-element="amp-form"></script><link crossorigin="anonymous" rel="stylesheet" id="nisarggooglefonts-css" href="https://fonts.googleapis.com/css?family=Lato:400,300italic,700%7CSource+Sans+Pro:400,400italic" type="text/css" media="all"><style amp-custom="">@font-face{font-family:"icomoon";src:url("../../wp-content/plugins/simple-post-series/inc/icomoon/fonts/icomoon%EF%B9%969pskf8.eot");src:url("../../wp-content/plugins/simple-post-series/inc/icomoon/fonts/icomoon%EF%B9%969pskf8.eot#iefix") format("embedded-opentype"),url("../../wp-content/plugins/simple-post-series/inc/icomoon/fonts/icomoon%EF%B9%969pskf8.ttf") format("truetype"),url("../../wp-content/plugins/simple-post-series/inc/icomoon/fonts/icomoon%EF%B9%969pskf8.woff") format("woff"),url("../../wp-content/plugins/simple-post-series/inc/icomoon/fonts/icomoon%EF%B9%969pskf8.svg#icomoon") format("svg");font-weight:normal;font-style:normal}[class^="icon-"],[class*=" icon-"]{speak:none;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}[class^="icon-"]:not(#_#_#_#_#_#_#_),[class*=" icon-"]:not(#_#_#_#_#_#_#_#_){font-family:"icomoon"}amp-anim.amp-wp-enforced-sizes,amp-img.amp-wp-enforced-sizes{object-fit:contain}amp-anim img,amp-anim noscript,amp-img img,amp-img noscript{image-rendering:inherit;object-fit:inherit;object-position:inherit}:where(.wp-block-button__link){border-radius:9999px;box-shadow:none;padding:calc(.667em + 2px) calc(1.333em + 2px);text-decoration:none}:where(.wp-block-columns.has-background){padding:1.25em 2.375em}:where(.wp-block-post-comments input[type=submit]){border:none}:where(.wp-block-file__button){border-radius:2em;padding:.5em 1em}:where(.wp-block-file__button):is(a):active,:where(.wp-block-file__button):is(a):focus,:where(.wp-block-file__button):is(a):hover,:where(.wp-block-file__button):is(a):visited{box-shadow:none;color:#fff;opacity:.85;text-decoration:none}ul{box-sizing:border-box}:where(.wp-block-navigation.has-background .wp-block-navigation-item a:not(.wp-element-button)),:where(.wp-block-navigation.has-background .wp-block-navigation-submenu a:not(.wp-element-button)){padding:.5em 1em}:where(.wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item a:not(.wp-element-button)),:where(.wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-submenu a:not(.wp-element-button)),:where(.wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-submenu button.wp-block-navigation-item__content),:where(.wp-block-navigation .wp-block-navigation__submenu-container .wp-block-pages-list__item button.wp-block-navigation-item__content){padding:.5em 1em}@keyframes overlay-menu__fade-in-animation{0%{opacity:0;transform:translateY(.5em)}to{opacity:1;transform:translateY(0)}}:where(p.has-text-color:not(.has-link-color)) a{color:inherit}:where(.wp-block-search__button){border:1px solid #ccc;padding:.375em .625em}:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper){border:1px solid #949494;padding:4px}:where(.wp-block-search__button-inside .wp-block-search__inside-wrapper) :where(.wp-block-search__button){padding:.125em .5em}:where(pre.wp-block-verse){font-family:inherit}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.screen-reader-text{clip:rect(1px,1px,1px,1px);border:0;-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.screen-reader-text:not(#_#_#_#_#_#_#_){word-wrap:normal}.screen-reader-text:focus{background-color:#ddd;-webkit-clip-path:none;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}.screen-reader-text:focus:not(#_#_#_#_#_#_#_){clip:auto}html :where(.has-border-color){border-style:solid}html :where([data-amp-original-style*=border-top-color]){border-top-style:solid}html :where([data-amp-original-style*=border-right-color]){border-right-style:solid}html :where([data-amp-original-style*=border-bottom-color]){border-bottom-style:solid}html :where([data-amp-original-style*=border-left-color]){border-left-style:solid}html :where([data-amp-original-style*=border-width]){border-style:solid}html :where([data-amp-original-style*=border-top-width]){border-top-style:solid}html :where([data-amp-original-style*=border-right-width]){border-right-style:solid}html :where([data-amp-original-style*=border-bottom-width]){border-bottom-style:solid}html :where([data-amp-original-style*=border-left-width]){border-left-style:solid}html :where(amp-img[class*=wp-image-]),html :where(amp-anim[class*=wp-image-]){height:auto;max-width:100%}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}body{--wp--preset--shadow--natural:6px 6px 9px rgba(0,0,0,.2);--wp--preset--shadow--deep:12px 12px 50px rgba(0,0,0,.4);--wp--preset--shadow--sharp:6px 6px 0px rgba(0,0,0,.2);--wp--preset--shadow--outlined:6px 6px 0px -3px rgba(255,255,255,1),6px 6px rgba(0,0,0,1);--wp--preset--shadow--crisp:6px 6px 0px rgba(0,0,0,1);--wp--preset--color--black:#000;--wp--preset--color--cyan-bluish-gray:#abb8c3;--wp--preset--color--white:#fff;--wp--preset--color--pale-pink:#f78da7;--wp--preset--color--vivid-red:#cf2e2e;--wp--preset--color--luminous-vivid-orange:#ff6900;--wp--preset--color--luminous-vivid-amber:#fcb900;--wp--preset--color--light-green-cyan:#7bdcb5;--wp--preset--color--vivid-green-cyan:#00d084;--wp--preset--color--pale-cyan-blue:#8ed1fc;--wp--preset--color--vivid-cyan-blue:#0693e3;--wp--preset--color--vivid-purple:#9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple:linear-gradient(135deg,rgba(6,147,227,1) 0%,#9b51e0 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan:linear-gradient(135deg,#7adcb4 0%,#00d082 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange:linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red:linear-gradient(135deg,rgba(255,105,0,1) 0%,#cf2e2e 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray:linear-gradient(135deg,#eee 0%,#a9b8c3 100%);--wp--preset--gradient--cool-to-warm-spectrum:linear-gradient(135deg,#4aeadc 0%,#9778d1 20%,#cf2aba 40%,#ee2c82 60%,#fb6962 80%,#fef84c 100%);--wp--preset--gradient--blush-light-purple:linear-gradient(135deg,#ffceec 0%,#9896f0 100%);--wp--preset--gradient--blush-bordeaux:linear-gradient(135deg,#fecda5 0%,#fe2d2d 50%,#6b003e 100%);--wp--preset--gradient--luminous-dusk:linear-gradient(135deg,#ffcb70 0%,#c751c0 50%,#4158d0 100%);--wp--preset--gradient--pale-ocean:linear-gradient(135deg,#fff5cb 0%,#b6e3d4 50%,#33a7b5 100%);--wp--preset--gradient--electric-grass:linear-gradient(135deg,#caf880 0%,#71ce7e 100%);--wp--preset--gradient--midnight:linear-gradient(135deg,#020381 0%,#2874fc 100%);--wp--preset--duotone--dark-grayscale:url("#wp-duotone-dark-grayscale");--wp--preset--duotone--grayscale:url("#wp-duotone-grayscale");--wp--preset--duotone--purple-yellow:url("#wp-duotone-purple-yellow");--wp--preset--duotone--blue-red:url("#wp-duotone-blue-red");--wp--preset--duotone--midnight:url("#wp-duotone-midnight");--wp--preset--duotone--magenta-yellow:url("#wp-duotone-magenta-yellow");--wp--preset--duotone--purple-green:url("#wp-duotone-purple-green");--wp--preset--duotone--blue-orange:url("#wp-duotone-blue-orange");--wp--preset--font-size--small:13px;--wp--preset--font-size--medium:20px;--wp--preset--font-size--large:36px;--wp--preset--font-size--x-large:42px;--wp--preset--spacing--20:.44rem;--wp--preset--spacing--30:.67rem;--wp--preset--spacing--40:1rem;--wp--preset--spacing--50:1.5rem;--wp--preset--spacing--60:2.25rem;--wp--preset--spacing--70:3.38rem;--wp--preset--spacing--80:5.06rem}:where(.is-layout-flex){gap:.5em}:where(.wp-block-columns.is-layout-flex){gap:2em}:where(.wp-block-columns.is-layout-flex){gap:2em}.post-ratings{width:100%;opacity:1}.post-ratings-loading{display:none;height:16px;text-align:left}.post-ratings-image{border:0}.post-ratings amp-img,.post-ratings amp-anim,.post-ratings-loading amp-img,.post-ratings-loading amp-anim,.post-ratings-image amp-img,.post-ratings-image amp-anim{border:0;padding:0;margin:0}html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}body{margin:0}article,aside,footer,header,main,nav{display:block}[hidden]{display:none}a{background-color:transparent}a:active,a:hover{outline:0}strong{font-weight:bold}h1{margin:.67em 0;font-size:2em}amp-img,amp-anim{border:0}button,input{margin:0;font:inherit;color:inherit}button{overflow:visible}button{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-box-sizing:content-box;-moz-box-sizing:content-box;box-sizing:content-box;-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}@media print{*:not(#_#_#_#_#_#_),*:before:not(#_#_#_#_#_#_#_#_),*:after:not(#_#_#_#_#_#_#_#_){color:#000;text-shadow:none;background:transparent;-webkit-box-shadow:none;box-shadow:none}a,a:visited{text-decoration:underline}a[href]:after{content:" (" attr(href) ")"}a[href^="#"]:after,a[href^="javascript:"]:after{content:""}amp-img,amp-anim{page-break-inside:avoid}amp-img:not(#_#_#_#_#_#_#_#_),amp-anim:not(#_#_#_#_#_#_#_#_){max-width:100%}p,h2,h3{orphans:3;widows:3}h2,h3{page-break-after:avoid}.navbar{display:none}}@font-face{font-family:"Glyphicons Halflings";src:url("https://coolshell.cn/wp-content/themes/MyNisarg/fonts/glyphicons-halflings-regular.eot");src:url("https://coolshell.cn/wp-content/themes/MyNisarg/fonts/glyphicons-halflings-regular.eot#iefix") format("embedded-opentype"),url("https://coolshell.cn/wp-content/themes/MyNisarg/fonts/glyphicons-halflings-regular.woff2") format("woff2"),url("https://coolshell.cn/wp-content/themes/MyNisarg/fonts/glyphicons-halflings-regular.woff") format("woff"),url("https://coolshell.cn/wp-content/themes/MyNisarg/fonts/glyphicons-halflings-regular.ttf") format("truetype"),url("https://coolshell.cn/wp-content/themes/MyNisarg/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg")}*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}html{font-size:10px;-webkit-tap-highlight-color:rgba(0,0,0,0)}body{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:14px;line-height:1.42857143;color:#333;background-color:#fff}input,button{font-family:inherit;font-size:inherit;line-height:inherit}a{color:#337ab7;text-decoration:none}a:hover,a:focus{color:#23527c;text-decoration:underline}a:focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}amp-img,amp-anim{vertical-align:middle}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}[role="button"]{cursor:pointer}h1,h2,h3,h4,h5{font-family:inherit;font-weight:500;line-height:1.1;color:inherit}h1,h2,h3{margin-top:20px;margin-bottom:10px}h4,h5{margin-top:10px;margin-bottom:10px}h1{font-size:36px}h2{font-size:30px}h3{font-size:24px}h4{font-size:18px}h5{font-size:14px}p{margin:0 0 10px}ul{margin-top:0;margin-bottom:10px}ul ul{margin-bottom:0}.container{padding-right:15px;padding-left:15px;margin-right:auto;margin-left:auto}@media (min-width: 768px){.container{width:750px}}@media (min-width: 992px){.container{width:970px}}@media (min-width: 1200px){.container{width:1170px}}.row{margin-right:-15px;margin-left:-15px}.col-md-3,.col-md-9{position:relative;min-height:1px;padding-right:15px;padding-left:15px}@media (min-width: 992px){.col-md-3,.col-md-9{float:left}.col-md-9{width:75%}.col-md-3{width:25%}}label{display:inline-block;max-width:100%;margin-bottom:5px;font-weight:bold}input[type="search"]{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}input[type="radio"],input[type="checkbox"]{margin:4px 0 0;margin-top:1px \9;line-height:normal}input[type="file"]{display:block}input[type="range"]{display:block;width:100%}input[type="file"]:focus,input[type="radio"]:focus,input[type="checkbox"]:focus{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}input[type="search"]{-webkit-appearance:none}input[type="radio"][disabled],input[type="checkbox"][disabled]{cursor:not-allowed}.btn{display:inline-block;padding:6px 12px;margin-bottom:0;font-size:14px;font-weight:normal;line-height:1.42857143;text-align:center;white-space:nowrap;vertical-align:middle;-ms-touch-action:manipulation;touch-action:manipulation;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-image:none;border:1px solid transparent;border-radius:4px}.btn:focus,.btn:active:focus,.btn:focus-within,.btn:active:focus-within{outline:thin dotted;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}.btn:hover,.btn:focus,.btn:focus-within{color:#333;text-decoration:none}.btn:active{background-image:none;outline:0;-webkit-box-shadow:inset 0 3px 5px rgba(0,0,0,.125);box-shadow:inset 0 3px 5px rgba(0,0,0,.125)}.btn[disabled]{cursor:not-allowed;filter:alpha(opacity=65);-webkit-box-shadow:none;box-shadow:none;opacity:.65}.btn-default{color:#333;background-color:#fff;border-color:#ccc}.btn-default:focus,.btn-default:focus-within{color:#333;background-color:#e6e6e6;border-color:#8c8c8c}.btn-default:hover{color:#333;background-color:#e6e6e6;border-color:#adadad}.btn-default:active{color:#333;background-color:#e6e6e6;border-color:#adadad}.btn-default:active:hover,.btn-default:active:focus,.btn-default:active:focus-within{color:#333;background-color:#d4d4d4;border-color:#8c8c8c}.btn-default:active{background-image:none}.btn-default[disabled],.btn-default[disabled]:hover,.btn-default[disabled]:focus,.btn-default[disabled]:focus-within,.btn-default[disabled]:active{background-color:#fff;border-color:#ccc}.collapse{display:none}[data-toggle="buttons"] > .btn input[type="radio"],[data-toggle="buttons"] > .btn input[type="checkbox"]{position:absolute;clip:rect(0,0,0,0);pointer-events:none}.nav{padding-left:0;margin-bottom:0;list-style:none}.nav > li{position:relative;display:block}.nav > li > a{position:relative;display:block;padding:10px 15px}.nav > li > a:hover,.nav > li > a:focus{text-decoration:none;background-color:#eee}.nav > li > a > amp-img,.nav > li > a > amp-anim{max-width:none}.navbar{position:relative;min-height:50px;margin-bottom:20px;border:1px solid transparent}@media (min-width: 768px){.navbar{border-radius:4px}}@media (min-width: 768px){.navbar-header{float:left}}.navbar-collapse{padding-right:15px;padding-left:15px;overflow-x:visible;-webkit-overflow-scrolling:touch;border-top:1px solid transparent;-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,.1);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}@media (min-width: 768px){.navbar-collapse{width:auto;border-top:0;-webkit-box-shadow:none;box-shadow:none}.navbar-collapse.collapse{padding-bottom:0}.navbar-collapse.collapse:not(#_#_#_#_#_#_#_){display:block;height:auto;overflow:visible}.navbar-fixed-top .navbar-collapse{padding-right:0;padding-left:0}}.navbar-fixed-top .navbar-collapse{max-height:340px}@media (max-device-width: 480px) and (orientation: landscape){.navbar-fixed-top .navbar-collapse{max-height:200px}}.container > .navbar-header,.container > .navbar-collapse{margin-right:-15px;margin-left:-15px}@media (min-width: 768px){.container > .navbar-header,.container > .navbar-collapse{margin-right:0;margin-left:0}}.navbar-fixed-top{position:fixed;right:0;left:0;z-index:1030}@media (min-width: 768px){.navbar-fixed-top{border-radius:0}}.navbar-fixed-top{top:0;border-width:0 0 1px}.navbar-brand{float:left;height:50px;padding:15px 15px;font-size:18px;line-height:20px}.navbar-brand:hover,.navbar-brand:focus{text-decoration:none}.navbar-brand > amp-img,.navbar-brand > amp-anim{display:block}@media (min-width: 768px){.navbar > .container .navbar-brand{margin-left:-15px}}.navbar-toggle{position:relative;float:right;padding:9px 10px;margin-top:8px;margin-right:15px;margin-bottom:8px;background-color:transparent;background-image:none;border:1px solid transparent;border-radius:4px}.navbar-toggle:focus{outline:0}.navbar-toggle .icon-bar{display:block;width:22px;height:2px;border-radius:1px}.navbar-toggle .icon-bar + .icon-bar{margin-top:4px}@media (min-width: 768px){.navbar-toggle{display:none}}.navbar-nav{margin:7.5px -15px}.navbar-nav > li > a{padding-top:10px;padding-bottom:10px;line-height:20px}@media (min-width: 768px){.navbar-nav{float:left;margin:0}.navbar-nav > li{float:left}.navbar-nav > li > a{padding-top:15px;padding-bottom:15px}}@media (min-width: 768px){.navbar-left:not(#_#_#_#_#_#_#_){float:left}}.navbar-default{background-color:#f8f8f8;border-color:#e7e7e7}.navbar-default .navbar-brand{color:#777}.navbar-default .navbar-brand:hover,.navbar-default .navbar-brand:focus{color:#5e5e5e;background-color:transparent}.navbar-default .navbar-nav > li > a{color:#777}.navbar-default .navbar-nav > li > a:hover,.navbar-default .navbar-nav > li > a:focus{color:#333;background-color:transparent}.navbar-default .navbar-toggle{border-color:#ddd}.navbar-default .navbar-toggle:hover,.navbar-default .navbar-toggle:focus{background-color:#ddd}.navbar-default .navbar-toggle .icon-bar{background-color:#888}.navbar-default .navbar-collapse{border-color:#e7e7e7}@-webkit-keyframes progress-bar-stripes{from{background-position:40px 0}to{background-position:0 0}}@-o-keyframes progress-bar-stripes{from{background-position:40px 0}to{background-position:0 0}}@keyframes progress-bar-stripes{from{background-position:40px 0}to{background-position:0 0}}.container:before,.container:after,.row:before,.row:after,.nav:before,.nav:after,.navbar:before,.navbar:after,.navbar-header:before,.navbar-header:after,.navbar-collapse:before,.navbar-collapse:after{display:table;content:" "}.container:after,.row:after,.nav:after,.navbar:after,.navbar-header:after,.navbar-collapse:after{clear:both}.pull-right:not(#_#_#_#_#_#_#_){float:right}@media (max-width: 767px){.hidden-xs:not(#_#_#_#_#_#_#_){display:none}}@media (min-width: 768px) and (max-width: 991px){.hidden-sm:not(#_#_#_#_#_#_#_){display:none}}@media (min-width: 992px) and (max-width: 1199px){.hidden-md:not(#_#_#_#_#_#_#_){display:none}}@media (min-width: 1200px){.hidden-lg:not(#_#_#_#_#_#_#_){display:none}}a:active,a:hover,a:focus{color:#009688}.navbar-default .navbar-nav > li > a:hover,.navbar-default .navbar-nav > li > a:focus{color:#009688}.entry-title a:hover,.entry-title a:focus{color:#009688}.entry-header .entry-meta::after{background:#009688}.fa{color:#009688}.btn-default{border-bottom:1px solid #009688}.btn-default:hover,.btn-default:focus{border-bottom:1px solid #009688;background-color:#009688}#secondary .widget-title::after{background-color:#009688;content:"";position:absolute;width:75px;display:block;height:4px;bottom:-15px}#secondary .widget a:hover,#secondary .widget a:focus{color:#009688}@font-face{font-family:"FontAwesome";src:url("../../wp-content/themes/MyNisarg/font-awesome/fonts/fontawesome-webfont%EF%B9%96v=4.3.0.eot");src:url("../../wp-content/themes/MyNisarg/font-awesome/fonts/fontawesome-webfont.eot#iefix&v=4.3.0") format("embedded-opentype"),url("../../wp-content/themes/MyNisarg/font-awesome/fonts/fontawesome-webfont%EF%B9%96v=4.3.0.woff2") format("woff2"),url("../../wp-content/themes/MyNisarg/font-awesome/fonts/fontawesome-webfont%EF%B9%96v=4.3.0.woff") format("woff"),url("../../wp-content/themes/MyNisarg/font-awesome/fonts/fontawesome-webfont%EF%B9%96v=4.3.0.ttf") format("truetype"),url("../../wp-content/themes/MyNisarg/font-awesome/fonts/fontawesome-webfont%EF%B9%96v=4.3.0.svg#fontawesomeregular") format("svg");font-weight:normal;font-style:normal}.fa{display:inline-block;font:normal normal normal 14px/1 FontAwesome;font-size:inherit;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;transform:translate(0,0)}.pull-right{float:right}.fa.pull-right{margin-left:.3em}@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(359deg);transform:rotate(359deg)}}@keyframes fa-spin{0%{-webkit-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(359deg);transform:rotate(359deg)}}.fa-user:before{content:""}.fa-users:before{content:""}.fa-comments-o:before{content:""}.fa-calendar-o:before{content:""}.site-header{background:#1d2b2d}body{background:#eceff1}body,button,input{color:#424242;font-size:18px;font-weight:400;font-family:"Source Sans Pro",sans-serif}h1,h2,h3,h4,h5{clear:both;color:#212121;font-family:"Lato",sans-serif;font-style:normal;font-weight:bold}p{margin:1em 0em;line-height:1.7em}a{color:#607d8b;text-decoration:none}a:visited{color:#78909c;text-decoration:underline}a:hover,a:active{outline:0}a:hover{text-decoration:none}a amp-img,a amp-anim{border:0}i{font-style:italic}button,input{font-size:100%;margin:0;max-width:100%;vertical-align:baseline}.screen-reader-text{clip:rect(1px,1px,1px,1px);height:1px;width:1px;overflow:hidden}.screen-reader-text:not(#_#_#_#_#_#_#_){position:absolute}.screen-reader-text:hover,.screen-reader-text:active,.screen-reader-text:focus{background-color:#f1f1f1;border-radius:3px;box-shadow:0 0 2px 2px rgba(0,0,0,.6);color:#21759b;display:block;font-size:14px;font-size:.875rem;font-weight:bold;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}.screen-reader-text:hover:not(#_#_#_#_#_#_#_),.screen-reader-text:active:not(#_#_#_#_#_#_#_),.screen-reader-text:focus:not(#_#_#_#_#_#_#_){clip:auto}button,input{font-family:inherit;padding:5px}input{color:#727272;border:1px solid #aaa1a8}input:focus{outline:0}input:hover{outline:0}button,html input[type="button"],input[type="reset"],input[type="submit"]{border:1px solid #455a64;border-radius:2px;background:-moz-linear-gradient(#607d8b,#455a64);background:-o-linear-gradient(#607d8b,#455a64);background:-webkit-linear-gradient(#607d8b,#455a64);background:linear-gradient(#607d8b,#455a64);color:#fff}button:hover,html input[type="button"]:hover,input[type="reset"]:hover,input[type="submit"]:hover{border:1px solid #455a64;border-radius:2px;background:-moz-linear-gradient(#607d8b,#455a64);background:-o-linear-gradient(#607d8b,#455a64);background:-webkit-linear-gradient(#607d8b,#455a64);background:linear-gradient(#607d8b,#455a64);color:#fff}button:focus,html input[type="button"]:focus,input[type="reset"]:focus,input[type="submit"]:focus,button:active,html input[type="button"]:active,input[type="reset"]:active,input[type="submit"]:active{border:1px solid #455a64;border-radius:2px;background:-moz-linear-gradient(#607d8b,#455a64);background:-o-linear-gradient(#607d8b,#455a64);background:-webkit-linear-gradient(#607d8b,#455a64);background:linear-gradient(#607d8b,#455a64);color:#fff}input[type=text],input[type=email]{color:#727272}input[type=text]:focus,input[type=email]:focus{color:#727272}input[type="search"].search-field{border-radius:2px 0 0 2px;width:-webkit-calc(100% - 42px);width:calc(100% - 42px)}.search-form{position:relative}.search-form label{width:100%;margin-bottom:0px}.search-submit:before{content:"";font-family:FontAwesome;font-size:16px;left:2px;line-height:42px;position:relative;width:40px}.search-submit{border-radius:0 2px 2px 0;bottom:0;overflow:hidden;padding:0;position:absolute;right:0;top:0;width:42px}amp-img,amp-anim{margin-bottom:1em}.entry-content amp-img,.entry-content amp-anim,.widget amp-img,.widget amp-anim{max-width:100%}.entry-content amp-img,.entry-content amp-anim,amp-img[class*="align"],amp-anim[class*="align"],amp-img[class*="wp-image-"],amp-anim[class*="wp-image-"]{max-width:100%;height:auto}.entry-content amp-img,.entry-content amp-anim{max-width:100%;width:auto}.nav{display:block}.navbar{margin-bottom:0px}.navbar-fixed-top{position:fixed;top:0;z-index:1030}@media (min-width: 768px){.navbar-fixed-top{border-radius:0}}.navbar-fixed-top{top:0;border-width:0 0 1px}.navbar{font-size:14px;font-weight:400;font-style:normal;text-transform:uppercase;border:none}.navbar-brand{font-size:20px;font-weight:600}.navbar-nav{float:right}.navbar-nav > li > a{padding-top:11px;padding-bottom:11px}.navbar-default{background-color:#fff;box-shadow:0px 1px 1px rgba(100,100,0,.1)}.navbar-default .navbar-brand{color:#333}.navbar-default .navbar-brand:hover,.navbar-default .navbar-brand:focus{color:#000}.navbar-default .navbar-nav > li > a{border-top:4px solid #fff;border-bottom:4px solid #fff}.navbar-default .navbar-nav > li > a{color:#333}.navbar-default .navbar-toggle{border-color:#455a64}.navbar-default .navbar-toggle:hover,.navbar-default .navbar-toggle:focus{background-color:#455a64;color:#fff}.navbar-default .navbar-toggle .icon-bar{background-color:#333}.navbar-default .navbar-toggle:hover .icon-bar,.navbar-default .navbar-toggle:focus .icon-bar{background-color:#fff}@media (max-width: 767px){.navbar-fixed-top .navbar-collapse{max-height:600px}}.site-header{background:#1d2b2d;position:relative;width:100%;margin-bottom:3em;overflow:hidden;min-height:200px}.site-header .site-branding{margin:0;position:absolute;top:50%;left:50%;margin-right:-50%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);text-align:center}.site-title{color:#fff;font-size:3.5em;font-weight:700;letter-spacing:10px;margin-top:0px;margin-bottom:0px;text-shadow:rgba(255,255,255,.1) -1px -1px 1px,rgba(0,0,0,.5) 1px 1px 1px}.site-title::after{background-color:#fff;content:"";height:2px;display:block;width:100%;margin:10px auto}.site-description{color:#fff;font-size:1em;font-weight:400;padding:.2em 0em;letter-spacing:5px;text-transform:capitalize;margin-top:0px;margin-bottom:0px;text-shadow:rgba(255,255,255,.1) -1px -1px 1px,rgba(0,0,0,.5) 1px 1px 1px}.site-title a,.site-description a{text-decoration:none}.home-link{text-decoration:none}.hentry{margin:0 0 1.5em}.post-content{background-color:white;clear:both;margin-bottom:2em;box-shadow:0px 0px 1px rgba(0,0,0,.15);-moz-box-shadow:0 0 1px rgba(0,0,0,.15);-webkit-box-shadow:0 0 1px rgba(0,0,0,.15);-o-box-shadow:0 0 1px rgba(0,0,0,.15)}.entry-header,.entry-content,.entry-footer{padding:0 4em}.entry-content,.entry-header,.entry-meta,.entry-title,.entry-footer{width:100%;word-wrap:break-word;overflow:hidden}.entry-content{color:#424242}.entry-content li{line-height:1.7em;margin-bottom:.2em}.entry-header{padding-top:1em;padding-bottom:1em;text-align:center;text-transform:uppercase;letter-spacing:2px}.entry-title{margin-bottom:14px;font-weight:bolder}.entry-header .entry-title a{color:#212121}.entry-meta{clear:both;color:#727272;text-transform:capitalize;font-weight:300;letter-spacing:2px}.entry-meta a{clear:both;color:#727272;text-transform:capitalize;line-height:1.7}.entry-meta h5{margin-top:0px;margin-bottom:0px}.entry-header .entry-meta::after{content:"";height:2px;display:block;margin:10px auto}.taxonomy-description{color:#455a64;text-align:center}.byline{text-transform:capitalize}.byline a{color:#727272}.group-blog .byline{display:inline}.entry-footer{word-spacing:3px;padding-bottom:2.5em}.archive-page-title{text-transform:capitalize}.archive-page-header{margin-bottom:1.5em}.archive-page-title{color:#525252;text-align:center;letter-spacing:2px}.entry-content{text-align:justify}.read-more{margin-bottom:1.2em;text-align:center;text-transform:uppercase}.btn-default{border:none;border-radius:0px;color:#212121;font-size:16px}.btn-default:hover:not(#_#_#_#_#_#_#_),.btn-default:focus:not(#_#_#_#_#_#_#_){color:#fff}.btn-default:visited{color:#212121}#secondary .widget{background-color:white;color:#727272;font-size:16px;margin-bottom:2em;margin-left:auto;margin-right:auto;overflow:hidden;padding:24px 24px 24px;box-shadow:0px 0px 1px rgba(0,0,0,.15);-moz-box-shadow:0 0 1px rgba(0,0,0,.15);-webkit-box-shadow:0 0 1px rgba(0,0,0,.15);-o-box-shadow:0 0 1px rgba(0,0,0,.15)}#secondary .widget-title{font-weight:400;position:relative}#secondary .widget-title{margin-top:-24px;margin-left:-24px;margin-right:-24px;margin-bottom:2em;padding:1.5em 1.5em 0;text-transform:uppercase}#secondary .widget-title::after{content:"";position:absolute;width:50px;display:block;height:4px;bottom:-15px}#secondary .widget a{color:#727272}.widget ul{list-style:none;padding:0em 1em}#secondary .widget li{border-bottom:1px solid #ddd;padding:.5em 0}#secondary .widget li:last-child{border-bottom:none}.widget ul ul{padding:0 0 0 1em}.widget_text amp-img,.widget_text amp-anim{max-width:100%}.widget input[type="search"].search-field{width:-webkit-calc(100% - 35px);width:calc(100% - 35px)}.widget .search-submit:before{font-size:16px;left:1px;line-height:35px;width:34px}.widget button.search-submit{padding:0;width:35px}.site-footer{background-color:#222;color:white;min-height:70px;font-size:16px;padding:1em;letter-spacing:1px}.site-info{text-align:center}.site-footer a{color:white}.site-footer a:hover{color:#009688}@media (max-width: 900px){body{font-size:16px}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-size:16px}h5{font-size:14px}.navbar-nav{float:none}.entry-header,.entry-content,.entry-footer{padding:1em 1.5em}.entry-footer{padding-bottom:1em}input{width:100%}.search-submit{width:auto}}@media (max-width: 767px){body{font-size:16px}.site-header{position:relative;width:100%;min-height:170px;margin-bottom:2em}.site-title{font-size:2.1em;letter-spacing:10px}.site-title::after{background-color:#fff;content:"";height:1px;display:block;width:20%;margin:5px auto}.site-description{font-size:14px;letter-spacing:1px}.site-footer{font-size:14px}}@media (max-width: 359px){.site-header{position:relative;width:100%;min-height:100px;margin-bottom:1.5em}.site-title{font-size:2em;letter-spacing:2px;margin-top:5px;margin-bottom:3px}.site-title ::after{margin:2px auto}.site-description{font-size:8px;letter-spacing:0px;margin-top:1px;margin-bottom:2px}}@media print{body{color:#000;font-size:10pt}body:not(#_#_#_#_#_#_#_#_){background:none}.site{max-width:98%}.site-header:not(#_#_#_#_#_#_#_){background-image:none}.site-header .home-link{max-width:none;min-height:0}.site-title{color:#000;font-size:21pt}.site-description{font-size:10pt}.site-footer,.comments-link,.site-content nav,.widget-area,.navbar,.more-link{display:none}.entry-header,.entry-content,.entry-meta{margin:0;width:100%}.entry-title{font-size:21pt}.entry-meta,.entry-meta a{color:#444;font-size:10pt}.hentry{background-color:#fff}}.entry-content h4{background:#f5f5f5;font-size:24px;padding:10px;border-left:3px solid #e4e4e4;margin-top:50px}.entry-content h5{font-size:20px;margin:30px 0px}@media (max-width: 768px){#primary{padding:0px}.entry-header,.entry-content,.entry-footer{padding:10px}}.coolshell_logo{background:url("../../coolshell_logo.png");background-size:contain;width:30px;height:30px;float:left;position:relative;top:-5px;margin-right:10px}.nav-searchbox{margin-bottom:20px}.nav-searchbox .search-submit{width:42px}.nav-searchbox .search-submit:before{line-height:0px}@media screen and (max-width: 768px){amp-img[class*="align"]:not(#_#_#_#_#_#_#_#_),amp-anim[class*="align"]:not(#_#_#_#_#_#_#_#_),amp-img[class*="wp-image-"]:not(#_#_#_#_#_#_#_#_),amp-anim[class*="wp-image-"]:not(#_#_#_#_#_#_#_#_){width:100%}}#secondary .widget a.twitter{background:#1b95e0;border-radius:6px;color:#fff;font-weight:500;line-height:1;padding:8px 20px;text-align:center}#secondary .widget a.twitter:active,#secondary .widget a.twitter:focus,#secondary .widget a.twitter:hover{background-color:#0c7abf}.amp-wp-2052ce1:not(#_#_#_#_#_){color:#555}.amp-wp-22e4ab0:not(#_#_#_#_#_){color:#2970a6}.amp-wp-24e1e07:not(#_#_#_#_#_){margin-left:10px}.amp-wp-abd0e16:not(#_#_#_#_#_){padding-left:30px}.amp-wp-17ed87e:not(#_#_#_#_#_){cursor:pointer;border:0px}.amp-wp-15df3a2:not(#_#_#_#_#_){font-size:20.694915254237pt}.amp-wp-56215ca:not(#_#_#_#_#_){font-size:14.28813559322pt}.amp-wp-a8fe277:not(#_#_#_#_#_){font-size:13.457627118644pt}.amp-wp-045c3ac:not(#_#_#_#_#_){font-size:13.932203389831pt}.amp-wp-56d59bd:not(#_#_#_#_#_){font-size:11.559322033898pt}.amp-wp-6fd3798:not(#_#_#_#_#_){font-size:9.1864406779661pt}.amp-wp-ff405ee:not(#_#_#_#_#_){font-size:13.220338983051pt}.amp-wp-f54ad52:not(#_#_#_#_#_){font-size:10.966101694915pt}.amp-wp-bcbebcd:not(#_#_#_#_#_){font-size:15.474576271186pt}.amp-wp-1db96cc:not(#_#_#_#_#_){font-size:15.593220338983pt}.amp-wp-4a89824:not(#_#_#_#_#_){font-size:17.610169491525pt}.amp-wp-36a1d43:not(#_#_#_#_#_){font-size:17.966101694915pt}.amp-wp-b58a474:not(#_#_#_#_#_){font-size:19.389830508475pt}.amp-wp-788d75a:not(#_#_#_#_#_){font-size:8pt}.amp-wp-23dae0b:not(#_#_#_#_#_){font-size:14.050847457627pt}.amp-wp-4dd69d2:not(#_#_#_#_#_){font-size:21.881355932203pt}.amp-wp-4810513:not(#_#_#_#_#_){font-size:10.135593220339pt}.amp-wp-7204db5:not(#_#_#_#_#_){font-size:15pt}.amp-wp-cac2c12:not(#_#_#_#_#_){font-size:10.491525423729pt}.amp-wp-4d6898b:not(#_#_#_#_#_){font-size:15.949152542373pt}.amp-wp-76fd06d:not(#_#_#_#_#_){font-size:12.745762711864pt}.amp-wp-115f966:not(#_#_#_#_#_){font-size:16.661016949153pt}.amp-wp-2f2c3cd:not(#_#_#_#_#_){font-size:12.271186440678pt}.amp-wp-132ede8:not(#_#_#_#_#_){font-size:8.5932203389831pt}.amp-wp-2af2d7c:not(#_#_#_#_#_){font-size:13.694915254237pt}.amp-wp-2e93a80:not(#_#_#_#_#_){font-size:22pt}.amp-wp-244ff5c:not(#_#_#_#_#_){font-size:9.6610169491525pt}.amp-wp-9ba8822:not(#_#_#_#_#_){font-size:11.915254237288pt}
+	.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+		color: #009688;
+	}
 
-/*# sourceURL=amp-custom.css */</style><link rel="profile" href="http://gmpg.org/xfn/11"><link rel="pingback" href="https://coolshell.cn/xmlrpc.php"><script type="application/ld+json" class="aioseo-schema">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","@id":"https://coolshell.cn/articles/author/hesey#breadcrumblist","itemListElement":[{"@type":"ListItem","@id":"https://coolshell.cn/#listItem","position":1,"item":{"@type":"WebPage","@id":"https://coolshell.cn/","name":"\u4e3b\u9801","description":"\u4eab\u53d7\u7f16\u7a0b\u548c\u6280\u672f\u6240\u5e26\u6765\u7684\u5feb\u4e50 \u2013 https://coolshell.cn","url":"https://coolshell.cn/"},"nextItem":"https://coolshell.cn/articles/author/hesey#listItem"},{"@type":"ListItem","@id":"https://coolshell.cn/articles/author/hesey#listItem","position":2,"item":{"@type":"WebPage","@id":"https://coolshell.cn/articles/author/hesey","name":"\u738b \u6668\u7eaf","description":"\u963f\u91cc\u5df4\u5df4Java\u5f00\u53d1\u5de5\u7a0b\u5e08\uff0c\u76ee\u524d\u8d1f\u8d23\u5929\u732b\u548c\u6dd8\u5b9d\u7684\u5e97\u94fa\u6d4f\u89c8\u7cfb\u7edf\uff0c\u957f\u671f\u5173\u6ce8\u7cfb\u7edf\u7a33\u5b9a\u6027\u3001\u6027\u80fd\u4f18\u5316\u3001Web\u7cfb\u7edf\u67b6\u6784\u3002\uff08Blog: blog.hesey.net \u65b0\u6d6a\u5fae\u535a\uff1aHesey\u5c0f\u7eaf\u7eaf\uff09","url":"https://coolshell.cn/articles/author/hesey"},"previousItem":"https://coolshell.cn/#listItem"}]},{"@type":"CollectionPage","@id":"https://coolshell.cn/articles/author/hesey#collectionpage","url":"https://coolshell.cn/articles/author/hesey","name":"\u738b \u6668\u7eaf | \u9177 \u58f3 - CoolShell","description":"\u963f\u91cc\u5df4\u5df4Java\u5f00\u53d1\u5de5\u7a0b\u5e08\uff0c\u76ee\u524d\u8d1f\u8d23\u5929\u732b\u548c\u6dd8\u5b9d\u7684\u5e97\u94fa\u6d4f\u89c8\u7cfb\u7edf\uff0c\u957f\u671f\u5173\u6ce8\u7cfb\u7edf\u7a33\u5b9a\u6027\u3001\u6027\u80fd\u4f18\u5316\u3001Web\u7cfb\u7edf\u67b6\u6784\u3002\uff08Blog: blog.hesey.net \u65b0\u6d6a\u5fae\u535a\uff1aHesey\u5c0f\u7eaf\u7eaf\uff09","inLanguage":"zh-CN","isPartOf":{"@id":"https://coolshell.cn/#website"},"breadcrumb":{"@id":"https://coolshell.cn/articles/author/hesey#breadcrumblist"}},{"@type":"Organization","@id":"https://coolshell.cn/#organization","name":"\u9177\u58f3-CoolShell","url":"https://coolshell.cn/","logo":{"@type":"ImageObject","url":"https://coolshell.cn/wp-content/uploads/2020/04/mini.logo_.png","@id":"https://coolshell.cn/#organizationLogo","width":306,"height":306},"image":{"@id":"https://coolshell.cn/#organizationLogo"}},{"@type":"Person","@id":"https://coolshell.cn/articles/author/hesey#author","url":"https://coolshell.cn/articles/author/hesey","name":"\u738b \u6668\u7eaf","image":{"@type":"ImageObject","@id":"https://coolshell.cn/articles/author/hesey#authorImage","url":"https://secure.gravatar.com/avatar/ad2761d3a84a1b29276b995d7719e694?s=96\u0026d=mm\u0026r=g","width":96,"height":96,"caption":"\u738b \u6668\u7eaf"},"mainEntityOfPage":{"@id":"https://coolshell.cn/articles/author/hesey#profilepage"}},{"@type":"WebSite","@id":"https://coolshell.cn/#website","url":"https://coolshell.cn/","name":"\u9177 \u58f3 - CoolShell","description":"\u4eab\u53d7\u7f16\u7a0b\u548c\u6280\u672f\u6240\u5e26\u6765\u7684\u5feb\u4e50 - Coding Your Ambition","inLanguage":"zh-CN","publisher":{"@id":"https://coolshell.cn/#organization"}}]}</script><link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell » Feed" href="../../feed.rss"><link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell » 评论Feed" href="../../comments/feed.rss"><link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell » 由王 晨纯发表的文章Feed" href="hesey/feed.rss"><link rel="https://api.w.org/" href="../../wp-json/index.json"><link rel="alternate" type="application/json" href="https://coolshell.cn/wp-json/wp/v2/users/24501"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../xmlrpc.php%EF%B9%96rsd.xml"><link rel="wlwmanifest" type="application/wlwmanifest+xml" href="../../wp-includes/wlwmanifest.xml"><title>王 晨纯 | 酷 壳 - CoolShell</title><link rel="canonical" href="hesey.html"></head>
- 
+	.navbar-default .navbar-nav > li > .dropdown-menu > li > a:hover,
+	.navbar-default .navbar-nav > li > .dropdown-menu > li > a:focus {
+		color: #fff;
+		background-color: #009688;
+	}
+
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+		background-color: #fff;
+		color: #009688;
+	}
+
+	@media (max-width: 767px) {
+		.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover {
+			background-color: #009688;
+			color: #fff;
+		}
+	}
+
+	.sticky-post{
+	    background: #009688;
+	    color:white;
+	}
+	
+	.entry-title a:hover,
+	.entry-title a:focus{
+	    color: #009688;
+	}
+
+	.entry-header .entry-meta::after{
+	    background: #009688;
+	}
+
+	.fa {
+		color: #009688;
+	}
+
+	.btn-default{
+		border-bottom: 1px solid #009688;
+	}
+
+	.btn-default:hover, .btn-default:focus{
+	    border-bottom: 1px solid #009688;
+	    background-color: #009688;
+	}
+
+	.nav-previous:hover, .nav-next:hover{
+	    border: 1px solid #009688;
+	    background-color: #009688;
+	}
+
+	.next-post a:hover,.prev-post a:hover{
+	    color: #009688;
+	}
+
+	.posts-navigation .next-post a:hover .fa, .posts-navigation .prev-post a:hover .fa{
+	    color: #009688;
+	}
+
+
+	#secondary .widget-title::after{
+		background-color: #009688;
+	    content: "";
+	    position: absolute;
+	    width: 75px;
+	    display: block;
+	    height: 4px;    
+	    bottom: -15px;
+	}
+
+	#secondary .widget a:hover,
+	#secondary .widget a:focus{
+		color: #009688;
+	}
+
+	#secondary .widget_calendar tbody a {
+	    background-color: #009688;
+	    color: #fff;
+	    padding: 0.2em;
+	}
+
+	#secondary .widget_calendar tbody a:hover{
+	    background-color: #009688;
+	    color: #fff;
+	    padding: 0.2em;
+	}	
+
+</style>
+<link rel="stylesheet" id="font-awesome-css" href="../../wp-content/themes/MyNisarg/font-awesome/css/font-awesome.min%EF%B9%96ver=6.2.css" type="text/css" media="all" />
+<link rel="stylesheet" id="nisarggooglefonts-css" href="https://fonts.googleapis.com/css?family=Lato:400,300italic,700%7CSource+Sans+Pro:400,400italic" type="text/css" media="all" />
+<link rel="stylesheet" id="enlighterjs-css" href="../../wp-content/plugins/enlighter/cache/enlighterjs.min%EF%B9%96ver=0cuVQBPCj0viGB0.css" type="text/css" media="all" />
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-includes/js/jquery/jquery.min%EF%B9%96ver=3.6.3.js" id="jquery-core-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-includes/js/jquery/jquery-migrate.min%EF%B9%96ver=3.4.0.js" id="jquery-migrate-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-content/plugins/simple-post-series/autohide%EF%B9%96ver=2.4.js" id="series-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" id="ez-toc-scroll-scriptjs-js-after">
+jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;30>30&&(i=30),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
+</script>
+<!--[if lt IE 9]>
+<script type='text/javascript' src='https://coolshell.cn/wp-content/themes/MyNisarg/js/html5shiv.js?ver=3.7.3' id='html5shiv-js'></script>
+<![endif]-->
+<meta name="generator" content="WordPress 6.2" />
+<script type="d4729eff30ad65897d1db9e9-text/javascript">
+	window._wp_rp_static_base_url = 'https://wprp.zemanta.com/static/';
+	window._wp_rp_wp_ajax_url = "https://coolshell.cn/wp-admin/admin-ajax.php";
+	window._wp_rp_plugin_version = '3.6.4';
+	window._wp_rp_post_id = '11629';
+	window._wp_rp_num_rel_posts = '6';
+	window._wp_rp_thumbnails = true;
+	window._wp_rp_post_title = '%E3%80%8C%E6%88%91%E5%8F%AA%E6%98%AF%E8%AE%A4%E7%9C%9F%E3%80%8D%E8%81%8A%E8%81%8A%E5%B7%A5%E5%8C%A0%E6%83%85%E6%80%80';
+	window._wp_rp_post_tags = ['programmer', '%E7%A8%8B%E5%BA%8F%E5%91%98', '%E6%9D%82%E9%A1%B9%E8%B5%84%E6%BA%90', 'strong', 'a', 'regular'];
+	window._wp_rp_promoted_content = true;
+</script>
+<link rel="stylesheet" href="../../wp-content/plugins/wordpress-23-related-posts-plugin/static/themes/vertical-m%EF%B9%96version=3.6.4.css" />
+<style type="text/css">.site-header { background: #1d2b2d; }
+</style>
+</head>
 <body class="archive author author-hesey author-24501 group-blog">
-
+<link rel="stylesheet" id="nisarg-style-css" href="../../wp-content/themes/MyNisarg/style.css" type="text/css" media="all">
 <div id="page" class="hfeed site">
 <header id="masthead" role="banner">
-  
+<nav class="navbar navbar-default navbar-fixed-top navbar-left" role="navigation">
 
-    <nav class="navbar navbar-default navbar-fixed-top navbar-left" role="navigation"> 
-       
-      <div class="container" id="navigation_menu">
-        <div class="navbar-header"> 
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> 
-            <span class="sr-only">Toggle navigation</span> 
-            <span class="icon-bar"></span> 
-            <span class="icon-bar"></span> 
-            <span class="icon-bar"></span> 
-          </button> 
-                    <a class="navbar-brand" href="../../index.html"><div class="coolshell_logo"></div>酷 壳 – CoolShell</a>
-        </div> 
-        
-
-          <div class="collapse navbar-collapse navbar-ex1-collapse"><ul id="menu-coolshell" class="nav navbar-nav"><li id="menu-item-17405" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-17405"><a title="首页" href="../../index.html">首页</a></li>
+<div class="container" id="navigation_menu">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="../../index.html"><div class="coolshell_logo"></div>酷 壳 &#8211; CoolShell</a>
+</div>
+<div class="collapse navbar-collapse navbar-ex1-collapse"><ul id="menu-coolshell" class="nav navbar-nav"><li id="menu-item-17405" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-17405"><a title="首页" href="../../index.html">首页</a></li>
 <li id="menu-item-17406" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17406"><a title="推荐文章" href="../../featured.html">推荐文章</a></li>
 <li id="menu-item-17407" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17407"><a title="本站插件" href="../../plugins.html">本站插件</a></li>
 <li id="menu-item-17408" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17408"><a title="留言小本" href="../../guestbook.html">留言小本</a></li>
 <li id="menu-item-17409" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17409"><a title="关于酷壳" href="../../about.html">关于酷壳</a></li>
 <li id="menu-item-17410" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17410"><a title="关于陈皓" href="../../haoel.html">关于陈皓</a></li>
 <li id="menu-item-17582" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17582"><a title="RSS" href="../../feed.rss">RSS</a></li>
-</ul></div>        
-      </div>
-    </nav>
- 
-
-  <div id="cc_spacer"></div> 
-  
-  <div class="site-header">
-<div class="pull-right">
-<a title="把这个链接拖到你的Chrome收藏夹工具栏中">High一下!</a>
+</ul></div>
 </div>
-      <div class="site-branding">   
-        <a class="home-link" href="../../index.html" title="酷 壳 – CoolShell" rel="home">
-          <h1 class="site-title">酷 壳 – CoolShell</h1>
-          <h2 class="site-description">享受编程和技术所带来的快乐 – Coding Your Ambition</h2>
-        </a>
-      </div>
-  </div> 
-</header>    
-
+</nav>
+<div id="cc_spacer"></div>
+<div class="site-header">
+<div class="pull-right">
+<a title="把这个链接拖到你的Chrome收藏夹工具栏中" href="javascript:(function(){function c(){var e=document.createElement(&quot;link&quot;);e.setAttribute(&quot;type&quot;,&quot;text/css&quot;);e.setAttribute(&quot;rel&quot;,&quot;stylesheet&quot;);e.setAttribute(&quot;href&quot;,f);e.setAttribute(&quot;class&quot;,l);document.body.appendChild(e)}function h(){var e=document.getElementsByClassName(l);for(var t=0;t<e.length;t++){document.body.removeChild(e[t])}}function p(){var e=document.createElement(&quot;div&quot;);e.setAttribute(&quot;class&quot;,a);document.body.appendChild(e);setTimeout(function(){document.body.removeChild(e)},100)}function d(e){return{height:e.offsetHeight,width:e.offsetWidth}}function v(i){var s=d(i);return s.height>e&&s.height<n&&s.width>t&&s.width<r}function m(e){var t=e;var n=0;while(!!t){n+=t.offsetTop;t=t.offsetParent}return n}function g(){var e=document.documentElement;if(!!window.innerWidth){return window.innerHeight}else if(e&&!isNaN(e.clientHeight)){return e.clientHeight}return 0}function y(){if(window.pageYOffset){return window.pageYOffset}return Math.max(document.documentElement.scrollTop,document.body.scrollTop)}function E(e){var t=m(e);return t>=w&&t<=b+w}function S(){var e=document.createElement(&quot;audio&quot;);e.setAttribute(&quot;class&quot;,l);e.src=i;e.loop=false;e.addEventListener(&quot;canplay&quot;,function(){setTimeout(function(){x(k)},500);setTimeout(function(){N();p();for(var e=0;e<O.length;e++){T(O[e])}},15500)},true);e.addEventListener(&quot;ended&quot;,function(){N();h()},true);e.innerHTML=&quot; <p>If you are reading this, it is because your browser does not support the audio element. We recommend that you get a new browser.</p> <p>&quot;;document.body.appendChild(e);e.play()}function x(e){e.className+=&quot; &quot;+s+&quot; &quot;+o}function T(e){e.className+=&quot; &quot;+s+&quot; &quot;+u[Math.floor(Math.random()*u.length)]}function N(){var e=document.getElementsByClassName(s);var t=new RegExp(&quot;\\b&quot;+s+&quot;\\b&quot;);for(var n=0;n<e.length;){e[n].className=e[n].className.replace(t,&quot;&quot;)}}var e=30;var t=30;var n=350;var r=350;var i=&quot;//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake.mp3&quot;;var s=&quot;mw-harlem_shake_me&quot;;var o=&quot;im_first&quot;;var u=[&quot;im_drunk&quot;,&quot;im_baked&quot;,&quot;im_trippin&quot;,&quot;im_blown&quot;];var a=&quot;mw-strobe_light&quot;;var f=&quot;//s3.amazonaws.com/moovweb-marketing/playground/harlem-shake-style.css&quot;;var l=&quot;mw_added_css&quot;;var b=g();var w=y();var C=document.getElementsByTagName(&quot;*&quot;);var k=null;for(var L=0;L<C.length;L++){var A=C[L];if(v(A)){if(E(A)){k=A;break}}}if(A===null){console.warn(&quot;Could not find a node of the right size. Please try a different page.&quot;);return}c();S();var O=[];for(var L=0;L<C.length;L++){var A=C[L];if(v(A)){O.push(A)}}})()    ">High一下!</a>
+</div>
+<div class="site-branding">
+<a class="home-link" href="../../index.html" title="酷 壳 &#8211; CoolShell" rel="home">
+<h1 class="site-title">酷 壳 &#8211; CoolShell</h1>
+<h2 class="site-description">享受编程和技术所带来的快乐 &#8211; Coding Your Ambition</h2>
+</a>
+</div>
+</div>
+</header>
 <div class="container">
 <div class="row">
 <div class="col-md-9 nav-searchbox hidden-lg hidden-md visible-sm-* visible-xs-*">
-  <form role="search" method="get" class="search-form" action="../../index.html" target="_top">
-      <label>
-          <span class="screen-reader-text">Search for:</span>
-          <input type="search" class="search-field" placeholder="Search …" value="" name="s" title="Search for:">
-      </label>
-      <button type="submit" class="search-submit"><span class="screen-reader-text">Search</span></button>
-  </form>
+<form role="search" method="get" class="search-form" action="../../index.html">
+<label>
+<span class="screen-reader-text">Search for:</span>
+<input type="search" class="search-field" placeholder="Search …" value name="s" title="Search for:">
+</label>
+<button type="submit" class="search-submit"><span class="screen-reader-text">Search</span></button>
+</form>
 </div>
 </div>
 </div>
-
 <div id="content" class="site-content">
-    
-    
-    
-		<div class="container">
-    		<div class="row">
-				
-
-					
-						<header class="archive-page-header">
-							<h3 class="archive-page-title">Browsed by<br>作者： <span>王 晨纯</span></h3><div class="taxonomy-description">阿里巴巴Java开发工程师，目前负责天猫和淘宝的店铺浏览系统，长期关注系统稳定性、性能优化、Web系统架构。（Blog: <a href="http://blog.hesey.net">blog.hesey.net</a> 新浪微博：<a href="http://weibo.com/tbmujian">Hesey小纯纯</a>）</div>						</header>
-
-					<div id="primary" class="col-md-9 content-area">
-						<main id="main" class="site-main" role="main">
-
-												
-							
+<div class="container">
+<div class="row">
+<header class="archive-page-header">
+<h3 class="archive-page-title">Browsed by<br>作者： <span>王 晨纯</span></h3><div class="taxonomy-description">阿里巴巴Java开发工程师，目前负责天猫和淘宝的店铺浏览系统，长期关注系统稳定性、性能优化、Web系统架构。（Blog: <a href="http://blog.hesey.net">blog.hesey.net</a> 新浪微博：<a href="http://weibo.com/tbmujian">Hesey小纯纯</a>）</div> </header>
+<div id="primary" class="col-md-9 content-area">
+<main id="main" class="site-main" role="main">
 <article id="post-11629" class="post-content post-11629 post type-post status-publish format-standard hentry category-misc tag-programmer tag-58">
-
-	
-		
-	<header class="entry-header">	
-	
-		<span class="screen-reader-text">「我只是认真」聊聊工匠情怀</span>
-
-					<h2 class="entry-title">
-				<a href="../11629.html" rel="bookmark">「我只是认真」聊聊工匠情怀</a>
-			</h2>
-		
-				<div class="entry-meta">
-			<h5 class="entry-date"><i class="fa fa-calendar-o"></i> <a href="../11629.html" title="11:20" rel="bookmark"><time class="entry-date" datetime="2014-05-26T11:20:55+08:00" pubdate>2014年05月26日 </time></a><span class="byline"><span class="sep"></span><i class="fa fa-user"></i>
-<span class="author vcard"><a class="url fn n" href="hesey.html" title="View all posts by 王 晨纯" rel="author">王 晨纯</a></span></span> <i class="fa fa-comments-o"></i><span class="screen-reader-text">评论 </span> <a href="../11629.html#comments" class="comments-link">78 条评论</a> <i class="fa fa-users amp-wp-24e1e07" data-amp-original-style="margin-left:10px;"></i> 73,475 人阅读</h5>
-		</div>
-			</header>
-	
-			<div class="entry-content">
-
-				<p><strong data-amp-original-style="color: #555555;" class="amp-wp-2052ce1">（感谢网友 <a href="http://weibo.com/tbmujian" target="_blank" data-amp-original-style="color: #2970a6;" class="amp-wp-22e4ab0">@Hesey小纯纯</a> 投稿  <a href="http://blog.hesey.net/" target="_blank" data-amp-original-style="color: #2970a6;" class="amp-wp-22e4ab0">博客</a> |　<a href="http://blog.hesey.net/2014/05/im-just-conscientious-talking-about-feelings-of-artisans.html" target="_blank" data-amp-original-style="color: #2970a6;" class="amp-wp-22e4ab0">原文链接</a>）</strong></p>
+<header class="entry-header">
+<span class="screen-reader-text">「我只是认真」聊聊工匠情怀</span>
+<h2 class="entry-title">
+<a href="../11629.html" rel="bookmark">「我只是认真」聊聊工匠情怀</a>
+</h2>
+<div class="entry-meta">
+<h5 class="entry-date"><i class="fa fa-calendar-o"></i> <a href="../11629.html" title="11:20" rel="bookmark"><time class="entry-date" datetime="2014-05-26T11:20:55+08:00" pubdate>2014年05月26日 </time></a><span class="byline"><span class="sep"></span><i class="fa fa-user"></i>
+<span class="author vcard"><a class="url fn n" href="hesey.html" title="View all posts by 王 晨纯" rel="author">王 晨纯</a></span></span> <i class="fa fa-comments-o"></i><span class="screen-reader-text">评论 </span> <a href="../11629.html#comments" class="comments-link">78 条评论</a> <i class="fa fa-users" style="margin-left:10px;"></i> 74,445 人阅读</h5>
+</div>
+</header>
+<div class="entry-content">
+<p><strong style="color: #555555;">（感谢网友 <a style="color: #2970a6;" href="http://weibo.com/tbmujian" target="_blank">@Hesey小纯纯</a> 投稿  <a style="color: #2970a6;" href="http://blog.hesey.net/" target="_blank">博客</a> |　<a style="color: #2970a6;" href="http://blog.hesey.net/2014/05/im-just-conscientious-talking-about-feelings-of-artisans.html" target="_blank">原文链接</a>）</strong></p>
 <p>老罗的Smartisan T1手机发布会很多人应该都看了，发布会的最后老罗凝视着自己的工匠自画像，半晌没说话，随后转过身，慢慢离开舞台，屏幕下方只留下一句话：</p>
-<p data-amp-original-style="padding-left: 30px;" class="amp-wp-abd0e16"><strong>我不是为了输赢，我就是认真。</strong></p>
+<p style="padding-left: 30px;"><strong>我不是为了输赢，我就是认真。</strong></p>
 <p>这一瞬间让我想起93年「狮城舌战」的主角蒋昌建，在「人性本善还是人性本恶」的总结陈词最后，以顾城的名句，「黑夜给了我黑色的眼睛，我却用它寻找光明」，把整个辩论赛的氛围推向高潮。</p>
 <p>而老罗的这句话，和这句话背后的工匠背景，却以另外一种<strong>无声的却震人心魄的力量</strong>，敲打着每一个在场的，或是观看着整个发布会的观众的心绪。</p>
 <p>「工匠情怀」，我深有体会，就像我在 <a href="http://blog.hesey.net/2014/05/gc-oriented-java-programming.html" target="_blank">面向GC的Java编程</a> 一文中所提到的：</p>
-<p data-amp-original-style="padding-left: 30px;" class="amp-wp-abd0e16"><strong>优秀程序员的价值，不在于其所掌握的几招屠龙之术，而是在细节中见真著。</strong></p>
-<p data-amp-original-style="padding-left: 30px;" class="amp-wp-abd0e16"><strong>如果我们可以一次把事情做对，并且做好，在允许的范围内尽可能追求卓越，为什么不去做呢？</strong></p>
+<p style="padding-left: 30px;"><strong>优秀程序员的价值，不在于其所掌握的几招屠龙之术，而是在细节中见真著。</strong></p>
+<p style="padding-left: 30px;"><strong>如果我们可以一次把事情做对，并且做好，在允许的范围内尽可能追求卓越，为什么不去做呢？</strong></p>
 <p>追求卓越，追求完美，追求细节的极致。小时候看到那些修表匠，握着一个小螺丝刀，或是看着电工，用烙铁沾着锡和松香，在那一小寸的世界里，把坏了的地方修好，那种专注的眼神，觉得很厉害。</p>
 <p>现在再去回想那些工匠工作的场景，越发觉得钦佩。在我老家有一家刻章的店，在我上幼儿园的时候就已经在那开了很多年了。前段时间需要刻一个章，发现那家店还在，于是走进去，门口坐着一个老人，我确实记不得当年是不是他，不过看这岁数八九不离十。我以前在别的地方刻的章，都是在电脑里设计完图案后，激光刻蚀。但那次老人却是用的手刻，我着实惊呆了。只看他拿出一块红色的印底，右手持着刻刀，开始一下一下地刻着。虽然老人连话都不怎么说得清了，但是工作时那专注的神情，和精湛的手艺，以及最后成品那比机器更完美的效果，着实让我心里非常动容。</p>
-<p> <a href="../11629.html#more-11629" class="more-link">…</a></p>
-<p class="read-more"><a class="btn btn-default" href="../11629.html"> 阅读全文<span class="screen-reader-text">  Read More</span></a></p>
-<p></p>
-<div id="post-ratings-11629" class="post-ratings" data-nonce="15a941c5ce"><amp-anim id="rating_11629_1" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" width="16" height="16"></noscript></amp-anim><amp-anim id="rating_11629_2" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" width="16" height="16"></noscript></amp-anim><amp-anim id="rating_11629_3" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" width="16" height="16"></noscript></amp-anim><amp-anim id="rating_11629_4" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="还不错" title="还不错" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="还不错" title="还不错" width="16" height="16"></noscript></amp-anim><amp-anim id="rating_11629_5" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_half.gif" alt="很精彩" title="很精彩" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_half.gif" alt="很精彩" title="很精彩" width="16" height="16"></noscript></amp-anim> (<strong>82</strong> 人打了分，平均分： <strong>4.32</strong> )<br><span class="post-ratings-text" id="ratings_11629_text"></span></div><div id="post-ratings-11629-loading" class="post-ratings-loading"><amp-anim src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/loading.gif" width="16" height="16" class="post-ratings-image amp-wp-enforced-sizes i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/loading.gif" width="16" height="16"></noscript></amp-anim>Loading...</div>
-							</div>
-
-	<footer class="entry-footer">
-			</footer>
+<p> <a href="../11629.html#more-11629" class="more-link">&#8230;</p>
+<p class="read-more"><a class="btn btn-default" href="../11629.html"> 阅读全文<span class="screen-reader-text"> Read More</span></a></p>
+<p></a></p>
+<div id="post-ratings-11629" class="post-ratings" data-nonce="e456d81a0c"><img id="rating_11629_1" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11629, 1, '好烂啊');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.3, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /><img id="rating_11629_2" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11629, 2, '有点差');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.3, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /><img id="rating_11629_3" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11629, 3, '凑合看看');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.3, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /><img id="rating_11629_4" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="还不错" title="还不错" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11629, 4, '还不错');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.3, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /><img id="rating_11629_5" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_half.gif" alt="很精彩" title="很精彩" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11629, 5, '很精彩');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.3, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /> (<strong>82</strong> 人打了分，平均分： <strong>4.32</strong> )<br/><span class="post-ratings-text" id="ratings_11629_text"></span></div><div id="post-ratings-11629-loading" class="post-ratings-loading"><img src="../../wp-content/plugins/wp-postratings/images/loading.gif" width="16" height="16" class="post-ratings-image" />Loading...</div>
+</div>
+<footer class="entry-footer">
+</footer>
 </article>
-
-						
-							
 <article id="post-11541" class="post-content post-11541 post type-post status-publish format-standard hentry category-javadev tag-gc tag-java tag-jvm">
-
-	
-		
-	<header class="entry-header">	
-	
-		<span class="screen-reader-text">面向GC的Java编程</span>
-
-					<h2 class="entry-title">
-				<a href="../11541.html" rel="bookmark">面向GC的Java编程</a>
-			</h2>
-		
-				<div class="entry-meta">
-			<h5 class="entry-date"><i class="fa fa-calendar-o"></i> <a href="../11541.html" title="11:24" rel="bookmark"><time class="entry-date" datetime="2014-05-07T11:24:38+08:00" pubdate>2014年05月07日 </time></a><span class="byline"><span class="sep"></span><i class="fa fa-user"></i>
-<span class="author vcard"><a class="url fn n" href="hesey.html" title="View all posts by 王 晨纯" rel="author">王 晨纯</a></span></span> <i class="fa fa-comments-o"></i><span class="screen-reader-text">评论 </span> <a href="../11541.html#comments" class="comments-link">46 条评论</a> <i class="fa fa-users amp-wp-24e1e07" data-amp-original-style="margin-left:10px;"></i> 59,623 人阅读</h5>
-		</div>
-			</header>
-	
-			<div class="entry-content">
-
-				<p><strong>（感谢网友 <a href="http://weibo.com/tbmujian" target="_blank">@Hesey小纯纯</a> 投稿  <a href="http://blog.hesey.net/" target="_blank">博客</a> |　<a href="http://blog.hesey.net/2014/05/gc-oriented-java-programming.html" target="_blank">原文链接</a>）</strong></p>
+<header class="entry-header">
+<span class="screen-reader-text">面向GC的Java编程</span>
+<h2 class="entry-title">
+<a href="../11541.html" rel="bookmark">面向GC的Java编程</a>
+</h2>
+<div class="entry-meta">
+<h5 class="entry-date"><i class="fa fa-calendar-o"></i> <a href="../11541.html" title="11:24" rel="bookmark"><time class="entry-date" datetime="2014-05-07T11:24:38+08:00" pubdate>2014年05月07日 </time></a><span class="byline"><span class="sep"></span><i class="fa fa-user"></i>
+<span class="author vcard"><a class="url fn n" href="hesey.html" title="View all posts by 王 晨纯" rel="author">王 晨纯</a></span></span> <i class="fa fa-comments-o"></i><span class="screen-reader-text">评论 </span> <a href="../11541.html#comments" class="comments-link">46 条评论</a> <i class="fa fa-users" style="margin-left:10px;"></i> 60,583 人阅读</h5>
+</div>
+</header>
+<div class="entry-content">
+<p><strong>（感谢网友 <a href="http://weibo.com/tbmujian" target="_blank">@Hesey小纯纯</a> 投稿  <a href="http://blog.hesey.net/" target="_blank">博客</a> |　<a href="http://blog.hesey.net/2014/05/gc-oriented-java-programming.html" target="_blank">原文链接</a>）</strong></p>
 <p>Java程序员在编码过程中通常不需要考虑内存问题，JVM经过高度优化的GC机制大部分情况下都能够很好地处理堆(Heap)的清理问题。以至于许多Java程序员认为，我只需要关心何时创建对象，而回收对象，就交给GC来做吧！甚至有人说，如果在编程过程中频繁考虑内存问题，是一种退化，这些事情应该交给编译器，交给虚拟机来解决。</p>
 <p>这话其实也没有太大问题，的确，大部分场景下关心内存、GC的问题，显得有点“杞人忧天”了，高老爷说过：</p>
-<p data-amp-original-style="padding-left: 30px;" class="amp-wp-abd0e16">过早优化是万恶之源。</p>
+<p style="padding-left: 30px;">过早优化是万恶之源。</p>
 <p>但另一方面，<strong>什么才是“过早优化”？</strong></p>
-<p data-amp-original-style="padding-left: 30px;" class="amp-wp-abd0e16">If we could do things right for the first time, why not?</p>
+<p style="padding-left: 30px;">If we could do things right for the first time, why not?</p>
 <p>事实上<strong>JVM的内存模型</strong>( <a href="http://www.cs.umd.edu/~pugh/java/memoryModel/" target="_blank">JMM</a> )理应是Java程序员的基础知识，处理过几次JVM线上内存问题之后就会很明显感受到，很多系统问题，都是内存问题。</p>
 <p>对JVM内存结构感兴趣的同学可以看下 <a href="http://blog.hesey.net/2011/04/introduction-to-java-virtual-machine.html" target="_blank">浅析Java虚拟机结构与机制</a> 这篇文章，本文就不再赘述了，本文也并不关注具体的GC算法，相关的文章汗牛充栋，随时可查。</p>
 <p>另外，不要指望GC优化的这些技巧，可以对应用性能有成倍的提高，特别是对I/O密集型的应用，或是实际落在YoungGC上的优化，可能效果只是帮你减少那么一点YoungGC的频率。</p>
-<p>但我认为，<strong>优秀程序员的价值，不在于其所掌握的几招屠龙之术，而是在细节中见真著</strong>，就像前面说的，<strong>如果我们可以一次把事情做对，并且做好，在允许的范围内尽可能追求卓越，为什么不去做呢？</strong> <a href="../11541.html#more-11541" class="more-link">…</a></p>
-<p class="read-more"><a class="btn btn-default" href="../11541.html"> 阅读全文<span class="screen-reader-text">  Read More</span></a></p>
-<p></p>
-<div id="post-ratings-11541" class="post-ratings" data-nonce="b44577c433"><amp-anim id="rating_11541_1" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" width="16" height="16"></noscript></amp-anim><amp-anim id="rating_11541_2" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" width="16" height="16"></noscript></amp-anim><amp-anim id="rating_11541_3" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" width="16" height="16"></noscript></amp-anim><amp-anim id="rating_11541_4" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="还不错" title="还不错" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="还不错" title="还不错" width="16" height="16"></noscript></amp-anim><amp-anim id="rating_11541_5" src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_off.gif" alt="很精彩" title="很精彩" width="16" height="16" class="amp-wp-enforced-sizes amp-wp-17ed87e i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" data-amp-original-style="cursor: pointer; border: 0px;" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_off.gif" alt="很精彩" title="很精彩" width="16" height="16"></noscript></amp-anim> (<strong>41</strong> 人打了分，平均分： <strong>4.00</strong> )<br><span class="post-ratings-text" id="ratings_11541_text"></span></div><div id="post-ratings-11541-loading" class="post-ratings-loading"><amp-anim src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/loading.gif" width="16" height="16" class="post-ratings-image amp-wp-enforced-sizes i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjE2IiB3aWR0aD0iMTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmVyc2lvbj0iMS4xIi8+"></i-amphtml-sizer><noscript><img src="../../wp-content/plugins/wp-postratings/images/loading.gif" width="16" height="16"></noscript></amp-anim>Loading...</div>
-							</div>
-
-	<footer class="entry-footer">
-			</footer>
+<p>但我认为，<strong>优秀程序员的价值，不在于其所掌握的几招屠龙之术，而是在细节中见真著</strong>，就像前面说的，<strong>如果我们可以一次把事情做对，并且做好，在允许的范围内尽可能追求卓越，为什么不去做呢？</strong> <a href="../11541.html#more-11541" class="more-link">&#8230;</p>
+<p class="read-more"><a class="btn btn-default" href="../11541.html"> 阅读全文<span class="screen-reader-text"> Read More</span></a></p>
+<p></a></p>
+<div id="post-ratings-11541" class="post-ratings" data-nonce="0b11405f5f"><img id="rating_11541_1" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11541, 1, '好烂啊');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4, 0, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /><img id="rating_11541_2" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11541, 2, '有点差');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4, 0, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /><img id="rating_11541_3" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11541, 3, '凑合看看');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4, 0, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /><img id="rating_11541_4" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="还不错" title="还不错" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11541, 4, '还不错');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4, 0, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /><img id="rating_11541_5" src="../../wp-content/plugins/wp-postratings/images/stars_crystal/rating_off.gif" alt="很精彩" title="很精彩" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(11541, 5, '很精彩');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4, 0, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d4729eff30ad65897d1db9e9- /> (<strong>41</strong> 人打了分，平均分： <strong>4.00</strong> )<br/><span class="post-ratings-text" id="ratings_11541_text"></span></div><div id="post-ratings-11541-loading" class="post-ratings-loading"><img src="../../wp-content/plugins/wp-postratings/images/loading.gif" width="16" height="16" class="post-ratings-image" />Loading...</div>
+</div>
+<footer class="entry-footer">
+</footer>
 </article>
-
-						
-						
-					
-					</main>
-				</div>
-
-				<div id="secondary" class="col-md-3 hidden-sm hidden-xs sidebar widget-area" role="complementary">
-        <aside id="search-9" class="widget widget_search">
-<form role="search" method="get" class="search-form" action="../../index.html" target="_top">
-	<label>
-		<span class="screen-reader-text">Search for:</span>
-		<input type="search" class="search-field" placeholder="Search …" value="" name="s" title="Search for:">
-	</label>
-	<button type="submit" class="search-submit"><span class="screen-reader-text">Search</span></button>
+</main>
+</div>
+<div id="secondary" class="col-md-3 hidden-sm hidden-xs sidebar widget-area" role="complementary">
+<aside id="search-9" class="widget widget_search">
+<form role="search" method="get" class="search-form" action="../../index.html">
+<label>
+<span class="screen-reader-text">Search for:</span>
+<input type="search" class="search-field" placeholder="Search &hellip;" value name="s" title="Search for:" />
+</label>
+<button type="submit" class="search-submit"><span class="screen-reader-text">Search</span></button>
 </form>
 </aside><aside id="custom_html-3" class="widget_text widget widget_custom_html"><h4 class="widget-title">本站公告</h4><div class="textwidget custom-html-widget"><p align="center"><a class="twitter" href="https://twitter.com/haoel" target="_blank" rel="noopener"> Twitter @haoel </a></p>
 
-
-
-<p align="center">极客时间专栏<br><a href="http://gk.link/a/10sBp" target="_blank" rel="noopener"><amp-img src="https://coolshell.cn/wp-content/uploads/2021/06/8311623409583_.pic_hd-1024x1024.jpg" height="200" alt="极客时间专栏" title="极客时间专栏" width="200" class="amp-wp-enforced-sizes i-amphtml-layout-intrinsic i-amphtml-layout-size-defined" layout="intrinsic" i-amphtml-layout="intrinsic"><i-amphtml-sizer slot="i-amphtml-svc" class="i-amphtml-sizer"><img alt="" aria-hidden="true" class="i-amphtml-intrinsic-sizer" role="presentation" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjIwMCIgd2lkdGg9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4="></i-amphtml-sizer><noscript><img src="../../wp-content/uploads/2021/06/8311623409583_.pic_hd-1024x1024.jpg" height="200" alt="极客时间专栏" title="极客时间专栏" width="200"></noscript></amp-img></a></p>
-
-
+<p align="center">极客时间专栏<br><a href="http://gk.link/a/10sBp" target="_blank" rel="noopener"><img src="../../wp-content/uploads/2021/06/8311623409583_.pic_hd-1024x1024.jpg" height="200" weight="200" alt="极客时间专栏" title="极客时间专栏"></a></p>
 
 </div></aside>
-		<aside id="recent-posts-4" class="widget widget_recent_entries">
-		<h4 class="widget-title">最新文章</h4>
-		<ul>
-											<li>
-					<a href="../22398.html">我看ChatGPT: 为啥谷歌掉了千亿美金</a>
-									</li>
-											<li>
-					<a href="../22367.html">聊聊 nostr 和 审查</a>
-									</li>
-											<li>
-					<a href="../22341.html">感染新冠的经历</a>
-									</li>
-											<li>
-					<a href="../22320.html">eBPF 介绍</a>
-									</li>
-											<li>
-					<a href="../22298.html">聊聊团队协同和协同工具</a>
-									</li>
-											<li>
-					<a href="../22263.html">从一次经历谈 TIME_WAIT 的那些事</a>
-									</li>
-											<li>
-					<a href="../22242.html">ETCD的内存问题</a>
-									</li>
-											<li>
-					<a href="../22173.html">“一把梭：REST API 全用 POST”</a>
-									</li>
-											<li>
-					<a href="../22157.html">谈谈公司对员工的监控</a>
-									</li>
-											<li>
-					<a href="../21708.html">网络数字身份认证术</a>
-									</li>
-											<li>
-					<a href="../21672.html">我做系统架构的一些原则</a>
-									</li>
-											<li>
-					<a href="../21649.html">源代码特洛伊木马攻击</a>
-									</li>
-											<li>
-					<a href="../21615.html">Go编程模式 ： 泛型编程</a>
-									</li>
-											<li>
-					<a href="../21589.html">如何做一个有质量的技术分享</a>
-									</li>
-											<li>
-					<a href="../21263.html">Go 编程模式：k8s Visitor 模式</a>
-									</li>
-											<li>
-					<a href="../21228.html">Go编程模式：Pipeline</a>
-									</li>
-											<li>
-					<a href="../21214.html">Go编程模式：委托和反转控制</a>
-									</li>
-											<li>
-					<a href="../21179.html">Go 编程模式：Go Generation</a>
-									</li>
-											<li>
-					<a href="../21164.html">Go编程模式：Map-Reduce</a>
-									</li>
-											<li>
-					<a href="../21146.html">Go 编程模式：Functional Options</a>
-									</li>
-											<li>
-					<a href="../21140.html">Go 编程模式：错误处理</a>
-									</li>
-											<li>
-					<a href="../21128.html">Go编程模式：切片，接口，时间和性能</a>
-									</li>
-											<li>
-					<a href="../21113.html">百度为什么掉队了</a>
-									</li>
-											<li>
-					<a href="../20977.html">程序员如何把控自己的职业</a>
-									</li>
-											<li>
-					<a href="../21003.html">计时攻击 Timing Attacks</a>
-									</li>
-											<li>
-					<a href="../20845.html">Rust语言的编程范式</a>
-									</li>
-											<li>
-					<a href="../20793.html">与程序员相关的CPU缓存知识</a>
-									</li>
-											<li>
-					<a href="../20765.html">MegaEase的远程工作文化</a>
-									</li>
-											<li>
-					<a href="../20533.html">使用简单的逻辑方法进行独立思考</a>
-									</li>
-											<li>
-					<a href="../20276.html">别让自己“墙”了自己</a>
-									</li>
-					</ul>
-
-		</aside><aside id="views-6" class="widget widget_views"><h4 class="widget-title">全站热门</h4><ul>
-<li><a href="../4990.html" title="程序员技术练级攻略 - 10,230,152 人阅读">程序员技术练级攻略</a></li><li><a href="../3961.html" title="“火柴棍式”程序员面试题 - 2,353,276 人阅读">“火柴棍式”程序员面试题</a></li><li><a href="../5426.html" title="简明 Vim 练级攻略 - 1,311,915 人阅读">简明 Vim 练级攻略</a></li><li><a href="../9308.html" title="“作环保的程序员，从不用百度开始” - 580,283 人阅读">“作环保的程序员，从不用百度开始”</a></li><li><a href="../11564.html" title="TCP 的那些事儿（上） - 481,058 人阅读">TCP 的那些事儿（上）</a></li><li><a href="../9070.html" title="AWK 简明教程 - 449,719 人阅读">AWK 简明教程</a></li><li><a href="../7186.html" title="做个环保主义的程序员 - 444,595 人阅读">做个环保主义的程序员</a></li><li><a href="../10688.html" title="编程能力与编程年龄 - 413,140 人阅读">编程能力与编程年龄</a></li><li><a href="../10590.html" title="二维码的生成细节和原理 - 389,385 人阅读">二维码的生成细节和原理</a></li><li><a href="../9104.html" title="sed 简明教程 - 376,240 人阅读">sed 简明教程</a></li><li><a href="../4102.html" title="如何学好C语言 - 365,517 人阅读">如何学好C语言</a></li><li><a href="../19464.html" title="如何超过大多数人 - 304,579 人阅读">如何超过大多数人</a></li><li><a href="../17583.html" title="技术人员的发展之路 - 303,651 人阅读">技术人员的发展之路</a></li><li><a href="../6470.html" title="由12306.cn谈谈网站性能技术 - 296,171 人阅读">由12306.cn谈谈网站性能技术</a></li><li><a href="../8883.html" title="应该知道的Linux技巧 - 294,067 人阅读">应该知道的Linux技巧</a></li><li><a href="../9606.html" title="疫苗：Java HashMap的死循环 - 293,839 人阅读">疫苗：Java HashMap的死循环</a></li><li><a href="../17416.html" title="缓存更新的套路 - 287,234 人阅读">缓存更新的套路</a></li><li><a href="../10910.html" title="分布式系统的事务处理 - 280,902 人阅读">分布式系统的事务处理</a></li><li><a href="../11609.html" title="TCP 的那些事儿（下） - 280,359 人阅读">TCP 的那些事儿（下）</a></li><li><a href="../2250.html" title="“21天教你学会C++” - 275,316 人阅读">“21天教你学会C++”</a></li><li><a href="../8239.html" title="无锁队列的实现 - 268,744 人阅读">无锁队列的实现</a></li><li><a href="../10739.html" title="Lua简明教程 - 265,945 人阅读">Lua简明教程</a></li><li><a href="../20276.html" title="别让自己“墙”了自己 - 261,789 人阅读">别让自己“墙”了自己</a></li><li><a href="../7490.html" title="性能调优攻略 - 254,589 人阅读">性能调优攻略</a></li><li><a href="../1846.html" title="MySQL性能优化的最佳20+条经验 - 253,525 人阅读">MySQL性能优化的最佳20+条经验</a></li><li><a href="../4758.html" title="如何写出无法维护的代码 - 250,914 人阅读">如何写出无法维护的代码</a></li><li><a href="../914.html" title="6个变态的C语言Hello World程序 - 249,985 人阅读">6个变态的C语言Hello World程序</a></li><li><a href="../7829.html" title="28个Unix/Linux的命令行神器 - 238,971 人阅读">28个Unix/Linux的命令行神器</a></li><li><a href="../17010.html" title="Docker基础技术：Linux Namespace（上） - 236,981 人阅读">Docker基础技术：Linux Namespace（上）</a></li><li><a href="../11312.html" title="无插件Vim编程技巧 - 220,418 人阅读">无插件Vim编程技巧</a></li></ul>
+<aside id="recent-posts-4" class="widget widget_recent_entries">
+<h4 class="widget-title">最新文章</h4>
+<ul>
+<li>
+<a href="../22422.html">是微服务架构不香还是云不香？</a>
+</li>
+<li>
+<a href="../22398.html">我看ChatGPT: 为啥谷歌掉了千亿美金</a>
+</li>
+<li>
+<a href="../22367.html">聊聊 nostr 和 审查</a>
+</li>
+<li>
+<a href="../22341.html">感染新冠的经历</a>
+</li>
+<li>
+<a href="../22320.html">eBPF 介绍</a>
+</li>
+<li>
+<a href="../22298.html">聊聊团队协同和协同工具</a>
+</li>
+<li>
+<a href="../22263.html">从一次经历谈 TIME_WAIT 的那些事</a>
+</li>
+<li>
+<a href="../22242.html">ETCD的内存问题</a>
+</li>
+<li>
+<a href="../22173.html">“一把梭：REST API 全用 POST”</a>
+</li>
+<li>
+<a href="../22157.html">谈谈公司对员工的监控</a>
+</li>
+<li>
+<a href="../21708.html">网络数字身份认证术</a>
+</li>
+<li>
+<a href="../21672.html">我做系统架构的一些原则</a>
+</li>
+<li>
+<a href="../21649.html">源代码特洛伊木马攻击</a>
+</li>
+<li>
+<a href="../21615.html">Go编程模式 ： 泛型编程</a>
+</li>
+<li>
+<a href="../21589.html">如何做一个有质量的技术分享</a>
+</li>
+<li>
+<a href="../21263.html">Go 编程模式：k8s Visitor 模式</a>
+</li>
+<li>
+<a href="../21228.html">Go编程模式：Pipeline</a>
+</li>
+<li>
+<a href="../21214.html">Go编程模式：委托和反转控制</a>
+</li>
+<li>
+<a href="../21179.html">Go 编程模式：Go Generation</a>
+</li>
+<li>
+<a href="../21164.html">Go编程模式：Map-Reduce</a>
+</li>
+<li>
+<a href="../21146.html">Go 编程模式：Functional Options</a>
+</li>
+<li>
+<a href="../21140.html">Go 编程模式：错误处理</a>
+</li>
+<li>
+<a href="../21128.html">Go编程模式：切片，接口，时间和性能</a>
+</li>
+<li>
+<a href="../21113.html">百度为什么掉队了</a>
+</li>
+<li>
+<a href="../20977.html">程序员如何把控自己的职业</a>
+</li>
+<li>
+<a href="../21003.html">计时攻击 Timing Attacks</a>
+</li>
+<li>
+<a href="../20845.html">Rust语言的编程范式</a>
+</li>
+<li>
+<a href="../20793.html">与程序员相关的CPU缓存知识</a>
+</li>
+<li>
+<a href="../20765.html">MegaEase的远程工作文化</a>
+</li>
+<li>
+<a href="../20533.html">使用简单的逻辑方法进行独立思考</a>
+</li>
+</ul>
+</aside><aside id="views-6" class="widget widget_views"><h4 class="widget-title">全站热门</h4><ul>
+<li><a href="../4990.html" title="程序员技术练级攻略 - 10,241,153 人阅读">程序员技术练级攻略</a></li><li><a href="../3961.html" title="&ldquo;火柴棍式&rdquo;程序员面试题 - 2,356,575 人阅读">&ldquo;火柴棍式&rdquo;程序员面试题</a></li><li><a href="../5426.html" title="简明 Vim 练级攻略 - 1,326,221 人阅读">简明 Vim 练级攻略</a></li><li><a href="../9308.html" title="&ldquo;作环保的程序员，从不用百度开始&rdquo; - 593,451 人阅读">&ldquo;作环保的程序员，从不用百度开始&rdquo;</a></li><li><a href="../11564.html" title="TCP 的那些事儿（上） - 489,221 人阅读">TCP 的那些事儿（上）</a></li><li><a href="../9070.html" title="AWK 简明教程 - 453,516 人阅读">AWK 简明教程</a></li><li><a href="../7186.html" title="做个环保主义的程序员 - 447,508 人阅读">做个环保主义的程序员</a></li><li><a href="../10688.html" title="编程能力与编程年龄 - 417,110 人阅读">编程能力与编程年龄</a></li><li><a href="../10590.html" title="二维码的生成细节和原理 - 393,986 人阅读">二维码的生成细节和原理</a></li><li><a href="../9104.html" title="sed 简明教程 - 380,465 人阅读">sed 简明教程</a></li><li><a href="../4102.html" title="如何学好C语言 - 368,690 人阅读">如何学好C语言</a></li><li><a href="../19464.html" title="如何超过大多数人 - 315,723 人阅读">如何超过大多数人</a></li><li><a href="../17583.html" title="技术人员的发展之路 - 309,123 人阅读">技术人员的发展之路</a></li><li><a href="../9606.html" title="疫苗：Java HashMap的死循环 - 305,562 人阅读">疫苗：Java HashMap的死循环</a></li><li><a href="../6470.html" title="由12306.cn谈谈网站性能技术 - 299,179 人阅读">由12306.cn谈谈网站性能技术</a></li><li><a href="../8883.html" title="应该知道的Linux技巧 - 297,082 人阅读">应该知道的Linux技巧</a></li><li><a href="../17416.html" title="缓存更新的套路 - 293,748 人阅读">缓存更新的套路</a></li><li><a href="../10910.html" title="分布式系统的事务处理 - 284,748 人阅读">分布式系统的事务处理</a></li><li><a href="../11609.html" title="TCP 的那些事儿（下） - 284,589 人阅读">TCP 的那些事儿（下）</a></li><li><a href="../2250.html" title="&ldquo;21天教你学会C++&rdquo; - 278,997 人阅读">&ldquo;21天教你学会C++&rdquo;</a></li><li><a href="../8239.html" title="无锁队列的实现 - 274,468 人阅读">无锁队列的实现</a></li><li><a href="../20276.html" title="别让自己&ldquo;墙&rdquo;了自己 - 273,015 人阅读">别让自己&ldquo;墙&rdquo;了自己</a></li><li><a href="../10739.html" title="Lua简明教程 - 269,512 人阅读">Lua简明教程</a></li><li><a href="../7490.html" title="性能调优攻略 - 257,396 人阅读">性能调优攻略</a></li><li><a href="../1846.html" title="MySQL性能优化的最佳20+条经验 - 255,944 人阅读">MySQL性能优化的最佳20+条经验</a></li><li><a href="../4758.html" title="如何写出无法维护的代码 - 254,439 人阅读">如何写出无法维护的代码</a></li><li><a href="../914.html" title="6个变态的C语言Hello World程序 - 251,967 人阅读">6个变态的C语言Hello World程序</a></li><li><a href="../17010.html" title="Docker基础技术：Linux Namespace（上） - 241,923 人阅读">Docker基础技术：Linux Namespace（上）</a></li><li><a href="../7829.html" title="28个Unix/Linux的命令行神器 - 241,325 人阅读">28个Unix/Linux的命令行神器</a></li><li><a href="../11312.html" title="无插件Vim编程技巧 - 222,937 人阅读">无插件Vim编程技巧</a></li></ul>
 </aside><aside id="categories-367921425" class="widget widget_categories"><h4 class="widget-title">分类</h4>
-			<ul>
-					<li class="cat-item cat-item-195"><a href="../../category/itnews.html">业界新闻</a> (32)
+<ul>
+<li class="cat-item cat-item-195"><a href="../../category/itnews.html">业界新闻</a> (33)
 </li>
-	<li class="cat-item cat-item-509"><a href="../../category/%E4%BC%81%E4%B8%9A%E5%BA%94%E7%94%A8.html">企业应用</a> (2)
+<li class="cat-item cat-item-509"><a href="../../category/%E4%BC%81%E4%B8%9A%E5%BA%94%E7%94%A8.html">企业应用</a> (2)
 </li>
-	<li class="cat-item cat-item-9"><a href="../../category/technews.html">技术新闻</a> (38)
+<li class="cat-item cat-item-9"><a href="../../category/technews.html">技术新闻</a> (38)
 </li>
-	<li class="cat-item cat-item-550"><a href="../../category/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86.html">技术管理</a> (19)
+<li class="cat-item cat-item-550"><a href="../../category/%E6%8A%80%E6%9C%AF%E7%AE%A1%E7%90%86.html">技术管理</a> (19)
 </li>
-	<li class="cat-item cat-item-12"><a href="../../category/techarticle.html">技术读物</a> (125)
+<li class="cat-item cat-item-12"><a href="../../category/techarticle.html">技术读物</a> (125)
 </li>
-	<li class="cat-item cat-item-18"><a href="../../category/operatingsystem.html">操作系统</a> (97)
+<li class="cat-item cat-item-18"><a href="../../category/operatingsystem.html">操作系统</a> (97)
 <ul class="children">
-	<li class="cat-item cat-item-20"><a href="../../category/operatingsystem/unixlinux.html">Unix/Linux</a> (81)
+<li class="cat-item cat-item-20"><a href="../../category/operatingsystem/unixlinux.html">Unix/Linux</a> (81)
 </li>
-	<li class="cat-item cat-item-19"><a href="../../category/operatingsystem/mswindows.html">Windows</a> (12)
+<li class="cat-item cat-item-19"><a href="../../category/operatingsystem/mswindows.html">Windows</a> (12)
 </li>
 </ul>
 </li>
-	<li class="cat-item cat-item-105"><a href="../../category/datebase.html">数据库</a> (11)
+<li class="cat-item cat-item-105"><a href="../../category/datebase.html">数据库</a> (11)
 </li>
-	<li class="cat-item cat-item-10"><a href="../../category/misc.html">杂项资源</a> (294)
+<li class="cat-item cat-item-10"><a href="../../category/misc.html">杂项资源</a> (295)
 </li>
-	<li class="cat-item cat-item-15"><a href="../../category/process.html">流程方法</a> (48)
+<li class="cat-item cat-item-15"><a href="../../category/process.html">流程方法</a> (48)
 </li>
-	<li class="cat-item cat-item-23"><a href="../../category/progdesign.html">程序设计</a> (110)
+<li class="cat-item cat-item-23"><a href="../../category/progdesign.html">程序设计</a> (110)
 </li>
-	<li class="cat-item cat-item-602"><a href="../../category/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84.html">系统架构</a> (14)
+<li class="cat-item cat-item-602"><a href="../../category/%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84.html">系统架构</a> (15)
 </li>
-	<li class="cat-item cat-item-1"><a href="../../category/tools.html">编程工具</a> (67)
+<li class="cat-item cat-item-1"><a href="../../category/tools.html">编程工具</a> (67)
 </li>
-	<li class="cat-item cat-item-3"><a href="../../category/proglanguage.html">编程语言</a> (326)
+<li class="cat-item cat-item-3"><a href="../../category/proglanguage.html">编程语言</a> (326)
 <ul class="children">
-	<li class="cat-item cat-item-189"><a href="../../category/proglanguage/dotnet.html">.NET编程</a> (3)
+<li class="cat-item cat-item-189"><a href="../../category/proglanguage/dotnet.html">.NET编程</a> (3)
 </li>
-	<li class="cat-item cat-item-8"><a href="../../category/proglanguage/ajaxdev.html">Ajax开发</a> (9)
+<li class="cat-item cat-item-8"><a href="../../category/proglanguage/ajaxdev.html">Ajax开发</a> (9)
 </li>
-	<li class="cat-item cat-item-5"><a href="../../category/proglanguage/cplusplus.html">C/C++语言</a> (74)
+<li class="cat-item cat-item-5"><a href="../../category/proglanguage/cplusplus.html">C/C++语言</a> (74)
 </li>
-	<li class="cat-item cat-item-186"><a href="../../category/proglanguage/erlang.html">Erlang</a> (1)
+<li class="cat-item cat-item-186"><a href="../../category/proglanguage/erlang.html">Erlang</a> (1)
 </li>
-	<li class="cat-item cat-item-819"><a href="../../category/proglanguage/go-%E8%AF%AD%E8%A8%80.html">Go 语言</a> (15)
+<li class="cat-item cat-item-819"><a href="../../category/proglanguage/go-%E8%AF%AD%E8%A8%80.html">Go 语言</a> (15)
 </li>
-	<li class="cat-item cat-item-4"><a href="../../category/proglanguage/javadev.html">Java语言</a> (32)
+<li class="cat-item cat-item-4"><a href="../../category/proglanguage/javadev.html">Java语言</a> (32)
 </li>
-	<li class="cat-item cat-item-11"><a href="../../category/proglanguage/phpdev.html">PHP脚本</a> (11)
+<li class="cat-item cat-item-11"><a href="../../category/proglanguage/phpdev.html">PHP脚本</a> (11)
 </li>
-	<li class="cat-item cat-item-33"><a href="../../category/proglanguage/pythondev.html">Python</a> (23)
+<li class="cat-item cat-item-33"><a href="../../category/proglanguage/pythondev.html">Python</a> (23)
 </li>
-	<li class="cat-item cat-item-100"><a href="../../category/proglanguage/rubydev.html">Ruby</a> (5)
+<li class="cat-item cat-item-100"><a href="../../category/proglanguage/rubydev.html">Ruby</a> (5)
 </li>
-	<li class="cat-item cat-item-860"><a href="../../category/proglanguage/rust-%E8%AF%AD%E8%A8%80.html">Rust 语言</a> (1)
+<li class="cat-item cat-item-860"><a href="../../category/proglanguage/rust-%E8%AF%AD%E8%A8%80.html">Rust 语言</a> (1)
 </li>
-	<li class="cat-item cat-item-7"><a href="../../category/proglanguage/webdev.html">Web开发</a> (106)
+<li class="cat-item cat-item-7"><a href="../../category/proglanguage/webdev.html">Web开发</a> (106)
 </li>
 </ul>
 </li>
-	<li class="cat-item cat-item-6"><a href="../../category/netsecurity.html">网络安全</a> (36)
+<li class="cat-item cat-item-6"><a href="../../category/netsecurity.html">网络安全</a> (36)
 </li>
-	<li class="cat-item cat-item-39"><a href="../../category/career.html">职场生涯</a> (40)
+<li class="cat-item cat-item-39"><a href="../../category/career.html">职场生涯</a> (40)
 </li>
-	<li class="cat-item cat-item-271"><a href="../../category/funny.html">趣味问题</a> (19)
+<li class="cat-item cat-item-271"><a href="../../category/funny.html">趣味问题</a> (19)
 </li>
-	<li class="cat-item cat-item-52"><a href="../../category/story.html">轶事趣闻</a> (147)
+<li class="cat-item cat-item-52"><a href="../../category/story.html">轶事趣闻</a> (147)
 </li>
-			</ul>
-
-			</aside><aside id="tag_cloud-4" class="widget widget_tag_cloud"><h4 class="widget-title">标签</h4><div class="tagcloud"><a href="../../tag/agile.html" class="tag-cloud-link tag-link-17 tag-link-position-1 amp-wp-56d59bd" aria-label="agile (15个项目)" data-amp-original-style="font-size: 11.559322033898pt;">agile</a>
-<a href="../../tag/ajax.html" class="tag-cloud-link tag-link-34 tag-link-position-2 amp-wp-4810513" aria-label="AJAX (11个项目)" data-amp-original-style="font-size: 10.135593220339pt;">AJAX</a>
-<a href="../../tag/algorithm.html" class="tag-cloud-link tag-link-76 tag-link-position-3 amp-wp-56215ca" aria-label="Algorithm (26个项目)" data-amp-original-style="font-size: 14.28813559322pt;">Algorithm</a>
-<a href="../../tag/android.html" class="tag-cloud-link tag-link-145 tag-link-position-4 amp-wp-4810513" aria-label="Android (11个项目)" data-amp-original-style="font-size: 10.135593220339pt;">Android</a>
-<a href="../../tag/bash.html" class="tag-cloud-link tag-link-190 tag-link-position-5 amp-wp-6fd3798" aria-label="Bash (9个项目)" data-amp-original-style="font-size: 9.1864406779661pt;">Bash</a>
-<a href="../../tag/c.html" class="tag-cloud-link tag-link-59 tag-link-position-6 amp-wp-15df3a2" aria-label="C++ (93个项目)" data-amp-original-style="font-size: 20.694915254237pt;">C++</a>
-<a href="../../tag/coding.html" class="tag-cloud-link tag-link-135 tag-link-position-7 amp-wp-56215ca" aria-label="Coding (26个项目)" data-amp-original-style="font-size: 14.28813559322pt;">Coding</a>
-<a href="../../tag/css.html" class="tag-cloud-link tag-link-96 tag-link-position-8 amp-wp-a8fe277" aria-label="CSS (22个项目)" data-amp-original-style="font-size: 13.457627118644pt;">CSS</a>
-<a href="../../tag/design.html" class="tag-cloud-link tag-link-71 tag-link-position-9 amp-wp-045c3ac" aria-label="Design (24个项目)" data-amp-original-style="font-size: 13.932203389831pt;">Design</a>
-<a href="../../tag/design-pattern.html" class="tag-cloud-link tag-link-25 tag-link-position-10 amp-wp-244ff5c" aria-label="design pattern (10个项目)" data-amp-original-style="font-size: 9.6610169491525pt;">design pattern</a>
-<a href="../../tag/ebook.html" class="tag-cloud-link tag-link-101 tag-link-position-11 amp-wp-56d59bd" aria-label="ebook (15个项目)" data-amp-original-style="font-size: 11.559322033898pt;">ebook</a>
-<a href="../../tag/flash.html" class="tag-cloud-link tag-link-98 tag-link-position-12 amp-wp-788d75a" aria-label="Flash (7个项目)" data-amp-original-style="font-size: 8pt;">Flash</a>
-<a href="../../tag/game.html" class="tag-cloud-link tag-link-125 tag-link-position-13 amp-wp-6fd3798" aria-label="Game (9个项目)" data-amp-original-style="font-size: 9.1864406779661pt;">Game</a>
-<a href="../../tag/go.html" class="tag-cloud-link tag-link-238 tag-link-position-14 amp-wp-ff405ee" aria-label="Go (21个项目)" data-amp-original-style="font-size: 13.220338983051pt;">Go</a>
-<a href="../../tag/golang.html" class="tag-cloud-link tag-link-237 tag-link-position-15 amp-wp-f54ad52" aria-label="golang (13个项目)" data-amp-original-style="font-size: 10.966101694915pt;">golang</a>
-<a href="../../tag/google.html" class="tag-cloud-link tag-link-32 tag-link-position-16 amp-wp-bcbebcd" aria-label="Google (33个项目)" data-amp-original-style="font-size: 15.474576271186pt;">Google</a>
-<a href="../../tag/html.html" class="tag-cloud-link tag-link-38 tag-link-position-17 amp-wp-1db96cc" aria-label="HTML (34个项目)" data-amp-original-style="font-size: 15.593220338983pt;">HTML</a>
-<a href="../../tag/ie.html" class="tag-cloud-link tag-link-175 tag-link-position-18 amp-wp-244ff5c" aria-label="IE (10个项目)" data-amp-original-style="font-size: 9.6610169491525pt;">IE</a>
-<a href="../../tag/java.html" class="tag-cloud-link tag-link-13 tag-link-position-19 amp-wp-4a89824" aria-label="Java (50个项目)" data-amp-original-style="font-size: 17.610169491525pt;">Java</a>
-<a href="../../tag/javascript.html" class="tag-cloud-link tag-link-114 tag-link-position-20 amp-wp-36a1d43" aria-label="Javascript (54个项目)" data-amp-original-style="font-size: 17.966101694915pt;">Javascript</a>
-<a href="../../tag/jquery.html" class="tag-cloud-link tag-link-191 tag-link-position-21 amp-wp-4810513" aria-label="jQuery (11个项目)" data-amp-original-style="font-size: 10.135593220339pt;">jQuery</a>
-<a href="../../tag/linux.html" class="tag-cloud-link tag-link-37 tag-link-position-22 amp-wp-b58a474" aria-label="Linux (71个项目)" data-amp-original-style="font-size: 19.389830508475pt;">Linux</a>
-<a href="../../tag/mysql.html" class="tag-cloud-link tag-link-106 tag-link-position-23 amp-wp-788d75a" aria-label="MySQL (7个项目)" data-amp-original-style="font-size: 8pt;">MySQL</a>
-<a href="../../tag/oop.html" class="tag-cloud-link tag-link-245 tag-link-position-24 amp-wp-132ede8" aria-label="OOP (8个项目)" data-amp-original-style="font-size: 8.5932203389831pt;">OOP</a>
-<a href="../../tag/password.html" class="tag-cloud-link tag-link-319 tag-link-position-25 amp-wp-132ede8" aria-label="password (8个项目)" data-amp-original-style="font-size: 8.5932203389831pt;">password</a>
-<a href="../../tag/performance.html" class="tag-cloud-link tag-link-120 tag-link-position-26 amp-wp-2f2c3cd" aria-label="Performance (17个项目)" data-amp-original-style="font-size: 12.271186440678pt;">Performance</a>
-<a href="../../tag/php.html" class="tag-cloud-link tag-link-35 tag-link-position-27 amp-wp-23dae0b" aria-label="PHP (25个项目)" data-amp-original-style="font-size: 14.050847457627pt;">PHP</a>
-<a href="../../tag/programmer.html" class="tag-cloud-link tag-link-70 tag-link-position-28 amp-wp-4dd69d2" aria-label="Programmer (116个项目)" data-amp-original-style="font-size: 21.881355932203pt;">Programmer</a>
-<a href="../../tag/programming.html" class="tag-cloud-link tag-link-499 tag-link-position-29 amp-wp-4810513" aria-label="Programming (11个项目)" data-amp-original-style="font-size: 10.135593220339pt;">Programming</a>
-<a href="../../tag/programming-language.html" class="tag-cloud-link tag-link-115 tag-link-position-30 amp-wp-cac2c12" aria-label="programming language (12个项目)" data-amp-original-style="font-size: 10.491525423729pt;">programming language</a>
-<a href="../../tag/puzzle.html" class="tag-cloud-link tag-link-514 tag-link-position-31 amp-wp-4810513" aria-label="Puzzle (11个项目)" data-amp-original-style="font-size: 10.135593220339pt;">Puzzle</a>
-<a href="../../tag/pythondev.html" class="tag-cloud-link tag-link-791 tag-link-position-32 amp-wp-7204db5" aria-label="Python (30个项目)" data-amp-original-style="font-size: 15pt;">Python</a>
-<a href="../../tag/ruby.html" class="tag-cloud-link tag-link-69 tag-link-position-33 amp-wp-244ff5c" aria-label="Ruby (10个项目)" data-amp-original-style="font-size: 9.6610169491525pt;">Ruby</a>
-<a href="../../tag/sql.html" class="tag-cloud-link tag-link-131 tag-link-position-34 amp-wp-244ff5c" aria-label="SQL (10个项目)" data-amp-original-style="font-size: 9.6610169491525pt;">SQL</a>
-<a href="../../tag/tdd.html" class="tag-cloud-link tag-link-485 tag-link-position-35 amp-wp-132ede8" aria-label="TDD (8个项目)" data-amp-original-style="font-size: 8.5932203389831pt;">TDD</a>
-<a href="../../tag/ui.html" class="tag-cloud-link tag-link-47 tag-link-position-36 amp-wp-cac2c12" aria-label="UI (12个项目)" data-amp-original-style="font-size: 10.491525423729pt;">UI</a>
-<a href="../../tag/unix.html" class="tag-cloud-link tag-link-21 tag-link-position-37 amp-wp-4d6898b" aria-label="Unix (36个项目)" data-amp-original-style="font-size: 15.949152542373pt;">Unix</a>
-<a href="../../tag/vim.html" class="tag-cloud-link tag-link-50 tag-link-position-38 amp-wp-76fd06d" aria-label="vim (19个项目)" data-amp-original-style="font-size: 12.745762711864pt;">vim</a>
-<a href="../../tag/web.html" class="tag-cloud-link tag-link-30 tag-link-position-39 amp-wp-115f966" aria-label="Web (42个项目)" data-amp-original-style="font-size: 16.661016949153pt;">Web</a>
-<a href="../../tag/windows.html" class="tag-cloud-link tag-link-49 tag-link-position-40 amp-wp-2f2c3cd" aria-label="Windows (17个项目)" data-amp-original-style="font-size: 12.271186440678pt;">Windows</a>
-<a href="../../tag/xml.html" class="tag-cloud-link tag-link-104 tag-link-position-41 amp-wp-132ede8" aria-label="XML (8个项目)" data-amp-original-style="font-size: 8.5932203389831pt;">XML</a>
-<a href="../../tag/%E5%AE%89%E5%85%A8.html" class="tag-cloud-link tag-link-318 tag-link-position-42 amp-wp-2af2d7c" aria-label="安全 (23个项目)" data-amp-original-style="font-size: 13.694915254237pt;">安全</a>
-<a href="../../tag/%E7%A8%8B%E5%BA%8F%E5%91%98.html" class="tag-cloud-link tag-link-58 tag-link-position-43 amp-wp-2e93a80" aria-label="程序员 (119个项目)" data-amp-original-style="font-size: 22pt;">程序员</a>
-<a href="../../tag/%E7%AE%97%E6%B3%95.html" class="tag-cloud-link tag-link-77 tag-link-position-44 amp-wp-244ff5c" aria-label="算法 (10个项目)" data-amp-original-style="font-size: 9.6610169491525pt;">算法</a>
-<a href="../../tag/interview.html" class="tag-cloud-link tag-link-164 tag-link-position-45 amp-wp-9ba8822" aria-label="面试 (16个项目)" data-amp-original-style="font-size: 11.915254237288pt;">面试</a></div>
+</ul>
+</aside><aside id="tag_cloud-4" class="widget widget_tag_cloud"><h4 class="widget-title">标签</h4><div class="tagcloud"><a href="../../tag/agile.html" class="tag-cloud-link tag-link-17 tag-link-position-1" style="font-size: 11.559322033898pt;" aria-label="agile (15个项目)">agile</a>
+<a href="../../tag/ajax.html" class="tag-cloud-link tag-link-34 tag-link-position-2" style="font-size: 10.135593220339pt;" aria-label="AJAX (11个项目)">AJAX</a>
+<a href="../../tag/algorithm.html" class="tag-cloud-link tag-link-76 tag-link-position-3" style="font-size: 14.28813559322pt;" aria-label="Algorithm (26个项目)">Algorithm</a>
+<a href="../../tag/android.html" class="tag-cloud-link tag-link-145 tag-link-position-4" style="font-size: 10.135593220339pt;" aria-label="Android (11个项目)">Android</a>
+<a href="../../tag/bash.html" class="tag-cloud-link tag-link-190 tag-link-position-5" style="font-size: 9.1864406779661pt;" aria-label="Bash (9个项目)">Bash</a>
+<a href="../../tag/c.html" class="tag-cloud-link tag-link-59 tag-link-position-6" style="font-size: 20.694915254237pt;" aria-label="C++ (93个项目)">C++</a>
+<a href="../../tag/coding.html" class="tag-cloud-link tag-link-135 tag-link-position-7" style="font-size: 14.28813559322pt;" aria-label="Coding (26个项目)">Coding</a>
+<a href="../../tag/css.html" class="tag-cloud-link tag-link-96 tag-link-position-8" style="font-size: 13.457627118644pt;" aria-label="CSS (22个项目)">CSS</a>
+<a href="../../tag/design.html" class="tag-cloud-link tag-link-71 tag-link-position-9" style="font-size: 13.932203389831pt;" aria-label="Design (24个项目)">Design</a>
+<a href="../../tag/design-pattern.html" class="tag-cloud-link tag-link-25 tag-link-position-10" style="font-size: 9.6610169491525pt;" aria-label="design pattern (10个项目)">design pattern</a>
+<a href="../../tag/ebook.html" class="tag-cloud-link tag-link-101 tag-link-position-11" style="font-size: 11.559322033898pt;" aria-label="ebook (15个项目)">ebook</a>
+<a href="../../tag/flash.html" class="tag-cloud-link tag-link-98 tag-link-position-12" style="font-size: 8pt;" aria-label="Flash (7个项目)">Flash</a>
+<a href="../../tag/game.html" class="tag-cloud-link tag-link-125 tag-link-position-13" style="font-size: 9.1864406779661pt;" aria-label="Game (9个项目)">Game</a>
+<a href="../../tag/go.html" class="tag-cloud-link tag-link-238 tag-link-position-14" style="font-size: 13.220338983051pt;" aria-label="Go (21个项目)">Go</a>
+<a href="../../tag/golang.html" class="tag-cloud-link tag-link-237 tag-link-position-15" style="font-size: 10.966101694915pt;" aria-label="golang (13个项目)">golang</a>
+<a href="../../tag/google.html" class="tag-cloud-link tag-link-32 tag-link-position-16" style="font-size: 15.474576271186pt;" aria-label="Google (33个项目)">Google</a>
+<a href="../../tag/html.html" class="tag-cloud-link tag-link-38 tag-link-position-17" style="font-size: 15.593220338983pt;" aria-label="HTML (34个项目)">HTML</a>
+<a href="../../tag/ie.html" class="tag-cloud-link tag-link-175 tag-link-position-18" style="font-size: 9.6610169491525pt;" aria-label="IE (10个项目)">IE</a>
+<a href="../../tag/java.html" class="tag-cloud-link tag-link-13 tag-link-position-19" style="font-size: 17.610169491525pt;" aria-label="Java (50个项目)">Java</a>
+<a href="../../tag/javascript.html" class="tag-cloud-link tag-link-114 tag-link-position-20" style="font-size: 17.966101694915pt;" aria-label="Javascript (54个项目)">Javascript</a>
+<a href="../../tag/jquery.html" class="tag-cloud-link tag-link-191 tag-link-position-21" style="font-size: 10.135593220339pt;" aria-label="jQuery (11个项目)">jQuery</a>
+<a href="../../tag/linux.html" class="tag-cloud-link tag-link-37 tag-link-position-22" style="font-size: 19.389830508475pt;" aria-label="Linux (71个项目)">Linux</a>
+<a href="../../tag/mysql.html" class="tag-cloud-link tag-link-106 tag-link-position-23" style="font-size: 8pt;" aria-label="MySQL (7个项目)">MySQL</a>
+<a href="../../tag/oop.html" class="tag-cloud-link tag-link-245 tag-link-position-24" style="font-size: 8.5932203389831pt;" aria-label="OOP (8个项目)">OOP</a>
+<a href="../../tag/password.html" class="tag-cloud-link tag-link-319 tag-link-position-25" style="font-size: 8.5932203389831pt;" aria-label="password (8个项目)">password</a>
+<a href="../../tag/performance.html" class="tag-cloud-link tag-link-120 tag-link-position-26" style="font-size: 12.271186440678pt;" aria-label="Performance (17个项目)">Performance</a>
+<a href="../../tag/php.html" class="tag-cloud-link tag-link-35 tag-link-position-27" style="font-size: 14.050847457627pt;" aria-label="PHP (25个项目)">PHP</a>
+<a href="../../tag/programmer.html" class="tag-cloud-link tag-link-70 tag-link-position-28" style="font-size: 21.881355932203pt;" aria-label="Programmer (116个项目)">Programmer</a>
+<a href="../../tag/programming.html" class="tag-cloud-link tag-link-499 tag-link-position-29" style="font-size: 10.135593220339pt;" aria-label="Programming (11个项目)">Programming</a>
+<a href="../../tag/programming-language.html" class="tag-cloud-link tag-link-115 tag-link-position-30" style="font-size: 10.491525423729pt;" aria-label="programming language (12个项目)">programming language</a>
+<a href="../../tag/puzzle.html" class="tag-cloud-link tag-link-514 tag-link-position-31" style="font-size: 10.135593220339pt;" aria-label="Puzzle (11个项目)">Puzzle</a>
+<a href="../../tag/pythondev.html" class="tag-cloud-link tag-link-791 tag-link-position-32" style="font-size: 15pt;" aria-label="Python (30个项目)">Python</a>
+<a href="../../tag/ruby.html" class="tag-cloud-link tag-link-69 tag-link-position-33" style="font-size: 9.6610169491525pt;" aria-label="Ruby (10个项目)">Ruby</a>
+<a href="../../tag/sql.html" class="tag-cloud-link tag-link-131 tag-link-position-34" style="font-size: 9.6610169491525pt;" aria-label="SQL (10个项目)">SQL</a>
+<a href="../../tag/tdd.html" class="tag-cloud-link tag-link-485 tag-link-position-35" style="font-size: 8.5932203389831pt;" aria-label="TDD (8个项目)">TDD</a>
+<a href="../../tag/ui.html" class="tag-cloud-link tag-link-47 tag-link-position-36" style="font-size: 10.491525423729pt;" aria-label="UI (12个项目)">UI</a>
+<a href="../../tag/unix.html" class="tag-cloud-link tag-link-21 tag-link-position-37" style="font-size: 15.949152542373pt;" aria-label="Unix (36个项目)">Unix</a>
+<a href="../../tag/vim.html" class="tag-cloud-link tag-link-50 tag-link-position-38" style="font-size: 12.745762711864pt;" aria-label="vim (19个项目)">vim</a>
+<a href="../../tag/web.html" class="tag-cloud-link tag-link-30 tag-link-position-39" style="font-size: 16.661016949153pt;" aria-label="Web (42个项目)">Web</a>
+<a href="../../tag/windows.html" class="tag-cloud-link tag-link-49 tag-link-position-40" style="font-size: 12.271186440678pt;" aria-label="Windows (17个项目)">Windows</a>
+<a href="../../tag/xml.html" class="tag-cloud-link tag-link-104 tag-link-position-41" style="font-size: 8.5932203389831pt;" aria-label="XML (8个项目)">XML</a>
+<a href="../../tag/%E5%AE%89%E5%85%A8.html" class="tag-cloud-link tag-link-318 tag-link-position-42" style="font-size: 13.694915254237pt;" aria-label="安全 (23个项目)">安全</a>
+<a href="../../tag/%E7%A8%8B%E5%BA%8F%E5%91%98.html" class="tag-cloud-link tag-link-58 tag-link-position-43" style="font-size: 22pt;" aria-label="程序员 (119个项目)">程序员</a>
+<a href="../../tag/%E7%AE%97%E6%B3%95.html" class="tag-cloud-link tag-link-77 tag-link-position-44" style="font-size: 9.6610169491525pt;" aria-label="算法 (10个项目)">算法</a>
+<a href="../../tag/interview.html" class="tag-cloud-link tag-link-164 tag-link-position-45" style="font-size: 11.915254237288pt;" aria-label="面试 (16个项目)">面试</a></div>
 </aside><aside id="archives-5" class="widget widget_archive"><h4 class="widget-title">归档</h4>
-			<ul>
-					<li><a href="../date/2023/02.html">2023年2月</a> (2)</li>
-	<li><a href="../date/2022/12.html">2022年12月</a> (2)</li>
-	<li><a href="../date/2022/10.html">2022年10月</a> (1)</li>
-	<li><a href="../date/2022/07.html">2022年7月</a> (1)</li>
-	<li><a href="../date/2022/05.html">2022年5月</a> (1)</li>
-	<li><a href="../date/2022/02.html">2022年2月</a> (2)</li>
-	<li><a href="../date/2022/01.html">2022年1月</a> (1)</li>
-	<li><a href="../date/2021/12.html">2021年12月</a> (1)</li>
-	<li><a href="../date/2021/11.html">2021年11月</a> (1)</li>
-	<li><a href="../date/2021/09.html">2021年9月</a> (1)</li>
-	<li><a href="../date/2021/07.html">2021年7月</a> (1)</li>
-	<li><a href="../date/2020/12.html">2020年12月</a> (9)</li>
-	<li><a href="../date/2020/08.html">2020年8月</a> (1)</li>
-	<li><a href="../date/2020/07.html">2020年7月</a> (1)</li>
-	<li><a href="../date/2020/04.html">2020年4月</a> (1)</li>
-	<li><a href="../date/2020/03.html">2020年3月</a> (1)</li>
-	<li><a href="../date/2020/01.html">2020年1月</a> (1)</li>
-	<li><a href="../date/2019/12.html">2019年12月</a> (2)</li>
-	<li><a href="../date/2019/11.html">2019年11月</a> (1)</li>
-	<li><a href="../date/2019/10.html">2019年10月</a> (1)</li>
-	<li><a href="../date/2019/07.html">2019年7月</a> (1)</li>
-	<li><a href="../date/2019/06.html">2019年6月</a> (1)</li>
-	<li><a href="../date/2019/05.html">2019年5月</a> (1)</li>
-	<li><a href="../date/2019/04.html">2019年4月</a> (2)</li>
-	<li><a href="../date/2019/03.html">2019年3月</a> (1)</li>
-	<li><a href="../date/2019/02.html">2019年2月</a> (1)</li>
-	<li><a href="../date/2018/12.html">2018年12月</a> (1)</li>
-	<li><a href="../date/2018/05.html">2018年5月</a> (1)</li>
-	<li><a href="../date/2018/01.html">2018年1月</a> (1)</li>
-	<li><a href="../date/2017/10.html">2017年10月</a> (1)</li>
-	<li><a href="../date/2017/09.html">2017年9月</a> (1)</li>
-	<li><a href="../date/2017/08.html">2017年8月</a> (1)</li>
-	<li><a href="../date/2017/07.html">2017年7月</a> (3)</li>
-	<li><a href="../date/2017/06.html">2017年6月</a> (1)</li>
-	<li><a href="../date/2017/04.html">2017年4月</a> (1)</li>
-	<li><a href="../date/2017/03.html">2017年3月</a> (1)</li>
-	<li><a href="../date/2017/02.html">2017年2月</a> (1)</li>
-	<li><a href="../date/2017/01.html">2017年1月</a> (2)</li>
-	<li><a href="../date/2016/12.html">2016年12月</a> (1)</li>
-	<li><a href="../date/2016/10.html">2016年10月</a> (1)</li>
-	<li><a href="../date/2016/09.html">2016年9月</a> (1)</li>
-	<li><a href="../date/2016/08.html">2016年8月</a> (2)</li>
-	<li><a href="../date/2016/07.html">2016年7月</a> (3)</li>
-	<li><a href="../date/2015/12.html">2015年12月</a> (1)</li>
-	<li><a href="../date/2015/09.html">2015年9月</a> (1)</li>
-	<li><a href="../date/2015/08.html">2015年8月</a> (2)</li>
-	<li><a href="../date/2015/04.html">2015年4月</a> (4)</li>
-	<li><a href="../date/2014/12.html">2014年12月</a> (3)</li>
-	<li><a href="../date/2014/11.html">2014年11月</a> (2)</li>
-	<li><a href="../date/2014/10.html">2014年10月</a> (2)</li>
-	<li><a href="../date/2014/09.html">2014年9月</a> (2)</li>
-	<li><a href="../date/2014/08.html">2014年8月</a> (2)</li>
-	<li><a href="../date/2014/06.html">2014年6月</a> (1)</li>
-	<li><a href="../date/2014/05.html">2014年5月</a> (4)</li>
-	<li><a href="../date/2014/04.html">2014年4月</a> (4)</li>
-	<li><a href="../date/2014/03.html">2014年3月</a> (5)</li>
-	<li><a href="../date/2014/02.html">2014年2月</a> (3)</li>
-	<li><a href="../date/2014/01.html">2014年1月</a> (2)</li>
-	<li><a href="../date/2013/12.html">2013年12月</a> (3)</li>
-	<li><a href="../date/2013/11.html">2013年11月</a> (1)</li>
-	<li><a href="../date/2013/10.html">2013年10月</a> (6)</li>
-	<li><a href="../date/2013/08.html">2013年8月</a> (1)</li>
-	<li><a href="../date/2013/07.html">2013年7月</a> (8)</li>
-	<li><a href="../date/2013/06.html">2013年6月</a> (2)</li>
-	<li><a href="../date/2013/05.html">2013年5月</a> (3)</li>
-	<li><a href="../date/2013/04.html">2013年4月</a> (3)</li>
-	<li><a href="../date/2013/03.html">2013年3月</a> (3)</li>
-	<li><a href="../date/2013/02.html">2013年2月</a> (5)</li>
-	<li><a href="../date/2013/01.html">2013年1月</a> (1)</li>
-	<li><a href="../date/2012/12.html">2012年12月</a> (4)</li>
-	<li><a href="../date/2012/11.html">2012年11月</a> (4)</li>
-	<li><a href="../date/2012/10.html">2012年10月</a> (3)</li>
-	<li><a href="../date/2012/09.html">2012年9月</a> (4)</li>
-	<li><a href="../date/2012/08.html">2012年8月</a> (8)</li>
-	<li><a href="../date/2012/07.html">2012年7月</a> (4)</li>
-	<li><a href="../date/2012/06.html">2012年6月</a> (7)</li>
-	<li><a href="../date/2012/05.html">2012年5月</a> (6)</li>
-	<li><a href="../date/2012/04.html">2012年4月</a> (6)</li>
-	<li><a href="../date/2012/03.html">2012年3月</a> (6)</li>
-	<li><a href="../date/2012/02.html">2012年2月</a> (3)</li>
-	<li><a href="../date/2012/01.html">2012年1月</a> (6)</li>
-	<li><a href="../date/2011/12.html">2011年12月</a> (5)</li>
-	<li><a href="../date/2011/11.html">2011年11月</a> (9)</li>
-	<li><a href="../date/2011/10.html">2011年10月</a> (6)</li>
-	<li><a href="../date/2011/09.html">2011年9月</a> (5)</li>
-	<li><a href="../date/2011/08.html">2011年8月</a> (14)</li>
-	<li><a href="../date/2011/07.html">2011年7月</a> (6)</li>
-	<li><a href="../date/2011/06.html">2011年6月</a> (12)</li>
-	<li><a href="../date/2011/05.html">2011年5月</a> (5)</li>
-	<li><a href="../date/2011/04.html">2011年4月</a> (18)</li>
-	<li><a href="https://coolshell.cn/articles/date/2011/03">2011年3月</a> (16)</li>
-	<li><a href="../date/2011/02.html">2011年2月</a> (16)</li>
-	<li><a href="../date/2011/01.html">2011年1月</a> (18)</li>
-	<li><a href="../date/2010/12.html">2010年12月</a> (11)</li>
-	<li><a href="../date/2010/11.html">2010年11月</a> (11)</li>
-	<li><a href="../date/2010/10.html">2010年10月</a> (19)</li>
-	<li><a href="../date/2010/09.html">2010年9月</a> (15)</li>
-	<li><a href="../date/2010/08.html">2010年8月</a> (10)</li>
-	<li><a href="../date/2010/07.html">2010年7月</a> (20)</li>
-	<li><a href="../date/2010/06.html">2010年6月</a> (9)</li>
-	<li><a href="../date/2010/05.html">2010年5月</a> (13)</li>
-	<li><a href="../date/2010/04.html">2010年4月</a> (12)</li>
-	<li><a href="../date/2010/03.html">2010年3月</a> (11)</li>
-	<li><a href="../date/2010/02.html">2010年2月</a> (7)</li>
-	<li><a href="../date/2010/01.html">2010年1月</a> (9)</li>
-	<li><a href="../date/2009/12.html">2009年12月</a> (22)</li>
-	<li><a href="../date/2009/11.html">2009年11月</a> (27)</li>
-	<li><a href="../date/2009/10.html">2009年10月</a> (17)</li>
-	<li><a href="../date/2009/09.html">2009年9月</a> (14)</li>
-	<li><a href="../date/2009/08.html">2009年8月</a> (21)</li>
-	<li><a href="../date/2009/07.html">2009年7月</a> (18)</li>
-	<li><a href="../date/2009/06.html">2009年6月</a> (19)</li>
-	<li><a href="../date/2009/05.html">2009年5月</a> (27)</li>
-	<li><a href="../date/2009/04.html">2009年4月</a> (53)</li>
-	<li><a href="../date/2009/03.html">2009年3月</a> (43)</li>
-	<li><a href="../date/2008/10.html">2008年10月</a> (1)</li>
-	<li><a href="../date/2007/12.html">2007年12月</a> (1)</li>
-	<li><a href="../date/2006/11.html">2006年11月</a> (1)</li>
-	<li><a href="../date/2004/06.html">2004年6月</a> (1)</li>
-			</ul>
-
-			</aside><aside id="custom_html-8" class="widget_text widget widget_custom_html"><h4 class="widget-title">友情链接</h4><div class="textwidget custom-html-widget"><ul class="blogroll">
-<li><a href="http://blog.csdn.net/haoel" target="_blank" rel="noopener">陈皓的博客</a></li>
-
-<li><a href="http://ifeve.com/" target="_blank" title="促进并发编程的研究和推广" rel="noopener">并发编程</a></li>
-
-
-<li><a href="http://www.raychase.net/" target="_blank" title="一个啰嗦的程序员" rel="noopener">四火的唠叨</a></li>
-
-
-
-
-
-<li><a href="http://www.cnblogs.com/weidagang2046/" target="_blank" title="Just for Fun" rel="noopener">Todd Wei的Blog</a></li>
-	
-<li><a href="http://www.hellogcc.org/" target="_blank" title="致力于讨论和学习GNU Toolchain方面的工作组" rel="noopener">开源开发工具技术博客</a></li>
-	
-<li><a href="http://www.cppfans.org/" target="_blank" title="记录我们点滴学习工作生活" rel="noopener">C++爱好者博客</a></li>
-
-
-
-
-<li><a href="http://HelloACM.com/" target="_blank" title="Smart Ideas, Smart Algorithms" rel="noopener">ACMer</a></li>
-
-
+<ul>
+<li><a href="../date/2023/05.html">2023年5月</a>&nbsp;(1)</li>
+<li><a href="../date/2023/02.html">2023年2月</a>&nbsp;(2)</li>
+<li><a href="../date/2022/12.html">2022年12月</a>&nbsp;(2)</li>
+<li><a href="../date/2022/10.html">2022年10月</a>&nbsp;(1)</li>
+<li><a href="../date/2022/07.html">2022年7月</a>&nbsp;(1)</li>
+<li><a href="../date/2022/05.html">2022年5月</a>&nbsp;(1)</li>
+<li><a href="../date/2022/02.html">2022年2月</a>&nbsp;(2)</li>
+<li><a href="../date/2022/01.html">2022年1月</a>&nbsp;(1)</li>
+<li><a href="../date/2021/12.html">2021年12月</a>&nbsp;(1)</li>
+<li><a href="../date/2021/11.html">2021年11月</a>&nbsp;(1)</li>
+<li><a href="../date/2021/09.html">2021年9月</a>&nbsp;(1)</li>
+<li><a href="../date/2021/07.html">2021年7月</a>&nbsp;(1)</li>
+<li><a href="../date/2020/12.html">2020年12月</a>&nbsp;(9)</li>
+<li><a href="../date/2020/08.html">2020年8月</a>&nbsp;(1)</li>
+<li><a href="../date/2020/07.html">2020年7月</a>&nbsp;(1)</li>
+<li><a href="../date/2020/04.html">2020年4月</a>&nbsp;(1)</li>
+<li><a href="../date/2020/03.html">2020年3月</a>&nbsp;(1)</li>
+<li><a href="../date/2020/01.html">2020年1月</a>&nbsp;(1)</li>
+<li><a href="../date/2019/12.html">2019年12月</a>&nbsp;(2)</li>
+<li><a href="../date/2019/11.html">2019年11月</a>&nbsp;(1)</li>
+<li><a href="../date/2019/10.html">2019年10月</a>&nbsp;(1)</li>
+<li><a href="../date/2019/07.html">2019年7月</a>&nbsp;(1)</li>
+<li><a href="../date/2019/06.html">2019年6月</a>&nbsp;(1)</li>
+<li><a href="../date/2019/05.html">2019年5月</a>&nbsp;(1)</li>
+<li><a href="../date/2019/04.html">2019年4月</a>&nbsp;(2)</li>
+<li><a href="../date/2019/03.html">2019年3月</a>&nbsp;(1)</li>
+<li><a href="../date/2019/02.html">2019年2月</a>&nbsp;(1)</li>
+<li><a href="../date/2018/12.html">2018年12月</a>&nbsp;(1)</li>
+<li><a href="../date/2018/05.html">2018年5月</a>&nbsp;(1)</li>
+<li><a href="../date/2018/01.html">2018年1月</a>&nbsp;(1)</li>
+<li><a href="../date/2017/10.html">2017年10月</a>&nbsp;(1)</li>
+<li><a href="../date/2017/09.html">2017年9月</a>&nbsp;(1)</li>
+<li><a href="../date/2017/08.html">2017年8月</a>&nbsp;(1)</li>
+<li><a href="../date/2017/07.html">2017年7月</a>&nbsp;(3)</li>
+<li><a href="../date/2017/06.html">2017年6月</a>&nbsp;(1)</li>
+<li><a href="../date/2017/04.html">2017年4月</a>&nbsp;(1)</li>
+<li><a href="../date/2017/03.html">2017年3月</a>&nbsp;(1)</li>
+<li><a href="../date/2017/02.html">2017年2月</a>&nbsp;(1)</li>
+<li><a href="../date/2017/01.html">2017年1月</a>&nbsp;(2)</li>
+<li><a href="../date/2016/12.html">2016年12月</a>&nbsp;(1)</li>
+<li><a href="../date/2016/10.html">2016年10月</a>&nbsp;(1)</li>
+<li><a href="../date/2016/09.html">2016年9月</a>&nbsp;(1)</li>
+<li><a href="../date/2016/08.html">2016年8月</a>&nbsp;(2)</li>
+<li><a href="../date/2016/07.html">2016年7月</a>&nbsp;(3)</li>
+<li><a href="../date/2015/12.html">2015年12月</a>&nbsp;(1)</li>
+<li><a href="../date/2015/09.html">2015年9月</a>&nbsp;(1)</li>
+<li><a href="../date/2015/08.html">2015年8月</a>&nbsp;(2)</li>
+<li><a href="../date/2015/04.html">2015年4月</a>&nbsp;(4)</li>
+<li><a href="../date/2014/12.html">2014年12月</a>&nbsp;(3)</li>
+<li><a href="../date/2014/11.html">2014年11月</a>&nbsp;(2)</li>
+<li><a href="../date/2014/10.html">2014年10月</a>&nbsp;(2)</li>
+<li><a href="../date/2014/09.html">2014年9月</a>&nbsp;(2)</li>
+<li><a href="../date/2014/08.html">2014年8月</a>&nbsp;(2)</li>
+<li><a href="../date/2014/06.html">2014年6月</a>&nbsp;(1)</li>
+<li><a href="../date/2014/05.html">2014年5月</a>&nbsp;(4)</li>
+<li><a href="../date/2014/04.html">2014年4月</a>&nbsp;(4)</li>
+<li><a href="../date/2014/03.html">2014年3月</a>&nbsp;(5)</li>
+<li><a href="../date/2014/02.html">2014年2月</a>&nbsp;(3)</li>
+<li><a href="../date/2014/01.html">2014年1月</a>&nbsp;(2)</li>
+<li><a href="../date/2013/12.html">2013年12月</a>&nbsp;(3)</li>
+<li><a href="../date/2013/11.html">2013年11月</a>&nbsp;(1)</li>
+<li><a href="../date/2013/10.html">2013年10月</a>&nbsp;(6)</li>
+<li><a href="../date/2013/08.html">2013年8月</a>&nbsp;(1)</li>
+<li><a href="../date/2013/07.html">2013年7月</a>&nbsp;(8)</li>
+<li><a href="../date/2013/06.html">2013年6月</a>&nbsp;(2)</li>
+<li><a href="../date/2013/05.html">2013年5月</a>&nbsp;(3)</li>
+<li><a href="../date/2013/04.html">2013年4月</a>&nbsp;(3)</li>
+<li><a href="../date/2013/03.html">2013年3月</a>&nbsp;(3)</li>
+<li><a href="../date/2013/02.html">2013年2月</a>&nbsp;(5)</li>
+<li><a href="../date/2013/01.html">2013年1月</a>&nbsp;(1)</li>
+<li><a href="../date/2012/12.html">2012年12月</a>&nbsp;(4)</li>
+<li><a href="../date/2012/11.html">2012年11月</a>&nbsp;(4)</li>
+<li><a href="../date/2012/10.html">2012年10月</a>&nbsp;(3)</li>
+<li><a href="../date/2012/09.html">2012年9月</a>&nbsp;(4)</li>
+<li><a href="../date/2012/08.html">2012年8月</a>&nbsp;(8)</li>
+<li><a href="../date/2012/07.html">2012年7月</a>&nbsp;(4)</li>
+<li><a href="../date/2012/06.html">2012年6月</a>&nbsp;(7)</li>
+<li><a href="../date/2012/05.html">2012年5月</a>&nbsp;(6)</li>
+<li><a href="../date/2012/04.html">2012年4月</a>&nbsp;(6)</li>
+<li><a href="../date/2012/03.html">2012年3月</a>&nbsp;(6)</li>
+<li><a href="../date/2012/02.html">2012年2月</a>&nbsp;(3)</li>
+<li><a href="../date/2012/01.html">2012年1月</a>&nbsp;(6)</li>
+<li><a href="../date/2011/12.html">2011年12月</a>&nbsp;(5)</li>
+<li><a href="../date/2011/11.html">2011年11月</a>&nbsp;(9)</li>
+<li><a href="../date/2011/10.html">2011年10月</a>&nbsp;(6)</li>
+<li><a href="../date/2011/09.html">2011年9月</a>&nbsp;(5)</li>
+<li><a href="../date/2011/08.html">2011年8月</a>&nbsp;(14)</li>
+<li><a href="../date/2011/07.html">2011年7月</a>&nbsp;(6)</li>
+<li><a href="../date/2011/06.html">2011年6月</a>&nbsp;(12)</li>
+<li><a href="../date/2011/05.html">2011年5月</a>&nbsp;(5)</li>
+<li><a href="../date/2011/04.html">2011年4月</a>&nbsp;(18)</li>
+<li><a href="../date/2011/03.html">2011年3月</a>&nbsp;(16)</li>
+<li><a href="../date/2011/02.html">2011年2月</a>&nbsp;(16)</li>
+<li><a href="../date/2011/01.html">2011年1月</a>&nbsp;(18)</li>
+<li><a href="../date/2010/12.html">2010年12月</a>&nbsp;(11)</li>
+<li><a href="../date/2010/11.html">2010年11月</a>&nbsp;(11)</li>
+<li><a href="../date/2010/10.html">2010年10月</a>&nbsp;(19)</li>
+<li><a href="../date/2010/09.html">2010年9月</a>&nbsp;(15)</li>
+<li><a href="../date/2010/08.html">2010年8月</a>&nbsp;(10)</li>
+<li><a href="../date/2010/07.html">2010年7月</a>&nbsp;(20)</li>
+<li><a href="../date/2010/06.html">2010年6月</a>&nbsp;(9)</li>
+<li><a href="../date/2010/05.html">2010年5月</a>&nbsp;(13)</li>
+<li><a href="../date/2010/04.html">2010年4月</a>&nbsp;(12)</li>
+<li><a href="../date/2010/03.html">2010年3月</a>&nbsp;(11)</li>
+<li><a href="../date/2010/02.html">2010年2月</a>&nbsp;(7)</li>
+<li><a href="../date/2010/01.html">2010年1月</a>&nbsp;(9)</li>
+<li><a href="../date/2009/12.html">2009年12月</a>&nbsp;(22)</li>
+<li><a href="../date/2009/11.html">2009年11月</a>&nbsp;(27)</li>
+<li><a href="../date/2009/10.html">2009年10月</a>&nbsp;(17)</li>
+<li><a href="../date/2009/09.html">2009年9月</a>&nbsp;(14)</li>
+<li><a href="../date/2009/08.html">2009年8月</a>&nbsp;(21)</li>
+<li><a href="../date/2009/07.html">2009年7月</a>&nbsp;(18)</li>
+<li><a href="../date/2009/06.html">2009年6月</a>&nbsp;(19)</li>
+<li><a href="../date/2009/05.html">2009年5月</a>&nbsp;(27)</li>
+<li><a href="../date/2009/04.html">2009年4月</a>&nbsp;(53)</li>
+<li><a href="../date/2009/03.html">2009年3月</a>&nbsp;(43)</li>
+<li><a href="../date/2008/10.html">2008年10月</a>&nbsp;(1)</li>
+<li><a href="../date/2007/12.html">2007年12月</a>&nbsp;(1)</li>
+<li><a href="../date/2006/11.html">2006年11月</a>&nbsp;(1)</li>
+<li><a href="../date/2004/06.html">2004年6月</a>&nbsp;(1)</li>
+</ul>
+</aside><aside id="custom_html-8" class="widget_text widget widget_custom_html"><h4 class="widget-title">友情链接</h4><div class="textwidget custom-html-widget"><ul class="blogroll">
+<li><a href="http://blog.csdn.net/haoel" target="_blank" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/blog.csdn.net/haoel?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-d4729eff30ad65897d1db9e9->陈皓的博客</a></li>
+<li><a href="http://ifeve.com/" target="_blank" title="促进并发编程的研究和推广" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/ifeve.com/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-d4729eff30ad65897d1db9e9->并发编程</a></li>
+<li><a href="http://www.raychase.net/" target="_blank" title="一个啰嗦的程序员" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.raychase.net/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-d4729eff30ad65897d1db9e9->四火的唠叨</a></li>
+<li><a href="http://www.cnblogs.com/weidagang2046/" target="_blank" title="Just for Fun" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cnblogs.com/weidagang2046/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-d4729eff30ad65897d1db9e9->Todd Wei的Blog</a></li>
+<li><a href="http://www.hellogcc.org/" target="_blank" title="致力于讨论和学习GNU Toolchain方面的工作组" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.hellogcc.org//?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-d4729eff30ad65897d1db9e9->开源开发工具技术博客</a></li>
+<li><a href="http://www.cppfans.org/" target="_blank" title="记录我们点滴学习工作生活" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cppfans.org/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-d4729eff30ad65897d1db9e9->C++爱好者博客</a></li>
+<li><a href="https://HelloACM.com/" target="_blank" title="Smart Ideas, Smart Algorithms" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://HelloACM.com/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-d4729eff30ad65897d1db9e9->ACMer</a></li>
 </ul>
 </div></aside><aside id="meta-5" class="widget widget_meta"><h4 class="widget-title">其他操作</h4>
-		<ul>
-			<li><a href="../../wp-login.php%EF%B9%96action=register.html">注册</a></li>			<li><a href="../../wp-login.php.html">登录</a></li>
-			<li><a href="../../feed.rss">条目feed</a></li>
-			<li><a href="../../comments/feed.rss">评论feed</a></li>
-
-			<li><a href="https://cn.wordpress.org/">WordPress.org</a></li>
-		</ul>
-
-		</aside></div>
-
-
-			
-
-			</div>             
-        </div>
-        
-
-	</div>
-	
-	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="row site-info">
-			CoolShell.cn © 2023 
-			<span class="sep"> | </span>
-			Powered by 			<a href="https://wordpress.org/">WordPress</a>
-			<span class="sep"> | </span>
-
-			Based on Theme: Nisarg by <a href="http://www.falgunidesai.com/" rel="designer">Falguni Desai</a>.
-            <p><a href="http://www.beian.miit.gov.cn">京ICP备18054967号-1</a></p>
-
-		</div>
-	</footer>
+<ul>
+<li><a href="../../wp-login.php.html">登录</a></li>
+<li><a href="../../feed.rss">条目feed</a></li>
+<li><a href="../../comments/feed.rss">评论feed</a></li>
+<li><a href="https://cn.wordpress.org/">WordPress.org</a></li>
+</ul>
+</aside></div>
+</div> 
 </div>
+<script type="d4729eff30ad65897d1db9e9-text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-7486123-1']);
+_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+</div>
+<footer id="colophon" class="site-footer" role="contentinfo">
+<div class="row site-info">
+CoolShell.cn &copy; 2023
+<span class="sep"> | </span>
+Powered by <a href="https://wordpress.org/">WordPress</a>
+<span class="sep"> | </span>
+Based on Theme: Nisarg by <a href="http://www.falgunidesai.com/" rel="designer">Falguni Desai</a>.
+<p><a href="http://www.beian.miit.gov.cn" target="_target">京ICP备18054967号-1</a></p>
+</div>
+</footer>
+</div>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" id="wp-postratings-js-extra">
+/* <![CDATA[ */
+var ratingsL10n = {"plugin_url":"https:\/\/coolshell.cn\/wp-content\/plugins\/wp-postratings","ajax_url":"https:\/\/coolshell.cn\/wp-admin\/admin-ajax.php","text_wait":"Please rate only 1 item at a time.","image":"stars_crystal","image_ext":"gif","max":"5","show_loading":"1","show_fading":"1","custom":"0"};
+var ratings_mouseover_image=new Image();ratings_mouseover_image.src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_over.gif";;
+/* ]]> */
+</script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-content/plugins/wp-postratings/js/postratings-js%EF%B9%96ver=1.90.1.js" id="wp-postratings-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-content/themes/MyNisarg/js/bootstrap%EF%B9%96ver=6.2.js" id="bootstrap-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-content/themes/MyNisarg/js/skip-link-focus-fix%EF%B9%96ver=20130115.js" id="nisarg-skip-link-focus-fix-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-content/themes/MyNisarg/js/nisarg%EF%B9%96ver=6.2.js" id="nisarg-js-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" id="q2w3_fixed_widget-js-extra">
+/* <![CDATA[ */
+var q2w3_sidebar_options = [{"use_sticky_position":false,"margin_top":50,"margin_bottom":0,"stop_elements_selectors":"","screen_max_width":0,"screen_max_height":0,"widgets":[]}];
+/* ]]> */
+</script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-content/plugins/q2w3-fixed-widget/js/frontend.min%EF%B9%96ver=6.2.3.js" id="q2w3_fixed_widget-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="../../wp-content/plugins/enlighter/cache/enlighterjs.min%EF%B9%96ver=0cuVQBPCj0viGB0.js" id="enlighterjs-js"></script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" id="enlighterjs-js-after">
+!function(e,n){if("undefined"!=typeof EnlighterJS){var o={"selectors":{"block":"pre.EnlighterJSRAW","inline":"code.EnlighterJSRAW"},"options":{"indent":2,"ampersandCleanup":true,"linehover":true,"rawcodeDbclick":true,"textOverflow":"scroll","linenumbers":true,"theme":"wpcustom","language":"generic","retainCssClasses":false,"collapse":false,"toolbarOuter":"","toolbarTop":"{BTN_RAW}{BTN_COPY}{BTN_WINDOW}{BTN_WEBSITE}","toolbarBottom":""}};(e.EnlighterJSINIT=function(){EnlighterJS.init(o.selectors.block,o.selectors.inline,o.options)})()}else{(n&&(n.error||n.log)||function(){})("Error: EnlighterJS resources not loaded yet!")}}(window,console);
+</script>
+<script type="d4729eff30ad65897d1db9e9-text/javascript">
+        jQuery(document).ready(function ($) {
+
+            for (let i = 0; i < document.forms.length; ++i) {
+                let form = document.forms[i];
+				if ($(form).attr("method") != "get") { $(form).append('<input type="hidden" name="HLY_NVGfRIyiO" value="A*FRUYw" />'); }
+if ($(form).attr("method") != "get") { $(form).append('<input type="hidden" name="rfNmPJFxZlE" value="PcJd0F3kneCMpW" />'); }
+            }
+
+            $(document).on('submit', 'form', function () {
+				if ($(this).attr("method") != "get") { $(this).append('<input type="hidden" name="HLY_NVGfRIyiO" value="A*FRUYw" />'); }
+if ($(this).attr("method") != "get") { $(this).append('<input type="hidden" name="rfNmPJFxZlE" value="PcJd0F3kneCMpW" />'); }
+                return true;
+            });
+
+            jQuery.ajaxSetup({
+                beforeSend: function (e, data) {
+
+                    if (data.type !== 'POST') return;
+
+                    if (typeof data.data === 'object' && data.data !== null) {
+						data.data.append("HLY_NVGfRIyiO", "A*FRUYw");
+data.data.append("rfNmPJFxZlE", "PcJd0F3kneCMpW");
+                    }
+                    else {
+                        data.data = data.data + '&HLY_NVGfRIyiO=A*FRUYw&rfNmPJFxZlE=PcJd0F3kneCMpW';
+                    }
+                }
+            });
+
+        });
+    </script>
+<script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="d4729eff30ad65897d1db9e9-|49" defer></script></body>
+</html>
+<script type="d4729eff30ad65897d1db9e9-text/javascript" src="https://cdn.jsdelivr.net/gh/haoel/anti-baidu/js/anti-baidu-latest.min.js" charset="UTF-8"></script>
 
 
 
 
-
-
-
-    
-	
-
-</body></html>
-
-<!-- Dynamic page generated in 0.960 seconds. -->
-<!-- Cached page generated by WP-Super-Cache on 2023-02-13 18:16:52 -->
-
-<!-- Super Cache dynamic page detected but late init not set. See the readme.txt for further details. -->
-<!-- Dynamic Super Cache -->
-<!-- Compression = gzip -->

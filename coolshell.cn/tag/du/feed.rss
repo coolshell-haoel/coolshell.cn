@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>du | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/du/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Fri, 15 May 2009 08:47:14 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>Linux磁盘使用命令du的改进</title>
+		<link>https://coolshell.cn/articles/822.html</link>
+					<comments>https://coolshell.cn/articles/822.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Fri, 15 May 2009 08:41:29 +0000</pubDate>
+				<category><![CDATA[Unix/Linux]]></category>
+		<category><![CDATA[du]]></category>
+		<category><![CDATA[Linux]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=822</guid>
+
+					<description><![CDATA[<p>我们知道，在Linux下，如果你想知道当前目录下，每个文件或子目录的尺寸，你可以使用du命令来完成这一动作。如： $ du -sh * 这个命令可以以K，M，G...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/822.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/822.html">Linux磁盘使用命令du的改进</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>我们知道，在Linux下，如果你想知道当前目录下，每个文件或子目录的尺寸，你可以使用du命令来完成这一动作。如：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+$  du -sh *
+</pre>
+<p>这个命令可以以K，M，G的方式显示每个文件和子目录的大小。我们把这种方式叫做，human-readable，也就是可以让人读的方式，如下所示：</p>
+<pre>8.4G Desktop
+2.6G Documents
+12K keys
+12M Pictures
+536K scripts</pre>
+<p><span id="more-822"></span><br />
+但是，很可惜的是，我们的du并没有提供相关的排序功能，所以，如果在human-readable下，也就是-h参数下，我们很难使用sort命令来排序。因为那变成了字符串排序，小数点，数字的位数，还有单位K，M，G都会让排序变得混乱。那么，我们如何才能即有human-readble这种功能，还能有排序呢。我们得借用一些脚本语言来处理了。</p>
+<p>下面是使用了Perl来达到这一功能：</p>
+<pre data-enlighter-language="shell" class="EnlighterJSRAW">
+du -sk * | sort -n |       #以 K 字节的方式排序
+perl -ne &#039;                 #使用Perl来处理 K M 和 G 单位
+  ($s,$f)=split(m{\t});    #把 尺寸/文件名 分开
+  for (qw(K M G)) {        #以尺寸单位循环
+     if($s&lt;1024) {         #如果 尺寸&lt;1024 那么就输出
+       printf(&quot;%.1f&quot;,$s);  #显示文件尺寸
+       print &quot;$_\t$f&quot;;     #显示文件名
+       last                #换行
+     };
+     $s=$s/1024            #除1024然后进入下一个尺寸单位
+  }
+&#039;
+</pre>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="https://coolshell.cn/articles/22320.html" class="wp_rp_title">eBPF 介绍</a></li><li ><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/03/linux.ninja_-150x150.png" alt="打造高效的工作环境 &#8211; Shell 篇" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19219.html" class="wp_rp_title">打造高效的工作环境 &#8211; Shell 篇</a></li><li ><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li ><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="https://coolshell.cn/articles/18360.html" class="wp_rp_title">程序员练级攻略（2018)  与我的专栏</a></li><li ><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2017/07/systemd-1-150x150.jpeg" alt="Linux PID 1 和 Systemd" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17998.html" class="wp_rp_title">Linux PID 1 和 Systemd</a></li><li ><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/cache-150x150.png" alt="缓存更新的套路" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17416.html" class="wp_rp_title">缓存更新的套路</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/822.html">Linux磁盘使用命令du的改进</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/822.html/feed</wfw:commentRss>
+			<slash:comments>5</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

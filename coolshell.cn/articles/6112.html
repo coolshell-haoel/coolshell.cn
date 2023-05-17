@@ -10,7 +10,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width" />
 <link rel="profile" href="https://gmpg.org/xfn/11" />
-<link rel="pingback" href="https://coolshell.cn/xmlrpc.php" />
+<link rel="pingback" href />
 <link rel="shortcut icon" href="../favicon.png">
 <title>由一个问题到 Resin ClassLoader 的学习 | 酷 壳 - CoolShell</title>
 
@@ -35,18 +35,15 @@
 <script type="application/ld+json" class="aioseo-schema">
 			{"@context":"https:\/\/schema.org","@graph":[{"@type":"Article","@id":"https:\/\/coolshell.cn\/articles\/6112.html#article","name":"\u7531\u4e00\u4e2a\u95ee\u9898\u5230 Resin ClassLoader \u7684\u5b66\u4e60 | \u9177 \u58f3 - CoolShell","headline":"\u7531\u4e00\u4e2a\u95ee\u9898\u5230 Resin ClassLoader \u7684\u5b66\u4e60","author":{"@id":"https:\/\/coolshell.cn\/articles\/author\/liuxiaori#author"},"publisher":{"@id":"https:\/\/coolshell.cn\/#organization"},"image":{"@type":"ImageObject","url":"https:\/\/coolshell.cn\/wp-content\/uploads\/2011\/12\/resin01.png","@id":"https:\/\/coolshell.cn\/#articleImage","width":547,"height":154},"datePublished":"2011-12-28T04:22:55+08:00","dateModified":"2012-10-17T09:06:39+08:00","inLanguage":"zh-CN","commentCount":30,"mainEntityOfPage":{"@id":"https:\/\/coolshell.cn\/articles\/6112.html#webpage"},"isPartOf":{"@id":"https:\/\/coolshell.cn\/articles\/6112.html#webpage"},"articleSection":"Java\u8bed\u8a00, ClassLoader, getResource, getResourceAsStream, Java, Resin"},{"@type":"BreadcrumbList","@id":"https:\/\/coolshell.cn\/articles\/6112.html#breadcrumblist","itemListElement":[{"@type":"ListItem","@id":"https:\/\/coolshell.cn\/#listItem","position":1,"item":{"@type":"WebPage","@id":"https:\/\/coolshell.cn\/","name":"\u4e3b\u9801","description":"\u4eab\u53d7\u7f16\u7a0b\u548c\u6280\u672f\u6240\u5e26\u6765\u7684\u5feb\u4e50 \u2013 https:\/\/coolshell.cn","url":"https:\/\/coolshell.cn\/"}}]},{"@type":"Organization","@id":"https:\/\/coolshell.cn\/#organization","name":"\u9177\u58f3-CoolShell","url":"https:\/\/coolshell.cn\/","logo":{"@type":"ImageObject","url":"https:\/\/coolshell.cn\/wp-content\/uploads\/2020\/04\/mini.logo_.png","@id":"https:\/\/coolshell.cn\/#organizationLogo","width":306,"height":306},"image":{"@id":"https:\/\/coolshell.cn\/#organizationLogo"}},{"@type":"Person","@id":"https:\/\/coolshell.cn\/articles\/author\/liuxiaori#author","url":"https:\/\/coolshell.cn\/articles\/author\/liuxiaori","name":"liuxiaori","image":{"@type":"ImageObject","@id":"https:\/\/coolshell.cn\/articles\/6112.html#authorImage","url":"https:\/\/secure.gravatar.com\/avatar\/44d23a83359d26d7494f72b0f5a2ea62?s=96&d=mm&r=g","width":96,"height":96,"caption":"liuxiaori"}},{"@type":"WebPage","@id":"https:\/\/coolshell.cn\/articles\/6112.html#webpage","url":"https:\/\/coolshell.cn\/articles\/6112.html","name":"\u7531\u4e00\u4e2a\u95ee\u9898\u5230 Resin ClassLoader \u7684\u5b66\u4e60 | \u9177 \u58f3 - CoolShell","inLanguage":"zh-CN","isPartOf":{"@id":"https:\/\/coolshell.cn\/#website"},"breadcrumb":{"@id":"https:\/\/coolshell.cn\/articles\/6112.html#breadcrumblist"},"author":{"@id":"https:\/\/coolshell.cn\/articles\/author\/liuxiaori#author"},"creator":{"@id":"https:\/\/coolshell.cn\/articles\/author\/liuxiaori#author"},"datePublished":"2011-12-28T04:22:55+08:00","dateModified":"2012-10-17T09:06:39+08:00"},{"@type":"WebSite","@id":"https:\/\/coolshell.cn\/#website","url":"https:\/\/coolshell.cn\/","name":"\u9177 \u58f3 - CoolShell","description":"\u4eab\u53d7\u7f16\u7a0b\u548c\u6280\u672f\u6240\u5e26\u6765\u7684\u5feb\u4e50 - Coding Your Ambition","inLanguage":"zh-CN","publisher":{"@id":"https:\/\/coolshell.cn\/#organization"}}]}
 		</script>
-<script type="82f5edc7ff6d66667178f013-text/javascript">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript">
 			window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 			ga('create', "UA-7486123-1", { 'cookieDomain': 'coolshell.cn' } );
 			ga('send', 'pageview');
 		</script>
-<script async src="https://www.google-analytics.com/analytics.js" type="82f5edc7ff6d66667178f013-text/javascript"></script>
+<script async src="https://www.google-analytics.com/analytics.js" type="cb6e3f102772c322d3f4f2ce-text/javascript"></script>
 
 <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-<link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell &raquo; Feed" href="../feed.rss" />
-<link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell &raquo; 评论Feed" href="../comments/feed.rss" />
-<link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell &raquo; 由一个问题到 Resin ClassLoader 的学习评论Feed" href="https://coolshell.cn/articles/6112.html/feed" />
-<script type="82f5edc7ff6d66667178f013-text/javascript">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript">
 window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/coolshell.cn\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.2"}};
 /*! This file is auto-generated */
 !function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){p.clearRect(0,0,i.width,i.height),p.fillText(e,0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(t,0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(p&&p.fillText)switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s("\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!s("\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!s("\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!s("\ud83e\udef1\ud83c\udffb\u200d\ud83e\udef2\ud83c\udfff","\ud83e\udef1\ud83c\udffb\u200b\ud83e\udef2\ud83c\udfff")}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(e=t.source||{}).concatemoji?c(e.concatemoji):e.wpemoji&&e.twemoji&&(c(e.twemoji),c(e.wpemoji)))}(window,document,window._wpemojiSettings);
@@ -204,22 +201,20 @@ img.emoji {
 <link rel="stylesheet" id="font-awesome-css" href="../wp-content/themes/MyNisarg/font-awesome/css/font-awesome.min%EF%B9%96ver=6.2.css" type="text/css" media="all" />
 <link rel="stylesheet" id="nisarggooglefonts-css" href="https://fonts.googleapis.com/css?family=Lato:400,300italic,700%7CSource+Sans+Pro:400,400italic" type="text/css" media="all" />
 <link rel="stylesheet" id="enlighterjs-css" href="../wp-content/plugins/enlighter/cache/enlighterjs.min%EF%B9%96ver=0cuVQBPCj0viGB0.css" type="text/css" media="all" />
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-includes/js/jquery/jquery.min%EF%B9%96ver=3.6.3.js" id="jquery-core-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-includes/js/jquery/jquery-migrate.min%EF%B9%96ver=3.4.0.js" id="jquery-migrate-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/simple-post-series/autohide%EF%B9%96ver=2.4.js" id="series-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" id="ez-toc-scroll-scriptjs-js-after">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-includes/js/jquery/jquery.min%EF%B9%96ver=3.6.3.js" id="jquery-core-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-includes/js/jquery/jquery-migrate.min%EF%B9%96ver=3.4.0.js" id="jquery-migrate-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/simple-post-series/autohide%EF%B9%96ver=2.4.js" id="series-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" id="ez-toc-scroll-scriptjs-js-after">
 jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;30>30&&(i=30),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
 </script>
 <!--[if lt IE 9]>
 <script type='text/javascript' src='https://coolshell.cn/wp-content/themes/MyNisarg/js/html5shiv.js?ver=3.7.3' id='html5shiv-js'></script>
 <![endif]-->
-<link rel="https://api.w.org/" href="../wp-json/index.json" /><link rel="alternate" type="application/json" href="../wp-json/wp/v2/posts/6112.json" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="../xmlrpc.php%EF%B9%96rsd.xml" />
-<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="../wp-includes/wlwmanifest.xml" />
 <meta name="generator" content="WordPress 6.2" />
 <link rel="shortlink" href="6112.html" />
 <link rel="alternate" type="application/json+oembed" href="../wp-json/oembed/1.0/embed%EF%B9%96url=https%EF%B9%95%EA%A4%B7%EA%A4%B7coolshell.cn%EA%A4%B7articles%EA%A4%B76112.html.json" />
 <link rel="alternate" type="text/xml+oembed" href="../wp-json/oembed/1.0/embed%EF%B9%96url=https%EF%B9%95%EA%A4%B7%EA%A4%B7coolshell.cn%EA%A4%B7articles%EA%A4%B76112.html&amp;format=xml.xml" />
-<script type="82f5edc7ff6d66667178f013-text/javascript">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript">
 	window._wp_rp_static_base_url = 'https://wprp.zemanta.com/static/';
 	window._wp_rp_wp_ajax_url = "https://coolshell.cn/wp-admin/admin-ajax.php";
 	window._wp_rp_plugin_version = '3.6.4';
@@ -227,7 +222,7 @@ jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").f
 	window._wp_rp_num_rel_posts = '6';
 	window._wp_rp_thumbnails = true;
 	window._wp_rp_post_title = '%E7%94%B1%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98%E5%88%B0+Resin+ClassLoader+%E7%9A%84%E5%AD%A6%E4%B9%A0';
-	window._wp_rp_post_tags = ['java', 'getresource', 'resin', 'getresourceasstream', 'classloader', 'java%E8%AF%AD%E8%A8%80', 'class', 'int', 'buffer', 'resin', 'static', 'string', 'file', 'privat', 'final', 'os', 'path', '1', 'public', 'byte', 'respons'];
+	window._wp_rp_post_tags = ['classloader', 'java', 'getresource', 'resin', 'getresourceasstream', 'java%E8%AF%AD%E8%A8%80', 'public', 'byte', 'respons', 'class', 'int', 'buffer', 'resin', 'static', 'string', 'file', 'privat', 'final', 'os', 'path', '1'];
 	window._wp_rp_promoted_content = true;
 </script>
 <link rel="stylesheet" href="../wp-content/plugins/wordpress-23-related-posts-plugin/static/themes/vertical-m%EF%B9%96version=3.6.4.css" />
@@ -297,11 +292,11 @@ jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").f
 <h1 class="entry-title">由一个问题到 Resin ClassLoader 的学习</h1>
 <div class="entry-meta">
 <h5 class="entry-date"><i class="fa fa-calendar-o"></i> <a href="6112.html" title="12:22" rel="bookmark"><time class="entry-date" datetime="2011-12-28T12:22:55+08:00" pubdate>2011年12月28日 </time></a><span class="byline"><span class="sep"></span><i class="fa fa-user"></i>
-<span class="author vcard"><a class="url fn n" href="author/liuxiaori.html" title="View all posts by liuxiaori" rel="author">liuxiaori</a></span></span> <i class="fa fa-comments-o"></i><span class="screen-reader-text">评论 </span> <a href="#comments" class="comments-link">30 条评论</a> <i class="fa fa-users" style="margin-left:10px;"></i> 19,584 人阅读</h5>
+<span class="author vcard"><a class="url fn n" href="author/liuxiaori.html" title="View all posts by liuxiaori" rel="author">liuxiaori</a></span></span> <i class="fa fa-comments-o"></i><span class="screen-reader-text">评论 </span> <a href="#comments" class="comments-link">30 条评论</a> <i class="fa fa-users" style="margin-left:10px;"></i> 19,634 人阅读</h5>
 </div>
 </header>
 <div class="entry-content">
-<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158" crossorigin="anonymous" type="82f5edc7ff6d66667178f013-text/javascript"></script><strong>（<span style="color: #cc0000;">感谢网友 liuxiaori 分享其经历</span>）<br/>
+<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158" crossorigin="anonymous" type="cb6e3f102772c322d3f4f2ce-text/javascript"></script><strong>（<span style="color: #cc0000;">感谢网友 liuxiaori 分享其经历</span>）<br/>
 </strong></p>
 <div id="ez-toc-container" class="ez-toc-v2_0_48 counter-hierarchy ez-toc-counter ez-toc-grey ez-toc-container-direction">
 <div class="ez-toc-title-container">
@@ -320,8 +315,7 @@ jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").f
 </ol>
 <p>由于时间匆忙，代码没有好好去组织。大致能看出上述两个功能，很简单不做解释。</p>
 <p><span id="more-6112"></span></p>
-<pre data-enlighter-language="java" class="EnlighterJSRAW">
-public class Path {
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public class Path {
     public String getPath() throws IOException
     {
         InputStream is = this.getClass().getResourceAsStream(&quot;/a.txt&quot;);
@@ -339,8 +333,7 @@ public class Path {
 }
 </pre>
 <p>&nbsp;</p>
-<pre data-enlighter-language="java" class="EnlighterJSRAW">
-public class PathServlet extends HttpServlet {
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public class PathServlet extends HttpServlet {
     private static final long serialVersionUID = 4443655831011903288L;
     public void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
@@ -368,8 +361,7 @@ public class PathServlet extends HttpServlet {
 <p>程序中使用ClassLoader的两个方法：getResourceAsStream和getResource。但是事实证明在WEB应用的场景下却得到了不同的结果。大家别误会啊，看名字他们两个方法肯定不一样，这个我知道，但是getResourceAsStream总会获取指定路径下的文件吧，示例中的参数为&#8221;/a.txt&#8221;，正确读取“/D:/work/resin-3.0.23/webapps/EhCacheTestAnnotation/WEB-INF/classes/ ”下的a.txt，可是将文件写到getResource方法的getPath返回路径的b.txt文件。两个位置的差别在项目名称(EhCacheTestAnnotation)。</p>
 <p>这样我暂且得出一个结论：通过getResourceAsStream和getResource两个方法获取的路径是不同的。但是为什么呢？</p>
 <p>于是查看了ClassLoader的源码，贴出getResource和getResourceAsStream的源码。</p>
-<pre data-enlighter-language="java" class="EnlighterJSRAW">
-public URL getResource(String name) {
+<pre data-enlighter-language="java" class="EnlighterJSRAW">public URL getResource(String name) {
     URL url;
     if (parent != null) {
         url = parent.getResource(name);
@@ -403,8 +395,7 @@ public InputStream getResourceAsStream(String name) {
 <p>对，这就是我想要的。</p>
 <p>因此我对Resin产生了厌恶感，之前也因为在Resin下程序报错，在Tomcat下正常运行而纠结了好久。记得看《松本行弘的程序世界》中对C++中的多继承是这样评价的(大概意思)：多重继承带来的负面影响多数是由于使用不当造成的。是不是因为对Resin使用不得当才使得和Tomcat下得到不同的结果。</p>
 <p>最终，在查阅Resin配置文件resin.conf时候在&lt;host-default&gt;标签下发现了这样一段：</p>
-<pre data-enlighter-language="xml" class="EnlighterJSRAW">
-&lt;class-loader&gt;
+<pre data-enlighter-language="xml" class="EnlighterJSRAW">&lt;class-loader&gt;
 &lt;compiling-loader path=&quot;webapps/WEB-INF/classes&quot;/&gt;
 &lt;library-loader path=&quot;webapps/WEB-INF/lib&quot;/&gt;
 &lt;/class-loader&gt;</pre>
@@ -427,8 +418,7 @@ public InputStream getResourceAsStream(String name) {
 <a href="../wp-content/uploads/2011/12/resin06.png"><img decoding="async" loading="lazy" class="aligncenter" src="../wp-content/uploads/2011/12/resin06.png" alt="图2 （点击看大图）" width="677" height="354" /></a><br/>
 图2</p>
 <p>从上面两幅图中可以看出，图1是与Jdk有关联的，继承自java.net.URLClassLoader。DynamicClassLoader的注释是这样的：</p>
-<pre data-enlighter-language="java" class="EnlighterJSRAW">
-/**
+<pre data-enlighter-language="java" class="EnlighterJSRAW">/**
 * Class	loader which checks for changes in class files and automatically
 * picks up new jars.
 *
@@ -440,8 +430,7 @@ public InputStream getResourceAsStream(String name) {
 <p>EnvironmentClassLoader又继承了DynamicClassLoader<span style="font-family: 宋体;">。</span></p>
 <p>图<span style="font-family: 'Times New Roman';">2</span><span style="font-family: 宋体;">应该是</span><span style="font-family: 'Times New Roman';">Resin</span><span style="font-family: 宋体;">本身的</span><span style="font-family: 'Times New Roman';">ClassLoader</span><span style="font-family: 宋体;">，其中</span><span style="font-family: 'Times New Roman';">Loader</span><span style="font-family: 宋体;">是一个抽象类，包含了各种子类类加载器。</span></p>
 <p>从两幅图中是看不出<span style="font-family: 'Times New Roman';">Resin</span><span style="font-family: 宋体;">自身的</span><span style="font-family: 'Times New Roman';">Loader</span><span style="font-family: 宋体;">体系与继承自</span><span style="font-family: 'Times New Roman';">JVM</span><span style="font-family: 宋体;">的类加载器存在关系，那是不是他们就不存在某种关联呢？其实不是这样子的。请看下面</span><span style="font-family: 'Times New Roman';">DynamicClassLoader</span><span style="font-family: 宋体;">源码的片段：</span></p>
-<pre data-enlighter-language="java" class="EnlighterJSRAW">
-// List of resource loaders
+<pre data-enlighter-language="java" class="EnlighterJSRAW">// List of resource loaders
 private ArrayList _loaders = new ArrayList();
 private JarLoader _jarLoader;
 private PathLoader _pathLoader;
@@ -450,8 +439,7 @@ private PathLoader _pathLoader;
 <h4><span class="ez-toc-section" id="%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E9%A1%BA%E5%BA%8F"></span>类加载器顺序<span class="ez-toc-section-end"></span></h4>
 <p>既然<span style="font-family: 'Times New Roman';">Resin</span><span style="font-family: 宋体;">标准的</span><span style="font-family: 'Times New Roman';">Loader</span><span style="font-family: 宋体;">及其子类以组合的方式嵌入到</span><span style="font-family: 'Times New Roman';">DynamicClassLoader</span><span style="font-family: 宋体;">中，那么在加载一个“资源”时，</span><span style="font-family: 'Times New Roman';">Loader</span><span style="font-family: 宋体;">分支和</span><span style="font-family: 'Times New Roman';">java.net.URLClassLoader</span><span style="font-family: 宋体;">分支的先后顺序是什么样子的呢？</span></p>
 <p>首先使用下面这段代码，将类加载器名称打印到控制台：</p>
-<pre data-enlighter-language="java" class="EnlighterJSRAW">
-ClassLoader loader = PathServlet.class.getClassLoader();
+<pre data-enlighter-language="java" class="EnlighterJSRAW">ClassLoader loader = PathServlet.class.getClassLoader();
 while (loader != null) {
     System.out.println(loader.toString());
     loader = loader.getParent();
@@ -462,11 +450,10 @@ while (loader != null) {
 <p><em><em>EnvironmentClassLoader[web-app:http://localhost:8080]</em></em></p>
 <p><em>EnvironmentClassLoader[cluster ]</em></p>
 <p><em><em>EnvironmentClassLoader[]</em></em></p>
-<p><em><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="6c1f19024201051f0f42200d19020f04091e482d1c1c2f000d1f1f20030d08091e2c0f0d0f5e5a54">[email&#160;protected]</a></em></p>
-<p><em><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="1f6c6a713172766c7c31537e6a717c777a6d3b5a676b5c737e6c6c53707e7b7a6d5f2e7e2e29272926">[email&#160;protected]</a></em></p></blockquote>
+<p><em><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="c2b1b7acecafabb1a1ec8ea3b7aca1aaa7b0e683b2b281aea3b1b18eada3a6a7b082a1a3a1f0f4fa">[email&#160;protected]</a></em></p>
+<p><em><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="a5d6d0cb8bc8ccd6c68be9c4d0cbc6cdc0d781e0ddd1e6c9c4d6d6e9cac4c1c0d7e594c494939d939c">[email&#160;protected]</a></em></p></blockquote>
 <p>额，没有任何一个Resin<span style="font-family: 宋体;">的</span><span style="font-family: 'Courier New';">Loader</span><span style="font-family: 宋体;">被打印出来啊，对头，有就错了。下面就让我们看看</span><span style="font-family: 'Courier New';">DynamicClassLoader</span><span style="font-family: 宋体;">中</span><span style="font-family: 'Courier New';">getResource</span><span style="font-family: 宋体;">的源码来解答。</span></p>
-<pre data-enlighter-language="java" class="EnlighterJSRAW">
-/**
+<pre data-enlighter-language="java" class="EnlighterJSRAW">/**
 * Gets the named resource
 *
 * @param name name of the resource
@@ -519,15 +506,14 @@ public URL getResource(String name)
 <p>代码不难懂，我画了一张流程图，不规范，凑合看下。<br/>
 <img decoding="async" loading="lazy" class="aligncenter size-full wp-image-6286" title="resin07" src="../wp-content/uploads/2011/12/resin07.png" alt width="326" height="601" srcset="../wp-content/uploads/2011/12/resin07.png 326w, ../wp-content/uploads/2011/12/resin07-162x300.png 162w" sizes="(max-width: 326px) 100vw, 326px" /></p>
 <h4><span class="ez-toc-section" id="%E6%80%BB%E7%BB%93"></span>总结<span class="ez-toc-section-end"></span></h4>
-<pre data-enlighter-language="java" class="EnlighterJSRAW">
-boolean isNormalJdkOrder = isNormalJdkOrder(name);
+<pre data-enlighter-language="java" class="EnlighterJSRAW">boolean isNormalJdkOrder = isNormalJdkOrder(name);
 </pre>
 <p>这行代码控制着Resin<span style="font-family: 宋体;">类加载的顺序，如果是常规的类加载顺序</span><span style="font-family: 'Courier New';">(</span><span style="font-family: 宋体;">向上代理，原文：</span>Returns true if the class loader should use the normal order, i.e. looking at the parents first.)<span style="font-family: 宋体;">，则先</span>url = getParentResource(name)，后遍历_loaders。否则是按照先遍历_loaders<span style="font-family: 宋体;">再</span>url = getParentResource(name)向上代理。</p>
 <p>在我的调试经历中，一直都是先向上代理，后遍历_loaders<span style="font-family: 宋体;">的顺序，未遇到第二种方式。</span></p>
 <p>文字对先向上代理，后遍历的顺序做点儿说明：</p>
 <ol>
-<li>首先使用“最上层”的<em><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="80f3f5eeaeede9f3e3aecce1f5eee3e8e5f2a4c5f8f4c3ece1f3f3ccefe1e4e5f2c0b1e1b1b6b8b6b9">[email&#160;protected]</a></em>加载name<span style="font-family: 宋体;">资源，如果找到就返回</span><span style="font-family: 'Courier New';">URL</span><span style="font-family: 宋体;">否则返回</span><span style="font-family: 'Courier New';">null</span></li>
-<li>程序返回到<em><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="3f4c4a511152564c5c11735e4a515c575a4d1b7e4f4f7c535e4c4c73505e5b5a4d7f5c5e5c0d0907">[email&#160;protected]</a></em>，首先判断父类加载器返回的<span style="font-family: 'Courier New';">url</span><span style="font-family: 宋体;">是否为</span><span style="font-family: 'Courier New';">null</span><span style="font-family: 宋体;">，如果不为</span><span style="font-family: 'Courier New';">null</span><span style="font-family: 宋体;">则返回</span><span style="font-family: 'Courier New';">url</span><span style="font-family: 宋体;">，返回</span><span style="font-family: 'Courier New';">null</span><span style="font-family: 宋体;">。</span></li>
+<li>首先使用“最上层”的<em><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="fc8f8992d291958f9fd2b09d89929f94998ed8b98488bf909d8f8fb0939d98998ebccd9dcdcac4cac5">[email&#160;protected]</a></em>加载name<span style="font-family: 宋体;">资源，如果找到就返回</span><span style="font-family: 'Courier New';">URL</span><span style="font-family: 宋体;">否则返回</span><span style="font-family: 'Courier New';">null</span></li>
+<li>程序返回到<em><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="bccfc9d292d1d5cfdf92f0ddc9d2dfd4d9ce98fdccccffd0ddcfcff0d3ddd8d9cefcdfdddf8e8a84">[email&#160;protected]</a></em>，首先判断父类加载器返回的<span style="font-family: 'Courier New';">url</span><span style="font-family: 宋体;">是否为</span><span style="font-family: 'Courier New';">null</span><span style="font-family: 宋体;">，如果不为</span><span style="font-family: 'Courier New';">null</span><span style="font-family: 宋体;">则返回</span><span style="font-family: 'Courier New';">url</span><span style="font-family: 宋体;">，返回</span><span style="font-family: 'Courier New';">null</span><span style="font-family: 宋体;">。</span></li>
 <li><span style="font-family: 宋体;"><em><em><em>EnvironmentClassLoader[]</em></em></em></span></li>
 <li>程序返回到<em>EnvironmentClassLoader[cluster ]</em>的getParentResource<span style="font-family: 宋体;">，再返回到</span><span style="font-family: 'Courier New';">getResource</span><span style="font-family: 宋体;">，如果</span><span style="font-family: 'Courier New';">url</span><span style="font-family: 宋体;">不为</span><span style="font-family: 'Courier New';">null</span><span style="font-family: 宋体;">，则直接返回，否则遍历</span>ArrayList&lt;Loader&gt; loaders = _loaders;从各个loader<span style="font-family: 宋体;">中加载</span><span style="font-family: 'Courier New';">name</span><span style="font-family: 宋体;">，如果加载成功，即不为</span><span style="font-family: 'Courier New';">null</span><span style="font-family: 宋体;">，则返回，否则继续遍历，直至遍历完成。</span></li>
 <li><em><em>EnvironmentClassLoader[web-app:http://localhost:8080]</em></em>同4</li>
@@ -545,8 +531,8 @@ boolean isNormalJdkOrder = isNormalJdkOrder(name);
 <div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
 <p align="center"><strong>（转载本站文章请注明作者和出处 <a href="../index.html">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
 </div>
-<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li><a href="6335.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2012/01/%E5%9B%BE%E7%89%871-150x150.png" alt="Resin服务器getResource揭秘" width="150" height="150" /></a><a href="6335.html" class="wp_rp_title">Resin服务器getResource揭秘</a></li><li><a href="20845.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li><a href="18360.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="18360.html" class="wp_rp_title">程序员练级攻略（2018) 与我的专栏</a></li><li><a href="11541.html" class="wp_rp_thumbnail"><img src="../wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="面向GC的Java编程" width="150" height="150" /></a><a href="11541.html" class="wp_rp_title">面向GC的Java编程</a></li><li><a href="11454.html" class="wp_rp_thumbnail"><img src="../wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li><a href="11175.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li></ul></div></div>
-<div id="post-ratings-6112" class="post-ratings" itemscope itemtype="https://schema.org/Article" data-nonce="541877f1f2"><img id="rating_6112_1" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 1, '好烂啊');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-82f5edc7ff6d66667178f013- /><img id="rating_6112_2" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 2, '有点差');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-82f5edc7ff6d66667178f013- /><img id="rating_6112_3" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 3, '凑合看看');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-82f5edc7ff6d66667178f013- /><img id="rating_6112_4" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_half.gif" alt="还不错" title="还不错" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 4, '还不错');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-82f5edc7ff6d66667178f013- /><img id="rating_6112_5" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_off.gif" alt="很精彩" title="很精彩" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 5, '很精彩');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-82f5edc7ff6d66667178f013- /> (<strong>21</strong> 人打了分，平均分： <strong>3.43</strong> )<br/><span class="post-ratings-text" id="ratings_6112_text"></span><meta itemprop="name" content="由一个问题到 Resin ClassLoader 的学习" /><meta itemprop="headline" content="由一个问题到 Resin ClassLoader 的学习" /><meta itemprop="description" content="（感谢网友 liuxiaori 分享其经历）
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li><a href="6335.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2012/01/%E5%9B%BE%E7%89%871-150x150.png" alt="Resin服务器getResource揭秘" width="150" height="150" /></a><a href="6335.html" class="wp_rp_title">Resin服务器getResource揭秘</a></li><li><a href="20845.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li><a href="18360.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="18360.html" class="wp_rp_title">程序员练级攻略（2018) 与我的专栏</a></li><li><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_thumbnail"><img src="../wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="面向GC的Java编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_title">面向GC的Java编程</a></li><li><a href="11454.html" class="wp_rp_thumbnail"><img src="../wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li><a href="11175.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li></ul></div></div>
+<div id="post-ratings-6112" class="post-ratings" itemscope itemtype="https://schema.org/Article" data-nonce="506f05fcdc"><img id="rating_6112_1" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 1, '好烂啊');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-cb6e3f102772c322d3f4f2ce- /><img id="rating_6112_2" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 2, '有点差');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-cb6e3f102772c322d3f4f2ce- /><img id="rating_6112_3" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 3, '凑合看看');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-cb6e3f102772c322d3f4f2ce- /><img id="rating_6112_4" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_half.gif" alt="还不错" title="还不错" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 4, '还不错');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-cb6e3f102772c322d3f4f2ce- /><img id="rating_6112_5" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_off.gif" alt="很精彩" title="很精彩" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(6112, 5, '很精彩');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(3.4, 4, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-cb6e3f102772c322d3f4f2ce- /> (<strong>21</strong> 人打了分，平均分： <strong>3.43</strong> )<br/><span class="post-ratings-text" id="ratings_6112_text"></span><meta itemprop="name" content="由一个问题到 Resin ClassLoader 的学习" /><meta itemprop="headline" content="由一个问题到 Resin ClassLoader 的学习" /><meta itemprop="description" content="（感谢网友 liuxiaori 分享其经历）
 
 背景
 某日临近下班，一个同事欲取任何类中获取项目绝对路径，不通过Request方式获取，可是始终获取不到预想的路径。于是晚上回家google了一下，误以为是System.getProperty(&quot;java.class.path&quot;)-未实际进行测试，早上来和同事沟通，提出了使用这个内置方法，结果人家早已验证过，该方法是打印出CLASSPATH环境..." /><meta itemprop="datePublished" content="2011-12-28T12:22:55+08:00" /><meta itemprop="dateModified" content="2012-10-17T17:06:39+08:00" /><meta itemprop="url" content="https://coolshell.cn/articles/6112.html" /><meta itemprop="author" content="liuxiaori" /><meta itemprop="mainEntityOfPage" content="https://coolshell.cn/articles/6112.html" /><div style="display: none;" itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="酷 壳 - CoolShell" /><meta itemprop="url" content="https://coolshell.cn" /><div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject"><meta itemprop="url" content /></div></div><div style="display: none;" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"><meta itemprop="bestRating" content="5" /><meta itemprop="worstRating" content="1" /><meta itemprop="ratingValue" content="3.43" /><meta itemprop="ratingCount" content="21" /></div></div><div id="post-ratings-6112-loading" class="post-ratings-loading"><img src="../wp-content/plugins/wp-postratings/images/loading.gif" width="16" height="16" class="post-ratings-image" />Loading...</div>
@@ -557,7 +543,7 @@ boolean isNormalJdkOrder = isNormalJdkOrder(name);
 </article>
 
 <div id="related_posts">
-<div class="wp_rp_wrap  wp_rp_vertical_m"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li><a href="6335.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2012/01/%E5%9B%BE%E7%89%871-150x150.png" alt="Resin服务器getResource揭秘" width="150" height="150" /></a><a href="6335.html" class="wp_rp_title">Resin服务器getResource揭秘</a></li><li><a href="20845.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li><a href="18360.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="18360.html" class="wp_rp_title">程序员练级攻略（2018) 与我的专栏</a></li><li><a href="11541.html" class="wp_rp_thumbnail"><img src="../wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="面向GC的Java编程" width="150" height="150" /></a><a href="11541.html" class="wp_rp_title">面向GC的Java编程</a></li><li><a href="11454.html" class="wp_rp_thumbnail"><img src="../wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li><a href="11175.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li></ul></div></div>
+<div class="wp_rp_wrap  wp_rp_vertical_m"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li><a href="6335.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2012/01/%E5%9B%BE%E7%89%871-150x150.png" alt="Resin服务器getResource揭秘" width="150" height="150" /></a><a href="6335.html" class="wp_rp_title">Resin服务器getResource揭秘</a></li><li><a href="20845.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2020/03/rust-social-wide-150x150.jpg" alt="Rust语言的编程范式" width="150" height="150" /></a><a href="20845.html" class="wp_rp_title">Rust语言的编程范式</a></li><li><a href="18360.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2018/05/300x262-150x150.jpg" alt="程序员练级攻略（2018)  与我的专栏" width="150" height="150" /></a><a href="18360.html" class="wp_rp_title">程序员练级攻略（2018) 与我的专栏</a></li><li><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_thumbnail"><img src="../wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="面向GC的Java编程" width="150" height="150" /></a><a href="https://coolshell.cn/articles/11541.html" class="wp_rp_title">面向GC的Java编程</a></li><li><a href="11454.html" class="wp_rp_thumbnail"><img src="../wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/17.jpg" alt="从LongAdder看更高效的无锁实现" width="150" height="150" /></a><a href="11454.html" class="wp_rp_title">从LongAdder看更高效的无锁实现</a></li><li><a href="11175.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2014/03/cow-copy-150x150.jpg" alt="Java中的CopyOnWrite容器" width="150" height="150" /></a><a href="11175.html" class="wp_rp_title">Java中的CopyOnWrite容器</a></li></ul></div></div>
 </div><div class="fixed"></div> 
 </main>
 <div class="post-navigation">
@@ -1028,7 +1014,7 @@ Pingback： <a href="http://www.codeba.cc/resin%e6%9c%8d%e5%8a%a1%e5%99%a8getres
 <p class="comment-form-url"><label for="url">网站地址</label> <input id="url" name="url" type="url" value size="30" maxlength="200" autocomplete="url" /></p>
 <p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="发表评论" /> <input type="hidden" name="comment_post_ID" value="6112" id="comment_post_ID" />
 <input type="hidden" name="comment_parent" id="comment_parent" value="0" />
-</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="edf7315ab6" /></p><p style="display: none !important;"><label>&#916;<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_1" name="ak_js" value="204" /><script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="82f5edc7ff6d66667178f013-text/javascript">document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );</script></p></form> </div>
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b861b86f4f" /></p><p style="display: none !important;"><label>&#916;<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_1" name="ak_js" value="129" /><script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="cb6e3f102772c322d3f4f2ce-text/javascript">document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );</script></p></form> </div>
 </div>
 </div>
 </div>
@@ -1141,7 +1127,7 @@ Pingback： <a href="http://www.codeba.cc/resin%e6%9c%8d%e5%8a%a1%e5%99%a8getres
 </li>
 </ul>
 </aside><aside id="views-6" class="widget widget_views"><h4 class="widget-title">全站热门</h4><ul>
-<li><a href="4990.html" title="程序员技术练级攻略 - 10,237,429 人阅读">程序员技术练级攻略</a></li><li><a href="3961.html" title="&ldquo;火柴棍式&rdquo;程序员面试题 - 2,356,004 人阅读">&ldquo;火柴棍式&rdquo;程序员面试题</a></li><li><a href="5426.html" title="简明 Vim 练级攻略 - 1,324,050 人阅读">简明 Vim 练级攻略</a></li><li><a href="9308.html" title="&ldquo;作环保的程序员，从不用百度开始&rdquo; - 588,305 人阅读">&ldquo;作环保的程序员，从不用百度开始&rdquo;</a></li><li><a href="11564.html" title="TCP 的那些事儿（上） - 488,130 人阅读">TCP 的那些事儿（上）</a></li><li><a href="9070.html" title="AWK 简明教程 - 453,105 人阅读">AWK 简明教程</a></li><li><a href="7186.html" title="做个环保主义的程序员 - 447,067 人阅读">做个环保主义的程序员</a></li><li><a href="10688.html" title="编程能力与编程年龄 - 416,233 人阅读">编程能力与编程年龄</a></li><li><a href="10590.html" title="二维码的生成细节和原理 - 393,592 人阅读">二维码的生成细节和原理</a></li><li><a href="9104.html" title="sed 简明教程 - 380,081 人阅读">sed 简明教程</a></li><li><a href="4102.html" title="如何学好C语言 - 368,117 人阅读">如何学好C语言</a></li><li><a href="19464.html" title="如何超过大多数人 - 312,727 人阅读">如何超过大多数人</a></li><li><a href="17583.html" title="技术人员的发展之路 - 307,728 人阅读">技术人员的发展之路</a></li><li><a href="9606.html" title="疫苗：Java HashMap的死循环 - 305,239 人阅读">疫苗：Java HashMap的死循环</a></li><li><a href="6470.html" title="由12306.cn谈谈网站性能技术 - 298,740 人阅读">由12306.cn谈谈网站性能技术</a></li><li><a href="8883.html" title="应该知道的Linux技巧 - 296,509 人阅读">应该知道的Linux技巧</a></li><li><a href="17416.html" title="缓存更新的套路 - 293,426 人阅读">缓存更新的套路</a></li><li><a href="10910.html" title="分布式系统的事务处理 - 284,472 人阅读">分布式系统的事务处理</a></li><li><a href="11609.html" title="TCP 的那些事儿（下） - 284,170 人阅读">TCP 的那些事儿（下）</a></li><li><a href="2250.html" title="&ldquo;21天教你学会C++&rdquo; - 278,224 人阅读">&ldquo;21天教你学会C++&rdquo;</a></li><li><a href="8239.html" title="无锁队列的实现 - 274,128 人阅读">无锁队列的实现</a></li><li><a href="10739.html" title="Lua简明教程 - 269,096 人阅读">Lua简明教程</a></li><li><a href="20276.html" title="别让自己&ldquo;墙&rdquo;了自己 - 268,831 人阅读">别让自己&ldquo;墙&rdquo;了自己</a></li><li><a href="7490.html" title="性能调优攻略 - 257,122 人阅读">性能调优攻略</a></li><li><a href="1846.html" title="MySQL性能优化的最佳20+条经验 - 255,581 人阅读">MySQL性能优化的最佳20+条经验</a></li><li><a href="4758.html" title="如何写出无法维护的代码 - 253,898 人阅读">如何写出无法维护的代码</a></li><li><a href="914.html" title="6个变态的C语言Hello World程序 - 251,771 人阅读">6个变态的C语言Hello World程序</a></li><li><a href="17010.html" title="Docker基础技术：Linux Namespace（上） - 241,641 人阅读">Docker基础技术：Linux Namespace（上）</a></li><li><a href="7829.html" title="28个Unix/Linux的命令行神器 - 241,059 人阅读">28个Unix/Linux的命令行神器</a></li><li><a href="11312.html" title="无插件Vim编程技巧 - 222,606 人阅读">无插件Vim编程技巧</a></li></ul>
+<li><a href="4990.html" title="程序员技术练级攻略 - 10,241,190 人阅读">程序员技术练级攻略</a></li><li><a href="3961.html" title="&ldquo;火柴棍式&rdquo;程序员面试题 - 2,356,583 人阅读">&ldquo;火柴棍式&rdquo;程序员面试题</a></li><li><a href="5426.html" title="简明 Vim 练级攻略 - 1,326,247 人阅读">简明 Vim 练级攻略</a></li><li><a href="9308.html" title="&ldquo;作环保的程序员，从不用百度开始&rdquo; - 593,536 人阅读">&ldquo;作环保的程序员，从不用百度开始&rdquo;</a></li><li><a href="11564.html" title="TCP 的那些事儿（上） - 489,249 人阅读">TCP 的那些事儿（上）</a></li><li><a href="9070.html" title="AWK 简明教程 - 453,525 人阅读">AWK 简明教程</a></li><li><a href="7186.html" title="做个环保主义的程序员 - 447,527 人阅读">做个环保主义的程序员</a></li><li><a href="10688.html" title="编程能力与编程年龄 - 417,120 人阅读">编程能力与编程年龄</a></li><li><a href="10590.html" title="二维码的生成细节和原理 - 393,988 人阅读">二维码的生成细节和原理</a></li><li><a href="9104.html" title="sed 简明教程 - 380,469 人阅读">sed 简明教程</a></li><li><a href="4102.html" title="如何学好C语言 - 368,705 人阅读">如何学好C语言</a></li><li><a href="19464.html" title="如何超过大多数人 - 315,766 人阅读">如何超过大多数人</a></li><li><a href="17583.html" title="技术人员的发展之路 - 309,152 人阅读">技术人员的发展之路</a></li><li><a href="9606.html" title="疫苗：Java HashMap的死循环 - 305,569 人阅读">疫苗：Java HashMap的死循环</a></li><li><a href="6470.html" title="由12306.cn谈谈网站性能技术 - 299,183 人阅读">由12306.cn谈谈网站性能技术</a></li><li><a href="8883.html" title="应该知道的Linux技巧 - 297,088 人阅读">应该知道的Linux技巧</a></li><li><a href="17416.html" title="缓存更新的套路 - 293,754 人阅读">缓存更新的套路</a></li><li><a href="10910.html" title="分布式系统的事务处理 - 284,751 人阅读">分布式系统的事务处理</a></li><li><a href="11609.html" title="TCP 的那些事儿（下） - 284,602 人阅读">TCP 的那些事儿（下）</a></li><li><a href="2250.html" title="&ldquo;21天教你学会C++&rdquo; - 279,010 人阅读">&ldquo;21天教你学会C++&rdquo;</a></li><li><a href="8239.html" title="无锁队列的实现 - 274,472 人阅读">无锁队列的实现</a></li><li><a href="20276.html" title="别让自己&ldquo;墙&rdquo;了自己 - 273,073 人阅读">别让自己&ldquo;墙&rdquo;了自己</a></li><li><a href="10739.html" title="Lua简明教程 - 269,517 人阅读">Lua简明教程</a></li><li><a href="7490.html" title="性能调优攻略 - 257,402 人阅读">性能调优攻略</a></li><li><a href="1846.html" title="MySQL性能优化的最佳20+条经验 - 255,954 人阅读">MySQL性能优化的最佳20+条经验</a></li><li><a href="4758.html" title="如何写出无法维护的代码 - 254,444 人阅读">如何写出无法维护的代码</a></li><li><a href="914.html" title="6个变态的C语言Hello World程序 - 251,972 人阅读">6个变态的C语言Hello World程序</a></li><li><a href="17010.html" title="Docker基础技术：Linux Namespace（上） - 241,934 人阅读">Docker基础技术：Linux Namespace（上）</a></li><li><a href="7829.html" title="28个Unix/Linux的命令行神器 - 241,335 人阅读">28个Unix/Linux的命令行神器</a></li><li><a href="11312.html" title="无插件Vim编程技巧 - 222,945 人阅读">无插件Vim编程技巧</a></li></ul>
 </aside><aside id="categories-367921425" class="widget widget_categories"><h4 class="widget-title">分类</h4>
 <ul>
 <li class="cat-item cat-item-195"><a href="../category/itnews.html">业界新闻</a> (33)
@@ -1378,17 +1364,17 @@ Pingback： <a href="http://www.codeba.cc/resin%e6%9c%8d%e5%8a%a1%e5%99%a8getres
 <li><a href="date/2004/06.html">2004年6月</a>&nbsp;(1)</li>
 </ul>
 </aside><aside id="custom_html-8" class="widget_text widget widget_custom_html"><h4 class="widget-title">友情链接</h4><div class="textwidget custom-html-widget"><ul class="blogroll">
-<li><a href="http://blog.csdn.net/haoel" target="_blank" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/blog.csdn.net/haoel?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-82f5edc7ff6d66667178f013->陈皓的博客</a></li>
-<li><a href="http://ifeve.com/" target="_blank" title="促进并发编程的研究和推广" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/ifeve.com/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-82f5edc7ff6d66667178f013->并发编程</a></li>
-<li><a href="http://www.raychase.net/" target="_blank" title="一个啰嗦的程序员" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.raychase.net/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-82f5edc7ff6d66667178f013->四火的唠叨</a></li>
-<li><a href="http://www.cnblogs.com/weidagang2046/" target="_blank" title="Just for Fun" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cnblogs.com/weidagang2046/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-82f5edc7ff6d66667178f013->Todd Wei的Blog</a></li>
-<li><a href="http://www.hellogcc.org/" target="_blank" title="致力于讨论和学习GNU Toolchain方面的工作组" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.hellogcc.org//?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-82f5edc7ff6d66667178f013->开源开发工具技术博客</a></li>
-<li><a href="http://www.cppfans.org/" target="_blank" title="记录我们点滴学习工作生活" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cppfans.org/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-82f5edc7ff6d66667178f013->C++爱好者博客</a></li>
-<li><a href="https://HelloACM.com/" target="_blank" title="Smart Ideas, Smart Algorithms" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://HelloACM.com/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-82f5edc7ff6d66667178f013->ACMer</a></li>
+<li><a href="http://blog.csdn.net/haoel" target="_blank" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/blog.csdn.net/haoel?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-cb6e3f102772c322d3f4f2ce->陈皓的博客</a></li>
+<li><a href="http://ifeve.com/" target="_blank" title="促进并发编程的研究和推广" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/ifeve.com/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-cb6e3f102772c322d3f4f2ce->并发编程</a></li>
+<li><a href="http://www.raychase.net/" target="_blank" title="一个啰嗦的程序员" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.raychase.net/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-cb6e3f102772c322d3f4f2ce->四火的唠叨</a></li>
+<li><a href="http://www.cnblogs.com/weidagang2046/" target="_blank" title="Just for Fun" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cnblogs.com/weidagang2046/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-cb6e3f102772c322d3f4f2ce->Todd Wei的Blog</a></li>
+<li><a href="http://www.hellogcc.org/" target="_blank" title="致力于讨论和学习GNU Toolchain方面的工作组" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.hellogcc.org//?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-cb6e3f102772c322d3f4f2ce->开源开发工具技术博客</a></li>
+<li><a href="http://www.cppfans.org/" target="_blank" title="记录我们点滴学习工作生活" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cppfans.org/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-cb6e3f102772c322d3f4f2ce->C++爱好者博客</a></li>
+<li><a href="https://HelloACM.com/" target="_blank" title="Smart Ideas, Smart Algorithms" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://HelloACM.com/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-cb6e3f102772c322d3f4f2ce->ACMer</a></li>
 </ul>
 </div></aside><aside id="meta-5" class="widget widget_meta"><h4 class="widget-title">其他操作</h4>
 <ul>
-<li><a href="../wp-login.php%EF%B9%96action=register.html">注册</a></li> <li><a href="../wp-login.php.html">登录</a></li>
+<li><a href="https://coolshell.cn/wp-login.php">登录</a></li>
 <li><a href="../feed.rss">条目feed</a></li>
 <li><a href="../comments/feed.rss">评论feed</a></li>
 <li><a href="https://cn.wordpress.org/">WordPress.org</a></li>
@@ -1396,7 +1382,7 @@ Pingback： <a href="http://www.codeba.cc/resin%e6%9c%8d%e5%8a%a1%e5%99%a8getres
 </aside></div>
 </div> 
 </div>
-<script type="82f5edc7ff6d66667178f013-text/javascript">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript">
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-7486123-1']);
 _gaq.push(['_trackPageview']);
@@ -1419,43 +1405,43 @@ Based on Theme: Nisarg by <a href="http://www.falgunidesai.com/" rel="designer">
 </div>
 </footer>
 </div>
-<script type="82f5edc7ff6d66667178f013-text/javascript" id="wp-postratings-js-extra">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" id="wp-postratings-js-extra">
 /* <![CDATA[ */
 var ratingsL10n = {"plugin_url":"https:\/\/coolshell.cn\/wp-content\/plugins\/wp-postratings","ajax_url":"https:\/\/coolshell.cn\/wp-admin\/admin-ajax.php","text_wait":"Please rate only 1 item at a time.","image":"stars_crystal","image_ext":"gif","max":"5","show_loading":"1","show_fading":"1","custom":"0"};
 var ratings_mouseover_image=new Image();ratings_mouseover_image.src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_over.gif";;
 /* ]]> */
 </script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/wp-postratings/js/postratings-js%EF%B9%96ver=1.90.1.js" id="wp-postratings-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" id="wp-postviews-cache-js-extra">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/wp-postratings/js/postratings-js%EF%B9%96ver=1.90.1.js" id="wp-postratings-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" id="wp-postviews-cache-js-extra">
 /* <![CDATA[ */
-var viewsCacheL10n = {"admin_ajax_url":"https:\/\/coolshell.cn\/wp-admin\/admin-ajax.php","nonce":"b49fdb969c","post_id":"6112"};
+var viewsCacheL10n = {"admin_ajax_url":"https:\/\/coolshell.cn\/wp-admin\/admin-ajax.php","nonce":"b67a75892f","post_id":"6112"};
 /* ]]> */
 </script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/wp-postviews/postviews-cache%EF%B9%96ver=1.68.js" id="wp-postviews-cache-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/themes/MyNisarg/js/bootstrap%EF%B9%96ver=6.2.js" id="bootstrap-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/themes/MyNisarg/js/skip-link-focus-fix%EF%B9%96ver=20130115.js" id="nisarg-skip-link-focus-fix-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/themes/MyNisarg/js/nisarg%EF%B9%96ver=6.2.js" id="nisarg-js-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-includes/js/comment-reply.min%EF%B9%96ver=6.2.js" id="comment-reply-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" id="q2w3_fixed_widget-js-extra">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/wp-postviews/postviews-cache%EF%B9%96ver=1.68.js" id="wp-postviews-cache-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/themes/MyNisarg/js/bootstrap%EF%B9%96ver=6.2.js" id="bootstrap-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/themes/MyNisarg/js/skip-link-focus-fix%EF%B9%96ver=20130115.js" id="nisarg-skip-link-focus-fix-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/themes/MyNisarg/js/nisarg%EF%B9%96ver=6.2.js" id="nisarg-js-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-includes/js/comment-reply.min%EF%B9%96ver=6.2.js" id="comment-reply-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" id="q2w3_fixed_widget-js-extra">
 /* <![CDATA[ */
 var q2w3_sidebar_options = [{"use_sticky_position":false,"margin_top":50,"margin_bottom":0,"stop_elements_selectors":"","screen_max_width":0,"screen_max_height":0,"widgets":[]}];
 /* ]]> */
 </script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/q2w3-fixed-widget/js/frontend.min%EF%B9%96ver=6.2.3.js" id="q2w3_fixed_widget-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/enlighter/cache/enlighterjs.min%EF%B9%96ver=0cuVQBPCj0viGB0.js" id="enlighterjs-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" id="enlighterjs-js-after">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/q2w3-fixed-widget/js/frontend.min%EF%B9%96ver=6.2.3.js" id="q2w3_fixed_widget-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/enlighter/cache/enlighterjs.min%EF%B9%96ver=0cuVQBPCj0viGB0.js" id="enlighterjs-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" id="enlighterjs-js-after">
 !function(e,n){if("undefined"!=typeof EnlighterJS){var o={"selectors":{"block":"pre.EnlighterJSRAW","inline":"code.EnlighterJSRAW"},"options":{"indent":2,"ampersandCleanup":true,"linehover":true,"rawcodeDbclick":true,"textOverflow":"scroll","linenumbers":true,"theme":"wpcustom","language":"generic","retainCssClasses":false,"collapse":false,"toolbarOuter":"","toolbarTop":"{BTN_RAW}{BTN_COPY}{BTN_WINDOW}{BTN_WEBSITE}","toolbarBottom":""}};(e.EnlighterJSINIT=function(){EnlighterJS.init(o.selectors.block,o.selectors.inline,o.options)})()}else{(n&&(n.error||n.log)||function(){})("Error: EnlighterJS resources not loaded yet!")}}(window,console);
 </script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/easy-table-of-contents/vendor/js-cookie/js.cookie.min%EF%B9%96ver=2.2.1.js" id="ez-toc-js-cookie-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/easy-table-of-contents/vendor/sticky-kit/jquery.sticky-kit.min%EF%B9%96ver=1.9.2.js" id="ez-toc-jquery-sticky-kit-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" id="ez-toc-js-js-extra">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/easy-table-of-contents/vendor/js-cookie/js.cookie.min%EF%B9%96ver=2.2.1.js" id="ez-toc-js-cookie-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/easy-table-of-contents/vendor/sticky-kit/jquery.sticky-kit.min%EF%B9%96ver=1.9.2.js" id="ez-toc-jquery-sticky-kit-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" id="ez-toc-js-js-extra">
 /* <![CDATA[ */
 var ezTOC = {"smooth_scroll":"1","scroll_offset":"30","fallbackIcon":"<span style=\"display: flex;align-items: center;width: 35px;height: 30px;justify-content: center;direction:ltr;\"><svg style=\"fill: #999;color:#999\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" class=\"list-377408\" width=\"20px\" height=\"20px\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z\" fill=\"currentColor\"><\/path><\/svg><svg style=\"fill: #999;color:#999\" class=\"arrow-unsorted-368013\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" width=\"10px\" height=\"10px\" viewBox=\"0 0 24 24\" version=\"1.2\" baseProfile=\"tiny\"><path d=\"M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z\"\/><\/svg><\/span>"};
 /* ]]> */
 </script>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/easy-table-of-contents/assets/js/front.min%EF%B9%96ver=2.0.48-1683606477.js" id="ez-toc-js-js"></script>
-<script defer type="82f5edc7ff6d66667178f013-text/javascript" src="../wp-content/plugins/akismet/_inc/akismet-frontend%EF%B9%96ver=1683523750.js" id="akismet-frontend-js"></script>
-<script type="82f5edc7ff6d66667178f013-text/javascript">
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/easy-table-of-contents/assets/js/front.min%EF%B9%96ver=2.0.48-1683606477.js" id="ez-toc-js-js"></script>
+<script defer type="cb6e3f102772c322d3f4f2ce-text/javascript" src="../wp-content/plugins/akismet/_inc/akismet-frontend%EF%B9%96ver=1683523750.js" id="akismet-frontend-js"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript">
         jQuery(document).ready(function ($) {
 
             for (let i = 0; i < document.forms.length; ++i) {
@@ -1487,9 +1473,10 @@ data.data.append("rfNmPJFxZlE", "PcJd0F3kneCMpW");
 
         });
     </script>
-<script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="82f5edc7ff6d66667178f013-|49" defer></script></body>
+<script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="cb6e3f102772c322d3f4f2ce-|49" defer></script></body>
 </html>
-<script type="82f5edc7ff6d66667178f013-text/javascript" src="https://cdn.jsdelivr.net/gh/haoel/anti-baidu/js/anti-baidu-latest.min.js" charset="UTF-8"></script>
+<script type="cb6e3f102772c322d3f4f2ce-text/javascript" src="https://cdn.jsdelivr.net/gh/haoel/anti-baidu/js/anti-baidu-latest.min.js" charset="UTF-8"></script>
+
 
 
 

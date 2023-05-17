@@ -13,7 +13,6 @@
 <link rel="pingback" href="https://coolshell.cn/xmlrpc.php" />
 <link rel="shortcut icon" href="../favicon.png">
 <title>Docker基础技术：Linux Namespace（上） | 酷 壳 - CoolShell</title>
-
 <meta name="robots" content="max-image-preview:large" />
 <meta name="keywords" content="docker,linux,mount,namespace,unix/linux" />
 <link rel="canonical" href="17010.html" />
@@ -33,18 +32,17 @@
 <script type="application/ld+json" class="aioseo-schema">
 			{"@context":"https:\/\/schema.org","@graph":[{"@type":"Article","@id":"https:\/\/coolshell.cn\/articles\/17010.html#article","name":"Docker\u57fa\u7840\u6280\u672f\uff1aLinux Namespace\uff08\u4e0a\uff09 | \u9177 \u58f3 - CoolShell","headline":"Docker\u57fa\u7840\u6280\u672f\uff1aLinux Namespace\uff08\u4e0a\uff09","author":{"@id":"https:\/\/coolshell.cn\/articles\/author\/haoel#author"},"publisher":{"@id":"https:\/\/coolshell.cn\/#organization"},"image":{"@type":"ImageObject","url":"https:\/\/coolshell.cn\/wp-content\/uploads\/2015\/04\/isolation.jpg","@id":"https:\/\/coolshell.cn\/#articleImage","width":359,"height":237},"datePublished":"2015-04-16T02:20:08+08:00","dateModified":"2020-07-07T03:55:29+08:00","inLanguage":"zh-CN","commentCount":113,"mainEntityOfPage":{"@id":"https:\/\/coolshell.cn\/articles\/17010.html#webpage"},"isPartOf":{"@id":"https:\/\/coolshell.cn\/articles\/17010.html#webpage"},"articleSection":"Unix\/Linux, Docker, Linux, Mount, Namespace"},{"@type":"BreadcrumbList","@id":"https:\/\/coolshell.cn\/articles\/17010.html#breadcrumblist","itemListElement":[{"@type":"ListItem","@id":"https:\/\/coolshell.cn\/#listItem","position":1,"item":{"@type":"WebPage","@id":"https:\/\/coolshell.cn\/","name":"\u4e3b\u9801","description":"\u4eab\u53d7\u7f16\u7a0b\u548c\u6280\u672f\u6240\u5e26\u6765\u7684\u5feb\u4e50 \u2013 https:\/\/coolshell.cn","url":"https:\/\/coolshell.cn\/"}}]},{"@type":"Organization","@id":"https:\/\/coolshell.cn\/#organization","name":"\u9177\u58f3-CoolShell","url":"https:\/\/coolshell.cn\/","logo":{"@type":"ImageObject","url":"https:\/\/coolshell.cn\/wp-content\/uploads\/2020\/04\/mini.logo_.png","@id":"https:\/\/coolshell.cn\/#organizationLogo","width":306,"height":306},"image":{"@id":"https:\/\/coolshell.cn\/#organizationLogo"}},{"@type":"Person","@id":"https:\/\/coolshell.cn\/articles\/author\/haoel#author","url":"https:\/\/coolshell.cn\/articles\/author\/haoel","name":"\u9648\u7693","image":{"@type":"ImageObject","@id":"https:\/\/coolshell.cn\/articles\/17010.html#authorImage","url":"https:\/\/secure.gravatar.com\/avatar\/af2fbb7372dd5826e44d87e6ceccea40?s=96&d=mm&r=g","width":96,"height":96,"caption":"\u9648\u7693"}},{"@type":"WebPage","@id":"https:\/\/coolshell.cn\/articles\/17010.html#webpage","url":"https:\/\/coolshell.cn\/articles\/17010.html","name":"Docker\u57fa\u7840\u6280\u672f\uff1aLinux Namespace\uff08\u4e0a\uff09 | \u9177 \u58f3 - CoolShell","inLanguage":"zh-CN","isPartOf":{"@id":"https:\/\/coolshell.cn\/#website"},"breadcrumb":{"@id":"https:\/\/coolshell.cn\/articles\/17010.html#breadcrumblist"},"author":{"@id":"https:\/\/coolshell.cn\/articles\/author\/haoel#author"},"creator":{"@id":"https:\/\/coolshell.cn\/articles\/author\/haoel#author"},"datePublished":"2015-04-16T02:20:08+08:00","dateModified":"2020-07-07T03:55:29+08:00"},{"@type":"WebSite","@id":"https:\/\/coolshell.cn\/#website","url":"https:\/\/coolshell.cn\/","name":"\u9177 \u58f3 - CoolShell","description":"\u4eab\u53d7\u7f16\u7a0b\u548c\u6280\u672f\u6240\u5e26\u6765\u7684\u5feb\u4e50 - Coding Your Ambition","inLanguage":"zh-CN","publisher":{"@id":"https:\/\/coolshell.cn\/#organization"}}]}
 		</script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript">
+<script type="d655cc6dfc58c20de28261b9-text/javascript">
 			window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
 			ga('create', "UA-7486123-1", { 'cookieDomain': 'coolshell.cn' } );
 			ga('send', 'pageview');
 		</script>
-<script async src="https://www.google-analytics.com/analytics.js" type="fd07e1824c3d11dd96d96086-text/javascript"></script>
-
+<script async src="https://www.google-analytics.com/analytics.js" type="d655cc6dfc58c20de28261b9-text/javascript"></script>
 <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
 <link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell &raquo; Feed" href="../feed.rss" />
 <link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell &raquo; 评论Feed" href="../comments/feed.rss" />
 <link rel="alternate" type="application/rss+xml" title="酷 壳 - CoolShell &raquo; Docker基础技术：Linux Namespace（上）评论Feed" href="https://coolshell.cn/articles/17010.html/feed" />
-<script type="fd07e1824c3d11dd96d96086-text/javascript">
+<script type="d655cc6dfc58c20de28261b9-text/javascript">
 window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/coolshell.cn\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.2"}};
 /*! This file is auto-generated */
 !function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){p.clearRect(0,0,i.width,i.height),p.fillText(e,0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(t,0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(p&&p.fillText)switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s("\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!s("\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!s("\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!s("\ud83e\udef1\ud83c\udffb\u200d\ud83e\udef2\ud83c\udfff","\ud83e\udef1\ud83c\udffb\u200b\ud83e\udef2\ud83c\udfff")}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(e=t.source||{}).concatemoji?c(e.concatemoji):e.wpemoji&&e.twemoji&&(c(e.twemoji),c(e.wpemoji)))}(window,document,window._wpemojiSettings);
@@ -202,10 +200,10 @@ img.emoji {
 <link rel="stylesheet" id="font-awesome-css" href="../wp-content/themes/MyNisarg/font-awesome/css/font-awesome.min%EF%B9%96ver=6.2.css" type="text/css" media="all" />
 <link rel="stylesheet" id="nisarggooglefonts-css" href="https://fonts.googleapis.com/css?family=Lato:400,300italic,700%7CSource+Sans+Pro:400,400italic" type="text/css" media="all" />
 <link rel="stylesheet" id="enlighterjs-css" href="../wp-content/plugins/enlighter/cache/enlighterjs.min%EF%B9%96ver=0cuVQBPCj0viGB0.css" type="text/css" media="all" />
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-includes/js/jquery/jquery.min%EF%B9%96ver=3.6.3.js" id="jquery-core-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-includes/js/jquery/jquery-migrate.min%EF%B9%96ver=3.4.0.js" id="jquery-migrate-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/simple-post-series/autohide%EF%B9%96ver=2.4.js" id="series-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" id="ez-toc-scroll-scriptjs-js-after">
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-includes/js/jquery/jquery.min%EF%B9%96ver=3.6.3.js" id="jquery-core-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-includes/js/jquery/jquery-migrate.min%EF%B9%96ver=3.4.0.js" id="jquery-migrate-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/simple-post-series/autohide%EF%B9%96ver=2.4.js" id="series-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" id="ez-toc-scroll-scriptjs-js-after">
 jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").forEach(t=>{t.setAttribute("ez-toc-data-id","#"+decodeURI(t.getAttribute("id")))}),jQuery("a.ez-toc-link").click(function(){let t=jQuery(this).attr("href"),e=jQuery("#wpadminbar"),i=0;30>30&&(i=30),e.length&&(i+=e.height()),jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').length>0&&(i=jQuery('[ez-toc-data-id="'+decodeURI(t)+'"]').offset().top-i),jQuery("html, body").animate({scrollTop:i},500)})});
 </script>
 <!--[if lt IE 9]>
@@ -217,7 +215,7 @@ jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").f
 <link rel="shortlink" href="17010.html" />
 <link rel="alternate" type="application/json+oembed" href="../wp-json/oembed/1.0/embed%EF%B9%96url=https%EF%B9%95%EA%A4%B7%EA%A4%B7coolshell.cn%EA%A4%B7articles%EA%A4%B717010.html.json" />
 <link rel="alternate" type="text/xml+oembed" href="../wp-json/oembed/1.0/embed%EF%B9%96url=https%EF%B9%95%EA%A4%B7%EA%A4%B7coolshell.cn%EA%A4%B7articles%EA%A4%B717010.html&amp;format=xml.xml" />
-<script type="fd07e1824c3d11dd96d96086-text/javascript">
+<script type="d655cc6dfc58c20de28261b9-text/javascript">
 	window._wp_rp_static_base_url = 'https://wprp.zemanta.com/static/';
 	window._wp_rp_wp_ajax_url = "https://coolshell.cn/wp-admin/admin-ajax.php";
 	window._wp_rp_plugin_version = '3.6.4';
@@ -225,19 +223,18 @@ jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").f
 	window._wp_rp_num_rel_posts = '6';
 	window._wp_rp_thumbnails = true;
 	window._wp_rp_post_title = 'Docker%E5%9F%BA%E7%A1%80%E6%8A%80%E6%9C%AF%EF%BC%9ALinux+Namespace%EF%BC%88%E4%B8%8A%EF%BC%89';
-	window._wp_rp_post_tags = ['linux', 'namespace', 'docker', 'mount', 'unix%2Flinux', 'null', 'insid', 'li', 'clone', 'start', 'char', 'shell', 'main', 'int', 'linux', 'return', '1m', 'ba', 'defin', 'a'];
+	window._wp_rp_post_tags = ['linux', 'namespace', 'docker', 'mount', 'unix%2Flinux', 'start', 'char', 'shell', 'main', 'int', 'linux', 'return', '1m', 'ba', 'defin', 'a', 'null', 'insid', 'li', 'clone'];
 	window._wp_rp_promoted_content = true;
 </script>
 <link rel="stylesheet" href="../wp-content/plugins/wordpress-23-related-posts-plugin/static/themes/vertical-m%EF%B9%96version=3.6.4.css" />
 <style type="text/css">.site-header { background: #1d2b2d; }
 </style>
 </head>
-<body class="post-template-default single single-post postid-17010 single-format-standard group-blog">
+<body class="post-template-default single single-post postid-17010 single-format-standard group-blog"><div id=cf_alert_div><style>#cf_alert_div{margin:0 0 5px;padding:0;position:relative;top:0;left:0;display:block;z-index:99999;background-color:#f7f7f8;box-shadow:0 5px 5px rgba(0,0,0,.25)}#cf_alert_div a,#cf_alert_div a:visited{text-decoration:none;color:#276d9b;font-weight:600}#cf_alert_div strong{font-weight:600}#cf_alert_div table{width:100%}#cf_alert_div table td{vertical-align:middle}#cf_alert_div p{margin:0;padding:0;max-width:1100px}#cf_alert_div .wrapper{padding:0;margin:0;text-align:left;font-family:-apple-system,system-ui,BlinkMacSystemFont,segoe ui,Roboto,Oxygen,Ubuntu,helvetica neue,Arial,sans-serif;font-weight:400;font-style:normal;font-size:12px;padding:16px 3.334%}#cf_alert_div .wrapper td.refresh{text-align:center;min-width:140px}#cf_alert_div .wrapper td.refresh a{display:inline-block;padding:8px 24px;border:1.5px solid #276d9b;border-radius:5px;margin-right:20px}#cf_alert_div .wrapper td.content{position:relative;padding-right:25px;color:#1d1f20;font-size:14px;max-width:900px}#cf_alert_div .wrapper .x{position:absolute;top:0;right:-12.5px;height:25px;width:25px;cursor:pointer}#cf_alert_div .wrapper .x .line{display:block;height:15px;width:3px;position:absolute;top:5px;left:11px;background:#4e5255}#cf_alert_div .wrapper .x .line:first-of-type{transform:rotate(135deg)}#cf_alert_div .wrapper .x .line:last-of-type{transform:rotate(45deg)}</style><div class=wrapper><table><tr><td class=refresh><a href=# onclick="document.cookie='cf_use_ob=0;path=/';window.location.reload();return false;">Refresh</a><noscript style="margin:10px 0 10px 0;padding:0;font:12px Helvetica,Arial,sans-serif;color:#404040;display:block">(Enable JavaScript first.)</noscript></td><td class=content><p>This website <strong>coolshell.cn/articles/17010.html</strong> is currently offline. <a href=https://www.cloudflare.com/always-online/ target=_blank>Cloudflare's Always Online&trade;</a> shows a snapshot of this web page from the <a href=https://archive.org/web/ target=_blank>Internet Archive's Wayback Machine</a>. To check for the live version, click <strong>Refresh</strong>.</p><a class=x href="javascript:void(null);" onclick="document.getElementById('cf_alert_div').style.display='none';"><span class=line></span> <span class=line></span></a></td></tr></table></div></div><div id="cf_alert_div"><style>#cf_alert_div{margin:0 0 5px;padding:0;position:relative;top:0;left:0;display:block;z-index:99999;background-color:#f7f7f8;box-shadow:0 5px 5px rgba(0,0,0,.25)}#cf_alert_div a,#cf_alert_div a:visited{text-decoration:none;color:#276d9b;font-weight:600}#cf_alert_div strong{font-weight:600}#cf_alert_div table{width:100%}#cf_alert_div table td{vertical-align:middle}#cf_alert_div p{margin:0;padding:0;max-width:1100px}#cf_alert_div .wrapper{padding:0;margin:0;text-align:left;font-family:-apple-system,system-ui,BlinkMacSystemFont,segoe ui,Roboto,Oxygen,Ubuntu,helvetica neue,Arial,sans-serif;font-weight:400;font-style:normal;font-size:12px;padding:16px 3.334%}#cf_alert_div .wrapper td.refresh{text-align:center;min-width:140px}#cf_alert_div .wrapper td.refresh a{display:inline-block;padding:8px 24px;border:1.5px solid #276d9b;border-radius:5px;margin-right:20px}#cf_alert_div .wrapper td.content{position:relative;padding-right:25px;color:#1d1f20;font-size:14px;max-width:900px}#cf_alert_div .wrapper .x{position:absolute;top:0;right:-12.5px;height:25px;width:25px;cursor:pointer}#cf_alert_div .wrapper .x .line{display:block;height:15px;width:3px;position:absolute;top:5px;left:11px;background:#4e5255}#cf_alert_div .wrapper .x .line:first-of-type{transform:rotate(135deg)}#cf_alert_div .wrapper .x .line:last-of-type{transform:rotate(45deg)}</style><div class="wrapper"><table><tr><td class="refresh"><a href="#" onclick="if (!window.__cfRLUnblockHandlers) return false; document.cookie='cf_use_ob=0;path=/';window.location.reload();return false;" data-cf-modified-d655cc6dfc58c20de28261b9->Refresh</a><noscript style="margin:10px 0 10px 0;padding:0;font:12px Helvetica,Arial,sans-serif;color:#404040;display:block">(Enable JavaScript first.)</noscript></td><td class="content"><p>This website <strong>coolshell.cn/articles/17010.html</strong> is currently offline. <a href="https://www.cloudflare.com/always-online/" target="_blank">Cloudflare's Always Online&trade;</a> shows a snapshot of this web page from the <a href="https://archive.org/web/" target="_blank">Internet Archive's Wayback Machine</a>. To check for the live version, click <strong>Refresh</strong>.</p><a class="x" href="javascript:void(null);" onclick="if (!window.__cfRLUnblockHandlers) return false; document.getElementById('cf_alert_div').style.display='none';" data-cf-modified-d655cc6dfc58c20de28261b9-><span class="line"></span> <span class="line"></span></a></td></tr></table></div></div>
 <link rel="stylesheet" id="nisarg-style-css" href="../wp-content/themes/MyNisarg/style.css" type="text/css" media="all">
 <div id="page" class="hfeed site">
 <header id="masthead" role="banner">
 <nav class="navbar navbar-default navbar-fixed-top navbar-left" role="navigation">
-
 <div class="container" id="navigation_menu">
 <div class="navbar-header">
 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -295,11 +292,11 @@ jQuery(document).ready(function(){document.querySelectorAll(".ez-toc-section").f
 <h1 class="entry-title">Docker基础技术：Linux Namespace（上）</h1>
 <div class="entry-meta">
 <h5 class="entry-date"><i class="fa fa-calendar-o"></i> <a href="17010.html" title="10:20" rel="bookmark"><time class="entry-date" datetime="2015-04-16T10:20:08+08:00" pubdate>2015年04月16日 </time></a><span class="byline"><span class="sep"></span><i class="fa fa-user"></i>
-<span class="author vcard"><a class="url fn n" href="author/haoel.html" title="View all posts by 陈皓" rel="author">陈皓</a></span></span> <i class="fa fa-comments-o"></i><span class="screen-reader-text">评论 </span> <a href="#comments" class="comments-link">113 条评论</a> <i class="fa fa-users" style="margin-left:10px;"></i> 241,648 人阅读</h5>
+<span class="author vcard"><a class="url fn n" href="author/haoel.html" title="View all posts by 陈皓" rel="author">陈皓</a></span></span> <i class="fa fa-comments-o"></i><span class="screen-reader-text">评论 </span> <a href="#comments" class="comments-link">113 条评论</a> <i class="fa fa-users" style="margin-left:10px;"></i> 241,411 人阅读</h5>
 </div>
 </header>
 <div class="entry-content">
-<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158" crossorigin="anonymous" type="fd07e1824c3d11dd96d96086-text/javascript"></script><img decoding="async" class="alignright size-full wp-image-17085" src="../wp-content/uploads/2015/04/isolation.jpg" alt="isolation" width="359" height="237" srcset="../wp-content/uploads/2015/04/isolation.jpg 359w, ../wp-content/uploads/2015/04/isolation-300x198.jpg 300w" sizes="(max-width: 359px) 100vw, 359px" />时下最热的技术莫过于Docker了，很多人都觉得Docker是个新技术，其实不然，Docker除了其编程语言用go比较新外，其实它还真不是个新东西，也就是个新瓶装旧酒的东西，所谓的The New &#8220;Old Stuff&#8221;。Docker和Docker衍生的东西用到了很多很酷的技术，我会用几篇 文章来把这些技术给大家做个介绍，希望通过这些文章大家可以自己打造一个山寨版的docker。</p>
+<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158" crossorigin="anonymous" type="d655cc6dfc58c20de28261b9-text/javascript"></script><img decoding="async" class="alignright size-full wp-image-17085" src="../wp-content/uploads/2015/04/isolation.jpg" alt="isolation" width="359" height="237" srcset="../wp-content/uploads/2015/04/isolation.jpg 359w, ../wp-content/uploads/2015/04/isolation-300x198.jpg 300w" sizes="(max-width: 359px) 100vw, 359px" />时下最热的技术莫过于Docker了，很多人都觉得Docker是个新技术，其实不然，Docker除了其编程语言用go比较新外，其实它还真不是个新东西，也就是个新瓶装旧酒的东西，所谓的The New &#8220;Old Stuff&#8221;。Docker和Docker衍生的东西用到了很多很酷的技术，我会用几篇 文章来把这些技术给大家做个介绍，希望通过这些文章大家可以自己打造一个山寨版的docker。</p>
 <p>当然，文章的风格一定会尊重时下的“流行”——<strong>我们再也没有整块整块的时间去看书去专研，而我们只有看微博微信那样的碎片时间</strong>（那怕我们有整块的时间，也被那些在手机上的APP碎片化了）。所以，这些文章的风格必然坚持“马桶风格”（希望简单到占用你拉一泡屎就时间，而且你还不用动脑子，并能学到些东西）</p>
 <p>废话少说，我们开始。先从Linux Namespace开始。</p>
 <div id="ez-toc-container" class="ez-toc-v2_0_48 counter-hierarchy ez-toc-counter ez-toc-grey ez-toc-container-direction">
@@ -422,12 +419,12 @@ int main()
     return 0;
 }</pre>
 <pre>运行上面的程序你会发现（需要root权限），子进程的hostname变成了 container。</pre>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="40282328252e003522352e3435">[email&#160;protected]</a>:~$ sudo ./uts
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="452d262d202b053027302b3130">[email&#160;protected]</a>:~$ sudo ./uts
 Parent - start a container!
 Container - inside the container!
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="51233e3e2511323e3f2530383f3423">[email&#160;protected]</a>:~# hostname
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="e5978a8a91a5868a8b91848c8b8097">[email&#160;protected]</a>:~# hostname
 container
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="ccbea3a3b88cafa3a2b8ada5a2a9be">[email&#160;protected]</a>:~# uname -n
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="592b36362d193a36372d3830373c2b">[email&#160;protected]</a>:~# uname -n
 container</pre>
 <h4><span class="ez-toc-section" id="IPC_Namespace"></span>IPC Namespace<span class="ez-toc-section-end"></span></h4>
 <p>IPC全称 Inter-Process Communication，是Unix/Linux下进程间通信的一种方式，IPC有共享内存、信号量、消息队列等方法。所以，为了隔离，我们也需要把IPC给隔离开来，这样，只有在同一个Namespace下的进程才能相互通信。如果你熟悉IPC的原理的话，你会知道，IPC需要有一个全局的ID，即然是全局的，那么就意味着我们的Namespace需要对这个ID隔离，不能让别的Namespace的进程看到。</p>
@@ -435,37 +432,36 @@ container</pre>
 <pre class="EnlighterJSRAW" data-enlighter-language="c">int container_pid = clone(container_main, container_stack+STACK_SIZE, 
             CLONE_NEWUTS | CLONE_NEWIPC | SIGCHLD, NULL);</pre>
 <p>首先，我们先创建一个IPC的Queue（如下所示，全局的Queue ID是0）</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="630b000b060d231601160d1716">[email&#160;protected]</a>:~$ ipcmk -Q 
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="94fcf7fcf1fad4e1f6e1fae0e1">[email&#160;protected]</a>:~$ ipcmk -Q 
 Message queue id: 0
 
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="0d656e6568634d786f78637978">[email&#160;protected]</a>:~$ ipcs -q
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="81e9e2e9e4efc1f4e3f4eff5f4">[email&#160;protected]</a>:~$ ipcs -q
 ------ Message Queues --------
 key        msqid      owner      perms      used-bytes   messages    
 0xd0d56eb2 0          hchen      644        0            0</pre>
 <p>如果我们运行没有CLONE_NEWIPC的程序，我们会看到，在子进程中还是能看到这个全启的IPC Queue。</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="640c070c010a241106110a1011">[email&#160;protected]</a>:~$ sudo ./uts 
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="d5bdb6bdb0bb95a0b7a0bba1a0">[email&#160;protected]</a>:~$ sudo ./uts 
 Parent - start a container!
 Container - inside the container!
 
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="c8baa7a7bc88aba7a6bca9a1a6adba">[email&#160;protected]</a>:~# ipcs -q
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="0d7f6262794d6e6263796c6463687f">[email&#160;protected]</a>:~# ipcs -q
 
 ------ Message Queues --------
 key        msqid      owner      perms      used-bytes   messages    
 0xd0d56eb2 0          hchen      644        0            0</pre>
 <p>但是，如果我们运行加上了CLONE_NEWIPC的程序，我们就会下面的结果：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="1b6974746f5b6e796e756f6e">[email&#160;protected]</a>:~$ sudo./ipc
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="cab8a5a5be8abfa8bfa4bebf">[email&#160;protected]</a>:~$ sudo./ipc
 Parent - start a container!
 Container - inside the container!
 
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="24564b4b5064474b4a50454d4a4156">[email&#160;protected]</a>:~/linux_namespace# ipcs -q
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="b2c0ddddc6f2d1dddcc6d3dbdcd7c0">[email&#160;protected]</a>:~/linux_namespace# ipcs -q
 
 ------ Message Queues --------
 key        msqid      owner      perms      used-bytes   messages</pre>
 <p>我们可以看到IPC已经被隔离了。</p>
 <h4><span class="ez-toc-section" id="PID_Namespace"></span>PID Namespace<span class="ez-toc-section-end"></span></h4>
 <p>我们继续修改上面的程序：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="c" data-enlighter-highlight="4,16">
-int container_main(void* arg)
+<pre class="EnlighterJSRAW" data-enlighter-language="c" data-enlighter-highlight="4,16">int container_main(void* arg)
 {
     /* 查看子进程的PID，我们可以看到其输出子进程的 pid 为 1 */
     printf("Container [%5d] - inside the container!\n", getpid());
@@ -486,11 +482,10 @@ int main()
     return 0;
 }</pre>
 <p>运行结果如下（我们可以看到，子进程的pid是1了）：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell">
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="224a414a474c625740574c5657">[email&#160;protected]</a>:~$ sudo ./pid
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="cea6ada6aba08ebbacbba0babb">[email&#160;protected]</a>:~$ sudo ./pid
 Parent [ 3474] - start a container!
 Container [ 1] - inside the container!
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="1d6f7272695d7e7273697c7473786f">[email&#160;protected]</a>:~# echo $$
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="c5b7aaaab185a6aaabb1a4acaba0b7">[email&#160;protected]</a>:~# echo $$
 1</pre>
 <p>你可能会问，PID为1有个毛用啊？我们知道，在传统的UNIX系统中，PID为1的进程是init，地位非常特殊。他作为所有进程的父进程，有很多特权（比如：屏蔽信号等），另外，其还会为检查所有进程的状态，我们知道，如果某个子进程脱离了父进程（父进程没有wait它），那么init就会负责回收资源并结束这个子进程。所以，要做到进程空间的隔离，首先要创建出PID为1的进程，最好就像chroot那样，把子进程的PID在容器内变成1。</p>
 <p><strong>但是，我们会发现，在子进程的shell里输入ps,top等命令，我们还是可以看得到所有进程</strong>。说明并没有完全隔离。这是因为，像ps, top这些命令会去读/proc文件系统，所以，因为/proc文件系统在父进程和子进程都是一样的，所以这些命令显示的东西都是一样的。</p>
@@ -519,18 +514,16 @@ int main()
     return 0;
 }</pre>
 <p>运行结果如下：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell">
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="bbd3d8d3ded5fbced9ced5cfce">[email&#160;protected]</a>:~$ sudo ./pid.mnt
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="99f1faf1fcf7d9ecfbecf7edec">[email&#160;protected]</a>:~$ sudo ./pid.mnt
 Parent [ 3502] - start a container!
 Container [    1] - inside the container!
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="45372a2a3105262a2b31242c2b2037">[email&#160;protected]</a>:~# ps -elf 
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="37455858437754585943565e595245">[email&#160;protected]</a>:~# ps -elf 
 F S UID        PID  PPID  C PRI  NI ADDR SZ WCHAN  STIME TTY          TIME CMD
 4 S root         1     0  0  80   0 -  6917 wait   19:55 pts/2    00:00:00 /bin/bash
 0 R root        14     1  0  80   0 -  5671 -      19:56 pts/2    00:00:00 ps -elf
 </pre>
 <p>上面，我们可以看到只有两个进程 ，而且pid=1的进程是我们的/bin/bash。我们还可以看到/proc目录下也干净了很多：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell">
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="04766b6b7044676b6a70656d6a6176">[email&#160;protected]</a>:~# ls /proc
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="691b06061d290a06071d0800070c1b">[email&#160;protected]</a>:~# ls /proc
 1          dma          key-users   net            sysvipc
 16         driver       kmsg        pagetypeinfo   timer_list
 acpi       execdomains  kpagecount  partitions     timer_stats
@@ -553,11 +546,10 @@ diskstats  keys         mtrr        sysrq-trigger
 <h4><span class="ez-toc-section" id="Docker%E7%9A%84_Mount_Namespace"></span>Docker的 Mount Namespace<span class="ez-toc-section-end"></span></h4>
 <p>下面我将向演示一个“山寨镜像”，其模仿了Docker的Mount Namespace。</p>
 <p>首先，我们需要一个rootfs，也就是我们需要把我们要做的镜像中的那些命令什么的copy到一个rootfs的目录下，我们模仿Linux构建如下的目录：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="a4ccc7ccc1cae4d1c6d1cad0d1">[email&#160;protected]</a>:~/rootfs$ ls
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="6f070c070a012f1a0d1a011b1a">[email&#160;protected]</a>:~/rootfs$ ls
 bin  dev  etc  home  lib  lib64  mnt  opt  proc  root  run  sbin  sys  tmp  usr  var</pre>
 <p>然后，我们把一些我们需要的命令copy到 rootfs/bin目录中（sh命令必需要copy进去，不然我们无法 chroot ）</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell">
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="bed6ddd6dbd0fecbdccbd0cacb">[email&#160;protected]</a>:~/rootfs$ ls ./bin ./usr/bin
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="375f545f525977425542594342">[email&#160;protected]</a>:~/rootfs$ ls ./bin ./usr/bin
  
 ./bin:
 bash   chown  gzip      less  mount       netstat  rm     tabs  tee      top       tty
@@ -569,8 +561,7 @@ chmod  grep   kill      more  nc          pwd      sleep  tar   toe      truncat
 awk  env  groups  head  id  mesg  sort  strace  tail  top  uniq  vi  wc  xargs
 </pre>
 <p>注：你可以使用ldd命令把这些命令相关的那些so文件copy到对应的目录：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell">
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="0b6368636e654b7e697e657f7e">[email&#160;protected]</a>:~/rootfs/bin$ ldd bash
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="573f343f323917223522392322">[email&#160;protected]</a>:~/rootfs/bin$ ldd bash
   linux-vdso.so.1 =>  (0x00007fffd33fc000)
   libtinfo.so.5 => /lib/x86_64-linux-gnu/libtinfo.so.5 (0x00007f4bd42c2000)
   libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f4bd40be000)
@@ -578,8 +569,7 @@ awk  env  groups  head  id  mesg  sort  strace  tail  top  uniq  vi  wc  xargs
   /lib64/ld-linux-x86-64.so.2 (0x00007f4bd4504000)
 </pre>
 <p>下面是我的rootfs中的一些so文件：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell">
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="81e9e2e9e4efc1f4e3f4eff5f4">[email&#160;protected]</a>:~/rootfs$ ls ./lib64 ./lib/x86_64-linux-gnu/
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="b2dad1dad7dcf2c7d0c7dcc6c7">[email&#160;protected]</a>:~/rootfs$ ls ./lib64 ./lib/x86_64-linux-gnu/
 
 ./lib64:
 ld-linux-x86-64.so.2
@@ -601,18 +591,16 @@ libgpm.so.2      libnss_dns-2.19.so     libpython2.7.so.1
 libm-2.19.so     libnss_dns.so.2        libpython2.7.so.1.0
 </pre>
 <p>包括这些命令依赖的一些配置文件：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell">
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="96fef5fef3f8d6e3f4e3f8e2e3">[email&#160;protected]</a>:~/rootfs$ ls ./etc
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="7e161d161b103e0b1c0b100a0b">[email&#160;protected]</a>:~/rootfs$ ls ./etc
 bash.bashrc  group  hostname  hosts  ld.so.cache  nsswitch.conf  passwd  profile  
 resolv.conf  shadow
 </pre>
 <p>你现在会说，我靠，有些配置我希望是在容器起动时给他设置的，而不是hard code在镜像中的。比如：/etc/hosts，/etc/hostname，还有DNS的/etc/resolv.conf文件。好的。那我们在rootfs外面，我们再创建一个conf目录，把这些文件放到这个目录中。</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="472f242f222907322532293332">[email&#160;protected]</a>:~$ ls ./conf
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="8ae2e9e2efe4caffe8ffe4feff">[email&#160;protected]</a>:~$ ls ./conf
 hostname     hosts     resolv.conf</pre>
 <p>这样，我们的父进程就可以动态地设置容器需要的这些文件的配置， 然后再把他们mount进容器，这样，容器的镜像中的配置就比较灵活了。</p>
 <p>好了，终于到了我们的程序。</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="c">
-#define _GNU_SOURCE
+<pre class="EnlighterJSRAW" data-enlighter-language="c">#define _GNU_SOURCE
 #include <sys types.h>
 #include <sys wait.h>
 #include <sys mount.h>
@@ -696,11 +684,10 @@ int main()
 }
 </pre>
 <p>sudo运行上面的程序，你会看到下面的挂载信息以及一个所谓的“镜像”：</p>
-<pre class="EnlighterJSRAW" data-enlighter-language="shell">
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="94fcf7fcf1fad4e1f6e1fae0e1">[email&#160;protected]</a>:~$ sudo ./mount 
+<pre class="EnlighterJSRAW" data-enlighter-language="shell"><a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="dcb4bfb4b9b29ca9bea9b2a8a9">[email&#160;protected]</a>:~$ sudo ./mount 
 Parent [ 4517] - start a container!
 Container [    1] - inside the container!
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="35475a5a4175565a5b41545c5b5047">[email&#160;protected]</a>:/# mount
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="582a37372c183b37362c3931363d2a">[email&#160;protected]</a>:/# mount
 proc on /proc type proc (rw,relatime)
 sysfs on /sys type sysfs (rw,relatime)
 none on /tmp type tmpfs (rw,relatime)
@@ -711,7 +698,7 @@ tmpfs on /run type tmpfs (rw,relatime)
 /dev/disk/by-uuid/18086e3b-d805-4515-9e91-7efb2fe5c0e2 on /etc/hostname type ext4 (rw,relatime,errors=remount-ro,data=ordered)
 /dev/disk/by-uuid/18086e3b-d805-4515-9e91-7efb2fe5c0e2 on /etc/resolv.conf type ext4 (rw,relatime,errors=remount-ro,data=ordered)
 
-<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="41332e2e3501222e2f3520282f2433">[email&#160;protected]</a>:/# ls /bin /usr/bin
+<a href="../cdn-cgi/l/email-protection.html" class="__cf_email__" data-cfemail="43312c2c3703202c2d37222a2d2631">[email&#160;protected]</a>:/# ls /bin /usr/bin
 /bin:
 bash   chmod  echo  hostname  less  more  mv   ping  rm   sleep  tail  test    top   truncate  uname
 cat    chown  grep  ip        ln    mount  nc   ps    sed  tabs   tar   timeout  touch  tty     which
@@ -729,7 +716,7 @@ awk  env  groups  head  id  mesg  sort  strace  tail  top  uniq  vi  wc  xargs
 <p align="center"><strong>（转载本站文章请注明作者和出处 <a href="../index.html">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
 </div>
 <div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li><a href="17029.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2015/04/jail_cell-150x150.jpg" alt="Docker基础技术：Linux Namespace（下）" width="150" height="150" /></a><a href="17029.html" class="wp_rp_title">Docker基础技术：Linux Namespace（下）</a></li><li><a href="18654.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li><a href="17200.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-150x150.jpg" alt="Docker基础技术：DeviceMapper" width="150" height="150" /></a><a href="17200.html" class="wp_rp_title">Docker基础技术：DeviceMapper</a></li><li><a href="17061.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2015/08/docker-filesystems-busyboxrw-150x150.png" alt="Docker基础技术：AUFS" width="150" height="150" /></a><a href="17061.html" class="wp_rp_title">Docker基础技术：AUFS</a></li><li><a href="17049.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2015/04/filter-150x150.png" alt="Docker基础技术：Linux CGroup" width="150" height="150" /></a><a href="17049.html" class="wp_rp_title">Docker基础技术：Linux CGroup</a></li><li><a href="22320.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="22320.html" class="wp_rp_title">eBPF 介绍</a></li></ul></div></div>
-<div id="post-ratings-17010" class="post-ratings" itemscope itemtype="https://schema.org/Article" data-nonce="4d6d4ecdb6"><img id="rating_17010_1" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 1, '好烂啊');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-fd07e1824c3d11dd96d96086- /><img id="rating_17010_2" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 2, '有点差');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-fd07e1824c3d11dd96d96086- /><img id="rating_17010_3" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 3, '凑合看看');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-fd07e1824c3d11dd96d96086- /><img id="rating_17010_4" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="还不错" title="还不错" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 4, '还不错');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-fd07e1824c3d11dd96d96086- /><img id="rating_17010_5" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_half.gif" alt="很精彩" title="很精彩" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 5, '很精彩');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-fd07e1824c3d11dd96d96086- /> (<strong>107</strong> 人打了分，平均分： <strong>4.55</strong> )<br/><span class="post-ratings-text" id="ratings_17010_text"></span><meta itemprop="name" content="Docker基础技术：Linux Namespace（上）" /><meta itemprop="headline" content="Docker基础技术：Linux Namespace（上）" /><meta itemprop="description" content="时下最热的技术莫过于Docker了，很多人都觉得Docker是个新技术，其实不然，Docker除了其编程语言用go比较新外，其实它还真不是个新东西，也就是个新瓶装旧酒的东西，所谓的The New &quot;Old Stuff&quot;。Docker和Docker衍生的东西用到了很多很酷的技术，我会用几篇 文章来把这些技术给大家做个介绍，希望通过这些文章大家可以自己打造一个山寨版的docker。
+<div id="post-ratings-17010" class="post-ratings" itemscope itemtype="https://schema.org/Article" data-nonce="d540f74be6"><img id="rating_17010_1" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="好烂啊" title="好烂啊" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 1, '好烂啊');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d655cc6dfc58c20de28261b9- /><img id="rating_17010_2" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="有点差" title="有点差" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 2, '有点差');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d655cc6dfc58c20de28261b9- /><img id="rating_17010_3" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="凑合看看" title="凑合看看" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 3, '凑合看看');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d655cc6dfc58c20de28261b9- /><img id="rating_17010_4" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_on.gif" alt="还不错" title="还不错" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 4, '还不错');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d655cc6dfc58c20de28261b9- /><img id="rating_17010_5" src="../wp-content/plugins/wp-postratings/images/stars_crystal/rating_half.gif" alt="很精彩" title="很精彩" onmouseover="if (!window.__cfRLUnblockHandlers) return false; current_rating(17010, 5, '很精彩');" onmouseout="if (!window.__cfRLUnblockHandlers) return false; ratings_off(4.6, 5, 0);" onclick="if (!window.__cfRLUnblockHandlers) return false; rate_post();" onkeypress="if (!window.__cfRLUnblockHandlers) return false; rate_post();" style="cursor: pointer; border: 0px;" data-cf-modified-d655cc6dfc58c20de28261b9- /> (<strong>107</strong> 人打了分，平均分： <strong>4.55</strong> )<br/><span class="post-ratings-text" id="ratings_17010_text"></span><meta itemprop="name" content="Docker基础技术：Linux Namespace（上）" /><meta itemprop="headline" content="Docker基础技术：Linux Namespace（上）" /><meta itemprop="description" content="时下最热的技术莫过于Docker了，很多人都觉得Docker是个新技术，其实不然，Docker除了其编程语言用go比较新外，其实它还真不是个新东西，也就是个新瓶装旧酒的东西，所谓的The New &quot;Old Stuff&quot;。Docker和Docker衍生的东西用到了很多很酷的技术，我会用几篇 文章来把这些技术给大家做个介绍，希望通过这些文章大家可以自己打造一个山寨版的docker。
 
 当然，文章的风格..." /><meta itemprop="datePublished" content="2015-04-16T10:20:08+08:00" /><meta itemprop="dateModified" content="2020-07-07T11:55:29+08:00" /><meta itemprop="url" content="https://coolshell.cn/articles/17010.html" /><meta itemprop="author" content="陈皓" /><meta itemprop="mainEntityOfPage" content="https://coolshell.cn/articles/17010.html" /><div style="display: none;" itemprop="publisher" itemscope itemtype="https://schema.org/Organization"><meta itemprop="name" content="酷 壳 - CoolShell" /><meta itemprop="url" content="https://coolshell.cn" /><div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject"><meta itemprop="url" content /></div></div><div style="display: none;" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating"><meta itemprop="bestRating" content="5" /><meta itemprop="worstRating" content="1" /><meta itemprop="ratingValue" content="4.55" /><meta itemprop="ratingCount" content="107" /></div></div><div id="post-ratings-17010-loading" class="post-ratings-loading"><img src="../wp-content/plugins/wp-postratings/images/loading.gif" width="16" height="16" class="post-ratings-image" />Loading...</div>
 </div>
@@ -737,22 +724,19 @@ awk  env  groups  head  id  mesg  sort  strace  tail  top  uniq  vi  wc  xargs
 <hr><div class="row"><div class="col-md-6 cattegories"><span class="cat-links"><i class="fa fa-folder-open"></i>
 <a href="../category/operatingsystem/unixlinux.html" rel="category tag">Unix/Linux</a></span></div><div class="col-md-6 tags"><span class="tags-links"><i class="fa fa-tags"></i> <a href="../tag/docker.html" rel="tag">Docker</a>, <a href="../tag/linux.html" rel="tag">Linux</a>, <a href="../tag/mount.html" rel="tag">Mount</a>, <a href="../tag/namespace.html" rel="tag">Namespace</a></span></div></div> </footer>
 </article>
-
 <div id="related_posts">
 <div class="wp_rp_wrap  wp_rp_vertical_m"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li><a href="17029.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2015/04/jail_cell-150x150.jpg" alt="Docker基础技术：Linux Namespace（下）" width="150" height="150" /></a><a href="17029.html" class="wp_rp_title">Docker基础技术：Linux Namespace（下）</a></li><li><a href="18654.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2018/12/docker-networking-1-150x150.png" alt="记一次Kubernetes/Docker网络排障" width="150" height="150" /></a><a href="18654.html" class="wp_rp_title">记一次Kubernetes/Docker网络排障</a></li><li><a href="17200.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2015/08/how_to_set_up_an_iSCSI_LUN_with_thin-150x150.jpg" alt="Docker基础技术：DeviceMapper" width="150" height="150" /></a><a href="17200.html" class="wp_rp_title">Docker基础技术：DeviceMapper</a></li><li><a href="17061.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2015/08/docker-filesystems-busyboxrw-150x150.png" alt="Docker基础技术：AUFS" width="150" height="150" /></a><a href="17061.html" class="wp_rp_title">Docker基础技术：AUFS</a></li><li><a href="17049.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2015/04/filter-150x150.png" alt="Docker基础技术：Linux CGroup" width="150" height="150" /></a><a href="17049.html" class="wp_rp_title">Docker基础技术：Linux CGroup</a></li><li><a href="22320.html" class="wp_rp_thumbnail"><img src="../wp-content/uploads/2022/12/eBPF-150x150.jpeg" alt="eBPF 介绍" width="150" height="150" /></a><a href="22320.html" class="wp_rp_title">eBPF 介绍</a></li></ul></div></div>
-</div><div class="fixed"></div> 
+</div><div class="fixed"></div>
 </main>
 <div class="post-navigation">
 <nav class="navigation" role="navigation">
 <h2 class="screen-reader-text">Post navigation</h2>
 <div class="nav-links">
 <div class="row">
-
 <div class="col-md-6 next-post">
 <a class href="17049.html"><span class="next-prev-text"><i class="fa fa-angle-left"></i>
 上一篇</span><br>Docker基础技术：Linux CGroup</a>
 </div>
-
 <div class="col-md-6 prev-post">
 <a class href="17029.html"><span class="next-prev-text">下一篇 <i class="fa fa-angle-right"></i>
 </span><br>Docker基础技术：Linux Namespace（下）</a>
@@ -832,7 +816,7 @@ Pingback： <a href="https://code84.com/772069.html" class="url" rel="ugc extern
 <p class="comment-form-url"><label for="url">网站地址</label> <input id="url" name="url" type="url" value size="30" maxlength="200" autocomplete="url" /></p>
 <p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="发表评论" /> <input type="hidden" name="comment_post_ID" value="17010" id="comment_post_ID" />
 <input type="hidden" name="comment_parent" id="comment_parent" value="0" />
-</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="82d7592cc9" /></p><p style="display: none !important;"><label>&#916;<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_1" name="ak_js" value="40" /><script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="fd07e1824c3d11dd96d96086-text/javascript">document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );</script></p></form> </div>
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="50caffeaa0" /></p><p style="display: none !important;"><label>&#916;<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_1" name="ak_js" value="236" /><script data-cfasync="false" src="../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="d655cc6dfc58c20de28261b9-text/javascript">document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );</script></p></form> </div>
 </div>
 </div>
 </div>
@@ -846,9 +830,7 @@ Pingback： <a href="https://code84.com/772069.html" class="url" rel="ugc extern
 <button type="submit" class="search-submit"><span class="screen-reader-text">Search</span></button>
 </form>
 </aside><aside id="custom_html-3" class="widget_text widget widget_custom_html"><h4 class="widget-title">本站公告</h4><div class="textwidget custom-html-widget"><p align="center"><a class="twitter" href="https://twitter.com/haoel" target="_blank" rel="noopener"> Twitter @haoel </a></p>
-
 <p align="center">极客时间专栏<br><a href="http://gk.link/a/10sBp" target="_blank" rel="noopener"><img src="../wp-content/uploads/2021/06/8311623409583_.pic_hd-1024x1024.jpg" height="200" weight="200" alt="极客时间专栏" title="极客时间专栏"></a></p>
-
 </div></aside>
 <aside id="recent-posts-4" class="widget widget_recent_entries">
 <h4 class="widget-title">最新文章</h4>
@@ -945,7 +927,7 @@ Pingback： <a href="https://code84.com/772069.html" class="url" rel="ugc extern
 </li>
 </ul>
 </aside><aside id="views-6" class="widget widget_views"><h4 class="widget-title">全站热门</h4><ul>
-<li><a href="4990.html" title="程序员技术练级攻略 - 10,237,559 人阅读">程序员技术练级攻略</a></li><li><a href="3961.html" title="&ldquo;火柴棍式&rdquo;程序员面试题 - 2,356,021 人阅读">&ldquo;火柴棍式&rdquo;程序员面试题</a></li><li><a href="5426.html" title="简明 Vim 练级攻略 - 1,324,095 人阅读">简明 Vim 练级攻略</a></li><li><a href="9308.html" title="&ldquo;作环保的程序员，从不用百度开始&rdquo; - 588,386 人阅读">&ldquo;作环保的程序员，从不用百度开始&rdquo;</a></li><li><a href="11564.html" title="TCP 的那些事儿（上） - 488,190 人阅读">TCP 的那些事儿（上）</a></li><li><a href="9070.html" title="AWK 简明教程 - 453,125 人阅读">AWK 简明教程</a></li><li><a href="7186.html" title="做个环保主义的程序员 - 447,083 人阅读">做个环保主义的程序员</a></li><li><a href="10688.html" title="编程能力与编程年龄 - 416,262 人阅读">编程能力与编程年龄</a></li><li><a href="10590.html" title="二维码的生成细节和原理 - 393,607 人阅读">二维码的生成细节和原理</a></li><li><a href="9104.html" title="sed 简明教程 - 380,086 人阅读">sed 简明教程</a></li><li><a href="4102.html" title="如何学好C语言 - 368,138 人阅读">如何学好C语言</a></li><li><a href="19464.html" title="如何超过大多数人 - 312,838 人阅读">如何超过大多数人</a></li><li><a href="17583.html" title="技术人员的发展之路 - 307,780 人阅读">技术人员的发展之路</a></li><li><a href="9606.html" title="疫苗：Java HashMap的死循环 - 305,252 人阅读">疫苗：Java HashMap的死循环</a></li><li><a href="6470.html" title="由12306.cn谈谈网站性能技术 - 298,753 人阅读">由12306.cn谈谈网站性能技术</a></li><li><a href="8883.html" title="应该知道的Linux技巧 - 296,517 人阅读">应该知道的Linux技巧</a></li><li><a href="17416.html" title="缓存更新的套路 - 293,433 人阅读">缓存更新的套路</a></li><li><a href="10910.html" title="分布式系统的事务处理 - 284,482 人阅读">分布式系统的事务处理</a></li><li><a href="11609.html" title="TCP 的那些事儿（下） - 284,187 人阅读">TCP 的那些事儿（下）</a></li><li><a href="2250.html" title="&ldquo;21天教你学会C++&rdquo; - 278,252 人阅读">&ldquo;21天教你学会C++&rdquo;</a></li><li><a href="8239.html" title="无锁队列的实现 - 274,140 人阅读">无锁队列的实现</a></li><li><a href="10739.html" title="Lua简明教程 - 269,113 人阅读">Lua简明教程</a></li><li><a href="20276.html" title="别让自己&ldquo;墙&rdquo;了自己 - 269,032 人阅读">别让自己&ldquo;墙&rdquo;了自己</a></li><li><a href="7490.html" title="性能调优攻略 - 257,132 人阅读">性能调优攻略</a></li><li><a href="1846.html" title="MySQL性能优化的最佳20+条经验 - 255,591 人阅读">MySQL性能优化的最佳20+条经验</a></li><li><a href="4758.html" title="如何写出无法维护的代码 - 253,915 人阅读">如何写出无法维护的代码</a></li><li><a href="914.html" title="6个变态的C语言Hello World程序 - 251,781 人阅读">6个变态的C语言Hello World程序</a></li><li><a href="17010.html" title="Docker基础技术：Linux Namespace（上） - 241,648 人阅读">Docker基础技术：Linux Namespace（上）</a></li><li><a href="7829.html" title="28个Unix/Linux的命令行神器 - 241,067 人阅读">28个Unix/Linux的命令行神器</a></li><li><a href="11312.html" title="无插件Vim编程技巧 - 222,619 人阅读">无插件Vim编程技巧</a></li></ul>
+<li><a href="4990.html" title="程序员技术练级攻略 - 10,236,750 人阅读">程序员技术练级攻略</a></li><li><a href="3961.html" title="&ldquo;火柴棍式&rdquo;程序员面试题 - 2,355,880 人阅读">&ldquo;火柴棍式&rdquo;程序员面试题</a></li><li><a href="5426.html" title="简明 Vim 练级攻略 - 1,323,436 人阅读">简明 Vim 练级攻略</a></li><li><a href="9308.html" title="&ldquo;作环保的程序员，从不用百度开始&rdquo; - 587,825 人阅读">&ldquo;作环保的程序员，从不用百度开始&rdquo;</a></li><li><a href="11564.html" title="TCP 的那些事儿（上） - 487,781 人阅读">TCP 的那些事儿（上）</a></li><li><a href="9070.html" title="AWK 简明教程 - 452,907 人阅读">AWK 简明教程</a></li><li><a href="7186.html" title="做个环保主义的程序员 - 446,954 人阅读">做个环保主义的程序员</a></li><li><a href="10688.html" title="编程能力与编程年龄 - 415,993 人阅读">编程能力与编程年龄</a></li><li><a href="10590.html" title="二维码的生成细节和原理 - 393,400 人阅读">二维码的生成细节和原理</a></li><li><a href="9104.html" title="sed 简明教程 - 379,903 人阅读">sed 简明教程</a></li><li><a href="4102.html" title="如何学好C语言 - 367,965 人阅读">如何学好C语言</a></li><li><a href="19464.html" title="如何超过大多数人 - 312,034 人阅读">如何超过大多数人</a></li><li><a href="17583.html" title="技术人员的发展之路 - 307,442 人阅读">技术人员的发展之路</a></li><li><a href="9606.html" title="疫苗：Java HashMap的死循环 - 304,854 人阅读">疫苗：Java HashMap的死循环</a></li><li><a href="6470.html" title="由12306.cn谈谈网站性能技术 - 298,613 人阅读">由12306.cn谈谈网站性能技术</a></li><li><a href="8883.html" title="应该知道的Linux技巧 - 296,382 人阅读">应该知道的Linux技巧</a></li><li><a href="17416.html" title="缓存更新的套路 - 293,159 人阅读">缓存更新的套路</a></li><li><a href="10910.html" title="分布式系统的事务处理 - 284,324 人阅读">分布式系统的事务处理</a></li><li><a href="11609.html" title="TCP 的那些事儿（下） - 283,985 人阅读">TCP 的那些事儿（下）</a></li><li><a href="2250.html" title="&ldquo;21天教你学会C++&rdquo; - 278,044 人阅读">&ldquo;21天教你学会C++&rdquo;</a></li><li><a href="8239.html" title="无锁队列的实现 - 273,895 人阅读">无锁队列的实现</a></li><li><a href="10739.html" title="Lua简明教程 - 268,982 人阅读">Lua简明教程</a></li><li><a href="20276.html" title="别让自己&ldquo;墙&rdquo;了自己 - 267,967 人阅读">别让自己&ldquo;墙&rdquo;了自己</a></li><li><a href="7490.html" title="性能调优攻略 - 256,993 人阅读">性能调优攻略</a></li><li><a href="1846.html" title="MySQL性能优化的最佳20+条经验 - 255,458 人阅读">MySQL性能优化的最佳20+条经验</a></li><li><a href="4758.html" title="如何写出无法维护的代码 - 253,758 人阅读">如何写出无法维护的代码</a></li><li><a href="914.html" title="6个变态的C语言Hello World程序 - 251,672 人阅读">6个变态的C语言Hello World程序</a></li><li><a href="17010.html" title="Docker基础技术：Linux Namespace（上） - 241,411 人阅读">Docker基础技术：Linux Namespace（上）</a></li><li><a href="7829.html" title="28个Unix/Linux的命令行神器 - 240,944 人阅读">28个Unix/Linux的命令行神器</a></li><li><a href="11312.html" title="无插件Vim编程技巧 - 222,453 人阅读">无插件Vim编程技巧</a></li></ul>
 </aside><aside id="categories-367921425" class="widget widget_categories"><h4 class="widget-title">分类</h4>
 <ul>
 <li class="cat-item cat-item-195"><a href="../category/itnews.html">业界新闻</a> (33)
@@ -1182,13 +1164,13 @@ Pingback： <a href="https://code84.com/772069.html" class="url" rel="ugc extern
 <li><a href="date/2004/06.html">2004年6月</a>&nbsp;(1)</li>
 </ul>
 </aside><aside id="custom_html-8" class="widget_text widget widget_custom_html"><h4 class="widget-title">友情链接</h4><div class="textwidget custom-html-widget"><ul class="blogroll">
-<li><a href="http://blog.csdn.net/haoel" target="_blank" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/blog.csdn.net/haoel?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-fd07e1824c3d11dd96d96086->陈皓的博客</a></li>
-<li><a href="http://ifeve.com/" target="_blank" title="促进并发编程的研究和推广" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/ifeve.com/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-fd07e1824c3d11dd96d96086->并发编程</a></li>
-<li><a href="http://www.raychase.net/" target="_blank" title="一个啰嗦的程序员" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.raychase.net/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-fd07e1824c3d11dd96d96086->四火的唠叨</a></li>
-<li><a href="http://www.cnblogs.com/weidagang2046/" target="_blank" title="Just for Fun" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cnblogs.com/weidagang2046/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-fd07e1824c3d11dd96d96086->Todd Wei的Blog</a></li>
-<li><a href="http://www.hellogcc.org/" target="_blank" title="致力于讨论和学习GNU Toolchain方面的工作组" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.hellogcc.org//?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-fd07e1824c3d11dd96d96086->开源开发工具技术博客</a></li>
-<li><a href="http://www.cppfans.org/" target="_blank" title="记录我们点滴学习工作生活" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cppfans.org/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-fd07e1824c3d11dd96d96086->C++爱好者博客</a></li>
-<li><a href="https://HelloACM.com/" target="_blank" title="Smart Ideas, Smart Algorithms" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://HelloACM.com/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-fd07e1824c3d11dd96d96086->ACMer</a></li>
+<li><a href="http://blog.csdn.net/haoel" target="_blank" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/blog.csdn.net/haoel?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-d655cc6dfc58c20de28261b9->陈皓的博客</a></li>
+<li><a href="http://ifeve.com/" target="_blank" title="促进并发编程的研究和推广" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/ifeve.com/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-d655cc6dfc58c20de28261b9->并发编程</a></li>
+<li><a href="http://www.raychase.net/" target="_blank" title="一个啰嗦的程序员" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.raychase.net/?referer=http://coolshell.cn');" rel="noopener" data-cf-modified-d655cc6dfc58c20de28261b9->四火的唠叨</a></li>
+<li><a href="http://www.cnblogs.com/weidagang2046/" target="_blank" title="Just for Fun" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cnblogs.com/weidagang2046/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-d655cc6dfc58c20de28261b9->Todd Wei的Blog</a></li>
+<li><a href="http://www.hellogcc.org/" target="_blank" title="致力于讨论和学习GNU Toolchain方面的工作组" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/www.hellogcc.org//?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-d655cc6dfc58c20de28261b9->开源开发工具技术博客</a></li>
+<li><a href="http://www.cppfans.org/" target="_blank" title="记录我们点滴学习工作生活" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://www.cppfans.org/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-d655cc6dfc58c20de28261b9->C++爱好者博客</a></li>
+<li><a href="https://HelloACM.com/" target="_blank" title="Smart Ideas, Smart Algorithms" onclick="if (!window.__cfRLUnblockHandlers) return false; pageTracker._trackPageview('/outgoing/http://HelloACM.com/?referer=http://coolshell.cn/');" rel="noopener" data-cf-modified-d655cc6dfc58c20de28261b9->ACMer</a></li>
 </ul>
 </div></aside><aside id="meta-5" class="widget widget_meta"><h4 class="widget-title">其他操作</h4>
 <ul>
@@ -1198,9 +1180,9 @@ Pingback： <a href="https://code84.com/772069.html" class="url" rel="ugc extern
 <li><a href="https://cn.wordpress.org/">WordPress.org</a></li>
 </ul>
 </aside></div>
-</div> 
 </div>
-<script type="fd07e1824c3d11dd96d96086-text/javascript">
+</div>
+<script type="d655cc6dfc58c20de28261b9-text/javascript">
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-7486123-1']);
 _gaq.push(['_trackPageview']);
@@ -1223,43 +1205,43 @@ Based on Theme: Nisarg by <a href="http://www.falgunidesai.com/" rel="designer">
 </div>
 </footer>
 </div>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" id="wp-postratings-js-extra">
+<script type="d655cc6dfc58c20de28261b9-text/javascript" id="wp-postratings-js-extra">
 /* <![CDATA[ */
 var ratingsL10n = {"plugin_url":"https:\/\/coolshell.cn\/wp-content\/plugins\/wp-postratings","ajax_url":"https:\/\/coolshell.cn\/wp-admin\/admin-ajax.php","text_wait":"Please rate only 1 item at a time.","image":"stars_crystal","image_ext":"gif","max":"5","show_loading":"1","show_fading":"1","custom":"0"};
 var ratings_mouseover_image=new Image();ratings_mouseover_image.src="https://coolshell.cn/wp-content/plugins/wp-postratings/images/stars_crystal/rating_over.gif";;
 /* ]]> */
 </script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/wp-postratings/js/postratings-js%EF%B9%96ver=1.90.1.js" id="wp-postratings-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" id="wp-postviews-cache-js-extra">
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/wp-postratings/js/postratings-js%EF%B9%96ver=1.90.1.js" id="wp-postratings-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" id="wp-postviews-cache-js-extra">
 /* <![CDATA[ */
-var viewsCacheL10n = {"admin_ajax_url":"https:\/\/coolshell.cn\/wp-admin\/admin-ajax.php","nonce":"b49fdb969c","post_id":"17010"};
+var viewsCacheL10n = {"admin_ajax_url":"https:\/\/coolshell.cn\/wp-admin\/admin-ajax.php","nonce":"83d08838ed","post_id":"17010"};
 /* ]]> */
 </script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/wp-postviews/postviews-cache%EF%B9%96ver=1.68.js" id="wp-postviews-cache-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/themes/MyNisarg/js/bootstrap%EF%B9%96ver=6.2.js" id="bootstrap-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/themes/MyNisarg/js/skip-link-focus-fix%EF%B9%96ver=20130115.js" id="nisarg-skip-link-focus-fix-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/themes/MyNisarg/js/nisarg%EF%B9%96ver=6.2.js" id="nisarg-js-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-includes/js/comment-reply.min%EF%B9%96ver=6.2.js" id="comment-reply-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" id="q2w3_fixed_widget-js-extra">
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/wp-postviews/postviews-cache%EF%B9%96ver=1.68.js" id="wp-postviews-cache-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/themes/MyNisarg/js/bootstrap%EF%B9%96ver=6.2.js" id="bootstrap-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/themes/MyNisarg/js/skip-link-focus-fix%EF%B9%96ver=20130115.js" id="nisarg-skip-link-focus-fix-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/themes/MyNisarg/js/nisarg%EF%B9%96ver=6.2.js" id="nisarg-js-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-includes/js/comment-reply.min%EF%B9%96ver=6.2.js" id="comment-reply-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" id="q2w3_fixed_widget-js-extra">
 /* <![CDATA[ */
 var q2w3_sidebar_options = [{"use_sticky_position":false,"margin_top":50,"margin_bottom":0,"stop_elements_selectors":"","screen_max_width":0,"screen_max_height":0,"widgets":[]}];
 /* ]]> */
 </script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/q2w3-fixed-widget/js/frontend.min%EF%B9%96ver=6.2.3.js" id="q2w3_fixed_widget-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/enlighter/cache/enlighterjs.min%EF%B9%96ver=0cuVQBPCj0viGB0.js" id="enlighterjs-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" id="enlighterjs-js-after">
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/q2w3-fixed-widget/js/frontend.min%EF%B9%96ver=6.2.3.js" id="q2w3_fixed_widget-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/enlighter/cache/enlighterjs.min%EF%B9%96ver=0cuVQBPCj0viGB0.js" id="enlighterjs-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" id="enlighterjs-js-after">
 !function(e,n){if("undefined"!=typeof EnlighterJS){var o={"selectors":{"block":"pre.EnlighterJSRAW","inline":"code.EnlighterJSRAW"},"options":{"indent":2,"ampersandCleanup":true,"linehover":true,"rawcodeDbclick":true,"textOverflow":"scroll","linenumbers":true,"theme":"wpcustom","language":"generic","retainCssClasses":false,"collapse":false,"toolbarOuter":"","toolbarTop":"{BTN_RAW}{BTN_COPY}{BTN_WINDOW}{BTN_WEBSITE}","toolbarBottom":""}};(e.EnlighterJSINIT=function(){EnlighterJS.init(o.selectors.block,o.selectors.inline,o.options)})()}else{(n&&(n.error||n.log)||function(){})("Error: EnlighterJS resources not loaded yet!")}}(window,console);
 </script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/easy-table-of-contents/vendor/js-cookie/js.cookie.min%EF%B9%96ver=2.2.1.js" id="ez-toc-js-cookie-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/easy-table-of-contents/vendor/sticky-kit/jquery.sticky-kit.min%EF%B9%96ver=1.9.2.js" id="ez-toc-jquery-sticky-kit-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" id="ez-toc-js-js-extra">
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/easy-table-of-contents/vendor/js-cookie/js.cookie.min%EF%B9%96ver=2.2.1.js" id="ez-toc-js-cookie-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/easy-table-of-contents/vendor/sticky-kit/jquery.sticky-kit.min%EF%B9%96ver=1.9.2.js" id="ez-toc-jquery-sticky-kit-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript" id="ez-toc-js-js-extra">
 /* <![CDATA[ */
 var ezTOC = {"smooth_scroll":"1","scroll_offset":"30","fallbackIcon":"<span style=\"display: flex;align-items: center;width: 35px;height: 30px;justify-content: center;direction:ltr;\"><svg style=\"fill: #999;color:#999\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" class=\"list-377408\" width=\"20px\" height=\"20px\" viewBox=\"0 0 24 24\" fill=\"none\"><path d=\"M6 6H4v2h2V6zm14 0H8v2h12V6zM4 11h2v2H4v-2zm16 0H8v2h12v-2zM4 16h2v2H4v-2zm16 0H8v2h12v-2z\" fill=\"currentColor\"><\/path><\/svg><svg style=\"fill: #999;color:#999\" class=\"arrow-unsorted-368013\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" width=\"10px\" height=\"10px\" viewBox=\"0 0 24 24\" version=\"1.2\" baseProfile=\"tiny\"><path d=\"M18.2 9.3l-6.2-6.3-6.2 6.3c-.2.2-.3.4-.3.7s.1.5.3.7c.2.2.4.3.7.3h11c.3 0 .5-.1.7-.3.2-.2.3-.5.3-.7s-.1-.5-.3-.7zM5.8 14.7l6.2 6.3 6.2-6.3c.2-.2.3-.5.3-.7s-.1-.5-.3-.7c-.2-.2-.4-.3-.7-.3h-11c-.3 0-.5.1-.7.3-.2.2-.3.5-.3.7s.1.5.3.7z\"\/><\/svg><\/span>"};
 /* ]]> */
 </script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/easy-table-of-contents/assets/js/front.min%EF%B9%96ver=2.0.48-1683606477.js" id="ez-toc-js-js"></script>
-<script defer type="fd07e1824c3d11dd96d96086-text/javascript" src="../wp-content/plugins/akismet/_inc/akismet-frontend%EF%B9%96ver=1683523750.js" id="akismet-frontend-js"></script>
-<script type="fd07e1824c3d11dd96d96086-text/javascript">
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/easy-table-of-contents/assets/js/front.min%EF%B9%96ver=2.0.48-1683606477.js" id="ez-toc-js-js"></script>
+<script defer type="d655cc6dfc58c20de28261b9-text/javascript" src="../wp-content/plugins/akismet/_inc/akismet-frontend%EF%B9%96ver=1683523750.js" id="akismet-frontend-js"></script>
+<script type="d655cc6dfc58c20de28261b9-text/javascript">
         jQuery(document).ready(function ($) {
 
             for (let i = 0; i < document.forms.length; ++i) {
@@ -1291,9 +1273,6 @@ data.data.append("rfNmPJFxZlE", "PcJd0F3kneCMpW");
 
         });
     </script>
-<script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="fd07e1824c3d11dd96d96086-|49" defer></script></body>
+<script src="../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="d655cc6dfc58c20de28261b9-|49" defer></script></body>
 </html>
-<script type="fd07e1824c3d11dd96d96086-text/javascript" src="https://cdn.jsdelivr.net/gh/haoel/anti-baidu/js/anti-baidu-latest.min.js" charset="UTF-8"></script>
-
-
-
+<script type="d655cc6dfc58c20de28261b9-text/javascript" src="https://cdn.jsdelivr.net/gh/haoel/anti-baidu/js/anti-baidu-latest.min.js" charset="UTF-8"></script>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>CORBA | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/corba/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Wed, 15 Apr 2009 02:03:03 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>深入浅出CORBA</title>
+		<link>https://coolshell.cn/articles/514.html</link>
+					<comments>https://coolshell.cn/articles/514.html#respond</comments>
+		
+		<dc:creator><![CDATA[Neo]]></dc:creator>
+		<pubDate>Tue, 14 Apr 2009 12:07:58 +0000</pubDate>
+				<category><![CDATA[技术读物]]></category>
+		<category><![CDATA[CORBA]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=514</guid>
+
+					<description><![CDATA[<p>这个是一本关于CORBA技术的中文文档，原文是Ciaran McHale《CORBA Explained Simply》，我将其翻译成中文形式，并首发在酷壳之上...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/514.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/514.html">深入浅出CORBA</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script>这个是一本关于CORBA技术的中文文档，原文是<span class="a"><span style="mso-bidi-font-family: 'Times New Roman';" lang="EN-US"><a href="http://www.ciaranmchale.com/"><span style="font-family: Courier New;"><span style="font-size: small;">Ciaran McHale</span></span></a></span></span>《CORBA Explained Simply》，我将其翻译成中文形式，并首发在<a href="https://coolshell.cn">酷壳</a>之上，现在先提供一个PDF的文件形式下载，关于html形式的下载或在线阅读形式以后再慢慢整理。CORBA有可能是一门将要过时的技术，但是它的思想却仍然被当今一些流行的分布式架构所借鉴。所以通过学习CORBA，也许我们可以更好的去理解EJB，去理解Web Service，或者SOA……</p>
+<p><span id="more-514"></span></p>
+<blockquote>
+<p class="1" style="margin: 17pt 0cm 16.5pt;"><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';"><strong><span style="font-size: x-large;">译序</span></strong></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">从</span><span lang="EN-US"><span style="font-family: Courier New;">wiki</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">上找到此书的链接，初读之下，感觉此文讲解的非常清楚，大量丰富的图例说明，于是就有了将此书翻译成中文的冲动。至于书名本应该是《简单地解释</span><span lang="EN-US"><span style="font-family: Courier New;">CORBA</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">概念》，但是最后还是起了一个比较容易吸引人眼球的标题。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">本书原文行文非常流畅，用词也相当通俗易懂，建议有英文基础的同行直接阅读原文。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">本书第二十三章的内容，涉及到安全的一些概念和术语，翻译也相对比较困难，我虽然给它翻完，但是最后还是不敢发布出来，因为此章需要对安全相关知识要有全面的理解，最后我将此章翻译的内容省略。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">在翻译过程，有一些特殊的名词采用意译的方式，比如</span><span lang="EN-US"><span style="font-family: Courier New;">IDL</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">的</span><span lang="EN-US"><span style="font-family: Courier New;">seqence</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">类型，被翻译为可变数组，</span><span lang="EN-US"><span style="font-family: Courier New;">Servent</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">被翻译服务提供者，而在</span><span lang="EN-US"><span style="font-family: Courier New;">IOR</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">中的</span><span lang="EN-US"><span style="font-family: Courier New;">Contact Detail</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">我统一翻译为联系细节等等，请读者在阅读时特别注意。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">由于译者的水平有限，书中难免有翻译错误的地方，译者并不会对因为这错误造成的损失负责。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">本书原版的版权归</span><span class="a"><span style="mso-bidi-font-family: 'Times New Roman';" lang="EN-US"><a href="http://www.ciaranmchale.com/"><span style="font-family: Courier New;">Ciaran McHale</span></a></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">所有，此版中文版版权归译者和</span><span lang="EN-US"><a href="https://coolshell.cn/"><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';" lang="EN-US"><span lang="EN-US"><span style="color: #800080;">酷壳</span></span></span></a></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">网所有，任何公司或个人可以任意自由转载，发布，部分发布，出版，部分出版本书，但必须保留如下的版权信息</span></span></p>
+<p class="a0" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="background-color: #e6e6e6; font-family: Courier New; font-size: small;">Copyright © 2009 </span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';" lang="EN-US"><span lang="EN-US"><span style="background-color: #e6e6e6; font-size: small;">赵锟</span></span></span></span></p>
+<p class="a0" style="margin: 0cm 0cm 0pt;"><span lang="EN-US"><span style="background-color: #e6e6e6; font-family: Courier New; font-size: small;">Copyright © 2009 </span><a href="https://coolshell.cn/"><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';" lang="EN-US"><span lang="EN-US"><span style="background-color: #e6e6e6; color: #800080; font-size: small;">酷壳</span></span></span></a></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">感谢我的夫人在翻译过程中给我支持，没有她的鼓励，我无法完成此项工作。同时感谢我</span><span lang="EN-US"><span style="font-family: Courier New;">9</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">个月大的小孩，你那可爱和天真无邪的微笑是我工作的动力。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">感谢</span><span lang="EN-US"><a href="https://coolshell.cn/"><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';" lang="EN-US"><span lang="EN-US"><span style="color: #800080;">酷壳网</span></span></span></a></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">的耗子在翻译过程中对我的指导。非常感谢你的帮助。</span></span></p>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;"><span style="font-size: small;"><span lang="EN-US"><span style="mso-tab-count: 1;"><span style="font-family: Courier New;"> </span></span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">在阅读过程中，你什么意见和建议欢迎发邮件至</span><span lang="EN-US"><span style="font-family: Courier New;">zhaokun.km(a)gmail.com</span> <span style="font-family: 楷体_GB2312;">(</span></span><span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">请将(a)替换成@)<span style="font-family: 楷体_GB2312; mso-ascii-font-family: 'Courier New';">和</span>我进行讨论。</span></span><strong></strong></p>
+</blockquote>
+<p class="MsoNormal" style="margin: 0cm 0cm 0pt;">PDF文件下载：请点击<a href="https://coolshell.cn/wp-content/uploads/2009/04/e6b7b1e585a5e6b585e587bacorba.zip">这里</a>进行下载</p>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/17391.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2016/07/Community-150x150.jpg" alt="为什么我不在微信公众号上写文章" width="150" height="150" /></a><a href="https://coolshell.cn/articles/17391.html" class="wp_rp_title">为什么我不在微信公众号上写文章</a></li><li ><a href="https://coolshell.cn/articles/3.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/03/webicon3-150x150.png" alt="50套Web开发图标" width="150" height="150" /></a><a href="https://coolshell.cn/articles/3.html" class="wp_rp_title">50套Web开发图标</a></li><li ><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/09/image008-150x150.jpg" alt="一些文章和各种资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5224.html" class="wp_rp_title">一些文章和各种资源</a></li><li ><a href="https://coolshell.cn/articles/5826.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/26.jpg" alt="千万别用MongoDB？真的吗？！" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5826.html" class="wp_rp_title">千万别用MongoDB？真的吗？！</a></li><li ><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2014/10/edsm-150x150.gif" alt="State Threads 回调终结者" width="150" height="150" /></a><a href="https://coolshell.cn/articles/12012.html" class="wp_rp_title">State Threads 回调终结者</a></li><li ><a href="https://coolshell.cn/articles/1528.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2009/10/seo-cartoon-150x150.jpg" alt="图片搜索引擎优化Checklist" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1528.html" class="wp_rp_title">图片搜索引擎优化Checklist</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/514.html">深入浅出CORBA</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/514.html/feed</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>

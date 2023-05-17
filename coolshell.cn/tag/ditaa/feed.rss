@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>ditaa | 酷 壳 - CoolShell</title>
+	<atom:link href="https://coolshell.cn/tag/ditaa/feed" rel="self" type="application/rss+xml" />
+	<link>https://coolshell.cn</link>
+	<description>享受编程和技术所带来的快乐 - Coding Your Ambition</description>
+	<lastBuildDate>Sat, 07 Nov 2009 16:21:21 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.2</generator>
+	<item>
+		<title>把ASCII图转成图片</title>
+		<link>https://coolshell.cn/articles/1684.html</link>
+					<comments>https://coolshell.cn/articles/1684.html#comments</comments>
+		
+		<dc:creator><![CDATA[陈皓]]></dc:creator>
+		<pubDate>Sat, 07 Nov 2009 16:20:03 +0000</pubDate>
+				<category><![CDATA[杂项资源]]></category>
+		<category><![CDATA[编程工具]]></category>
+		<category><![CDATA[ditaa]]></category>
+		<guid isPermaLink="false">http://coolshell.cn/?p=1684</guid>
+
+					<description><![CDATA[<p>我们都知道有很多软件帮我们把图片转成ASCII码图，这里这个工具是帮我们把ASCII图转成漂亮的图片。这个开源的软件是一个用Java写成的一个命令行的工具。对于...</p>
+<p class="read-more"><a class="btn btn-default" href="https://coolshell.cn/articles/1684.html"> Read More<span class="screen-reader-text">  Read More</span></a></p>
+The post <a href="https://coolshell.cn/articles/1684.html">把ASCII图转成图片</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></description>
+										<content:encoded><![CDATA[<p><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3415450859608158"
+     crossorigin="anonymous"></script></p>
+<p style="text-align: left;">我们都知道有很多软件帮我们把图片转成ASCII码图，这里这个工具是帮我们把ASCII图转成漂亮的图片。这个开源的软件是一个用Java写成的一个命令行的工具。对于这个工具的目的，我个人以为如下：</p>
+<ul style="text-align: left;">
+<li>其一，可以把别人的ASCII图转成图片，于是更好看一些。</li>
+<li>其二，你可以使用ASCII码画图，而不需要使用图片编辑器。</li>
+<li>其三，因为是命令行，所以，你完全可以以脚本或程序的方法来作图了。</li>
+</ul>
+<p style="text-align: left;">这个工具软件叫ditaa，其网址是：<a href="http://ditaa.sourceforge.net/">http://ditaa.sourceforge.net/</a>。</p>
+<p style="text-align: center;"><img decoding="async" src="http://ditaa.sourceforge.net/images/logo.png" alt="" /><img decoding="async" src="http://ditaa.sourceforge.net/images/arrow_hor.png" alt="" /></p>
+<p style="text-align: left;">这个小工具支持一些语法定义，可以帮你更好地产生图片，如下所示：</p>
+<p style="text-align: left;"><span id="more-1684"></span></p>
+<p style="text-align: left;"><strong>圆角矩形</strong></p>
+<table style="text-align: left;" border="0" cellspacing="15">
+<tbody>
+<tr>
+<td align="center">
+<pre>/--+
+|  |
++--/</pre>
+</td>
+<td align="center"><img decoding="async" src="http://ditaa.sourceforge.net/images/round_corner.png" alt="round corner demo" /></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;">
+<p style="text-align: left;"><strong>定义颜色</strong></p>
+<table style="text-align: left;" border="0" cellspacing="15">
+<tbody>
+<tr>
+<td>
+<pre>Color codes
+/-------------+-------------\
+|cRED RED     |cBLU BLU     |
++-------------+-------------+
+|cGRE GRE     |cPNK PNK     |
++-------------+-------------+
+|cBLK BLK     |cYEL YEL     |
+\-------------+-------------/</pre>
+</td>
+<td align="center"><img decoding="async" src="http://ditaa.sourceforge.net/images/color_codes.png" alt="color code" /></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;">
+<p style="text-align: center;">
+<p style="text-align: center;">
+<p style="text-align: left;"><strong>一些图示</strong></p>
+<table style="text-align: left;" border="0" cellspacing="5">
+<tbody>
+<tr>
+<th>名字</th>
+<th>ASCII</th>
+<th>图版</th>
+<th>注释</th>
+</tr>
+<tr>
+<td valign="top">文档</td>
+<td align="center">
+<pre>+-----+
+|{d}  |
+|     |
+|     |
++-----+</pre>
+</td>
+<td><img decoding="async" src="http://ditaa.sourceforge.net/images/document.png" alt="" /></td>
+<td valign="top">表示文件</td>
+</tr>
+<tr>
+<td valign="top">存储</td>
+<td align="center">
+<pre>+-----+
+|{s}  |
+|     |
+|     |
++-----+</pre>
+</td>
+<td><img decoding="async" src="http://ditaa.sourceforge.net/images/storage.png" alt="" /></td>
+<td valign="top">表示数据库或磁盘</td>
+</tr>
+<tr>
+<td valign="top">输入<br />
+输出</td>
+<td align="center">
+<pre>+-----+
+|{io} |
+|     |
+|     |
++-----+</pre>
+</td>
+<td><img decoding="async" src="http://ditaa.sourceforge.net/images/io.png" alt="" /></td>
+<td valign="top">输入/输出标志。</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;">
+<p style="text-align: center;">
+<p style="text-align: center;">
+<p style="text-align: left;"><strong>线条设置</strong></p>
+<table style="text-align: left;" border="0" cellspacing="15">
+<tbody>
+<tr>
+<td>
+<pre>----+  /----\  +----+
+    :  |    |  :    |
+    |  |    |  |{s} |
+    v  \-=--+  +----+</pre>
+</td>
+<td align="center"><img decoding="async" src="http://ditaa.sourceforge.net/images/dashed_demo.png" alt="" /></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;">
+<p style="text-align: center;">
+<p style="text-align: center;">
+<p style="text-align: left;">
+<p style="text-align: left;"><strong>线上的链接点</strong></p>
+<table style="text-align: left;" border="0" cellspacing="15">
+<tbody>
+<tr>
+<td>
+<pre>*----*
+|    |      /--*
+*    *      |
+|    |  -*--+
+*----*</pre>
+</td>
+<td align="center"><img decoding="async" src="http://ditaa.sourceforge.net/images/point_marker.png" alt="point marker demo" /></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left;">
+<p style="text-align: left;">
+<p style="text-align: center;">
+<p style="text-align: left;"><strong>文本</strong></p>
+<table style="text-align: lef;" border="0" cellspacing="15">
+<tbody>
+<tr>
+<td>
+<pre>/-----------------\
+| Things to do    |
+| cGRE            |
+| o Cut the grass |
+| o Buy jam       |
+| o Fix car       |
+| o Make website  |
+\-----------------/</pre>
+</td>
+<td align="center"><img decoding="async" src="http://ditaa.sourceforge.net/images/bullet.png" alt="bullet point demo" /></td>
+</tr>
+</tbody>
+</table>
+<p><!--
+
+
+
+<p align="center"><a href= target=_blank><img decoding="async" src=""></a></p>
+
+
+
+
+
+<p align="center"><img decoding="async" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.weixin.jpg"> <img decoding="async" loading="lazy" src="https://coolshell.cn/wp-content/uploads/2020/03/coolshell.mini_.jpg" width="300" height="300"> <br />关注CoolShell微信公众账号和微信小程序</p>
+
+ 
+
+--></p>
+<div style="margin-top: 15px; font-size: 16px;color: #cc0000;">
+<p align="center"><strong>（转载本站文章请注明作者和出处 <a href="https://coolshell.cn/">酷 壳 &#8211; CoolShell</a> ，请勿用于任何商业用途）</strong></p>
+</div>
+
+<div class="wp_rp_wrap  wp_rp_vertical_m" id="wp_rp_first"><div class="wp_rp_content"><h3 class="related_post_title">相关文章</h3><ul class="related_post wp_rp"><li ><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/24.jpg" alt="你会做Web上的用户登录功能吗？" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5353.html" class="wp_rp_title">你会做Web上的用户登录功能吗？</a></li><li ><a href="https://coolshell.cn/articles/19271.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2019/04/busy.work_-300x166-1-150x150.jpg" alt="“努力就会成功”" width="150" height="150" /></a><a href="https://coolshell.cn/articles/19271.html" class="wp_rp_title">“努力就会成功”</a></li><li ><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/0.jpg" alt="又一个有趣的面试题" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4162.html" class="wp_rp_title">又一个有趣的面试题</a></li><li ><a href="https://coolshell.cn/articles/1204.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/3.jpg" alt="Python也Spring了" width="150" height="150" /></a><a href="https://coolshell.cn/articles/1204.html" class="wp_rp_title">Python也Spring了</a></li><li ><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/plugins/wordpress-23-related-posts-plugin/static/thumbs/7.jpg" alt="开源中最好的Web开发的资源" width="150" height="150" /></a><a href="https://coolshell.cn/articles/4795.html" class="wp_rp_title">开源中最好的Web开发的资源</a></li><li ><a href="https://coolshell.cn/articles/5576.html" class="wp_rp_thumbnail"><img src="https://coolshell.cn/wp-content/uploads/2011/10/00.QuickBasic_PDS_IDE-150x150.png" alt="那些曾伴我走过编程之路的软件" width="150" height="150" /></a><a href="https://coolshell.cn/articles/5576.html" class="wp_rp_title">那些曾伴我走过编程之路的软件</a></li></ul></div></div>The post <a href="https://coolshell.cn/articles/1684.html">把ASCII图转成图片</a> first appeared on <a href="https://coolshell.cn">酷 壳 - CoolShell</a>.]]></content:encoded>
+					
+					<wfw:commentRss>https://coolshell.cn/articles/1684.html/feed</wfw:commentRss>
+			<slash:comments>8</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
